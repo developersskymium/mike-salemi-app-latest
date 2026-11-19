@@ -256,6 +256,17 @@ def course_structure(course):
     return out
 
 
+def localize(text):
+    """Point images at the self-hosted copies in public/media (see scripts/media-manifest.json).
+    New image URLs must be added to the manifest so the download workflow fetches them."""
+    if not text:
+        return text
+    text = text.replace("/__l5e/assets-v1/", "/media/l5e/")
+    text = re.sub(r"https://d11n7da8rpqbjy\.cloudfront\.net(/[^\s)\"'<>\]]+?\.(?:png|jpe?g|gif|webp|svg))", r"/media/ext/d11n7da8rpqbjy\1", text, flags=re.I)
+    text = re.sub(r"https://storage\.googleapis\.com(/[^\s)\"'<>\]]+?\.(?:png|jpe?g|gif|webp|svg))", r"/media/ext/storage-googleapis-com\1", text, flags=re.I)
+    return text
+
+
 def q(v):
     if v is None:
         return "null"
@@ -304,7 +315,7 @@ def build():
                 main, md, extras = convert_lesson(lesson)
                 les_rows.append((lid, sid, lesson["title"].strip(), l_index))
                 sub_id = str(uuid.uuid5(NS, f"{lid}:sub"))
-                sub_rows.append((sub_id, lid, lesson["title"].strip(), main, md, bool(extras)))
+                sub_rows.append((sub_id, lid, lesson["title"].strip(), main, localize(md), bool(extras)))
                 for v_index, (vt, ref) in enumerate(extras, start=1):
                     vid_rows.append((str(uuid.uuid5(NS, f"{sub_id}:v:{v_index}")), sub_id, vt, ref, v_index))
                 stats["lessons"] += 1
@@ -323,7 +334,7 @@ def build():
             "insert into public.programs (id, slug, name, type, status, summary, description, hero_image_url, "
             "included_in_subscription, price_cents, sort_order, meta) values ("
             f"{q(pid)}, {q(slug)}, {q(c['title'].strip())}, {q(ptype)}, {q(status)}, {q(c.get('tagline'))}, "
-            f"{q(c.get('short_description'))}, {q(hero_url(hero))}, true, 0, {sort}, {q(meta)});"
+            f"{q(c.get('short_description'))}, {q(localize(hero_url(hero)))}, true, 0, {sort}, {q(meta)});"
         )
         for chunk_rows, table, cols in [
             (sec_rows, "program_sections", "id, program_id, title, subtitle, sequence"),

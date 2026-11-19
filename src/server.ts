@@ -45,32 +45,21 @@ function isH3SwallowedErrorBody(body: string): boolean {
 }
 
 /**
- * Images and PDFs imported in Lovable are stored on Lovable's asset host under
- * /__l5e/assets-v1/. Off Lovable, serve them by fetching from the original
- * published app and letting the CDN cache the immutable files.
+ * Images and PDFs that Lovable hosted under /__l5e/assets-v1/ are now
+ * self-hosted in public/media/l5e/. Redirect any old link to the local copy.
  */
-const LOVABLE_ASSET_ORIGIN = process.env.LOVABLE_ASSET_ORIGIN || "https://kbl.nodal.so";
-
-async function proxyLovableAsset(request: Request): Promise<Response | null> {
+function redirectLegacyAsset(request: Request): Response | null {
   const url = new URL(request.url);
   if (!url.pathname.startsWith("/__l5e/assets-v1/")) return null;
-  if (request.method !== "GET" && request.method !== "HEAD") return null;
-  const upstream = await fetch(`${LOVABLE_ASSET_ORIGIN}${url.pathname}${url.search}`, { method: request.method });
-  const headers = new Headers();
-  for (const name of ["content-type", "content-length", "etag", "last-modified"]) {
-    const value = upstream.headers.get(name);
-    if (value) headers.set(name, value);
-  }
-  headers.set("access-control-allow-origin", "*");
-  if (upstream.ok) headers.set("cache-control", "public, max-age=31536000, s-maxage=31536000, immutable");
-  return new Response(request.method === "HEAD" ? null : upstream.body, { status: upstream.status, headers });
+  const target = url.pathname.replace("/__l5e/assets-v1/", "/media/l5e/") + url.search;
+  return new Response(null, { status: 308, headers: { location: target, "cache-control": "public, max-age=31536000" } });
 }
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
-      const asset = await proxyLovableAsset(request);
-      if (asset) return asset;
+      const legacy = redirectLegacyAsset(request);
+      if (legacy) return legacy;
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
