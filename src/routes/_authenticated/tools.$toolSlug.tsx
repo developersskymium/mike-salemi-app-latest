@@ -42,13 +42,13 @@ export const Route = createFileRoute("/_authenticated/tools/$toolSlug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Unavailable — Kettlebell Lifestyle" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Unavailable — Mike Salemi App" }, { name: "robots", content: "noindex" }] };
     }
     return {
       meta: [
-        { title: `${loaderData.title} — Kettlebell Lifestyle` },
+        { title: `${loaderData.title} — Mike Salemi App` },
         { name: "description", content: loaderData.description },
-        { property: "og:title", content: `${loaderData.title} — Kettlebell Lifestyle` },
+        { property: "og:title", content: `${loaderData.title} — Mike Salemi App` },
         { property: "og:description", content: loaderData.description },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },

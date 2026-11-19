@@ -16,9 +16,9 @@ type Answers = Record<string, string | string[]>;
 
 export const Route = createFileRoute("/_authenticated/programs/$programSlug_/intake")({
   head: () => ({ meta: [
-    { title: "Program Intake — Kettlebell Lifestyle" },
+    { title: "Program Intake — Mike Salemi App" },
     { name: "description", content: "Shape your approach to this program with a short personal intake." },
-    { property: "og:title", content: "Program Intake — Kettlebell Lifestyle" },
+    { property: "og:title", content: "Program Intake — Mike Salemi App" },
     { property: "og:description", content: "Shape your approach to this program with a short personal intake." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

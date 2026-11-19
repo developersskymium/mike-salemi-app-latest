@@ -35,12 +35,12 @@ export const Route = createFileRoute("/_authenticated/immersion/$courseSlug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Course"} — Kettlebell Lifestyle` },
+      { title: `${loaderData?.title ?? "Course"} — Mike Salemi App` },
       {
         name: "description",
         content: loaderData?.tagline ?? "Kettlebell Lifestyle course curriculum.",
       },
-      { property: "og:title", content: `${loaderData?.title ?? "Course"} — Kettlebell Lifestyle` },
+      { property: "og:title", content: `${loaderData?.title ?? "Course"} — Mike Salemi App` },
       {
         property: "og:description",
         content: loaderData?.tagline ?? "Kettlebell Lifestyle course curriculum.",

@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_authenticated/self-guided/day/$dayId")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Day"} — Self-Guided — Kettlebell Lifestyle` },
+      { title: `${loaderData?.title ?? "Day"} — Self-Guided — Mike Salemi App` },
       { name: "description", content: loaderData?.focus ?? "A Kettlebell Lifestyle training day." },
-      { property: "og:title", content: `${loaderData?.title ?? "Day"} — Kettlebell Lifestyle` },
+      { property: "og:title", content: `${loaderData?.title ?? "Day"} — Mike Salemi App` },
       {
         property: "og:description",
         content: loaderData?.focus ?? "A Kettlebell Lifestyle training day.",

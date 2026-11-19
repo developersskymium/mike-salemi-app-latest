@@ -51,13 +51,13 @@ import { getSelfGuidedPlans } from "@/lib/self-guided-plan.functions";
 export const Route = createFileRoute("/_authenticated/schedule/")({
   head: () => ({
     meta: [
-      { title: "Schedule — Kettlebell Lifestyle" },
+      { title: "Schedule — Mike Salemi App" },
       {
         name: "description",
         content:
           "Build your own Kettlebell Lifestyle training schedule: drag days onto a calendar, set reminders and choose what happens when you miss a session.",
       },
-      { property: "og:title", content: "Schedule — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Schedule — Mike Salemi App" },
       {
         property: "og:description",
         content: "Drag your training days onto a calendar and set reminders.",
@@ -419,7 +419,7 @@ function SchedulePage() {
             : "Kettlebell training",
           description: found
             ? `${found.phase.name} · Open your session at ${typeof window !== "undefined" ? window.location.origin : ""}/self-guided/day/${d.day_id}`
-            : "Kettlebell Lifestyle training day",
+            : "Mike Salemi App training day",
           date: d.scheduled_on,
           time: reminderTimeFor(prefs, isoDay),
           durationMinutes: 60,
@@ -460,7 +460,7 @@ function SchedulePage() {
     }
     downloadIcs(
       "kettlebell-lifestyle-schedule",
-      buildIcs(calendarEvents, active?.name ?? "Kettlebell Lifestyle"),
+      buildIcs(calendarEvents, active?.name ?? "Mike Salemi App"),
     );
     toast.success("Calendar file downloaded — open it to add the sessions");
   };
@@ -1177,7 +1177,7 @@ function SchedulePage() {
                         href={googleCalendarUrl({
                           uid: `${active.id}-${nextSession.dayId}`,
                           title: `Kettlebell · ${nextSession.label}`,
-                          description: "Kettlebell Lifestyle training session",
+                          description: "Mike Salemi App training session",
                           date: nextSession.date,
                           time: reminderTimeFor(
                             prefs,

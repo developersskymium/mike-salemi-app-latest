@@ -89,13 +89,13 @@ function SaveVideoButton({
 export const Route = createFileRoute("/_authenticated/library/")({
   head: () => ({
     meta: [
-      { title: "Video Library — Kettlebell Lifestyle" },
+      { title: "Video Library — Mike Salemi App" },
       {
         name: "description",
         content:
-          "Every Kettlebell Lifestyle video in one place. Filter by level, then category, then tag — On Ramp, phases, technique and workouts.",
+          "Every training video in one place. Filter by level, then category, then tag — On Ramp, phases, technique and workouts.",
       },
-      { property: "og:title", content: "Video Library — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Video Library — Mike Salemi App" },
       {
         property: "og:description",
         content: "Filter the full Kettlebell Lifestyle catalogue by level, category, tag or keyword.",

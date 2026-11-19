@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/retreats/$retreatSlug/hub")({
   head: ({ params }) => {
     const retreat = findRetreat(params.retreatSlug);
-    const title = retreat ? `${retreat.name} hub — Kettlebell Lifestyle` : "Retreat hub — Kettlebell Lifestyle";
+    const title = retreat ? `${retreat.name} hub — Mike Salemi App` : "Retreat hub — Mike Salemi App";
     return {
       meta: [
         { title },

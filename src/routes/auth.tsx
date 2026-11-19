@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Kettlebell Lifestyle" },
-      { name: "description", content: "Sign in to track your Kettlebell Lifestyle progress across devices." },
-      { property: "og:title", content: "Sign in — Kettlebell Lifestyle" },
+      { title: "Sign in — Mike Salemi App" },
+      { name: "description", content: "Sign in to your Mike Salemi App account and pick up your training." },
+      { property: "og:title", content: "Sign in — Mike Salemi App" },
       { property: "og:description", content: "Access your program, library and saved tool results." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -118,8 +118,8 @@ function AuthPage() {
 
         <div className="relative z-10 flex items-center justify-between">
           <Link to="/" className="inline-flex items-baseline gap-1 whitespace-nowrap text-lg font-extrabold leading-none tracking-tight">
-            <span className="text-background">KETTLEBELL</span>
-            <span className="text-primary">LIFESTYLE</span>
+            <span className="text-background">MIKE SALEMI</span>
+            <span className="text-primary">APP</span>
           </Link>
         </div>
 
@@ -151,7 +151,7 @@ function AuthPage() {
         </div>
 
         <div className="relative z-10 text-xs text-background/60">
-          © {new Date().getFullYear()} Kettlebell Lifestyle. All rights reserved.
+          © {new Date().getFullYear()} Mike Salemi App. All rights reserved.
         </div>
       </div>
 

@@ -23,13 +23,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/onboarding")({
   head: () => ({
     meta: [
-      { title: "Intake Questionnaire — Kettlebell Lifestyle" },
+      { title: "Intake Questionnaire — Mike Salemi App" },
       {
         name: "description",
         content:
-          "Answer a short intake questionnaire so Kettlebell Lifestyle can place you in the right level and tailor your training priorities.",
+          "Answer a short intake questionnaire so we can place you in the right level and tailor your training priorities.",
       },
-      { property: "og:title", content: "Intake Questionnaire — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Intake Questionnaire — Mike Salemi App" },
       {
         property: "og:description",
         content: "Tell us about your kettlebell experience, fitness and lifestyle to personalise your program.",

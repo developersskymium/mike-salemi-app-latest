@@ -16,9 +16,9 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 export const Route = createFileRoute("/_authenticated/self-guided/creator")({
   head: () => ({ meta: [
-    { title: "Self-Guided Plan Creator — Kettlebell Lifestyle" },
+    { title: "Self-Guided Plan Creator — Mike Salemi App" },
     { name: "description", content: "Build a personalised multi-week training path from programs you can access." },
-    { property: "og:title", content: "Self-Guided Plan Creator — Kettlebell Lifestyle" },
+    { property: "og:title", content: "Self-Guided Plan Creator — Mike Salemi App" },
     { property: "og:description", content: "Build a personalised multi-week training path from programs you can access." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

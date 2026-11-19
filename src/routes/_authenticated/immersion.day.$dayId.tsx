@@ -67,16 +67,16 @@ export const Route = createFileRoute("/_authenticated/immersion/day/$dayId")({
     if (!loaderData) {
       return {
         meta: [
-          { title: "Unavailable — Kettlebell Lifestyle" },
+          { title: "Unavailable — Mike Salemi App" },
           { name: "robots", content: "noindex" },
         ],
       };
     }
     return {
       meta: [
-        { title: `${loaderData.title} — Kettlebell Lifestyle` },
+        { title: `${loaderData.title} — Mike Salemi App` },
         { name: "description", content: loaderData.intro },
-        { property: "og:title", content: `${loaderData.title} — Kettlebell Lifestyle` },
+        { property: "og:title", content: `${loaderData.title} — Mike Salemi App` },
         { property: "og:description", content: loaderData.intro },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },

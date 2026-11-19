@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/self-guided/$courseSlug")(
   head: ({ loaderData }) => {
     const title = loaderData
       ? `${loaderData.title} — Self-Guided`
-      : "Self-Guided — Kettlebell Lifestyle";
+      : "Self-Guided — Mike Salemi App";
     const description = loaderData
       ? `${loaderData.tagline}. Every phase and day open, in any order you like.`
       : "Every phase and day, open.";

@@ -64,13 +64,13 @@ export const Route = createFileRoute("/_authenticated/immersion/")({
   },
   head: () => ({
     meta: [
-      { title: "Immersion — Kettlebell Lifestyle" },
+      { title: "Immersion — Mike Salemi App" },
       {
         name: "description",
         content:
           "Follow Kettlebell Lifestyle day by day. Immersion keeps you on a linear path through every phase, level and lesson.",
       },
-      { property: "og:title", content: "Immersion — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Immersion — Mike Salemi App" },
       {
         property: "og:description",
         content: "A guided, linear path through the Kettlebell Lifestyle program.",

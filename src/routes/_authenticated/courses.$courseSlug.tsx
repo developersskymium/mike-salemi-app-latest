@@ -39,9 +39,9 @@ const INTRO = "__intro__";
 export const Route = createFileRoute("/_authenticated/courses/$courseSlug")({
   head: () => ({
     meta: [
-      { title: "Course — Mike Salemi" },
+      { title: "Course — Mike Salemi App" },
       { name: "description", content: "Work through a guided course from Mike Salemi, lesson by lesson." },
-      { property: "og:title", content: "Course — Mike Salemi" },
+      { property: "og:title", content: "Course — Mike Salemi App" },
       { property: "og:description", content: "A guided course from Mike Salemi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

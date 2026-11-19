@@ -14,13 +14,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/reminders/history")({
   head: () => ({
     meta: [
-      { title: "Reminder history — Kettlebell Lifestyle" },
+      { title: "Reminder history — Mike Salemi App" },
       {
         name: "description",
         content:
-          "See every training reminder Kettlebell Lifestyle sent you: when it went out, whether you opened it, and anything that failed.",
+          "See every training reminder the app sent you: when it went out, whether you opened it, and anything that failed.",
       },
-      { property: "og:title", content: "Reminder history — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Reminder history — Mike Salemi App" },
       { property: "og:description", content: "Every reminder that was sent, opened, snoozed, skipped or failed." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

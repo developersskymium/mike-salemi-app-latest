@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/retreats/")({
   head: () => ({
     meta: [
-      { title: "Men of Movement Retreats — Kettlebell Lifestyle" },
+      { title: "Men of Movement Retreats — Mike Salemi App" },
       {
         name: "description",
         content:

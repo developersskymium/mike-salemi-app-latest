@@ -47,7 +47,7 @@ function fold(line: string): string {
 }
 
 /** Build an RFC 5545 calendar document for a set of training sessions. */
-export function buildIcs(events: CalendarEvent[], calendarName = "Kettlebell Lifestyle"): string {
+export function buildIcs(events: CalendarEvent[], calendarName = "Mike Salemi App"): string {
   const now = new Date();
   const dtstamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(
     now.getUTCHours(),
@@ -56,7 +56,7 @@ export function buildIcs(events: CalendarEvent[], calendarName = "Kettlebell Lif
   const lines: string[] = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Kettlebell Lifestyle//Schedule//EN",
+    "PRODID:-//Mike Salemi App//Schedule//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     `X-WR-CALNAME:${escapeText(calendarName)}`,

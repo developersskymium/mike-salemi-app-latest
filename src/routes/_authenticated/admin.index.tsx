@@ -26,10 +26,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
-      { title: "Admin Studio — Mike Salemi" },
+      { title: "Admin Studio — Mike Salemi App" },
       { name: "description", content: "Manage pricing, offers, copy, placement and announcements." },
       { name: "robots", content: "noindex, nofollow" },
-      { property: "og:title", content: "Admin Studio — Mike Salemi" },
+      { property: "og:title", content: "Admin Studio — Mike Salemi App" },
       { property: "og:description", content: "Manage pricing, offers, copy, placement and announcements." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

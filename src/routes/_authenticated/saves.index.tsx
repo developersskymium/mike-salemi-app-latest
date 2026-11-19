@@ -20,13 +20,13 @@ import { tools } from "@/content/tools";
 export const Route = createFileRoute("/_authenticated/saves/")({
   head: () => ({
     meta: [
-      { title: "Saves — Kettlebell Lifestyle" },
+      { title: "Saves — Mike Salemi App" },
       {
         name: "description",
         content:
           "Every saved tool result and workout plan in one place, filterable by type and date.",
       },
-      { property: "og:title", content: "Saves — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Saves — Mike Salemi App" },
       { property: "og:description", content: "Your saved tool results and workout session plans." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

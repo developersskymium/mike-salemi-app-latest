@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/shop/$productSlug")({
   head: ({ params }) => {
     const product = findProduct(params.productSlug);
-    const title = product ? `${product.name} — Kettlebell Lifestyle Shop` : "Product — Kettlebell Lifestyle";
+    const title = product ? `${product.name} — Mike Salemi App Shop` : "Product — Mike Salemi App";
     const description = product?.tagline ?? "A product from the Kettlebell Lifestyle shop.";
     return {
       meta: [

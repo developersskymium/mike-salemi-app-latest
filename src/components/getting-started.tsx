@@ -170,7 +170,7 @@ function useChecklistTasks() {
       {
         id: "notifications",
         title: "Set your reminders and email preferences",
-        detail: "Choose reminder times, streak nudges and which emails you want from Kettlebell Lifestyle.",
+        detail: "Choose reminder times, streak nudges and which emails you want from the app.",
         icon: Bell,
         done: Boolean(prefs.data),
         to: "/account",

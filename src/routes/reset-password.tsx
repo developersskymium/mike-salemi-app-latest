@@ -10,10 +10,10 @@ export const Route = createFileRoute("/reset-password")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Set a new password — Kettlebell Lifestyle" },
-      { name: "description", content: "Choose a new password for your Kettlebell Lifestyle account." },
-      { property: "og:title", content: "Set a new password — Kettlebell Lifestyle" },
-      { property: "og:description", content: "Choose a new password for your Kettlebell Lifestyle account." },
+      { title: "Set a new password — Mike Salemi App" },
+      { name: "description", content: "Choose a new password for your Mike Salemi App account." },
+      { property: "og:title", content: "Set a new password — Mike Salemi App" },
+      { property: "og:description", content: "Choose a new password for your Mike Salemi App account." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

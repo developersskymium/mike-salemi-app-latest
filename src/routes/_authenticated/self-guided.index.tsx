@@ -16,13 +16,13 @@ import { DatabaseProgramCard } from "@/components/database-program-card";
 export const Route = createFileRoute("/_authenticated/self-guided/")({
   head: () => ({
     meta: [
-      { title: "Self-Guided — Kettlebell Lifestyle" },
+      { title: "Self-Guided — Mike Salemi App" },
       {
         name: "description",
         content:
           "Every Kettlebell Lifestyle level, phase and day, open. Build your own schedule and train whatever you are ready for today.",
       },
-      { property: "og:title", content: "Self-Guided — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Self-Guided — Mike Salemi App" },
       { property: "og:description", content: "The whole program, open. Go anywhere, any time." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

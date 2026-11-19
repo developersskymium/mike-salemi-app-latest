@@ -13,13 +13,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/hub/")({
   head: () => ({
     meta: [
-      { title: "Program Hub — Kettlebell Lifestyle" },
+      { title: "Program Hub — Mike Salemi App" },
       {
         name: "description",
         content:
-          "One place for every Kettlebell Lifestyle level, phase and day. Filter by level, phase or status, search any day and jump straight in.",
+          "One place for every level, phase and day across your programs. Filter by level, phase or status, search any day and jump straight in.",
       },
-      { property: "og:title", content: "Program Hub — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Program Hub — Mike Salemi App" },
       {
         property: "og:description",
         content: "Every level, phase and day in one filterable hub with quick jump links.",

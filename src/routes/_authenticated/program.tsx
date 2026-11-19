@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/program")({
   },
   head: () => ({
     meta: [
-      { title: "Kettlebell Lifestyle — Choose your path | Mike Salemi" },
+      { title: "Kettlebell Lifestyle — Choose your path | Mike Salemi App" },
       { name: "description", content: "Start Kettlebell Lifestyle as a guided day-by-day Immersion or train at your own pace with Self-Guided Level 1 and Level 2." },
       { property: "og:title", content: "Kettlebell Lifestyle — Choose your path" },
       { property: "og:description", content: "Immersion or Self-Guided: two ways into Mike Salemi's flagship kettlebell program." },

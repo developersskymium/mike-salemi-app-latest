@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/mtk-plan/")({
   head: () => ({
     meta: [
-      { title: "My MTK Plan — Mike Salemi" },
+      { title: "My MTK Plan — Mike Salemi App" },
       { name: "description", content: "Your personalized Mastering the Kettlebell learning plan, built from your assessment." },
-      { property: "og:title", content: "My MTK Plan — Mike Salemi" },
+      { property: "og:title", content: "My MTK Plan — Mike Salemi App" },
       { property: "og:description", content: "A personalized day-by-day path through Mastering the Kettlebell." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

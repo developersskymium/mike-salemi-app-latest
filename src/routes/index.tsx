@@ -7,16 +7,16 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mike Salemi — Training Academy" },
+      { title: "Mike Salemi App" },
       {
         name: "description",
         content:
-          "Your Mike Salemi home: every program, your real progress and what to train next.",
+          "Your Mike Salemi App home: every program, your real progress and what to train next.",
       },
-      { property: "og:title", content: "Mike Salemi — Training Academy" },
+      { property: "og:title", content: "Mike Salemi App" },
       {
         property: "og:description",
-        content: "Your Mike Salemi home: every program, your real progress and what to train next.",
+        content: "Your Mike Salemi App home: every program, your real progress and what to train next.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

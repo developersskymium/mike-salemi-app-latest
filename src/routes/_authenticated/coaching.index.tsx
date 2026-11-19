@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/coaching/")({
   head: () => ({
     meta: [
-      { title: "1:1 Coaching with Mike Salemi — Kettlebell Lifestyle" },
+      { title: "1:1 Coaching with Mike Salemi — Mike Salemi App" },
       {
         name: "description",
         content:

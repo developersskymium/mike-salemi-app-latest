@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/shop/")({
   head: () => ({
     meta: [
-      { title: "Shop — Kettlebell Lifestyle" },
+      { title: "Shop — Mike Salemi App" },
       {
         name: "description",
         content:
           "Workshops, printable training plans and equipment: the 5-Minute Downshift Workshop and leather Bulgarian Bags.",
       },
-      { property: "og:title", content: "Shop — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Shop — Mike Salemi App" },
       { property: "og:description", content: "Workshops, printable plans and training equipment." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -13,7 +13,7 @@ import { retreats, formatRetreatDates } from "@/content/retreats";
 export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
-      { title: "Home — Mike Salemi" },
+      { title: "Home — Mike Salemi App" },
       { name: "description", content: "Your enrolled programs, real progress and everything to train next with Mike Salemi." },
       { property: "og:title", content: "Home — Mike Salemi" },
       { property: "og:description", content: "Your enrolled programs, real progress and everything to train next." },

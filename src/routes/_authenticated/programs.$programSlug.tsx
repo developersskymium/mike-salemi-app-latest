@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/programs/$programSlug")({
     const program = findProgram(params.programSlug);
     const title = program
       ? `${program.name} — Mike Salemi`
-      : "Program — Kettlebell Lifestyle";
+      : "Program — Mike Salemi App";
     const description = program?.tagline ?? "A program from Mike Salemi.";
     return {
       meta: [

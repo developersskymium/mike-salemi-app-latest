@@ -15,9 +15,9 @@ import { MTK_SLUG } from "@/lib/mtk-paths";
 export const Route = createFileRoute("/_authenticated/mtk-plan/results")({
   head: () => ({
     meta: [
-      { title: "Your MTK Results — Mike Salemi" },
+      { title: "Your MTK Results — Mike Salemi App" },
       { name: "description", content: "Your Mastering the Kettlebell assessment results and personalized curriculum." },
-      { property: "og:title", content: "Your MTK Results — Mike Salemi" },
+      { property: "og:title", content: "Your MTK Results — Mike Salemi App" },
       { property: "og:description", content: "Assessed level, strengths, focus areas and your recommended MTK lessons." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

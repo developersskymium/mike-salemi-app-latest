@@ -14,7 +14,7 @@ import { RetreatPhotoGrid, RetreatPhotoStrip } from "@/components/retreat-photos
 export const Route = createFileRoute("/_authenticated/retreats/$retreatSlug/")({
   head: ({ params }) => {
     const retreat = findRetreat(params.retreatSlug);
-    const title = retreat ? `${retreat.name} — Men of Movement Retreat` : "Retreat — Kettlebell Lifestyle";
+    const title = retreat ? `${retreat.name} — Men of Movement Retreat` : "Retreat — Mike Salemi App";
     const description = retreat?.tagline ?? "A four-day Men of Movement retreat in Mount Shasta.";
     return {
       meta: [

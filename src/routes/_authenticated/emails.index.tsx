@@ -12,12 +12,12 @@ import { EMAIL_GROUPS, EMAIL_KINDS, type EmailKindId } from "@/lib/email-kinds";
 export const Route = createFileRoute("/_authenticated/emails/")({
   head: () => ({
     meta: [
-      { title: "Email preview — Kettlebell Lifestyle" },
+      { title: "Email preview — Mike Salemi App" },
       {
         name: "description",
-        content: "Preview and test every email Kettlebell Lifestyle sends, from tool results to reminders.",
+        content: "Preview and test every email the app sends, from tool results to reminders.",
       },
-      { property: "og:title", content: "Email preview — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Email preview — Mike Salemi App" },
       { property: "og:description", content: "Preview and send a test of every app email." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

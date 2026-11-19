@@ -28,13 +28,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/self-guided/average-day")({
   head: () => ({
     meta: [
-      { title: "An Average Day — Kettlebell Lifestyle" },
+      { title: "An Average Day — Mike Salemi App" },
       {
         name: "description",
         content:
           "Walk through an average Kettlebell Lifestyle training day: readiness assessment, morning routine, warm up, kettlebell prep, workout and post-training stretching.",
       },
-      { property: "og:title", content: "An Average Day — Kettlebell Lifestyle" },
+      { property: "og:title", content: "An Average Day — Mike Salemi App" },
       {
         property: "og:description",
         content:

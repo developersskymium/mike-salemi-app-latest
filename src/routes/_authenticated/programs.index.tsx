@@ -15,13 +15,13 @@ import { DatabaseProgramCard } from "@/components/database-program-card";
 export const Route = createFileRoute("/_authenticated/programs/")({
   head: () => ({
     meta: [
-      { title: "More Programs — Kettlebell Lifestyle" },
+      { title: "More Programs — Mike Salemi App" },
       {
         name: "description",
         content:
           "Retreats, coaching and courses from Mike Salemi that sit alongside Kettlebell Lifestyle — Mastering the Kettlebell, The Grounded King, Men of Movement and more.",
       },
-      { property: "og:title", content: "More Programs — Kettlebell Lifestyle" },
+      { property: "og:title", content: "More Programs — Mike Salemi App" },
       { property: "og:description", content: "Retreats, coaching and courses from Mike Salemi." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

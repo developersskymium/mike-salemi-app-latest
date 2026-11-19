@@ -18,10 +18,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/admin/content")({
   head: () => ({
     meta: [
-      { title: "Content Admin — Kettlebell Lifestyle" },
+      { title: "Content Admin — Mike Salemi App" },
       { name: "description", content: "Internal content and catalogue administration." },
       { name: "robots", content: "noindex, nofollow" },
-      { property: "og:title", content: "Content Admin — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Content Admin — Mike Salemi App" },
       { property: "og:description", content: "Internal content and catalogue administration." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

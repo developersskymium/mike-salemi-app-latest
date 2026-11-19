@@ -18,12 +18,12 @@ const ICONS: Record<string, typeof Dumbbell> = {
 export const Route = createFileRoute("/_authenticated/tools/")({
   head: () => ({
     meta: [
-      { title: "Tools — Kettlebell Lifestyle" },
+      { title: "Tools — Mike Salemi App" },
       {
         name: "description",
         content: "Answer a few questions and get a straight answer: kettlebell weight selection and a mobility stretch test.",
       },
-      { property: "og:title", content: "Tools — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Tools — Mike Salemi App" },
       {
         property: "og:description",
         content: "Coaching tools that turn a short questionnaire into a clear recommendation.",

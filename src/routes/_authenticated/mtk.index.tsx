@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/mtk/")({
   },
   head: () => ({
     meta: [
-      { title: "Mastering the Kettlebell — Kettlebell Lifestyle" },
+      { title: "Mastering the Kettlebell — Mike Salemi App" },
       {
         name: "description",
         content:

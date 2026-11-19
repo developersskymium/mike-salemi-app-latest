@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/referrals/")({
   head: () => ({
     meta: [
-      { title: "Referrals — Kettlebell Lifestyle" },
-      { name: "description", content: "Share Kettlebell Lifestyle, earn points and unlock rewards when friends join." },
-      { property: "og:title", content: "Referrals — Kettlebell Lifestyle" },
+      { title: "Referrals — Mike Salemi App" },
+      { name: "description", content: "Share the Mike Salemi App, earn points and unlock rewards when friends join." },
+      { property: "og:title", content: "Referrals — Mike Salemi App" },
       { property: "og:description", content: "Share your code, earn points, unlock rewards." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -80,7 +80,7 @@ function ReferralsPage() {
     if (!link) return;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Kettlebell Lifestyle", url: link });
+        await navigator.share({ title: "Mike Salemi App", url: link });
         log.mutate({ stage: "visit", label: "Shared link" });
         return;
       } catch {
@@ -108,9 +108,9 @@ function ReferralsPage() {
 
   const shareTargets = link
     ? [
-        { label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`Train with me on Kettlebell Lifestyle: ${link}`)}` },
-        { label: "Email", href: `mailto:?subject=${encodeURIComponent("Train with me")}&body=${encodeURIComponent(`I'm using Kettlebell Lifestyle — join me: ${link}`)}` },
-        { label: "X", href: `https://x.com/intent/tweet?text=${encodeURIComponent(`Training with Kettlebell Lifestyle ${link}`)}` },
+        { label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`Train with me on the Mike Salemi App: ${link}`)}` },
+        { label: "Email", href: `mailto:?subject=${encodeURIComponent("Train with me")}&body=${encodeURIComponent(`I'm using the Mike Salemi App — join me: ${link}`)}` },
+        { label: "X", href: `https://x.com/intent/tweet?text=${encodeURIComponent(`Training with the Mike Salemi App ${link}`)}` },
       ]
     : [];
 

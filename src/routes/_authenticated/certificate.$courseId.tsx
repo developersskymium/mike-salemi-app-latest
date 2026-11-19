@@ -12,12 +12,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/certificate/$courseId")({
   head: () => ({
     meta: [
-      { title: "Certificate — Kettlebell Lifestyle" },
+      { title: "Certificate — Mike Salemi App" },
       {
         name: "description",
         content: "Your printable Kettlebell Lifestyle certificate of completion.",
       },
-      { property: "og:title", content: "Certificate — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Certificate — Mike Salemi App" },
       { property: "og:description", content: "A printable certificate of completion." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

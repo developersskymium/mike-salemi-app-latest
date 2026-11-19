@@ -59,13 +59,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/account")({
   head: () => ({
     meta: [
-      { title: "Profile — Kettlebell Lifestyle" },
+      { title: "Profile — Mike Salemi App" },
       {
         name: "description",
         content:
-          "Your Kettlebell Lifestyle profile: training progress, streaks, badges, certificates, saved assessments and notification preferences.",
+          "Your Mike Salemi App profile: training progress, streaks, badges, certificates, saved assessments and notification preferences.",
       },
-      { property: "og:title", content: "Profile — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Profile — Mike Salemi App" },
       { property: "og:description", content: "Progress, badges, certificates and settings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -708,7 +708,7 @@ function NotificationsTab() {
           <Row label="Email" hint="Summaries and announcements">
             <Toggle checked={prefs.channel_email} onChange={(v) => set({ channel_email: v })} />
           </Row>
-          <Row label="In-app" hint="Reminders while Kettlebell Lifestyle is open">
+          <Row label="In-app" hint="Reminders while the app is open">
             <Toggle checked={prefs.channel_in_app} onChange={(v) => set({ channel_in_app: v })} />
           </Row>
           <BrowserNotificationRow />

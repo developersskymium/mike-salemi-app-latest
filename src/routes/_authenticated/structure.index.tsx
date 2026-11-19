@@ -39,13 +39,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/structure/")({
   head: () => ({
     meta: [
-      { title: "Structure — Kettlebell Lifestyle" },
+      { title: "Structure — Mike Salemi App" },
       {
         name: "description",
         content:
           "Author the Kettlebell Lifestyle hierarchy: courses, phases, days and lessons, with the content blocks each lesson carries.",
       },
-      { property: "og:title", content: "Structure — Kettlebell Lifestyle" },
+      { property: "og:title", content: "Structure — Mike Salemi App" },
       { property: "og:description", content: "Author courses, phases, days and lesson content blocks." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -156,10 +156,10 @@ export function statusContext(pathname: string, s: Summary): StatusContext {
   }
 
   return {
-    eyebrow: "Kettlebell Lifestyle",
+    eyebrow: "Mike Salemi App",
     title: current ? `${dayLabel(current.day)} is next` : "Welcome back",
     cta: backToToday,
-    announce: "Kettlebell Lifestyle.",
+    announce: "Mike Salemi App.",
   };
 }
 
@@ -170,5 +170,5 @@ export function pageTitle(pathname: string): string {
   if (pathname.startsWith("/self-guided")) return "Self-Guided";
   const hit = section(pathname);
   if (hit) return hit.eyebrow === "Tool" || hit.eyebrow === "Course" ? hit.title : hit.eyebrow;
-  return "Kettlebell Lifestyle";
+  return "Mike Salemi App";
 }
