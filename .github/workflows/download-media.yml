@@ -1,0 +1,28 @@
+name: Download media into the repo
+
+on:
+  push:
+    branches: [main]
+    paths: [scripts/media-manifest.json]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/download-media.mjs
+      - name: Commit downloaded media
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add public/media scripts/media-download-report.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Add self-hosted media from manifest"
+          git push
