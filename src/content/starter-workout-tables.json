@@ -1,0 +1,94 @@
+{
+ "13": {
+  "id": "static-13",
+  "title": "Workout 1 - level 2",
+  "rows": [
+   {
+    "circuit": "C1",
+    "exercise": "Staggered Stance Deadlift",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Light-Moderate",
+    "reps": "16 (8/8)",
+    "sets": "3",
+    "tempo": "312"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Half Kneeling Overhead Press",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Light-Moderate",
+    "reps": "12 (6/6)",
+    "sets": "3",
+    "tempo": "Moderate"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Abdominal Roll Ups",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Light-Moderate",
+    "reps": "10",
+    "sets": "3",
+    "tempo": "Moderate"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Modified Butterflies",
+    "rest": "As Needed",
+    "restDir": "up",
+    "intensity": "Light-Moderate",
+    "reps": "20",
+    "sets": "3",
+    "tempo": "Moderate"
+   }
+  ]
+ },
+ "1": {
+  "id": "static-1",
+  "title": "Workout 1 - level 1",
+  "rows": [
+   {
+    "circuit": "C1",
+    "exercise": "Romanian Deadlift",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Moderate",
+    "reps": "12",
+    "sets": "3",
+    "tempo": "Mod"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Half Kneeling Halo",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Light",
+    "reps": "12 (6/6)",
+    "sets": "3",
+    "tempo": "Mod"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Abdominal Roll Ups",
+    "rest": "",
+    "restDir": "down",
+    "intensity": "Body Weight",
+    "reps": "8",
+    "sets": "3",
+    "tempo": "Mod"
+   },
+   {
+    "circuit": "C1",
+    "exercise": "Modified Butterflies",
+    "rest": "As Needed",
+    "restDir": "up",
+    "intensity": "Body Weight",
+    "reps": "15",
+    "sets": "3",
+    "tempo": "Mod"
+   }
+  ]
+ }
+}

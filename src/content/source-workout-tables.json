@@ -1,0 +1,3243 @@
+{
+  "1": {
+    "id": "source-1",
+    "sourceId": "1",
+    "title": "Workout 1 - level 1",
+    "rows": [
+      {
+        "circuit": "C",
+        "exercise": "Romanian Deadlift",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "12",
+        "sets": "3",
+        "tempo": "Mod"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Half Kneeling Halo",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "12 (6/6)",
+        "sets": "3",
+        "tempo": "Mod"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Body Weight",
+        "reps": "8",
+        "sets": "3",
+        "tempo": "Mod"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Modified Butterflies",
+        "rest": "As Needed",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Body Weight",
+        "reps": "15",
+        "sets": "3",
+        "tempo": "Mod"
+      }
+    ],
+    "notes": "*Arrows indicate exercises done consecutively\nNotes:\nRomanian Deadlift Tempo: \n3 Second Lowering Phase\n1 Second Hold At Bottom\n2 Second Raising Phase",
+    "images": []
+  },
+  "13": {
+    "id": "source-13",
+    "sourceId": "13",
+    "title": "Workout 1 - level 2",
+    "rows": [
+      {
+        "circuit": "C",
+        "exercise": "Staggered Stance Deadlift",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "16 (8/8)",
+        "sets": "3",
+        "tempo": "312"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "12 (6/6)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "10",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C",
+        "exercise": "Modified Butterflies",
+        "rest": "As Needed",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light-Moderate",
+        "reps": "20",
+        "sets": "3",
+        "tempo": "Moderate"
+      }
+    ],
+    "notes": "*Arrows indicate exercises done consecutively\nNotes:\nStaggered Stance Deadlift Tempo: \n3 Second Lowering Phase\n1 Second Hold At Bottom\n2 Second Raising Phase",
+    "images": []
+  },
+  "15": {
+    "id": "source-15",
+    "sourceId": "15",
+    "title": "(#1 Full) Workout A, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Squat (Bodyweight)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Scapula Push Ups",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Romanian Deadlift",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate/Rhythmic"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Hold",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+      {
+        "url": "/kbl/source/db1f335cb7740ed5.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "16": {
+    "id": "source-16",
+    "sourceId": "16",
+    "title": "(#2 Modified) Workout A, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Squat (Bodyweight)*",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Scapula Push Ups",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Romanian Deadlift",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate/Rhythmic"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Hold",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+      {
+        "url": "/kbl/source/db1f335cb7740ed5.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "17": {
+    "id": "source-17",
+    "sourceId": "17",
+    "title": "(#3 Modified) Workout A, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Squat (Bodyweight)*",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Scapula Push Ups",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Romanian Deadlift",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate/Rhythmic"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Hold",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout A. If you choose this option, it is suggested to remove the first two exercises, and perform the final three as prescribed - starting with Romanian Deadlifts\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": [
+      {
+        "url": "/kbl/source/db1f335cb7740ed5.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "18": {
+    "id": "source-18",
+    "sourceId": "18",
+    "title": "(#1 Full) Workout II, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Side Lunge (Bodyweight)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Modified Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Halos",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Static Scarecrow Reaches",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Hold & Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "3",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+      {
+        "url": "/kbl/source/84701304cd15241d.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "19": {
+    "id": "source-19",
+    "sourceId": "19",
+    "title": "(#2 Modified) Workout B, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Side Lunge (Bodyweight)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Modified Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Halos",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Static Scarecrow Reaches",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Hold & Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+      {
+        "url": "/kbl/source/84701304cd15241d.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "20": {
+    "id": "source-20",
+    "sourceId": "20",
+    "title": "(#3 Modified) Workout B, Level I, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Side Lunge (Bodyweight)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Modified Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Halos",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Static Scarecrow Reaches",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Hold & Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout B. If you choose this option, it is suggested to remove the final superset (two exercises) in the training\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": [
+      {
+        "url": "/kbl/source/84701304cd15241d.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "21": {
+    "id": "source-21",
+    "sourceId": "21",
+    "title": "(#1 Full) Workout A, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Goblet Squat",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Off Set Push Ups (Bodyweight)",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Modified Sprinter DL",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "3",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Raises",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:",
+    "images": []
+  },
+  "22": {
+    "id": "source-22",
+    "sourceId": "22",
+    "title": "(#2 Modified) Workout A, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Goblet Squat",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Off Set Push Ups (Bodyweight)",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Modified Sprinter DL",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "2",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Raises",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:",
+    "images": []
+  },
+  "23": {
+    "id": "source-23",
+    "sourceId": "23",
+    "title": "(#3 Modified) Workout A, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Goblet Squat",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Off Set Push Ups (Bodyweight)",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Modified Sprinter DL",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s (20sL/20sR)",
+        "sets": "1",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Eagle Raises",
+        "rest": "30s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Circuit]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout A. If you choose this option, it is suggested to remove the first two exercises, and perform the final three as prescribed - starting with Modified Sprinter Deadlifts\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "24": {
+    "id": "source-24",
+    "sourceId": "24",
+    "title": "(#1 Full) Workout B, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Single Arm Bent Over Row (Unsupported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (20sL/20sR)",
+        "sets": "3",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "3",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:",
+    "images": []
+  },
+  "25": {
+    "id": "source-25",
+    "sourceId": "25",
+    "title": "(#2 Modified) Workout B, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light-Moderate",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Single Arm Bent Over Row (Unsupported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (20sL/20sR)",
+        "sets": "2",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:",
+    "images": []
+  },
+  "26": {
+    "id": "source-26",
+    "sourceId": "26",
+    "title": "(#3 Modified) Workout B, Level II, Phase I",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Butterflies",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Glute Bridges",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Single Arm Bent Over Row (Unsupported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (20sL/20sR)",
+        "sets": "1",
+        "tempo": "Slow-Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Side of Hip Raises",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "40s (15sL/15sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[30 sec Rest Before Next Superset]"
+      },
+      {
+        "after": "C2",
+        "label": "[30 sec Rest Before Next Superset]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout B. If you choose this option, it is suggested to remove the final superset (two exercises) in the training\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "29": {
+    "id": "source-29",
+    "sourceId": "29",
+    "title": "(#1 Full) Workout I, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Deadlift",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Modified Butterflies",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Floor Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Lunge Row (supported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Glute Bridges",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "30": {
+    "id": "source-30",
+    "sourceId": "30",
+    "title": "(#2 Modified) Workout I, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Deadlift",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Split Squat (Goblet Grip)",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Floor Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Lunge Row (supported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Glute Bridges",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "32": {
+    "id": "source-32",
+    "sourceId": "32",
+    "title": "(#3 Modified) Workout I, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Deadlift",
+        "rest": "ass=\"alignnone wp-image-1424\" /> 20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Split Squat (Goblet Grip)",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Romanian Deadlift",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Abdominal Roll Ups",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Eagle Hold",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "33": {
+    "id": "source-33",
+    "sourceId": "33",
+    "title": "(#1 Full) Workout II, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Goblet Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Single Arm Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "4",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row (supported)",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "4",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Hold",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "2",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "35": {
+    "id": "source-35",
+    "sourceId": "35",
+    "title": "(#2 Modified) Workout II, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Goblet Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Single Arm Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "2",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row (supported)",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "2",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Hold",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "38": {
+    "id": "source-38",
+    "sourceId": "38",
+    "title": "(#3 Modified) Workout II, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Goblet Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Kneeling Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Single Arm Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "1",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row (supported)",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "1",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Hold",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "39": {
+    "id": "source-39",
+    "sourceId": "39",
+    "title": "(#1 Full) Workout III, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Squat",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Offset Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Static Alt. Side Lunge with Counter Rot.",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Lunge Stance Row (supported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Modified Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "41": {
+    "id": "source-41",
+    "sourceId": "41",
+    "title": "(#2 Modified) Workout III, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Squat",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Offset Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Static Alt. Side Lunge with Counter Rot.",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Lunge Stance Row (supported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Modified Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "42": {
+    "id": "source-42",
+    "sourceId": "42",
+    "title": "(#3 Modified) Workout III, Level I, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Deadlift",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Squat",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Offset Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Static Alt. Side Lunge with Counter Rot.",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Lunge Stance Row (supported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Modified Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "43": {
+    "id": "source-43",
+    "sourceId": "43",
+    "title": "(#1 Full) Workout I, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Static Split Squat - Overhead Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Lunge Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Single Leg Glute Bridges",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "44": {
+    "id": "source-44",
+    "sourceId": "44",
+    "title": "(#2 Modified) Workout I, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Static Split Squat - Overhead Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Lunge Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Single Leg Glute Bridges",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "45": {
+    "id": "source-45",
+    "sourceId": "45",
+    "title": "(#3 Modified) Workout I, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "C1",
+        "exercise": "Two Hand Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Static Split Squat - Overhead Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Hold Lower & Mod Upper"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Lunge Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Single Leg Glute Bridges",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "C1",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "46": {
+    "id": "source-46",
+    "sourceId": "46",
+    "title": "(#1 Full) Workout II, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Swing Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Windmill - Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Hand to Hand Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "4",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Raises",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "2",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "NOTE:\nHalf Windmill - Overhead Press\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\nAdditional suggestions on how to further modify training today if needed: \n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": [
+      {
+        "url": "/kbl/source/8d3a8f33c9d2ad07.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "47": {
+    "id": "source-47",
+    "sourceId": "47",
+    "title": "(#2 Modified) Workout II, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Swing Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Windmill - Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Hand to Hand Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "2",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Raises",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "NOTE:\nHalf Windmill - Overhead Press\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\nAdditional suggestions on how to further modify training today if needed: \n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": [
+      {
+        "url": "/kbl/source/8d3a8f33c9d2ad07.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "48": {
+    "id": "source-48",
+    "sourceId": "48",
+    "title": "(#3 Modified) Workout II, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Swing Squat",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Windmill - Overhead Press",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "50s (20sL/20sR + 10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Hand to Hand Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "1",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s (10sL/10sR)",
+        "sets": "1",
+        "tempo": "Mod/Rhythmic"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Side Plank Raises",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s (30sL/30sR)",
+        "sets": "1",
+        "tempo": "Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S4",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "NOTE:\nHalf Windmill - Overhead Press\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\nAdditional suggestions on how to further modify training today if needed: \n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": [
+      {
+        "url": "/kbl/source/8d3a8f33c9d2ad07.png",
+        "alt": "Exercise variation from the program notes"
+      }
+    ]
+  },
+  "49": {
+    "id": "source-49",
+    "sourceId": "49",
+    "title": "(#1 Full) Workout III, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Curtsy Lunge",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Kettlebell Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Side to Side Two Hand Swing",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Staggered Stance Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "50": {
+    "id": "source-50",
+    "sourceId": "50",
+    "title": "(#2 Modified) Workout III, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Curtsy Lunge",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Kettlebell Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Side to Side Two Hand Swing",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Staggered Stance Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "51": {
+    "id": "source-51",
+    "sourceId": "51",
+    "title": "(#3 Modified) Workout III, Level II, Phase II",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Staggered Stance Swing",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "40s (20sL/20sR)",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Alternating Halo - Curtsy Lunge",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Kettlebell Push Ups",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Bodyweight",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Side to Side Two Hand Swing",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Staggered Stance Row (unsupported)",
+        "rest": "20s",
+        "restDir": "up",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Butterflies",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Bodyweight",
+        "reps": "60s",
+        "sets": "1",
+        "tempo": "Moderate"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Next Circuit]"
+      },
+      {
+        "after": "C2",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "52": {
+    "id": "source-52",
+    "sourceId": "52",
+    "title": "(#1 Full) Workout I, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Alt. Halo - Alt. Side Lunge",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Dead-Stop Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Strict Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "3",
+        "tempo": "Mod. with 2 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "53": {
+    "id": "source-53",
+    "sourceId": "53",
+    "title": "(#2 Modified) Workout I, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Alt. Halo - Alt. Side Lunge",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Dead-Stop Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Strict Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "2",
+        "tempo": "Mod. with 2 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Final Exercise]"
+      }
+    ],
+    "images": []
+  },
+  "54": {
+    "id": "source-54",
+    "sourceId": "54",
+    "title": "(#3 Modified) Workout I, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Alt. Halo - Alt. Side Lunge",
+        "rest": "30s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Dead-Stop Swings",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Strict Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Bent Over Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Elbow Post Raises",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "1",
+        "tempo": "Mod. with 2 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Final Exercise]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "55": {
+    "id": "source-55",
+    "sourceId": "55",
+    "title": "(#1 Full) Workout II, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Two Hand Swings",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Mini Thruster",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Figure 8 to Stand",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bridge Press with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Row (Supported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      }
+    ],
+    "images": []
+  },
+  "56": {
+    "id": "source-56",
+    "sourceId": "56",
+    "title": "(#2 Modified) Workout II, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Two Hand Swings",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Mini Thruster",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Figure 8 to Stand",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bridge Press with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Row (Supported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      }
+    ],
+    "images": []
+  },
+  "57": {
+    "id": "source-57",
+    "sourceId": "57",
+    "title": "(#3 Modified) Workout II, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "Two Hand Swings",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Mini Thruster",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Figure 8 to Stand",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Bridge Press with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Row (Supported)",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "58": {
+    "id": "source-58",
+    "sourceId": "58",
+    "title": "(#1 Full) Workout I, Level II, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Sprinter Swing",
+        "rest": "40s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Swing, Swing-Squat Combo",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "30s",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Countered Sea Saw Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "3",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Staggered Stance Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "3",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Turkish Get Up",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "3",
+        "tempo": "Mod. with 1 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "59": {
+    "id": "source-59",
+    "sourceId": "59",
+    "title": "(#2 Modified) Workout I, Level II, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Sprinter Swing",
+        "rest": "40s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "3",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Swing, Swing-Squat Combo",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "30s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Countered Sea Saw Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Staggered Stance Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Turkish Get Up",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "2",
+        "tempo": "Mod. with 1 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "images": []
+  },
+  "60": {
+    "id": "source-60",
+    "sourceId": "60",
+    "title": "(#3 Modified) Workout I, Level II, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Sprinter Swing",
+        "rest": "40s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "3",
+        "tempo": "Fast"
+      },
+      {
+        "circuit": "C1",
+        "exercise": "Swing, Swing-Squat Combo",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Light",
+        "reps": "30s",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C2",
+        "exercise": "Overhead Countered Sea Saw Press",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "40s (15sL/15sR +10s to Switch)",
+        "sets": "1",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "C3",
+        "exercise": "Staggered Stance Row with Recipriocity",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": true,
+        "intensity": "Moderate",
+        "reps": "30s (15sL/15sR)",
+        "sets": "1",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Half Turkish Get Up",
+        "rest": "20s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "70s (30sL/30sR +10s to Switch)",
+        "sets": "1",
+        "tempo": "Mod. with 1 sec Hold"
+      }
+    ],
+    "separators": [
+      {
+        "after": "S1",
+        "label": "[1 min Rest Before Circuit]"
+      },
+      {
+        "after": "C3",
+        "label": "[1 min Rest Before Finisher]"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  },
+  "61": {
+    "id": "source-61",
+    "sourceId": "61",
+    "title": "(#1 Full) Workout II, Level I, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Clean",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Split Squat - OH Press/Push Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Sling Shot",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Single Leg Bridge Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Stance Row with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "6",
+        "tempo": "Moderate"
+      }
+    ],
+    "images": []
+  },
+  "62": {
+    "id": "source-62",
+    "sourceId": "62",
+    "title": "(#2 Modified) Workout II, Level II, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Clean",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Split Squat - OH Press/Push Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Sling Shot",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Single Leg Bridge Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Stance Row with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "4",
+        "tempo": "Moderate"
+      }
+    ],
+    "images": []
+  },
+  "63": {
+    "id": "source-63",
+    "sourceId": "63",
+    "title": "(#3 Modified) Workout II, Level II, Phase III",
+    "rows": [
+      {
+        "circuit": "S1",
+        "exercise": "RMT Clean",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S2",
+        "exercise": "Split Squat - OH Press/Push Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Mod-Fast"
+      },
+      {
+        "circuit": "S3",
+        "exercise": "Sling Shot",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Light",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S4",
+        "exercise": "Single Leg Bridge Press",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      },
+      {
+        "circuit": "S5",
+        "exercise": "Lunge Stance Row with Recipriocity",
+        "rest": "10s",
+        "restDir": "down",
+        "restArrow": false,
+        "intensity": "Moderate",
+        "reps": "20s",
+        "sets": "2",
+        "tempo": "Moderate"
+      }
+    ],
+    "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+    "images": []
+  }
+}

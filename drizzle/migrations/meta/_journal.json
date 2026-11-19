@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790821142898,
+      "tag": "0000_grant_program_content_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790822020246,
+      "tag": "0001_grant_admin_role_hamza",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790822358579,
+      "tag": "0002_grant_private_has_role_execute",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790872720812,
+      "tag": "0003_program_intakes_and_self_guided_plans",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790872934115,
+      "tag": "0004_program_lesson_progress",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791391303313,
+      "tag": "0005_site_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791898750991,
+      "tag": "0006_retreat_applications",
+      "breakpoints": true
+    }
+  ]
+}

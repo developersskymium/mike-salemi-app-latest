@@ -1,0 +1,950 @@
+{
+  "l1": [
+    {
+      "phaseId": "on-ramp",
+      "overview": {
+        "id": "l1-on-ramp-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "On Ramp Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l1-on-ramp-overview-video",
+            "title": "On Ramp Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "398409642/f4e1f0e247",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "On Ramp Schedule",
+            "images": [
+              {
+                "url": "/kbl/source/2e21276f7479fa1c.png",
+                "alt": "On Ramp schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "521"
+      },
+      "transition": null
+    },
+    {
+      "phaseId": "phase-1",
+      "overview": {
+        "id": "l1-phase-1-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 1 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l1-phase-1-overview-video",
+            "title": "Phase 1 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394838125/c9e8ad0f6b",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "The main objective of Phase I is establishing quality movement foundations. Here you’ll learn kettlebell fundamentals, integral movement patterns, develop focused strength, and improve postural awareness.\n\nPHASE 1 SCHEDULE",
+            "images": [
+              {
+                "url": "/kbl/source/4a6b5d85bbd29c1a.png",
+                "alt": "Phase 1 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "3480"
+      },
+      "transition": {
+        "id": "l1-phase-1-next",
+        "pageType": "transition",
+        "number": 0,
+        "title": "What's Next — Phase 2",
+        "type": "Preparation Day",
+        "focus": "Retest your stretches and prepare for the next phase.",
+        "intro": "Morning routine, next steps, stretch retest and preparation for the next phase.",
+        "sourcePostId": "2929",
+        "afterSourcePostId": "2927",
+        "letsBegin": {
+          "sourceLessonId": "b-2929-s1",
+          "html": "<h2><b>IT'S A NEW DAY. </b></h2><p>CLICK THE BUTTON BELOW TO START YOUR MORNING ROUTINE</p>",
+          "image": "/__l5e/assets-v1/5e923039-8f9e-454d-b48b-189e54437aab/002-let-s-begin-1a592ba8-7a42-4586-8376-5bfc41839d5a.png"
+        },
+        "lessons": [
+          {
+            "id": "l1-phase-1-next-b-2929-s2",
+            "title": "Morning Routine",
+            "description": "Morning Routine",
+            "vimeoId": "400475380/bd283c1aa1",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [
+              {
+                "title": "Morning Routine I Tutorial",
+                "vimeoId": "399744966/23e5034d69"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l1-phase-1-next-b-2929-s3",
+            "title": "Next Steps",
+            "description": "Prior to moving on to Phase II, test for the following benchmarks below. These bodyweight exercises are key in establishing the necessary prerequisites prior to moving on to our next Phase II training. This upcoming Phase will focus on skill development, conditioning, and a wide range of new kettlebell exercises.\n\nLevel I Benchmarks:\n\nModified Butterflies: 50 reps (done continuously)Glute Bridges*: 20 each position (rest up to 30s in between sets)Abdominal Roll Ups: 30 (done continuously)\n\n*Glute Bridges Four Lower Body Positions:\n\nFeet and knees apart (inline with hips)Feet and knees togetherFeet apart, knees togetherFeet together, knees apart",
+            "vimeoId": "394841809/78ad9aa501",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "Prior to moving on to Phase II, test for the following benchmarks below. These bodyweight exercises are key in establishing the necessary prerequisites prior to moving on to our next Phase II training. This upcoming Phase will focus on skill development, conditioning, and a wide range of new kettlebell exercises.\n\nLevel I Benchmarks:\n\nModified Butterflies: 50 reps (done continuously)Glute Bridges*: 20 each position (rest up to 30s in between sets)Abdominal Roll Ups: 30 (done continuously)\n\n*Glute Bridges Four Lower Body Positions:\n\nFeet and knees apart (inline with hips)Feet and knees togetherFeet apart, knees togetherFeet together, knees apart",
+            "associatedVideos": [],
+            "links": []
+          },
+          {
+            "id": "l1-phase-1-next-b-2929-s4",
+            "title": "Retest Stretches",
+            "description": "Please click this link to retest your stretches and have your next personalized stretching program created for Phase II.",
+            "vimeoId": "398411366/2655a9e472",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "Please click this link to retest your stretches and have your next personalized stretching program created for Phase II.",
+            "associatedVideos": [
+              {
+                "title": "Hip Flexor Stretch",
+                "vimeoId": "398411366/2655a9e472"
+              },
+              {
+                "title": "Chest Stretch",
+                "vimeoId": "398409165/91a1ebfd6d"
+              },
+              {
+                "title": "Bicep Stretch",
+                "vimeoId": "398407376/b27ced03e8"
+              },
+              {
+                "title": "Quad Stretch",
+                "vimeoId": "398412224/2fb94b6a63"
+              },
+              {
+                "title": "Calf & Soleus Stretches",
+                "vimeoId": "398408872/491a44b21d"
+              },
+              {
+                "title": "Hamstring Stretch",
+                "vimeoId": "398411044/39e7cd38ff"
+              },
+              {
+                "title": "90/90 Hip Stretches",
+                "vimeoId": "399522521/022ad2e95b"
+              },
+              {
+                "title": "Lat Stretch",
+                "vimeoId": "399504807/da03aa0b75"
+              }
+            ],
+            "links": [
+              {
+                "label": "Open the Stretch Test",
+                "url": "/tools/stretch-test"
+              }
+            ]
+          },
+          {
+            "id": "l1-phase-1-next-b-2929-s5",
+            "title": "Phase II Preparation",
+            "description": "This is your opportunity to review the exercises that will show up in your 3 week Phase II program. See the videos included below.",
+            "vimeoId": "395577516/fbed4e6581",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "This is your opportunity to review the exercises that will show up in your 3 week Phase II program. See the videos included below.",
+            "associatedVideos": [
+              {
+                "title": "Two Hand Deadlift",
+                "vimeoId": "395577516/fbed4e6581"
+              },
+              {
+                "title": "Single Arm Deadlift",
+                "vimeoId": "395100585/9688175831"
+              },
+              {
+                "title": "Staggered Stance Deadlift",
+                "vimeoId": "395104956/a85306ca33"
+              },
+              {
+                "title": "Goblet Squat",
+                "vimeoId": "395059275/b6e48b9d87"
+              },
+              {
+                "title": "Split Squat (Goblet Grip)",
+                "vimeoId": "395315487/ab440bb6e9"
+              },
+              {
+                "title": "Static Alternating Side Lunge with Counter Rotation",
+                "vimeoId": "394846523/f790a05c3f"
+              },
+              {
+                "title": "Alternating Halo-Squat Combo",
+                "vimeoId": "395325844/14f3473b02"
+              },
+              {
+                "title": "Offset Push Up",
+                "vimeoId": "399542693/92af68cd18"
+              },
+              {
+                "title": "Floor Press",
+                "vimeoId": "395319412/9337ee5829"
+              },
+              {
+                "title": "Half Kneeling Overhead Press",
+                "vimeoId": "395073083/e38da20c71"
+              },
+              {
+                "title": "Lunge Stance Row (Supported)",
+                "vimeoId": "395332977/4bac721167"
+              },
+              {
+                "title": "Bent Over Row, Parallel Stance (Supported)",
+                "vimeoId": "395327689/62ca0b38ec"
+              },
+              {
+                "title": "Glute Bridges",
+                "vimeoId": "399536950/133e35f6ca"
+              },
+              {
+                "title": "Side Plank Hold",
+                "vimeoId": "399570787/c21ba7cb6a"
+              },
+              {
+                "title": "Modified Butterflies",
+                "vimeoId": "399568713/d498aa092a"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l1-phase-1-next-b-2929-s6",
+            "title": "Completion",
+            "description": "You’ve Crushed Another Day",
+            "vimeoId": "",
+            "kind": "lifestyle",
+            "duration": "1 min",
+            "notes": "You’ve Crushed Another Day",
+            "special": "completion",
+            "associatedVideos": [],
+            "links": []
+          }
+        ]
+      }
+    },
+    {
+      "phaseId": "phase-2",
+      "overview": {
+        "id": "l1-phase-2-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 2 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l1-phase-2-overview-video",
+            "title": "Phase 2 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394860308/34d368aff4",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "Phase II Schedule",
+            "images": [
+              {
+                "url": "/kbl/source/dbc1e456b0b99cca.png",
+                "alt": "Phase 2 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "4726"
+      },
+      "transition": {
+        "id": "l1-phase-2-next",
+        "pageType": "transition",
+        "number": 0,
+        "title": "What's Next — Phase 3",
+        "type": "Preparation Day",
+        "focus": "Retest your stretches and prepare for the next phase.",
+        "intro": "Morning routine, next steps, stretch retest and preparation for the next phase.",
+        "sourcePostId": "4768",
+        "afterSourcePostId": "4766",
+        "letsBegin": {
+          "sourceLessonId": "b-4768-s1",
+          "html": "<h2><b>IT'S A NEW DAY. </b></h2><p>CLICK THE BUTTON BELOW TO START YOUR MORNING ROUTINE</p>",
+          "image": "/__l5e/assets-v1/5e923039-8f9e-454d-b48b-189e54437aab/002-let-s-begin-1a592ba8-7a42-4586-8376-5bfc41839d5a.png"
+        },
+        "lessons": [
+          {
+            "id": "l1-phase-2-next-b-4768-s2",
+            "title": "Morning Routine",
+            "description": "Morning Routine",
+            "vimeoId": "414027277/7f32157700",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [
+              {
+                "title": "Morning Routine II Tutorial",
+                "vimeoId": "412067411/53f226abc3"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l1-phase-2-next-b-4768-s3",
+            "title": "Next Steps",
+            "description": "Next Steps",
+            "vimeoId": "407183018/2cb53730ea",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [],
+            "links": []
+          },
+          {
+            "id": "l1-phase-2-next-b-4768-s4",
+            "title": "Retest Stretches",
+            "description": "To retest your stretches prior to heading into Phase III, click here.",
+            "vimeoId": "398411366/2655a9e472",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "To retest your stretches prior to heading into Phase III, click here.",
+            "associatedVideos": [
+              {
+                "title": "Hip Flexor Stretch",
+                "vimeoId": "398411366/2655a9e472"
+              },
+              {
+                "title": "Chest Stretch",
+                "vimeoId": "398409165/91a1ebfd6d"
+              },
+              {
+                "title": "Bicep Stretch",
+                "vimeoId": "398407376/b27ced03e8"
+              },
+              {
+                "title": "Quad Stretch",
+                "vimeoId": "398412224/2fb94b6a63"
+              },
+              {
+                "title": "Calf & Soleus Stretches",
+                "vimeoId": "398408872/491a44b21d"
+              },
+              {
+                "title": "Hamstring Stretch",
+                "vimeoId": "398411044/39e7cd38ff"
+              },
+              {
+                "title": "90/90 Hip Stretches",
+                "vimeoId": "399522521/022ad2e95b"
+              },
+              {
+                "title": "Lat Stretch",
+                "vimeoId": "399504807/da03aa0b75"
+              }
+            ],
+            "links": [
+              {
+                "label": "Open the Stretch Test",
+                "url": "/tools/stretch-test"
+              }
+            ]
+          },
+          {
+            "id": "l1-phase-2-next-b-4768-s5",
+            "title": "Phase III Preparation",
+            "description": "This is your opportunity to review the exercises that will show up in your 3 week Phase III program.\n\nPlease note that the exercise “Elbow Post Raises” is one of the initial steps of the Turkish Get Up, as you will discover when watching the specified tutorial video included below.",
+            "vimeoId": "405729662/213f4f2420",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "This is your opportunity to review the exercises that will show up in your 3 week Phase III program.\n\nPlease note that the exercise “Elbow Post Raises” is one of the initial steps of the Turkish Get Up, as you will discover when watching the specified tutorial video included below.",
+            "associatedVideos": [
+              {
+                "title": "Weck Method Royal Coil & Rope Basics",
+                "vimeoId": "405729662/213f4f2420"
+              },
+              {
+                "title": "Mobility Flow With Dr. Drew Tutorial",
+                "vimeoId": "401770540/d4eae1dce6"
+              },
+              {
+                "title": "Dead-Stop Swing",
+                "vimeoId": "395086139/ccc5ef4f3d"
+              },
+              {
+                "title": "Two Hand (Russian) Swing",
+                "vimeoId": "407181974/79764d8cb0"
+              },
+              {
+                "title": "Standing Overhead Military Press",
+                "vimeoId": "395080097/3066925cce"
+              },
+              {
+                "title": "Bridge Press",
+                "vimeoId": "395083047"
+              },
+              {
+                "title": "Alternating Halo - Side Lunge",
+                "vimeoId": "395284336/b121a03c81"
+              },
+              {
+                "title": "Figure 8 & Figure 8 to Stand",
+                "vimeoId": "395088938/deb3989a19"
+              },
+              {
+                "title": "Thruster Series",
+                "vimeoId": "394870589/67f950223e"
+              },
+              {
+                "title": "Reciprocity Row Series",
+                "vimeoId": "395336518/ee2d98e951"
+              },
+              {
+                "title": "Elbow Post Raises (Bodyweight)",
+                "vimeoId": "395293479/3a1580b4f0"
+              },
+              {
+                "title": "Elbow Post Raises (Loaded)",
+                "vimeoId": "395297451/60669b5de7"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l1-phase-2-next-b-4768-s6",
+            "title": "Completion",
+            "description": "You’ve Crushed Another Day",
+            "vimeoId": "",
+            "kind": "lifestyle",
+            "duration": "1 min",
+            "notes": "You’ve Crushed Another Day",
+            "special": "completion",
+            "associatedVideos": [],
+            "links": []
+          }
+        ]
+      }
+    },
+    {
+      "phaseId": "phase-3",
+      "overview": {
+        "id": "l1-phase-3-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 3 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l1-phase-3-overview-video",
+            "title": "Phase 3 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394861773/570f9404d5",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "The main objective of Phase III is performance. We will progress on Phase II, and focus more heavily on muscular endurance training, speed, balance, combination movements, and rotation training.",
+            "images": [
+              {
+                "url": "/kbl/source/30c4194bcf4c2607.png",
+                "alt": "Phase 3 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "6410"
+      },
+      "transition": null
+    }
+  ],
+  "l2": [
+    {
+      "phaseId": "on-ramp",
+      "overview": {
+        "id": "l2-on-ramp-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "On Ramp Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l2-on-ramp-overview-video",
+            "title": "On Ramp Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "398409642/f4e1f0e247",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "On Ramp Schedule",
+            "images": [
+              {
+                "url": "/kbl/source/90e39e69771c19c3.png",
+                "alt": "On Ramp schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "1344"
+      },
+      "transition": null
+    },
+    {
+      "phaseId": "phase-1",
+      "overview": {
+        "id": "l2-phase-1-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 1 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l2-phase-1-overview-video",
+            "title": "Phase 1 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394838701/94c7a818f9",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "The main objective of Phase I is establishing quality movement foundations. Here you’ll learn kettlebell fundamentals, integral movement patterns, develop focused strength, and improve postural awareness.\n\nPHASE I SCHEDULE",
+            "images": [
+              {
+                "url": "/kbl/source/aef8bf3dd68916f8.png",
+                "alt": "Phase 1 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "3638"
+      },
+      "transition": {
+        "id": "l2-phase-1-next",
+        "pageType": "transition",
+        "number": 0,
+        "title": "What's Next — Phase 2",
+        "type": "Preparation Day",
+        "focus": "Retest your stretches and prepare for the next phase.",
+        "intro": "Morning routine, next steps, stretch retest and preparation for the next phase.",
+        "sourcePostId": "2970",
+        "afterSourcePostId": "2968",
+        "letsBegin": {
+          "sourceLessonId": "int-2970-s1",
+          "html": "<h2><b>IT'S A NEW DAY. </b></h2><p>CLICK THE BUTTON BELOW TO START YOUR MORNING ROUTINE</p>",
+          "image": "/__l5e/assets-v1/5e923039-8f9e-454d-b48b-189e54437aab/002-let-s-begin-1a592ba8-7a42-4586-8376-5bfc41839d5a.png"
+        },
+        "lessons": [
+          {
+            "id": "l2-phase-1-next-int-2970-s2",
+            "title": "Morning Routine",
+            "description": "Morning Routine",
+            "vimeoId": "400475380/bd283c1aa1",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [
+              {
+                "title": "Morning Routine I Tutorial",
+                "vimeoId": "399744966/23e5034d69"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l2-phase-1-next-int-2970-s3",
+            "title": "Next Steps",
+            "description": "Prior to moving on to Phase II, test for the following benchmarks below. These bodyweight exercises are key in establishing the necessary prerequisites prior to moving on to our next Phase II training. This upcoming Phase will focus on skill development, conditioning, and a wide range of new kettlebell exercises.\n\nLevel II Benchmarks:\n\nButterflies: 50+ reps (done continuously)Glute Bridges*: 20 each position (done back-to-back, no rest)Abdominal Roll Ups: 40 (done continuously)\n\n*Glute Bridges Four Lower Body Positions:\n\nFeet and knees apart (inline with hips)Feet and knees togetherFeet apart, knees togetherFeet together, knees apart",
+            "vimeoId": "394841809/78ad9aa501",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "Prior to moving on to Phase II, test for the following benchmarks below. These bodyweight exercises are key in establishing the necessary prerequisites prior to moving on to our next Phase II training. This upcoming Phase will focus on skill development, conditioning, and a wide range of new kettlebell exercises.\n\nLevel II Benchmarks:\n\nButterflies: 50+ reps (done continuously)Glute Bridges*: 20 each position (done back-to-back, no rest)Abdominal Roll Ups: 40 (done continuously)\n\n*Glute Bridges Four Lower Body Positions:\n\nFeet and knees apart (inline with hips)Feet and knees togetherFeet apart, knees togetherFeet together, knees apart",
+            "associatedVideos": [],
+            "links": []
+          },
+          {
+            "id": "l2-phase-1-next-int-2970-s4",
+            "title": "Retest Stretches",
+            "description": "Please click this link to retest your stretches and have your next personalized stretching program created for Phase II.",
+            "vimeoId": "398411366/2655a9e472",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "Please click this link to retest your stretches and have your next personalized stretching program created for Phase II.",
+            "associatedVideos": [
+              {
+                "title": "Hip Flexor Stretch",
+                "vimeoId": "398411366/2655a9e472"
+              },
+              {
+                "title": "Chest Stretch",
+                "vimeoId": "398409165/91a1ebfd6d"
+              },
+              {
+                "title": "Bicep Stretch",
+                "vimeoId": "398407376/b27ced03e8"
+              },
+              {
+                "title": "Quad Stretch",
+                "vimeoId": "398412224/2fb94b6a63"
+              },
+              {
+                "title": "Calf & Soleus Stretches",
+                "vimeoId": "398408872/491a44b21d"
+              },
+              {
+                "title": "Hamstring Stretch",
+                "vimeoId": "398411044/39e7cd38ff"
+              },
+              {
+                "title": "90/90 Hip Stretches",
+                "vimeoId": "399522521/022ad2e95b"
+              },
+              {
+                "title": "Lat Stretch",
+                "vimeoId": "399504807/da03aa0b75"
+              }
+            ],
+            "links": [
+              {
+                "label": "Open the Stretch Test",
+                "url": "/tools/stretch-test"
+              }
+            ]
+          },
+          {
+            "id": "l2-phase-1-next-int-2970-s5",
+            "title": "Phase II Preparation",
+            "description": "This is your opportunity to review the exercises that will show up in your 3 week Phase II program. See the videos included below.",
+            "vimeoId": "395606760/9d0f342a2f",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "This is your opportunity to review the exercises that will show up in your 3 week Phase II program. See the videos included below.",
+            "associatedVideos": [
+              {
+                "title": "Mobility Flow with Dr. Drew Vercellino Tutorial",
+                "vimeoId": "395606760/9d0f342a2f"
+              },
+              {
+                "title": "Two Hand (Russian) Swing",
+                "vimeoId": "407181974/79764d8cb0"
+              },
+              {
+                "title": "Staggered Stance Swing",
+                "vimeoId": "407203316/6c73ccaf6f"
+              },
+              {
+                "title": "Static Split Squat-Overhead Press",
+                "vimeoId": "394850072/b30ef0c37d"
+              },
+              {
+                "title": "Alternating Halo - Curtsy Lunge",
+                "vimeoId": "395290340/36d2b8790c"
+              },
+              {
+                "title": "Side to Side Two Hand Swing",
+                "vimeoId": "395098443/6408a64b75"
+              },
+              {
+                "title": "Kettlebell Push Ups",
+                "vimeoId": "395322249/61325e97b1"
+              },
+              {
+                "title": "Bodyweight Half Turkish Get Up",
+                "vimeoId": "395293479/3a1580b4f0"
+              },
+              {
+                "title": "Elbow Post Raises",
+                "vimeoId": "395297451/60669b5de7"
+              },
+              {
+                "title": "Swing Squat",
+                "vimeoId": "395109182/8c8ecc93ef"
+              },
+              {
+                "title": "Half Windmill",
+                "vimeoId": "395078100/6c7f4399d6"
+              },
+              {
+                "title": "Half Windmill - Overhead Press Combo",
+                "vimeoId": "395076712/88b416c8d8"
+              },
+              {
+                "title": "Hand to Hand Swing",
+                "vimeoId": "395279310/0d83165d38"
+              },
+              {
+                "title": "Bent Over Row with Reciprocity",
+                "vimeoId": "395336518/ee2d98e951"
+              },
+              {
+                "title": "Staggered Stance Bent Over Row",
+                "vimeoId": "395332977/4bac721167"
+              },
+              {
+                "title": "Single Leg Glute Bridges",
+                "vimeoId": "399536950/133e35f6ca"
+              },
+              {
+                "title": "Side Plank Raises",
+                "vimeoId": "399570787/c21ba7cb6a"
+              },
+              {
+                "title": "Butterflies",
+                "vimeoId": "399568713/d498aa092a"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l2-phase-1-next-int-2970-s6",
+            "title": "Completion",
+            "description": "You’ve Crushed Another Day",
+            "vimeoId": "",
+            "kind": "lifestyle",
+            "duration": "1 min",
+            "notes": "You’ve Crushed Another Day",
+            "special": "completion",
+            "associatedVideos": [],
+            "links": []
+          }
+        ]
+      }
+    },
+    {
+      "phaseId": "phase-2",
+      "overview": {
+        "id": "l2-phase-2-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 2 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l2-phase-2-overview-video",
+            "title": "Phase 2 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394860308/34d368aff4",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "Phase II Schedule",
+            "images": [
+              {
+                "url": "/kbl/source/11e15e79c28f605a.png",
+                "alt": "Phase 2 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "4933"
+      },
+      "transition": {
+        "id": "l2-phase-2-next",
+        "pageType": "transition",
+        "number": 0,
+        "title": "What's Next — Phase 3",
+        "type": "Preparation Day",
+        "focus": "Retest your stretches and prepare for the next phase.",
+        "intro": "Morning routine, next steps, stretch retest and preparation for the next phase.",
+        "sourcePostId": "4975",
+        "afterSourcePostId": "4973",
+        "letsBegin": {
+          "sourceLessonId": "int-4975-s1",
+          "html": "<h2><b>IT'S A NEW DAY. </b></h2><p>CLICK THE BUTTON BELOW TO START YOUR MORNING ROUTINE</p>",
+          "image": "/__l5e/assets-v1/5e923039-8f9e-454d-b48b-189e54437aab/002-let-s-begin-1a592ba8-7a42-4586-8376-5bfc41839d5a.png"
+        },
+        "lessons": [
+          {
+            "id": "l2-phase-2-next-int-4975-s2",
+            "title": "Morning Routine",
+            "description": "Morning Routine",
+            "vimeoId": "414027277/7f32157700",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [
+              {
+                "title": "Morning Routine II Tutorial",
+                "vimeoId": "412067411/53f226abc3"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l2-phase-2-next-int-4975-s3",
+            "title": "Next Steps",
+            "description": "Next Steps",
+            "vimeoId": "407183018/2cb53730ea",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "",
+            "associatedVideos": [],
+            "links": []
+          },
+          {
+            "id": "l2-phase-2-next-int-4975-s4",
+            "title": "Retest Stretches",
+            "description": "To retest your stretches prior to heading into Phase III, click here.",
+            "vimeoId": "398411366/2655a9e472",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "To retest your stretches prior to heading into Phase III, click here.",
+            "associatedVideos": [
+              {
+                "title": "Hip Flexor Stretch",
+                "vimeoId": "398411366/2655a9e472"
+              },
+              {
+                "title": "Chest Stretch",
+                "vimeoId": "398409165/91a1ebfd6d"
+              },
+              {
+                "title": "Bicep Stretch",
+                "vimeoId": "398407376/b27ced03e8"
+              },
+              {
+                "title": "Quad Stretch",
+                "vimeoId": "398412224/2fb94b6a63"
+              },
+              {
+                "title": "Calf & Soleus Stretches",
+                "vimeoId": "398408872/491a44b21d"
+              },
+              {
+                "title": "Hamstring Stretch",
+                "vimeoId": "398411044/39e7cd38ff"
+              },
+              {
+                "title": "90/90 Hip Stretches",
+                "vimeoId": "399522521/022ad2e95b"
+              },
+              {
+                "title": "Lat Stretch",
+                "vimeoId": "399504807/da03aa0b75"
+              }
+            ],
+            "links": [
+              {
+                "label": "Open the Stretch Test",
+                "url": "/tools/stretch-test"
+              }
+            ]
+          },
+          {
+            "id": "l2-phase-2-next-int-4975-s5",
+            "title": "Phase III Preparation",
+            "description": "This is your opportunity to review the exercises that will show up in your 3 week Phase III program. See the videos included below.",
+            "vimeoId": "407201856/4c6d75c8cb",
+            "kind": "lifestyle",
+            "duration": "Preparation",
+            "notes": "This is your opportunity to review the exercises that will show up in your 3 week Phase III program. See the videos included below.",
+            "associatedVideos": [
+              {
+                "title": "RMT Sprinter Swing",
+                "vimeoId": "407201856/4c6d75c8cb"
+              },
+              {
+                "title": "RMT Clean",
+                "vimeoId": "407200678/500e238236"
+              },
+              {
+                "title": "Clean",
+                "vimeoId": "395308128/6330a5d948"
+              },
+              {
+                "title": "Overhead Countered Sea Saw Press",
+                "vimeoId": "395301865/ac18a1d525"
+              },
+              {
+                "title": "Reciprocity Row Series",
+                "vimeoId": "395336518/ee2d98e951"
+              },
+              {
+                "title": "Half Turkish Get Up (Bodyweight)",
+                "vimeoId": "395293479/3a1580b4f0"
+              },
+              {
+                "title": "Half Turkish Get Up (Loaded)",
+                "vimeoId": "395297451/60669b5de7"
+              },
+              {
+                "title": "Single Leg Bridge Press",
+                "vimeoId": "395083047"
+              },
+              {
+                "title": "Swing, Swing Squat Combo",
+                "vimeoId": "395277115/aad5a5096b"
+              },
+              {
+                "title": "Split Squat - Overhead Press/Push Press",
+                "vimeoId": "395286857/45ad95a699"
+              },
+              {
+                "title": "Weck Method Royal Coil & Rope Basics",
+                "vimeoId": "405729662/213f4f2420"
+              },
+              {
+                "title": "Mobility Flow With Dr. Drew Tutorial",
+                "vimeoId": "401770540/d4eae1dce6"
+              }
+            ],
+            "links": []
+          },
+          {
+            "id": "l2-phase-2-next-int-4975-s6",
+            "title": "Completion",
+            "description": "You’ve Crushed Another Day",
+            "vimeoId": "",
+            "kind": "lifestyle",
+            "duration": "1 min",
+            "notes": "You’ve Crushed Another Day",
+            "special": "completion",
+            "associatedVideos": [],
+            "links": []
+          }
+        ]
+      }
+    },
+    {
+      "phaseId": "phase-3",
+      "overview": {
+        "id": "l2-phase-3-overview",
+        "pageType": "overview",
+        "number": 0,
+        "title": "Phase 3 Overview",
+        "type": "Overview",
+        "focus": "Watch the phase overview and review its schedule before you begin.",
+        "intro": "The Kettlebell Lifestyle phase introduction and schedule.",
+        "lessons": [
+          {
+            "id": "l2-phase-3-overview-video",
+            "title": "Phase 3 Overview",
+            "description": "Watch the overview and review the schedule.",
+            "vimeoId": "394861773/570f9404d5",
+            "kind": "lifestyle",
+            "duration": "Overview",
+            "notes": "The main objective of Phase III is performance. We will progress on Phase II, and focus more heavily on muscular endurance training, speed, balance, combination movements, and rotation training.",
+            "images": [
+              {
+                "url": "/kbl/source/fb949ca451de34ef.png",
+                "alt": "Phase 3 schedule"
+              }
+            ]
+          }
+        ],
+        "sourcePostId": "6502"
+      },
+      "transition": null
+    }
+  ]
+}

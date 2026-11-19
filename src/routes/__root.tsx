@@ -1,0 +1,170 @@
+import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import {
+  Outlet,
+  Link,
+  createRootRouteWithContext,
+  useRouter,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
+import { useEffect, type ReactNode } from "react";
+import { Toaster } from "sonner";
+
+import appCss from "../styles.css?url";
+import { reportLovableError } from "../lib/lovable-error-reporting";
+import { supabase } from "@/integrations/supabase/client";
+import { ThemeProvider, themeInitScript } from "@/hooks/use-theme";
+import { NavigationProgress } from "@/components/route-pending";
+import { registerServiceWorker } from "@/lib/register-sw";
+import { useRoutePrefetch } from "@/hooks/use-route-prefetch";
+
+function NotFoundComponent() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="animate-pop max-w-md text-center">
+        <p className="display text-gradient text-4xl">404</p>
+        <h1 className="mt-4 text-2xl text-foreground">Page not found</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          That page isn't part of the program. It may have moved, or never existed.
+        </p>
+        <div className="mt-8">
+          <Link
+            to="/"
+            className="eyebrow tap sheen inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-primary-foreground"
+          >
+            Go home
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
+  console.error(error);
+  const router = useRouter();
+  useEffect(() => {
+    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          This page didn't load
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Something went wrong on our end. You can try refreshing or head back home.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Try again
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Go home
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "Kettlebell Lifestyle — Train for Decades" },
+      {
+        name: "description",
+        content: "Your Immersion home: today's training day, your progress and every phase of the Kettlebell Lifestyle program.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Kettlebell Lifestyle — Train for Decades" },
+      { name: "twitter:title", content: "Kettlebell Lifestyle — Train for Decades" },
+      { property: "og:description", content: "Your Immersion home: today's training day, your progress and every phase of the Kettlebell Lifestyle program." },
+      { name: "twitter:description", content: "Your Immersion home: today's training day, your progress and every phase of the Kettlebell Lifestyle program." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fbcef77d-3780-43cc-ba32-a4b80b707c28/id-preview-ff93c10a--945c6267-1056-4d32-be7b-bd19e492cded.lovable.app-1785105330446.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fbcef77d-3780-43cc-ba32-a4b80b707c28/id-preview-ff93c10a--945c6267-1056-4d32-be7b-bd19e492cded.lovable.app-1785105330446.png" },
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
+
+function RootShell({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en" className="light" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+function AuthSync() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      router.invalidate();
+      if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+    });
+    return () => data.subscription.unsubscribe();
+  }, [router, queryClient]);
+
+  return null;
+}
+
+function PerformanceBoot() {
+  useRoutePrefetch();
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
+  return null;
+}
+
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AuthSync />
+        <PerformanceBoot />
+        <NavigationProgress />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Toaster richColors position="top-center" toastOptions={{ className: "font-sans" }} />
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}

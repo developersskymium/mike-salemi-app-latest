@@ -1,0 +1,72 @@
+{
+  "sourceUrl": "https://app.kettlebelllifestyle.com/self_guided/workout-iii-day/",
+  "clips": [
+    {
+      "title": "Morning Routine II Tutorial",
+      "url": "//player.vimeo.com/video/412067411?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Staggered Stance Deadlift",
+      "url": "//player.vimeo.com/video/395104956?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Alternating Halo - Modified Squat",
+      "url": "//player.vimeo.com/video/395325844?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Offset Push Ups",
+      "url": "//player.vimeo.com/video/399542693?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Static Alt. Side Lunge with Counter Rotation",
+      "url": "//player.vimeo.com/video/394846523?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Lunge Stance Row (supported) ",
+      "url": "//player.vimeo.com/video/395332977?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Modified Butterflies",
+      "url": "//player.vimeo.com/video/399568713?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Hip Flexor Stretch",
+      "url": "//player.vimeo.com/video/398411366?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Chest Stretch",
+      "url": "//player.vimeo.com/video/398409165?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Bicep Stretch",
+      "url": "//player.vimeo.com/video/398407376?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Quad Stretch",
+      "url": "//player.vimeo.com/video/398412224?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Calf & Soleus Stretches",
+      "url": "//player.vimeo.com/video/398408872?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Hamstring Stretch",
+      "url": "//player.vimeo.com/video/398411044?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "90/90 Hip Stretches",
+      "url": "//player.vimeo.com/video/399522521?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    },
+    {
+      "title": "Lat Stretch",
+      "url": "//player.vimeo.com/video/399504807?autoplay=1&badge=0&byline=0&portrait=0&title=0&api=1&wmode=transparent&fullscreen=1"
+    }
+  ],
+  "formIds": ["27"],
+  "mainVideos": [
+    "https://player.vimeo.com/video/414027277?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1&h=7f32157700#t=",
+    "https://player.vimeo.com/video/399568242?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1&h=00289ee927#t=",
+    "https://player.vimeo.com/video/414051145?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1&h=0b9d8837cc#t=",
+    "https://player.vimeo.com/video/414042445?color&autopause=0&loop=0&muted=0&title=1&portrait=1&byline=1&h=b2e2ae8ace#t="
+  ]
+}

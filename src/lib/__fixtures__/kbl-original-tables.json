@@ -1,0 +1,3441 @@
+{
+  "source": "Read-only original TablePress export, 2026-11-01",
+  "tables": [
+    {
+      "id": "1",
+      "name": "Workout 1 - level 1",
+      "description": "<strong style=\"margin-bottom:-5px\">*Arrows indicate exercises done consecutively</strong>\n<h3 style=\"margin-bottom:5px\">Notes:</h3><strong style=\"margin-top:-10px\">Romanian Deadlift Tempo: </strong>\n3 Second Lowering Phase\n1 Second Hold At Bottom\n2 Second Raising Phase\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Romanian Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Moderate",
+          "12",
+          "3",
+          "Mod"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Halo",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Light",
+          "12 (6/6)",
+          "3",
+          "Mod"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Body Weight",
+          "8",
+          "3",
+          "Mod"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "As Needed",
+          "Body Weight",
+          "15",
+          "3",
+          "Mod"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "13",
+      "name": "Workout 1 - level 2",
+      "description": "<strong style=\"margin-bottom:-5px\">*Arrows indicate exercises done consecutively</strong>\n<h3 style=\"margin-bottom:5px\">Notes:</h3><strong style=\"margin-top:-10px\">Staggered Stance Deadlift Tempo: </strong>\n3 Second Lowering Phase\n1 Second Hold At Bottom\n2 Second Raising Phase",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Light-Moderate",
+          "16 (8/8)",
+          "3",
+          "312"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Light-Moderate",
+          "12 (6/6)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />",
+          "Light-Moderate",
+          "10",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/03/Image20200316091907.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "As Needed",
+          "Light-Moderate",
+          "20",
+          "3",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "15",
+      "name": "(#1 Full) Workout A, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Squat-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Squat (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Bodyweight",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Scapula Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 30s",
+          "Bodyweight",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Romanian Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Light-Moderate",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate/Rhythmic"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Hold",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 30s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "16",
+      "name": "(#2 Modified) Workout A, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Squat-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Squat (Bodyweight)*",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Scapula Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 30s",
+          "Bodyweight",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Romanian Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light-Moderate",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate/Rhythmic"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Hold",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "17",
+      "name": "(#3 Modified) Workout A, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout A. If you choose this option, it is suggested to remove the first two exercises, and perform the final three as prescribed - starting with Romanian Deadlifts\n2. Increase the rest periods as needed to allow for more full recovery in between sets\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Squat-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Squat (Bodyweight)*",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "30s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Scapula Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "30s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Romanian Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate/Rhythmic"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Hold",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 30s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "18",
+      "name": "(#1 Full) Workout II, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Side-Lunge-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Side Lunge (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Halos",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s (15sL/15sR + 10s to Switch)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bent Over Static Scarecrow Reaches ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Hold & Moderate"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "3",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "19",
+      "name": "(#2 Modified) Workout B, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Side-Lunge-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Side Lunge (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Halos",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s (15sL/15sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bent Over Static Scarecrow Reaches ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Hold & Moderate"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "20",
+      "name": "(#3 Modified) Workout B, Level I, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nStatic Alternatic Side Lunge: If/when you feel ready, you may progress to the loaded variation of this movement included below\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout B. If you choose this option, it is suggested to remove the final superset (two exercises) in the training\n2. Increase the rest periods as needed to allow for more full recovery in between sets\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Loaded-Side-Lunge-min.png\" width=\"300px\"/>\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Side Lunge (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 10s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Halos",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s (15sL/15sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bent Over Static Scarecrow Reaches ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Hold & Moderate"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "21",
+      "name": "(#1 Full) Workout A, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Moderate",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Off Set Push Ups (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Sprinter DL ",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light-Moderate",
+          "40s (20sL/20sR)",
+          "3",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "22",
+      "name": "(#2 Modified) Workout A, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Moderate",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Off Set Push Ups (Bodyweight)",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Sprinter DL ",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light-Moderate",
+          "40s (20sL/20sR)",
+          "2",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Raises ",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "23",
+      "name": "(#3 Modified) Workout A, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout A. If you choose this option, it is suggested to remove the first two exercises, and perform the final three as prescribed - starting with Modified Sprinter Deadlifts\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "30s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Off Set Push Ups (Bodyweight)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Sprinter DL ",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s (20sL/20sR)",
+          "1",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups",
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />30s",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "24",
+      "name": "(#1 Full) Workout B, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light-Moderate",
+          "40s (15sL/15sR + 10s to Switch)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Bent Over Row (Unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s (20sL/20sR)",
+          "3",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "3",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "25",
+      "name": "(#2 Modified) Workout B, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light-Moderate",
+          "40s (15sL/15sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Bent Over Row (Unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s (20sL/20sR)",
+          "2",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "26",
+      "name": "(#3 Modified) Workout B, Level II, Phase I",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Reduce the number of exercises in Workout B. If you choose this option, it is suggested to remove the final superset (two exercises) in the training\n2. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alternating Lunge with Counter Rotation (Crush Grip)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s\n",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Light",
+          "40s (15sL/15sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s\n",
+          "Bodyweight",
+          "40s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[30 sec Rest Before Next Superset]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Bent Over Row (Unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />10s",
+          "Bodyweight",
+          "40s (20sL/20sR)",
+          "1",
+          "Slow-Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side of Hip Raises ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />20s",
+          "Bodyweight",
+          "40s (15sL/15sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "29",
+      "name": "(#1 Full) Workout I, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Floor Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (supported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "30",
+      "name": "(#2 Modified) Workout I, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Split Squat (Goblet Grip)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Floor Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (supported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Glute Bridges",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "32",
+      "name": "(#3 Modified) Workout I, Level I, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />ass=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "20s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Split Squat (Goblet Grip)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Romanian Deadlift",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Abdominal Roll Ups ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Eagle Hold",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "33",
+      "name": "(#1 Full) Workout II, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Deadlift",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "4",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row (supported)",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "4",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Hold ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "2",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "35",
+      "name": "(#2 Modified) Workout II, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Deadlift",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "2",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row (supported)",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "2",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Hold ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "1",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "38",
+      "name": "(#3 Modified) Workout II, Level I, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Goblet Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Kneeling Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Arm Deadlift",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "1",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row (supported)",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "1",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Hold ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "1",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "39",
+      "name": "(#1 Full) Workout III, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Deadlift",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Squat",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Offset Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alt. Side Lunge with Counter Rot.",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row (supported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "41",
+      "name": "(#2 Modified) Workout III, Level I, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Deadlift",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Squat",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Offset Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alt. Side Lunge with Counter Rot.",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row (supported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "42",
+      "name": "(#3 Modified) Workout III, Level I, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Deadlift",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Squat",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Offset Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Alt. Side Lunge with Counter Rot.",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row (supported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Modified Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "43",
+      "name": "(#1 Full) Workout I, Level II, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Split Squat - Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Glute Bridges",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR)",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "44",
+      "name": "(#2 Modified) Workout I, Level II, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Split Squat - Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Glute Bridges",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR)",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "45",
+      "name": "(#3 Modified) Workout I, Level II, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "20s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Static Split Squat - Overhead Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Hold Lower & Mod Upper"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Glute Bridges",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR)",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "46",
+      "name": "(#1 Full) Workout II, Level II, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">NOTE:</strong>\n<strong style=\"margin-bottom:-5px\">Half Windmill - Overhead Press</strong>\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/3B763F35-4FB1-43EB-82E1-967220F65BAC.png\" width=\"300px\"/>\n\n<strong style=\"margin-bottom:-5px\">Additional suggestions on how to further modify training today if needed:</strong> \n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Windmill - Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Hand to Hand Swing ",
+          "30s",
+          "Moderate",
+          "20s",
+          "4",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row with Recipriocity",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "4",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Raises ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "2",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "47",
+      "name": "(#2 Modified) Workout II, Level II, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">NOTE:</strong>\n<strong style=\"margin-bottom:-5px\">Half Windmill - Overhead Press</strong>\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/3B763F35-4FB1-43EB-82E1-967220F65BAC.png\" width=\"300px\"/>\n\n<strong style=\"margin-bottom:-5px\">Additional suggestions on how to further modify training today if needed:</strong> \n1. Increase the rest periods as needed to allow for more full recovery in between sets\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Windmill - Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Hand to Hand Swing ",
+          "30s",
+          "Moderate",
+          "20s",
+          "2",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row with Recipriocity",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "2",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Raises ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "1",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "48",
+      "name": "(#3 Modified) Workout II, Level II, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">NOTE:</strong>\n<strong style=\"margin-bottom:-5px\">Half Windmill - Overhead Press</strong>\nTo progress this combination if desired, rather than lowering to the hand during the Half Windmill, descend until your elbow touches the floor.\n\n<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/3B763F35-4FB1-43EB-82E1-967220F65BAC.png\" width=\"300px\"/>\n\n<strong style=\"margin-bottom:-5px\">Additional suggestions on how to further modify training today if needed:</strong> \n1. Increase the rest periods as needed to allow for more full recovery in between sets\n",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing Squat",
+          "30s",
+          "Moderate",
+          "20s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Windmill - Overhead Press",
+          "30s",
+          "Moderate",
+          "50s (20sL/20sR + 10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Hand to Hand Swing ",
+          "30s",
+          "Moderate",
+          "20s",
+          "1",
+          "Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n",
+          "Bent Over Row with Recipriocity",
+          "30s",
+          "Moderate",
+          "20s (10sL/10sR)",
+          "1",
+          "Mod/Rhythmic"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side Plank Raises ",
+          "30s",
+          "Bodyweight",
+          "60s (30sL/30sR) ",
+          "1",
+          "Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "49",
+      "name": "(#1 Full) Workout III, Level II, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Swing",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Curtsy Lunge",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Kettlebell Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side to Side Two Hand Swing",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "50",
+      "name": "(#2 Modified) Workout III, Level II, Phase II",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Swing",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Curtsy Lunge",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Kettlebell Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side to Side Two Hand Swing",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "51",
+      "name": "(#3 Modified) Workout III, Level II, Phase II",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Swing",
+          "30s",
+          "Moderate",
+          "40s (20sL/20sR) ",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "[1 min Rest Before Next Circuit]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alternating Halo - Curtsy Lunge",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Kettlebell Push Ups",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Bodyweight",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Side to Side Two Hand Swing",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Staggered Stance Row (unsupported)",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/Arrow-mirrored.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" />  20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]\t\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Butterflies",
+          "30s",
+          "Bodyweight",
+          "60s",
+          "1",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "52",
+      "name": "(#1 Full) Workout I, Level I, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alt. Halo - Alt. Side Lunge",
+          "30s",
+          "Moderate",
+          "30s",
+          "4",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Circuit]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Dead-Stop Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Strict Press ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n\n",
+          "Bent Over Row with Recipriocity ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "3",
+          "Mod. with 2 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "53",
+      "name": "(#2 Modified) Workout I, Level I, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alt. Halo - Alt. Side Lunge",
+          "30s",
+          "Moderate",
+          "30s",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Dead-Stop Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Strict Press ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bent Over Row with Recipriocity ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Final Exercise]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "2",
+          "Mod. with 2 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "54",
+      "name": "(#3 Modified) Workout I, Level I, Phase III",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Alt. Halo - Alt. Side Lunge",
+          "30s",
+          "Moderate",
+          "30s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Circuit]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Dead-Stop Swings",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Strict Press ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bent Over Row with Recipriocity ",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Final Exercise]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Elbow Post Raises",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "1",
+          "Mod. with 2 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "55",
+      "name": "(#1 Full) Workout II, Level I, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Mini Thruster",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Figure 8 to Stand",
+          "10s",
+          "Light",
+          "20s",
+          "6",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bridge Press with Recipriocity",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (Supported)",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "56",
+      "name": "(#2 Modified) Workout II, Level I, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Mini Thruster",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Figure 8 to Stand",
+          "10s",
+          "Light",
+          "20s",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bridge Press with Recipriocity",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (Supported)",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "57",
+      "name": "(#3 Modified) Workout II, Level I, Phase III",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Two Hand Swings",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Mini Thruster",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Figure 8 to Stand",
+          "10s",
+          "Light",
+          "20s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Bridge Press with Recipriocity",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Row (Supported)",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "58",
+      "name": "(#1 Full) Workout I, Level II, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Sprinter Swing",
+          "40s",
+          "Moderate",
+          "20s",
+          "4",
+          "Fast"
+        ],
+        [
+          "[1 min Rest Before Circuit]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing, Swing-Squat Combo",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Light",
+          "30s",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Countered Sea Saw Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "3",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n\n",
+          "Staggered Stance Row with Recipriocity",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "3",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Turkish Get Up",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "3",
+          "Mod. with 1 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "59",
+      "name": "(#2 Modified) Workout I, Level II, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Sprinter Swing",
+          "40s",
+          "Moderate",
+          "20s",
+          "3",
+          "Fast"
+        ],
+        [
+          "[1 min Rest Before Circuit]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing, Swing-Squat Combo",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Light",
+          "30s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Countered Sea Saw Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n\n",
+          "Staggered Stance Row with Recipriocity",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "2",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Turkish Get Up",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "2",
+          "Mod. with 1 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "60",
+      "name": "(#3 Modified) Workout I, Level II, Phase III",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Sprinter Swing",
+          "40s",
+          "Moderate",
+          "20s",
+          "3",
+          "Fast"
+        ],
+        [
+          "[1 min Rest Before Circuit]\t\t\t\t\t",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/564C4D2C-836F-42CA-A871-43639C3F0998.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Swing, Swing-Squat Combo",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Light",
+          "30s",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Overhead Countered Sea Saw Press",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "40s (15sL/15sR +10s to Switch)",
+          "1",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/1977DD0F-5BD5-45EE-97F2-C3077736FB54.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />\n\n",
+          "Staggered Stance Row with Recipriocity",
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/04/992EEC4A-7496-4689-A28B-CA5B9CF0F310.png\" alt=\"\" width=\"20\" class=\"alignnone wp-image-1424\" /> 20s",
+          "Moderate",
+          "30s (15sL/15sR)",
+          "1",
+          "Moderate"
+        ],
+        [
+          "[1 min Rest Before Finisher]",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#",
+          "#colspan#"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Half Turkish Get Up",
+          "20s",
+          "Moderate",
+          "70s (30sL/30sR +10s to Switch)",
+          "1",
+          "Mod. with 1 sec Hold"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "61",
+      "name": "(#1 Full) Workout II, Level I, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Clean",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Split Squat - OH Press/Push Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Sling Shot",
+          "10s",
+          "Light",
+          "20s",
+          "6",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Bridge Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row with Recipriocity ",
+          "10s",
+          "Moderate",
+          "20s",
+          "6",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "62",
+      "name": "(#2 Modified) Workout II, Level II, Phase III",
+      "description": "",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Clean",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Split Squat - OH Press/Push Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Sling Shot",
+          "10s",
+          "Light",
+          "20s",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Bridge Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row with Recipriocity ",
+          "10s",
+          "Moderate",
+          "20s",
+          "4",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    },
+    {
+      "id": "63",
+      "name": "(#3 Modified) Workout II, Level II, Phase III",
+      "description": "<strong style=\"margin-bottom:-5px\">Note:</strong>\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+      "data": [
+        [
+          "<div title=\"(S) Station Exercise or (C) Circuit\" class=\"tooltip\">Type <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Movement\" class=\"tooltip\">Exercise <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The time interval in between sets\" class=\"tooltip\">Rest <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Related to the load being lifted\" class=\"tooltip\">Intensity <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of times you perform a specific movement\" class=\"tooltip\">Reps <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"Number of repetition cycles\" class=\"tooltip\">Sets <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>",
+          "<div title=\"The rhythm/speed at which you move a given weight\" class=\"tooltip\">Tempo <i aria-hidden=\"true\" class=\"fas fa-info-circle\" ></i></div>"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S1-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "RMT Clean",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S2-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Split Squat - OH Press/Push Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Mod-Fast"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S3-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Sling Shot",
+          "10s",
+          "Light",
+          "20s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S4-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Single Leg Bridge Press",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Moderate"
+        ],
+        [
+          "<img src=\"https://app.kettlebelllifestyle.com/wp-content/uploads/2020/05/S5-Symbol.png\" alt=\"\" width=\"102\" height=\"107\" class=\"alignnone size-full wp-image-1424\" />",
+          "Lunge Stance Row with Recipriocity ",
+          "10s",
+          "Moderate",
+          "20s",
+          "2",
+          "Moderate"
+        ]
+      ],
+      "visibility": {
+        "rows": [1, 1, 1, 1, 1, 1],
+        "columns": [1, 1, 1, 1, 1, 1, 1]
+      }
+    }
+  ]
+}
