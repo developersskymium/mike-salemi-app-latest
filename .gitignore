@@ -34,3 +34,5 @@ dist-ssr
 # Environment (set in Vercel / local .env.local)
 .env
 .env.*
+course-exports/
+course-seed.sql
