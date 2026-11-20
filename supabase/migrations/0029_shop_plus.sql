@@ -290,8 +290,8 @@ join (values
   ('training-hoodie', 'm', 'M', 7800, 6600, null, 2),
   ('training-hoodie', 'l', 'L', 7800, 6600, null, 3),
   ('training-hoodie', 'xl', 'XL', 7800, 6600, null, 4),
-  ('starter-set', 'men', '12 · 16 · 20 kg + stick', 34900, 31400, 16, 1),
-  ('starter-set', 'women', '8 · 12 · 16 kg + stick', 29900, 26900, 12, 2),
+  ('starter-set', 'men', 'Men · 12, 16, 20 kg + stick', 34900, 31400, 16, 1),
+  ('starter-set', 'women', 'Women · 8, 12, 16 kg + stick', 29900, 26900, 12, 2),
   ('recovery-kit', 'standard', 'Stick + ball set', 5400, 4800, null, 1)
 ) as v(slug, key, label, cents, member, kg, pos) on v.slug = p.slug
 on conflict (product_id, key) do nothing;

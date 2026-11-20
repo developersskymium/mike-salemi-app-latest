@@ -2020,5 +2020,25 @@
     }
    ]
   }
- }
+ },
+ "levels": [
+  {
+   "key": "beginner",
+   "label": "Level I · Beginner",
+   "shortName": "Level I",
+   "href": "/programs/kettlebell-lifestyle/learn/l1-phase-2-d25",
+   "recommended": true,
+   "done": 27,
+   "total": 67
+  },
+  {
+   "key": "intermediate",
+   "label": "Level II · Intermediate",
+   "shortName": "Level II",
+   "href": "/programs/kettlebell-lifestyle?path=intermediate",
+   "recommended": false,
+   "done": 0,
+   "total": 67
+  }
+ ]
 }

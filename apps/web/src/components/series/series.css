@@ -202,3 +202,80 @@
   .sr-chap { animation: none; }
   .sr-prog-bar i { transition: none; }
 }
+
+/* ---------------- lesson bar, player frame, focus mode (spec 12 lesson ideas) */
+.srp-bar { position: sticky; top: 0; z-index: 5; background: var(--bg); }
+.srp-back { flex: 0 1 auto; max-width: 30%; }
+.srp-where { flex: 1; min-width: 0; text-align: center; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.srp-tools { display: inline-flex; align-items: center; gap: 8px; flex: none; }
+.srp-icon { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; }
+.srp-icon:disabled { opacity: .35; cursor: default; }
+.srp-player { position: relative; }
+.srp-player > :first-child { border-radius: var(--sr-r); overflow: hidden; }
+.srp-more { border-top: 1px solid var(--sr-line); padding-top: 14px; }
+.srp-more summary { cursor: pointer; font-weight: 650; color: var(--text); font-size: 14.5px; list-style: none; }
+.srp-more summary::after { content: " +"; color: var(--text-3); }
+.srp-more[open] summary::after { content: " −"; }
+.srp-more[open] summary { margin-bottom: 12px; }
+.srp[data-focus] .srp-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stage" "notes"; max-width: 1040px; margin: 0 auto; }
+.srp[data-focus] .srp-list { display: none; }
+.srp[data-focus] .srp-notes { max-width: none; }
+@media (max-width: 1023px) {
+  .srp-only-desk { display: none; }
+  .srp-where { display: none; }
+  .srp-back { max-width: none; flex: 1; }
+  .srp-pct .sr-prog-bar { width: 56px; }
+}
+
+/* ---------------- program page ideas (spec 12): ⋯ menu, intro once, about, badges, finish line */
+.sr-more { position: relative; }
+.sr-more summary { list-style: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: rgba(255, 255, 255, .16); color: #fff; border: 1px solid rgba(255, 255, 255, .28); backdrop-filter: blur(12px); }
+.sr-more summary::-webkit-details-marker { display: none; }
+.sr-more-menu { position: absolute; left: 0; top: calc(100% + 8px); z-index: 10; min-width: 230px; padding: 6px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--sh-3); display: flex; flex-direction: column; }
+.sr-more-menu a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text); font-size: 14px; font-weight: 550; }
+.sr-more-menu a:hover { background: var(--surface-sunk); }
+
+.sr-intro { position: relative; display: flex; align-items: center; gap: 16px; padding: 12px 48px 12px 12px; border-radius: var(--sr-r); background: var(--warm-soft); color: var(--text); }
+.sr-intro-thumb { position: relative; flex: none; width: 132px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; }
+.sr-intro-thumb img { object-fit: cover; }
+.sr-intro .sr-play { width: 34px; height: 34px; }
+.sr-intro .sr-today-body b { font-size: 18px; }
+.sr-x { position: absolute; right: 12px; top: 12px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: transparent; color: var(--text-2); display: grid; place-items: center; cursor: pointer; }
+
+.sr-about { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; padding: 26px 28px; border: 1px solid var(--sr-line); border-radius: var(--sr-r); background: var(--surface); scroll-margin-top: 90px; }
+.sr-about-get { display: flex; flex-direction: column; gap: 12px; }
+.sr-ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sr-ticks li { display: flex; gap: 10px; align-items: center; font-size: 15px; }
+.sr-ticks li > :first-child { color: var(--ok); flex: none; }
+.sr-readmore summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; list-style: none; }
+.sr-readmore summary::-webkit-details-marker { display: none; }
+.sr-readmore p { margin: 10px 0 0; color: var(--text-2); line-height: 1.6; max-width: 68ch; }
+.sr-about-medals { display: flex; flex-direction: column; gap: 12px; }
+.sr-medals { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
+.sr-medals li { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-3); }
+.sr-medal { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-sunk); color: var(--text-3); border: 1px solid var(--line); }
+.sr-medals li[data-earned] { color: var(--text); }
+.sr-medals li[data-earned] .sr-medal { background: var(--gold); color: #5a3d00; border-color: transparent; }
+.sr-medal[data-big] { width: 64px; height: 64px; background: var(--gold); color: #5a3d00; border: 0; flex: none; }
+
+.sr-finish { display: flex; flex-direction: column; gap: 18px; padding: 24px 26px; border-radius: var(--sr-r); border: 1px solid var(--sr-line); background: var(--surface); }
+.sr-finish-cert { display: flex; align-items: center; gap: 18px; }
+.sr-finish-cert > div { display: flex; flex-direction: column; gap: 4px; }
+.sr-finish-next { display: flex; flex-direction: column; gap: 10px; }
+.sr-finish-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sr-pick { display: flex; gap: 14px; align-items: center; padding: 10px; border-radius: 16px; border: 1px solid var(--sr-line); color: var(--text); }
+.sr-pick-photo { position: relative; flex: none; width: 112px; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; }
+.sr-pick-photo img { object-fit: cover; }
+.sr-pick-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sr-pick-body small { color: var(--text-2); font-size: 13px; line-height: 1.4; }
+@media (max-width: 767px) {
+  .sr-about { grid-template-columns: 1fr; padding: 20px; gap: 22px; }
+  .sr-finish-grid { grid-template-columns: 1fr; }
+  .sr-intro-thumb { width: 96px; }
+  .sr-more-menu { left: auto; right: 0; }
+}
+/* Empty slots (an offer or badge row that rendered nothing) collapse. */
+.sr-next:has(> .sr-eyebrow:only-child) { display: none; }
+.sr-about-medals[data-v2]:empty { display: none; }
+.sr-about:has(.sr-about-medals[data-v2]:empty) { grid-template-columns: 1fr; }
+.srp-preview { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; padding: 12px 16px; border-radius: 14px; background: var(--warm-soft); color: var(--text); font-size: 14px; }

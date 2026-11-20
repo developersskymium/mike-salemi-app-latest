@@ -5,8 +5,9 @@ import { NextStepCard } from "@/components/signature";
 import { JoinButton } from "@/components/today/JoinButton";
 import { Button, Icon } from "@/components/ui";
 import { coverFor } from "@/lib/covers";
-import { KIND_LABEL, buildChapters, chapterProgress, daysUntil, signatureOf, type SeriesChapter, type SeriesItem } from "@/lib/series";
+import { FINISH_ALT, KIND_LABEL, buildChapters, chapterProgress, daysUntil, signatureOf, type SeriesChapter, type SeriesItem } from "@/lib/series";
 import type { SeriesHomeData } from "@/lib/loaders/series";
+import { IntroOnce } from "./IntroOnce";
 import { SeriesNavigator } from "./SeriesNavigator";
 import "./series.css";
 import "../journey/accent.css";
@@ -16,7 +17,7 @@ import "../journey/accent.css";
  * (spec 11, feedback 2 + 13): one big cover, title, promise, progress and ONE primary action;
  * one signature band; then the navigator (chapters strip + small thumbnail cards).
  */
-export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: ReactNode }) {
+export function SeriesHome({ home, offer, badges, finish }: { home: SeriesHomeData; offer?: ReactNode; badges?: ReactNode; finish?: ReactNode }) {
   const { data, media, retreat } = home;
   const { program } = data;
   const cfg = program.journey;
@@ -34,10 +35,9 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
   const initialChapter = Math.max(0, chapters.findIndex((c) => c.items.some((i) => i.id === next?.id)));
   const locked = data.locked;
 
-  const cta = locked ? (
-    <Button href={`/explore/${slug}`} variant="filled" size="lg" icon="lock">See access options</Button>
-  ) : !data.enrolled && !started ? (
-    <JoinButton programId={program.id} pathId={null} name={program.name} variant="filled" size="lg" label={program.isFree ? "Start free" : "Start"} />
+  // Not started or no access: the access-aware Start / Buy / Upgrade (components/access via JoinButton).
+  const cta = locked || (!data.enrolled && !started) ? (
+    <JoinButton programId={program.id} pathId={null} slug={slug} name={program.name} variant="filled" size="lg" label={locked ? undefined : "Start"} />
   ) : pct >= 1 ? (
     <Button href={href("start")} variant="filled" size="lg" icon="repeat">Watch again</Button>
   ) : (
@@ -64,6 +64,15 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
           <p className="sr-promise">{cfg.promise}</p>
           <div className="sr-hero-row">
             {cta}
+            <details className="sr-more">
+              <summary aria-label="More options"><Icon name="more" size="sm" /></summary>
+              <div className="sr-more-menu" role="menu">
+                {data.intro && !locked && <Link role="menuitem" href={href("start")}><Icon name="play" size="xs" />Watch intro</Link>}
+                <a role="menuitem" href="#sr-about"><Icon name="info" size="xs" />About this program</a>
+                {data.intake && !locked && <Link role="menuitem" href={`/intake/${slug}`}><Icon name="clipboard" size="xs" />{data.intake.done ? "Your program approach" : "Tailor it to you"}</Link>}
+                {!locked && <Link role="menuitem" href="/plan"><Icon name="calendar" size="xs" />Add to my schedule</Link>}
+              </div>
+            </details>
             {!locked && items.length > 0 && (
               <span className="sr-prog" aria-label={`${done} of ${items.length} done`}>
                 <span className="sr-prog-bar"><i style={{ "--p": pct } as CSSProperties} /></span>
@@ -74,17 +83,22 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
         </div>
       </header>
 
-      {sig === "practice" && next && !locked && <TodayPractice item={next} href={href(next.id)} started={started} />}
+      {data.intro && !started && !locked && <IntroOnce slug={slug} href={href("start")} name={program.name} photo={chapters[0]?.items[0]?.photo ?? { src: program.cover.src, position: program.cover.focal }} />}
+      {pct >= 1 && !locked && <FinishLine slug={slug} name={program.name} next={cfg.next ?? null} choose={finish} />}
+      {sig === "practice" && next && !locked && pct < 1 && <TodayPractice item={next} href={href(next.id)} started={started} />}
       {sig === "pillars" && <Countdown retreat={retreat} chapters={chapters} />}
       {sig === "journey" && !locked && <ThisWeek chapters={chapters} at={initialChapter} href={href} />}
 
       <SeriesNavigator slug={slug} chapters={chapters} initial={initialChapter} nextId={next?.id ?? null} locked={locked} sig={sig} />
 
-      {(cfg.next || offer) && (
+      <About highlights={program.highlights} description={program.description ?? program.summary} done={done} total={items.length} started={started} badges={badges} />
+
+      {pct < 1 && (cfg.next || offer) && (
         <section className="sr-next" aria-labelledby="sr-next-h" data-offer-slot="series_end">
-          <p className="sr-eyebrow" id="sr-next-h">{pct >= 1 ? "You finished. Your next step" : "When you're ready for more"}</p>
-          {offer ??
-            (cfg.next && nextCover && (
+          <p className="sr-eyebrow" id="sr-next-h">{cfg.next ? "When you're ready for more" : "Pairs well with"}</p>
+          {cfg.next && nextCover ? (
+            (
+
               <NextStepCard
                 title={cfg.next.label}
                 meta={cfg.next.reason}
@@ -92,7 +106,8 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
                 cta={cfg.next.cta}
                 image={{ src: nextCover.src, alt: nextCover.alt, position: nextCover.focal }}
               />
-            ))}
+            )
+          ) : offer}
         </section>
       )}
     </div>
@@ -174,6 +189,79 @@ function ThisWeek({ chapters, at, href }: { chapters: SeriesChapter[]; at: numbe
           <Icon name="chevron" size="xs" className="sr-go" />
         </Link>
       )}
+    </section>
+  );
+}
+
+/** "What you'll get" in three lines (full copy behind Read more) and the program's badges, greyed until earned. */
+function About({ highlights, description, done, total, started, badges }: { highlights: string[]; description: string | null; done: number; total: number; started: boolean; badges?: ReactNode }) {
+  const medals = [
+    { key: "start", label: "Started", earned: started || done > 0 },
+    { key: "half", label: "Halfway", earned: total > 0 && done / total >= 0.5 },
+    { key: "done", label: "Finished", earned: total > 0 && done >= total },
+  ];
+  return (
+    <section className="sr-about" id="sr-about" aria-labelledby="sr-about-h">
+      <div className="sr-about-get">
+        <h2 id="sr-about-h" className="sr-h2">What you'll get</h2>
+        {highlights.length > 0 && (
+          <ul className="sr-ticks">
+            {highlights.slice(0, 3).map((h) => <li key={h}><Icon name="check" size="xs" />{h}</li>)}
+          </ul>
+        )}
+        {description && (
+          <details className="sr-readmore">
+            <summary>Read more</summary>
+            {description.split(/\n{2,}/).map((p, i) => <p key={i}>{p.replace(/\*\*/g, "").replace(/^#+\s*/, "")}</p>)}
+          </details>
+        )}
+      </div>
+      {badges ? <div className="sr-about-medals" data-v2="">{badges}</div> : <div className="sr-about-medals">
+        <p className="sr-eyebrow">Program badges</p>
+        <ul className="sr-medals">
+          {medals.map((m) => (
+            <li key={m.key} data-earned={m.earned ? "" : undefined}>
+              <span className="sr-medal" aria-hidden><Icon name={m.key === "done" ? "trophy" : "medal"} size="sm" /></span>
+              <small>{m.label}</small>
+              <span className="lq-sr">{m.earned ? "earned" : "not earned yet"}</span>
+            </li>
+          ))}
+        </ul>
+      </div>}
+    </section>
+  );
+}
+
+/** Finish line: the certificate and a choice of two next steps (spec 12 program idea 10). */
+function FinishLine({ slug, name, next, choose }: { slug: string; name: string; next: { slug: string; href: string; label: string; reason: string } | null; choose?: ReactNode }) {
+  const alt = FINISH_ALT[slug];
+  const picks = [next, alt].filter(Boolean) as { slug: string; href: string; label: string; reason: string }[];
+  return (
+    <section className="sr-finish" aria-labelledby="sr-finish-h">
+      <div className="sr-finish-cert">
+        <span className="sr-medal" data-big="" aria-hidden><Icon name="trophy" size="md" /></span>
+        <div>
+          <p className="sr-eyebrow" data-tone="warm">Finished</p>
+          <h2 id="sr-finish-h" className="sr-h2">You completed {name}</h2>
+          <Link href="/you/certificates" className="sr-link">View your certificate</Link>
+        </div>
+      </div>
+      {choose ?? (picks.length > 0 && (
+        <div className="sr-finish-next">
+          <p className="sr-eyebrow">Choose what's next</p>
+          <div className="sr-finish-grid">
+            {picks.slice(0, 2).map((p) => {
+              const c = coverFor(p.slug);
+              return (
+                <Link key={p.href} href={p.href} className="sr-pick lq-press" prefetch>
+                  <span className="sr-pick-photo"><Image src={c.src} alt="" fill sizes="(min-width: 768px) 300px, 100vw" style={{ objectPosition: c.focal }} /></span>
+                  <span className="sr-pick-body"><b>{p.label}</b><small>{p.reason}</small></span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }

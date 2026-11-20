@@ -4,7 +4,7 @@ import { announceProgress } from "@/components/you/CelebrationHost";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { parseLessonBody, type VideoRef } from "@ms/core";
 import { Glass, useToast } from "@/components/ui";
 import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
@@ -57,7 +57,7 @@ let memoryFocus = false;
  * week's lessons in a compact list under the lesson, plus the shared lesson extras (key points,
  * notes, reflection, audio-only, "Next in 5s").
  */
-export function CoursePlayer({ data, mode, slim }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l" }) {
+export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode }) {
   const router = useRouter();
   const toast = useToast();
   const slug = data.program.slug;
@@ -417,6 +417,7 @@ export function CoursePlayer({ data, mode, slim }: { data: CoursePageData; mode:
                 </Glass>
                 {isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
                 {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
+                {slim && isDone && !isIntro && !next && !planCtx && nextStep}
                 {slim && !focus && <UnitList unit={unit} activeId={data.activeId} />}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>
               </article>

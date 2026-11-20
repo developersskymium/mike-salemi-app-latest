@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
+import { PairsWellWith } from "@/components/access/PairsWellWith";
+import { ProgramBadges } from "@/components/badges/ProgramBadges";
 import { ProgramView } from "@/components/training/ProgramView";
 import { loadProgramPage } from "@/lib/loaders/training";
 import { loadBoard } from "@/lib/loaders/selfguided";
@@ -43,7 +45,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   if (slug === "kettlebell-lifestyle" && mode !== "self_guided") {
     const intake = await loadIntakePage(slug).catch(() => null);
     const recommended = intake?.latest?.result?.path_key ?? null;
-    return <KblHome data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<OfferSlot placement="program_page" />} />;
+    return <KblHome data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<PairsWellWith program={slug} />} badges={<ProgramBadges slug={slug} />} />;
   }
   return <ProgramView data={data} board={board} initialMode={mode} offer={<OfferSlot placement="program_page" />} />;
 }

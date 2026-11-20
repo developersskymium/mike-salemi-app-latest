@@ -11,11 +11,14 @@ import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { completeStepAction, savePositionAction, setAutoplayAction, submitReadinessAction, uncompleteStepAction } from "@/lib/actions/training";
 import { lessonHref, lessonLabel, lessonName, minutesOf } from "./model";
-import { summitPoster } from "./model";
+import { clock, summitPoster } from "./model";
 import { UpNext, VideoStage } from "./VideoStage";
-import { ClipCards } from "./ClipRow";
 import { bandSummary, ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
 import { circuitsOf, circuitWord, estimateMinutes } from "./workout";
+import { CircuitTable, downloadWorkoutCsv } from "./CircuitTable";
+import { WorkoutMode } from "./WorkoutCard";
+import { KblLevelSwitch } from "./KblLevelSwitch";
+import { FinishStats, OtherIntensities, useSaveOfflineDay } from "./DayExtras";
 import { MIKE_FACE } from "@/lib/program-photos";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
@@ -23,6 +26,7 @@ import { hasNotes, NotesBody } from "./NotesBody";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
 import "./day-styles";
+import "./day-calm.css";
 
 const ROMAN: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4 };
 const CHEERS = ["Nice work.", "Logged. Keep moving.", "That's one down.", "Strong. Next up.", "Locked in."];
@@ -43,12 +47,13 @@ function letsBeginText(html: string | null | undefined) {
  * readiness form, today's workout table) and the "Today's sequence" rail; on a phone the
  * sequence sits under the content with a thumb-zone action bar.
  */
-export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?: ReactNode }) {
+export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData; endOffer?: ReactNode; /** Level / program finished: "Choose your next step". */ levelOffer?: ReactNode }) {
   const { program, path, lesson, steps, section, outline, progress, form, tables } = data;
   const router = useRouter();
   const toast = useToast();
   const word = program.lessonLabel || "Day";
   const lockedOrder = data.state.lockedOrder;
+  const preview = Boolean(data.state.preview);
   const [now] = useState(() => Date.now());
 
   /* ---------------------------------------------------------------- progress */
@@ -109,8 +114,12 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const videoSeconds = useRef<Record<string, number>>({ ...(data.position?.videoSeconds ?? {}) });
   const lastSave = useRef(0);
   const pauseStage = useRef<(() => void) | null>(null);
-  const stageCol = useRef<HTMLDivElement>(null);
-  const readyRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
+  const trainRef = useRef<HTMLElement>(null);
+  const readyRef = useRef<HTMLDivElement>(null);
+  const [retaking, setRetaking] = useState(false);
+  const [workoutOn, setWorkoutOn] = useState(false);
 
   // Remember the step across devices (debounced).
   useEffect(() => {
@@ -144,7 +153,8 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
       if (i < 0 || i >= steps.length || !isOpen(i)) return;
       setAutoStart(opts?.auto !== false);
       setActive(i);
-      stageCol.current?.scrollTo({ top: 0, behavior: "smooth" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      playerRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     },
     [steps, isOpen],
   );
@@ -193,11 +203,16 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   }
 
   function toReadiness() {
-    if (readinessIdx >= 0 && readinessIdx !== active) go(readinessIdx, { auto: false });
-    window.setTimeout(() => readyRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), readinessIdx === active ? 0 : 420);
+    if (readinessIdx >= 0 && readinessIdx !== active && isOpen(readinessIdx)) {
+      setAutoStart(false);
+      setActive(readinessIdx);
+    }
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.setTimeout(() => (readyRef.current ?? trainRef.current)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }), 60);
   }
 
   async function complete(i: number, via: "button" | "watched" = "button", at?: Point) {
+    if (preview) return;
     const s = steps[i];
     if (!s || completedRef.current.has(s.id) || !isOpen(i)) return;
     if (s.special === "readiness") return toReadiness();
@@ -225,6 +240,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   }
 
   async function uncomplete(i: number) {
+    if (preview) return;
     const s = steps[i];
     if (!s || !completedRef.current.has(s.id)) return;
     if (s.special === "readiness") return toReadiness();
@@ -299,90 +315,95 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const minutes = minutesOf(steps.map((s) => s.durationLabel));
   const levelNumber = ROMAN[(path?.shortName ?? "").replace(/^level\s*/i, "")] ?? undefined;
   const isDone = completed.has(step.id);
-  const nextIsReadiness = steps[active + 1]?.special === "readiness";
-  const clips = playlist.queue;
 
-  /* ---------------------------------------------------------------- Summit day parts */
+  /* ---------------------------------------------------------------- the day's playlist */
+  // Every video of the day in order: each step's main video, then its demo clips. Steps without
+  // a video (readiness, completion) stay in the list so it doubles as today's sequence.
+  const items = useMemo<PlayItem[]>(() => {
+    const out: PlayItem[] = [];
+    steps.forEach((s, si) => {
+      const pl = stagePlaylist(s, null);
+      if (pl.lead) out.push({ key: `${s.id}:lead`, stepIndex: si, clipId: null, title: s.title, kind: "main", thumb: summitPoster(pl.lead.thumbnailUrl ?? s.poster ?? null, s), duration: s.durationLabel ?? (pl.lead.durationSeconds ? clock(pl.lead.durationSeconds) : null) });
+      else out.push({ key: `${s.id}:step`, stepIndex: si, clipId: null, title: s.title, kind: s.special === "readiness" ? "readiness" : s.special === "completion" ? "finish" : "main", thumb: null, duration: s.durationLabel });
+      for (const c of pl.queue) out.push({ key: `${s.id}:${c.providerId}`, stepIndex: si, clipId: c.providerId, title: c.title, kind: "demo", thumb: c.thumbnailUrl ?? null, duration: c.durationSeconds ? clock(c.durationSeconds) : null });
+    });
+    return out;
+  }, [steps]);
+  const nowKey = clipId ? `${step.id}:${clipId}` : items.find((it) => it.stepIndex === active && it.clipId === null)?.key ?? "";
+  const nowIndex = Math.max(0, items.findIndex((it) => it.key === nowKey));
+
+  const scrollToPlayer = useCallback(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    playerRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }, []);
+
+  const play = useCallback(
+    (it: PlayItem, opts?: { scroll?: boolean }) => {
+      if (!isOpen(it.stepIndex)) {
+        const blocker = steps.findIndex((s, i) => i < it.stepIndex && s.isRequired && !completedRef.current.has(s.id));
+        toast(blocker >= 0 ? `Finish “${steps[blocker]!.title}” first.` : "This step opens when you finish the one before.");
+        return;
+      }
+      setPendingState(null);
+      setAutoStart(true);
+      setActive(it.stepIndex);
+      setClipState({ step: steps[it.stepIndex]!.id, id: it.clipId });
+      if (opts?.scroll !== false) scrollToPlayer();
+    },
+    [isOpen, steps, toast, scrollToPlayer],
+  );
+
+  /** Exercise name → its demo clip anywhere in today's playlist. */
+  const demoFor = useCallback(
+    (exercise: string) => {
+      const n = norm(exercise);
+      if (!n) return null;
+      const hit =
+        items.find((it) => it.kind === "demo" && norm(it.title) === n) ??
+        items.find((it) => it.kind === "demo" && (norm(it.title).startsWith(n) || n.startsWith(norm(it.title))));
+      return hit ? () => play(hit) : null;
+    },
+    [items, play],
+  );
+
+  /* ---------------------------------------------------------------- readiness bands + offline copy */
+  const bandTables = useMemo(
+    () =>
+      (form?.bands ?? [])
+        .filter((b) => b.outcome === "workout" && b.tableId && tables[b.tableId])
+        .sort((a, b) => a.position - b.position)
+        .map((b) => ({ name: b.name, table: tables[b.tableId!]! }))
+        .filter((x, i, all) => all.findIndex((y) => y.table.id === x.table.id) === i),
+    [form, tables],
+  );
+  useSaveOfflineDay(
+    useMemo(
+      () => ({
+        savedAt: now,
+        href: lessonHref(program.slug, lesson.key, lesson.id),
+        title: lesson.pageType ? lesson.title : lessonName(lesson),
+        eyebrow: [path?.shortName, lessonLabel(lesson, word)].filter(Boolean).join(" · "),
+        table: table && (!form || (readiness && readiness.outcome === "workout")) ? table : null,
+        notes: steps.filter((s) => s.body && s.special !== "completion").map((s) => ({ title: s.title, body: s.body! })),
+      }),
+      [now, program.slug, lesson, path?.shortName, word, table, form, readiness, steps],
+    ),
+  );
+
+  /* ---------------------------------------------------------------- view parts */
   const circuits = table ? circuitsOf(table) : [];
   const bandWord = readiness ? (readiness.band === "green" ? "Sharp" : readiness.band === "amber" ? "Steady" : "Low") : null;
-  const stageChips = step.special === "workout" && table ? [`${step.title} · ${circuitWord(circuits)}`, ...(readiness ? [`Readiness ${readiness.score} · ${readiness.name}`] : [])] : [];
-  const phoneChips: { t: string; tone?: "ok" }[] = step.special === "workout" ? [...(readiness ? [{ t: `Readiness: ${bandWord}`, tone: "ok" as const }] : []), ...(table ? [{ t: circuitWord(circuits) }, { t: `~${estimateMinutes(table)} min` }] : [])] : [];
   const notes = useMemo(() => {
     const body = step.special === "completion" ? null : step.body;
     return { body, has: hasNotes(body, step.title), atts: step.attachments };
   }, [step]);
-  const readinessCard =
-    workoutDay && form ? (
-      readiness ? (
-        <section className="kd-card kd-ready-card" aria-label="Today's readiness">
-          <p className="kd-eyebrow">Today&apos;s readiness</p>
-          <div className="kd-ready-row">
-            <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={bandWord ?? ""} aria={`Readiness ${bandWord}, fatigue score ${readiness.score}`} size={56} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
-            <div>
-              <b className="lq-t17">
-                {bandWord} — {readiness.outcome === "workout" ? (readiness.band === "green" ? "full workout" : "modified table") : "recovery"}
-              </b>
-              <p className="lq-t13 lq-c3">{bandSummary(readiness)}</p>
-              <p className="lq-t12 lq-c3 lq-num">Fatigue score {readiness.score} · lower is better</p>
-            </div>
-          </div>
-          <div className="kd-ready-chips">
-            <span data-tone="ok">
-              <Icon name="check" size="xs" />
-              {readiness.name}
-            </span>
-            {readinessIdx >= 0 && (
-              <button type="button" onClick={toReadiness}>
-                Retake
-              </button>
-            )}
-          </div>
-        </section>
-      ) : (
-        <section className="kd-card kd-ready-card" aria-label="Today's readiness">
-          <p className="kd-eyebrow">Today&apos;s readiness</p>
-          <b className="lq-t17">Not checked yet</b>
-          <p className="lq-t13 lq-c3">Five quick questions pick today&apos;s table: full, modified or recovery.</p>
-          {readinessIdx !== active && (
-            <div className="kd-ready-chips">
-              <button type="button" onClick={toReadiness}>
-                Check in now
-              </button>
-            </div>
-          )}
-        </section>
-      )
-    ) : null;
-  const nextLocked = Boolean(nextLesson && !nextOpen);
-  const afterToday = nextLesson ? (
-    <Link href={nextOpen ? lessonHref(program.slug, nextLesson.key, nextLesson.id) : programHref} className="kd-after lq-press" aria-disabled={nextLocked || undefined}>
-      <span className="kd-after-h">
-        <span>After today</span>
-        {nextLocked ? <Icon name="lock" size="xs" /> : <Icon name="arrowRight" size="xs" />}
-      </span>
-      <b>
-        {lessonLabel(nextLesson, word)}
-        {nextLesson.dayNumber != null && nextLesson.dayType ? ` · ${nextLesson.dayType}` : ""}
-      </b>
-      <span className="lq-t13 lq-c3">{nextLocked ? "Unlocks when you finish today" : dayDone ? "Ready when you are" : "Open any time"}</span>
-    </Link>
-  ) : null;
-  const hardRow = table?.rows.find((r) => /row|press|swing|clean|snatch|get.?up|deadlift|squat/i.test(String(r.exercise ?? "")));
-  const helpCard =
-    hardRow && step.special === "workout" ? (
-      <Link href="/explore/mastering-the-kettlebell" className="kd-help lq-press">
-        <span className="kd-help-ph">
-          <Image src="/media/summit/mike-deadlift.jpg" alt="" fill sizes="64px" style={{ objectPosition: "50% 30%" }} />
-        </span>
-        <span className="kd-help-t">
-          <b>Struggling with the {String(hardRow.exercise).replace(/\(.*?\)/g, "").trim().split(" ").slice(-2).join(" ").toLowerCase()}?</b>
-          <span>Mike breaks it down frame by frame in Mastering the Kettlebell.</span>
-          <span className="kd-help-cta">
-            Watch a preview <Icon name="arrowRight" size="xs" />
-          </span>
-        </span>
-      </Link>
-    ) : null;
+  const week = lesson.dayNumber != null && !lesson.pageType ? Math.ceil(lesson.dayNumber / 7) : null;
+  const eyebrow = week ? `Week ${week} · ${dayLabel}` : context;
+  const showTable = workoutDay && Boolean(form || table);
+  const tableReady = Boolean(table && (!form || (readiness && readiness.outcome === "workout")));
+  const workoutStep = step.special === "workout";
+  const prevOpen = Boolean(prevLesson);
+  const nextHref = nextLesson ? lessonHref(program.slug, nextLesson.key, nextLesson.id) : null;
 
   const endCtx = useMemo(() => {
     const days = outline.filter((l) => l.dayNumber != null && !l.pageType);
@@ -422,7 +443,6 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const stage = current ? (
     <VideoStage
       key={`${step.id}:${clipId ?? "lead"}`}
-      flush
       video={current}
       poster={summitPoster(current.thumbnailUrl ?? step.poster ?? null, step)}
       title={current.title ?? step.title}
@@ -443,303 +463,279 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
       }}
       onEnded={() => {
         const nc = playlist.nextClip;
-        if (nc) setPending({ kind: "clip", title: nc.title, go: () => setClipId(nc.providerId) });
+        if (nc && autoplay) setPending({ kind: "clip", title: nc.title, go: () => setClipId(nc.providerId) });
       }}
       overlay={stageOverlay}
     />
-  ) : null;
+  ) : (
+    <div className="kd-stage kc-still">
+      {step.special === "completion" ? (
+        <div className="kc-still-in">
+          <Completion key={isDone ? "d" : "t"} variant="step" size={72} animated={isDone} />
+          <p className="kc-still-t">{step.body || "You've crushed another day"}</p>
+          <p className="kc-still-s">{isDone ? "Day complete. Nicely done." : "Mark this step finished to complete today."}</p>
+        </div>
+      ) : (
+        <>
+          <Image src={summitPoster(step.poster, step) ?? "/media/summit/working-in.jpg"} alt="" fill sizes="(min-width: 1024px) 860px, 100vw" className="kc-still-img" />
+          <div className="kc-still-in kc-still-photo">
+            <p className="kc-still-e">{step.special === "readiness" ? "Readiness check" : `Step ${active + 1}`}</p>
+            <p className="kc-still-t">{step.title}</p>
+            <p className="kc-still-s">{step.special === "readiness" ? (readiness ? `Score ${readiness.score} · ${readiness.name}` : "Five quick questions pick today's table.") : step.description || "Follow the notes below."}</p>
+          </div>
+        </>
+      )}
+    </div>
+  );
 
   const capture = (e: React.PointerEvent) => {
     press.current = { x: e.clientX, y: e.clientY };
   };
 
-  const primary = (block?: boolean, label = "Mark complete") =>
-    step.special === "readiness" && !isDone ? (
-      // The questions are inline below: one way in, the button just scrolls there (D18).
-      <Button block={block} size={block ? "lg" : "md"} variant="secondary" icon="down" onClick={toReadiness}>
-        Answer below
-      </Button>
-    ) : isDone && nextIsReadiness ? (
-      <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={() => go(active + 1, { auto: false })}>
-        Start assessment
-      </Button>
-    ) : isDone ? (
-      <Button key={`${step.id}-done-${rev}`} block={block} size={block ? "lg" : "md"} variant="fill" state="success" onClick={() => void uncomplete(active)} aria-label="Completed. Press to mark not done">
-        Completed
-      </Button>
-    ) : (
+  /** The one primary action for where the member is in the day. */
+  const primary = (block?: boolean) => {
+    const size = block ? "lg" : "md";
+    if (preview)
+      return (
+        <Button block={block} size={size} href={programHref} iconAfter="chevron">
+          Get full access
+        </Button>
+      );
+    if (dayDone && active >= steps.length - 1)
+      return nextHref ? (
+        <Button block={block} size={size} href={nextHref} iconAfter="chevron">
+          Start {lessonLabel(nextLesson!, word)}
+        </Button>
+      ) : (
+        <Button block={block} size={size} href={programHref} iconAfter="chevron">
+          Back to the program
+        </Button>
+      );
+    if (step.special === "readiness" && !isDone)
+      return (
+        <Button block={block} size={size} icon="steps" onClick={toReadiness}>
+          Start readiness check
+        </Button>
+      );
+    if (workoutStep && !isDone && tableReady && table)
+      return (
+        <Button block={block} size={size} icon="timer" onClick={() => setWorkoutOn(true)}>
+          Start workout
+        </Button>
+      );
+    if (isDone) {
+      const n = steps[active + 1];
+      return n ? (
+        <Button block={block} size={size} variant="filled" iconAfter="chevron" disabled={!openNow(active + 1)} onClick={() => go(active + 1)}>
+          {n.special === "readiness" ? "Start readiness check" : `Next: ${n.title}`}
+        </Button>
+      ) : (
+        <Button block={block} size={size} variant="fill" state="success" onClick={() => void uncomplete(active)} aria-label="Completed. Press to mark not done">
+          Completed
+        </Button>
+      );
+    }
+    return (
       <span className="kd-cta-wrap" onPointerDown={capture}>
-        <CompleteButton key={`${step.id}-${rev}`} block={block} size={block ? "lg" : "md"} doneLabel="Completed" onComplete={() => complete(active, "button", press.current)}>
-          {label}
+        <CompleteButton key={`${step.id}-${rev}`} block={block} size={size} doneLabel="Done" onComplete={() => complete(active, "button", press.current)}>
+          {steps[active + 1] ? "Done · continue" : "Finish the day"}
         </CompleteButton>
       </span>
     );
+  };
 
-  const list = (
-    <LessonList
-      steps={steps}
-      active={active}
-      completed={completed}
-      open={openNow}
-      readinessLabel={readiness ? `Score ${readiness.score} · ${readiness.name}` : null}
-      onSelect={(i) => go(i)}
-      onToggle={(i, at) => toggle(i, at)}
-    />
-  );
-  const footer = (
-    <DayFooter
-      word={word}
-      slug={program.slug}
-      dayDone={dayDone}
-      levelDone={endKind === "level"}
-      programHref={programHref}
-      prev={prevLesson}
-      next={nextLesson}
-      nextOpen={nextOpen}
-    />
-  );
+  const moreItems: MoreItem[] = preview ? [{ label: "Program overview", icon: "grid" as const, href: programHref }] : [
+    ...(workoutDay ? [{ label: "Session plan", icon: "clipboard" as const, onSelect: () => setPlanOpen(true) }] : []),
+    ...(workoutStep && !isDone && tableReady ? [{ label: `Mark ${step.title} done`, icon: "check" as const, onSelect: () => void complete(active, "button") }] : []),
+    ...(isDone && step.special !== "readiness" ? [{ label: "Mark this step not done", icon: "repeat" as const, onSelect: () => void uncomplete(active) }] : []),
+    ...(table && tableReady ? [{ label: "Download table (CSV)", icon: "down" as const, onSelect: () => downloadWorkoutCsv(table) }] : []),
+    { label: "Program overview", icon: "grid" as const, href: programHref },
+  ];
+
+  const readinessBlock = showTable && form ? (
+    readiness && !retaking ? (
+      <div className="kc-ready">
+        <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={String(readiness.score)} aria={`Readiness ${bandWord}, fatigue score ${readiness.score}`} size={44} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
+        <div className="kc-ready-t">
+          <b>
+            Readiness {readiness.score} · {bandWord} — {readiness.outcome === "workout" ? (readiness.band === "green" ? "full table" : readiness.name) : "recovery"}
+          </b>
+          <span>{bandSummary(readiness)}</span>
+          <span className="kc-ready-s lq-num">Fatigue score {readiness.score} · lower is better</span>
+        </div>
+        <button type="button" className="kc-link" onClick={() => setRetaking(true)}>
+          Retake
+        </button>
+      </div>
+    ) : (
+      <div className="kc-assess" ref={readyRef}>
+        <div className="kc-assess-h">
+          <b>{retaking ? "Retake today's readiness check" : "Readiness check"}</b>
+          <span>Five honest questions about how you woke up today. Your answers pick today&apos;s table.</span>
+        </div>
+        <ReadinessAssessment
+          form={form}
+          saved={null}
+          initial={retaking ? readiness?.answers ?? {} : data.position?.draftAnswers ?? {}}
+          onDraft={(a) => {
+            window.clearTimeout(draftTimer.current);
+            draftTimer.current = window.setTimeout(() => void savePositionAction(lesson.id, { draftAnswers: a }), 600);
+          }}
+          onSubmit={async (a, preview) => {
+            const ok = await submitReadiness(a, preview);
+            if (ok) setRetaking(false);
+            return ok;
+          }}
+        />
+        {retaking && (
+          <button type="button" className="kc-link" onClick={() => setRetaking(false)}>
+            Keep today&apos;s result
+          </button>
+        )}
+      </div>
+    )
+  ) : null;
 
   return (
-    <div className="kd-day">
+    <div className="kd-day kc-day">
       <SessionAutoStart lessonId={lesson.id} />
       {layer}
       <Cheer message={message} />
 
-      {/* ---------------- top bar ---------------- */}
-      <header className="kd-top">
-        <div className="kd-top-l">
-          <Link href={programHref} className="kd-x lq-press" aria-label="Exit day">
-            <Icon name="close" size="sm" />
-            <span className="kd-x-l">Exit</span>
+      <div className="kc-scroll" ref={scrollRef}>
+        {/* ---------------- slim header ---------------- */}
+        <header className="kc-top">
+          <Link href={programHref} className="kc-icon lq-press" aria-label={`Back to ${program.name}`}>
+            <Icon name="back" size="sm" />
           </Link>
-          <span className="kd-top-p kd-ellipsis">{program.name}</span>
-        </div>
-        <div className="kd-top-t">
-          <p className="kd-eyebrow kd-ellipsis">{context}</p>
-          <h1 className="kd-ellipsis">{dayName}{lesson.dayType && /day$/i.test(lesson.dayType) && !/day$/i.test(dayName) && !lesson.pageType ? " Day" : ""}</h1>
-        </div>
-        <div className="kd-top-a">
-          <div className="kd-pills" role="tablist" aria-label="Steps in this day">
-            {steps.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                role="tab"
-                aria-selected={i === active}
-                aria-label={`Step ${i + 1}: ${s.title}`}
-                className="kd-pill"
-                data-state={i === active ? "now" : completed.has(s.id) ? "done" : undefined}
-                data-locked={!openNow(i) ? "" : undefined}
-                disabled={!openNow(i)}
-                onClick={() => go(i)}
-              />
-            ))}
+          <div className="kc-top-t">
+            <div className="kc-top-e">
+              <span className="lq-num">{eyebrow}</span>
+              {data.levels && data.levels.length > 1 && path?.key ? <KblLevelSwitch levels={data.levels} currentKey={path.key} /> : path?.shortName ? <span className="kc-top-lvl">{path.shortName}</span> : null}
+            </div>
+            <h1 className="kc-ellipsis">{dayName}</h1>
           </div>
-          <label className="kd-auto" data-on={autoplay ? "" : undefined}>
-            <span className="kd-sm">Autoplay</span>
-            <Toggle
-              checked={autoplay}
-              label="Autoplay next"
-              onChange={(v) => {
+          <div className="kc-top-a">
+            <span className="kc-count lq-num" aria-label={`${doneCount} of ${steps.length} steps done`}>
+              {doneCount}/{steps.length}
+            </span>
+            <DayNav
+              prev={prevOpen && prevLesson ? { href: lessonHref(program.slug, prevLesson.key, prevLesson.id), label: lessonLabel(prevLesson, word) } : null}
+              next={nextLesson ? { href: nextOpen ? nextHref! : null, label: lessonLabel(nextLesson, word) } : null}
+            />
+            <MoreMenu items={moreItems} />
+          </div>
+        </header>
+
+        <main className="kc-main">
+          {preview && (
+            <p className="kc-preview" role="note">
+              <b>Free preview</b>
+              <span>Watch this day as a taste of {program.name}. Progress is saved once you have access.</span>
+            </p>
+          )}
+          {/* ---------------- player + playlist ---------------- */}
+          <div className="kc-hero">
+            <div className="kc-player" ref={playerRef}>
+              {stage}
+            </div>
+            <Playlist
+              items={items}
+              nowKey={nowKey}
+              nowIndex={nowIndex}
+              completed={completed}
+              steps={steps}
+              open={openNow}
+              autoplay={autoplay}
+              onAutoplay={(v) => {
                 setAutoplay(v);
-                if (!v && pending?.kind === "step") setPending(null);
+                if (!v && pending) setPending(null);
                 void setAutoplayAction(v);
               }}
+              onPlay={(it) => play(it, { scroll: false })}
+              onStep={(d) => {
+                const it = items[nowIndex + d];
+                if (it) play(it, { scroll: false });
+              }}
             />
-          </label>
-          {workoutDay && (
-            <button type="button" className="kd-plan-btn lq-press" onClick={() => setPlanOpen(true)} aria-label="Session plan">
-              <Icon name="clipboard" size="sm" />
-              <span className="kd-sm">Session plan</span>
-            </button>
-          )}
-          <span className="kd-count lq-num kd-sm">
-            {doneCount}/{steps.length}
-          </span>
-          <MiniRing percent={percent} />
-        </div>
-      </header>
-
-      {/* ---------------- body ---------------- */}
-      <div className="kd-body">
-        <div className="kd-col" ref={stageCol}>
-          <div className="kd-colin">
-          {stage && (
-            <div className="kd-stage-wrap">
-              {stage}
-              {stageChips.length > 0 && (
-                <div className="kd-stage-chips" aria-hidden>
-                  {stageChips.map((c) => (
-                    <span key={c}>{c}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="kd-dashes" aria-hidden>
-            {steps.map((s, i) => (
-              <i key={s.id} data-state={i === active ? "now" : completed.has(s.id) ? "done" : undefined} />
-            ))}
           </div>
 
-          <section className="kd-meta">
-            <div className="kd-meta-t">
-              <p className="kd-eyebrow kd-eyebrow-now lq-num">
+          {/* ---------------- where you are + the one action ---------------- */}
+          <section className="kc-now" aria-live="polite">
+            <div className="kc-now-t">
+              <p className="kc-eyebrow lq-num">
                 Step {active + 1} of {steps.length}
                 {step.durationLabel ? ` · ${step.durationLabel}` : ""}
+                {clipId && current?.title ? ` · Demo: ${current.title}` : ""}
               </p>
-              <h2 key={step.id} className="kd-meta-title">
-                {step.title}
-              </h2>
-              {(step.description || lesson.focus) && <p className="kd-meta-d">{step.description || lesson.focus}</p>}
-              {phoneChips.length > 0 && (
-                <div className="kd-meta-chips">
-                  {phoneChips.map((c) => (
-                    <span key={c.t} data-tone={c.tone}>
-                      {c.tone === "ok" && <Icon name="check" size="xs" />}
-                      {c.t}
-                    </span>
-                  ))}
-                </div>
-              )}
+              <h2 key={step.id}>{step.title}</h2>
+              {(step.description || (active === 0 && lesson.focus)) && <p className="kc-now-d">{step.description || lesson.focus}</p>}
             </div>
-            <span className="kd-meta-ring" aria-hidden>
-              <MiniRing percent={percent} label={`${doneCount}/${steps.length}`} size={52} />
-            </span>
-            <div className="kd-meta-a">
-              <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
-                <Icon name="back" size="sm" />
-              </button>
-              {primary()}
-              <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
-                <Icon name="chevron" size="sm" />
-              </button>
-            </div>
+            <div className="kc-now-a">{primary()}</div>
           </section>
 
-          {(notes.has || notes.atts.length > 0 || readinessCard) && (
-            <div className="kd-duo" data-single={!readinessCard || !(notes.has || notes.atts.length) ? "" : undefined}>
-              {(notes.has || notes.atts.length > 0) && <MikeNotes body={notes.has ? notes.body : null} title={step.title} attachments={notes.atts} dayLabel={lesson.pageType ? null : dayLabel} />}
-              {readinessCard}
-            </div>
-          )}
-
-          {step.special === "readiness" && form && (
-            <section className="kd-sec kd-card kd-in" ref={readyRef} aria-labelledby="kd-ready-h">
-              <div className="kd-sec-in">
-                <p id="kd-ready-h" className="kd-eyebrow kd-eyebrow-now">
-                  Training Readiness Assessment
-                </p>
-                <p className="lq-t13 lq-c2 kd-sec-sub">Five honest questions about how you woke up today. Your answers set the workout table for this session.</p>
-                <ReadinessAssessment
-                  form={form}
-                  saved={readiness}
-                  initial={data.position?.draftAnswers ?? {}}
-                  onDraft={(a) => {
-                    window.clearTimeout(draftTimer.current);
-                    draftTimer.current = window.setTimeout(() => void savePositionAction(lesson.id, { draftAnswers: a }), 600);
-                  }}
-                  onSubmit={submitReadiness}
-                />
-              </div>
+          {/* ---------------- readiness → table ---------------- */}
+          {showTable && (
+            <section className="kc-card kc-train" ref={trainRef} aria-labelledby="kc-train-h">
+              <header className="kc-train-h">
+                <div>
+                  <p className="kc-eyebrow">Today&apos;s workout</p>
+                  <h2 id="kc-train-h">{table && tableReady ? (table.title && !/^chart|table/i.test(table.title) ? table.title : step.special === "workout" ? step.title : "Workout table") : form && !readiness ? "Check in first" : "Workout table"}</h2>
+                </div>
+                {table && tableReady && (
+                  <div className="kc-train-meta lq-num">
+                    <span>{circuitWord(circuits)}</span>
+                    <span>~{estimateMinutes(table)} min</span>
+                  </div>
+                )}
+              </header>
+              {readinessBlock}
+              {table && tableReady ? (
+                <>
+                  <CircuitTable table={table} csv={false} demoFor={demoFor} training />
+                  <p className="kc-legend">
+                    <span>
+                      <i data-dir="down" aria-hidden /> Rest, then the next move
+                    </span>
+                    <span>
+                      <i data-dir="up" aria-hidden /> Rest, then repeat the circuit
+                    </span>
+                    <span className="kc-legend-tip">
+                      <Icon name="play" size="xs" /> Tap an exercise to watch its demo
+                    </span>
+                  </p>
+                  {form && readiness && <OtherIntensities tables={bandTables} currentId={table.id} />}
+                </>
+              ) : readiness && readiness.outcome !== "workout" ? (
+                <div className="kc-quiet" role="status">
+                  <b>{readiness.name}</b>
+                  <span>{readiness.message || "Rest is training too. Today's plan is gentler: follow the recovery videos above."}</span>
+                </div>
+              ) : form && !readiness ? (
+                <div className="kc-quiet kc-quiet-lock">
+                  <Icon name="lock" size="xs" />
+                  <span>Your table appears here when you finish the check-in.</span>
+                </div>
+              ) : null}
             </section>
           )}
 
-          {clips.length > 0 && <ClipsSection key={step.id} clips={clips} playingId={clipId ?? playlist.playingClipId} clipActive={Boolean(clipId)} onPlay={(id) => setClipId(id)} />}
+          {/* ---------------- Mike's notes ---------------- */}
+          {(notes.has || notes.atts.length > 0) && <MikeNotes body={notes.has ? notes.body : null} title={step.title} attachments={notes.atts} />}
 
-          {step.special === "completion" && (
-            <section className="kd-sec kd-card kd-done kd-in">
-              <Completion key={isDone ? "d" : "t"} variant="step" size={88} animated={isDone} />
-              <p className="lq-t17">{step.body || "You've Crushed Another Day"}</p>
-              <p className="lq-t13 lq-c2">Mark this step finished to complete today.</p>
-            </section>
-          )}
-
-          {step.special === "workout" && (form || table) && (
-            <section className="kd-in kd-workout" aria-label="Today's workout table">
-              <WorkoutTablePanel
-                full
-                hasForm={Boolean(form)}
-                readiness={readiness}
-                table={table}
-                onGoToAssessment={toReadiness}
-                onFinished={isDone ? undefined : () => void complete(active, "button")}
-                finishLabel={`Mark ${step.title} complete`}
-              />
-            </section>
-          )}
-
-          {/* phone: the sequence under the content */}
-          <div className="kd-phone-list">
-            <div className="kd-rail-h">
-              <h2 className="lq-d-sm">Today&apos;s sequence</h2>
-              <span className="lq-t13 lq-c3 lq-num">
-                {doneCount} of {steps.length} done
-              </span>
-            </div>
-            <div className="kd-card kd-list-card">{list}</div>
-            {afterToday}
-            {helpCard}
-            {footer}
-          </div>
-          </div>
-        </div>
-
-        {/* desktop rail */}
-        <aside className="kd-rail" aria-label="Today's sequence">
-          <div className="kd-rail-h">
-            <p className="kd-eyebrow">Today&apos;s sequence</p>
-            <h2 className="lq-d-sm lq-num">
-              {doneCount} of {steps.length} steps done
-            </h2>
-            <p className="lq-t13 lq-c3">{lockedOrder ? "Complete each step to unlock the next." : "Every step is open. Go in any order."}</p>
-            <span className="kd-rail-bar" aria-hidden>
-              <i style={{ width: `${percent}%` }} />
-            </span>
-          </div>
-          <div className="kd-rail-list">
-            {list}
-            {afterToday}
-            {helpCard}
-            {footer}
-          </div>
-        </aside>
+          {/* ---------------- day footer ---------------- */}
+          <DayFooter word={word} slug={program.slug} dayDone={dayDone} levelDone={endKind === "level"} programHref={programHref} prev={prevLesson} next={nextLesson} nextOpen={nextOpen} />
+        </main>
       </div>
 
-      {/* phone: thumb-zone actions */}
-      <div className="kd-bar lq-glass" data-level="thick">
-        <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
-          <Icon name="back" size="sm" />
-        </button>
-        <div className="kd-bar-main">{primary(true, `Mark ${step.title} complete`)}</div>
-        {dayDone && nextLesson && active >= steps.length - 1 ? (
-          <Link href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} className="kd-bar-next lq-press">
-            {lessonLabel(nextLesson, word)}
-            <Icon name="chevron" size="xs" />
-          </Link>
-        ) : (
-          <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
-            <Icon name="chevron" size="sm" />
-          </button>
-        )}
-      </div>
+      {/* phone: the one action in the thumb zone */}
+      <div className="kc-bar">{primary(true)}</div>
+
+      {workoutOn && table && <WorkoutMode table={table} onClose={() => setWorkoutOn(false)} onFinished={isDone ? undefined : () => void complete(active, "button")} finishLabel={`Mark ${step.title} complete`} />}
 
       {workoutDay && (
         <Sheet open={planOpen} onClose={() => setPlanOpen(false)} title={`Session plan · ${dayLabel}`} description={`${[path?.shortName, section.title].filter(Boolean).join(" · ")} · The workout from your KBL program.`} detents={["large"]}>
           <div className="kd-plan">
-            {form && (
-              <ReadinessAssessment
-                form={form}
-                saved={readiness}
-                initial={data.position?.draftAnswers ?? {}}
-                onDraft={(a) => {
-                  window.clearTimeout(draftTimer.current);
-                  draftTimer.current = window.setTimeout(() => void savePositionAction(lesson.id, { draftAnswers: a }), 600);
-                }}
-                onSubmit={submitReadiness}
-              />
-            )}
             {form || table ? (
               <WorkoutTablePanel hasForm={Boolean(form)} readiness={readiness} table={table} />
             ) : (
@@ -764,7 +760,12 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           onAction={follow}
           levelNumber={levelNumber}
           certificateHref={endKind === "level" && certificateId ? `/you/certificates/${certificateId}` : null}
-          offer={endOffer}
+          offer={
+            <>
+              <FinishStats lessonId={lesson.id} startedAt={now} table={tableReady ? table : null} />
+              {endKind === "level" && levelOffer ? levelOffer : endOffer}
+            </>
+          }
           ctx={endCtx}
         />
       )}
@@ -774,9 +775,26 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
 
 /* ------------------------------------------------------------------ parts */
 
+type PlayItem = {
+  key: string;
+  stepIndex: number;
+  clipId: string | null;
+  title: string;
+  kind: "main" | "demo" | "readiness" | "finish";
+  thumb: string | null;
+  duration: string | null;
+};
+
+const norm = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/\(.*?\)/g, " ")
+    .replace(/\balt\.?\b/g, "alternating")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
 
 function MiniRing({ percent, label, aria, size = 34, tone }: { percent: number; label?: string; aria?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
-  const stroke = size > 40 ? 5 : 3.5;
+  const stroke = size > 40 ? 4 : 3;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.max(0, Math.min(100, percent));
@@ -791,79 +809,172 @@ function MiniRing({ percent, label, aria, size = 34, tone }: { percent: number; 
   );
 }
 
-function LessonList({
-  steps, active, completed, open, readinessLabel, onSelect, onToggle,
+/**
+ * Today's videos: a column beside the player on desktop, a strip under it on a phone. Every
+ * item loads into the one player; now-playing, done ticks, locks, prev/next and autoplay.
+ */
+function Playlist({
+  items, nowKey, nowIndex, completed, steps, open, autoplay, onAutoplay, onPlay, onStep,
 }: {
-  steps: PlayerStep[];
-  active: number;
+  items: PlayItem[];
+  nowKey: string;
+  nowIndex: number;
   completed: Set<string>;
+  steps: PlayerStep[];
   open: (i: number) => boolean;
-  readinessLabel: string | null;
-  onSelect: (i: number) => void;
-  onToggle: (i: number, at?: Point) => void;
+  autoplay: boolean;
+  onAutoplay: (v: boolean) => void;
+  onPlay: (it: PlayItem) => void;
+  onStep: (d: -1 | 1) => void;
 }) {
+  const list = useRef<HTMLOListElement>(null);
+  // Keep the playing item in view inside the list (never scrolls the page).
+  useEffect(() => {
+    const el = list.current;
+    const row = el?.querySelector<HTMLElement>("[data-now]");
+    if (!el || !row) return;
+    const horizontal = el.scrollWidth > el.clientWidth + 4 && getComputedStyle(el).overflowX !== "visible";
+    const r = row.getBoundingClientRect();
+    const box = el.getBoundingClientRect();
+    if (horizontal) {
+      if (r.left < box.left || r.right > box.right) el.scrollTo({ left: el.scrollLeft + r.left - box.left - 16, behavior: "smooth" });
+    } else if (r.top < box.top || r.bottom > box.bottom) el.scrollTo({ top: el.scrollTop + r.top - box.top - 8, behavior: "smooth" });
+  }, [nowKey]);
+  const videos = items.filter((it) => it.kind === "main" || it.kind === "demo").length;
   return (
-    <ol className="kd-list">
-      {steps.map((s, i) => {
-        const done = completed.has(s.id);
-        const unlocked = open(i);
-        const now = i === active;
-        const clips = stagePlaylist(s, null).queue.length;
-        return (
-          <li key={s.id} data-now={now ? "" : undefined} data-done={done ? "" : undefined} data-locked={!unlocked ? "" : undefined}>
-            <button type="button" className="kd-li" disabled={!unlocked} aria-current={now ? "step" : undefined} onClick={() => onSelect(i)}>
-              <span className="kd-li-n" aria-hidden>
-                {done ? (
-                  <svg viewBox="0 0 24 24" className="lq-icon lq-check" data-size="xs" data-draw="">
-                    <path d="M5.5 12.5 10 17l8.5-9.5" />
-                  </svg>
-                ) : unlocked ? (
-                  <span className="lq-num">{i + 1}</span>
-                ) : (
-                  <Icon name="lock" size="xs" />
-                )}
-              </span>
-              <span className="kd-li-t">
-                <span className="lq-t15 kd-ellipsis">{s.title}</span>
-                <span className="lq-t12 lq-c2 kd-li-m lq-num">
-                  {s.special === "readiness" && readinessLabel ? (
-                    readinessLabel
-                  ) : (
-                    <>
-                      {s.durationLabel && (
-                        <>
-                          <Icon name="clock" size="xs" /> {s.durationLabel}
-                        </>
-                      )}
-                      {now && !done ? <span>{`${s.durationLabel ? " · " : ""}in progress`}</span> : clips > 0 && <span>{`${s.durationLabel ? " · " : ""}${clips} clip${clips === 1 ? "" : "s"}`}</span>}
-                    </>
-                  )}
-                </span>
-              </span>
-              <span className="lq-sr">{done ? "Done" : !unlocked ? "Locked" : now ? "Current step" : ""}</span>
+    <aside className="kc-pl" aria-label="Today's videos">
+      <div className="kc-pl-in">
+        <div className="kc-pl-h">
+          <div>
+            <b>Today&apos;s videos</b>
+            <span className="lq-num">
+              {nowIndex + 1} of {items.length} · {videos} videos
+            </span>
+          </div>
+          <div className="kc-pl-a">
+            <label className="kc-auto">
+              <span>Autoplay</span>
+              <Toggle checked={autoplay} label="Autoplay next video" onChange={onAutoplay} />
+            </label>
+            <button type="button" className="kc-icon kc-icon-sm lq-press" aria-label="Previous video" disabled={nowIndex <= 0} onClick={() => onStep(-1)}>
+              <Icon name="back" size="xs" />
             </button>
-            <button
-              type="button"
-              className="kd-li-check lq-press"
-              data-on={done ? "" : undefined}
-              disabled={!unlocked}
-              aria-label={done ? `Mark ${s.title} not done` : `Mark ${s.title} complete`}
-              onClick={(e) => onToggle(i, { x: e.clientX, y: e.clientY })}
-            >
-              {done ? (
-                <span className="kd-li-done">Done</span>
-              ) : now ? (
-                <span className="kd-li-dot" aria-hidden />
-              ) : (
-                <svg viewBox="0 0 24 24" className="lq-icon lq-check" data-size="xs" aria-hidden>
-                  <path d="M5.5 12.5 10 17l8.5-9.5" />
-                </svg>
-              )}
+            <button type="button" className="kc-icon kc-icon-sm lq-press" aria-label="Next video" disabled={nowIndex >= items.length - 1} onClick={() => onStep(1)}>
+              <Icon name="chevron" size="xs" />
             </button>
-          </li>
-        );
-      })}
-    </ol>
+          </div>
+        </div>
+        <ol className="kc-pl-list" ref={list}>
+          {items.map((it) => {
+            const s = steps[it.stepIndex]!;
+            const done = completed.has(s.id);
+            const locked = !open(it.stepIndex);
+            const now = it.key === nowKey;
+            return (
+              <li key={it.key} data-now={now ? "" : undefined} data-kind={it.kind}>
+                <button type="button" className="kc-pl-item" aria-current={now ? "true" : undefined} data-locked={locked ? "" : undefined} onClick={() => onPlay(it)}>
+                  <span className="kc-pl-th">
+                    {it.thumb ? <Image src={it.thumb} alt="" fill sizes="160px" /> : <Icon name={it.kind === "readiness" ? "steps" : it.kind === "finish" ? "flag" : "play"} size="sm" />}
+                    {now && <span className="kc-pl-eq" aria-hidden><i /><i /><i /></span>}
+                    {it.duration && !now && <span className="kc-pl-dur lq-num">{it.duration}</span>}
+                  </span>
+                  <span className="kc-pl-t">
+                    <span className="kc-pl-k">
+                      {it.kind === "demo" ? "Demo" : `Step ${it.stepIndex + 1}`}
+                      {now ? " · Playing" : ""}
+                    </span>
+                    <span className="kc-pl-n">{it.title}</span>
+                  </span>
+                  <span className="kc-pl-s" aria-hidden>
+                    {locked ? <Icon name="lock" size="xs" /> : done && it.kind !== "demo" ? <Icon name="check" size="xs" /> : null}
+                  </span>
+                  <span className="lq-sr">{locked ? "Locked" : done ? "Done" : ""}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </aside>
+  );
+}
+
+function DayNav({ prev, next }: { prev: { href: string; label: string } | null; next: { href: string | null; label: string } | null }) {
+  return (
+    <div className="kc-daynav">
+      {prev ? (
+        <Link href={prev.href} className="kc-icon lq-press" aria-label={`Previous: ${prev.label}`} title={prev.label}>
+          <Icon name="back" size="xs" />
+        </Link>
+      ) : (
+        <span className="kc-icon" aria-hidden data-off="" />
+      )}
+      {next?.href ? (
+        <Link href={next.href} className="kc-icon lq-press" aria-label={`Next: ${next.label}`} title={next.label}>
+          <Icon name="chevron" size="xs" />
+        </Link>
+      ) : (
+        <span className="kc-icon" data-off="" title={next ? `${next.label} unlocks when you finish today` : undefined} aria-label={next ? `${next.label} is locked` : undefined}>
+          {next ? <Icon name="lock" size="xs" /> : <Icon name="chevron" size="xs" />}
+        </span>
+      )}
+    </div>
+  );
+}
+
+type MoreItem = { label: string; icon: "clipboard" | "check" | "repeat" | "down" | "grid"; onSelect?: () => void; href?: string };
+
+/** Secondary actions behind ⋯. */
+function MoreMenu({ items }: { items: MoreItem[] }) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  return (
+    <div className="kc-more" ref={root}>
+      <button type="button" className="kc-icon lq-press" aria-label="More actions" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        <Icon name="more" size="sm" />
+      </button>
+      {open && (
+        <div className="kc-menu" role="menu">
+          {items.map((it) =>
+            it.href ? (
+              <Link key={it.label} href={it.href} role="menuitem" className="kc-menu-i" onClick={() => setOpen(false)}>
+                <Icon name={it.icon} size="xs" />
+                {it.label}
+              </Link>
+            ) : (
+              <button
+                key={it.label}
+                type="button"
+                role="menuitem"
+                className="kc-menu-i"
+                onClick={() => {
+                  setOpen(false);
+                  it.onSelect?.();
+                }}
+              >
+                <Icon name={it.icon} size="xs" />
+                {it.label}
+              </button>
+            ),
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -880,101 +991,66 @@ function DayFooter({
   nextOpen: boolean;
 }) {
   return (
-    <div className="kd-foot">
-      {dayDone ? (
-        <div className="kd-foot-done kd-in">
-          <p className="lq-t15 kd-foot-h">
-            <Icon name="check" size="sm" />
-            {levelDone ? "Level complete" : "Day complete"}
-          </p>
-          {levelDone && (
-            <Button size="md" block href={programHref} iconAfter="chevron">
-              Certificate and next steps
-            </Button>
-          )}
-          {next ? (
-            <Button size="md" block variant={levelDone ? "fill" : "filled"} href={lessonHref(slug, next.key, next.id)} iconAfter="chevron">
-              Start {lessonLabel(next, word)}
-            </Button>
-          ) : (
-            <p className="lq-t13 lq-c2">That&apos;s the end of the program. Outstanding.</p>
-          )}
-        </div>
-      ) : next && nextOpen ? (
-        <Link href={lessonHref(slug, next.key, next.id)} className="kd-foot-next">
-          <span className="kd-eyebrow">Next</span>
-          <span className="lq-t13">
-            {lessonLabel(next, word)}
-            <Icon name="chevron" size="xs" />
-          </span>
+    <nav className="kc-foot" aria-label="Days">
+      {prev ? (
+        <Link href={lessonHref(slug, prev.key, prev.id)} className="kc-foot-c lq-press">
+          <span className="kc-eyebrow">Previous</span>
+          <b>{lessonLabel(prev, word)}{prev.dayNumber != null && prev.dayType ? ` · ${prev.dayType.replace(/\s+day$/i, "")}` : ""}</b>
         </Link>
       ) : (
-        <>
-          <p className="kd-eyebrow">Next {word.toLowerCase()} locked</p>
-          <p className="lq-t13 lq-c2 kd-foot-lock">
-            <Icon name="lock" size="xs" />
-            Finish every step to unlock {next ? lessonLabel(next, word) : "the finish line"}.
-          </p>
-        </>
+        <span />
       )}
-      {prev && (
-        <Link href={lessonHref(slug, prev.key, prev.id)} className="kd-foot-prev">
-          <Icon name="back" size="xs" />
-          Back to {lessonLabel(prev, word)}
+      {levelDone ? (
+        <Link href={programHref} className="kc-foot-c kc-foot-n lq-press">
+          <span className="kc-eyebrow">Level complete</span>
+          <b>Certificate and next steps</b>
         </Link>
-      )}
-    </div>
-  );
-}
-
-/** Mike's written notes for the step (and its attachments), as the mockup's notes card. */
-function MikeNotes({ body, title, attachments, dayLabel }: { body: string | null; title: string; attachments: PlayerStep["attachments"]; dayLabel: string | null }) {
-  return (
-    <section className="kd-card kd-notes-card kd-in" aria-label="Mike's notes">
-      <span className="kd-notes-av" aria-hidden>
-        <Image src={MIKE_FACE} alt="" width={52} height={52} />
-      </span>
-      <div className="kd-notes-b">
-        <p className="kd-notes-h">
-          <b>Mike&apos;s notes</b>
-          {dayLabel && <span>{dayLabel}</span>}
-        </p>
-        <NotesBody body={body} title={title} />
-        {attachments.length > 0 && (
-          <div className="kd-atts">
-            {attachments.map((a) => (
-              <a key={a.url} href={a.url} target="_blank" rel="noreferrer" className="kd-att lq-press">
-                <Icon name="down" size="xs" />
-                {a.title}
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-/** "In this lesson": the step's clips (plays through automatically). */
-function ClipsSection({ clips, playingId, clipActive, onPlay }: { clips: PlayerStep["clips"]; playingId?: string | null; clipActive: boolean; onPlay: (id: string | null) => void }) {
-  return (
-    <section className="kd-clips-sec kd-in" aria-label="Clips in this lesson">
-      <div className="kd-clips-h">
-        <h3 className="lq-d-sm">
-          In this lesson <span className="kd-count-chip lq-num">{clips.length} clip{clips.length === 1 ? "" : "s"}</span>
-        </h3>
-        {clipActive ? (
-          <button type="button" className="kd-link" onClick={() => onPlay(null)}>
-            <Icon name="repeat" size="xs" />
-            Back to lesson
-          </button>
+      ) : next ? (
+        nextOpen ? (
+          <Link href={lessonHref(slug, next.key, next.id)} className="kc-foot-c kc-foot-n lq-press">
+            <span className="kc-eyebrow">{dayDone ? "Up next" : "Next"}</span>
+            <b>{lessonLabel(next, word)}{next.dayNumber != null && next.dayType ? ` · ${next.dayType.replace(/\s+day$/i, "")}` : ""}</b>
+          </Link>
         ) : (
-          <span className="lq-t13 lq-c3 kd-auto-note">
-            <Icon name="repeat" size="xs" /> Plays through automatically
-          </span>
-        )}
-      </div>
-      <ClipCards clips={clips} playingId={playingId} onPlay={(id) => onPlay(id)} />
+          <div className="kc-foot-c kc-foot-n" data-locked="">
+            <span className="kc-eyebrow">
+              <Icon name="lock" size="xs" /> Next
+            </span>
+            <b>{lessonLabel(next, word)}</b>
+            <span className="kc-foot-s">Unlocks when you finish today</span>
+          </div>
+        )
+      ) : (
+        <div className="kc-foot-c kc-foot-n">
+          <span className="kc-eyebrow">The end</span>
+          <b>That&apos;s the whole program. Outstanding.</b>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+/** Mike's written notes for the step (and its attachments). */
+function MikeNotes({ body, title, attachments }: { body: string | null; title: string; attachments: PlayerStep["attachments"] }) {
+  return (
+    <section className="kc-card kc-notes" aria-label="Mike's notes">
+      <p className="kc-notes-h">
+        <span className="kc-notes-av" aria-hidden>
+          <Image src={MIKE_FACE} alt="" width={28} height={28} />
+        </span>
+        <b>Mike&apos;s notes</b>
+      </p>
+      <NotesBody body={body} title={title} />
+      {attachments.length > 0 && (
+        <div className="kd-atts">
+          {attachments.map((a) => (
+            <a key={a.url} href={a.url} target="_blank" rel="noreferrer" className="kd-att lq-press">
+              <Icon name="down" size="xs" />
+              {a.title}
+            </a>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

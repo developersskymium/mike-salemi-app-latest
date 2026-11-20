@@ -490,7 +490,8 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
               ? [
                   { href: `/programs/${program.slug}/session/home${pathQ ? `?${pathQ}` : ""}`, icon: "compass" as const, t: "Self-Guided home", s: "Levels, every program, how it works" },
                   ...(kbl ? [{ href: `/programs/${program.slug}/session/average-day`, icon: "sun" as const, t: "An average day", s: "One full day, start to finish" }] : []),
-                  { href: `/programs/${program.slug}/session/plan`, icon: "sparkle" as const, t: "Create my plan", s: "Mix programs into a multi-week path" },
+                  { href: `/programs/${program.slug}/session/wizard${pathQ ? `?${pathQ}` : ""}`, icon: "sparkle" as const, t: "Build a plan", s: "Three questions, then your real week" },
+                  { href: `/plan?program=${program.slug}`, icon: "calendar" as const, t: "Schedule", s: "This program on your one schedule" },
                   { href: "/library", icon: "library" as const, t: "Video library", s: "Every movement, searchable" },
                 ]
               : [

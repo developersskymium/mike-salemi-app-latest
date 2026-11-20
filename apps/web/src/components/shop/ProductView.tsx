@@ -42,8 +42,8 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
     .slice(0, 3);
   const images: ShopImage[] = dedupe([...(p.image ? [{ src: p.image, alt: p.name, focal: p.gallery[0]?.focal ?? p.mike_photo?.focal } as ShopImage] : []), ...p.gallery]);
   const trust =
-    p.category === "equipment"
-      ? ["Secure Stripe checkout", "Ships within the US", "Handmade leather"]
+    p.type === "physical"
+      ? ["Secure Stripe checkout", `Free US shipping over ${money(d.shipping.free_cents, "usd")}`, ...(p.slug.includes("bag") ? ["Handmade leather"] : [])]
       : p.file_url
         ? ["Instant download", "Print or save to phone", "Yours for life"]
         : ["Personal reply from Mike's team", "No payment to apply", "Fit and timing first"];
@@ -138,7 +138,7 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
               <fieldset className="shp-sizes" id="shp-sizes" tabIndex={-1}>
                 <legend className="shp-legend">
                   <span className="lq-t13">Size</span>
-                  <span className="lq-t12 lq-c2">{v ? split(v.label).detail : p.variants.some((x) => x.weight_kg) ? "Pick the weight you'll train with" : "Pick your size"}</span>
+                  <span className="lq-t12 lq-c2">{v ? split(v.label).detail : p.bundle.length ? "Pick your set" : p.variants.some((x) => x.weight_kg) ? "Pick the weight you'll train with" : "Pick your size"}</span>
                 </legend>
                 <div className="shp-size-grid" role="radiogroup" aria-label="Size">
                   {p.variants.map((x) => {
@@ -172,7 +172,7 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
                 )}
                 {p.variants.some((x) => x.weight_kg) && (
                   <p className="lq-t12 lq-c2 shp-guide">
-                    <Icon name="info" size="xs" /> Not sure? <Link href="/shop#shp-sel-h" className="shp-inline">The Kettlebell Selector</Link> picks your weight in four questions.
+                    <Icon name="info" size="xs" /> <span>Not sure? <Link href="/shop#shp-sel-h" className="shp-inline">The Kettlebell Selector</Link> picks your weight in four questions.</span>
                   </p>
                 )}
               </fieldset>
@@ -188,8 +188,8 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
             <div className="shp-action">
               {primary}
             </div>
-            {p.note && <p className="lq-t13 lq-c2">{p.note}</p>}
-            {canBuy && p.type === "physical" && <p className="lq-t13 lq-c2">Free US shipping over {money(d.shipping.free_cents, "usd")}. Tracking shows in You as soon as it leaves.</p>}
+            {p.note && !(p.type === "physical" && /ships within the us/i.test(p.note)) && <p className="lq-t13 lq-c2">{p.note}</p>}
+            {canBuy && p.type === "physical" && <p className="lq-t13 lq-c2">Tracking shows in You as soon as it ships.</p>}
             <div className="shp-chips">
               {trust.map((t) => (
                 <span key={t} className="shp-chip lq-t12"><Icon name="check" size="xs" /> {t}</span>

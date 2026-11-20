@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { DayPlayer } from "@/components/training/DayPlayer";
+import { ChooseNextStep } from "@/components/access/ChooseNextStep";
 import { LockedDay } from "@/components/training/LockedDay";
 import { loadLessonPage } from "@/lib/loaders/training";
 import { loadCourseOutline } from "@/lib/loaders/course";
@@ -34,6 +35,7 @@ export default async function LearnPage({ params }: Props) {
       key={data.lesson.id}
       data={data}
       endOffer={<OfferSlot placement="day_complete" variant="compact" />}
+      levelOffer={<ChooseNextStep program={slug} />}
     />
   );
 }
