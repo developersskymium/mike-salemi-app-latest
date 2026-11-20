@@ -244,6 +244,63 @@ export interface LessonPageData {
   autoplayNext: boolean;
   firstName: string;
   certificateId: string | null;
+  /**
+   * The program's levels (KBL Level I / II) for the level switcher. Levels are a choice, not a
+   * ladder: each keeps its own progress, the intake recommends one. Absent for single-path programs.
+   */
+  levels?: LevelChoice[];
+}
+
+/** One selectable level: where it resumes, its own progress, and whether the intake recommends it. */
+export interface LevelChoice {
+  key: string;
+  label: string;
+  shortName: string;
+  /** Resume point (next unfinished day of that level) or the level's program page. */
+  href: string;
+  recommended: boolean;
+  done: number;
+  total: number;
+}
+
+/** Levels of a program with per-level progress and the intake recommendation (fallback: the first level). */
+async function loadLevels(
+  sb: DB,
+  userId: string,
+  program: { id: string; slug: string },
+  current: { pathId: string | null; progress: { lesson_id: string; ord: number; complete: boolean }[] },
+  enrollRows: { path_id: string | null; recommended_path_id: string | null }[],
+): Promise<LevelChoice[] | undefined> {
+  const { data: rows } = await sb.from("program_paths").select("id, key, kind, name, short_name, position").eq("program_id", program.id).eq("kind", "level").order("position");
+  const paths = rows ?? [];
+  if (paths.length < 2) return undefined;
+  let recommendedId = enrollRows.find((e) => e.recommended_path_id)?.recommended_path_id ?? null;
+  if (!recommendedId) {
+    const { data: form } = await sb.from("intake_forms").select("id").eq("key", "kbl-intake").maybeSingle();
+    if (form) {
+      const { data: resp } = await sb.from("intake_responses").select("result").eq("user_id", userId).eq("form_id", form.id).order("created_at", { ascending: false }).limit(1).maybeSingle();
+      const r = (resp?.result ?? {}) as Json;
+      recommendedId = str(r.path_id) ?? paths.find((p) => p.key && p.key === str(r.path_key))?.id ?? null;
+    }
+  }
+  if (!recommendedId || !paths.some((p) => p.id === recommendedId)) recommendedId = paths[0]!.id;
+  const progressOf = await Promise.all(
+    paths.map((p) => (p.id === current.pathId ? Promise.resolve(current.progress) : getCurriculumProgress(sb, program.id, p.id).catch(() => []))),
+  );
+  return paths.map((p, i) => {
+    const prog = [...(progressOf[i] ?? [])].sort((a, b) => a.ord - b.ord);
+    const resume = prog.find((r) => !r.complete) ?? null;
+    const programPage = `/programs/${program.slug}?path=${encodeURIComponent(p.key ?? p.id)}`;
+    return {
+      key: p.key ?? p.id,
+      label: p.name,
+      shortName: p.short_name ?? p.name,
+      href: resume && prog.some((r) => r.complete) ? `/programs/${program.slug}/learn/${resume.lesson_id}` : programPage,
+      recommended: p.id === recommendedId,
+      done: prog.filter((r) => r.complete).length,
+      total: prog.length,
+    };
+  });
 }
 
 async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: string): Promise<LessonPageData | null> {
@@ -285,6 +342,7 @@ async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: s
     }),
   );
 
+  const levels = await loadLevels(sb, userId, program, { pathId, progress }, enrollRows ?? []).catch(() => undefined);
   const prefs = (profile?.preferences ?? {}) as Json;
   const meta = (l.meta ?? {}) as Json;
   const e = (enrollRows ?? []).find((r) => r.path_id === pathId) ?? null;
@@ -332,6 +390,7 @@ async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: s
     autoplayNext: prefs.autoplayNext !== false,
     firstName: profile?.first_name || profile?.display_name?.split(/\s+/)[0] || "",
     certificateId: certs?.[0]?.id ?? null,
+    levels,
   };
 }
 
