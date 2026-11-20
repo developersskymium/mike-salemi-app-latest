@@ -155,3 +155,7 @@
   .lq-enter { animation: none; }
   .lq-tabbar, .lq-tabbar > a > span, .lq-tabbar > a > svg, .lq-route-progress { transition: none !important; }
 }
+
+/* ---------------------------------------------------------------- announcement bar (notices, placement "banner") */
+.lq-announce > p { margin: 0; padding: 10px 20px; text-align: center; background: var(--film); border-bottom: 1px solid var(--rule); }
+.lq-announce > p strong { font-weight: 600; }
