@@ -1,31 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { IntakeQuestion, IntakeResult } from "@ms/api";
-import { Button, Glass, Sheet, useToast } from "@/components/ui";
+import { Button, Sheet, useToast } from "@/components/ui";
 import { submitIntakeAction } from "@/lib/actions/intake";
 import { coverFor } from "@/lib/covers";
 import { resolveJourney } from "@/lib/journey";
 import type { IntakeAttempt, IntakePageData } from "@/lib/loaders/course";
 import { IntakeReview, KblResult } from "./IntakeReview";
+import { artFor, IntakeArt } from "./IntakeArt";
+import { ChoiceCards, NumberStepper, QuestionShell } from "./QuestionShell";
 import "./intake.css";
 import "../journey/accent.css";
 
 type Answers = Record<string, string | string[]>;
 type View = { kind: "flow"; fresh: boolean } | { kind: "done"; attempt: IntakeAttempt };
-
-const Check = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5.5 12.5 10 17l8.5-9.5" /></svg>
-);
-const BackIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
-);
-const InfoIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" aria-hidden><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5.5M12 7.6v.2" /></svg>
-);
 
 export function programHref(p: IntakePageData["program"]) {
   return p.type === "course" ? `/programs/${p.slug}/course` : `/programs/${p.slug}`;
@@ -79,6 +70,11 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
     return open.length ? open : all.slice(-1);
   }, [data.form.steps, editing, filled]);
   const skipped = data.form.steps.length - steps.length;
+  // One question per screen: every open step is split into its questions (prefilled ones show preselected).
+  const screens = useMemo(
+    () => steps.flatMap((st) => st.questions.map((q, i) => ({ step: st, q, first: i === 0, last: i === st.questions.length - 1 }))),
+    [steps],
+  );
   const draftKey = `intake-draft:${data.form.key ?? data.form.id}`;
   const [view, setView] = useState<View>(() =>
     start === "review" && data.latest ? { kind: "done", attempt: data.latest } : { kind: "flow", fresh: start === "fresh" || !data.latest },
@@ -106,7 +102,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       if (d && Object.keys(d.answers ?? {}).some((k) => !filled.has(k))) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time restore from browser storage after hydration
         setAnswers(d.answers);
-        setStep(Math.min(Math.max(0, d.step | 0), steps.length - 1));
+        setStep(Math.min(Math.max(0, d.step | 0), screens.length));
         setRestored(true);
       }
     } catch {}
@@ -122,9 +118,8 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
     title.current?.focus({ preventScroll: true });
   }, [step, view.kind]);
 
-  const cur = steps[step]!;
-  const last = step === steps.length - 1;
-  const missing = cur?.questions.some((q) => q.required && !answered(q, answers[q.id]));
+  const curQ = screens[Math.min(step, screens.length - 1)]?.q;
+  const missing = step < screens.length && !!curQ?.required && !answered(curQ, answers[curQ.id]);
 
   const choose = (q: IntakeQuestion, value: string) => {
     setError(null);
@@ -139,11 +134,11 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       return { ...a, [q.id]: value };
     });
     // Single-question single-choice screens advance by themselves (iOS-style).
-    if (q.type === "single" && cur.questions.length === 1 && !last) {
+    if (q.type === "single") {
       window.setTimeout(() => {
         setDir("fwd");
-        setStep((s) => Math.min(s + 1, steps.length - 1));
-      }, 260);
+        setStep((s) => Math.min(s + 1, screens.length));
+      }, 250);
     }
   };
 
@@ -171,10 +166,11 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       setError("Please answer this question to continue.");
       return;
     }
-    if (last) void save();
+    setError(null);
+    if (step >= screens.length) void save();
     else {
       setDir("fwd");
-      setStep((s) => s + 1);
+      setStep((s) => Math.min(s + 1, screens.length));
     }
   };
 
@@ -188,8 +184,6 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
     } catch {}
     toast("Starting a new attempt — earlier answers are kept");
   };
-
-  const counts = useMemo(() => steps.length, [steps]);
 
   if (view.kind === "done") {
     const props = {
@@ -221,114 +215,95 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
   }
 
   const backHref = programHref(data.program);
+  const total = screens.length + 1;
+  const atSummary = step >= screens.length;
+  const scr = screens[Math.min(step, screens.length - 1)]!;
+  const q = scr.q;
+  const v = answers[q.id];
+  const fromProfile = filled.has(q.id) && JSON.stringify(v) === JSON.stringify(prefill?.answers?.[q.id]);
+  const needsContinue = atSummary || q.type !== "single" || answered(q, v);
   const onBack = () => {
+    setError(null);
     if (step > 0) {
       setDir("back");
       setStep((s) => s - 1);
     } else if (data.latest) setView({ kind: "done", attempt: data.latest });
     else router.push(backHref);
   };
+  const closeTo = data.latest ? undefined : backHref;
+  const finishLabel = data.kind === "kbl" ? "See my plan" : data.kind === "mtk" ? "See my results" : "Save my intake";
 
-  return (
-    <div className="itk" data-shell-focus="" data-jy-theme={theme}>
-      <IntakePhoto data={data} steps={steps.map((x) => x.title)} at={step} />
-      <Glass as="header" level="thick" className="itk-head">
-        <div className="itk-col">
-          <div className="itk-head-row">
-            {step === 0 && !data.latest ? (
-              <Link href={backHref} className="itk-back" aria-label="Back to program"><BackIcon /></Link>
-            ) : (
-              <button type="button" className="itk-x itk-back" aria-label="Previous step" onClick={onBack}><BackIcon /></button>
-            )}
-            <p className="itk-head-t">{data.program.name}</p>
-            <span className="itk-head-n">{step + 1}/{counts}</span>
-          </div>
-          <div className="itk-rail" role="progressbar" aria-valuemin={1} aria-valuemax={counts} aria-valuenow={step + 1} aria-label={`Step ${step + 1} of ${counts}`}>
-            {steps.map((s, i) => <i key={s.id} data-s={i < step ? "done" : i === step ? "now" : undefined} />)}
-          </div>
-        </div>
-      </Glass>
-
-      <div className="itk-body">
-        <div className="itk-col itk-scene" key={cur.id} data-dir={dir === "back" ? "back" : undefined}>
-          <span className="itk-numeral" aria-hidden>{String(step + 1).padStart(2, "0")}</span>
-          <p className="itk-eyebrow">{data.kind === "program" ? "Program intake" : skipped > 0 ? data.form.title : cur.eyebrow ?? data.form.title}</p>
-          <h2 ref={title} tabIndex={-1} className="itk-title" aria-live="polite">{cur.title}</h2>
-          {cur.intro && <p className="itk-help">{cur.intro}</p>}
-          {step === 0 && !editing && skipped > 0 && prefill && prefill.summary.length > 0 && (
-            <section className="itk-profile" aria-label="From your profile">
-              <div className="itk-profile-h">
-                <p>From your profile</p>
-                <button type="button" className="itk-profile-edit" onClick={() => { setEditing(true); setStep(0); setDir("back"); }}>Edit</button>
-              </div>
-              <dl>
-                {prefill.summary.map((l) => (
-                  <div key={l.id}><dt>{l.label}</dt><dd>{l.value}</dd></div>
-                ))}
-              </dl>
-              <small>{skipped === 1 ? "One question" : `${skipped} questions`} already answered — saved back to your profile when you finish.</small>
+  if (atSummary) {
+    const lines = data.form.steps.flatMap((st) => st.questions).filter((x) => answered(x, answers[x.id])).slice(0, 6);
+    const show = (x: IntakeQuestion) => {
+      const a = answers[x.id];
+      const labelOf = (val: string) => x.options?.find((o) => o.value === val)?.label ?? val;
+      return Array.isArray(a) ? a.map(labelOf).join(", ") : labelOf(String(a ?? ""));
+    };
+    return (
+      <div className="itk" data-shell-focus="" data-jy-theme={theme}>
+        <QuestionShell
+          at={total - 1} total={total} onBack={onBack} sceneKey="summary" dir={dir} titleRef={title} context={data.program.name}
+          close={closeTo ? { label: "Close", href: closeTo, icon: true } : { label: "Close", icon: true, onClick: () => data.latest && setView({ kind: "done", attempt: data.latest }) }}
+          art={<IntakeArt topic="plan" />}
+          eyebrow={<span className="qs-tag">All set</span>}
+          title="Here’s your plan"
+          help={<p>{data.kind === "mtk" ? "Mike scores your answers and recommends where to start in Mastering the Kettlebell." : data.kind === "kbl" ? "Your answers place you in the right Kettlebell Lifestyle level, with a pace that fits your week." : `Mike tailors ${data.program.name} to what you told him: your priorities, cautions and the pace to start at.`}</p>}
+          footer={<Button block size="lg" onClick={() => void save()} disabled={saving} aria-busy={saving || undefined}>{finishLabel}</Button>}
+        >
+          {lines.length > 0 && (
+            <section className="qs-profile" aria-label="Your answers">
+              <dl>{lines.map((x) => <div key={x.id}><dt>{x.label}</dt><dd>{show(x)}</dd></div>)}</dl>
             </section>
           )}
-          {step === 0 && data.form.introduction && !cur.intro && <p className="itk-help">{data.form.introduction}</p>}
-
-          {cur.questions.map((q) => {
-            const solo = cur.questions.length === 1 && q.label === cur.title;
-            const v = answers[q.id];
-            return (
-              <div key={q.id} className="itk-q">
-                {!solo && <h3>{q.label}{q.required && <span aria-hidden>*</span>}</h3>}
-                {q.help && <p>{q.help}</p>}
-                {q.type === "text" ? (
-                  <>
-                    <textarea
-                      className="itk-text"
-                      value={typeof v === "string" ? v : ""}
-                      maxLength={1000}
-                      placeholder="Optional notes"
-                      aria-label={q.label}
-                      onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value.slice(0, 1000) }))}
-                    />
-                    <p className="itk-count">{(typeof v === "string" ? v.length : 0)}/1000</p>
-                  </>
-                ) : (
-                  <div className="itk-opts" role={q.type === "multi" ? "group" : "radiogroup"} aria-label={q.label} data-grid={q.type === "multi" && (q.options?.length ?? 0) > 6 ? "" : undefined}>
-                    {(q.options ?? []).map((o) => {
-                      const on = q.type === "multi" ? Array.isArray(v) && v.includes(o.value) : v === o.value;
-                      return (
-                        <button key={o.value} type="button" role={q.type === "multi" ? "checkbox" : "radio"} aria-checked={on} className="itk-opt" onClick={() => choose(q, o.value)}>
-                          <span>
-                            <b>{o.label}</b>
-                            {o.description && <small>{o.description}</small>}
-                            {o.bullets?.map((b) => <small key={b}>· {b}</small>)}
-                          </span>
-                          <span className="itk-mark" data-multi={q.type === "multi" ? "" : undefined} aria-hidden><Check /></span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          {cur.note && (
-            <div className="itk-note">
-              <p><InfoIcon />{cur.note.title}</p>
-              <ul>{cur.note.points.map((p) => <li key={p}>{p}</li>)}</ul>
-            </div>
+          {!editing && skipped > 0 && (
+            <p className="qs-sub">{skipped === 1 ? "One step" : `${skipped} steps`} filled from your profile. <button type="button" className="qs-link" onClick={() => { setEditing(true); setStep(0); setDir("back"); }}>Edit</button></p>
           )}
-          {error && <p className="itk-err" role="alert">{error}</p>}
-          {restored && step === 0 && <p className="itk-saved">We kept your answers from last time on this device.</p>}
-        </div>
+        </QuestionShell>
       </div>
+    );
+  }
 
-      <Glass as="footer" level="thick" className="itk-foot">
-        <div className="itk-col">
-          <Button block onClick={next} disabled={saving} iconAfter={last ? "check" : undefined} aria-busy={saving || undefined}>
-            {last ? (data.kind === "kbl" ? "See my plan" : data.kind === "mtk" ? "See my results" : "Save my intake") : "Continue"}
-          </Button>
-        </div>
-      </Glass>
+  const topic = artFor(`${q.label} ${scr.step.title}`, q.type);
+  const multiOpts = q.options ?? [];
+  return (
+    <div className="itk" data-shell-focus="" data-jy-theme={theme}>
+      <QuestionShell
+        at={step} total={total} onBack={onBack} backHref={step === 0 && !data.latest ? backHref : undefined} sceneKey={q.id} dir={dir} titleRef={title} context={data.program.name}
+        close={closeTo ? { label: "Close", href: closeTo, icon: true } : { label: "Close", icon: true, onClick: () => data.latest && setView({ kind: "done", attempt: data.latest }) }}
+        art={<IntakeArt topic={topic} move={/breath/i.test(q.label) ? "breathing" : /get.?up/i.test(q.label) ? "getup" : /press/i.test(q.label) ? "press" : undefined} />}
+        eyebrow={
+          step === 0 && !editing && skipped > 0 ? (
+            <span className="qs-tag">{skipped === 1 ? "1 step" : `${skipped} steps`} from your profile · <button type="button" className="qs-link" onClick={() => { setEditing(true); setStep(0); setDir("back"); }}>Edit</button></span>
+          ) : fromProfile ? <span className="qs-tag">From your profile</span> : scr.step.eyebrow && scr.step.eyebrow !== q.label && !/^step\s*\d/i.test(scr.step.eyebrow) ? scr.step.eyebrow : undefined
+        }
+        title={q.label}
+        help={(q.help || (scr.first && scr.step.intro) || (step === 0 && data.form.introduction)) ? <p>{q.help || (scr.first && scr.step.intro) || data.form.introduction}</p> : undefined}
+        footer={needsContinue ? <Button block size="lg" onClick={next} disabled={saving}>Continue</Button> : undefined}
+      >
+        {q.type === "text" ? (
+          <>
+            <textarea className="qs-text" value={typeof v === "string" ? v : ""} maxLength={1000} placeholder={q.required ? "Type your answer" : "Optional — skip if nothing comes to mind"} aria-label={q.label}
+              onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value.slice(0, 1000) }))} />
+            <p className="qs-count">{typeof v === "string" ? v.length : 0}/1000</p>
+          </>
+        ) : q.type === "number" ? (
+          <NumberStepper label={q.label} value={Number(v ?? 0) || 0} min={0} max={200} onChange={(n) => setAnswers((a) => ({ ...a, [q.id]: String(n) }))} />
+        ) : q.type === "date" ? (
+          <input type="date" className="qs-input" aria-label={q.label} value={typeof v === "string" ? v : ""} onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} />
+        ) : (
+          <ChoiceCards
+            label={q.label} multi={q.type === "multi"} value={v} profile={fromProfile}
+            options={multiOpts.map((o) => ({ value: o.value, label: o.label, hint: o.description, extra: o.bullets?.length ? <small>{o.bullets.join(" · ")}</small> : undefined }))}
+            onPick={(val) => choose(q, val)}
+          />
+        )}
+        {scr.last && scr.step.note && (
+          <div className="qs-note"><b>{scr.step.note.title}</b><ul>{scr.step.note.points.map((p) => <li key={p}>{p}</li>)}</ul></div>
+        )}
+        {error && <p className="qs-err" role="alert">{error}</p>}
+        {restored && step === 0 && <p className="qs-sub">We kept your answers from last time on this device.</p>}
+      </QuestionShell>
     </div>
   );
 }
