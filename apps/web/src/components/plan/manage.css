@@ -34,3 +34,6 @@
 .mng-paused-h span { color: var(--label-2); font-weight: 500; }
 .mng-card[data-paused] { border-top-color: var(--line-strong); }
 .mng-card[data-paused] .mng-card-t { color: var(--label-2); }
+.mng-all { display: inline-flex; align-items: center; gap: 4px; justify-self: start; color: var(--accent-ink); font: var(--t-13); font-weight: 600; text-decoration: none; }
+.mng-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+.mng-all:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }

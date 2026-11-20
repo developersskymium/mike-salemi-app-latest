@@ -4,7 +4,7 @@ import { PlanScreen } from "@/components/plan/PlanScreen";
 import { feedToken } from "@/lib/calendar-feed";
 import { MOCK, MOCK_USER } from "@/lib/mock";
 import { loadNotifications } from "@/lib/loaders/notifications";
-import { loadSchedule, loadTrainingProfile } from "@/lib/loaders/plan";
+import { loadSchedulable, loadSchedule, loadTrainingProfile } from "@/lib/loaders/plan";
 import { loadLessonCatalog, loadPlan } from "@/lib/loaders/today-plan-you";
 import { getUser } from "@/lib/supabase/server";
 
@@ -21,20 +21,23 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   const d = typeof sp.d === "string" && ISO.test(sp.d) ? sp.d : undefined;
   const plan = typeof sp.plan === "string" && UUID.test(sp.plan) ? sp.plan : undefined;
   const program = typeof sp.program === "string" && SLUG.test(sp.program) ? sp.program : null;
-  const [raw, catalog, schedule, n, h, userId, profile] = await Promise.all([
+  const [raw, catalog, schedule, n, h, userId, profile, schedulable] = await Promise.all([
     loadPlan(d), loadLessonCatalog(), loadSchedule(), loadNotifications(), headers(),
     MOCK ? Promise.resolve(MOCK_USER.id) : getUser().then((u) => u.user?.id ?? null),
     loadTrainingProfile().catch(() => null),
+    loadSchedulable().catch((e) => (console.error("[plan] schedulable", e instanceof Error ? e.message : e), [])),
   ]);
   const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
   const origin = `${h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https")}://${host}`;
   const feedUrl = userId ? `${origin}/cal/${feedToken(userId)}.ics` : `${origin}/plan/calendar.ics`;
   // Local preview only: ?preview=empty shows a member with nothing planned and no training profile yet.
-  const empty = MOCK && sp.preview === "empty";
+  // ?preview=live mirrors the reported live member: enrolled in KBL Level I (Immersion), no plans, Wed + Sun, 45 min.
+  const live = MOCK && sp.preview === "live";
+  const empty = (MOCK && sp.preview === "empty") || live;
   return (
     <PlanScreen
-      raw={empty ? { ...raw, plans: [], entries: [] } : raw} catalog={catalog} schedule={empty ? { items: [], rules: {}, days: {}, queues: [] } : schedule} n={n} anchor={d ?? raw.today} view={sp.view === "month" ? "month" : "week"}
-      build={sp.build === "1"} manage={sp.manage === "1"} tab={TAB.has(sp.tab as string) ? (sp.tab as "plans") : undefined} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={empty ? {} : profile}
+      raw={empty ? { ...raw, plans: [], entries: [] } : raw} catalog={catalog} schedule={empty ? { items: [], rules: {}, days: {}, queues: [] } : schedule} n={n} anchor={d ?? raw.today} view={sp.view === "month" ? "month" : sp.view === "program" ? "program" : "week"}
+      build={sp.build === "1"} manage={sp.manage === "1"} tab={TAB.has(sp.tab as string) ? (sp.tab as "plans") : undefined} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={live ? { days_per_week: 2, training_days: [3, 0], session_minutes: 45 } : empty ? {} : profile} schedulable={schedulable}
     />
   );
 }

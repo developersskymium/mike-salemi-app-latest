@@ -1,7 +1,9 @@
 import "server-only";
 import { myTrainingProfile, type DB, type TrainingProfile } from "@ms/api";
-import { mockable } from "@/lib/mock";
+import { MOCK, mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
+import { loadProgramPage } from "@/lib/loaders/training";
+import { loadIntakePage } from "@/lib/loaders/course";
 
 /** Every session of the member's active plans (all dates), for the overview, upcoming list and next session. */
 export interface ScheduleItem {
@@ -91,3 +93,71 @@ export const loadTrainingProfile = mockable("training-profile", async (): Promis
   if (!user) return {};
   return myTrainingProfile(sb as unknown as DB, user.id);
 });
+
+/* ------------------------------------------------------------------ whole programs you can schedule */
+
+/** One level of a day-by-day program (Kettlebell Lifestyle: Level I = "beginner", Level II = "intermediate"). */
+export interface SchedLevel {
+  pathId: string | null;
+  key: string | null;
+  name: string;
+  shortName: string;
+  tagline: string | null;
+  /** Training days in the level (overview pages don't use a day). */
+  total: number;
+  /** Training days not done yet: what `schedule_immersion` puts on the calendar. */
+  left: number;
+  /** The member's enrollment in this level, if any. */
+  mode: string | null;
+}
+
+/** A day-by-day program the member can open, with its levels: what "Schedule <program>" offers on /plan. */
+export interface Schedulable {
+  programId: string;
+  slug: string;
+  name: string;
+  levels: SchedLevel[];
+  /** The level the member is enrolled in (the one they're on), else null. */
+  currentKey: string | null;
+  /** The level the intake recommended, else null. */
+  recommendedKey: string | null;
+}
+
+/** Day-by-day programs (type `day_program`, today only Kettlebell Lifestyle) the member has access to, per level. */
+export async function loadSchedulable(): Promise<Schedulable[]> {
+  let slugs: string[];
+  if (MOCK) slugs = ["kettlebell-lifestyle"];
+  else {
+    const { supabase: sb, user } = await getUser();
+    if (!user) return [];
+    const { data } = await sb.from("programs").select("slug").eq("type", "day_program").order("slug");
+    slugs = (data ?? []).map((p) => p.slug);
+  }
+  const out = await Promise.all(
+    slugs.map(async (slug): Promise<Schedulable | null> => {
+      const first = await loadProgramPage(slug, null).catch(() => null);
+      if (!first || first.locked || first.program.access === "locked") return null;
+      const paths = first.paths.filter((p) => p.kind === "level");
+      const pages = paths.length
+        ? await Promise.all(paths.map((p) => (p.id === first.path?.id ? Promise.resolve(first) : loadProgramPage(slug, p.key ?? p.id).catch(() => null))))
+        : [first];
+      const levels: SchedLevel[] = pages.flatMap((pg, i) => {
+        if (!pg) return [];
+        const p = paths[i] ?? null;
+        const done = new Set(pg.progress.filter((r) => r.complete).map((r) => r.lessonId));
+        const days = pg.lessons.filter((l) => !l.pageType);
+        return [{
+          pathId: p?.id ?? null, key: p?.key ?? null, name: p?.name ?? pg.program.name, shortName: p?.shortName ?? p?.name ?? pg.program.name, tagline: p?.tagline ?? null,
+          total: days.length, left: days.filter((l) => !done.has(l.id)).length, mode: pg.enrollment?.mode ?? null,
+        }];
+      });
+      const intake = await loadIntakePage(slug).catch(() => null);
+      return {
+        programId: first.program.id, slug, name: first.program.name, levels,
+        currentKey: first.enrollment ? first.path?.key ?? null : null,
+        recommendedKey: (intake?.latest?.result as { path_key?: string } | null | undefined)?.path_key ?? null,
+      };
+    }),
+  );
+  return out.filter((x): x is Schedulable => !!x && x.levels.length > 0);
+}
