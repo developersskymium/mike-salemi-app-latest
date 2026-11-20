@@ -6,6 +6,7 @@ import type { LearningMode } from "@ms/core";
 import { z } from "zod";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
+import { lessonHrefOf, programHref } from "@/lib/hrefs";
 
 export type JoinResult = { ok: true; href: string; name: string } | { ok: false; error: string };
 
@@ -24,7 +25,7 @@ export async function joinProgramAction(programId: string, pathId: string | null
     if (!user) return { ok: false, error: "Please sign in again." };
     const { data: program } = await supabase
       .from("programs")
-      .select("slug, name, program_modes(mode, is_default)")
+      .select("slug, name, type, program_modes(mode, is_default)")
       .eq("id", programId)
       .maybeSingle();
     if (!program) return { ok: false, error: "That program isn't available." };
@@ -38,7 +39,7 @@ export async function joinProgramAction(programId: string, pathId: string | null
     return {
       ok: true,
       name: program.name,
-      href: first?.first_lesson_id ? `/programs/${program.slug}/learn/${first.first_lesson_id}` : `/programs/${program.slug}`,
+      href: first?.first_lesson_id ? lessonHrefOf(program.slug, first.first_lesson_id, { type: program.type, mode }) : programHref(program.slug, program.type),
     };
   } catch (e) {
     const m = e instanceof Error ? e.message : "";

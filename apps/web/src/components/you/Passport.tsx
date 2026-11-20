@@ -3,11 +3,12 @@ import { LevelEmblem, StreakFlame } from "@/components/graphics";
 import { Avatar, Glass, Icon, ProgressBar, Rings, Ticker } from "@/components/ui";
 import { WeekDots, type WeekDot } from "@/components/signature";
 import type { PassportData } from "@/lib/loaders/you";
-import { fmtMonth, levelShort, mrz, passportNo, splitDay } from "./format";
+import { fmtMonth, levelShort, passportNo, splitDay } from "./format";
 
 /**
  * Signature: the training passport. Legacy account header (identity + program ring, four mini stats,
- * XP bar) set as a passport data page: guilloche field, passport number, machine-readable line.
+ * XP bar) set as a passport data page: guilloche field and passport number. (The machine-readable
+ * line read as broken text to members and was dropped, D24.)
  */
 export function PassportHeader({ d }: { d: PassportData }) {
   const r = d.rewards;
@@ -17,7 +18,6 @@ export function PassportHeader({ d }: { d: PassportData }) {
   const toNext = r.next_level_at - r.points_total;
   const cur = active?.current_lesson_title ? splitDay(active.current_lesson_title) : null;
   const minutes = d.stats.minutes;
-  const [l1, l2] = mrz(d.profile.displayName, d.profile.id);
   const week = thisWeek(d.stats.today, new Set(d.stats.heatmap.map((h) => h.date)));
   const ready = d.stats.readiness.at(-1) ?? null;
   const BAND: Record<string, string> = { green: "ok", amber: "warm", red: "warm" };
@@ -122,10 +122,6 @@ export function PassportHeader({ d }: { d: PassportData }) {
         <Icon name="chevron" size="sm" className="lq-c3" />
       </Link>
 
-      <div className="yu-mrz lq-num" aria-hidden>
-        <span>{l1}</span>
-        <span>{l2}</span>
-      </div>
     </Glass>
   );
 }
