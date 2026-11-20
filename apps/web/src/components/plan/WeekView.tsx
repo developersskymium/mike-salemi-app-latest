@@ -5,11 +5,21 @@ import type { ScheduleItem } from "@/lib/loaders/plan";
 import { dayNum, dayShort, weekDates, weekRange } from "@/components/today/dates";
 import { lessonHref, splitDayTitle } from "@/components/today/model";
 import { programColor } from "./programColor";
+import { DayClashNote } from "./ScheduleParts";
 
 const cardTitle = (t: string) => {
   const { day, name } = splitDayTitle(t);
   return day ? `Day ${day} · ${name}` : name;
 };
+
+/** A booked coaching call or retreat session (from my_week), for the quiet "train after?" note. */
+export interface WeekEvent {
+  on_date: string;
+  kind: "coaching" | "run_session";
+  starts_at: string | null;
+}
+
+const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
  * "Your week" — seven days, Monday first. Columns on desktop, a list on phones. Each day shows its sessions as
@@ -17,7 +27,7 @@ const cardTitle = (t: string) => {
  * days are visually quiet.
  */
 export function WeekView({
-  items, today, start, preferred, minutes, hrefFor,
+  items, today, start, preferred, minutes, hrefFor, events = [], timezone = "UTC",
 }: {
   items: ScheduleItem[];
   today: IsoDate;
@@ -25,7 +35,28 @@ export function WeekView({
   preferred: number[];
   minutes?: number | null;
   hrefFor: (d: IsoDate) => string;
+  events?: WeekEvent[];
+  timezone?: string;
 }) {
+  const hhmm = (iso: string) => {
+    try {
+      return new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: timezone }).format(new Date(iso));
+    } catch {
+      return new Date(iso).toISOString().slice(11, 16);
+    }
+  };
+  const busy = (d: string) => events.some((e) => e.on_date === d) || items.some((i) => i.on_date === d && i.kind !== "rest" && !i.done && !i.skipped);
+  /** Training on a day with a booked call or retreat session (today on): the note text and the next free day. */
+  const clashOn = (d: IsoDate) => {
+    if (d < today) return null;
+    const ev = events.filter((e) => e.on_date === d).sort((a, b) => (a.starts_at ?? "").localeCompare(b.starts_at ?? ""))[0];
+    const open = items.filter((i) => i.on_date === d && i.kind === "training" && !i.done && !i.skipped && !i.locked);
+    if (!ev || !open.length) return null;
+    let to = addDays(d, 1);
+    for (let n = 0; n < 14 && busy(to); n++) to = addDays(to, 1);
+    const what = ev.kind === "coaching" ? "Coaching call" : "Retreat session";
+    return { text: `${what}${ev.starts_at ? ` at ${hhmm(ev.starts_at)}` : ""} · train after?`, ids: open.map((i) => i.id), to, toLabel: WD[weekday(to)]! };
+  };
   const days = weekDates(start);
   const thisWeek = start <= today && today <= addDays(start, 6);
   const label = thisWeek ? "This week" : start > today ? (addDays(start, -7) <= today ? "Next week" : weekRange(start)) : addDays(start, 7) > today ? "Last week" : weekRange(start);
@@ -45,6 +76,7 @@ export function WeekView({
           const pref = preferred.includes(weekday(d));
           const isToday = d === today;
           const past = d < today;
+          const clash = clashOn(d);
           return (
             <li key={d} className="wk-day" data-pref={pref ? "" : undefined} data-today={isToday ? "" : undefined} data-past={past ? "" : undefined}>
               <div className="wk-dh">
@@ -73,6 +105,7 @@ export function WeekView({
                 ) : (
                   <span className="wk-rest">{pref && !past ? "Free training day" : "Rest"}</span>
                 )}
+                {clash && <DayClashNote text={clash.text} itemIds={clash.ids} to={clash.to} toLabel={clash.toLabel} />}
               </div>
             </li>
           );

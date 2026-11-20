@@ -74,6 +74,11 @@
 .wk-card[data-locked] .wk-cm { color: var(--label-3); }
 .wk-queue[data-locked] { background: transparent; border: 1px dashed var(--line); border-left: 4px solid color-mix(in srgb, var(--pc, var(--accent)) 35%, transparent); }
 .wk-queue[data-locked] .wk-queue-s { color: var(--label-3); }
+.wk-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0; padding: 2px 0 0; font: var(--t-12); color: var(--label-2); }
+.wk-note-btn { appearance: none; border: 0; background: none; padding: 0; font: inherit; font-weight: 600; color: var(--accent); cursor: pointer; }
+.wk-note-btn:hover { text-decoration: underline; }
+.wk-note-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.wk-note-btn:disabled { opacity: .5; cursor: default; }
 .wk-unlock { color: var(--accent); font-weight: 600; }
 .wk-card[data-locked]:hover .wk-unlock { text-decoration: underline; }
 

@@ -144,7 +144,11 @@ export function PlanScreen({
         </Link>
       ))}
 
-      <WeekView items={items} today={today as IsoDate} start={weekStart as IsoDate} preferred={prefDays} minutes={minutes} hrefFor={(d) => qs(d === today ? {} : { d })} />
+      <WeekView
+        items={items} today={today as IsoDate} start={weekStart as IsoDate} preferred={prefDays} minutes={minutes} hrefFor={(d) => qs(d === today ? {} : { d })}
+        events={raw.entries.filter((e) => e.kind === "coaching" || e.kind === "run_session").map((e) => ({ on_date: e.on_date, kind: e.kind as "coaching" | "run_session", starts_at: e.starts_at }))}
+        timezone={n.timezone}
+      />
     </div>
   );
 }
