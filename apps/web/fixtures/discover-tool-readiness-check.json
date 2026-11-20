@@ -46,11 +46,11 @@
     "position": 2,
     "prompt": "How recovered does my body feel following the prior workout?",
     "note": {
-     "body": "Perform a quick body scan, examining both muscle and joint soreness/achiness. Are your muscles so sore that to the touch you could scream “ouch!”, or does it feel more mild and tolerable? If you are so sore and achy that you feel it will hamper today's training session, select “Not at all”."
+     "body": "Perform a quick body scan, examining both muscle and joint soreness/achiness. Are your muscles so sore that to the touch you could scream \u201couch!\u201d, or does it feel more mild and tolerable? If you are so sore and achy that you feel it will hamper today's training session, select \u201cNot at all\u201d."
     },
     "options": [
      {
-      "label": "I’m 100% good to go!",
+      "label": "I\u2019m 100% good to go!",
       "value": "full",
       "weight": 0
      },
@@ -74,7 +74,7 @@
      "title": "Water retention occurs when excess fluids build up inside the body. A few of the ways this may show up:",
      "points": [
       "Unexplained weight fluctuations in a short period of time",
-      "Your ring doesn’t fit anymore, or your stomach feels swollen",
+      "Your ring doesn\u2019t fit anymore, or your stomach feels swollen",
       "When pressed, your skin may hold an indent for a few seconds",
       "Swollen or stiff joints",
       "Constipation: do I feel complete after my bowel movement? Are my stools infrequent, hard, dry, or difficult to pass?"
@@ -98,7 +98,7 @@
     "position": 4,
     "prompt": "My overall stress level today is?",
     "note": {
-     "body": "Stress isn’t always a bad thing, however, when it occurs at a level that we cannot manage effectively, over time it can become a problem. Ask yourself honestly: “what areas of my life (both personally and professionally) are feeling most stressed right now, and to what degree are they affecting me?”"
+     "body": "Stress isn\u2019t always a bad thing, however, when it occurs at a level that we cannot manage effectively, over time it can become a problem. Ask yourself honestly: \u201cwhat areas of my life (both personally and professionally) are feeling most stressed right now, and to what degree are they affecting me?\u201d"
     },
     "options": [
      {
@@ -107,12 +107,12 @@
       "weight": 0
      },
      {
-      "label": "Moderate — I’m experiencing some stress, but managing well",
+      "label": "Moderate \u2014 I\u2019m experiencing some stress, but managing well",
       "value": "moderate",
       "weight": 5
      },
      {
-      "label": "High — I’m feeling overwhelmed",
+      "label": "High \u2014 I\u2019m feeling overwhelmed",
       "value": "high",
       "weight": 10
      }
@@ -123,7 +123,7 @@
     "position": 5,
     "prompt": "My willingness and motivation level for training today is?",
     "note": {
-     "body": "Do you feel excited to get after it today? Are you itching to move your body and get under those bells? If not, that’s ok, we all have those days — however, consider exploring why. Explore the question: “what things are draining my zest for life and motivation to train today?”"
+     "body": "Do you feel excited to get after it today? Are you itching to move your body and get under those bells? If not, that\u2019s ok, we all have those days \u2014 however, consider exploring why. Explore the question: \u201cwhat things are draining my zest for life and motivation to train today?\u201d"
     },
     "options": [
      {
@@ -197,5 +197,75 @@
    }
   ]
  },
- "last": null
+ "last": null,
+ "followAlong": [
+  {
+   "id": "f0c43490-f94c-4188-b82a-800503a99cb9",
+   "provider": "vimeo",
+   "provider_id": "401892550",
+   "privacy_hash": "8f34aec7c1",
+   "title": "Bodyweight Warm Up",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Bodyweight-Warm-Up.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "bodyweight-warm-ups",
+     "name": "Bodyweight Warm Ups"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  }
+ ]
 }

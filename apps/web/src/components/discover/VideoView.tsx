@@ -8,6 +8,7 @@ import { Button, Chip, Glass, Icon, IconButton, Sheet, useToast } from "@/compon
 import { MovementFigure } from "@/components/graphics";
 import { addVideoToCollection, toggleSaveVideo } from "@/lib/actions/discover";
 import { moveFor, phaseOf, topicsOf, VideoCard } from "./VideoCard";
+import { LibraryPlayer } from "./library/LibraryPlayer";
 
 type Props = {
   video: LibraryVideo;
@@ -27,10 +28,6 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
   const [name, setName] = useState("");
   const phase = phaseOf(v);
   const topics = topicsOf(v);
-  const src = `https://player.vimeo.com/video/${v.provider_id}?${new URLSearchParams({
-    ...(v.privacy_hash ? { h: v.privacy_hash } : {}),
-    autoplay: "1", title: "0", byline: "0", portrait: "0", dnt: "1",
-  })}`;
 
   async function save() {
     const next = !saved;
@@ -78,7 +75,7 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
       <div className="dsc-video-main">
         <div className="dsc-player" data-playing={playing ? "" : undefined}>
           {playing ? (
-            <iframe src={src} title={v.title} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+            <LibraryPlayer id={v.id} providerId={v.provider_id} hash={v.privacy_hash} title={v.title} />
           ) : (
             <button type="button" className="dsc-player-poster" onClick={() => setPlaying(true)} aria-label={`Play ${v.title}`}>
               {v.thumbnail_url ? (
@@ -96,10 +93,14 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
         <div className="dsc-video-info">
           <h1 className="lq-t28">{v.title}</h1>
           <div className="dsc-video-chips">
-            {phase && <Chip variant="fill">{phase}</Chip>}
+            {phase && (
+              <Link href={`/library?cat=${v.tags.filter((t) => t.namespace === "category").map((t) => t.slug).join(",")}`} className="dsc-chipbtn" aria-label={`Show ${phase} videos`}>
+                <Chip variant="fill">{phase}</Chip>
+              </Link>
+            )}
             {topics.slice(0, 3).map((t) => (
-              <Link key={t.slug} href={`/library?tags=${t.slug}`} className="dsc-chipbtn">
-                <Chip variant="outline">{t.name}</Chip>
+              <Link key={t.slug} href={`/library?tags=${t.slug}`} className="dsc-chipbtn" aria-label={`Show videos tagged ${t.name}`}>
+                <Chip variant="outline">#{t.name}</Chip>
               </Link>
             ))}
           </div>

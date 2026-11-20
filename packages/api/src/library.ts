@@ -151,3 +151,80 @@ export async function reorderCollection(sb: DB, collectionId: string, videoIds: 
     if (error) throw new Error(error.message);
   }
 }
+
+// ---------------------------------------------------------------- index (Library page)
+type UntypedRpc = { rpc: (f: string, a?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }> };
+const rpc = (sb: DB, fn: string, args?: Record<string, unknown>) => (sb as unknown as UntypedRpc).rpc(fn, args);
+
+/** Compact library row (keys kept short: the whole index ships to the page once). */
+export interface LibraryIndexVideo {
+  id: string;
+  /** title */
+  t: string;
+  /** Vimeo id and privacy hash */
+  p: string;
+  h: string | null;
+  /** thumbnail url */
+  th: string | null;
+  /** duration seconds */
+  d: number | null;
+  /** tag keys "namespace:slug" */
+  g: string[];
+  /** program ids */
+  pr: string[];
+  /** saved by the member */
+  s: boolean;
+  /** used in a training day ("In the program") */
+  ip: boolean;
+  /** program order rank (program, section, lesson, step) */
+  o: number;
+}
+
+export interface LibraryIndex {
+  videos: LibraryIndexVideo[];
+  tags: { key: string; ns: string; slug: string; name: string }[];
+  programs: { id: string; slug: string; name: string }[];
+  /** Lessons across every program the member can open: id, title, section, program id, path id. */
+  lessons: { id: string; t: string; sec: string; pr: string; path: string | null }[];
+}
+
+/** Everything the Library page needs in one call. See `library_index` in 0016_w1_home_library.sql. */
+export async function libraryIndex(sb: DB): Promise<LibraryIndex> {
+  const { data, error } = await rpc(sb, "library_index");
+  if (error) throw new Error(error.message);
+  const d = (data ?? {}) as Partial<LibraryIndex>;
+  return { videos: d.videos ?? [], tags: d.tags ?? [], programs: d.programs ?? [], lessons: d.lessons ?? [] };
+}
+
+export interface ContinueWatching {
+  video_id: string;
+  title: string;
+  provider_id: string;
+  privacy_hash: string | null;
+  thumbnail_url: string | null;
+  duration_seconds: number | null;
+  seconds: number;
+  updated_at: string;
+  /** Set when the position comes from a program lesson. */
+  lesson_id: string | null;
+  lesson_title: string | null;
+  program_slug: string | null;
+  program_name: string | null;
+}
+
+/** Videos started but not finished (library plays and program lessons), most recent first. */
+export async function continueWatching(sb: DB, limit = 12): Promise<ContinueWatching[]> {
+  const { data, error } = await rpc(sb, "library_continue", { p_limit: limit });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as ContinueWatching[];
+}
+
+/** Stores the member's playback position for a library video (own row; RLS checks access). */
+export async function saveVideoPosition(sb: DB, userId: string, videoId: string, seconds: number, duration: number | null) {
+  const table = (sb as unknown as { from: (t: string) => { upsert: (v: unknown, o: unknown) => PromiseLike<{ error: { message: string } | null }> } }).from("video_positions");
+  const { error } = await table.upsert(
+    { user_id: userId, video_id: videoId, seconds: Math.max(0, Math.floor(seconds)), duration: duration && duration > 0 ? Math.round(duration) : null, updated_at: new Date().toISOString() },
+    { onConflict: "user_id,video_id" },
+  );
+  if (error) throw new Error(error.message);
+}

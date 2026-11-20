@@ -32,7 +32,7 @@
      "id": "bodyweight",
      "eyebrow": "Question 2",
      "question": "Roughly where does your bodyweight sit?",
-     "help": "Used only to scale the load — nothing else.",
+     "help": "Used only to scale the load \u2014 nothing else.",
      "options": [
       {
        "label": "Below 160lbs",
@@ -126,9 +126,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 12 kg: your main working bell through the phases.",
-      "Bell 3 — 16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 8 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 12 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 16 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -139,12 +139,12 @@
       "fitness": "medium-high",
       "bodyweight": "below"
      },
-     "headline": "Start with 8–10 kg",
+     "headline": "Start with 8\u201310 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 9,
-       "label": "8–10"
+       "label": "8\u201310"
       },
       {
        "size": 12,
@@ -152,13 +152,13 @@
       },
       {
        "size": 18,
-       "label": "16–20"
+       "label": "16\u201320"
       }
      ],
      "notes": [
-      "Bell 1 — 8–10 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 12 kg: your main working bell through the phases.",
-      "Bell 3 — 16–20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 8\u201310 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 12 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 16\u201320 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -169,12 +169,12 @@
       "fitness": "low",
       "bodyweight": "below"
      },
-     "headline": "Start with 8–10 kg",
+     "headline": "Start with 8\u201310 kg",
      "summary": "Your first bell is a genuine working weight. The heavier bells come as the phases progress.",
      "bells": [
       {
        "size": 9,
-       "label": "8–10"
+       "label": "8\u201310"
       },
       {
        "size": 12,
@@ -182,13 +182,13 @@
       },
       {
        "size": 18,
-       "label": "16–20"
+       "label": "16\u201320"
       }
      ],
      "notes": [
-      "Bell 1 — 8–10 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 12 kg: your main working bell through the phases.",
-      "Bell 3 — 16–20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 8\u201310 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 12 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 16\u201320 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -216,9 +216,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 12 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 16 kg: your main working bell through the phases.",
-      "Bell 3 — 20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 12 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 16 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 20 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -229,12 +229,12 @@
       "fitness": "low",
       "bodyweight": "above"
      },
-     "headline": "Start with 10–12 kg",
+     "headline": "Start with 10\u201312 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 11,
-       "label": "10–12"
+       "label": "10\u201312"
       },
       {
        "size": 16,
@@ -246,9 +246,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 10–12 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 16 kg: your main working bell through the phases.",
-      "Bell 3 — 20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 10\u201312 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 16 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 20 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -259,12 +259,12 @@
       "fitness": "medium-high",
       "bodyweight": "above"
      },
-     "headline": "Start with 12–14 kg",
+     "headline": "Start with 12\u201314 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 13,
-       "label": "12–14"
+       "label": "12\u201314"
       },
       {
        "size": 16,
@@ -276,9 +276,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 12–14 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 16 kg: your main working bell through the phases.",
-      "Bell 3 — 20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 12\u201314 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 16 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 20 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -289,12 +289,12 @@
       "fitness": "low",
       "bodyweight": "above"
      },
-     "headline": "Start with 10–12 kg",
+     "headline": "Start with 10\u201312 kg",
      "summary": "Your first bell is a genuine working weight. The heavier bells come as the phases progress.",
      "bells": [
       {
        "size": 11,
-       "label": "10–12"
+       "label": "10\u201312"
       },
       {
        "size": 16,
@@ -302,13 +302,13 @@
       },
       {
        "size": 22,
-       "label": "20–24"
+       "label": "20\u201324"
       }
      ],
      "notes": [
-      "Bell 1 — 10–12 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 16 kg: your main working bell through the phases.",
-      "Bell 3 — 20–24 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 10\u201312 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 16 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 20\u201324 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -328,7 +328,7 @@
       },
       {
        "size": 18,
-       "label": "16–20"
+       "label": "16\u201320"
       },
       {
        "size": 24,
@@ -336,9 +336,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 12 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 16–20 kg: your main working bell through the phases.",
-      "Bell 3 — 24 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 12 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 16\u201320 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 24 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -349,12 +349,12 @@
       "fitness": "low",
       "bodyweight": "below"
      },
-     "headline": "Start with 4–6 kg",
+     "headline": "Start with 4\u20136 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 5,
-       "label": "4–6"
+       "label": "4\u20136"
       },
       {
        "size": 8,
@@ -366,9 +366,9 @@
       }
      ],
      "notes": [
-      "Bell 1 — 4–6 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 8 kg: your main working bell through the phases.",
-      "Bell 3 — 12 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 4\u20136 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 8 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -379,12 +379,12 @@
       "fitness": "medium-high",
       "bodyweight": "below"
      },
-     "headline": "Start with 4–6 kg",
+     "headline": "Start with 4\u20136 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 5,
-       "label": "4–6"
+       "label": "4\u20136"
       },
       {
        "size": 8,
@@ -392,13 +392,13 @@
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 4–6 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 8 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 4\u20136 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 8 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -409,12 +409,12 @@
       "fitness": "low",
       "bodyweight": "below"
      },
-     "headline": "Start with 4–8 kg",
+     "headline": "Start with 4\u20138 kg",
      "summary": "Your first bell is a genuine working weight. The heavier bells come as the phases progress.",
      "bells": [
       {
        "size": 6,
-       "label": "4–8"
+       "label": "4\u20138"
       },
       {
        "size": 10,
@@ -422,13 +422,13 @@
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 4–8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 10 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 4\u20138 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 10 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -439,12 +439,12 @@
       "fitness": "medium-high",
       "bodyweight": "below"
      },
-     "headline": "Start with 6–8 kg",
+     "headline": "Start with 6\u20138 kg",
      "summary": "Your first bell is a genuine working weight. The heavier bells come as the phases progress.",
      "bells": [
       {
        "size": 7,
-       "label": "6–8"
+       "label": "6\u20138"
       },
       {
        "size": 10,
@@ -452,13 +452,13 @@
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 6–8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 10 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 6\u20138 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 10 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -469,12 +469,12 @@
       "fitness": "low",
       "bodyweight": "above"
      },
-     "headline": "Start with 4–8 kg",
+     "headline": "Start with 4\u20138 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 6,
-       "label": "4–8"
+       "label": "4\u20138"
       },
       {
        "size": 10,
@@ -482,13 +482,13 @@
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 4–8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 10 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 4\u20138 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 10 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -499,12 +499,12 @@
       "fitness": "medium-high",
       "bodyweight": "above"
      },
-     "headline": "Start with 6–8 kg",
+     "headline": "Start with 6\u20138 kg",
      "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
      "bells": [
       {
        "size": 7,
-       "label": "6–8"
+       "label": "6\u20138"
       },
       {
        "size": 10,
@@ -512,13 +512,13 @@
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 6–8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 10 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 6\u20138 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 10 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -538,17 +538,17 @@
       },
       {
        "size": 9,
-       "label": "8–10"
+       "label": "8\u201310"
       },
       {
        "size": 14,
-       "label": "12–16"
+       "label": "12\u201316"
       }
      ],
      "notes": [
-      "Bell 1 — 6 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 8–10 kg: your main working bell through the phases.",
-      "Bell 3 — 12–16 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 6 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 8\u201310 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 12\u201316 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     },
@@ -572,13 +572,13 @@
       },
       {
        "size": 18,
-       "label": "16–20"
+       "label": "16\u201320"
       }
      ],
      "notes": [
-      "Bell 1 — 8 kg: your On Ramp and skill-work bell.",
-      "Bell 2 — 12 kg: your main working bell through the phases.",
-      "Bell 3 — 16–20 kg: heavy swings and later-phase strength work.",
+      "Bell 1 \u2014 8 kg: your On Ramp and skill-work bell.",
+      "Bell 2 \u2014 12 kg: your main working bell through the phases.",
+      "Bell 3 \u2014 16\u201320 kg: heavy swings and later-phase strength work.",
       "Buy them in order. One good bell beats three you can't control."
      ]
     }
@@ -586,5 +586,207 @@
   }
  },
  "form": null,
- "last": null
+ "last": {
+  "created_at": "2026-11-12T18:20:00+00:00",
+  "result": {
+   "kind": "selector",
+   "title": "Start with 8 kg",
+   "headline": "Start with 8 kg",
+   "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
+   "bells": [
+    {
+     "size": 8,
+     "label": "8"
+    },
+    {
+     "size": 12,
+     "label": "12"
+    },
+    {
+     "size": 16,
+     "label": "16"
+    }
+   ],
+   "notes": [
+    "Bell 1 \u2014 8 kg: your On Ramp and skill-work bell.",
+    "Bell 2 \u2014 12 kg: your main working bell through the phases.",
+    "Bell 3 \u2014 16 kg: heavy swings and later-phase strength work.",
+    "Buy them in order. One good bell beats three you can't control."
+   ]
+  }
+ },
+ "followAlong": [
+  {
+   "id": "dcdcadb9-a28a-4916-b118-7afbfc328c69",
+   "provider": "vimeo",
+   "provider_id": "395086139",
+   "privacy_hash": "ccc5ef4f3d",
+   "title": "Dead-Stop Swing",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Dead-Stop-Swing.png",
+   "level": null,
+   "category": "phase-3",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "swing",
+     "name": "Swing"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "16cda721-2d8f-48da-94cf-227cc835dbc0",
+   "provider": "vimeo",
+   "provider_id": "407201856",
+   "privacy_hash": "4c6d75c8cb",
+   "title": "RMT Sprinter Swing",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/RMT-Sprinter-Swing.png",
+   "level": null,
+   "category": "phase-3",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "swing",
+     "name": "Swing"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "83542300-4954-4ee3-96cd-f0e5f033ed14",
+   "provider": "vimeo",
+   "provider_id": "395098443",
+   "privacy_hash": "6408a64b75",
+   "title": "Side to Side Two Hand Swing",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Side-to-Side-Two-Hand-Swing.png",
+   "level": null,
+   "category": "phase-2",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "swing",
+     "name": "Swing"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "b1df2aea-b6a7-4033-a41a-d69727ec12ea",
+   "provider": "vimeo",
+   "provider_id": "395279310",
+   "privacy_hash": "0d83165d38",
+   "title": "Single Arm Swings and Hand to Hand Swings",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Single-Arm-Swings-and-Hand-to-Hand-Swings.png",
+   "level": null,
+   "category": "phase-2",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "swing",
+     "name": "Swing"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  }
+ ]
 }

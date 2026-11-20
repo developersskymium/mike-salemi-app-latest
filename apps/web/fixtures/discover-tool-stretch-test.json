@@ -10,7 +10,7 @@
    "description": "Five self-assessments covering hips, ankles, shoulders and t-spine. You get a mobility profile and the exact drills to prioritise.",
    "bands": [
     {
-     "title": "Restricted — mobility first",
+     "title": "Restricted \u2014 mobility first",
      "points": [
       "Run the daily mobility minimums before every session.",
       "Stay in Phase 1 until the toe touch and ankle test improve.",
@@ -24,7 +24,7 @@
      ]
     },
     {
-     "title": "Workable — train and maintain",
+     "title": "Workable \u2014 train and maintain",
      "points": [
       "Ten minutes of mobility before each session.",
       "Prioritise whichever test scored lowest for you.",
@@ -37,7 +37,7 @@
      ]
     },
     {
-     "title": "Open — keep it",
+     "title": "Open \u2014 keep it",
      "points": [
       "Short mobility flow on rest days is enough.",
       "Move straight into Phase 2 when your strength base allows.",
@@ -78,7 +78,7 @@
      "question": "Can you sit into a deep squat with heels down?",
      "options": [
       {
-       "label": "No — heels lift or I fall back",
+       "label": "No \u2014 heels lift or I fall back",
        "score": 0,
        "value": "no"
       },
@@ -99,7 +99,7 @@
      "question": "Lying on your back, can you press your arms overhead to the floor with ribs down?",
      "options": [
       {
-       "label": "No — my ribs flare or arms stop short",
+       "label": "No \u2014 my ribs flare or arms stop short",
        "score": 0,
        "value": "no"
       },
@@ -125,7 +125,7 @@
        "value": "under5"
       },
       {
-       "label": "5–10 cm / 2–4 in",
+       "label": "5\u201310 cm / 2\u20134 in",
        "score": 2,
        "value": "5-10"
       },
@@ -161,5 +161,279 @@
   }
  },
  "form": null,
- "last": null
+ "last": null,
+ "followAlong": [
+  {
+   "id": "123f168e-cbe6-4671-b7d4-2b62c7c9b00f",
+   "provider": "vimeo",
+   "provider_id": "399522521",
+   "privacy_hash": "022ad2e95b",
+   "title": "90/90 Hip Stretches",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/90_90-Hip-Stretches.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "99cdfe2f-c4fb-43dd-a2b0-a2d1cb694c06",
+   "provider": "vimeo",
+   "provider_id": "398407376",
+   "privacy_hash": "b27ced03e8",
+   "title": "Bicep Stretch",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Bicep-Stretch.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "a5bebc26-6b5b-4b5a-8bf8-4fb73d939474",
+   "provider": "vimeo",
+   "provider_id": "398408872",
+   "privacy_hash": "491a44b21d",
+   "title": "Calf & Soleus Stretches",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Calf-Soleus-Stretches.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "b77e7d57-8b31-4538-91af-ec40e3e04edd",
+   "provider": "vimeo",
+   "provider_id": "398409165",
+   "privacy_hash": "91a1ebfd6d",
+   "title": "Chest Stretch",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Chest-Stretch.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  }
+ ]
 }
