@@ -91,7 +91,7 @@ type Billing = Awaited<ReturnType<typeof loadBilling>>;
 /** Paused in Stripe: no charges, plan programs stay open to the end of the paid period, then lock until resumed. */
 function PausedBilling({ paused, orders }: { paused: NonNullable<Billing["paused"]>; orders: Billing["orders"] }) {
   const tier = paused.planRank >= 2 ? "platinum" : paused.planRank === 1 ? "silver" : "bronze";
-  const openUntil = paused.accessUntil && Date.parse(paused.accessUntil) > Date.now() ? paused.accessUntil : null;
+  const openUntil = paused.stillOpen ? paused.accessUntil : null;
   return (
     <div className="com-page">
       <LargeTitle title="Billing" eyebrow="You" leading={<IconButton icon="back" label="Back to You" href="/you" size="sm" />} />

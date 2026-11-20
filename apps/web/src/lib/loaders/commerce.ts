@@ -147,7 +147,7 @@ export interface BillingData {
   /** True when the member has a Stripe billing account (portal is useful). */
   provider: string | null;
   /** Set while billing is paused in Stripe (0041). `resumesAt` null = until the member resumes. */
-  paused?: { planName: string; planRank: number; interval: "month" | "year"; pausedAt: string; resumesAt: string | null; accessUntil: string | null } | null;
+  paused?: { planName: string; planRank: number; interval: "month" | "year"; pausedAt: string; resumesAt: string | null; accessUntil: string | null; stillOpen: boolean } | null;
 }
 
 async function realBilling(): Promise<BillingData> {
@@ -192,6 +192,7 @@ async function pausedSubscription(sb: Awaited<ReturnType<typeof getUser>>["supab
         pausedAt: row.paused_at,
         resumesAt: row.resumes_at,
         accessUntil: row.current_period_end,
+        stillOpen: Boolean(row.current_period_end && Date.parse(row.current_period_end) > Date.now()),
       },
     };
   } catch {
