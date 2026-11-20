@@ -5,6 +5,7 @@ import { Glass, Icon } from "@/components/ui";
 import { PlanWizard } from "@/components/selfguided/PlanWizard";
 import { loadProgramPage } from "@/lib/loaders/training";
 import { loadBoard } from "@/lib/loaders/selfguided";
+import { loadTrainingProfile } from "@/lib/loaders/plan";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -16,7 +17,10 @@ export default async function WizardPage({ params, searchParams }: Props) {
   const path = (await searchParams).path;
   const data = await loadProgramPage(slug, typeof path === "string" ? path : null);
   if (!data || data.program.access === "locked" || data.locked) notFound();
-  const board = await loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null);
+  const [board, profile] = await Promise.all([
+    loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null),
+    loadTrainingProfile().catch(() => null),
+  ]);
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", display: "grid", gap: 18, paddingBottom: 40 }}>
       <Link href={`/programs/${slug}?mode=self-guided`} className="lq-link" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14 }}>
@@ -28,11 +32,11 @@ export default async function WizardPage({ params, searchParams }: Props) {
         </p>
         <h1 className="lq-d-xl">Your weeks, laid out.</h1>
         <p className="lq-lede lq-c2" style={{ margin: 0 }}>
-          {data.program.name} already has a day-by-day plan. Pick a level, your days and a start date — we turn it into a schedule on your Plan.
+          {data.program.name} already has a day-by-day plan. Pick a level, your days and a start date — we add it to your one schedule, one session a day.
         </p>
       </header>
       <Glass radius="card" style={{ padding: "22px 24px 16px" }}>
-        <PlanWizard data={data} board={board} />
+        <PlanWizard data={data} board={board} profile={profile} />
       </Glass>
     </div>
   );

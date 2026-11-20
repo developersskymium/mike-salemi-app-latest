@@ -6,6 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import { Button, Icon, useToast } from "@/components/ui";
 import type { ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
+import type { TrainingProfile } from "@ms/api";
 import { savePlanAction } from "@/lib/actions/selfguided";
 import { wizardLevelAction } from "@/lib/actions/wizard";
 import { buildWizardPlan, defaultWeekdays, FOCUS_COPY, intentOf, type WizardDay, type WizardFocus } from "./wizardPlan";
@@ -54,15 +55,17 @@ function daysOf(data: ProgramPageData, board: BoardData | null): WizardDay[] {
  * pick a level, days per week (and which weekdays), a start date and a focus, preview the schedule
  * generated from the level's real day order and day types, then save it to Plan (save_training_plan).
  */
-export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; board: BoardData | null; onDone?: () => void }) {
+export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPageData; board: BoardData | null; onDone?: () => void; profile?: TrainingProfile | null }) {
+  // Prefilled from the training profile (spec 11 #1): the member's training weekdays / days a week.
+  const profDays = profile?.training_days?.length ? profile.training_days : profile?.days_per_week ? defaultWeekdays(Math.min(6, profile.days_per_week)) : null;
   const router = useRouter();
   const toast = useToast();
   const [step, setStep] = useState(0);
   const [pathKey, setPathKey] = useState<string | null>(data.path?.key ?? null);
   const [levelDays, setLevelDays] = useState<Record<string, WizardDay[]>>(() => ({ [data.path?.key ?? ""]: daysOf(data, board) }));
   const [loading, startLoad] = useTransition();
-  const [perWeek, setPerWeek] = useState(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays.length : 3));
-  const [weekdays, setWeekdays] = useState<number[]>(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : defaultWeekdays(3)));
+  const [perWeek, setPerWeek] = useState(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays.length : profDays?.length ?? 3));
+  const [weekdays, setWeekdays] = useState<number[]>(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : profDays ?? defaultWeekdays(3)));
   const [start, setStart] = useState(() => plus(1));
   const [from, setFrom] = useState<"next" | "first">("next");
   const [focus, setFocus] = useState<WizardFocus>("balanced");

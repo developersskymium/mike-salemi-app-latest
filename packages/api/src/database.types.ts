@@ -1240,6 +1240,27 @@ export type Database = {
           },
         ]
       }
+      training_profiles: {
+        Row: {
+          data: Json
+          sources: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          sources?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          sources?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       mtk_plans: {
         Row: {
           archived_at: string | null
@@ -3820,6 +3841,22 @@ export type Database = {
       claim_referral: { Args: { p_code: string }; Returns: Json }
       clear_notification_history: { Args: never; Returns: number }
       complete_step: { Args: { p_step: string; p_via?: string }; Returns: Json }
+      resolve_schedule_conflicts: {
+        Args: { p_mode?: string; p_plan: string }
+        Returns: Json
+      }
+      save_training_profile: {
+        Args: { p_patch: Json; p_source?: string }
+        Returns: Json
+      }
+      schedule_conflicts: {
+        Args: { p_from?: string }
+        Returns: { items: number; on_date: string; plan_ids: string[] }[]
+      }
+      schedule_mtk_plan: {
+        Args: { p_days: number[]; p_mtk_plan: string; p_starts_on?: string }
+        Returns: string
+      }
       create_mtk_plan: {
         Args: {
           p_days: Json
