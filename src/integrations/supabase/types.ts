@@ -490,6 +490,30 @@ export type Database = {
         }
         Relationships: []
       }
+      program_enrollments: {
+        Row: {
+          enrolled_at: string
+          id: string
+          last_opened_at: string
+          program_key: string
+          user_id: string
+        }
+        Insert: {
+          enrolled_at?: string
+          id?: string
+          last_opened_at?: string
+          program_key: string
+          user_id: string
+        }
+        Update: {
+          enrolled_at?: string
+          id?: string
+          last_opened_at?: string
+          program_key?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       program_intake_definitions: {
         Row: {
           completion_copy: string
