@@ -80,7 +80,16 @@ async function realOffer(placement: OfferSlotPlacement, context: OfferContext): 
   if (!offer) return null;
   const [image, type] = await Promise.all([offerImage(offer), programTypeOf(offer)]);
   const { href, external } = offerHref(offer);
-  return { offer, href: type ? programHref(offer.target?.slug ?? offer.target_ref, type) : href, external, image, eyebrow: offer.target?.name ?? null };
+  return { offer, href: type ? programHref(offer.target?.slug ?? offer.target_ref, type) : href, external, image, eyebrow: offer.reason ?? offer.target?.name ?? null };
+}
+
+/** Local preview: the seeded rules evaluated against the fixture persona (lib/offers-mock). */
+async function mockOfferView(placement: OfferSlotPlacement, context: OfferContext): Promise<OfferView | null> {
+  const { mockOffer } = await import("@/lib/offers-mock");
+  const offer = await mockOffer(placement, context);
+  if (!offer) return null;
+  const { href, external } = offerHref(offer);
+  return { offer, href, external, image: null, eyebrow: offer.reason ?? offer.target?.name ?? null };
 }
 
 /**
@@ -102,7 +111,9 @@ function withPhoto(view: OfferView): OfferView {
  */
 export async function loadOffer(placement: OfferSlotPlacement, context: OfferContext = {}): Promise<OfferView | null> {
   try {
-    const view = MOCK ? await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null) : await realOffer(placement, context);
+    const view = MOCK
+      ? (await mockOfferView(placement, context)) ?? (await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null))
+      : await realOffer(placement, context);
     return view ? withPhoto(view) : null;
   } catch (e) {
     unstable_rethrow(e); // let Next's dynamic-rendering and navigation signals through
