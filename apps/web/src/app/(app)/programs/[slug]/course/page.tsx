@@ -9,6 +9,8 @@ import { loadMtkPlan } from "@/lib/loaders/mtk";
 import { MTK_SLUG } from "@ms/core";
 import { loadCourseOutline } from "@/lib/loaders/course";
 import { SeriesHome } from "@/components/series/SeriesHome";
+import { ChooseNextStep } from "@/components/access/ChooseNextStep";
+import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { loadSeriesHome } from "@/lib/loaders/series";
 import { isSeries } from "@/lib/series";
 
@@ -32,7 +34,14 @@ export default async function JourneyPage({ params }: Props) {
   if (isSeries(slug)) {
     const home = await loadSeriesHome(slug);
     if (!home) notFound();
-    return <SeriesHome home={home} />;
+    return (
+      <SeriesHome
+        home={home}
+        offer={home.data.program.journey.next ? undefined : <PairsWellWith program={slug} />}
+        badges={<ProgramBadges slug={slug} />}
+        finish={<ChooseNextStep program={slug} />}
+      />
+    );
   }
   const data = await loadCourseOutline(slug);
   if (!data) notFound();
