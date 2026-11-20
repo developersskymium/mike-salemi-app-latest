@@ -5,7 +5,7 @@ import { Button, Chip, EmptyState, Glass, Icon } from "@/components/ui";
 import { EmptyScene } from "@/components/graphics";
 import { ToolGlyph } from "@/components/discover/ProgramCard";
 import { MovementCover } from "@/components/discover/library/MovementCover";
-import { TOOL_META, TOOL_PHOTO } from "@/components/discover/tools/meta";
+import { LISTED_TOOLS, TOOL_META, TOOL_PHOTO, isListedTool } from "@/components/discover/tools/meta";
 import "@/components/discover/library/library.css";
 import { loadToolsIndex } from "@/lib/loaders/discover";
 import { getUser } from "@/lib/supabase/server";
@@ -14,12 +14,12 @@ import "@/components/discover/tools/tools.css";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Answer a few questions and get a straight answer: kettlebell selection, a mobility stretch test, readiness and your roadmap phase.",
+  description: "Answer a few questions and get a straight answer: the right kettlebell for you, and a mobility stretch test.",
 };
 
 const NAMES: Record<string, string> = Object.fromEntries(Object.entries(TOOL_META).map(([k, v]) => [k, v.title]));
 
-/** Tools index, legacy layout: PageHead → tool cards → Free resources (Roadmap) → Your results (recent saves). */
+/** Tools index: hero → the two listed tool cards (Kettlebell Selector, Stretch Test) → Your results (recent saves). */
 export default async function ToolsPage() {
   const { supabase, user } = await getUser();
   let data;
@@ -35,9 +35,10 @@ export default async function ToolsPage() {
       />
     );
   }
-  const cards = data.tools.filter((t) => t.id !== "kettlebell-roadmap");
-  const roadmap = data.tools.find((t) => t.id === "kettlebell-roadmap");
-  const savedBy = (id: string) => data.recent.filter((r) => r.tool_id === id).length;
+  // Only the listed tools (Kettlebell Selector, Stretch Test), in that order; the rest stay unlisted.
+  const cards = data.tools.filter((t) => isListedTool(t.id)).sort((a, b) => LISTED_TOOLS.indexOf(a.id as never) - LISTED_TOOLS.indexOf(b.id as never));
+  const recent = data.recent.filter((r) => isListedTool(r.tool_id));
+  const savedBy = (id: string) => recent.filter((r) => r.tool_id === id).length;
   return (
     <>
       <div className="w1-tools">
@@ -47,7 +48,7 @@ export default async function ToolsPage() {
             <h1 className="lq-d-xl">Straight answers in two minutes</h1>
             <p className="lq-lede lq-c2">Short flows that ask only what matters, then return a specific recommendation you can act on today.</p>
             <div className="w1-tools-hero2-meta">
-              <Chip variant="tint" size="sm" icon="tools">{data.tools.length} free tools</Chip>
+              <Chip variant="tint" size="sm" icon="tools">{cards.length} free tools</Chip>
               <Chip variant="fill" size="sm" icon="bookmark">Results saved to your account</Chip>
               <Chip variant="fill" size="sm" icon="share">Shareable result cards</Chip>
             </div>
@@ -95,37 +96,6 @@ export default async function ToolsPage() {
           ))}
         </ul>
 
-        {roadmap && (
-          <section aria-labelledby="free-t" className="w1-tools-sec">
-            <div className="w1-tools-head">
-              <p className="w1-eyebrow">Free resources · Kettlebell Roadmap</p>
-              <h2 id="free-t" className="lq-d-md">{TOOL_META["kettlebell-roadmap"]!.title} <Chip variant="warm" size="sm">Title draft</Chip></h2>
-            </div>
-            <div className="w1-tools-free">
-              <Link href={`/tools/${roadmap.id}`} className="w1-cardlink">
-                <Glass radius="card" interactive className="w1-tools-row lq-lift">
-                  <span className="w1-tools-rowphoto" aria-hidden><Image src={TOOL_PHOTO["kettlebell-roadmap"]!.src} alt="" fill sizes="60px" style={{ objectPosition: TOOL_PHOTO["kettlebell-roadmap"]!.focal }} /></span>
-                  <span className="w1-tools-rowtext">
-                    <span className="lq-t17">Take the 2-minute phase check</span>
-                    <span className="lq-t13 lq-c2">{roadmap.tagline ?? "The four fundamental lifts, and your next step"}</span>
-                  </span>
-                  <Icon name="chevron" size="sm" className="lq-c3" />
-                </Glass>
-              </Link>
-              <Link href="/programs/kettlebell-roadmap" className="w1-cardlink">
-                <Glass radius="card" interactive className="w1-tools-row lq-lift">
-                  <span className="w1-tools-rowphoto" aria-hidden><Image src="/media/summit/mike-press.jpg" alt="" fill sizes="60px" style={{ objectPosition: "60% 14%" }} /></span>
-                  <span className="w1-tools-rowtext">
-                    <span className="lq-t17">Kettlebell Roadmap</span>
-                    <span className="lq-t13 lq-c2">Four training phases with skills and video demonstrations</span>
-                  </span>
-                  <Icon name="chevron" size="sm" className="lq-c3" />
-                </Glass>
-              </Link>
-            </div>
-          </section>
-        )}
-
         <section aria-labelledby="saves-t" className="w1-tools-sec">
           <div className="w1-tools-head w1-tools-headrow">
             <div>
@@ -134,9 +104,9 @@ export default async function ToolsPage() {
             </div>
             <Link href="/you/saves?kind=tools" className="lq-t15 w1-tools-all">All saves <Icon name="chevron" size="xs" /></Link>
           </div>
-          {data.recent.length ? (
+          {recent.length ? (
             <ul className="w1-tools-saves">
-              {data.recent.map((r) => (
+              {recent.map((r) => (
                 <li key={r.id}>
                   <Link href={`/tools/${r.tool_id}`} className="w1-cardlink">
                     <Glass radius="panel" interactive className="w1-tools-save lq-lift">

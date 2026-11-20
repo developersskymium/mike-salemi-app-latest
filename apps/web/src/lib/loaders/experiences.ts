@@ -82,9 +82,20 @@ async function realRetreats(): Promise<RetreatsData> {
   };
 }
 
-/** Retreats index. Local preview: `fixtures/commerce-retreats.json` (real runs). */
+/**
+ * A run is over once its end (or, with no end date, 4 days after its start) has passed, or it is marked
+ * past. Listings hide these (spec 11 #15); the rows stay in the database for history and certificates.
+ */
+export function isPastRun(r: { status?: string | null; starts_at: string; ends_at?: string | null }, now = Date.now()): boolean {
+  if (r.status === "past" || r.status === "completed") return true;
+  const end = r.ends_at ? Date.parse(r.ends_at) : Date.parse(r.starts_at) + 4 * 86400000;
+  return Number.isFinite(end) && end < now;
+}
+
+/** Retreats index: upcoming and running retreats only. Local preview: `fixtures/commerce-retreats.json` (real runs). */
 export async function loadRetreats(): Promise<RetreatsData> {
-  return MOCK ? fixture<RetreatsData>("commerce-retreats") : realRetreats();
+  const data = await (MOCK ? fixture<RetreatsData>("commerce-retreats") : realRetreats());
+  return { ...data, runs: data.runs.filter((r) => !isPastRun(r)) };
 }
 
 /* ================================================================ Concept / experience program page (legacy L3) */

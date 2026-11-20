@@ -36,3 +36,11 @@ export const STRETCH_DEMOS = [
   { src: "/media/tools/stretch-chest.jpg", label: "Chest" },
   { src: "/media/tools/stretch-calf.jpg", label: "Calf" },
 ];
+
+/**
+ * The tools members see listed and linked (spec 11 #15): only these two. The others (Readiness Check,
+ * Roadmap phase check) stay in the database and their pages keep working for old links, saves and the
+ * day player, but nothing lists them.
+ */
+export const LISTED_TOOLS = ["kettlebell-selector", "stretch-test"] as const;
+export const isListedTool = (id: string) => (LISTED_TOOLS as readonly string[]).includes(id);

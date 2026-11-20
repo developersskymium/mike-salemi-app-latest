@@ -273,6 +273,10 @@
   --surface-2: #FBFCFD;
   --surface-sunk: #F0F2F5;
   --bg-deep: #EBEEF2;
+  --rail: #FFFFFF;
+  --rail-line: rgba(14,27,44,.09);
+  --rail-hover: #F3F5F8;
+  --rail-active: #EAF2FB;
   --line: rgba(14,27,44,.08);
   --line-strong: rgba(14,27,44,.14);
   --text: #0E1B2C;
@@ -432,6 +436,10 @@
   --surface-2: #FBFCFD;
   --surface-sunk: #F0F2F5;
   --bg-deep: #EBEEF2;
+  --rail: #FFFFFF;
+  --rail-line: rgba(14,27,44,.09);
+  --rail-hover: #F3F5F8;
+  --rail-active: #EAF2FB;
   --line: rgba(14,27,44,.08);
   --line-strong: rgba(14,27,44,.14);
   --text: #0E1B2C;
@@ -591,6 +599,10 @@
   --surface-2: #16202C;
   --surface-sunk: #0E151F;
   --bg-deep: #070B11;
+  --rail: #121A25;
+  --rail-line: rgba(255,255,255,.08);
+  --rail-hover: rgba(255,255,255,.04);
+  --rail-active: rgba(63,160,230,.14);
   --line: rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
   --text: #EEF2F6;
@@ -755,6 +767,10 @@
     --surface-2: #16202C;
     --surface-sunk: #0E151F;
     --bg-deep: #070B11;
+    --rail: #121A25;
+    --rail-line: rgba(255,255,255,.08);
+    --rail-hover: rgba(255,255,255,.04);
+    --rail-active: rgba(63,160,230,.14);
     --line: rgba(255,255,255,.08);
     --line-strong: rgba(255,255,255,.14);
     --text: #EEF2F6;
@@ -920,6 +936,10 @@
   --surface-2: #16202C;
   --surface-sunk: #0E151F;
   --bg-deep: #070B11;
+  --rail: #121A25;
+  --rail-line: rgba(255,255,255,.08);
+  --rail-hover: rgba(255,255,255,.04);
+  --rail-active: rgba(63,160,230,.14);
   --line: rgba(255,255,255,.08);
   --line-strong: rgba(255,255,255,.14);
   --text: #EEF2F6;

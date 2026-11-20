@@ -24,8 +24,8 @@ export function BellMark({ color = "#fff" }: { color?: string }) {
   );
 }
 
-/** The wordmark: the bell in an ink tile, "Mike Salemi", and a quiet sub line. */
-export function Wordmark({ sub = "Kettlebell · Movement", compact }: { sub?: string; compact?: boolean }) {
+/** The wordmark: the bell in an ink tile and "Mike Salemi" (the brand reads just "Mike Salemi"; `sub` only where a page asks). */
+export function Wordmark({ sub, compact }: { sub?: string; compact?: boolean }) {
   return (
     <Link href="/today" className="sm-wordmark" aria-label="Mike Salemi — Home" prefetch>
       <span className="sm-mark">
@@ -34,7 +34,7 @@ export function Wordmark({ sub = "Kettlebell · Movement", compact }: { sub?: st
       {!compact && (
         <span>
           <b>Mike Salemi</b>
-          <small>{sub}</small>
+          {sub ? <small>{sub}</small> : null}
         </span>
       )}
     </Link>
@@ -89,9 +89,9 @@ function NavLink({ it, on }: { it: NavItem; on: boolean }) {
 }
 
 /**
- * Desktop rail (v4: on the ground colour, regular-weight nav, a white active pill): wordmark → resume card → Home, Programs,
- * Retreats, Library, Schedule, Account → "Your access" (program thumbnails) → "Additional"
- * (Tools, Coaching, Referrals, Shop when enabled; collapsible) → the member with the theme toggle.
+ * Desktop rail (its own light surface, a hairline from the body; the current page is a soft accent pill):
+ * wordmark → resume card → Home, Programs, Library, Schedule → "Your access" (program thumbnails) →
+ * "More" (Retreats, Coaching, Tools, Referrals, Shop when enabled; collapsible) → the member (Account) with the theme toggle.
  */
 export function Sidebar({ resume, access = [], shop, shopAdmin, extra, more, active: activeProp }: { resume?: ShellResume | null; access?: ShellAccess[]; shop?: boolean; shopAdmin?: boolean; extra?: ReactNode; more?: ReactNode; active?: number }) {
   const pathname = usePathname();
@@ -132,10 +132,10 @@ export function Sidebar({ resume, access = [], shop, shopAdmin, extra, more, act
       {extra}
       <div className="sm-navgroup" data-open={open ? "" : undefined}>
         <button type="button" className="sm-navgroup-h" aria-expanded={open} onClick={() => setOpen(!open)}>
-          <span>Additional</span> <Icon name="chevronUp" size="xs" />
+          <span>More</span> <Icon name="chevronUp" size="xs" />
         </button>
         {open && (
-          <nav className="sm-nav" aria-label="Additional">
+          <nav className="sm-nav" aria-label="More">
             {additional.map((it) => (
               <NavLink key={it.href} it={it} on={on === it.href} />
             ))}
@@ -145,7 +145,7 @@ export function Sidebar({ resume, access = [], shop, shopAdmin, extra, more, act
       {more}
       {user && (
         <div className="sm-member">
-          <Link href="/you" className="sm-member-link" prefetch>
+          <Link href="/you" className="sm-member-link" prefetch aria-current={!on && (pathname === "/you" || pathname.startsWith("/you/")) ? "page" : undefined}>
             <Avatar name={user.name} src={user.avatarUrl} size="md" />
             <span style={{ minWidth: 0, flex: 1 }}>
               <span className="sm-member-name">{user.name}</span>
