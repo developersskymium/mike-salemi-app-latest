@@ -59,12 +59,12 @@ export async function signUp(_: AuthState, form: FormData): Promise<AuthState> {
     password: parsed.data.password,
     options: {
       data: { full_name: parsed.data.name, referral_code: parsed.data.ref ?? null },
-      emailRedirectTo: `${await origin()}/auth/callback?next=/today`,
+      emailRedirectTo: `${await origin()}/auth/callback?next=${encodeURIComponent(safeNext(form.get("next")))}`,
     },
   });
   if (error) return { error: error.message };
   if (!data.session) return { message: "Check your email to confirm your account." };
-  redirect("/today");
+  redirect(safeNext(form.get("next")));
 }
 
 export async function requestPasswordReset(_: AuthState, form: FormData): Promise<AuthState> {
