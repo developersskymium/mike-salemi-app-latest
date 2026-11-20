@@ -49,6 +49,7 @@ export function Checkout({ d, email, name, publishableKey }: { d: ShopData; emai
   const [touched, setTouched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [openSum, setOpenSum] = useState(false);
   const [pending, start] = useTransition();
   const live = d.payments && !!publishableKey;
   const stripeRef = useRef<{ stripe: StripeJs; elements: StripeElements } | null>(null);
@@ -265,8 +266,11 @@ export function Checkout({ d, email, name, publishableKey }: { d: ShopData; emai
           <p className="lq-t12 lq-c2 shp-co-fine">Secured by Stripe. Card details never touch our servers. Equipment ships within the US.</p>
         </div>
 
-        <aside className="shp-co-sum" aria-labelledby="co-sum">
-          <h2 id="co-sum" className="lq-d-xs">Order summary <span className="lq-t13 lq-c2 lq-num">· {count} {count === 1 ? "item" : "items"}</span></h2>
+        <aside className="shp-co-sum" aria-labelledby="co-sum" data-open={openSum ? "" : undefined}>
+          <button type="button" className="shp-co-sumtoggle" aria-expanded={openSum} onClick={() => setOpenSum((x) => !x)}>
+            <h2 id="co-sum" className="lq-d-xs">Order summary <span className="lq-t13 lq-c2 lq-num">· {count} {count === 1 ? "item" : "items"}</span></h2>
+            <span className="shp-co-sumtotal lq-t15 lq-num">{quote ? money(quote.total_cents, currency) : "…"} <Icon name={openSum ? "chevronUp" : "chevronDown"} size="xs" /></span>
+          </button>
           <ul className="shp-co-lines">
             {rows.map(({ l, p, v }) => {
               const q = quote?.lines.find((x) => x.variant_id === v.id);
@@ -289,7 +293,7 @@ export function Checkout({ d, email, name, publishableKey }: { d: ShopData; emai
             <div className="shp-co-total"><dt className="lq-t15">Total</dt><dd className="lq-d-sm lq-num">{quote ? money(quote.total_cents, currency) : "…"}</dd></div>
           </dl>
           {quote && quote.member_saving_cents > 0 && <p className="lq-t13 shp-save-line lq-num"><Icon name="check" size="xs" /> Member prices save you {money(quote.member_saving_cents, currency)}</p>}
-          <p className="lq-t12 lq-c2">Prices are confirmed on our server. Tax, where it applies, is included.</p>
+          <p className="lq-t12 lq-c2 shp-co-note">Prices are confirmed on our server when you pay.</p>
         </aside>
       </div>
     </div>

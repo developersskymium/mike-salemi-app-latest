@@ -26,7 +26,7 @@
     {
      "id": "15e82eee-d881-4130-aa2b-5b05ace89b6f",
      "key": "men",
-     "label": "12 · 16 · 20 kg + stick",
+     "label": "Men · 12, 16, 20 kg + stick",
      "price_cents": 34900,
      "currency": "usd",
      "member_price_cents": 31400,
@@ -35,7 +35,7 @@
     {
      "id": "7a1f2b5d-b45d-4dd1-9792-27b3677688e8",
      "key": "women",
-     "label": "8 · 12 · 16 kg + stick",
+     "label": "Women · 8, 12, 16 kg + stick",
      "price_cents": 29900,
      "currency": "usd",
      "member_price_cents": 26900,
