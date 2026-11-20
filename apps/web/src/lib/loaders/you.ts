@@ -17,6 +17,7 @@ import {
 } from "@ms/api";
 import { embedUrl, type WorkoutTable } from "@ms/core";
 import { toolDef } from "@/components/discover/tools/defs";
+import { lessonHrefOf } from "@/lib/hrefs";
 import { MOCK, mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import type { Badge, Certificate, Enrollment } from "./today-plan-you";
@@ -323,7 +324,7 @@ export interface RewardsV2 {
   badges: Badge[];
   progress: BadgeProgress[];
   ledger: { id: number; amount: number; reason: string; created_at: string }[];
-  levels: PassportProgram[];
+  levels: YouLevel[];
   runs: PastRun[];
   certificates: Certificate[];
 }
@@ -346,16 +347,21 @@ const loadRewardsRaw = mockable("you-rewards", async (): Promise<RewardsV2> => {
 
 /* ============================================================== One source of truth (D09) */
 
+/** A level on You: the passport counts plus how to read them (days or lessons) and where to pick up. */
+export type YouLevel = PassportProgram & { unit?: "day" | "lesson"; href?: string };
+
 /** Day-program levels in training days (the same counts as the rail, Today and the program page). */
-async function levelsInDays(levels: PassportProgram[], enrollments: Enrollment[]): Promise<PassportProgram[]> {
+async function levelsInDays(levels: PassportProgram[], enrollments: Enrollment[]): Promise<YouLevel[]> {
   const dayPrograms = new Set(enrollments.filter((e) => e.program_type === "day_program").map((e) => e.program_id));
   return Promise.all(
-    levels.map(async (p) => {
-      if (!dayPrograms.has(p.program_id)) return p;
+    levels.map(async (p): Promise<YouLevel> => {
+      const e = enrollments.find((x) => x.program_id === p.program_id && (x.path_id ?? null) === (p.path_id ?? null)) ?? enrollments.find((x) => x.program_id === p.program_id);
+      const href = lessonHrefOf(p.slug, e?.current_lesson_id, { type: e?.program_type, mode: e?.mode });
+      if (!dayPrograms.has(p.program_id)) return { ...p, unit: "lesson", href };
       const d = await dayProgress(p.program_id, p.path_id ?? null);
-      if (!d) return p;
+      if (!d) return { ...p, unit: "lesson", href };
       const phases = d.sections.filter((s) => s.days > 0).map((s) => ({ section_id: s.id, title: s.title, done: s.daysDone, total: s.days, pct: pctOf(s.daysDone, s.days) }));
-      return { ...p, done: d.done, total: d.total, pct: pctOf(d.done, d.total), phases };
+      return { ...p, done: d.done, total: d.total, pct: pctOf(d.done, d.total), phases, unit: "day", href };
     }),
   );
 }
