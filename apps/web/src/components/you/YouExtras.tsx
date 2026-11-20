@@ -100,9 +100,10 @@ export function Journal({ entries }: { entries: JournalEntry[] }) {
 }
 
 /** Saved lists: session plans, tool results and videos, one tap each. */
-export function SavedLists({ plans, tools, videos }: { plans: number; tools: number; videos: number }) {
+export function SavedLists({ plans, tools, videos, lists = [] }: { plans: number; tools: number; videos: number; /** Named lists ("Morning mobility"): open as a Library filter. */ lists?: { id: string; name: string; videoIds: string[] }[] }) {
   const rows = [
     { href: "/you/saves?kind=videos", label: "Saved videos", n: videos, icon: "bookmark" as const },
+    ...lists.map((l) => ({ href: `/library?list=${l.id}`, label: l.name, n: l.videoIds.length, icon: "library" as const })),
     { href: "/you/saves?kind=plans", label: "Workout tables", n: plans, icon: "clipboard" as const },
     { href: "/you/saves?kind=tools", label: "Tool results", n: tools, icon: "compass" as const },
   ];

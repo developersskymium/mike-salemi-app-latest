@@ -6,6 +6,8 @@ import { useState } from "react";
 import type { LibraryVideo } from "@ms/api";
 import { Button, Chip, Glass, Icon, IconButton, Sheet, useToast } from "@/components/ui";
 import { addVideoToCollection, toggleSaveVideo } from "@/lib/actions/discover";
+import type { SavedList } from "@/lib/loaders/saved-lists";
+import { ListsMenu } from "./ListsMenu";
 import { moveFor, phaseOf, topicsOf, VideoCard, videoPoster } from "./VideoCard";
 import { LibraryPlayer } from "./library/LibraryPlayer";
 import { VideoPoster } from "./library/VideoPoster";
@@ -15,13 +17,16 @@ type Props = {
   video: LibraryVideo;
   related: LibraryVideo[];
   collections: { id: string; name: string; count: number }[];
+  /** Named saved lists (0036). When given, "Add to list" replaces the older Collection sheet. */
+  lists?: SavedList[];
   /** Program photos by slug, for the "Also in" rows. */
   programPhotos: Record<string, string>;
 };
 
 /** Video page: player, save, collections, "Also in" program links, more like this. */
-export function VideoView({ video: v, related, collections, programPhotos }: Props) {
+export function VideoView({ video: v, related, collections, programPhotos, lists: initialLists }: Props) {
   const toast = useToast();
+  const [lists, setLists] = useState<SavedList[] | undefined>(initialLists);
   const [playing, setPlaying] = useState(false);
   const [saved, setSaved] = useState(v.saved);
   const [busy, setBusy] = useState(false);
@@ -106,9 +111,13 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
             <Button variant={saved ? "tint" : "glass"} size="md" icon="bookmark" onClick={save} disabled={busy} aria-pressed={saved}>
               {saved ? "Saved" : "Save"}
             </Button>
-            <Button variant="glass" size="md" icon="plus" onClick={() => setSheet(true)}>
-              Collection
-            </Button>
+            {lists ? (
+              <ListsMenu videoId={v.id} title={v.title} lists={lists} onChange={setLists} />
+            ) : (
+              <Button variant="glass" size="md" icon="plus" onClick={() => setSheet(true)}>
+                Collection
+              </Button>
+            )}
             <IconButton icon="share" label="Share" onClick={share} />
           </div>
 
