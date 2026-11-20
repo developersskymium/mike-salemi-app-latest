@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { RetreatJourney } from "@/components/experiences/RetreatJourney";
+import { FirstWeekHost } from "@/components/onboarding/FirstWeekHost";
 import { buildHome } from "@/components/today/buildHome";
 import { buildToday } from "@/components/today/buildToday";
 import { TodayScreen } from "@/components/today/TodayScreen";
@@ -48,6 +49,11 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
       now={now}
       latestBadge={latest}
       mikeNote={note}
+      firstWeek={
+        <Suspense fallback={null}>
+          <FirstWeekHost />
+        </Suspense>
+      }
       retreat={
         <Suspense fallback={null}>
           <RetreatJourney />

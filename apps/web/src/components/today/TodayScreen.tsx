@@ -42,7 +42,7 @@ function localHour(now: number, tz: string | null | undefined) {
  * The retreat card appears only when the member has a retreat application or booking (`retreat`).
  * New members get one welcoming start state with the recommended first program.
  */
-export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, now = 0 }: { v: TodayView; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
+export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, firstWeek, now = 0 }: { v: TodayView; /** First-week host (welcome video, checklist, resume draft, install prompt); one card shows at a time. */ firstWeek?: React.ReactNode; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
   const cur = home?.continuing ?? null;
   const enrolled = home?.enrolled ?? [];
   const isNew = !!home && !cur && enrolled.length === 0;
@@ -55,6 +55,8 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
       <h1 className="lq-sr">Home</h1>
 
       {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+
+      {firstWeek && <div className="ch-first">{firstWeek}</div>}
 
       {restDay && <RestDayCard />}
 

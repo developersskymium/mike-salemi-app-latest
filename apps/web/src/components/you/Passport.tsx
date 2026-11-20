@@ -100,7 +100,7 @@ export function PassportHeader({ d }: { d: PassportData }) {
             {ready ? (
               <b className="yu-pp-ready" data-tone={BAND[ready.band] ?? "ok"}><i aria-hidden />{ready.band_name}</b>
             ) : (
-              <Link href="/tools/readiness-check" className="lq-t13 yu-pp-link">Check in</Link>
+              <Link href="/tools/stretch-test" className="lq-t13 yu-pp-link">Stretch Test</Link>
             )}
           </span>
           <span className="yu-pp-fact">
