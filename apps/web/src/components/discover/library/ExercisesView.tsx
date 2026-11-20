@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { LibraryIndex } from "@ms/api";
-import { Icon, IconButton } from "@/components/ui";
+import { Icon } from "@/components/ui";
+import { LibraryHeader, SearchField } from "./chips";
 import { VideoPoster } from "./VideoPoster";
 import { cleanTitle, clock, figureFor, posterOf, primaryMove, tokenMatches } from "./model";
 import "./library.css";
@@ -31,31 +32,24 @@ export function ExercisesView({ index }: { index: LibraryIndex }) {
   }, [shown]);
 
   return (
-    <div className="w1-lib">
-      <header className="w1-lib-head">
-        <div className="w1-lib-headcopy">
-          <Link href="/library" className="w1-lib-alllink lq-t13 w1-lib-back"><Icon name="back" size="xs" /> Library</Link>
-          <h1 className="lq-d-sm w1-lib-h1">Exercises A–Z</h1>
-        </div>
-      </header>
-      <div className="w1-lib-tools">
-        <div className="w1-lib-searchwrap">
-          <label className="w1-lib-search">
-            <Icon name="search" size="sm" className="lq-c2" />
-            <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Find an exercise" aria-label="Find an exercise" className="lq-t15" />
-            {q && <IconButton icon="close" label="Clear search" variant="plain" size="sm" iconSize="xs" onClick={() => setQ("")} />}
-          </label>
-        </div>
-        <nav className="w1-lib-az" aria-label="Jump to letter">
+    <div className="w1-lib l2">
+      <LibraryHeader tab="exercises">
+        <SearchField value={q} onChange={setQ} placeholder="Find an exercise" label="Find an exercise" />
+      </LibraryHeader>
+      <div className="l2-toolbar l2-toolbar-az">
+        <p className="l2-count lq-t13 lq-c2" aria-live="polite">
+          <strong className="lq-num">{shown.length}</strong> {shown.length === 1 ? "exercise" : "exercises"}
+        </p>
+        <nav className="l2-az" aria-label="Jump to letter">
           {letters.map(([l]) => (
             <a key={l} href={`#ex-${l}`} className="lq-t13">{l}</a>
           ))}
         </nav>
       </div>
-      {letters.length === 0 && <p className="lq-t15 lq-c2">No exercises match.</p>}
+      {letters.length === 0 && <p className="lq-t15 lq-c2 l2-none">No exercises match “{q.trim()}”. Try a shorter word.</p>}
       {letters.map(([l, list]) => (
         <section key={l} id={`ex-${l}`} className="w1-lib-group" aria-label={l}>
-          <h2 className="lq-t20 w1-lib-grouph">{l}</h2>
+          <h2 className="lq-t20 w1-lib-grouph">{l} <span className="lq-t13 lq-c2 lq-num">{list.length}</span></h2>
           <ul className="w1-lib-lessongrid">
             {list.map(({ v, title }) => (
               <li key={v.id}>
