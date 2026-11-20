@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { submitIntake, type IntakeResult } from "@ms/api";
+import { profileFromAnswers, saveTrainingProfile, submitIntake, type IntakeResult } from "@ms/api";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -20,13 +20,18 @@ function clean(a: Answers): Answers {
   return out;
 }
 
-/** Saves one intake attempt (every attempt is its own row; earlier answers are kept) and returns the recommendation. */
-export async function submitIntakeAction(formId: string, answers: Answers, slug: string): Promise<IntakeActionResult> {
+/** Saves one intake attempt (and its shared answers to the training profile) (every attempt is its own row; earlier answers are kept) and returns the recommendation. */
+export async function submitIntakeAction(formId: string, answers: Answers, slug: string, formKey?: string | null): Promise<IntakeActionResult> {
   try {
     if (MOCK) throw new Error("preview mode");
     const { supabase, user } = await getUser();
     if (!user) return { ok: false, code: "auth", message: "Please sign in again." };
-    const result = await submitIntake(supabase, formId, clean(answers));
+    const a = clean(answers);
+    const result = await submitIntake(supabase, formId, a);
+    // Shared answers write back to the training profile so the next intake can skip them.
+    const key = formKey ?? (await supabase.from("intake_forms").select("key").eq("id", formId).maybeSingle()).data?.key ?? null;
+    const patch = profileFromAnswers(key, a);
+    if (Object.keys(patch).length) await saveTrainingProfile(supabase, patch, key ?? "intake").catch(() => null);
     revalidatePath(`/intake/${slug}`);
     revalidatePath(`/programs/${slug}`);
     return { ok: true, result };

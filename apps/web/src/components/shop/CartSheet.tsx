@@ -1,20 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo } from "react";
 import { EmptyScene } from "@/components/graphics";
-import { Button, Icon, IconButton, Sheet, useToast, type ButtonVariant } from "@/components/ui";
+import { Button, Icon, IconButton, Sheet, type ButtonVariant } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
-import { checkoutCart } from "@/lib/actions/shop";
-import type { ShopProduct } from "@/lib/loaders/shop";
+import type { ShopData, ShopProduct } from "@/lib/loaders/shop";
 import { money } from "@/components/you/format";
 import { cart, useCart } from "./cart";
+import { unitCents } from "./pricing";
+import { ProductVisual } from "./ShopIndex";
 
 export const CHECKOUT_ERR: Record<string, string> = {
   offline: "This preview can't take payments. Checkout works on the live app.",
   closed: "The shop isn't open yet.",
-  payments_not_configured: "Payments aren't switched on yet. Your cart is saved on this device.",
+  payments_not_configured: "Payments switch on soon. Your cart is saved on this device.",
   signed_out: "Sign in to check out.",
   not_found: "Something in your cart is no longer available. We've removed it.",
   by_application: "One item is by application only.",
@@ -33,72 +33,65 @@ export function CartButton({ onOpen, variant = "glass", size = "md" }: { onOpen:
   );
 }
 
-/** Cart: lines priced from the catalog (the server re-prices at checkout), quantity steppers, subtotal, Stripe checkout. */
-export function CartSheet({ open, onClose, products, payments }: { open: boolean; onClose: () => void; products: ShopProduct[]; payments: boolean }) {
+/** Free-shipping progress line: "$38 to free shipping" → "Free shipping unlocked". */
+export function ShipProgress({ subtotal, free, physical }: { subtotal: number; free: number; physical: boolean }) {
+  if (!physical) return null;
+  const left = Math.max(0, free - subtotal);
+  return (
+    <div className="shp-ship" data-done={left === 0 ? "" : undefined}>
+      <span className="lq-t13">{left === 0 ? <><Icon name="check" size="xs" /> Free US shipping unlocked</> : <><b className="lq-num">{money(left, "usd")}</b> to free shipping</>}</span>
+      <span className="shp-ship-track" aria-hidden><i style={{ width: `${Math.min(100, (subtotal / free) * 100)}%` }} /></span>
+    </div>
+  );
+}
+
+/** Cart lines priced from the catalogue for display (member price for members); the server re-prices at checkout. */
+export function useCartRows(products: ShopProduct[], member: boolean) {
   const lines = useCart();
-  const toast = useToast();
-  const [pending, start] = useTransition();
-  const [notice, setNotice] = useState<string | null>(payments ? null : "Payments aren't switched on yet. Your cart stays saved on this device until they are.");
   const byVariant = useMemo(() => {
     const m = new Map<string, { p: ShopProduct; v: ShopProduct["variants"][number] }>();
     for (const p of products) for (const v of p.variants) m.set(v.id, { p, v });
     return m;
   }, [products]);
-
-  // Drop lines the catalog no longer sells.
   useEffect(() => {
     if (lines.length) cart.prune(new Set(byVariant.keys()));
   }, [lines.length, byVariant]);
-
   const rows = lines.map((l) => ({ l, ...byVariant.get(l.variant)! })).filter((r) => r.p);
-  const currency = rows[0]?.v.currency ?? "usd";
-  const subtotal = rows.reduce((s, r) => s + r.v.price_cents * r.l.qty, 0);
-  const count = rows.reduce((s, r) => s + r.l.qty, 0);
-  const physical = rows.some((r) => r.p.type === "physical");
-
-  const checkout = () => {
-    if (!payments) {
-      setNotice(CHECKOUT_ERR.payments_not_configured!);
-      haptic(12);
-      return;
-    }
-    haptic(8);
-    start(async () => {
-      const r = await checkoutCart(rows.map((x) => ({ variant: x.l.variant, quantity: x.l.qty })));
-      if (r.ok) {
-        window.location.href = r.url;
-        return;
-      }
-      if (r.error === "not_found" && r.variant) cart.remove(r.variant);
-      setNotice(CHECKOUT_ERR[r.error] ?? CHECKOUT_ERR.failed!);
-      toast(CHECKOUT_ERR[r.error] ?? CHECKOUT_ERR.failed!, { icon: "close" });
-    });
+  const subtotal = rows.reduce((s, r) => s + unitCents(r.v, member) * r.l.qty, 0);
+  const list = rows.reduce((s, r) => s + r.v.price_cents * r.l.qty, 0);
+  return {
+    rows,
+    currency: rows[0]?.v.currency ?? "usd",
+    subtotal,
+    memberSaving: list - subtotal,
+    count: rows.reduce((s, r) => s + r.l.qty, 0),
+    physical: rows.some((r) => r.p.type === "physical"),
   };
+}
+
+/** Slide-in cart: lines, quantity steppers, free-shipping progress, one action to the one-page checkout. */
+export function CartSheet({ open, onClose, d }: { open: boolean; onClose: () => void; d: ShopData }) {
+  const { rows, currency, subtotal, memberSaving, count, physical } = useCartRows(d.products, d.member);
 
   return (
     <Sheet
       open={open}
       onClose={onClose}
       title="Your cart"
-      description={count ? `${count} ${count === 1 ? "item" : "items"} · saved on this device` : undefined}
+      description={count ? `${count} ${count === 1 ? "item" : "items"}` : undefined}
       desktop="side"
       detents={["large"]}
       footer={
         rows.length ? (
           <div className="shp-cart-foot">
+            <ShipProgress subtotal={subtotal} free={d.shipping.free_cents} physical={physical} />
             <div className="shp-cart-sum">
               <span className="lq-t15">Subtotal</span>
               <b className="lq-d-sm lq-num">{money(subtotal, currency)}</b>
             </div>
-            <p className="lq-t12 lq-c2">{physical ? "Shipping and tax are calculated at checkout. Equipment ships within the US." : "Tax is calculated at checkout."}</p>
-            {notice && (
-              <p className="shp-cart-notice lq-t13" role="status">
-                <Icon name="info" size="xs" /> {notice}
-              </p>
-            )}
-            <Button block icon="lock" onClick={checkout} disabled={pending}>
-              {pending ? "Opening secure checkout…" : `Check out · ${money(subtotal, currency)}`}
-            </Button>
+            {memberSaving > 0 && <p className="lq-t13 shp-save-line lq-num">Member prices save you {money(memberSaving, currency)}</p>}
+            <Button block icon="lock" href="/shop/checkout" onClick={onClose}>Checkout</Button>
+            <p className="lq-t12 lq-c2 shp-cart-fine">Apple Pay and Google Pay at checkout.{d.payments ? "" : " Payments switch on soon."}</p>
           </div>
         ) : undefined
       }
@@ -108,14 +101,14 @@ export function CartSheet({ open, onClose, products, payments }: { open: boolean
           {rows.map(({ l, p, v }) => (
             <li key={l.variant} className="shp-cart-line">
               <Link href={`/shop/${p.slug}`} className="shp-cart-img" onClick={onClose} aria-label={p.name}>
-                {p.image && <Image src={p.image} alt="" fill sizes="72px" style={{ objectFit: "cover" }} />}
+                <ProductVisual p={p} sizes="72px" bellSize={52} />
               </Link>
               <div className="shp-cart-text">
                 <span className="lq-t15 shp-cart-name">{p.name}</span>
                 <span className="lq-t13 lq-c2">{v.label}</span>
                 <div className="shp-cart-row">
                   <Stepper value={l.qty} onChange={(q) => cart.set(l.variant, q)} label={p.name} />
-                  <b className="lq-t15 lq-num">{money(v.price_cents * l.qty, v.currency)}</b>
+                  <b className="lq-t15 lq-num">{money(unitCents(v, d.member) * l.qty, v.currency)}</b>
                 </div>
               </div>
               <IconButton icon="close" label={`Remove ${p.name} from cart`} variant="plain" size="sm" iconSize="xs" onClick={() => cart.remove(l.variant)} />
@@ -126,7 +119,7 @@ export function CartSheet({ open, onClose, products, payments }: { open: boolean
         <div className="shp-cart-empty">
           <EmptyScene scene="nothing-saved" size={170} />
           <p className="lq-d-sm">Your cart is empty</p>
-          <p className="lq-t15 lq-c2">Add equipment from the shop and it waits here, on this device, until you check out.</p>
+          <p className="lq-t15 lq-c2">Add equipment and it waits here until you check out.</p>
           <Button variant="secondary" size="md" onClick={onClose}>Keep browsing</Button>
         </div>
       )}

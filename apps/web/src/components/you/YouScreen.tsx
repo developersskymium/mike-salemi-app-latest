@@ -1,17 +1,22 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { EmptyScene, ReadinessDial } from "@/components/graphics";
-import { AmbientBackdrop, Glass, Icon, IconButton, LargeTitle, type IconName } from "@/components/ui";
+import { Glass, Icon, type IconName } from "@/components/ui";
 import { signOut } from "@/lib/auth/actions";
+import { YouOrders } from "@/components/shop/YouOrders";
 import type { PassportData } from "@/lib/loaders/you";
-import { PHOTOS } from "@/components/today/photos";
 import { CelebrationHost } from "./CelebrationHost";
 import { CertificateCard, CertificateTeaser } from "./CertificateCard";
 import { DetailsCard } from "./DetailsCard";
 import { fmtDayYear, money, plural, splitDay } from "./format";
-import { MedalCabinet, NextMedalCard } from "./MedalCabinet";
-import { PassportHeader } from "./Passport";
+import { BadgesCabinet } from "@/components/badges/BadgesCabinet";
+import { MomentsWithMike } from "@/components/badges/MomentsWithMike";
+import { PerksList } from "@/components/badges/PerksList";
+import type { BadgesData } from "@/lib/loaders/badges";
+import type { YouExtras } from "@/lib/loaders/you-extras";
 import { PastRuns, ProgressByLevel, SeeAll } from "./Progress";
+import { Journal, SavedLists, StrengthLog, StretchHistory } from "./YouExtras";
+import { YouHeader } from "./YouHeader";
 import { TrainingInsights } from "./TrainingInsights";
 import { YouTabs, type YouTab } from "./YouTabs";
 import "@/components/today/tpy.css";
@@ -62,14 +67,19 @@ function BlockHead({ id, title, lede, action }: { id: string; title: string; led
 }
 
 /** You: the training passport header, then the legacy account tabs. */
-export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }: { d: PassportData; tab: YouTab; shop?: { enabled: boolean; isAdmin: boolean } }) {
+export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false }, badges, extras }: { d: PassportData; tab: YouTab; shop?: { enabled: boolean; isAdmin: boolean }; badges?: BadgesData | null; extras?: YouExtras | null }) {
   const active = [...d.enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""))[0];
-  const earned = Object.fromEntries(d.rewards.badges.map((b) => [b.id, b.earned_at]));
+  const earned = badges?.earned ?? Object.fromEntries(d.rewards.badges.map((b) => [b.id, b.earned_at]));
   const s = d.saves;
-  const savesCount = s.videos.length + s.tools.length + s.plans.length;
 
   const overview = (
     <div className="yu-stack">
+      <div className="yc-grid">
+        <StrengthLog lifts={extras?.lifts ?? []} />
+        <StretchHistory list={extras?.stretch ?? []} />
+        <Journal entries={extras?.journal ?? []} />
+        <SavedLists plans={s.plans.length} tools={s.tools.length} videos={s.videos.length} />
+      </div>
       <div className="yu-grid2">
         <DetailsCard name={d.profile.displayName} email={d.profile.email} level={active?.path_name ? `${active.path_name.replace("·", "—")}` : null} />
         <ProgressByLevel levels={d.stats.programs} />
@@ -77,7 +87,6 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
       <section aria-labelledby="yu-things" className="yu-block">
         <BlockHead id="yu-things" title="Your things" lede="Everything you've saved, earned and set up, one tap away." />
         <ul className="yu-things" role="list">
-          <Thing href="/you/saves" icon="bookmark" title="Saves" detail={savesCount ? [s.plans.length && plural(s.plans.length, "session plan"), s.tools.length && plural(s.tools.length, "tool result"), s.videos.length && plural(s.videos.length, "video")].filter(Boolean).join(" · ") : "Session plans, tool results and videos"} />
           <Thing href="/you/rewards" icon="medal" tone="warm" title="Rewards" detail={`${plural(d.rewards.badges.length, "medal")} · ${d.rewards.points_total.toLocaleString("en-GB")} points`} />
           <Thing href="/you?tab=achievements" icon="trophy" tone="warm" title="Certificates" detail={d.certificates.length ? plural(d.certificates.length, "certificate") : "Finish a level to earn one"} />
           <Thing href="/you/referrals" icon="gift" title="Referrals" badge="Earn a free month" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Invite a friend to train with you"} />
@@ -99,9 +108,12 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
   const achievements = (
     <div className="yu-stack">
       <section aria-labelledby="yu-badges" className="yu-block">
-        <BlockHead id="yu-badges" title="Badges" lede="Keep training to unlock the rest." action={<SeeAll href="/you/rewards">Medal cabinet</SeeAll>} />
-        <NextMedalCard badges={d.badges} progress={d.progress} />
-        <MedalCabinet badges={d.badges} progress={d.progress} earned={earned} compact />
+        <BlockHead id="yu-badges" title="Badges" lede="Across every program. Some unlock a reward." action={<SeeAll href="/you/rewards">Points & levels</SeeAll>} />
+        {badges?.perks.length ? <PerksList perks={badges.perks} /> : null}
+        <BadgesCabinet defs={badges?.defs ?? []} earned={earned} progress={badges?.progress ?? d.progress} />
+      </section>
+      <section aria-labelledby="bd-moments-t" className="yu-block">
+        <MomentsWithMike earned={earned} />
       </section>
       <PastRuns runs={d.runs} />
       <section aria-labelledby="yu-certs" className="yu-block">
@@ -116,23 +128,10 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
   const history = (
     <div className="yu-stack">
       <section aria-labelledby="yu-orders" className="yu-block">
-        <BlockHead id="yu-orders" title="Orders" lede="Everything you've bought or unlocked." action={<SeeAll href="/you/billing">Billing</SeeAll>} />
-        <Glass radius="card" className="tpy-list">
-          {d.orders.length ? (
-            d.orders.slice(0, 6).map((o) => (
-              <Link key={o.id} href="/you/billing" className="tpy-row">
-                <span className="tpy-row-icon" aria-hidden><Icon name={o.items.some((i) => i.kind === "product") ? "bookmark" : "ring"} size="sm" /></span>
-                <span className="tpy-row-main">
-                  <span className="lq-t15">{o.items.map((i) => i.name).join(", ") || o.reference}</span>
-                  <span className="lq-t13 lq-c2 lq-num">{fmtDayYear(o.created_at)} · {o.status === "paid" ? "Paid" : o.status === "refunded" ? "Refunded" : o.status}</span>
-                </span>
-                <span className="lq-t15 lq-num" style={{ fontWeight: 600 }}>{o.total_cents ? money(o.total_cents, o.currency) : "Free"}</span>
-              </Link>
-            ))
-          ) : (
-            <div className="tpy-row"><span className="tpy-row-main"><span className="lq-t15 lq-c2">No orders yet.</span></span><Link href="/shop" className="yu-seeall lq-t15">Shop <Icon name="chevron" size="xs" /></Link></div>
-          )}
-        </Glass>
+        <BlockHead id="yu-orders" title="Orders" lede="Everything you've bought, with tracking for equipment." action={<SeeAll href="/you/billing">Billing</SeeAll>} />
+        <Suspense fallback={<Glass radius="card" className="tpy-list shp-yo-skel" aria-busy="true" />}>
+          <YouOrders orders={d.orders} />
+        </Suspense>
       </section>
 
       <section aria-labelledby="yu-insights" className="yu-block">
@@ -198,12 +197,8 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
   return (
     <>
       <CelebrationHost />
-      <AmbientBackdrop src={PHOTOS.coaching.src} position={PHOTOS.coaching.position} fixed />
-      <div className="tpy-title">
-        <LargeTitle title="You" trailing={<IconButton icon="settings" label="Settings" href="/you/settings" />} />
-      </div>
       <div className="yu-page">
-        <PassportHeader d={d} />
+        <YouHeader d={d} />
         <YouTabs initial={tab} panels={{ overview, achievements, history }} />
       </div>
     </>

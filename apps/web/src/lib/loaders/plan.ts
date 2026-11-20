@@ -1,4 +1,5 @@
 import "server-only";
+import { myTrainingProfile, type DB, type TrainingProfile } from "@ms/api";
 import { mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -61,4 +62,11 @@ export const loadSchedule = mockable("plan-schedule", async (): Promise<Schedule
       };
     }),
   };
+});
+
+/** The member's one training profile (shared intake answers). Preview fixture: fixtures/training-profile.json. */
+export const loadTrainingProfile = mockable("training-profile", async (): Promise<TrainingProfile> => {
+  const { supabase: sb, user } = await getUser();
+  if (!user) return {};
+  return myTrainingProfile(sb as unknown as DB, user.id);
 });

@@ -1,0 +1,221 @@
+{
+ "lifts": [
+  {
+   "lift": "Swing",
+   "first": {
+    "at": "2026-09-03T07:00:00Z",
+    "kg": 12
+   },
+   "best": {
+    "at": "2026-11-15T04:36:29Z",
+    "kg": 20
+   },
+   "last": {
+    "at": "2026-11-15T04:36:29Z",
+    "kg": 20
+   },
+   "count": 14
+  },
+  {
+   "lift": "Press",
+   "first": {
+    "at": "2026-09-10T07:00:00Z",
+    "kg": 8
+   },
+   "best": {
+    "at": "2026-11-12T07:00:00Z",
+    "kg": 12
+   },
+   "last": {
+    "at": "2026-11-12T07:00:00Z",
+    "kg": 12
+   },
+   "count": 9
+  },
+  {
+   "lift": "Squat",
+   "first": {
+    "at": "2026-09-05T07:00:00Z",
+    "kg": 12
+   },
+   "best": {
+    "at": "2026-11-08T07:00:00Z",
+    "kg": 16
+   },
+   "last": {
+    "at": "2026-11-08T07:00:00Z",
+    "kg": 16
+   },
+   "count": 8
+  },
+  {
+   "lift": "Get-up",
+   "first": {
+    "at": "2026-09-20T07:00:00Z",
+    "kg": 8
+   },
+   "best": {
+    "at": "2026-11-02T07:00:00Z",
+    "kg": 12
+   },
+   "last": {
+    "at": "2026-11-02T07:00:00Z",
+    "kg": 12
+   },
+   "count": 5
+  }
+ ],
+ "stretch": [
+  {
+   "id": "st3",
+   "at": "2026-11-09T18:02:00Z",
+   "score": 9,
+   "max": 15,
+   "title": "Workable \u2014 train and maintain",
+   "tests": [
+    {
+     "label": "Toe touch",
+     "score": 2,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Deep squat",
+     "score": 2,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Overhead reach",
+     "score": 3,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Ankle",
+     "score": 2,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "T-spine rotation",
+     "score": 0,
+     "max": 3,
+     "answer": ""
+    }
+   ]
+  },
+  {
+   "id": "st2",
+   "at": "2026-10-08T18:02:00Z",
+   "score": 7,
+   "max": 15,
+   "title": "Workable \u2014 train and maintain",
+   "tests": [
+    {
+     "label": "Toe touch",
+     "score": 1,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Deep squat",
+     "score": 1,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Overhead reach",
+     "score": 3,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Ankle",
+     "score": 2,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "T-spine rotation",
+     "score": 0,
+     "max": 3,
+     "answer": ""
+    }
+   ]
+  },
+  {
+   "id": "st1",
+   "at": "2026-09-04T18:02:00Z",
+   "score": 6,
+   "max": 15,
+   "title": "Workable \u2014 train and maintain",
+   "tests": [
+    {
+     "label": "Toe touch",
+     "score": 0,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Deep squat",
+     "score": 1,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Overhead reach",
+     "score": 3,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "Ankle",
+     "score": 2,
+     "max": 3,
+     "answer": ""
+    },
+    {
+     "label": "T-spine rotation",
+     "score": 0,
+     "max": 3,
+     "answer": ""
+    }
+   ]
+  }
+ ],
+ "journal": [
+  {
+   "id": "s:1",
+   "at": "2026-11-19T04:42:49Z",
+   "kind": "session",
+   "title": "20-minute mobility",
+   "body": "Hips opened up nicely.",
+   "href": null
+  },
+  {
+   "id": "d:2",
+   "at": "2026-11-17T06:10:00Z",
+   "kind": "day",
+   "title": "Day 23 \u00b7 Breath & Flow",
+   "body": "Slower breathing helped me stay with the flow. Left hip still tight at the end.",
+   "href": "/programs/kettlebell-lifestyle"
+  },
+  {
+   "id": "s:3",
+   "at": "2026-11-15T04:36:29Z",
+   "kind": "session",
+   "title": "Day 20 \u00b7 Workout I",
+   "body": "Went up to the 16kg on swings.",
+   "href": null
+  },
+  {
+   "id": "d:4",
+   "at": "2026-11-10T06:10:00Z",
+   "kind": "day",
+   "title": "Day 17 \u00b7 Press Day",
+   "body": "What would make tomorrow easier? Laying out the bell the night before.",
+   "href": "/programs/kettlebell-lifestyle"
+  }
+ ]
+}

@@ -20,7 +20,7 @@ function nextFor(kind: string | undefined, ref: string | undefined): { href: str
     case "plan":
       return { href: "/programs", label: "Explore your programs" };
     case "product":
-      return { href: "/shop#orders", label: "See your order" };
+      return { href: "/you?tab=history#yu-orders", label: "Track your order" };
     default:
       return { href: "/today", label: "Go to Today" };
   }
@@ -69,6 +69,12 @@ export default async function CheckoutSuccess(props: PageProps<"/checkout/succes
             <span aria-hidden>✓</span>
             <span>Order {order?.reference ?? ""} is confirmed. A receipt is on its way to your inbox{order?.items.some((i) => /bag|leather/i.test(i.name)) ? ", and we email tracking as soon as your order ships" : ""}.</span>
           </p>
+        )}
+        {shop && !pending && order?.items.some((i) => /\d+\s*kg/i.test(i.name)) && (
+          <a href="/shop/first-sessions" className="shp-done-series lq-press">
+            <b className="lq-t15">Unlocked: First 3 sessions with your new bell</b>
+            <span className="lq-t13 lq-c2">A free series from Mike for the day it arrives.</span>
+          </a>
         )}
         {pending ? <PendingRefresh /> : <Button block href={next.href} iconAfter="chevron">{next.label}</Button>}
         {shop ? (

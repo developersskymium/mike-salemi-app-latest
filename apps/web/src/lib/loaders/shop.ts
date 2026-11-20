@@ -11,9 +11,27 @@ export interface ShopVariant {
   label: string;
   price_cents: number;
   currency: string;
+  /** Price for Pro/Max members (null = same as list). */
+  member_price_cents: number | null;
+  /** Kettlebell weight in kg (bells, pairs, bell bundles). */
+  weight_kg: number | null;
 }
 
-export type ShopCategory = "equipment" | "plans" | "coaching" | "retreats" | "digital";
+export type ShopCategory = "bundles" | "equipment" | "plans" | "coaching" | "retreats" | "digital";
+export type ShopNeed = "start" | "level-up" | "recover" | "wear";
+export interface BundlePart { for?: string; slug: string; key: string; qty: number }
+export interface MikePhoto { src: string; alt: string; focal?: string; caption?: string }
+
+/** A shop order with its fulfilment (tracking) fields. */
+export interface ShopOrder extends Order {
+  shipping_cents?: number;
+  fulfillment?: "processing" | "shipped" | "delivered" | null;
+  tracking_carrier?: string | null;
+  tracking_number?: string | null;
+  tracking_url?: string | null;
+  shipped_at?: string | null;
+  delivered_at?: string | null;
+}
 export interface ShopImage {
   src: string;
   alt: string;
@@ -40,6 +58,13 @@ export interface ShopProduct {
   file_url: string | null;
   program_id: string | null;
   variants: ShopVariant[];
+  need: ShopNeed | null;
+  /** "Used in" links into programs. */
+  used_in: { label: string; href: string }[];
+  /** Mike using it (product page). */
+  mike_photo: MikePhoto | null;
+  /** Bundle contents (bundles only). */
+  bundle: BundlePart[];
   /** Free download the member can open (has access to its program). */
   unlocked: boolean;
 }
@@ -52,18 +77,29 @@ export interface ShopData {
   payments: boolean;
   products: ShopProduct[];
   /** The member's orders that contain shop items. */
-  orders: Order[];
+  orders: ShopOrder[];
+  /** Pro/Max member: member prices apply. */
+  member: boolean;
+  shipping: { free_cents: number; flat_cents: number };
+  /** product id → rating summary. */
+  ratings: Record<string, { average: number; count: number }>;
+  /** Bought a kettlebell (unlocks "First 3 sessions with your new bell"). */
+  ownsBell: boolean;
 }
 
-type Row = Omit<ShopProduct, "variants" | "unlocked" | "bullets" | "inquiry" | "category" | "gallery"> & {
+type Row = Omit<ShopProduct, "variants" | "unlocked" | "bullets" | "inquiry" | "category" | "gallery" | "need" | "used_in" | "mike_photo" | "bundle"> & {
   category: string | null;
   gallery: unknown;
+  need: string | null;
+  used_in: unknown;
+  mike_photo: unknown;
+  bundle: unknown;
   bullets: unknown;
   inquiry: unknown;
   shop_variants: (ShopVariant & { position: number; is_active: boolean })[];
 };
 
-const CATS: ShopCategory[] = ["equipment", "plans", "coaching", "retreats", "digital"];
+const CATS: ShopCategory[] = ["bundles", "equipment", "plans", "coaching", "retreats", "digital"];
 
 /** shop_products.category, or derived for rows without one. */
 export function categoryOf(p: { category?: string | null; type: string; file_url: string | null; slug: string }): ShopCategory {
@@ -106,21 +142,27 @@ export async function loadShop(): Promise<ShopData> {
   if (MOCK) {
     const d = await fixture<ShopData>("shop");
     return { ...d, products: d.products.map((p) => withPhotos({ ...p, category: categoryOf(p), gallery: galleryOf(p.gallery) })) };
+    // (mock: member pricing, ratings, tracking and the bell unlock come from the fixture)
   }
   const { supabase, user } = await getUser();
   if (!user) throw new Error("Not signed in");
   const sb = supabase as unknown as DB;
   // shop_* tables are newer than the generated types
   const raw = sb as unknown as { from: (t: string) => { select: (c: string) => { order: (c: string) => PromiseLike<{ data: unknown }> } } };
-  const [setting, admin, products, orders] = await Promise.all([
-    sb.from("site_settings").select("value").eq("key", "shop").maybeSingle().then((r) => (r.data?.value ?? {}) as { enabled?: boolean }),
+  const rpc = sb.rpc as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: unknown }>;
+  const [setting, admin, products, orders, member, ratings, ownsBell, tracking] = await Promise.all([
+    sb.from("site_settings").select("value").eq("key", "shop").maybeSingle().then((r) => (r.data?.value ?? {}) as { enabled?: boolean; free_shipping_cents?: number; shipping_cents?: number }),
     sb.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle().then((r) => !!r.data),
     raw
       .from("shop_products")
-      .select("id, slug, name, type, category, gallery, tagline, description, bullets, image, note, inquiry, file_url, program_id, position, shop_variants(id, key, label, price_cents, currency, position, is_active)")
+      .select("id, slug, name, type, category, gallery, tagline, description, bullets, image, note, inquiry, file_url, program_id, position, need, used_in, mike_photo, bundle, shop_variants(id, key, label, price_cents, member_price_cents, weight_kg, currency, position, is_active)")
       .order("position")
       .then((r: { data: unknown }) => (r.data ?? []) as Row[]),
     myOrders(sb).catch(() => [] as Order[]),
+    rpc("shop_is_member").then((r) => r.data === true, () => false),
+    rpc("shop_ratings").then((r) => (r.data ?? []) as { product_id: string; average: number; count: number }[], () => []),
+    rpc("owns_shop_kettlebell").then((r) => r.data === true, () => false),
+    loadTracking(sb),
   ]);
   const programs = [...new Set(products.map((p) => p.program_id).filter(Boolean) as string[])];
   const access = new Map(
@@ -130,17 +172,60 @@ export async function loadShop(): Promise<ShopData> {
     enabled: !!setting.enabled,
     isAdmin: admin,
     payments: stripeConfigured(),
+    member,
+    shipping: { free_cents: setting.free_shipping_cents ?? 15000, flat_cents: setting.shipping_cents ?? 1200 },
+    ratings: Object.fromEntries(ratings.map((r) => [r.product_id, { average: Number(r.average), count: r.count }])),
+    ownsBell,
     products: products.map(({ shop_variants, ...p }) => withPhotos({
       ...p,
       category: categoryOf(p),
+      need: (["start", "level-up", "recover", "wear"] as string[]).includes(p.need ?? "") ? (p.need as ShopNeed) : null,
+      used_in: Array.isArray(p.used_in) ? (p.used_in as ShopProduct["used_in"]) : [],
+      mike_photo: (p.mike_photo as MikePhoto | null) ?? null,
+      bundle: Array.isArray(p.bundle) ? (p.bundle as BundlePart[]) : [],
       gallery: galleryOf(p.gallery),
       bullets: Array.isArray(p.bullets) ? (p.bullets as string[]) : [],
       inquiry: (p.inquiry as ShopProduct["inquiry"]) ?? null,
-      variants: [...(shop_variants ?? [])].filter((v) => v.is_active).sort((a, b) => a.position - b.position).map(({ position: _p, is_active: _a, ...v }) => v),
+      variants: [...(shop_variants ?? [])].filter((v) => v.is_active).sort((a, b) => a.position - b.position).map(({ position: _p, is_active: _a, ...v }) => ({ ...v, weight_kg: v.weight_kg == null ? null : Number(v.weight_kg) })),
       unlocked: !!p.file_url && (!p.program_id || !!access.get(p.program_id)),
     })),
-    orders: orders.filter((o) => o.items.some((i) => i.kind === "product")),
+    orders: orders.filter((o) => o.items.some((i) => i.kind === "product")).map((o) => ({ ...o, ...tracking.get(o.id) })),
   };
+}
+
+type Tracking = Pick<ShopOrder, "shipping_cents" | "fulfillment" | "tracking_carrier" | "tracking_number" | "tracking_url" | "shipped_at" | "delivered_at">;
+
+/** Fulfilment fields for the member's orders (0029 columns; RLS lets members read their own orders). */
+async function loadTracking(sb: DB): Promise<Map<string, Tracking>> {
+  const raw = sb as unknown as { from: (t: string) => { select: (c: string) => PromiseLike<{ data: unknown }> } };
+  try {
+    const { data } = await raw.from("orders").select("id, shipping_cents, fulfillment, tracking_carrier, tracking_number, tracking_url, shipped_at, delivered_at");
+    return new Map(((data ?? []) as (Tracking & { id: string })[]).map(({ id, ...t }) => [id, t]));
+  } catch {
+    return new Map();
+  }
+}
+
+/** Shop orders + the member's own ratings, for the Orders section of You. */
+export async function loadMyShopOrders(): Promise<{ orders: ShopOrder[]; products: ShopProduct[]; myRatings: Record<string, number>; ownsBell: boolean }> {
+  if (MOCK) {
+    const d = await fixture<ShopData & { myRatings?: Record<string, number> }>("shop");
+    return { orders: d.orders, products: d.products, myRatings: d.myRatings ?? {}, ownsBell: d.ownsBell };
+  }
+  const d = await loadShop();
+  const { supabase, user } = await getUser();
+  const raw = supabase as unknown as { from: (t: string) => { select: (c: string) => { eq: (c: string, v: string) => PromiseLike<{ data: unknown }> } } };
+  const mine = user ? ((await raw.from("shop_reviews").select("product_id, rating").eq("user_id", user.id)).data ?? []) as { product_id: string; rating: number }[] : [];
+  return { orders: d.orders, products: d.products, myRatings: Object.fromEntries(mine.map((r) => [r.product_id, r.rating])), ownsBell: d.ownsBell };
+}
+
+/** Kettlebell Selector config (the published tool) for the shop's built-in selector. */
+export async function loadSelectorConfig(): Promise<Record<string, unknown> | null> {
+  if (MOCK) return fixture<{ tool: { config: Record<string, unknown> } }>("discover-tool-kettlebell-selector").then((t) => t.tool.config, () => null);
+  const { supabase } = await getUser();
+  const sb = supabase as unknown as DB;
+  const { data } = await sb.from("tools").select("config").eq("id", "kettlebell-selector").eq("status", "published").maybeSingle();
+  return (data?.config as Record<string, unknown> | null) ?? null;
 }
 
 /** Whether the member can open the shop (switched on, or an admin previewing it). Cheap: two small reads. */
