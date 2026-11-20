@@ -11,7 +11,7 @@ import { programHref } from "@/lib/hrefs";
 import type { HomeItem, HomeView } from "./buildHome";
 import type { TodayView } from "./buildToday";
 import { JoinButton } from "./JoinButton";
-import { plural, splitDayTitle } from "./model";
+import { dayKindLabel, dayNumberOf, phaseLabel, plural, splitDayTitle } from "./model";
 import { WeekStrip } from "./WeekStrip";
 import "./summit-home.css";
 import "./tpy.css";
@@ -19,7 +19,6 @@ import "./calm-home.css";
 import "./peak-home.css";
 import { PROGRAM_MEDAL } from "@/components/badges/catalog";
 
-const levelOf = (pathName: string | null | undefined) => pathName?.split("·")[0]?.trim() || null;
 const STREAK_GOALS = [3, 7, 14, 30, 60, 100, 365];
 
 /** The member's most recent badge (from my_rewards), dressed with its definition when we have it. */
@@ -113,33 +112,40 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
   const item = h.continuing!;
   const p = v.primary;
   const same = p && p.program_slug === item.slug;
-  const { day, name } = splitDayTitle((same ? p.current_lesson_title : null) ?? item.nextLabel ?? item.name);
-  const cl = same ? v.currentLesson : null;
+  const cl = same && v.currentLesson?.lessonId === p.current_lesson_id ? v.currentLesson : null;
+  // The lesson's own title ("Day 3", "Day 24 - Recovery Day", or a course lesson name).
+  const lessonTitle = (same ? p.current_lesson_title : null) ?? item.nextTitle ?? null;
+  const day = dayNumberOf(lessonTitle);
+  const { name } = splitDayTitle(lessonTitle ?? "");
   const steps = cl?.steps ?? [];
   const minutes = cl?.minutes ?? (steps.length ? steps.reduce((n, s) => n + (parseInt(s.duration ?? "", 10) || 0), 0) || null : null);
   const started = steps.some((s) => s.done);
-  const level = levelOf(p?.path_name);
   const photo = framed(item.image?.src, item.slug);
   const action = h.heroAction!;
-  const week = day ? Math.ceil(Number(day) / 7) : null;
-  const meta = [day ? `Week ${week} · Day ${day}` : item.name.split(" · ")[0], level, minutes ? `${minutes} min` : null].filter(Boolean).join(" · ");
+  // Phase (or course section) and the kind of day, from the lesson data.
+  const phase = phaseLabel(cl?.sectionTitle ?? (same ? p.current_section_title : null) ?? item.sectionTitle);
+  const kind = day ? dayKindLabel(cl?.dayType ?? (/^day\s+\d+\s*[-–—:]/i.test(lessonTitle ?? "") ? name : null)) : null;
   // Time-aware (Home #3) and comeback (Home #8) states.
   const hour = now ? localHour(now, v.timezone) : 12;
   const doneToday = v.week.find((d) => d.isToday)?.state === "done";
   const away = now && item.lastActivityAt ? Math.floor((now - Date.parse(item.lastActivityAt)) / 864e5) : 0;
   const mode: "comeback" | "tomorrow" | "morning" | "continue" = away >= 5 ? "comeback" : doneToday && hour >= 15 ? "tomorrow" : hour < 12 ? "morning" : "continue";
   const tag = { comeback: "Welcome back", tomorrow: "Done for today", morning: "This morning", continue: "Continue" }[mode];
-  const title = mode === "tomorrow" ? `Tomorrow: ${name || item.name}` : name || item.name;
-  const sub = mode === "comeback" ? `An easy restart day. Go at 70% and just move — ${meta}` : meta;
+  // Program (and level) sits on top; the title names the day, the line under it the phase and the kind of day.
+  const lessonName = name && name !== phase ? name : null;
+  const title = day ? `${mode === "tomorrow" ? "Tomorrow" : "Today"}: Day ${day}` : mode === "tomorrow" && lessonName ? `Tomorrow: ${lessonName}` : lessonName ?? phase ?? item.name;
+  const meta = [day || lessonName ? phase : null, kind, minutes ? `${minutes} min` : null].filter(Boolean).join(" · ");
+  const sub = mode === "comeback" ? ["Easy restart, go at 70%", meta].filter(Boolean).join(" · ") : meta;
   const label = item.complete ? "Review" : mode === "comeback" ? "Restart easy" : mode === "tomorrow" ? "Preview tomorrow" : day ? `${started ? "Continue" : "Start"} Day ${day}` : action.label;
   return (
-    <PhotoHero className="sh-hero ch-hero pk-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={520} priority overlay={<HeroStat item={item} h={h} day={day} />}>
+    <PhotoHero className="sh-hero ch-hero pk-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={520} priority overlay={<HeroStat item={item} h={h} />}>
+      <p className="pk-hero-k">{item.name}</p>
       <Tag tone={mode === "tomorrow" ? "accent" : "warm"} size="lg">
         {mode === "tomorrow" ? <Icon name="check" size="xs" /> : null}
         {tag}
       </Tag>
       <h2 className="lq-d-xxl sh-hero-t">{title}</h2>
-      <p className="sh-hero-meta">{sub}</p>
+      {sub ? <p className="sh-hero-meta">{sub}</p> : null}
       <div className="ch-hero-prog pk-hero-prog">
         <ProgressBar value={item.percent / 100} tone="white" size="thin" label={`${item.name} progress`} />
         <span className="lq-num">{item.percent}%</span>
@@ -149,7 +155,7 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
           {label}
         </Button>
         <Link href={item.pageHref} className="pk-hero-alt">
-          {item.name.split(" · ")[0]} <Icon name="arrowRight" size="xs" />
+          Program overview <Icon name="arrowRight" size="xs" />
         </Link>
       </div>
     </PhotoHero>
@@ -201,8 +207,8 @@ function EmptyHero({ v }: { v: TodayView }) {
 
 const accentOf = (slug: string) => PROGRAM_MEDAL[slug]?.color ?? "var(--accent)";
 
-/** Hero stat panel: an ember progress ring for the program, and the readiness hint when we have one. */
-function HeroStat({ item, h, day }: { item: HomeItem; h: HomeView; day: string | number | null }) {
+/** Hero stat panel: an ember progress ring for the program (named once, above the title), and the readiness hint when we have one. */
+function HeroStat({ item, h }: { item: HomeItem; h: HomeView }) {
   const r = 46;
   const c = 2 * Math.PI * r;
   const rd = h.readiness;
@@ -219,15 +225,13 @@ function HeroStat({ item, h, day }: { item: HomeItem; h: HomeView; day: string |
         </span>
       </div>
       <div className="pk-stat-b">
-        <b>{item.name.split(" · ")[0]}</b>
-        <span className="lq-num">{item.progressLabel}</span>
+        <b className="lq-num">{item.progressLabel}</b>
+        <span>done so far</span>
         {rd ? (
           <span className="pk-stat-rd">
             <i data-band={rd.band} /> Readiness <b className="lq-num">{rd.score}</b>
             {rd.band === "red" ? " · go easy today" : rd.band === "green" ? " · ready to train" : ""}
           </span>
-        ) : day ? (
-          <span className="pk-stat-rd">Day {day}</span>
         ) : null}
       </div>
     </div>

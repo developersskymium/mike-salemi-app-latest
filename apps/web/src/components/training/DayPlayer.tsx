@@ -111,6 +111,12 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
   const setClipId = (id: string | null) => setClipState({ step: step.id, id });
   const pending = pendingState && pendingState.step === step.id ? pendingState : null;
   const setPending = (v: null | { kind: "clip" | "step"; title: string; go: () => void }) => setPendingState(v ? { ...v, step: step.id } : null);
+  /** Autoplay toggle (top bar; on phone a compact stacked version of the same control). */
+  const changeAutoplay = (v: boolean) => {
+    setAutoplay(v);
+    if (!v && pending?.kind === "step") setPending(null);
+    void setAutoplayAction(v);
+  };
   const initialSeconds = data.position?.videoSeconds ?? {};
   const playlist = stagePlaylist(step, clipId);
   const current = clipId ? playlist.queue.find((c) => c.providerId === clipId) ?? null : playlist.lead;
@@ -631,16 +637,8 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             ))}
           </div>
           <label className="kd-auto" data-on={autoplay ? "" : undefined}>
-            <span className="kd-sm">Autoplay</span>
-            <Toggle
-              checked={autoplay}
-              label="Autoplay"
-              onChange={(v) => {
-                setAutoplay(v);
-                if (!v && pending?.kind === "step") setPending(null);
-                void setAutoplayAction(v);
-              }}
-            />
+            <span className="kd-auto-l">Autoplay</span>
+            <Toggle checked={autoplay} label="Autoplay" onChange={changeAutoplay} />
           </label>
           {workoutDay && (
             <button type="button" className="kd-plan-btn lq-press" onClick={() => setPlanOpen(true)} aria-label="Session plan">
