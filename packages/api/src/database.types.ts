@@ -534,6 +534,35 @@ export type Database = {
         }
         Relationships: []
       }
+      day_notes: {
+        Row: {
+          body: string
+          lesson_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          lesson_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          lesson_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "day_notes_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       enrollments: {
         Row: {
           completed_at: string | null
@@ -3068,6 +3097,124 @@ export type Database = {
         }
         Relationships: []
       }
+      training_sessions: {
+        Row: {
+          created_at: string
+          day_completed_at: string | null
+          ended_at: string | null
+          favourite: boolean
+          id: string
+          intent: string | null
+          last_activity_at: string
+          lesson_id: string | null
+          minutes: number | null
+          notes: string | null
+          path_id: string | null
+          plan: Json
+          planned_minutes: number | null
+          program_id: string
+          progress: Json
+          readiness_result_id: string | null
+          repeat_of: string | null
+          source: string
+          started_at: string
+          title: string
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          day_completed_at?: string | null
+          ended_at?: string | null
+          favourite?: boolean
+          id?: string
+          intent?: string | null
+          last_activity_at?: string
+          lesson_id?: string | null
+          minutes?: number | null
+          notes?: string | null
+          path_id?: string | null
+          plan?: Json
+          planned_minutes?: number | null
+          program_id: string
+          progress?: Json
+          readiness_result_id?: string | null
+          repeat_of?: string | null
+          source?: string
+          started_at?: string
+          title?: string
+          user_id: string
+          video_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          day_completed_at?: string | null
+          ended_at?: string | null
+          favourite?: boolean
+          id?: string
+          intent?: string | null
+          last_activity_at?: string
+          lesson_id?: string | null
+          minutes?: number | null
+          notes?: string | null
+          path_id?: string | null
+          plan?: Json
+          planned_minutes?: number | null
+          program_id?: string
+          progress?: Json
+          readiness_result_id?: string | null
+          repeat_of?: string | null
+          source?: string
+          started_at?: string
+          title?: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_sessions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_path_id_fkey"
+            columns: ["path_id"]
+            isOneToOne: false
+            referencedRelation: "program_paths"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_readiness_result_id_fkey"
+            columns: ["readiness_result_id"]
+            isOneToOne: false
+            referencedRelation: "readiness_results"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_repeat_of_fkey"
+            columns: ["repeat_of"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -3236,6 +3383,14 @@ export type Database = {
           unlocked: boolean
         }[]
       }
+      custom_session: {
+        Args: { p_program: string; p_steps: string[]; p_title?: string }
+        Returns: Json
+      }
+      end_session: {
+        Args: { p_minutes?: number; p_notes?: string; p_session: string }
+        Returns: Json
+      }
       enroll: {
         Args: {
           p_mode?: Database["public"]["Enums"]["learning_mode"]
@@ -3251,6 +3406,7 @@ export type Database = {
       join_org: { Args: { p_join_token: string }; Returns: Json }
       lesson_state: { Args: { p_lesson: string }; Returns: Json }
       lesson_unlocked: { Args: { p_lesson: string }; Returns: boolean }
+      library_session: { Args: { p_video: string }; Returns: Json }
       library_videos: {
         Args: {
           p_limit?: number
@@ -3276,9 +3432,44 @@ export type Database = {
           total_count: number
         }[]
       }
+      log_day_completion: {
+        Args: { p_lesson: string; p_session?: string }
+        Returns: Json
+      }
       log_offer_event: {
         Args: { p_event: string; p_offer: string; p_placement: string }
         Returns: undefined
+      }
+      my_continue: {
+        Args: { p_limit?: number; p_program?: string }
+        Returns: {
+          day_number: number
+          day_type: string
+          kind: string
+          lesson_id: string
+          lesson_key: string
+          lesson_title: string
+          mode: Database["public"]["Enums"]["learning_mode"]
+          path_id: string
+          path_name: string
+          poster: string
+          program_id: string
+          program_name: string
+          program_slug: string
+          program_type: Database["public"]["Enums"]["program_type"]
+          section_title: string
+          session_id: string
+          session_title: string
+          step_count: number
+          step_id: string
+          step_index: number
+          step_title: string
+          steps_done: number
+          updated_at: string
+          video_duration: number
+          video_provider_id: string
+          video_seconds: number
+        }[]
       }
       my_enrollments: {
         Args: never
@@ -3307,6 +3498,10 @@ export type Database = {
       my_experiences: { Args: never; Returns: Json }
       my_referral_code: { Args: never; Returns: string }
       my_rewards: { Args: never; Returns: Json }
+      my_training_stats: {
+        Args: { p_program?: string; p_weeks?: number }
+        Returns: Json
+      }
       my_week: {
         Args: { p_from: string; p_to: string }
         Returns: {
@@ -3348,6 +3543,15 @@ export type Database = {
           state: string
         }[]
       }
+      quick_session: {
+        Args: {
+          p_intent?: string
+          p_minutes: number
+          p_path?: string
+          p_program: string
+        }
+        Returns: Json
+      }
       quote: {
         Args: {
           p_coupon?: string
@@ -3358,16 +3562,65 @@ export type Database = {
         Returns: Json
       }
       refund_order: { Args: { p_order: string }; Returns: Json }
+      repeat_session: { Args: { p_session: string }; Returns: Json }
       restart_path: {
         Args: { p_path?: string; p_program: string }
         Returns: Json
+      }
+      save_day_note: {
+        Args: { p_body: string; p_lesson: string }
+        Returns: string
+      }
+      save_training_plan: {
+        Args: {
+          p_inputs: Json
+          p_items: Json
+          p_name: string
+          p_starts_on?: string
+        }
+        Returns: string
       }
       schedule_immersion: {
         Args: { p_days: number[]; p_enrollment: string; p_starts_on?: string }
         Returns: string
       }
+      session_pool: {
+        Args: { p_path?: string; p_program: string }
+        Returns: {
+          lesson_id: string
+          lesson_key: string
+          lesson_title: string
+          minutes: number
+          ord: number
+          role: string
+          step_id: string
+          title: string
+        }[]
+      }
+      session_progress: {
+        Args: {
+          p_done?: boolean
+          p_item: string
+          p_seconds?: number
+          p_session: string
+          p_video?: string
+        }
+        Returns: Json
+      }
+      set_session_favourite: {
+        Args: { p_on: boolean; p_session: string }
+        Returns: undefined
+      }
+      smart_next: {
+        Args: { p_path?: string; p_program: string }
+        Returns: Json
+      }
       start_plan_from_template: {
         Args: { p_days?: number[]; p_starts_on?: string; p_template: string }
+        Returns: string
+      }
+      start_session: {
+        Args: { p_lesson: string; p_source?: string }
         Returns: string
       }
       submit_intake: {
@@ -3377,6 +3630,34 @@ export type Database = {
       submit_readiness: {
         Args: { p_answers: Json; p_lesson: string }
         Returns: Json
+      }
+      training_history: {
+        Args: { p_before?: string; p_limit?: number; p_program?: string }
+        Returns: {
+          day_completed: boolean
+          day_number: number
+          ended_at: string
+          favourite: boolean
+          intent: string
+          items: number
+          items_done: number
+          lesson_id: string
+          lesson_key: string
+          lesson_title: string
+          minutes: number
+          notes: string
+          planned_minutes: number
+          program_id: string
+          program_name: string
+          program_slug: string
+          readiness_band: string
+          readiness_name: string
+          readiness_score: number
+          session_id: string
+          source: string
+          started_at: string
+          title: string
+        }[]
       }
       uncomplete_step: { Args: { p_step: string }; Returns: undefined }
       verify_certificate: { Args: { p_code: string }; Returns: Json }

@@ -1,0 +1,187 @@
+{
+ "session": {
+  "id": "30d92d06-0000-4000-8000-000000000000",
+  "title": "45-minute workout",
+  "source": "quick",
+  "intent": "workout",
+  "startedAt": "2026-11-20T06:10:00Z",
+  "endedAt": null,
+  "minutes": null,
+  "plannedMinutes": 42,
+  "notes": null,
+  "favourite": false,
+  "progress": {
+   "done": [
+    "4039765d-1eae-4658-8584-adb194f46140"
+   ],
+   "active": "a52f3b4a-f7cb-4608-932c-e699c5184f02",
+   "seconds": {
+    "399566970": 184
+   }
+  }
+ },
+ "program": {
+  "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "slug": "kettlebell-lifestyle",
+  "name": "Kettlebell Lifestyle",
+  "image": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png"
+ },
+ "steps": [
+  {
+   "id": "4039765d-1eae-4658-8584-adb194f46140",
+   "stepId": "4039765d-1eae-4658-8584-adb194f46140",
+   "lessonId": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+   "lessonKey": "l1-on-ramp-d1",
+   "lessonTitle": "Day 1",
+   "title": "Bodyweight Warm Up",
+   "role": "warmup",
+   "slot": "warmup",
+   "minutes": 10,
+   "video": {
+    "providerId": "403877736",
+    "privacyHash": null,
+    "title": "Bodyweight Warm Up",
+    "durationSeconds": null,
+    "thumbnailUrl": null
+   },
+   "clips": [],
+   "poster": null,
+   "body": "NOTES:\n\nFor this warm up you may follow along, or go at your own pace and perform as many repetitions in each movement based on your body’s needs today.\n\nBodyweight Warm Up\n\nMarching in Place*\n\nRise and Falls\n\nKnee Circles\n\nHip Flexion-Extension\n\nLeg Swings\n\nPelvic Rocks\n\nPelvic Circles\n\nSpinal Roll Downs\n\nSide Wipes\n\nTranslations\n\nSide Bend with Reaching\n\nPummel Series*\n\nNeck Figure 8’s*",
+   "special": "none",
+   "table": null
+  },
+  {
+   "id": "a52f3b4a-f7cb-4608-932c-e699c5184f02",
+   "stepId": "a52f3b4a-f7cb-4608-932c-e699c5184f02",
+   "lessonId": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+   "lessonKey": "l1-on-ramp-d1",
+   "lessonTitle": "Day 1",
+   "title": "Starter Workout",
+   "role": "workout",
+   "slot": "main",
+   "minutes": 26,
+   "video": {
+    "providerId": "399566970",
+    "privacyHash": "70dab980e9",
+    "title": "On Ramp, Starter Workout, Level I",
+    "durationSeconds": 689,
+    "thumbnailUrl": "/media/library/On-Ramp-Starter-Workout-Level-I.png"
+   },
+   "clips": [
+    {
+     "title": "Romanial Deadlift",
+     "providerId": "395343565",
+     "privacyHash": "1b8ecf840a",
+     "durationSeconds": 351,
+     "thumbnailUrl": "/media/library/Romanian-Deadlift.png"
+    },
+    {
+     "title": "Half Kneeling Halo",
+     "providerId": "395065982",
+     "privacyHash": "57f01d4d60",
+     "durationSeconds": 276,
+     "thumbnailUrl": "/media/library/Half-Kneeling-Halo.png"
+    },
+    {
+     "title": "Abdominal Roll Up",
+     "providerId": "399518035",
+     "privacyHash": "85a6e6d56e",
+     "durationSeconds": 216,
+     "thumbnailUrl": "/media/library/Abdominal-Roll-Up.png"
+    },
+    {
+     "title": "Modified Butterflies",
+     "providerId": "399568713",
+     "privacyHash": "d498aa092a",
+     "durationSeconds": 325,
+     "thumbnailUrl": "/media/library/Butterfly-Series.png"
+    }
+   ],
+   "poster": "/media/library/On-Ramp-Starter-Workout-Level-I.png",
+   "body": "NOTES:\n\nSince the primary goal of this On Ramp Phase is more so to focus on learning the essential components that will support your health and movement training moving forward, the included Starter Workout is optional.",
+   "special": "workout",
+   "table": {
+    "id": "1",
+    "title": "Workout 1 - level 1",
+    "notes": "*Arrows indicate exercises done consecutively\nNotes:\nRomanian Deadlift Tempo: \n3 Second Lowering Phase\n1 Second Hold At Bottom\n2 Second Raising Phase",
+    "rows": [
+     {
+      "reps": "12",
+      "rest": "",
+      "sets": "3",
+      "tempo": "Mod",
+      "circuit": "C",
+      "restDir": "down",
+      "exercise": "Romanian Deadlift",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c.png"
+     },
+     {
+      "reps": "12 (6/6)",
+      "rest": "",
+      "sets": "3",
+      "tempo": "Mod",
+      "circuit": "C",
+      "restDir": "down",
+      "exercise": "Half Kneeling Halo",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Light",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c.png"
+     },
+     {
+      "reps": "8",
+      "rest": "",
+      "sets": "3",
+      "tempo": "Mod",
+      "circuit": "C",
+      "restDir": "down",
+      "exercise": "Abdominal Roll Ups",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Body Weight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c.png"
+     },
+     {
+      "reps": "15",
+      "rest": "As Needed",
+      "sets": "3",
+      "tempo": "Mod",
+      "circuit": "C",
+      "restDir": "down",
+      "exercise": "Modified Butterflies",
+      "intensity": "Body Weight",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/c.png"
+     }
+    ]
+   }
+  },
+  {
+   "id": "ffdb623d-faa8-464a-a3b3-121e1c5399f6",
+   "stepId": "ffdb623d-faa8-464a-a3b3-121e1c5399f6",
+   "lessonId": "2c788986-306e-4600-98a6-9f42de652640",
+   "lessonKey": "l1-on-ramp-d2",
+   "lessonTitle": "Day 2",
+   "title": "Working In",
+   "role": "recovery",
+   "slot": "stretch",
+   "minutes": 6,
+   "video": {
+    "providerId": "394825259",
+    "privacyHash": "4d57443f30",
+    "title": "Working In",
+    "durationSeconds": 477,
+    "thumbnailUrl": "https://i.vimeocdn.com/video/875417711-99e7243dc79d51fbacba0ec641e18402f00fbacd7986625c5422b73db30dcb86-d_1280?region=us"
+   },
+   "clips": [],
+   "poster": "https://i.vimeocdn.com/video/875417711-99e7243dc79d51fbacba0ec641e18402f00fbacd7986625c5422b73db30dcb86-d_1280?region=us",
+   "body": null,
+   "special": "none",
+   "table": null
+  }
+ ],
+ "autoplayNext": true
+}

@@ -1,0 +1,780 @@
+{
+ "programs": [
+  {
+   "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "slug": "kettlebell-lifestyle",
+   "name": "Kettlebell Lifestyle",
+   "rotate": true,
+   "image": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+   "lessons": [
+    {
+     "id": "134f4dc4-ed7c-455b-bf9c-9af918685018",
+     "title": "On Ramp Overview",
+     "intent": "overview",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": null
+    },
+    {
+     "id": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+     "title": "Day 1",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 54
+    },
+    {
+     "id": "2c788986-306e-4600-98a6-9f42de652640",
+     "title": "Day 2",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 34
+    },
+    {
+     "id": "a5384bec-3b67-4643-a49c-27c89224d70f",
+     "title": "Day 3",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 54
+    },
+    {
+     "id": "0d1a8c9a-8044-4132-a347-2fbb8a890ee1",
+     "title": "Day 4",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 34
+    },
+    {
+     "id": "c34a6f5f-11d7-4226-8225-ce2acb981bfe",
+     "title": "Day 5",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 54
+    },
+    {
+     "id": "4f36e603-5cdf-4c4e-b2d0-a90cacc9e102",
+     "title": "Day 6",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 34
+    },
+    {
+     "id": "9912fa5e-519f-4f81-9d11-606ddc5afac2",
+     "title": "Day 7",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "On Ramp Phase",
+     "minutes": 34
+    },
+    {
+     "id": "b277a2f0-24ac-4823-9a76-da13a2d4a7c2",
+     "title": "Phase 1 Overview",
+     "intent": "overview",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": null
+    },
+    {
+     "id": "5ac88604-f54c-40c2-83c0-e0781e97c9f2",
+     "title": "Day 8 - Workout I Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "d8743187-086c-4097-bac5-4b1b67816466",
+     "title": "Day 9 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c",
+     "title": "Day 10 - Workout II Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "16fb09b0-ab1c-4f28-83cb-0ffafd7b21fb",
+     "title": "Day 11 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "3917ed46-7595-4388-95eb-a5527b3b740c",
+     "title": "Day 12 - Workout I Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "c9c1dda6-bbd3-47c7-a18e-4a03dc2fe8c7",
+     "title": "Day 13 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "1325c465-c5e0-4b38-a37a-cc49619782b0",
+     "title": "Day 14 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "d6f1512f-dcff-4afd-90ba-e488b223efb6",
+     "title": "Day 15 - Workout II Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "cf8ebd49-342f-41e2-b65a-77ad05950628",
+     "title": "Day 16 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "a2ee9c09-15a5-4f82-be94-bf12b9917f38",
+     "title": "Day 17 - Workout I Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "9faf99d0-823a-4f47-97af-f58ceb4f04f6",
+     "title": "Day 18 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 34
+    },
+    {
+     "id": "018136a7-666c-4b54-8fdb-bc259859b6f0",
+     "title": "Day 19 - Workout II Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "04887477-47c4-434c-94c6-f7be54151dc8",
+     "title": "Day 20 - Workout I Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": 63
+    },
+    {
+     "id": "bdf5f4e4-0d66-4dda-956b-5a119e4b06f5",
+     "title": "What's Next — Phase 2",
+     "intent": "overview",
+     "done": true,
+     "sectionTitle": "Phase 1",
+     "minutes": null
+    },
+    {
+     "id": "2b4abc8e-8aee-43bd-be92-b467535e5d01",
+     "title": "Phase 2 Overview",
+     "intent": "overview",
+     "done": true,
+     "sectionTitle": "Phase 2",
+     "minutes": null
+    },
+    {
+     "id": "5174f4a2-9564-4096-94fd-5f3319a06754",
+     "title": "Day 21 - Workout I Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c",
+     "title": "Day 22 - Recovery Day",
+     "intent": "recovery",
+     "done": true,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "d3053bee-873f-4a1d-8aba-4e201f49d84d",
+     "title": "Day 23 - Workout II Day",
+     "intent": "workout",
+     "done": true,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+     "title": "Day 24 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "f8e6d15d-c05d-4a20-b8ef-f1eb43d23e24",
+     "title": "Day 25 - Workout III Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "35b2dd80-2d66-4897-9850-d300aefbc391",
+     "title": "Day 26 - Skill Development Day",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 42
+    },
+    {
+     "id": "41ac001f-96e5-40ae-85eb-093991a8f280",
+     "title": "Day 27 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "8c85b4c0-818e-4357-8135-b181d845d1f4",
+     "title": "Day 28 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "59b70f3c-7ce9-4986-b869-9a9d7062aecd",
+     "title": "Day 29 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "a16dc6dc-013f-4696-a0c5-887efb373151",
+     "title": "Day 30 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "101d453f-73c4-4b8f-9c94-7356cb2a60c1",
+     "title": "Day 31 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "814b590d-5a1a-4ea9-95de-bbe7ef7f00c2",
+     "title": "Day 32 - Workout III Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "3721c0c0-d6eb-4e49-b17a-d5588c993b51",
+     "title": "Day 33 - Skill Development Day",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 42
+    },
+    {
+     "id": "ee69a6ce-4c78-425e-87a4-91a266219592",
+     "title": "Day 34 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "031c7826-9b6c-4b87-a40e-e60c90294fa2",
+     "title": "Day 35 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "49b69249-93f2-4483-8d6b-ebe1e5baa143",
+     "title": "Day 36 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "33a2a857-e42a-46ab-99f5-a937d7634f0d",
+     "title": "Day 37 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "0bf0212c-ccd0-41ca-928b-3a32411da822",
+     "title": "Day 38 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 34
+    },
+    {
+     "id": "2fb2b659-d9ff-4244-8621-8070bf6be6da",
+     "title": "Day 39 - Workout III Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 63
+    },
+    {
+     "id": "6b4a09f5-86a2-44dd-8500-b4d69f7923f9",
+     "title": "Day 40 - Skill Development Day",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": 42
+    },
+    {
+     "id": "54935482-ceda-4a95-84a3-34432e76cd95",
+     "title": "What's Next — Phase 3",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Phase 2",
+     "minutes": null
+    },
+    {
+     "id": "8c624f90-94ec-4994-9e08-90f8e41f6890",
+     "title": "Phase 3 Overview",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": null
+    },
+    {
+     "id": "b10de06c-279c-43a1-9604-4bea9949e48f",
+     "title": "Day 41 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "26477131-a059-4495-835b-4313f7a6b7d7",
+     "title": "Day 42 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "df38ee3b-7250-40c8-989e-ccf9c9607030",
+     "title": "Day 43 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "013cb6fa-c902-4f84-987b-114ce8a2100c",
+     "title": "Day 44 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "b0272fa7-23ba-46da-9766-8359b9354cdd",
+     "title": "Day 45 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "9ef6f2bb-4a9b-438b-aa22-373298f2c3c5",
+     "title": "Day 46 - Skill Development Day",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 42
+    },
+    {
+     "id": "3fdb3344-dd69-4042-93cf-d54d6bfc6ab3",
+     "title": "Day 47 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "c1319661-3157-4b42-b00b-7f350fe6fd13",
+     "title": "Day 48 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "f3f831bd-a677-4c24-a6cc-f0254fde8fc6",
+     "title": "Day 49 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "47e9b7fe-039a-4d42-8318-470696410175",
+     "title": "Day 50 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "d9bde7e4-bb87-49db-9a11-51c54f83fb97",
+     "title": "Day 51 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "5c79e05d-da1a-4efc-af02-431effb90933",
+     "title": "Day 52 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "d4aa9479-74a2-4b42-91be-dcb25e8bc775",
+     "title": "Day 53 - Skill Development Day",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 42
+    },
+    {
+     "id": "e05865f0-cf18-4720-af02-31738cf03153",
+     "title": "Day 54 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "cb590ce7-4714-4e43-9bbd-37dfbfa1a197",
+     "title": "Day 55 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "8d939ab4-095c-41c0-b060-c0827417a228",
+     "title": "Day 56 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "fbfda01c-83b7-4a80-859d-c65082098156",
+     "title": "Day 57 - Workout II Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "d5c940d3-ac7b-4f04-a496-e58569ae9cfd",
+     "title": "Day 58 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "717c68b0-d23c-44be-8b77-b56e76ad3c84",
+     "title": "Day 59 - Workout I Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 63
+    },
+    {
+     "id": "916b9252-3bac-43bf-a155-52af5512fbf5",
+     "title": "Day 60 - Recovery Day",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 34
+    },
+    {
+     "id": "39468300-f47b-4bba-aece-f0ecd309b5f4",
+     "title": "Day 61 - Challenge Day",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Phase 3",
+     "minutes": 60
+    }
+   ]
+  },
+  {
+   "id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+   "slug": "what-your-kettlebell-swing-is-missing",
+   "name": "What Your Kettlebell Swing Is Missing",
+   "rotate": false,
+   "image": "/media/l5e/925ade4e-a748-4805-9745-bec41aaeb8d5/what-your-kettlebell-swing-is-missing.png",
+   "lessons": [
+    {
+     "id": "2c196459-10b2-5d2e-9c0d-de8fc0b8d590",
+     "title": "Home",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Home",
+     "minutes": null
+    },
+    {
+     "id": "54c4dcff-ca93-57d0-a10d-0502479c7406",
+     "title": "Download",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Ebook PDF",
+     "minutes": null
+    },
+    {
+     "id": "2d67083f-36da-52f6-8ae6-f60a9e1feb72",
+     "title": "Step 1 - Feet",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "fa36f912-852a-504b-8f4d-67cd6f115879",
+     "title": "Step 2 - Hips",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "ca8cf4fd-cc39-57aa-bef2-2ec296c287f5",
+     "title": "Step 3 - Back",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "8e42cd09-e26d-5dcf-96e5-4d76933b6cc8",
+     "title": "Step 4 - Shoulders",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "98d795a0-5927-55b8-b17c-190d4f3ae6aa",
+     "title": "Step 5 - Head/Neck",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "bbd19aa6-878b-5ea9-85d0-bcf48e1475a8",
+     "title": "Step 6 - Grip",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "c7b266e2-8585-543b-9ebd-7b98849fd2bc",
+     "title": "Step 7 - Breath",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "7 Steps",
+     "minutes": null
+    },
+    {
+     "id": "ca2e2bbc-78b0-5c4f-b684-51a6bbd66e5d",
+     "title": "The Approach",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Bonus 1 - The Approach",
+     "minutes": null
+    },
+    {
+     "id": "bb970147-f124-5072-bde7-c2f4743e34c0",
+     "title": "Review Checklist",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Bonus 2 - Checklist",
+     "minutes": null
+    },
+    {
+     "id": "3511a5ce-5fb8-59c3-9fe7-de84736db593",
+     "title": "Two Week Swing Program",
+     "intent": "workout",
+     "done": false,
+     "sectionTitle": "Bonus 3 - Two Week Swing Program",
+     "minutes": null
+    }
+   ]
+  },
+  {
+   "id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+   "slug": "working-in",
+   "name": "Working-In with Paul Chek & Mike Salemi",
+   "rotate": false,
+   "image": "/media/l5e/0f8c0c9c-3d88-4297-b30a-2c19e672fb67/working-in.png",
+   "lessons": [
+    {
+     "id": "d9da3212-d2bd-5100-8647-68701c561722",
+     "title": "Home",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Home",
+     "minutes": null
+    },
+    {
+     "id": "8b8781d1-b2bc-582f-8deb-aa50cb9b73e4",
+     "title": "Understanding Working In",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Getting Started",
+     "minutes": null
+    },
+    {
+     "id": "8b2da57b-7b84-5b54-b04e-be29e047c49d",
+     "title": "Working Out and Working In",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Working In and Athletic Performance",
+     "minutes": null
+    },
+    {
+     "id": "ff049d49-bcaf-51d7-b074-c305c2d6cf91",
+     "title": "Energy Push",
+     "intent": "recovery",
+     "done": false,
+     "sectionTitle": "Energy Push - Explained and Demonstrated",
+     "minutes": null
+    }
+   ]
+  },
+  {
+   "id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+   "slug": "free-6-video-kettlebell-mini-series",
+   "name": "Free 6 Video Kettlebell Mini Series",
+   "rotate": false,
+   "image": "/media/l5e/d44b5ed0-8c18-4ebc-8f7d-1113a79eee1d/free-6-video-kettlebell-mini-series.png",
+   "lessons": [
+    {
+     "id": "02d452f3-a82e-5531-b403-92fe25d3d95a",
+     "title": "Home",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Home",
+     "minutes": null
+    },
+    {
+     "id": "15a124c5-3c01-5d09-9f00-65d2d79f5d69",
+     "title": "#1 Kettlebell Swing Big Mistake",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "5a94a0ce-c015-5472-ba4e-7dcac9b2c972",
+     "title": "#2 Developing Your Coaching Eye",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "854d9679-ea17-5de1-8648-daa142bde4b0",
+     "title": "#3 Bottoms Up Pressing Prep",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "73e4da78-4bb0-50db-a6ad-bfa53b029652",
+     "title": "#4 Reaction Training - Swing",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "bef1a491-2bf5-5426-b958-c23a2f78d6df",
+     "title": "#5 Avoiding Kettlebell Snatch Dangers",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "fdb726ba-fc47-57b4-8f26-7e9685017699",
+     "title": "#6 Integrated Tension - Turkish Get Up",
+     "intent": "skill",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    },
+    {
+     "id": "17d02361-f18d-530c-881b-bea94d6de639",
+     "title": "Want to learn more?",
+     "intent": "overview",
+     "done": false,
+     "sectionTitle": "Kettlebell Mini Series",
+     "minutes": null
+    }
+   ]
+  }
+ ],
+ "saved": [
+  {
+   "id": "fde3b021-639f-46c1-9fc9-e48437791823",
+   "name": "4-week strength block",
+   "startsOn": "2026-11-09",
+   "sessions": 12,
+   "done": 7,
+   "createdAt": "2026-11-08T10:00:00Z",
+   "overview": "4 weeks, 3 sessions a week from Kettlebell Lifestyle. Workout, recovery and skill days rotate so you never stack hard days."
+  }
+ ],
+ "today": "2026-11-20"
+}

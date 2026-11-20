@@ -13,3 +13,4 @@ export * from "./plans";
 export * from "./intake";
 export * from "./library";
 export * from "./tools";
+export * from "./selfguided";
