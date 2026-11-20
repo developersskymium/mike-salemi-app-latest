@@ -82,6 +82,9 @@ export function JourneyHome({ data }: { data: JourneyData }) {
             <Button href={primary.href} variant={started && !locked ? "warm" : "filled"} size="lg" icon={primary.icon} className="jy-hero-cta">
               <span className="jy-ellipsis">{primary.label}</span>
             </Button>
+            {slug === "kettlebell-roadmap" && (
+              <Button href="/tools/roadmap" variant="onphoto" size="lg" icon="map">Find my phase</Button>
+            )}
             {!locked && (
               <Button href={`/programs/${slug}/course/${data.resumeId}${mtk ? "?mode=full" : ""}`} variant="onphoto" size="lg" icon="steps">
                 {cfg.kind === "skills" ? "Full curriculum" : "All lessons"}

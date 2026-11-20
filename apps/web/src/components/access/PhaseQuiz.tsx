@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { Button, Icon, Sheet } from "@/components/ui";
 import type { CatalogCard } from "./CatalogClient";
@@ -75,6 +76,13 @@ export function PhaseQuiz({ open, onClose, programs }: { open: boolean; onClose:
             <h3 className="lq-d-md">{prog?.name ?? res.slug}</h3>
             <p className="lq-t15 lq-c2">{res.why}</p>
             {prog && <ProgramCta access={prog.access} program={prog} size="lg" block />}
+            {a.pain !== "yes" && (
+              <Link href="/tools/roadmap/test" className="ac-quiz-handoff lq-press">
+                <Icon name="map" size="sm" />
+                <span><b className="lq-t15">Know for sure: test your phase</b><span className="lq-t13 lq-c2">15–20 minutes of Mike's own benchmarks, counted by the app. Free.</span></span>
+                <Icon name="chevron" size="xs" />
+              </Link>
+            )}
             <Button variant="ghost" size="sm" onClick={() => { setStep(0); setA({}); }}>Retake</Button>
           </div>
         )}

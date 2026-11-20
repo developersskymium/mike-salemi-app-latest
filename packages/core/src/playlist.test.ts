@@ -51,10 +51,10 @@ describe("stage playlist", () => {
 });
 
 describe("watched", () => {
-  it("counts 95% as watched", () => {
-    expect(WATCHED_RATIO).toBe(0.95);
-    expect(isWatched(95, 100)).toBe(true);
-    expect(isWatched(94.9, 100)).toBe(false);
+  it("counts 90% as watched", () => {
+    expect(WATCHED_RATIO).toBe(0.9);
+    expect(isWatched(90, 100)).toBe(true);
+    expect(isWatched(89.9, 100)).toBe(false);
     expect(isWatched(10, 0)).toBe(false);
     expect(isWatched(10, null)).toBe(false);
   });

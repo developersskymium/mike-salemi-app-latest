@@ -9,6 +9,7 @@ export const TOOL_META: Record<string, { title: string; subtitle?: string; draft
   "swing-setup": { title: "Swing Set-Up Coach", move: "swing", promise: "One fix at a time, with the moment in Mike's video", minutes: 2 },
   "stretch-test": { title: "Stretch Test", move: "squat", promise: "Your mobility profile across five positions", minutes: 3 },
   "readiness-check": { title: "Readiness Check", move: "breathing", promise: "Push, modify or recover — today's answer", minutes: 1 },
+  "roadmap": { title: "Kettlebell Roadmap Coach", move: "getup", promise: "Test Mike's benchmarks, find your phase, unlock the next lift", minutes: 20 },
   "kettlebell-roadmap": {
     title: "Find Your Kettlebell Phase",
     subtitle: "Kettlebell Roadmap",
@@ -27,6 +28,7 @@ export const TOOL_PHOTO: Record<string, { src: string; focal: string; alt: strin
   "swing-setup": { src: "/media/l5e/925ade4e-a748-4805-9745-bec41aaeb8d5/what-your-kettlebell-swing-is-missing.png", focal: "60% 12%", alt: "Mike Salemi hinging to pick up a kettlebell" },
   "stretch-test": { src: "/media/summit/mike-windmill.jpg", focal: "70% 40%", alt: "Mike Salemi in a kettlebell windmill" },
   "readiness-check": { src: "/media/summit/mike-standing.jpg", focal: "52% 30%", alt: "Mike Salemi checking in before training" },
+  roadmap: { src: "/media/summit/mike-getup.jpg", focal: "55% 35%", alt: "Mike Salemi in a Turkish get-up" },
   "kettlebell-roadmap": { src: "/media/l5e/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png", focal: "50% 34%", alt: "Mike Salemi lifting a kettlebell" },
 };
 
@@ -40,9 +42,10 @@ export const STRETCH_DEMOS = [
 ];
 
 /**
- * The tools members see listed and linked (spec 11 #15), plus the Swing Set-Up Coach (spec 13). The others (Readiness Check,
+ * The tools members see listed and linked (spec 11 #15), plus the Swing Set-Up Coach (spec 13) and the Kettlebell Roadmap Coach (spec 14,
+ * /tools/roadmap, a static route that isn't a `tools` row — the index adds its card itself). The others (Readiness Check,
  * Roadmap phase check) stay in the database and their pages keep working for old links, saves and the
  * day player, but nothing lists them.
  */
-export const LISTED_TOOLS = ["swing-setup", "kettlebell-selector", "stretch-test"] as const;
+export const LISTED_TOOLS = ["roadmap", "swing-setup", "kettlebell-selector", "stretch-test"] as const;
 export const isListedTool = (id: string) => (LISTED_TOOLS as readonly string[]).includes(id);

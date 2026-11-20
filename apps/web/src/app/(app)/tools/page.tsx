@@ -36,7 +36,9 @@ export default async function ToolsPage() {
     );
   }
   // Only the listed tools (Kettlebell Selector, Stretch Test), in that order; the rest stay unlisted.
-  const cards = data.tools.filter((t) => isListedTool(t.id)).sort((a, b) => LISTED_TOOLS.indexOf(a.id as never) - LISTED_TOOLS.indexOf(b.id as never));
+  // The Roadmap Coach (spec 14) is a static route, not a `tools` row: add its card here.
+  const all = data.tools.some((t) => t.id === "roadmap") ? data.tools : [{ id: "roadmap", name: "Kettlebell Roadmap Coach", tagline: "A 15–20 minute test of Mike's own benchmarks places you in your phase, then maps the lifts to own next." }, ...data.tools];
+  const cards = all.filter((t) => isListedTool(t.id)).sort((a, b) => LISTED_TOOLS.indexOf(a.id as never) - LISTED_TOOLS.indexOf(b.id as never));
   const recent = data.recent.filter((r) => isListedTool(r.tool_id));
   const savedBy = (id: string) => recent.filter((r) => r.tool_id === id).length;
   return (

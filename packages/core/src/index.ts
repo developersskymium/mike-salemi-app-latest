@@ -11,3 +11,4 @@ export * from "./mtk";
 export * from "./selfguided";
 export * from "./lesson-body";
 export * from "./swing-setup";
+export * from "./roadmap";

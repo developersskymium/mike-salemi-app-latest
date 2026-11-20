@@ -94,6 +94,9 @@
 .ac-quiz-opt:hover, .ac-quiz-opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .ac-quiz-res { display: grid; gap: 12px; }
 .ac-quiz-res h3, .ac-quiz-res p { margin: 0; }
+.ac-quiz-handoff { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--r-inner); box-shadow: inset 0 0 0 1px var(--line); color: inherit; text-decoration: none; }
+.ac-quiz-handoff > span { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.ac-quiz-handoff > .lq-icon:first-child { color: var(--accent); }
 .ac-quiz-res-photo { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: var(--surface-sunk); }
 
 /* Choose your next step */
