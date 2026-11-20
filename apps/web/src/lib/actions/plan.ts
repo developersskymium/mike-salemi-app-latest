@@ -83,7 +83,7 @@ async function build(raw: CreatorInput): Promise<Result<CreatedPlan>> {
   const programs = catalog.programs.filter((p) => f.programIds.includes(p.id));
   if (!programs.length) return { ok: false, error: "Those programs aren't open to you yet" };
   const lessons = programs.flatMap((p) =>
-    p.lessons.map((l, i) => ({ id: l.id, title: l.title, programId: p.id, order: i, dayType: l.dayType, focus: l.section })),
+    p.lessons.map((l, i) => ({ id: l.id, title: l.title, programId: p.id, order: i, dayType: l.dayType, focus: l.section, minutes: l.minutes ?? null })),
   );
   const trainingDays = f.trainingDays.slice(0, f.daysPerWeek).length === f.daysPerWeek ? f.trainingDays.slice(0, f.daysPerWeek) : f.trainingDays;
   const draft = generatePlanDraft({
@@ -94,18 +94,22 @@ async function build(raw: CreatorInput): Promise<Result<CreatedPlan>> {
     trainingDays,
     startDate: f.startDate as IsoDate,
     recoveryEvery: f.experience === "advanced" ? 3 : f.recovery.trim() ? 1 : 2,
+    sessionMinutes: f.minutes,
   });
   const byId = new Map(programs.map((p) => [p.id, p]));
   const sessions: CreatedSession[] = draft.items.map((it) => {
     const p = it.programId ? byId.get(it.programId) : undefined;
-    return { ...it, programName: p?.name ?? null, programSlug: p?.slug ?? null, minutes: it.kind === "recovery" ? Math.min(f.minutes, 25) : f.minutes };
+    // The lesson's own length when known; otherwise the member's session length (shorter for recovery).
+    return { ...it, programName: p?.name ?? null, programSlug: p?.slug ?? null, minutes: it.minutes ?? (it.kind === "recovery" ? Math.min(f.minutes, 25) : f.minutes) };
   });
   const training = sessions.filter((s) => s.kind === "training").length;
+  const long = sessions.filter((s) => s.fit === "long").length;
   const names = programs.map((p) => p.name);
   const list = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0];
   const overview = [
     `${f.weeks} weeks, ${trainingDays.length} sessions a week of about ${f.minutes} minutes, built from ${list}.`,
     `${training} lessons chosen for your ${GOAL_LABEL[f.goal as GoalKind]} goal stay in each program's order, with recovery ${f.experience === "advanced" ? "after every three" : f.recovery.trim() ? "after every" : "after every two"} training ${f.experience === "advanced" || !f.recovery.trim() ? "days" : "day"}.`,
+    long ? `${long === 1 ? "One session runs" : `${long} sessions run`} longer than your ${f.minutes} minutes; ${long === 1 ? "it's" : "they're"} marked below.` : "",
     f.constraints.trim() ? `Keep in mind: ${f.constraints.trim()}` : "",
   ]
     .filter(Boolean)

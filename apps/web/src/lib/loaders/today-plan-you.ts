@@ -350,6 +350,8 @@ export interface CatalogLesson {
   title: string;
   section: string;
   dayType: string | null;
+  /** Typical length in minutes, when known (plan creator matches it to the member's session length). */
+  minutes?: number | null;
 }
 export interface LessonCatalog {
   programs: { id: string; slug: string; name: string; lessons: CatalogLesson[] }[];
@@ -363,7 +365,7 @@ export const loadLessonCatalog = mockable("tpy-lessons", async (): Promise<Lesso
   if (!open.length) return { programs: [] };
   const { data } = await sb
     .from("lessons")
-    .select("id, title, day_type, program_id, position, sections(title, position)")
+    .select("id, title, day_type, program_id, position, estimated_minutes, sections(title, position)")
     .in("program_id", open.map((p) => p.id))
     .is("page_type", null);
   const rows = (data ?? []).map((l) => {
@@ -379,7 +381,7 @@ export const loadLessonCatalog = mockable("tpy-lessons", async (): Promise<Lesso
         lessons: rows
           .filter((l) => l.program_id === p.id)
           .sort((a, b) => a.spos - b.spos || a.position - b.position)
-          .map((l) => ({ id: l.id, title: l.title, section: l.section, dayType: l.day_type })),
+          .map((l) => ({ id: l.id, title: l.title, section: l.section, dayType: l.day_type, minutes: l.estimated_minutes })),
       }))
       .filter((p) => p.lessons.length),
   };
