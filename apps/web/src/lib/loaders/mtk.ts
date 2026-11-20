@@ -1,6 +1,7 @@
 import "server-only";
 import { getIntakeForm, getProgram, intakeHistory, mtkPlans, type DB, type IntakeResult, type MtkPlanRow } from "@ms/api";
 import { MTK_SLUG, mtkResult, type DbLesson, type MtkAnswers, type MtkResult } from "@ms/core";
+import { coverFor } from "@/lib/covers";
 import { mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -63,7 +64,7 @@ export async function mtkBase(sb: DB) {
     db.push({ id: l.id, sectionSeq: s.position, lessonSeq: l.position });
     info[l.id] = { title: l.title, section: s.title, group: s.subtitle };
   }
-  const image = program.media.find((m) => m.role === "hero")?.url ?? program.media[0]?.url ?? null;
+  const image = coverFor(program.slug, program.media.find((m) => m.role === "hero")?.url ?? program.media[0]?.url ?? null, program.cover).src;
   return { program: { id: program.id, slug: program.slug, name: program.name, image }, db, info };
 }
 

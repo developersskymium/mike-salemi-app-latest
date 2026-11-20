@@ -30,6 +30,10 @@ export interface CatalogProgram {
   vertical: string | null;
   featured: boolean;
   priceLabel: string | null;
+  /** Signature journey config (programs.meta.journey, 0019); the web app merges it over its defaults. */
+  journey: Record<string, unknown> | null;
+  /** Cover focal points (programs.meta.cover: { focal, focal_phone }). */
+  cover: { focal?: string; focal_phone?: string } | null;
   sectionCount: number;
   lessonCount: number;
 }
@@ -42,6 +46,7 @@ type ProgramRow = Tables<"programs"> & {
   lessons?: { count: number }[];
 };
 
+const obj = (v: unknown) => (v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : null);
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : null);
 
 function toCatalog(p: ProgramRow, access: Map<string, string>): CatalogProgram {
@@ -82,6 +87,8 @@ function merch(meta: Record<string, unknown>) {
     vertical: str(meta.vertical) ?? str(meta.catalogGroup),
     featured: meta.featured === true,
     priceLabel: str(meta.price_label),
+    journey: obj(meta.journey),
+    cover: obj(meta.cover) as { focal?: string; focal_phone?: string } | null,
   };
 }
 

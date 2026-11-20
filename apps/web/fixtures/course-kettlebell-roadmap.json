@@ -1,0 +1,124 @@
+{
+  "program": {
+    "id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+    "name": "Kettlebell Roadmap",
+    "tagline": "Your roadmap to kettlebell progression",
+    "summary": "Identify where you are on the roadmap and train accordingly: four phases from the foundation to mastery.",
+    "description": "Identify where you are on this roadmap and train accordingly.",
+    "highlights": [
+      "Four phases, from Foundation to Mastery",
+      "Short video demonstrations",
+      "Train according to your phase"
+    ],
+    "isFree": true,
+    "level": null,
+    "access": "free",
+    "slug": "kettlebell-roadmap",
+    "type": "tool",
+    "image": "/media/l5e/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png",
+    "instructor": "Mike Salemi"
+  },
+  "locked": false,
+  "intro": {
+    "sectionId": "f76e2fc2-0122-56fb-af01-e4b4a1f1d76f",
+    "lessonId": "9eb219a1-dc30-5619-a774-b9e3d929e384",
+    "title": "Home"
+  },
+  "groups": [
+    {
+      "name": "Find Your Phase Of Training",
+      "sections": [
+        {
+          "id": "a12dbb63-6411-59c3-8425-aed7df48eef2",
+          "title": "Phase 1 - The Foundation",
+          "position": 2,
+          "group": "Find Your Phase Of Training",
+          "lessons": [
+            {
+              "id": "0b6e5731-d184-5908-bc56-490b0fb25ab5",
+              "key": null,
+              "title": "Phase 1",
+              "sectionId": "a12dbb63-6411-59c3-8425-aed7df48eef2",
+              "video": false,
+              "done": true,
+              "minutes": 1
+            }
+          ]
+        },
+        {
+          "id": "63270fca-3a11-56e1-bf5d-eafb4e64ff52",
+          "title": "Phase 2 - Adding Complexity",
+          "position": 3,
+          "group": "Find Your Phase Of Training",
+          "lessons": [
+            {
+              "id": "01126876-d6c5-5a08-bded-c1b6fcef1098",
+              "key": null,
+              "title": "Phase 2",
+              "sectionId": "63270fca-3a11-56e1-bf5d-eafb4e64ff52",
+              "video": false,
+              "done": false,
+              "minutes": 1
+            }
+          ]
+        },
+        {
+          "id": "22bbeea8-472e-5700-baec-ccb89a5de9b0",
+          "title": "Phase 3 - Ready for Performance",
+          "position": 4,
+          "group": "Find Your Phase Of Training",
+          "lessons": [
+            {
+              "id": "96880996-fbce-5a72-a00e-985b75f2fcbf",
+              "key": null,
+              "title": "Phase 3",
+              "sectionId": "22bbeea8-472e-5700-baec-ccb89a5de9b0",
+              "video": false,
+              "done": false,
+              "minutes": 2
+            }
+          ]
+        },
+        {
+          "id": "5ed14449-7ff3-5916-99dd-dfb11f4b4820",
+          "title": "Phase 4 - Mastery",
+          "position": 5,
+          "group": "Find Your Phase Of Training",
+          "lessons": [
+            {
+              "id": "e845435a-4b19-5a52-9304-c0ea4ac3994e",
+              "key": null,
+              "title": "Phase 4",
+              "sectionId": "5ed14449-7ff3-5916-99dd-dfb11f4b4820",
+              "video": false,
+              "done": false,
+              "minutes": null
+            }
+          ]
+        },
+        {
+          "id": "f63ce188-3edc-5a3f-b6c1-79f4266d544f",
+          "title": "Train According To Your Phase",
+          "position": 6,
+          "group": "Find Your Phase Of Training",
+          "lessons": [
+            {
+              "id": "b811aab8-899c-5df8-a962-f6489db49ed8",
+              "key": null,
+              "title": "Train According To Your Phase",
+              "sectionId": "f63ce188-3edc-5a3f-b6c1-79f4266d544f",
+              "video": false,
+              "done": false,
+              "minutes": 32
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "enrolled": true,
+  "lastLessonId": "0b6e5731-d184-5908-bc56-490b0fb25ab5",
+  "intake": null,
+  "mtk": null,
+  "lessons": {}
+}

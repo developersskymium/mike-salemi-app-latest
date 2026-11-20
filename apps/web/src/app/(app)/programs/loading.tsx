@@ -1,5 +1,6 @@
-import { PageSkeleton } from "@/components/shell/PageSkeleton";
+import { ProgramsSkeleton } from "@/components/discover/ProgramsTab";
+import "@/components/discover/catalog/catalog.css";
 
 export default function Loading() {
-  return <PageSkeleton kind="grid" label="Loading programs" />;
+  return <ProgramsSkeleton />;
 }

@@ -6,6 +6,7 @@ import { useMemo, useState, type CSSProperties } from "react";
 import { Button, Glass, ProgressBar, Segmented, Sheet } from "@/components/ui";
 import type { MtkPlanData } from "@/lib/loaders/mtk";
 import { Check, Doc, PlayFill } from "../glyphs";
+import { MtkPath } from "./MtkPath";
 import "./mtk.css";
 
 /** My MTK Plan (legacy /mtk-plan): switch, Day n of N, progress + next lesson, upcoming / all learning days, results, retake. */
@@ -44,6 +45,7 @@ export function MtkPlan({ data }: { data: MtkPlanData }) {
 
   return (
     <div className="mtk">
+      <MtkPath at={2} slug={data.program.slug} title="My Plan" sub={`Version ${plan.version} · ${plan.days.length} learning days · ${plan.lessonIds.length} lessons`} />
       <Segmented
         className="mtk-switch"
         label="Curriculum view"

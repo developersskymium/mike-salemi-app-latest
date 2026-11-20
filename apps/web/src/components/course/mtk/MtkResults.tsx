@@ -9,6 +9,7 @@ import { Button, Glass, IconButton, useToast } from "@/components/ui";
 import { createMtkPlanAction } from "@/lib/actions/mtk";
 import type { MtkResultsData } from "@/lib/loaders/mtk";
 import { Chevron } from "../glyphs";
+import { MtkPath } from "./MtkPath";
 import "./mtk.css";
 
 const WEEKS = [2, 4, 6, 8, 12, 16, 24, 36, 52];
@@ -83,6 +84,7 @@ export function MtkResults({ data }: { data: MtkResultsData }) {
   const courseHref = `/programs/${data.program.slug}/course`;
   return (
     <div className="mtk">
+      <MtkPath at={1} slug={data.program.slug} title="Your results are in" sub={`Assessment ${a.attempt} · ${r.level} · ${r.recommended} lessons picked for you`} />
       <div className="mtk-top">
         <IconButton icon="back" label={data.activePlan ? "My Plan" : "Mastering the Kettlebell"} href={data.activePlan ? "/mtk" : `${courseHref}/resume?mode=full`} />
         <span className="mtk-eyebrow mtk-num">Assessment {a.attempt}</span>

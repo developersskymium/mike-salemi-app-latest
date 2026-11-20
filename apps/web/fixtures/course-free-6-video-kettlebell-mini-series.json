@@ -1,0 +1,110 @@
+{
+  "program": {
+    "id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+    "name": "Free 6 Video Kettlebell Mini Series",
+    "tagline": "Six free kettlebell lessons",
+    "summary": "Six kettlebell lessons with practical coaching cues",
+    "description": "Six instructional videos and written key points cover the swing, coaching observation, pressing preparation, reaction training, snatch technique, and the Turkish get up.",
+    "highlights": [
+      "Six instructional lessons",
+      "Written key points for each video",
+      "Swing, snatch, press and get-up techniques"
+    ],
+    "isFree": true,
+    "level": null,
+    "access": "free",
+    "slug": "free-6-video-kettlebell-mini-series",
+    "type": "course",
+    "image": "/media/l5e/d44b5ed0-8c18-4ebc-8f7d-1113a79eee1d/free-6-video-kettlebell-mini-series.png",
+    "instructor": "Mike Salemi"
+  },
+  "locked": false,
+  "intro": {
+    "sectionId": "1c289eea-28cd-58ba-b918-702cd0d36795",
+    "lessonId": "02d452f3-a82e-5531-b403-92fe25d3d95a",
+    "title": "Home"
+  },
+  "groups": [
+    {
+      "name": "Start Here",
+      "sections": [
+        {
+          "id": "62d76557-216c-519c-b40b-409f77e81ca8",
+          "title": "Kettlebell Mini Series",
+          "position": 2,
+          "group": null,
+          "lessons": [
+            {
+              "id": "15a124c5-3c01-5d09-9f00-65d2d79f5d69",
+              "key": null,
+              "title": "#1 Kettlebell Swing Big Mistake",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": true,
+              "minutes": null
+            },
+            {
+              "id": "5a94a0ce-c015-5472-ba4e-7dcac9b2c972",
+              "key": null,
+              "title": "#2 Developing Your Coaching Eye",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": true,
+              "minutes": null
+            },
+            {
+              "id": "854d9679-ea17-5de1-8648-daa142bde4b0",
+              "key": null,
+              "title": "#3 Bottoms Up Pressing Prep",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": false,
+              "minutes": null
+            },
+            {
+              "id": "73e4da78-4bb0-50db-a6ad-bfa53b029652",
+              "key": null,
+              "title": "#4 Reaction Training - Swing",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": false,
+              "minutes": null
+            },
+            {
+              "id": "bef1a491-2bf5-5426-b958-c23a2f78d6df",
+              "key": null,
+              "title": "#5 Avoiding Kettlebell Snatch Dangers",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": false,
+              "minutes": null
+            },
+            {
+              "id": "fdb726ba-fc47-57b4-8f26-7e9685017699",
+              "key": null,
+              "title": "#6 Integrated Tension - Turkish Get Up",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": false,
+              "minutes": null
+            },
+            {
+              "id": "17d02361-f18d-530c-881b-bea94d6de639",
+              "key": null,
+              "title": "Want to learn more?",
+              "sectionId": "62d76557-216c-519c-b40b-409f77e81ca8",
+              "video": true,
+              "done": false,
+              "minutes": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "enrolled": true,
+  "lastLessonId": "5a94a0ce-c015-5472-ba4e-7dcac9b2c972",
+  "intake": null,
+  "mtk": null,
+  "lessons": {}
+}

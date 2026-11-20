@@ -3,6 +3,8 @@ import {
   getLesson, getProgram, getIntakeForm, intakeHistory, mtkPlans, programIntake, type DB, type IntakeForm, type IntakeResult,
 } from "@ms/api";
 import { MTK_SLUG, type MtkPathId, type MtkPlanDay, type VideoRef } from "@ms/core";
+import { coverFor, type Cover } from "@/lib/covers";
+import { resolveJourney, type JourneyConfig } from "@/lib/journey";
 import { fixture, MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -22,6 +24,10 @@ export interface CourseProgram {
   isFree: boolean;
   level: string | null;
   instructor: string;
+  /** Signature journey (programs.meta.journey over the defaults in lib/journey). */
+  journey: JourneyConfig;
+  /** Text-free cover with focal points (lib/covers). */
+  cover: Cover;
 }
 
 export interface CourseLessonNode {
@@ -204,7 +210,9 @@ async function realCourse(sb: DB, userId: string, slug: string): Promise<{ data:
       program: {
         id: program.id, slug: program.slug, name: program.name, type: program.type, tagline: program.tagline, summary: program.summary,
         description: program.description, highlights: program.highlights ?? [], image, access: program.access, isFree: program.isFree,
-        level: program.level, instructor: "Mike Salemi",
+        level: program.level, instructor: program.instructor ?? "Mike Salemi",
+        journey: resolveJourney(program.slug, program.journey),
+        cover: coverFor(program.slug, image, program.cover),
       },
       locked: program.access === "locked",
       intro: intro && introLesson ? { sectionId: intro.id, lessonId: introLesson.id, title: introLesson.title } : null,
@@ -263,6 +271,31 @@ function fixtureLesson(f: CourseFixture, id: string, isIntro: boolean): CourseLe
   return { id, title: node.title, sectionId: node.sectionId, isIntro, steps: [], videoSeconds: {} };
 }
 
+/** Preview fixtures predate journeys/covers: fill them from the defaults. */
+function withJourney(d: CourseData): CourseData {
+  const p = d.program as Partial<CourseProgram> & CourseProgram;
+  return { ...d, program: { ...p, journey: p.journey ?? resolveJourney(p.slug), cover: p.cover ?? coverFor(p.slug, p.image) } };
+}
+
+/**
+ * Journey home (`/programs/[slug]/course`): the outline with progress and where to resume, no lesson
+ * content. Preview fixtures: `fixtures/course-<slug>.json`.
+ */
+export async function loadCourseOutline(slug: string): Promise<(CourseData & { resumeId: string }) | null> {
+  if (MOCK) {
+    const f = await fixture<CourseFixture>(`course-${slug}`).catch(() => null);
+    if (!f) return null;
+    const { lessons: _l, ...raw } = f;
+    const data = withJourney(raw);
+    return { ...data, resumeId: resolveActive(data, "resume") };
+  }
+  const { supabase, user } = await getUser();
+  if (!user) return null;
+  const course = await realCourse(supabase, user.id, slug);
+  if (!course) return null;
+  return { ...course.data, resumeId: resolveActive(course.data, "resume") };
+}
+
 /**
  * Course player data. `token` is a lesson id/key, `start` (introduction) or `resume`.
  * Preview fixtures: `fixtures/course-<slug>.json`.
@@ -271,7 +304,8 @@ export async function loadCoursePage(slug: string, token: string): Promise<Cours
   if (MOCK) {
     const f = await fixture<CourseFixture>(`course-${slug}`).catch(() => null);
     if (!f) return null;
-    const { lessons: _l, ...data } = f;
+    const { lessons: _l, ...raw } = f;
+    const data = withJourney(raw);
     const activeId = resolveActive(data, token);
     const isIntro = activeId === INTRO;
     const lesson = data.locked ? null : fixtureLesson(f, isIntro ? data.intro?.lessonId ?? "" : activeId, isIntro);
@@ -321,7 +355,7 @@ export async function loadIntakePage(slug: string): Promise<IntakePageData | nul
   return {
     program: {
       id: program.id, slug: program.slug, name: program.name, type: program.type,
-      image: program.media.find((m) => m.role === "hero")?.url ?? program.media[0]?.url ?? null,
+      image: coverFor(program.slug, program.media.find((m) => m.role === "hero")?.url ?? program.media[0]?.url ?? null, program.cover).src,
     },
     form,
     kind: form.key === "kbl-intake" ? "kbl" : form.key === "mtk-intake" ? "mtk" : "program",

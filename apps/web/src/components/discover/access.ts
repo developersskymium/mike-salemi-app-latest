@@ -1,3 +1,4 @@
+import { coverFor, hasCover } from "@/lib/covers";
 import type { CatalogProgram, PricingPlan } from "@ms/api";
 
 export type AccessChip = { label: "Free" | "Included" | "Owned" | "Locked" | "Draft" | "Preview"; icon?: "lock" | "check" | "sparkle" };
@@ -32,14 +33,19 @@ export function canOpen(p: Pick<CatalogProgram, "access">) {
 }
 
 /** The program's card photo (card → hero → first). */
-export function programPhoto(p: Pick<CatalogProgram, "media" | "name">) {
+/** Card photo: the program's own media unless it is a title card (text baked in), with its focal point (lib/covers). */
+export function programPhoto(p: Pick<CatalogProgram, "media" | "name" | "slug">) {
   const m = p.media.find((x) => x.role === "card") ?? p.media.find((x) => x.role === "hero") ?? p.media[0];
-  return m ? { src: m.url, alt: m.alt || p.name } : null;
+  if (!m && !hasCover(p.slug)) return null;
+  const c = coverFor(p.slug, m?.url ?? null);
+  return { src: c.src, alt: m?.alt || c.alt || p.name, position: c.focal };
 }
 
-export function heroPhoto(p: Pick<CatalogProgram, "media" | "name">) {
+export function heroPhoto(p: Pick<CatalogProgram, "media" | "name" | "slug">) {
   const m = p.media.find((x) => x.role === "hero") ?? p.media.find((x) => x.role === "card") ?? p.media[0];
-  return m ? { src: m.url, alt: m.alt || p.name } : null;
+  if (!m && !hasCover(p.slug)) return null;
+  const c = coverFor(p.slug, m?.url ?? null);
+  return { src: c.src, alt: m?.alt || c.alt || p.name, position: c.focal };
 }
 
 const TYPE_LABEL: Record<string, string> = {

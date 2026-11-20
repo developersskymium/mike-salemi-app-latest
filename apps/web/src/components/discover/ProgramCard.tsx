@@ -37,7 +37,7 @@ export function ProgramCard({ program: p, href, action, priority, height = 340, 
   return (
     <Link href={href} className="dsc-cardlink" aria-label={`${p.name}, ${chip.label}. ${label}`}>
       {photo ? (
-        <Card height={height} image={{ src: photo.src, alt: photo.alt, position: "50% 30%", priority, sizes: "(min-width: 1024px) 360px, 92vw" }} footer={body} />
+        <Card height={height} image={{ src: photo.src, alt: photo.alt, position: photo.position, priority, sizes: "(min-width: 1024px) 360px, 92vw" }} footer={body} />
       ) : (
         <Glass radius="card" interactive className="dsc-pc-glyph lq-lift" style={{ height }}>
           <div className="dsc-pc-art" aria-hidden>
