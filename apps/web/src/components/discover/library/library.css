@@ -169,8 +169,7 @@
 .w1-lib-lesson[data-locked] .w1-lib-lthumb img { filter: saturate(.6); opacity: .85; }
 .w1-lib-lessontext { display: grid; gap: 2px; flex: 1; min-width: 0; align-content: center; }
 .w1-lib-lessontext .w1-lib-title { min-height: 0; }
-.w1-lib-lock { position: absolute; top: 8px; right: 10px; display: inline-flex; align-items: center; gap: 4px; color: var(--label-2); font-weight: 600; }
-.w1-lib-lesson[data-locked] .w1-lib-lessontext { padding-right: 62px; }
+.w1-lib-lock { flex: none; display: inline-flex; align-items: center; gap: 4px; color: var(--label-2); font-weight: 600; }
 
 /* picks, grouped search, A-Z */
 .w1-lib-headlinks { display: flex; align-items: center; gap: 14px; }
@@ -180,3 +179,4 @@
 .w1-lib-az::-webkit-scrollbar { display: none; }
 .w1-lib-az a { flex: none; min-width: 32px; height: 36px; display: grid; place-items: center; border-radius: 999px; color: var(--label-2); text-decoration: none; font-weight: 650; }
 .w1-lib-az a:hover { background: var(--fill); color: var(--label); }
+.w1-lib-clear { display: inline-flex; flex-direction: row; align-items: center; gap: 4px; margin-left: auto; min-height: 36px; padding: 0 10px; border: 0; background: none; color: var(--accent-ink); cursor: pointer; border-radius: 999px; white-space: nowrap; font: inherit; font-weight: 600; }
