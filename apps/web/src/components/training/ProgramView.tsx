@@ -16,6 +16,7 @@ import { levelOf } from "@/components/selfguided/level";
 import { RepeatList, SelfGuidedBoard } from "@/components/selfguided/Board";
 import { TrainingPanel } from "@/components/selfguided/TrainingPanel";
 import { PlanWizard } from "@/components/selfguided/PlanWizard";
+import { SelfGuidedProgram } from "@/components/selfguided/SelfGuidedProgram";
 import { currentFrom, dayTypeShort, lessonHref, lessonLabel, lessonName, WEEKDAYS } from "./model";
 import { VideoStage } from "./VideoStage";
 import { ScheduleSheet } from "./ScheduleSheet";
@@ -181,6 +182,39 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
   const finishOn = enrollment?.pace === "scheduled" && perWeek > 0 ? new Date(now + Math.ceil((totalDays - doneDays) / perWeek) * 7 * 86400000) : null;
   const curExtra = current ? board?.lessons[current.id] : undefined;
   const todayPhoto = curExtra?.intent === "recovery" || curExtra?.intent === "mobility" ? programPhoto("working-in") : curExtra?.intent === "skill" ? programPhoto("athleticism-4-life") : programPhoto("free-6-video-kettlebell-mini-series");
+
+  /* ---------------------------------------------------------------- Self-Guided: one calm page, "Train in any order." */
+  if (sg && !lockedProgram) {
+    const curriculum = (
+      <Curriculum
+        slug={program.slug}
+        mode="self_guided"
+        levels={levelPaths ? paths.map((x) => ({ id: x.id, n: levelOf(null, x.name), label: x.name, href: levelHref(x.key, x.id), current: x.id === path?.id })) : undefined}
+        sections={sections}
+        lessons={lessons}
+        progress={progress}
+        resources={resources}
+        board={board ?? null}
+        currentId={current?.id ?? null}
+        nextId={board?.next?.lessonId ?? null}
+        lessonWord={word}
+        sectionWord={sectionWord}
+        lockedProgram={false}
+        orderLocked={false}
+        dayHref={dayHref}
+      />
+    );
+    return (
+      <SelfGuidedProgram
+        data={data}
+        board={board ?? null}
+        curriculum={curriculum}
+        immersionHref={trainModes.includes("immersion") ? `/programs/${program.slug}?${[pathQ, "mode=immersion"].filter(Boolean).join("&")}` : null}
+        openHref={openHref}
+        photo={{ src: heroImage.src, position: heroImage.focal }}
+      />
+    );
+  }
 
   return (
     <div className="pv">

@@ -10,6 +10,7 @@ import { lessonName } from "@/components/training/model";
 import { IntentTag, LevelBadge } from "./parts";
 import { levelLong, levelOf, type LevelN } from "./level";
 import { DaySheet } from "./DaySheet";
+import "./sgprogram.css";
 
 type Status = "all" | "progress" | "todo" | "done";
 const STATUS: [Status, string][] = [
@@ -162,23 +163,47 @@ export function Curriculum(p: CurriculumProps) {
         </label>
       </div>
 
-      {!p.lockedProgram && (mode === "self_guided" || filtering) && (
+      {!p.lockedProgram && mode === "self_guided" && (
+        <div className="cv-filters" role="group" aria-label="Filter days">
+          <details className="cv-fdrop">
+            <summary className="cv-chip" aria-pressed={status !== "all" || intent !== "all"}>
+              <Icon name="filter" size="xs" /> Filter
+              {status !== "all" || intent !== "all" ? ` · ${[status !== "all" ? STATUS.find(([v]) => v === status)![1] : null, intent !== "all" ? INTENT_LABEL[intent] : null].filter(Boolean).join(", ")}` : ""}
+            </summary>
+            <div className="cv-fdrop-panel">
+              <p>Status</p>
+              <div>
+                {STATUS.map(([v, label]) => (
+                  <button key={v} type="button" className="cv-chip" aria-pressed={status === v} onClick={() => setStatus(v)}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <p>Type</p>
+              <div>
+                {(["workout", "recovery", "skill", "mobility"] as Intent[]).map((i) => (
+                  <button key={i} type="button" className="cv-chip" aria-pressed={intent === i} onClick={() => setIntent(intent === i ? "all" : i)}>
+                    {INTENT_LABEL[i]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </details>
+          {filtering && (
+            <button type="button" className="cv-chip" onClick={reset} style={{ marginLeft: "auto" }}>
+              <Icon name="close" size="xs" /> Reset · {total} {total === 1 ? p.lessonWord.toLowerCase() : `${p.lessonWord.toLowerCase()}s`}
+            </button>
+          )}
+        </div>
+      )}
+
+      {!p.lockedProgram && mode !== "self_guided" && filtering && (
         <div className="cv-filters" role="group" aria-label="Filter days">
           {STATUS.map(([v, label]) => (
             <button key={v} type="button" className="cv-chip" aria-pressed={status === v} onClick={() => setStatus(v)}>
               {label}
             </button>
           ))}
-          {mode === "self_guided" && (
-            <>
-              <span className="cv-filters-sep" aria-hidden />
-              {(["workout", "recovery", "skill", "mobility"] as Intent[]).map((i) => (
-                <button key={i} type="button" className="cv-chip" aria-pressed={intent === i} onClick={() => setIntent(intent === i ? "all" : i)}>
-                  {INTENT_LABEL[i]}
-                </button>
-              ))}
-            </>
-          )}
           {filtering && (
             <button type="button" className="cv-chip" onClick={reset} style={{ marginLeft: "auto" }}>
               <Icon name="close" size="xs" /> Reset · {total} {total === 1 ? p.lessonWord.toLowerCase() : `${p.lessonWord.toLowerCase()}s`}
