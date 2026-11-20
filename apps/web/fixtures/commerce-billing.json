@@ -1,0 +1,22 @@
+{
+  "subscription": {
+    "id": "bb906b63-fb71-4211-8260-fca1a730baa2",
+    "planId": "max",
+    "planName": "Max",
+    "planRank": 2,
+    "status": "active",
+    "interval": "year",
+    "currentPeriodEnd": "2027-11-20T04:45:29.354933+00:00",
+    "cancelAtPeriodEnd": false,
+    "provider": "admin"
+  },
+  "planPrice": {
+    "amountCents": 59000,
+    "currency": "usd",
+    "interval": "year",
+    "draftNote": "Draft - price awaiting Mike"
+  },
+  "planDraftNote": "Names and prices awaiting Mike",
+  "orders": [],
+  "provider": "admin"
+}

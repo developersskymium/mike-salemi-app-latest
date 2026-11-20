@@ -1,0 +1,19 @@
+{
+  "offer": {
+    "id": "b914ce3d-34cd-4356-ab1c-a8075532bcf5",
+    "placement": "program_page",
+    "headline": "Take your kettlebell skills further",
+    "body": "Mastering the Kettlebell is the next step after Kettlebell Lifestyle.",
+    "cta_label": "See Mastering the Kettlebell",
+    "image_url": null,
+    "target_kind": "program",
+    "target_ref": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+    "priority": 20,
+    "coupon_code": null,
+    "target": { "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b", "slug": "mastering-the-kettlebell", "name": "Mastering the Kettlebell" }
+  },
+  "href": "/programs/mastering-the-kettlebell",
+  "external": false,
+  "image": { "url": "/media/l5e/2c8245bf-d2f2-4483-8be4-dccd5af4dbef/mastering-the-kettlebell.png", "alt": "Mastering the Kettlebell" },
+  "eyebrow": "Mastering the Kettlebell"
+}

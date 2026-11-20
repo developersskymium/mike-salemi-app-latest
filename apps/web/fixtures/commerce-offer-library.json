@@ -1,0 +1,19 @@
+{
+  "offer": {
+    "id": "7bae938b-33ac-415b-8e89-1b531086e994",
+    "placement": "library",
+    "headline": "Arrive ready for Men of Movement",
+    "body": "Start Men of Movement: Preparation, and book a single session with Mike before you go.",
+    "cta_label": "Book a session",
+    "image_url": null,
+    "target_kind": "coaching",
+    "target_ref": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
+    "priority": 15,
+    "coupon_code": null,
+    "target": { "id": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79", "name": "Single session" }
+  },
+  "href": "/coaching?package=287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
+  "external": false,
+  "image": null,
+  "eyebrow": "Single session"
+}
