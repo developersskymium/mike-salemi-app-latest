@@ -35,6 +35,8 @@ const MIN_RESUME_SECONDS = 20;
 const END_MARGIN_SECONDS = 15;
 /** Watching this much of a lesson video counts as watching it. */
 const WATCHED_RATIO = 0.95;
+/** Within this many seconds of the end, a video counts as finished. */
+const END_OF_VIDEO_SECONDS = 1;
 
 function readResume(key: string): number {
   if (typeof window === "undefined") return 0;
@@ -128,6 +130,15 @@ export function useVimeoResume(
       watchedRef.current = true;
       onWatchedRef.current?.();
     }
+    // The embed uses the legacy postMessage API (api=1), where the end of a
+    // video is not reliably delivered as "ended". Treat the last second of
+    // playback as the end too, once per video.
+    let endedFired = false;
+    function markEnded() {
+      if (endedFired) return;
+      endedFired = true;
+      onEndedRef.current?.();
+    }
 
     // The raw postMessage handshake silently misses the one-shot "ready" event
     // when the iframe loads before the listener attaches, which left videos
@@ -144,11 +155,15 @@ export function useVimeoResume(
         const nearEnd = d.duration > 0 && d.seconds > d.duration - END_MARGIN_SECONDS;
         writeResume(resumeKey!, nearEnd ? 0 : d.seconds);
         if ((d.percent ?? 0) >= WATCHED_RATIO) markWatched();
+        if (d.duration > 0 && d.seconds >= d.duration - END_OF_VIDEO_SECONDS) {
+          markWatched();
+          markEnded();
+        }
       });
       player.on("ended", () => {
         writeResume(resumeKey!, 0);
         markWatched();
-        onEndedRef.current?.();
+        markEnded();
       });
     })();
 
