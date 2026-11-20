@@ -1,0 +1,13 @@
+{
+ "id": "preview",
+ "name": "Daniel Test",
+ "program": "Kettlebell Lifestyle",
+ "programSlug": "kettlebell-lifestyle",
+ "path": "Level I · Beginner",
+ "issuedAt": "2026-11-20T04:45:29.354933+00:00",
+ "run": 1,
+ "verifyCode": "PREVIEW1",
+ "days": 61,
+ "phases": 4,
+ "image": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png"
+}
