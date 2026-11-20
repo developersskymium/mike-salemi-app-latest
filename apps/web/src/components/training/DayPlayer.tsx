@@ -172,19 +172,23 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
     [steps, isOpen, scrollToPlayer],
   );
 
-  /* ---------------------------------------------------------------- today's videos (playlist) */
-  // Every video of the day in order: each step's main video, then its additional (demo) videos.
-  const items = useMemo<PlayItem[]>(() => {
-    const out: PlayItem[] = [];
-    steps.forEach((s, si) => {
-      const pl = stagePlaylist(s, null);
-      if (pl.lead) out.push({ key: `${s.id}:lead`, stepIndex: si, clipId: null, title: s.title, demo: false, thumb: summitPoster(pl.lead.thumbnailUrl ?? s.poster ?? null, s), duration: s.durationLabel ?? (pl.lead.durationSeconds ? clock(pl.lead.durationSeconds) : null) });
-      for (const c of pl.queue) out.push({ key: `${s.id}:${c.providerId}`, stepIndex: si, clipId: c.providerId, title: c.title, demo: true, thumb: c.thumbnailUrl ?? null, duration: c.durationSeconds ? clock(c.durationSeconds) : null });
-    });
-    return out;
-  }, [steps]);
-  const nowKey = clipState.step === step.id && clipState.id ? `${step.id}:${clipState.id}` : `${step.id}:lead`;
+  /* ---------------------------------------------------------------- additional videos (playlist) */
+  // Only while an additional video plays: the current step's additional videos, nothing else.
+  const items = useMemo<PlayItem[]>(
+    () =>
+      stagePlaylist(step, null).queue.map((c) => ({ key: `${step.id}:${c.providerId}`, stepIndex: active, clipId: c.providerId, title: c.title, demo: true, thumb: c.thumbnailUrl ?? null, duration: c.durationSeconds ? clock(c.durationSeconds) : null })),
+    [step, active],
+  );
+  const [watchedClips, setWatchedClips] = useState<Set<string>>(() => new Set());
+  const nowKey = clipState.step === step.id && clipState.id ? `${step.id}:${clipState.id}` : "";
   const nowIndex = items.findIndex((it) => it.key === nowKey);
+  const showList = nowIndex >= 0;
+  /** Back to the step's own lesson video; the playlist goes away. */
+  const backToLesson = () => {
+    setPendingState(null);
+    setAutoStart(false);
+    setClipState({ step: step.id, id: null });
+  };
 
   /** Play any of today's videos in the main player and bring the player into view. */
   const play = useCallback(
@@ -491,6 +495,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       }}
       onWatched={() => {
         saveSeconds(true);
+        if (clipId) setWatchedClips((w) => new Set(w).add(clipId));
         if (!playlist.nextClip) {
           if (isDone) {
             if (autoplay && steps[active + 1] && isOpen(active + 1)) setPending({ kind: "step", title: steps[active + 1]!.title, go: () => go(active + 1) });
@@ -650,10 +655,16 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             </p>
           )}
           {stage && (
-            <div className="kd-hero" data-list={items.length > 1 ? "" : undefined}>
+            <div className="kd-hero" data-list={showList ? "" : undefined}>
               <div className="kd-stage-wrap" ref={playerRef}>
                 {stage}
-                {stageChips.length > 0 && (
+                {showList && (
+                  <button type="button" className="kd-back-lesson lq-press" onClick={backToLesson}>
+                    <Icon name="back" size="xs" />
+                    Back to lesson video
+                  </button>
+                )}
+                {!showList && stageChips.length > 0 && (
                   <div className="kd-stage-chips" aria-hidden>
                     {stageChips.map((c) => (
                       <span key={c}>{c}</span>
@@ -661,14 +672,13 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
                   </div>
                 )}
               </div>
-              {items.length > 1 && (
+              {showList && (
                 <Playlist
                   items={items}
                   nowKey={nowKey}
                   nowIndex={nowIndex}
-                  completed={completed}
-                  steps={steps}
-                  open={openNow}
+                  watched={watchedClips}
+                  onBack={backToLesson}
                   onPlay={play}
                   onStep={(d) => {
                     const it = items[(nowIndex < 0 ? 0 : nowIndex) + d];
@@ -862,18 +872,18 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
 type PlayItem = { key: string; stepIndex: number; clipId: string | null; title: string; demo: boolean; thumb: string | null; duration: string | null };
 
 /**
- * Today's videos beside the player (desktop) or as a strip right under it (phone): every item
- * loads into the one main player; now-playing, done ticks, locks, prev / next.
+ * The step's additional videos, shown only while one plays: beside the player (desktop) or a strip
+ * right under it (phone). Every item loads into the one main player; now playing, watched ticks,
+ * prev / next, and a way back to the lesson video.
  */
 function Playlist({
-  items, nowKey, nowIndex, completed, steps, open, onPlay, onStep,
+  items, nowKey, nowIndex, watched, onBack, onPlay, onStep,
 }: {
   items: PlayItem[];
   nowKey: string;
   nowIndex: number;
-  completed: Set<string>;
-  steps: PlayerStep[];
-  open: (i: number) => boolean;
+  watched: Set<string>;
+  onBack: () => void;
   onPlay: (it: PlayItem) => void;
   onStep: (d: -1 | 1) => void;
 }) {
@@ -890,13 +900,17 @@ function Playlist({
     } else if (r.top < box.top || r.bottom > box.bottom) el.scrollTo({ top: el.scrollTop + r.top - box.top - 8, behavior: "smooth" });
   }, [nowKey]);
   return (
-    <aside className="kd-pl" aria-label="Today's videos">
+    <aside className="kd-pl" aria-label="Additional videos">
       <div className="kd-pl-h">
         <div>
-          <b>Today&apos;s videos</b>
+          <b>Additional videos</b>
           <span className="lq-num">{nowIndex >= 0 ? `${nowIndex + 1} of ${items.length}` : `${items.length} videos`}</span>
         </div>
         <div className="kd-pl-a">
+          <button type="button" className="kd-pl-back lq-press" onClick={onBack} aria-label="Back to lesson video">
+            <Icon name="back" size="xs" />
+            Lesson
+          </button>
           <button type="button" className="kd-pl-btn lq-press" aria-label="Previous video" disabled={nowIndex <= 0} onClick={() => onStep(-1)}>
             <Icon name="back" size="xs" />
           </button>
@@ -907,9 +921,8 @@ function Playlist({
       </div>
       <ol className="kd-pl-list" ref={list}>
         {items.map((it) => {
-          const s = steps[it.stepIndex]!;
-          const done = !it.demo && completed.has(s.id);
-          const locked = !open(it.stepIndex);
+          const done = Boolean(it.clipId && watched.has(it.clipId));
+          const locked = false;
           const now = it.key === nowKey;
           return (
             <li key={it.key} data-now={now ? "" : undefined} data-demo={it.demo ? "" : undefined}>
@@ -927,7 +940,7 @@ function Playlist({
                 </span>
                 <span className="kd-pl-t">
                   <span className="kd-pl-k">
-                    {now ? "Now playing" : it.demo ? "Additional video" : `Step ${it.stepIndex + 1}`}
+                    {now ? "Now playing" : done ? "Watched" : "Additional video"}
                   </span>
                   <span className="kd-pl-n">{it.title}</span>
                 </span>

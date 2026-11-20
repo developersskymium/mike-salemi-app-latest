@@ -115,3 +115,35 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
   .kd-day .kd-bar { padding-top: 12px; }
   .kd-day .kd-col { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
 }
+
+/* ---------------------------------------------------------------- additional videos: list only while one plays */
+.kd-back-lesson {
+  all: unset; box-sizing: border-box; cursor: pointer; position: absolute; left: 12px; top: 12px; z-index: 5;
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 10px; border-radius: 99px;
+  background: rgba(12, 16, 22, .62); color: #fff; font: 650 12.5px/1 var(--font);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
+}
+.kd-back-lesson:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.kd-pl-back {
+  all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px 0 8px;
+  border-radius: 99px; font: 650 12.5px/1 var(--font); color: var(--accent-ink); background: var(--accent-soft);
+}
+.kd-pl-back:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* desktop: the hero keeps the full-width 16:9 height when the list opens, so nothing below jumps;
+   the player sits centred in its (narrower) column on the dark stage. */
+@media (min-width: 1200px) {
+  .kd-hero[data-list] { aspect-ratio: 16 / 9; grid-template-rows: minmax(0, 1fr); }
+  .kd-hero[data-list] .kd-stage-wrap { height: 100%; display: flex; align-items: center; }
+  .kd-hero[data-list] .kd-stage-wrap > .kd-stage { width: 100%; }
+  .kd-hero[data-list] .kd-pl { height: 100%; }
+}
+@media (min-width: 1200px) {
+  .kd-hero[data-list] { grid-template-columns: minmax(0, 1fr) 330px; }
+  .kd-hero[data-list] .kd-pl-h b { white-space: nowrap; }
+  .kd-hero[data-list] .kd-pl-h { padding: 12px 10px 10px 14px; }
+  .kd-hero[data-list] .kd-pl-a { gap: 4px; }
+  .kd-hero[data-list] .kd-pl-list { position: static; flex: 1; min-height: 0; }
+}
+@media (min-width: 1200px) {
+  .kd-hero[data-list] li[data-demo] .kd-pl-item { grid-template-columns: 72px minmax(0, 1fr) 18px; padding-left: 6px; }
+}
