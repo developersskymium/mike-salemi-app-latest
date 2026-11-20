@@ -65,7 +65,15 @@
    ],
    "program_id": null,
    "description": "The original leather Bulgarian Bag, made in Bulgaria. It stands in for kettlebells, dumbbells, medicine balls, weight vests and barbells, and opens up rotational work you cannot replicate with a bell.",
-   "unlocked": false
+   "unlocked": false,
+   "gallery": [
+    {
+     "src": "/media/shop/bulgarian-bag.jpg",
+     "alt": "The leather Bulgarian Bag on a gym floor",
+     "focal": "50% 55%"
+    }
+   ],
+   "category": "equipment"
   },
   {
    "id": "0229250a-2010-4fc0-81b5-afaf32e86b74",
@@ -88,7 +96,20 @@
    "variants": [],
    "program_id": null,
    "description": "A private video session with Mike to review your technique, your training plan and what to work on next.",
-   "unlocked": false
+   "unlocked": false,
+   "gallery": [
+    {
+     "src": "/media/summit/mike-coaching.jpg",
+     "alt": "Mike coaching one to one",
+     "focal": "50% 30%"
+    },
+    {
+     "src": "/media/shop/downshift.jpg",
+     "alt": "A quiet moment of breathwork",
+     "focal": "55% 40%"
+    }
+   ],
+   "category": "coaching"
   },
   {
    "id": "9d5d9d39-0531-41d7-9b6b-89e4557de540",
@@ -110,7 +131,25 @@
    "variants": [],
    "program_id": null,
    "description": "Reserve a spot at an upcoming Mike Salemi retreat. The balance is due before the retreat starts.",
-   "unlocked": false
+   "unlocked": false,
+   "gallery": [
+    {
+     "src": "/media/summit/summit-group.jpg",
+     "alt": "Men of Movement on Mount Shasta",
+     "focal": "50% 40%"
+    },
+    {
+     "src": "/media/retreats/ridge-circle.jpg",
+     "alt": "A circle on the ridge",
+     "focal": "50% 45%"
+    },
+    {
+     "src": "/media/retreats/sunrise-lodge.jpg",
+     "alt": "The lodge at sunrise",
+     "focal": "50% 50%"
+    }
+   ],
+   "category": "retreats"
   },
   {
    "id": "2b236c18-b3c4-4a52-b62b-75b2b9e28b06",
@@ -130,7 +169,25 @@
    "variants": [],
    "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
    "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 7 days: get set up, learn the ground rules and ease into the weekly rhythm.",
-   "unlocked": true
+   "unlocked": true,
+   "gallery": [
+    {
+     "src": "/media/shop/plans/plan-on-ramp-1.jpg",
+     "alt": "Page 1 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-on-ramp-2.jpg",
+     "alt": "Page 2 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-on-ramp-3.jpg",
+     "alt": "Page 3 of the plan",
+     "fit": "contain"
+    }
+   ],
+   "category": "plans"
   },
   {
    "id": "ebebc14f-6aad-4244-8af0-48dedbc6ecd9",
@@ -150,7 +207,25 @@
    "variants": [],
    "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
    "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 14 days: movement foundations, kettlebell fundamentals and postural awareness.",
-   "unlocked": true
+   "unlocked": true,
+   "gallery": [
+    {
+     "src": "/media/shop/plans/plan-phase-1-1.jpg",
+     "alt": "Page 1 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-1-2.jpg",
+     "alt": "Page 2 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-1-3.jpg",
+     "alt": "Page 3 of the plan",
+     "fit": "contain"
+    }
+   ],
+   "category": "plans"
   },
   {
    "id": "0760b813-a918-4e97-b93f-8a75cae57b98",
@@ -170,7 +245,25 @@
    "variants": [],
    "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
    "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: build on the fundamentals with more strength and skill work.",
-   "unlocked": true
+   "unlocked": true,
+   "gallery": [
+    {
+     "src": "/media/shop/plans/plan-phase-2-1.jpg",
+     "alt": "Page 1 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-2-2.jpg",
+     "alt": "Page 2 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-2-3.jpg",
+     "alt": "Page 3 of the plan",
+     "fit": "contain"
+    }
+   ],
+   "category": "plans"
   },
   {
    "id": "ad18647e-cbce-433a-af58-8c345c53603b",
@@ -190,8 +283,48 @@
    "variants": [],
    "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
    "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: bring it together with full sessions, tougher workouts and lasting habits.",
-   "unlocked": true
+   "unlocked": true,
+   "gallery": [
+    {
+     "src": "/media/shop/plans/plan-phase-3-1.jpg",
+     "alt": "Page 1 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-3-2.jpg",
+     "alt": "Page 2 of the plan",
+     "fit": "contain"
+    },
+    {
+     "src": "/media/shop/plans/plan-phase-3-3.jpg",
+     "alt": "Page 3 of the plan",
+     "fit": "contain"
+    }
+   ],
+   "category": "plans"
   }
  ],
- "orders": []
+ "orders": [
+  {
+   "id": "5b1c2f7e-0000-4000-8000-00000000a001",
+   "reference": "MS-24117",
+   "status": "paid",
+   "subtotal_cents": 16600,
+   "discount_cents": 0,
+   "total_cents": 16600,
+   "currency": "usd",
+   "created_at": "2026-11-03T15:22:00+00:00",
+   "items": [
+    {
+     "id": "5b1c2f7e-0000-4000-8000-00000000b001",
+     "kind": "product",
+     "ref_id": "72eabe17-cc0c-4b02-9d22-776aeab69490",
+     "name": "Suples Bulgarian Bag® — Original Leather — Medium · 26 lb",
+     "quantity": 1,
+     "unit_cents": 16600,
+     "benefit_applied": null
+    }
+   ]
+  }
+ ]
 }

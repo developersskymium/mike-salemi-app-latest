@@ -9,10 +9,12 @@ import { Rail } from "@/components/today/Rail";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { toggleSaveVideo } from "@/lib/actions/discover";
 import { LibraryPlayer } from "./LibraryPlayer";
+import { MovementCover } from "./MovementCover";
+import { SearchSuggest, type Suggestion } from "./SearchSuggest";
 import { SafeImage } from "./SafeImage";
 import {
-  EMPTY, SORTS, SOURCES, VIEWS_KEY, categoriesFor, catsOf, cleanTitle, clock, filterSort, levelsOf, moveOf, tagsFor, terms, toQuery, topicsOf,
-  type LibState, type SavedView, type Sort, type Source,
+  EMPTY, MOVE_INDEX, SORTS, SOURCES, VIEWS_KEY, categoriesFor, catsOf, cleanTitle, clock, coverOf, figureFor, filterSort, levelsOf, movesOf, primaryMove,
+  tagsFor, terms, toQuery, topicsOf, type LibState, type MoveKey, type SavedView, type Sort, type Source,
 } from "./model";
 import "./library.css";
 
@@ -52,6 +54,12 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
   const savedCount = videos.filter((v) => saved[v.id] ?? v.s).length;
   const byId = useMemo(() => new Map(videos.map((v) => [v.id, v])), [videos]);
   const current = playing ? byId.get(playing) ?? null : null;
+  const moveCounts = useMemo(() => {
+    const c = new Map<MoveKey, number>();
+    for (const v of videos) for (const k of movesOf(v)) c.set(k, (c.get(k) ?? 0) + 1);
+    return c;
+  }, [videos]);
+  const [focus, setFocus] = useState(false);
 
   const set = useCallback((patch: Partial<LibState>) => {
     setS((x) => ({ ...x, ...patch }));
@@ -129,6 +137,7 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
   const active: { label: string; clear: () => void }[] = [
     ...(s.saved ? [{ label: "Saved", clear: () => set({ saved: false }) }] : []),
     ...(s.inProgram ? [{ label: "In the program", clear: () => set({ inProgram: false }) }] : []),
+    ...(s.move !== "all" ? [{ label: MOVE_INDEX.find((m) => m.key === s.move)?.label ?? s.move, clear: () => set({ move: "all" }) }] : []),
     ...(s.level !== "all" ? [{ label: name("level", s.level), clear: () => set({ level: "all" }) }] : []),
     ...s.cats.map((c) => ({ label: name("category", c), clear: () => toggleIn("cats", c) })),
     ...s.tags.map((g) => ({ label: `#${name("topic", g)}`, clear: () => toggleIn("tags", g) })),
@@ -146,20 +155,52 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
           <span className="lq-t13 lq-c2 lq-num w1-lib-count" aria-live="polite">
             {s.source === "programs" ? "" : `${results.length}/${pool}`}
           </span>
-          <label className="w1-lib-search">
-            <Icon name="search" size="sm" className="lq-c2" />
-            <input
-              ref={search}
-              type="search"
-              value={s.q}
-              onChange={(e) => set({ q: e.target.value })}
-              placeholder="Search videos"
-              aria-label="Search the library"
-              enterKeyHint="search"
-              className="lq-t15"
-            />
-            {s.q && <IconButton icon="close" label="Clear search" variant="plain" size="sm" iconSize="xs" onClick={() => set({ q: "" })} />}
-          </label>
+          <div className="w1-lib-searchwrap">
+            <label className="w1-lib-search">
+              <Icon name="search" size="sm" className="lq-c2" />
+              <input
+                ref={search}
+                type="search"
+                value={s.q}
+                onChange={(e) => set({ q: e.target.value })}
+                onFocus={() => setFocus(true)}
+                onBlur={() => window.setTimeout(() => setFocus(false), 120)}
+                placeholder="Search moves, levels or try “tgu”"
+                aria-label="Search the library"
+                aria-autocomplete="list"
+                aria-controls="lib-suggest"
+                aria-expanded={focus}
+                enterKeyHint="search"
+                className="lq-t15"
+              />
+              {s.q && <IconButton icon="close" label="Clear search" variant="plain" size="sm" iconSize="xs" onClick={() => set({ q: "" })} />}
+              <kbd className="w1-lib-kbd lq-t11" aria-hidden>/</kbd>
+            </label>
+            {focus && (
+              <SearchSuggest
+                id="lib-suggest"
+                query={s.q}
+                input={search}
+                videos={videos}
+                index={data.index}
+                moveCounts={moveCounts}
+                onPick={(x: Suggestion) => {
+                  if (x.kind === "move") set({ move: x.key, q: "" });
+                  else if (x.kind === "level") set({ level: x.key, q: "" });
+                  else if (x.kind === "category") set({ cats: [x.key], q: "" });
+                  else if (x.kind === "tag") set({ tags: [x.key], q: "" });
+                  else if (x.kind === "query") set({ q: x.key });
+                  else play(x.key);
+                  setFocus(false);
+                  search.current?.blur();
+                }}
+                onClose={() => {
+                  setFocus(false);
+                  search.current?.blur();
+                }}
+              />
+            )}
+          </div>
           <button type="button" className="w1-lib-filters lq-press" aria-expanded={open} aria-controls="lib-drawer" onClick={toggleDrawer} data-on={active.length ? "" : undefined}>
             <Icon name="filter" size="sm" />
             <span className="lq-t13">Filters</span>
@@ -252,6 +293,41 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
         </section>
       )}
 
+      {/* ------------------------------------------------ movement index (signature) */}
+      {s.source !== "programs" && (
+        <section aria-labelledby="mi-t" className="w1-mi">
+          <div className="w1-lib-sech">
+            <div>
+              <p className="lq-eyebrow" data-tone="accent">Movement index</p>
+              <h2 id="mi-t" className="lq-d-sm">Browse by movement</h2>
+            </div>
+            {s.move !== "all" && (
+              <button type="button" className="w1-lib-clear lq-t13" onClick={() => set({ move: "all" })}>
+                <Icon name="close" size="xs" /> All movements
+              </button>
+            )}
+          </div>
+          <ul className="w1-mi-row" role="list">
+            {MOVE_INDEX.filter((m) => moveCounts.get(m.key)).map((m) => {
+              const on = s.move === m.key;
+              return (
+                <li key={m.key}>
+                  <button type="button" className="w1-mi-tile lq-press" aria-pressed={on} data-on={on ? "" : undefined} onClick={() => set({ move: on ? "all" : m.key })}>
+                    <span className="w1-mi-fig" aria-hidden>
+                      <MovementFigure move={m.fig} size={64} animated={on} />
+                    </span>
+                    <span className="w1-mi-text">
+                      <span className="lq-t13 w1-mi-label">{m.label}</span>
+                      <span className="lq-t11 lq-c2 lq-num">{moveCounts.get(m.key)} {moveCounts.get(m.key) === 1 ? "video" : "videos"}</span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
       {/* ------------------------------------------------ source tabs */}
       <Segmented label="What to show" options={narrow ? SOURCES.map((o) => ({ ...o, label: SHORT[o.value] })) : SOURCES} value={s.source} onChange={(v: Source) => set({ source: v })} className="w1-lib-src" />
 
@@ -306,6 +382,7 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
           <div className="w1-lib-results">
             <p className="lq-t13 lq-c2 w1-clamp1">
               <strong className="lq-num w1-lib-n">{results.length}</strong> of <span className="lq-num">{pool}</span> videos
+              {s.move !== "all" ? ` · ${MOVE_INDEX.find((m) => m.key === s.move)?.label}` : ""}
               {s.q.trim() ? ` matching “${s.q.trim()}”` : ""}
               {s.saved ? " · saved only" : ""}
             </p>
@@ -392,17 +469,12 @@ function PortraitCard({
       <button type="button" className="w1-lib-cardbtn lq-press" onClick={onPlay} aria-label={`Play ${title}`}>
         <span className="w1-lib-poster">
           <SafeImage
-            src={v.th ?? ""}
+            src={coverOf(v.th) ?? ""}
             alt=""
             fill
             sizes="(min-width: 1536px) 18vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
             priority={priority}
-            fallback={
-              <span className="w1-lib-fallback" aria-hidden>
-                <MovementFigure move={moveOf(v)} size={92} animated={false} />
-                <span className="lq-t12 w1-clamp2">{title}</span>
-              </span>
-            }
+            fallback={<MovementCover move={figureFor(primaryMove(v))} seed={v.id} level={level} size={96} />}
           />
           {level && <span className="w1-lib-level lq-t11">{name("level", level)}</span>}
           {v.d ? <span className="w1-lib-dur lq-t11 lq-num">{clock(v.d)}</span> : null}
@@ -437,15 +509,11 @@ function ContinueCard({ c, inLibrary, onPlay }: { c: ContinueWatching; inLibrary
     <Glass radius="card" interactive className="w1-cw-card lq-lift">
       <span className="w1-cw-poster">
         <SafeImage
-          src={c.thumbnail_url ?? ""}
+          src={coverOf(c.thumbnail_url) ?? ""}
           alt=""
           fill
           sizes="256px"
-          fallback={
-            <span className="w1-lib-fallback" aria-hidden>
-              <MovementFigure move={moveOf({ g: [], t: c.title })} size={72} animated={false} />
-            </span>
-          }
+          fallback={<MovementCover move={figureFor(primaryMove({ g: [], t: c.title }))} seed={c.video_id} size={84} />}
         />
         <span className="w1-cw-play" aria-hidden><Icon name="play" size="sm" /></span>
         {pct !== null && (

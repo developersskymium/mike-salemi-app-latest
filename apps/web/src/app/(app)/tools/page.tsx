@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { UserButton } from "@/components/shell/ShellUser";
-import { Button, EmptyState, Glass, Icon, LargeTitle } from "@/components/ui";
+import { Button, Chip, EmptyState, Glass, Icon } from "@/components/ui";
 import { EmptyScene } from "@/components/graphics";
 import { ToolGlyph } from "@/components/discover/ProgramCard";
+import { MovementCover } from "@/components/discover/library/MovementCover";
+import { TOOL_META } from "@/components/discover/tools/meta";
+import "@/components/discover/library/library.css";
 import { loadToolsIndex } from "@/lib/loaders/discover";
 import { getUser } from "@/lib/supabase/server";
 import "@/components/discover/discover.css";
@@ -14,7 +17,7 @@ export const metadata: Metadata = {
   description: "Answer a few questions and get a straight answer: kettlebell selection, a mobility stretch test, readiness and your roadmap phase.",
 };
 
-const NAMES: Record<string, string> = { "kettlebell-selector": "Kettlebell Selector", "stretch-test": "Stretch Test", "readiness-check": "Readiness Check", "kettlebell-roadmap": "Kettlebell Roadmap" };
+const NAMES: Record<string, string> = Object.fromEntries(Object.entries(TOOL_META).map(([k, v]) => [k, v.title]));
 
 /** Tools index, legacy layout: PageHead → tool cards → Free resources (Roadmap) → Your results (recent saves). */
 export default async function ToolsPage() {
@@ -37,12 +40,22 @@ export default async function ToolsPage() {
   const savedBy = (id: string) => data.recent.filter((r) => r.tool_id === id).length;
   return (
     <>
-      <LargeTitle title="Tools" eyebrow="Coaching tools" trailing={<span className="dsc-phone-only"><UserButton /></span>} />
       <div className="w1-tools">
-        <p className="lq-t17 lq-c2 w1-tools-lede">
-          Short flows that ask only what matters, then return a specific recommendation you can act on today.
-          <span className="lq-t13 lq-c3 w1-tools-meta"> {data.tools.length} tools · results saved to your account</span>
-        </p>
+        <header className="w1-tools-hero2">
+          <div className="w1-tools-hero2-text">
+            <p className="lq-eyebrow" data-tone="accent">Coaching tools</p>
+            <h1 className="lq-d-xl">Straight answers in two minutes</h1>
+            <p className="lq-lede lq-c2">Short flows that ask only what matters, then return a specific recommendation you can act on today.</p>
+            <div className="w1-tools-hero2-meta">
+              <Chip variant="tint" size="sm" icon="tools">{data.tools.length} free tools</Chip>
+              <Chip variant="fill" size="sm" icon="bookmark">Results saved to your account</Chip>
+              <Chip variant="fill" size="sm" icon="share">Shareable result cards</Chip>
+            </div>
+          </div>
+          <div className="w1-tools-hero2-photo">
+            <Image src="/media/summit/mike-goblet.jpg" alt="Mike Salemi holding a kettlebell" fill priority sizes="(min-width: 1024px) 460px, 100vw" style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
+          </div>
+        </header>
 
         <ul className="w1-tools-grid">
           {cards.map((t) => (
@@ -50,14 +63,21 @@ export default async function ToolsPage() {
               <Link href={`/tools/${t.id}`} className="w1-cardlink">
                 <Glass radius="card" interactive className="w1-toolcard lq-lift">
                   <span className="w1-toolcard-art" aria-hidden>
-                    <ToolGlyph id={t.id} size={150} />
+                    <MovementCover move={TOOL_META[t.id]?.move ?? "swing"} seed={t.id} level={t.id === "readiness-check" ? "on-ramp" : t.id === "stretch-test" ? "phase-3" : "phase-1"} size={150} />
                   </span>
                   <span className="w1-toolcard-body">
-                    <span className="lq-t20">{t.name}</span>
+                    <span className="lq-d-sm">{TOOL_META[t.id]?.title ?? t.name}</span>
                     {t.tagline && <span className="lq-t15 lq-c2">{t.tagline}</span>}
+                    {TOOL_META[t.id] && (
+                      <span className="lq-t13 w1-toolcard-promise">
+                        <Icon name="sparkle" size="xs" /> {TOOL_META[t.id]!.promise}
+                      </span>
+                    )}
                     <span className="w1-toolcard-foot">
                       <span className="w1-toolcard-go lq-t15">Start <Icon name="chevron" size="xs" /></span>
-                      {savedBy(t.id) > 0 && <span className="lq-t12 lq-c2">{savedBy(t.id)} saved</span>}
+                      <span className="lq-t12 lq-c2">
+                        {TOOL_META[t.id]?.minutes ?? 1} min{savedBy(t.id) > 0 ? ` · ${savedBy(t.id)} saved` : ""}
+                      </span>
                     </span>
                   </span>
                 </Glass>
@@ -69,15 +89,15 @@ export default async function ToolsPage() {
         {roadmap && (
           <section aria-labelledby="free-t" className="w1-tools-sec">
             <div className="w1-tools-head">
-              <p className="w1-eyebrow">Free resources</p>
-              <h2 id="free-t" className="lq-t22">Kettlebell Roadmap</h2>
+              <p className="w1-eyebrow">Free resources · Kettlebell Roadmap</p>
+              <h2 id="free-t" className="lq-d-md">{TOOL_META["kettlebell-roadmap"]!.title} <Chip variant="warm" size="sm">Title draft</Chip></h2>
             </div>
             <div className="w1-tools-free">
               <Link href={`/tools/${roadmap.id}`} className="w1-cardlink">
                 <Glass radius="card" interactive className="w1-tools-row lq-lift">
                   <span className="w1-tools-rowart" aria-hidden><ToolGlyph id={roadmap.id} size={60} animated={false} /></span>
                   <span className="w1-tools-rowtext">
-                    <span className="lq-t17">Find your phase</span>
+                    <span className="lq-t17">Take the 2-minute phase check</span>
                     <span className="lq-t13 lq-c2">{roadmap.tagline ?? "The four fundamental lifts, and your next step"}</span>
                   </span>
                   <Icon name="chevron" size="sm" className="lq-c3" />
@@ -101,9 +121,9 @@ export default async function ToolsPage() {
           <div className="w1-tools-head w1-tools-headrow">
             <div>
               <p className="w1-eyebrow">Your results</p>
-              <h2 id="saves-t" className="lq-t22">Recent saves</h2>
+              <h2 id="saves-t" className="lq-d-md">Recent saves</h2>
             </div>
-            <Link href="/you/saves" className="lq-t15 w1-tools-all">All saves <Icon name="chevron" size="xs" /></Link>
+            <Link href="/you/saves?kind=tools" className="lq-t15 w1-tools-all">All saves <Icon name="chevron" size="xs" /></Link>
           </div>
           {data.recent.length ? (
             <ul className="w1-tools-saves">

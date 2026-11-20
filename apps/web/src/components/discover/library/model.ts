@@ -33,9 +33,83 @@ export interface LibState {
   saved: boolean;
   inProgram: boolean;
   source: Source;
+  /** Movement index key ("all" or a MOVE_INDEX key). */
+  move: string;
 }
 
-export const EMPTY: LibState = { q: "", level: "all", cats: [], tags: [], sort: "program", saved: false, inProgram: false, source: "all" };
+export const EMPTY: LibState = { q: "", level: "all", cats: [], tags: [], sort: "program", saved: false, inProgram: false, source: "all", move: "all" };
+
+/* ------------------------------------------------------------ movement index (signature) */
+
+export type MoveKey = "swing" | "clean" | "press" | "getup" | "squat" | "lunge" | "deadlift" | "row" | "halo" | "mobility" | "warmup";
+export const MOVE_INDEX: { key: MoveKey; label: string; fig: MoveName; hint: string }[] = [
+  { key: "swing", label: "Swing", fig: "swing", hint: "Hinge power" },
+  { key: "clean", label: "Clean", fig: "clean", hint: "Into the rack" },
+  { key: "press", label: "Press", fig: "press", hint: "Overhead strength" },
+  { key: "getup", label: "Get-up", fig: "getup", hint: "Get-ups, windmills" },
+  { key: "squat", label: "Squat", fig: "squat", hint: "Goblet, split" },
+  { key: "lunge", label: "Lunge", fig: "lunge", hint: "Single leg" },
+  { key: "deadlift", label: "Deadlift", fig: "deadlift", hint: "The hinge" },
+  { key: "row", label: "Row", fig: "row", hint: "Pull and posture" },
+  { key: "halo", label: "Halo", fig: "halo", hint: "Shoulders, core" },
+  { key: "mobility", label: "Mobility", fig: "breathing", hint: "Stretch, breathe" },
+  { key: "warmup", label: "Warm-up", fig: "walking", hint: "Bodyweight prep" },
+];
+
+const TOPIC_KEY: Record<string, MoveKey> = {
+  swing: "swing", clean: "clean", press: "press", "push-press": "press", "turkish-get-up": "getup", windmill: "getup", squat: "squat",
+  lunge: "lunge", deadlift: "deadlift", row: "row", halo: "halo", stretching: "mobility", "working-in": "mobility", "bodyweight-warm-ups": "warmup",
+};
+const TITLE_KEY: [RegExp, MoveKey][] = [
+  [/swing/, "swing"], [/\bclean/, "clean"], [/press/, "press"], [/get[\s-]?ups?\b|tgu/, "getup"], [/windmill/, "getup"], [/squat/, "squat"],
+  [/lunge/, "lunge"], [/deadlift|\brdl\b/, "deadlift"], [/\brow\b/, "row"], [/halo/, "halo"], [/stretch|breath|bolt|mobility|90\/90/, "mobility"],
+  [/warm[\s-]?up/, "warmup"],
+];
+
+/** Every movement a video teaches: its tags plus what its title names. */
+export function movesOf(v: Pick<LibraryIndexVideo, "g" | "t">): MoveKey[] {
+  const out = new Set<MoveKey>();
+  const t = cleanTitle(v.t).toLowerCase();
+  for (const [re, k] of TITLE_KEY) if (re.test(t)) out.add(k);
+  for (const g of v.g) {
+    const k = TOPIC_KEY[g.split(":")[1] ?? ""];
+    if (k) out.add(k);
+  }
+  return [...out];
+}
+
+/** The movement drawn on a video's cover: the first one its title names, else its first tag. */
+export function primaryMove(v: Pick<LibraryIndexVideo, "g" | "t">): MoveKey | null {
+  const t = cleanTitle(v.t).toLowerCase();
+  let best: { k: MoveKey; i: number } | null = null;
+  for (const [re, k] of TITLE_KEY) {
+    const m = re.exec(t);
+    if (m && (!best || m.index < best.i)) best = { k, i: m.index };
+  }
+  if (best) return best.k;
+  return movesOf(v)[0] ?? null;
+}
+
+export const figureFor = (k: MoveKey | null): MoveName => MOVE_INDEX.find((m) => m.key === k)?.fig ?? "swing";
+
+/* ------------------------------------------------------------ smart search: shorthand and synonyms */
+
+const SYNONYMS: Record<string, string[]> = {
+  tgu: ["get up", "turkish"], getup: ["get up"], "get-up": ["get up"], kb: ["kettlebell"], bell: ["kettlebell"], rdl: ["romanian deadlift"],
+  stretch: ["stretch"], stretches: ["stretch"], mobility: ["stretch", "mobility", "breath"], breath: ["breath"], breathing: ["breath"],
+  warmup: ["warm up"], "warm-up": ["warm up"], hinge: ["swing", "deadlift"], core: ["roll up", "halo", "bridge"], shoulder: ["halo", "press", "windmill"],
+  shoulders: ["halo", "press", "windmill"], legs: ["squat", "lunge", "deadlift"], hips: ["hip", "squat", "deadlift", "swing"], beginner: ["on ramp"],
+};
+
+/** A search token matches when the text has it, or any of its shorthand/synonym expansions. */
+export function tokenMatches(hay: string, token: string) {
+  if (hay.includes(token)) return true;
+  const alts = SYNONYMS[token];
+  if (alts?.some((a) => hay.includes(a))) return true;
+  // forgiving plurals: "swings" → "swing", "presses" → "press"
+  const stem = token.replace(/(es|s)$/, "");
+  return stem.length >= 3 && stem !== token && hay.includes(stem);
+}
 
 export type Term = { slug: string; name: string };
 
@@ -94,9 +168,10 @@ export function filterSort(videos: LibraryIndexVideo[], s: LibState, names: Map<
     if (s.cats.length && !s.cats.some((c) => catsOf(v).includes(c))) return false;
     if (s.tags.length && !s.tags.every((t) => topicsOf(v).includes(t))) return false;
     if (s.inProgram && !v.ip) return false;
+    if (s.move !== "all" && !movesOf(v).includes(s.move as MoveKey)) return false;
     if (!tokens.length) return true;
-    const hay = `${v.t} ${v.g.map((k) => names.get(k) ?? k).join(" ")}`.toLowerCase();
-    return tokens.every((t) => hay.includes(t));
+    const hay = `${cleanTitle(v.t)} ${v.g.map((k) => names.get(k) ?? k).join(" ")} ${movesOf(v).join(" ")}`.toLowerCase().replace(/[–—-]/g, " ");
+    return tokens.every((t) => tokenMatches(hay, t));
   });
   switch (s.sort) {
     case "title-asc":
@@ -129,6 +204,7 @@ export function fromParams(sp: Record<string, string | undefined>): LibState {
     saved: sp.saved === "1",
     inProgram: sp.inprog === "1",
     source,
+    move: MOVE_INDEX.some((m) => m.key === sp.move) ? (sp.move as string) : "all",
   };
 }
 
@@ -142,11 +218,23 @@ export function toQuery(s: LibState, playing: string | null) {
   if (s.saved) sp.set("saved", "1");
   if (s.inProgram) sp.set("inprog", "1");
   if (s.source !== "all") sp.set("src", s.source);
+  if (s.move !== "all") sp.set("move", s.move);
   if (playing) sp.set("v", playing);
   return sp.toString();
 }
 
 /* ------------------------------------------------------------ posters */
+
+/**
+ * The cover to show for a video. Featured library images (/media/library/*) have the title and a play
+ * button baked into the artwork, so they are never used as covers: the card draws a designed,
+ * text-free movement cover instead. Real video frames (Vimeo posters) are used as they are.
+ */
+export function coverOf(th: string | null | undefined): string | null {
+  if (!th) return null;
+  if (th.startsWith("/media/library/")) return null;
+  return th;
+}
 
 const TOPIC_MOVE: Record<string, MoveName> = {
   swing: "swing", clean: "clean", press: "press", "push-press": "press", "turkish-get-up": "getup", squat: "squat", lunge: "lunge",

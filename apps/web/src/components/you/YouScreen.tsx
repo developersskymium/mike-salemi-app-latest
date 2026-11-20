@@ -31,6 +31,24 @@ export function Row({ href, icon, title, detail, trailing }: { href: string; ico
   );
 }
 
+function Thing({ href, icon, title, detail, badge, tone }: { href: string; icon: IconName; title: string; detail?: ReactNode; badge?: string; tone?: "warm" }) {
+  return (
+    <li>
+      <Link href={href} className="yu-thing lq-press">
+        <span className="yu-thing-ic" data-tone={tone} aria-hidden><Icon name={icon} size="sm" /></span>
+        <span className="yu-thing-main">
+          <span className="lq-t15 yu-thing-title">
+            {title}
+            {badge && <span className="yu-thing-badge lq-t11">{badge}</span>}
+          </span>
+          {detail && <span className="lq-t13 lq-c2 yu-thing-detail">{detail}</span>}
+        </span>
+        <Icon name="chevron" size="sm" className="lq-c3" />
+      </Link>
+    </li>
+  );
+}
+
 function BlockHead({ id, title, lede, action }: { id: string; title: string; lede?: string; action?: ReactNode }) {
   return (
     <header className="yu-block-head">
@@ -44,7 +62,7 @@ function BlockHead({ id, title, lede, action }: { id: string; title: string; led
 }
 
 /** You: the training passport header, then the legacy account tabs. */
-export function YouScreen({ d, tab }: { d: PassportData; tab: YouTab }) {
+export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }: { d: PassportData; tab: YouTab; shop?: { enabled: boolean; isAdmin: boolean } }) {
   const active = [...d.enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""))[0];
   const earned = Object.fromEntries(d.rewards.badges.map((b) => [b.id, b.earned_at]));
   const s = d.saves;
@@ -56,25 +74,24 @@ export function YouScreen({ d, tab }: { d: PassportData; tab: YouTab }) {
         <DetailsCard name={d.profile.displayName} email={d.profile.email} level={active?.path_name ? `${active.path_name.replace("·", "—")}` : null} />
         <ProgressByLevel levels={d.stats.programs} />
       </div>
-      <section aria-labelledby="yu-things">
-        <h2 id="yu-things" className="tpy-section-title">Your things</h2>
-        <div className="yu-grid2">
-          <Glass radius="card" className="tpy-list">
-            <Row href="/you/saves" icon="bookmark" title="Saves" detail={savesCount ? [s.plans.length && plural(s.plans.length, "session plan"), s.tools.length && plural(s.tools.length, "tool result"), s.videos.length && plural(s.videos.length, "video")].filter(Boolean).join(" · ") : "Session plans, tool results and videos"} />
-            <Row href="/you/rewards" icon="sparkle" title="Rewards" detail={`${plural(d.rewards.badges.length, "medal")} · ${d.rewards.points_total.toLocaleString("en-GB")} points`} />
-            <Row href="/you/referrals" icon="share" title="Invite friends" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Share your code, earn points"} />
-          </Glass>
-          <Glass radius="card" className="tpy-list">
-            <Row href="/you/settings" icon="settings" title="Settings" detail="Notifications, playback, appearance" />
-            <Row href="/you/billing" icon="ring" title="Membership and billing" />
-            <form action={signOut}>
-              <button type="submit" className="tpy-row">
-                <span className="tpy-row-icon" aria-hidden><Icon name="back" size="sm" /></span>
-                <span className="tpy-row-main"><span className="lq-t15">Sign out</span></span>
-              </button>
-            </form>
-          </Glass>
-        </div>
+      <section aria-labelledby="yu-things" className="yu-block">
+        <BlockHead id="yu-things" title="Your things" lede="Everything you've saved, earned and set up, one tap away." />
+        <ul className="yu-things" role="list">
+          <Thing href="/you/saves" icon="bookmark" title="Saves" detail={savesCount ? [s.plans.length && plural(s.plans.length, "session plan"), s.tools.length && plural(s.tools.length, "tool result"), s.videos.length && plural(s.videos.length, "video")].filter(Boolean).join(" · ") : "Session plans, tool results and videos"} />
+          <Thing href="/you/rewards" icon="medal" tone="warm" title="Rewards" detail={`${plural(d.rewards.badges.length, "medal")} · ${d.rewards.points_total.toLocaleString("en-GB")} points`} />
+          <Thing href="/you?tab=achievements" icon="trophy" tone="warm" title="Certificates" detail={d.certificates.length ? plural(d.certificates.length, "certificate") : "Finish a level to earn one"} />
+          <Thing href="/you/referrals" icon="gift" title="Referrals" badge="Give 1 month" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Invite a friend to train with you"} />
+          <Thing href="/you/settings#notifications" icon="bell" title="Notifications" detail="Reminders, quiet hours, channels" />
+          <Thing href="/you/settings" icon="settings" title="Settings" detail="Profile, playback, appearance" />
+          <Thing href="/you/billing" icon="ring" title="Membership and billing" detail="Plan, invoices, payment method" />
+          <Thing href="/you/organization" icon="people" title="Organization" detail="Your team or gym" />
+          {(shop.enabled || shop.isAdmin) && <Thing href="/shop" icon="shop" title="Shop" badge={shop.enabled ? undefined : "Admin preview"} detail="Equipment, plans and orders" />}
+        </ul>
+        <form action={signOut} className="yu-signout">
+          <button type="submit" className="lq-t15 yu-signout-btn">
+            <Icon name="logout" size="sm" /> Sign out
+          </button>
+        </form>
       </section>
     </div>
   );

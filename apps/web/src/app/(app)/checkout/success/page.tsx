@@ -4,7 +4,9 @@ import { Completion } from "@/components/graphics";
 import { PendingRefresh } from "@/components/commerce/PendingRefresh";
 import { money } from "@/components/commerce/format";
 import { loadOrder } from "@/lib/loaders/commerce";
+import { ClearCart } from "@/components/shop/ClearCart";
 import "@/components/commerce/commerce.css";
+import "@/components/shop/shop.css";
 
 export const metadata: Metadata = { title: "You're in" };
 
@@ -17,6 +19,8 @@ function nextFor(kind: string | undefined, ref: string | undefined): { href: str
       return { href: "/coaching", label: "Book your session" };
     case "plan":
       return { href: "/programs", label: "Explore your programs" };
+    case "product":
+      return { href: "/shop#orders", label: "See your order" };
     default:
       return { href: "/today", label: "Go to Today" };
   }
@@ -29,9 +33,11 @@ export default async function CheckoutSuccess(props: PageProps<"/checkout/succes
   const pending = order?.status === "pending";
   const item = order?.items[0];
   const next = nextFor(item?.kind, item?.ref_id);
+  const shop = sp.from === "shop" || item?.kind === "product";
 
   return (
     <div className="com-result">
+      {shop && !pending && order && <ClearCart />}
       <Glass radius="card" className="com-result-card">
         <Completion variant="milestone" size={168} label={pending ? "Confirming payment" : "Purchase complete"} />
         <p className="lq-t13 lq-c2" style={{ fontWeight: 600, marginTop: 4 }}>{pending ? "Almost there" : "Payment received"}</p>
@@ -58,8 +64,18 @@ export default async function CheckoutSuccess(props: PageProps<"/checkout/succes
         ) : (
           <p className="lq-t15 lq-c2">Thank you. Your access is ready and a receipt is on its way to your inbox.</p>
         )}
+        {shop && !pending && (
+          <p className="shp-done-ship lq-t13">
+            <span aria-hidden>✓</span>
+            <span>Order {order?.reference ?? ""} is confirmed. A receipt is on its way to your inbox{order?.items.some((i) => /bag|leather/i.test(i.name)) ? ", and we email tracking as soon as your order ships" : ""}.</span>
+          </p>
+        )}
         {pending ? <PendingRefresh /> : <Button block href={next.href} iconAfter="chevron">{next.label}</Button>}
-        <Button variant="plain" size="md" href="/you/billing">See billing</Button>
+        {shop ? (
+          <Button variant="plain" size="md" href="/shop">Back to the shop</Button>
+        ) : (
+          <Button variant="plain" size="md" href="/you/billing">See billing</Button>
+        )}
       </Glass>
     </div>
   );

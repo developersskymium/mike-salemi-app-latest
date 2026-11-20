@@ -12,7 +12,6 @@ export default async function Page() {
       title="Invite friends"
       back="/you"
       eyebrow="Referrals"
-      lede={<><b>Bring someone with you.</b> Training holds better when someone else is doing it too. Share your code: you earn points when a friend joins, and more when they commit.</>}
     >
       <ReferralsView d={d} />
     </SubPage>

@@ -9,7 +9,7 @@ const TABS: { id: YouTab | "notifications" | "organization"; label: string; href
   { id: "overview", label: "Overview" },
   { id: "achievements", label: "Achievements" },
   { id: "history", label: "History" },
-  { id: "notifications", label: "Notifications", href: "/you/settings" },
+  { id: "notifications", label: "Notifications", href: "/you/settings#notifications" },
   { id: "organization", label: "Organization", href: "/you/organization" },
 ];
 

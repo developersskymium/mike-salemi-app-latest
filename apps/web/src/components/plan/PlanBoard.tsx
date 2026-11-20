@@ -163,7 +163,7 @@ export function PlanBoard(p: Props) {
               const es = byDate.get(d) ?? [];
               const isToday = d === p.today;
               return (
-                <Glass key={d} as="section" radius="card" role="listitem" className="tpy-dayblock tpy-drop" aria-label={`${longDay(d)}${isToday ? ", today" : ""}`} {...dropProps(d)}>
+                <Glass key={d} as="section" radius="card" role="listitem" className="tpy-dayblock tpy-drop" data-today={isToday ? "" : undefined} data-past={d < p.today ? "" : undefined} data-rest={es.length ? undefined : ""} aria-label={`${longDay(d)}${isToday ? ", today" : ""}`} {...dropProps(d)}>
                   <div className="tpy-dayhead" data-today={isToday ? "" : undefined} data-past={d < p.today ? "" : undefined}>
                     <span>
                       <b>{dayShort(d)} {dayNum(d)}</b>
@@ -260,6 +260,8 @@ function EntryRow({ e, today, dragging, onOpen, onDragStart, onDragEnd }: {
       data-dragging={dragging ? "" : undefined}
       data-done={e.done ? "" : undefined}
       data-missed={isMissed ? "" : undefined}
+      data-now={isNow ? "" : undefined}
+      data-skipped={e.skipped ? "" : undefined}
       aria-label={`${e.title}${e.program_name ? `, ${e.program_name}` : ""}${e.done ? ", done" : isMissed ? ", missed" : e.skipped ? ", skipped" : ""}`}
     >
       <span className="tpy-glyph" data-done={e.done ? "" : undefined} data-now={isNow ? "" : undefined} aria-hidden>
