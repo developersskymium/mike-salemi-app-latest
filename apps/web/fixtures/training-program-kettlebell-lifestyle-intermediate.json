@@ -1,0 +1,1418 @@
+{
+ "program": {
+  "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "slug": "kettlebell-lifestyle",
+  "name": "Kettlebell Lifestyle",
+  "type": "day_program",
+  "tagline": "Nine weeks to a kettlebell you can trust, at two levels",
+  "audience": null,
+  "summary": "A 9-week personalised, multi-level kettlebell and wellness program: morning routines, bodyweight warm-ups, follow-along workouts and personalised stretching.",
+  "formatLabel": "61 days · 4 phases per level",
+  "durationLabel": "9 weeks per level",
+  "level": "all",
+  "catalogGroup": "training",
+  "isFree": false,
+  "draftNote": null,
+  "modes": [
+   "immersion",
+   "self_guided",
+   "library"
+  ],
+  "paths": [
+   {
+    "id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+    "key": "beginner",
+    "name": "Level I · Beginner",
+    "shortName": "Level I",
+    "kind": "level",
+    "position": 1
+   },
+   {
+    "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+    "key": "intermediate",
+    "name": "Level II · Intermediate",
+    "shortName": "Level II",
+    "kind": "level",
+    "position": 2
+   }
+  ],
+  "media": [
+   {
+    "role": "card",
+    "url": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+    "alt": "Kettlebell Lifestyle Level I"
+   },
+   {
+    "role": "gallery",
+    "url": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+    "alt": "Kettlebell Lifestyle Level II"
+   }
+  ],
+  "access": "included",
+  "position": 0,
+  "description": "**Level I — Beginner.** Kettlebell Lifestyle is a 9-week personalised, multi-level kettlebell and wellness program. Level I teaches the swing variations, squats, presses, cleans and combination movements from the ground up — alongside morning routines, personalised stretching, bodyweight warm-ups and follow-along workouts.\n\n**Level II — Intermediate.** Level II picks up where the Beginner program ends. Denser conditioning, double-bell work, snatch progressions and complexes — with the same morning routine, warm-up and stretching structure holding it all together.",
+  "highlights": [
+   "Two nine-week levels: Beginner and Intermediate",
+   "Follow-along workouts with a daily readiness check",
+   "Morning routine, warm-up and personalised stretching every day"
+  ],
+  "sectionLabel": "Phase",
+  "lessonLabel": "Day",
+  "sequenceLocked": false
+ },
+ "paths": [
+  {
+   "id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+   "key": "beginner",
+   "kind": "level",
+   "name": "Level I · Beginner",
+   "shortName": "Level I",
+   "description": "Kettlebell Lifestyle is a 9-week personalised, multi-level kettlebell and wellness program. Level I teaches the swing variations, squats, presses, cleans and combination movements from the ground up — alongside morning routines, personalised stretching, bodyweight warm-ups and follow-along workouts.",
+   "tagline": "Nine weeks to a kettlebell you can trust",
+   "image": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+   "format": [
+    "9 weeks across four phases — On Ramp, Phase 1, Phase 2 and Phase 3",
+    "61 numbered days: workout, recovery, skill development and a final Challenge Day",
+    "Follow-along workouts with on-screen timers and scaling options",
+    "Downloadable phase plans so you can train away from the screen"
+   ],
+   "outcomes": [
+    "Execute beginner-level kettlebell movements safely and efficiently",
+    "Spot the common lifting mistakes and fix them on the spot",
+    "Follow a balanced, structured program from warm-up to cooldown",
+    "Build a morning and mobility habit that survives a busy week"
+   ],
+   "whatsNeeded": [
+    "One kettlebell — use the Kettlebell Selector if you're unsure",
+    "A mat and roughly 2m x 2m of floor space",
+    "A wall or doorway for mobility drills",
+    "Around 45 minutes per training day"
+   ]
+  },
+  {
+   "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+   "key": "intermediate",
+   "kind": "level",
+   "name": "Level II · Intermediate",
+   "shortName": "Level II",
+   "description": "Level II picks up where the Beginner program ends. Denser conditioning, double-bell work, snatch progressions and complexes — with the same morning routine, warm-up and stretching structure holding it all together.",
+   "tagline": "Heavier bells, longer chains, real capacity",
+   "image": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+   "format": [
+    "9 weeks across four phases — On Ramp, Phase 1 (plus a Preparation Day), Phase 2 and Phase 3",
+    "Heavier strength blocks paired with pacing-based conditioning",
+    "Skill sessions dedicated to snatch and complex technique",
+    "Deload and restore days built into every phase"
+   ],
+   "outcomes": [
+    "Chain movements into complexes without losing position",
+    "Progress load and density on purpose instead of by feel",
+    "Own the get-up, snatch and double-bell work",
+    "Manage fatigue with deliberate deload and restore days"
+   ],
+   "whatsNeeded": [
+    "Two kettlebells of the same weight where possible",
+    "A mat and clear overhead space",
+    "Completed Level I or equivalent kettlebell experience",
+    "Around 60 minutes per training day"
+   ]
+  }
+ ],
+ "locked": false,
+ "certificateId": null,
+ "path": {
+  "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+  "key": "intermediate",
+  "kind": "level",
+  "name": "Level II · Intermediate",
+  "shortName": "Level II",
+  "description": "Level II picks up where the Beginner program ends. Denser conditioning, double-bell work, snatch progressions and complexes — with the same morning routine, warm-up and stretching structure holding it all together.",
+  "tagline": "Heavier bells, longer chains, real capacity",
+  "image": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+  "format": [
+   "9 weeks across four phases — On Ramp, Phase 1 (plus a Preparation Day), Phase 2 and Phase 3",
+   "Heavier strength blocks paired with pacing-based conditioning",
+   "Skill sessions dedicated to snatch and complex technique",
+   "Deload and restore days built into every phase"
+  ],
+  "outcomes": [
+   "Chain movements into complexes without losing position",
+   "Progress load and density on purpose instead of by feel",
+   "Own the get-up, snatch and double-bell work",
+   "Manage fatigue with deliberate deload and restore days"
+  ],
+  "whatsNeeded": [
+   "Two kettlebells of the same weight where possible",
+   "A mat and clear overhead space",
+   "Completed Level I or equivalent kettlebell experience",
+   "Around 60 minutes per training day"
+  ]
+ },
+ "sections": [
+  {
+   "id": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "On Ramp Phase",
+   "subtitle": "Week 0",
+   "position": 1
+  },
+  {
+   "id": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Phase 1",
+   "subtitle": "Weeks 1–3",
+   "position": 2
+  },
+  {
+   "id": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Phase 2",
+   "subtitle": "Weeks 4–6",
+   "position": 3
+  },
+  {
+   "id": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Phase 3",
+   "subtitle": "Weeks 7–9",
+   "position": 4
+  }
+ ],
+ "lessons": [
+  {
+   "id": "6e0c081c-4a6a-4c7d-9e8b-51f1f2cb958a",
+   "key": "l2-on-ramp-overview",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "On Ramp Overview",
+   "pageType": "overview",
+   "dayNumber": null,
+   "dayType": "Overview",
+   "position": 1
+  },
+  {
+   "id": "c5abcbc0-4289-4bb8-bba6-7251afb2a711",
+   "key": "l2-on-ramp-d1",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 1",
+   "pageType": null,
+   "dayNumber": 1,
+   "dayType": "On Ramp",
+   "position": 2
+  },
+  {
+   "id": "8c6494c1-6f7e-4d89-bca0-a1a66d7d7033",
+   "key": "l2-on-ramp-d2",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 2",
+   "pageType": null,
+   "dayNumber": 2,
+   "dayType": "On Ramp",
+   "position": 3
+  },
+  {
+   "id": "d2c62c54-11cb-4df9-ae2b-abf9557077c4",
+   "key": "l2-on-ramp-d3",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 3",
+   "pageType": null,
+   "dayNumber": 3,
+   "dayType": "On Ramp",
+   "position": 4
+  },
+  {
+   "id": "71a7f7a5-6cd2-43f9-a2e6-bbc328d681e8",
+   "key": "l2-on-ramp-d4",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 4",
+   "pageType": null,
+   "dayNumber": 4,
+   "dayType": "On Ramp",
+   "position": 5
+  },
+  {
+   "id": "32553f5e-4d7d-43ee-a075-91b43acbb5d6",
+   "key": "l2-on-ramp-d5",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 5",
+   "pageType": null,
+   "dayNumber": 5,
+   "dayType": "On Ramp",
+   "position": 6
+  },
+  {
+   "id": "d11a012b-264c-4682-b01e-8282647b33a1",
+   "key": "l2-on-ramp-d6",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 6",
+   "pageType": null,
+   "dayNumber": 6,
+   "dayType": "On Ramp",
+   "position": 7
+  },
+  {
+   "id": "94e27b3a-d368-49ad-9c28-56a86dfe4331",
+   "key": "l2-on-ramp-d7",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc",
+   "title": "Day 7",
+   "pageType": null,
+   "dayNumber": 7,
+   "dayType": "On Ramp",
+   "position": 8
+  },
+  {
+   "id": "bcc34737-374c-4245-af06-759e6ac5abec",
+   "key": "l2-phase-1-overview",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Phase 1 Overview",
+   "pageType": "overview",
+   "dayNumber": null,
+   "dayType": "Overview",
+   "position": 1
+  },
+  {
+   "id": "e4423248-9c38-4a82-89b3-075548b01e47",
+   "key": "l2-phase-1-d8",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 8,
+   "dayType": "Workout I Day",
+   "position": 2
+  },
+  {
+   "id": "806d2e7c-4dbe-435b-ae23-c1b7a5912702",
+   "key": "l2-phase-1-d9",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 9,
+   "dayType": "Recovery Day",
+   "position": 3
+  },
+  {
+   "id": "7cbb1a97-785c-437b-bc34-c64df5ef2831",
+   "key": "l2-phase-1-d10",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 10,
+   "dayType": "Workout II Day",
+   "position": 4
+  },
+  {
+   "id": "85d558f3-ca31-42fb-9786-d855b469e5f7",
+   "key": "l2-phase-1-d11",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 11,
+   "dayType": "Recovery Day",
+   "position": 5
+  },
+  {
+   "id": "7573549b-a506-45d1-bff0-481c3eb7c5f0",
+   "key": "l2-phase-1-d12",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 12,
+   "dayType": "Workout I Day",
+   "position": 6
+  },
+  {
+   "id": "7ba2fd4d-33b9-4557-b118-a75698680dab",
+   "key": "l2-phase-1-d13",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 13,
+   "dayType": "Workout II Day",
+   "position": 7
+  },
+  {
+   "id": "f38c0829-991e-4554-a4f4-660e69a8ffb1",
+   "key": "l2-phase-1-d14",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 14,
+   "dayType": "Recovery Day",
+   "position": 8
+  },
+  {
+   "id": "c503b218-3219-4687-ac4e-87b1814085bf",
+   "key": "l2-phase-1-d15",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 15,
+   "dayType": "Workout I Day",
+   "position": 9
+  },
+  {
+   "id": "2f1eb25c-67ca-4a56-bd77-3d9267e04198",
+   "key": "l2-phase-1-d16",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 16,
+   "dayType": "Workout II Day",
+   "position": 10
+  },
+  {
+   "id": "dfa1d347-3b27-4f3e-8856-66447fffc54e",
+   "key": "l2-phase-1-d17",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 17,
+   "dayType": "Recovery Day",
+   "position": 11
+  },
+  {
+   "id": "78994d54-69a7-45bc-8775-dfc73c4771d5",
+   "key": "l2-phase-1-d18",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 18,
+   "dayType": "Workout I Day",
+   "position": 12
+  },
+  {
+   "id": "415ef6ac-ee15-4c92-8ea8-aff62f007f77",
+   "key": "l2-phase-1-d19",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 19,
+   "dayType": "Workout II Day",
+   "position": 13
+  },
+  {
+   "id": "be2404bf-5725-46b9-8312-f791c33da78f",
+   "key": "l2-phase-1-next",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "What's Next — Phase 2",
+   "pageType": "transition",
+   "dayNumber": null,
+   "dayType": "Preparation Day",
+   "position": 14
+  },
+  {
+   "id": "2fe8dc37-5fd2-4470-bac6-25e60cfc2f57",
+   "key": "l2-phase-1-d20",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741",
+   "title": "Preparation Day",
+   "pageType": null,
+   "dayNumber": 20,
+   "dayType": "Preparation Day",
+   "position": 15
+  },
+  {
+   "id": "a5fa0b94-cf49-4cc7-b37c-caf750d650a7",
+   "key": "l2-phase-2-overview",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Phase 2 Overview",
+   "pageType": "overview",
+   "dayNumber": null,
+   "dayType": "Overview",
+   "position": 1
+  },
+  {
+   "id": "6925ba1a-1f11-42c5-8e9f-4ba1ad0295c2",
+   "key": "l2-phase-2-d21",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 21,
+   "dayType": "Workout I Day",
+   "position": 2
+  },
+  {
+   "id": "a8b8b0f0-281d-4282-9721-97ec4cc2508f",
+   "key": "l2-phase-2-d22",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 22,
+   "dayType": "Recovery Day",
+   "position": 3
+  },
+  {
+   "id": "bf83b47f-33cf-43b0-b2d0-b4fb1d9d1241",
+   "key": "l2-phase-2-d23",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 23,
+   "dayType": "Workout II Day",
+   "position": 4
+  },
+  {
+   "id": "98b53dff-4489-4853-b4df-773bf0bb64a9",
+   "key": "l2-phase-2-d24",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 24,
+   "dayType": "Recovery Day",
+   "position": 5
+  },
+  {
+   "id": "67804c19-7214-4146-99ab-e037f2e94a05",
+   "key": "l2-phase-2-d25",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout III Day",
+   "pageType": null,
+   "dayNumber": 25,
+   "dayType": "Workout III Day",
+   "position": 6
+  },
+  {
+   "id": "92fde282-325b-4301-ba77-f5412e2602a7",
+   "key": "l2-phase-2-d26",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Skill Development Day",
+   "pageType": null,
+   "dayNumber": 26,
+   "dayType": "Skill Development Day",
+   "position": 7
+  },
+  {
+   "id": "aeda12b4-bda5-46e5-8dea-7b4ca3bd1c3f",
+   "key": "l2-phase-2-d27",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 27,
+   "dayType": "Recovery Day",
+   "position": 8
+  },
+  {
+   "id": "c6b5389f-9ad3-4311-ad8f-bb23bac378ee",
+   "key": "l2-phase-2-d28",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 28,
+   "dayType": "Workout I Day",
+   "position": 9
+  },
+  {
+   "id": "a37d9ef4-e004-402c-b196-69649d501c4d",
+   "key": "l2-phase-2-d29",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 29,
+   "dayType": "Recovery Day",
+   "position": 10
+  },
+  {
+   "id": "84fcc163-61d7-41f8-aa9a-53af40e08d3e",
+   "key": "l2-phase-2-d30",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 30,
+   "dayType": "Workout II Day",
+   "position": 11
+  },
+  {
+   "id": "0d01420f-6d40-48f9-afc8-654d3d009aa0",
+   "key": "l2-phase-2-d31",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 31,
+   "dayType": "Recovery Day",
+   "position": 12
+  },
+  {
+   "id": "ab5bafbb-9486-4042-bce3-f4d4c96fc4f8",
+   "key": "l2-phase-2-d32",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout III Day",
+   "pageType": null,
+   "dayNumber": 32,
+   "dayType": "Workout III Day",
+   "position": 13
+  },
+  {
+   "id": "4ce2472c-d071-415a-8f2e-0c75ac44d3e8",
+   "key": "l2-phase-2-d33",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Skill Development Day",
+   "pageType": null,
+   "dayNumber": 33,
+   "dayType": "Skill Development Day",
+   "position": 14
+  },
+  {
+   "id": "9dfe9e1f-499f-4453-8396-9d67d6f0d947",
+   "key": "l2-phase-2-d34",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 34,
+   "dayType": "Recovery Day",
+   "position": 15
+  },
+  {
+   "id": "0fcd0b02-a645-439b-a0fb-7083f200efa8",
+   "key": "l2-phase-2-d35",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 35,
+   "dayType": "Workout I Day",
+   "position": 16
+  },
+  {
+   "id": "ff7e3854-a1c5-4b47-a9de-8c8d132ce178",
+   "key": "l2-phase-2-d36",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 36,
+   "dayType": "Recovery Day",
+   "position": 17
+  },
+  {
+   "id": "ee0007d4-172c-47e4-8150-4b433137fd6f",
+   "key": "l2-phase-2-d37",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 37,
+   "dayType": "Workout II Day",
+   "position": 18
+  },
+  {
+   "id": "4e784ac8-6382-4b22-9c67-314a5fa5e79c",
+   "key": "l2-phase-2-d38",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 38,
+   "dayType": "Recovery Day",
+   "position": 19
+  },
+  {
+   "id": "c17fb04b-3888-4a6f-8a83-710b8d001bd9",
+   "key": "l2-phase-2-d39",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Workout III Day",
+   "pageType": null,
+   "dayNumber": 39,
+   "dayType": "Workout III Day",
+   "position": 20
+  },
+  {
+   "id": "0125eddf-97b8-4632-97cf-a2b8aa816e3f",
+   "key": "l2-phase-2-d40",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "Skill Development Day",
+   "pageType": null,
+   "dayNumber": 40,
+   "dayType": "Skill Development Day",
+   "position": 21
+  },
+  {
+   "id": "f971bd4a-f1db-42e1-b20f-bdb96e3e2aa9",
+   "key": "l2-phase-2-next",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103",
+   "title": "What's Next — Phase 3",
+   "pageType": "transition",
+   "dayNumber": null,
+   "dayType": "Preparation Day",
+   "position": 22
+  },
+  {
+   "id": "969ab012-d8af-4418-bb41-f7d3354a7441",
+   "key": "l2-phase-3-overview",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Phase 3 Overview",
+   "pageType": "overview",
+   "dayNumber": null,
+   "dayType": "Overview",
+   "position": 1
+  },
+  {
+   "id": "536eea5f-9f11-4c91-be3c-2c3fb86f37f3",
+   "key": "l2-phase-3-d41",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 41,
+   "dayType": "Workout I Day",
+   "position": 2
+  },
+  {
+   "id": "dc0055a9-035a-424e-9b86-d7b93140b44b",
+   "key": "l2-phase-3-d42",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 42,
+   "dayType": "Recovery Day",
+   "position": 3
+  },
+  {
+   "id": "932b8d82-5461-412c-93f4-24373c33746a",
+   "key": "l2-phase-3-d43",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 43,
+   "dayType": "Workout II Day",
+   "position": 4
+  },
+  {
+   "id": "050e9928-2c22-4d20-8fbe-c5b0328a4bbe",
+   "key": "l2-phase-3-d44",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 44,
+   "dayType": "Recovery Day",
+   "position": 5
+  },
+  {
+   "id": "d0f0981d-8f93-45a3-879b-aacf048a486a",
+   "key": "l2-phase-3-d45",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 45,
+   "dayType": "Workout I Day",
+   "position": 6
+  },
+  {
+   "id": "4247b7f8-8d26-418c-9ef5-6cde629efb25",
+   "key": "l2-phase-3-d46",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Skill Development Day",
+   "pageType": null,
+   "dayNumber": 46,
+   "dayType": "Skill Development Day",
+   "position": 7
+  },
+  {
+   "id": "54a5ec6d-b63e-4c27-86dc-a219af0d99cd",
+   "key": "l2-phase-3-d47",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 47,
+   "dayType": "Recovery Day",
+   "position": 8
+  },
+  {
+   "id": "033c76f3-3c1b-4f3c-9e6b-679107f4534d",
+   "key": "l2-phase-3-d48",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 48,
+   "dayType": "Workout II Day",
+   "position": 9
+  },
+  {
+   "id": "da989e30-5af3-452d-baef-033a9f3ec139",
+   "key": "l2-phase-3-d49",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 49,
+   "dayType": "Recovery Day",
+   "position": 10
+  },
+  {
+   "id": "97e10441-0a58-4aa5-a517-3a7252130689",
+   "key": "l2-phase-3-d50",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 50,
+   "dayType": "Workout I Day",
+   "position": 11
+  },
+  {
+   "id": "a07b8b71-d97b-4ebd-8af7-82930daffc92",
+   "key": "l2-phase-3-d51",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 51,
+   "dayType": "Recovery Day",
+   "position": 12
+  },
+  {
+   "id": "28ee2650-f4db-4639-aa9f-cef69e5cff99",
+   "key": "l2-phase-3-d52",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 52,
+   "dayType": "Workout II Day",
+   "position": 13
+  },
+  {
+   "id": "7adbdc92-bbaa-40aa-8706-1c9470e05f09",
+   "key": "l2-phase-3-d53",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Skill Development Day",
+   "pageType": null,
+   "dayNumber": 53,
+   "dayType": "Skill Development Day",
+   "position": 14
+  },
+  {
+   "id": "88bacb8c-0661-4ca0-9c17-40642ba365ee",
+   "key": "l2-phase-3-d54",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 54,
+   "dayType": "Recovery Day",
+   "position": 15
+  },
+  {
+   "id": "dc116384-2b59-4d5e-92dd-bc0852decdee",
+   "key": "l2-phase-3-d55",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 55,
+   "dayType": "Workout I Day",
+   "position": 16
+  },
+  {
+   "id": "67d46eec-160d-4dc4-b711-8fa15bb24777",
+   "key": "l2-phase-3-d56",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 56,
+   "dayType": "Recovery Day",
+   "position": 17
+  },
+  {
+   "id": "0b179a57-f722-4b5c-9585-b9563c88bcc9",
+   "key": "l2-phase-3-d57",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout II Day",
+   "pageType": null,
+   "dayNumber": 57,
+   "dayType": "Workout II Day",
+   "position": 18
+  },
+  {
+   "id": "7288e718-1da0-4a6b-8cc1-43a522576856",
+   "key": "l2-phase-3-d58",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 58,
+   "dayType": "Recovery Day",
+   "position": 19
+  },
+  {
+   "id": "4a0bd103-078d-4018-8f0e-f5eb662945fe",
+   "key": "l2-phase-3-d59",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Workout I Day",
+   "pageType": null,
+   "dayNumber": 59,
+   "dayType": "Workout I Day",
+   "position": 20
+  },
+  {
+   "id": "29dd8210-71a4-4845-bac5-4711b2cd2390",
+   "key": "l2-phase-3-d60",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Recovery Day",
+   "pageType": null,
+   "dayNumber": 60,
+   "dayType": "Recovery Day",
+   "position": 21
+  },
+  {
+   "id": "0b17b879-3c3a-4e3f-870d-3a50c5bdea9f",
+   "key": "l2-phase-3-d61",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99",
+   "title": "Challenge Day",
+   "pageType": null,
+   "dayNumber": 61,
+   "dayType": "Challenge Day",
+   "position": 22
+  }
+ ],
+ "progress": [
+  {
+   "lessonId": "6e0c081c-4a6a-4c7d-9e8b-51f1f2cb958a",
+   "ord": 1,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 1
+  },
+  {
+   "lessonId": "c5abcbc0-4289-4bb8-bba6-7251afb2a711",
+   "ord": 2,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "8c6494c1-6f7e-4d89-bca0-a1a66d7d7033",
+   "ord": 3,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "d2c62c54-11cb-4df9-ae2b-abf9557077c4",
+   "ord": 4,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "71a7f7a5-6cd2-43f9-a2e6-bbc328d681e8",
+   "ord": 5,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "32553f5e-4d7d-43ee-a075-91b43acbb5d6",
+   "ord": 6,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "d11a012b-264c-4682-b01e-8282647b33a1",
+   "ord": 7,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "94e27b3a-d368-49ad-9c28-56a86dfe4331",
+   "ord": 8,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "bcc34737-374c-4245-af06-759e6ac5abec",
+   "ord": 9,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 1
+  },
+  {
+   "lessonId": "e4423248-9c38-4a82-89b3-075548b01e47",
+   "ord": 10,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "806d2e7c-4dbe-435b-ae23-c1b7a5912702",
+   "ord": 11,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "7cbb1a97-785c-437b-bc34-c64df5ef2831",
+   "ord": 12,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "85d558f3-ca31-42fb-9786-d855b469e5f7",
+   "ord": 13,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "7573549b-a506-45d1-bff0-481c3eb7c5f0",
+   "ord": 14,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "7ba2fd4d-33b9-4557-b118-a75698680dab",
+   "ord": 15,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "f38c0829-991e-4554-a4f4-660e69a8ffb1",
+   "ord": 16,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "c503b218-3219-4687-ac4e-87b1814085bf",
+   "ord": 17,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "2f1eb25c-67ca-4a56-bd77-3d9267e04198",
+   "ord": 18,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "dfa1d347-3b27-4f3e-8856-66447fffc54e",
+   "ord": 19,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "78994d54-69a7-45bc-8775-dfc73c4771d5",
+   "ord": 20,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "415ef6ac-ee15-4c92-8ea8-aff62f007f77",
+   "ord": 21,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "be2404bf-5725-46b9-8312-f791c33da78f",
+   "ord": 22,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "2fe8dc37-5fd2-4470-bac6-25e60cfc2f57",
+   "ord": 23,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "a5fa0b94-cf49-4cc7-b37c-caf750d650a7",
+   "ord": 24,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 1
+  },
+  {
+   "lessonId": "6925ba1a-1f11-42c5-8e9f-4ba1ad0295c2",
+   "ord": 25,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "a8b8b0f0-281d-4282-9721-97ec4cc2508f",
+   "ord": 26,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "bf83b47f-33cf-43b0-b2d0-b4fb1d9d1241",
+   "ord": 27,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "98b53dff-4489-4853-b4df-773bf0bb64a9",
+   "ord": 28,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "67804c19-7214-4146-99ab-e037f2e94a05",
+   "ord": 29,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "92fde282-325b-4301-ba77-f5412e2602a7",
+   "ord": 30,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "aeda12b4-bda5-46e5-8dea-7b4ca3bd1c3f",
+   "ord": 31,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "c6b5389f-9ad3-4311-ad8f-bb23bac378ee",
+   "ord": 32,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "a37d9ef4-e004-402c-b196-69649d501c4d",
+   "ord": 33,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "84fcc163-61d7-41f8-aa9a-53af40e08d3e",
+   "ord": 34,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "0d01420f-6d40-48f9-afc8-654d3d009aa0",
+   "ord": 35,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "ab5bafbb-9486-4042-bce3-f4d4c96fc4f8",
+   "ord": 36,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "4ce2472c-d071-415a-8f2e-0c75ac44d3e8",
+   "ord": 37,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "9dfe9e1f-499f-4453-8396-9d67d6f0d947",
+   "ord": 38,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "0fcd0b02-a645-439b-a0fb-7083f200efa8",
+   "ord": 39,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "ff7e3854-a1c5-4b47-a9de-8c8d132ce178",
+   "ord": 40,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "ee0007d4-172c-47e4-8150-4b433137fd6f",
+   "ord": 41,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "4e784ac8-6382-4b22-9c67-314a5fa5e79c",
+   "ord": 42,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "c17fb04b-3888-4a6f-8a83-710b8d001bd9",
+   "ord": 43,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "0125eddf-97b8-4632-97cf-a2b8aa816e3f",
+   "ord": 44,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "f971bd4a-f1db-42e1-b20f-bdb96e3e2aa9",
+   "ord": 45,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "969ab012-d8af-4418-bb41-f7d3354a7441",
+   "ord": 46,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 1
+  },
+  {
+   "lessonId": "536eea5f-9f11-4c91-be3c-2c3fb86f37f3",
+   "ord": 47,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "dc0055a9-035a-424e-9b86-d7b93140b44b",
+   "ord": 48,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "932b8d82-5461-412c-93f4-24373c33746a",
+   "ord": 49,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "050e9928-2c22-4d20-8fbe-c5b0328a4bbe",
+   "ord": 50,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "d0f0981d-8f93-45a3-879b-aacf048a486a",
+   "ord": 51,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "4247b7f8-8d26-418c-9ef5-6cde629efb25",
+   "ord": 52,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "54a5ec6d-b63e-4c27-86dc-a219af0d99cd",
+   "ord": 53,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "033c76f3-3c1b-4f3c-9e6b-679107f4534d",
+   "ord": 54,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "da989e30-5af3-452d-baef-033a9f3ec139",
+   "ord": 55,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "97e10441-0a58-4aa5-a517-3a7252130689",
+   "ord": 56,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "a07b8b71-d97b-4ebd-8af7-82930daffc92",
+   "ord": 57,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "28ee2650-f4db-4639-aa9f-cef69e5cff99",
+   "ord": 58,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "7adbdc92-bbaa-40aa-8706-1c9470e05f09",
+   "ord": 59,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "88bacb8c-0661-4ca0-9c17-40642ba365ee",
+   "ord": 60,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "dc116384-2b59-4d5e-92dd-bc0852decdee",
+   "ord": 61,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "67d46eec-160d-4dc4-b711-8fa15bb24777",
+   "ord": 62,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "0b179a57-f722-4b5c-9585-b9563c88bcc9",
+   "ord": 63,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "7288e718-1da0-4a6b-8cc1-43a522576856",
+   "ord": 64,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "4a0bd103-078d-4018-8f0e-f5eb662945fe",
+   "ord": 65,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 7
+  },
+  {
+   "lessonId": "29dd8210-71a4-4845-bac5-4711b2cd2390",
+   "ord": 66,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  },
+  {
+   "lessonId": "0b17b879-3c3a-4e3f-870d-3a50c5bdea9f",
+   "ord": 67,
+   "complete": false,
+   "unlocked": true,
+   "doneSteps": 0,
+   "totalSteps": 5
+  }
+ ],
+ "enrollment": null,
+ "resources": [
+  {
+   "id": "f25831ef-2d11-48f7-b9a3-f2b5e7381527",
+   "title": "On Ramp Plan",
+   "url": "/media/plans/Kettlebell-Lifestyle-On-Ramp-Phase-Plan.pdf",
+   "kind": "pdf",
+   "sectionId": "a86a6440-714b-4b16-a5e9-d340eeda5abc"
+  },
+  {
+   "id": "7c19df68-1ad6-40b1-acf6-2e472658dd54",
+   "title": "Phase I Plan",
+   "url": "/media/plans/Kettlebell-Lifestyle-Phase-I-Plan.pdf",
+   "kind": "pdf",
+   "sectionId": "e2fd3d38-7a3a-4f49-b47d-5d0b9ae40741"
+  },
+  {
+   "id": "aed052b1-0e05-46ab-b9e6-dfccd978facb",
+   "title": "Phase II Plan",
+   "url": "/media/plans/Kettlebell-Lifestyle-Phase-II-Plan.pdf",
+   "kind": "pdf",
+   "sectionId": "2ddae16e-5175-4409-8dae-76f3d4753103"
+  },
+  {
+   "id": "1aa64520-4e8d-4604-aa7c-08225aa058e3",
+   "title": "Phase III Plan",
+   "url": "/media/plans/Kettlebell-Lifestyle-Phase-III-Plan.pdf",
+   "kind": "pdf",
+   "sectionId": "7acd3ce1-25b8-44cd-9714-2f78fcef7a99"
+  }
+ ]
+}
