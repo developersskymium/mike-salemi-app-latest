@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import { ReferralsView } from "@/components/you/ReferralsView";
 import { SubPage } from "@/components/you/SubPage";
-import { loadReferrals } from "@/lib/loaders/today-plan-you";
+import { loadReferralsV2 } from "@/lib/loaders/you";
 
 export const metadata: Metadata = { title: "Referrals" };
 
 export default async function Page() {
-  const d = await loadReferrals();
-  return <SubPage title="Invite friends" back="/you" eyebrow="Train together"><ReferralsView d={d} /></SubPage>;
+  const d = await loadReferralsV2();
+  return (
+    <SubPage
+      title="Invite friends"
+      back="/you"
+      eyebrow="Referrals"
+      lede={<><b>Bring someone with you.</b> Training holds better when someone else is doing it too. Share your code: you earn points when a friend joins, and more when they commit.</>}
+    >
+      <ReferralsView d={d} />
+    </SubPage>
+  );
 }

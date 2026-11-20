@@ -1,0 +1,197 @@
+{
+ "enabled": false,
+ "isAdmin": true,
+ "payments": false,
+ "products": [
+  {
+   "id": "0c621a35-e654-4513-805a-bf04bd222d03",
+   "name": "Suples Bulgarian Bag® — Original Leather",
+   "note": "USA orders only.",
+   "slug": "suples-bulgarian-bag",
+   "type": "physical",
+   "image": "/media/shop/bulgarian-bag.jpg",
+   "bullets": [
+    "Leather construction, made in Bulgaria",
+    "Six sizes from X-Small to XX-Large",
+    "Tri-planar swings, spins and throws",
+    "Suits every sport"
+   ],
+   "inquiry": null,
+   "tagline": "Tri-planar loading no other tool gives you",
+   "file_url": null,
+   "variants": [
+    {
+     "id": "40a7bde4-af4b-442e-aee8-42ede9af3035",
+     "key": "x-small",
+     "label": "X-Small · 12 lb",
+     "currency": "usd",
+     "price_cents": 13600
+    },
+    {
+     "id": "0d647b7c-f235-41c5-b58e-9f0d47ec0d35",
+     "key": "small",
+     "label": "Small · 17 lb",
+     "currency": "usd",
+     "price_cents": 14600
+    },
+    {
+     "id": "72eabe17-cc0c-4b02-9d22-776aeab69490",
+     "key": "medium",
+     "label": "Medium · 26 lb",
+     "currency": "usd",
+     "price_cents": 16600
+    },
+    {
+     "id": "8e92f1e6-775d-41dd-8c28-1273cc712e8b",
+     "key": "large",
+     "label": "Large · 37 lb",
+     "currency": "usd",
+     "price_cents": 19600
+    },
+    {
+     "id": "1486c681-76be-42d5-9ec4-16775a41126e",
+     "key": "x-large",
+     "label": "X-Large · 50 lb",
+     "currency": "usd",
+     "price_cents": 22600
+    },
+    {
+     "id": "37739ec8-8e28-4ae5-a53f-c12abfc19419",
+     "key": "xx-large",
+     "label": "XX-Large · 61 lb",
+     "currency": "usd",
+     "price_cents": 25600
+    }
+   ],
+   "program_id": null,
+   "description": "The original leather Bulgarian Bag, made in Bulgaria. It stands in for kettlebells, dumbbells, medicine balls, weight vests and barbells, and opens up rotational work you cannot replicate with a bell.",
+   "unlocked": false
+  },
+  {
+   "id": "0229250a-2010-4fc0-81b5-afaf32e86b74",
+   "name": "1-on-1 Coaching Intensive with Mike",
+   "note": "Application required — Mike's team confirms fit, timing and pricing with you.",
+   "slug": "1-on-1-coaching-intensive",
+   "type": "digital",
+   "image": "/media/shop/downshift.jpg",
+   "bullets": [
+    "Private video call",
+    "Technique review",
+    "Personal next-step plan"
+   ],
+   "inquiry": {
+    "href": "/coaching",
+    "label": "Request booking"
+   },
+   "tagline": "Technique and movement, coached personally",
+   "file_url": null,
+   "variants": [],
+   "program_id": null,
+   "description": "A private video session with Mike to review your technique, your training plan and what to work on next.",
+   "unlocked": false
+  },
+  {
+   "id": "9d5d9d39-0531-41d7-9b6b-89e4557de540",
+   "name": "Retreat Deposit",
+   "note": "Application required — deposit details are shared once your place is confirmed.",
+   "slug": "retreat-deposit",
+   "type": "digital",
+   "image": "/media/retreats/fire-circle.jpg",
+   "bullets": [
+    "Holds your place",
+    "Applied to the full retreat price"
+   ],
+   "inquiry": {
+    "href": "/programs/men-of-movement-retreats",
+    "label": "Apply for a place"
+   },
+   "tagline": "Hold your place at the next retreat",
+   "file_url": null,
+   "variants": [],
+   "program_id": null,
+   "description": "Reserve a spot at an upcoming Mike Salemi retreat. The balance is due before the retreat starts.",
+   "unlocked": false
+  },
+  {
+   "id": "2b236c18-b3c4-4a52-b62b-75b2b9e28b06",
+   "name": "On Ramp Plan — printable plan",
+   "note": null,
+   "slug": "plan-on-ramp",
+   "type": "digital",
+   "image": "/media/shop/plan.jpg",
+   "bullets": [
+    "Full phase breakdown",
+    "Print or save to your phone",
+    "Included with Kettlebell Lifestyle"
+   ],
+   "inquiry": null,
+   "tagline": "Included with Kettlebell Lifestyle",
+   "file_url": "/media/plans/Kettlebell-Lifestyle-On-Ramp-Phase-Plan.pdf",
+   "variants": [],
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 7 days: get set up, learn the ground rules and ease into the weekly rhythm.",
+   "unlocked": true
+  },
+  {
+   "id": "ebebc14f-6aad-4244-8af0-48dedbc6ecd9",
+   "name": "Phase I Plan — printable plan",
+   "note": null,
+   "slug": "plan-phase-1",
+   "type": "digital",
+   "image": "/media/shop/plan.jpg",
+   "bullets": [
+    "Full phase breakdown",
+    "Print or save to your phone",
+    "Included with Kettlebell Lifestyle"
+   ],
+   "inquiry": null,
+   "tagline": "Included with Kettlebell Lifestyle",
+   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-I-Plan.pdf",
+   "variants": [],
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 14 days: movement foundations, kettlebell fundamentals and postural awareness.",
+   "unlocked": true
+  },
+  {
+   "id": "0760b813-a918-4e97-b93f-8a75cae57b98",
+   "name": "Phase II Plan — printable plan",
+   "note": null,
+   "slug": "plan-phase-2",
+   "type": "digital",
+   "image": "/media/shop/plan.jpg",
+   "bullets": [
+    "Full phase breakdown",
+    "Print or save to your phone",
+    "Included with Kettlebell Lifestyle"
+   ],
+   "inquiry": null,
+   "tagline": "Included with Kettlebell Lifestyle",
+   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-II-Plan.pdf",
+   "variants": [],
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: build on the fundamentals with more strength and skill work.",
+   "unlocked": true
+  },
+  {
+   "id": "ad18647e-cbce-433a-af58-8c345c53603b",
+   "name": "Phase III Plan — printable plan",
+   "note": null,
+   "slug": "plan-phase-3",
+   "type": "digital",
+   "image": "/media/shop/plan.jpg",
+   "bullets": [
+    "Full phase breakdown",
+    "Print or save to your phone",
+    "Included with Kettlebell Lifestyle"
+   ],
+   "inquiry": null,
+   "tagline": "Included with Kettlebell Lifestyle",
+   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-III-Plan.pdf",
+   "variants": [],
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: bring it together with full sessions, tougher workouts and lasting habits.",
+   "unlocked": true
+  }
+ ],
+ "orders": []
+}

@@ -1,19 +1,25 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { LevelEmblem, Medal, StreakFlame } from "@/components/graphics";
-import { AmbientBackdrop, Avatar, Button, Glass, Icon, IconButton, LargeTitle, ProgressBar, Rings, Ticker, type IconName } from "@/components/ui";
+import { EmptyScene, ReadinessDial } from "@/components/graphics";
+import { AmbientBackdrop, Glass, Icon, IconButton, LargeTitle, type IconName } from "@/components/ui";
 import { signOut } from "@/lib/auth/actions";
-import type { YouData } from "@/lib/loaders/today-plan-you";
-import { lessonHref, plural, splitDayTitle } from "@/components/today/model";
+import type { PassportData } from "@/lib/loaders/you";
 import { PHOTOS } from "@/components/today/photos";
-import { medalArt } from "./MedalArt";
+import { CelebrationHost } from "./CelebrationHost";
+import { CertificateCard, CertificateTeaser } from "./CertificateCard";
+import { DetailsCard } from "./DetailsCard";
+import { fmtDayYear, money, plural, splitDay } from "./format";
+import { MedalCabinet, NextMedalCard } from "./MedalCabinet";
+import { PassportHeader } from "./Passport";
+import { PastRuns, ProgressByLevel, SeeAll } from "./Progress";
+import { TrainingInsights } from "./TrainingInsights";
+import { YouTabs, type YouTab } from "./YouTabs";
 import "@/components/today/tpy.css";
+import "./you.css";
 
-const since = (iso: string) => new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
-
-export function Row({ href, icon, title, detail, trailing, download }: { href: string; icon: IconName; title: string; detail?: ReactNode; trailing?: ReactNode; download?: boolean }) {
-  const inner = (
-    <>
+export function Row({ href, icon, title, detail, trailing }: { href: string; icon: IconName; title: string; detail?: ReactNode; trailing?: ReactNode }) {
+  return (
+    <Link className="tpy-row" href={href}>
       <span className="tpy-row-icon" aria-hidden><Icon name={icon} size="sm" /></span>
       <span className="tpy-row-main">
         <span className="lq-t15">{title}</span>
@@ -21,124 +27,46 @@ export function Row({ href, icon, title, detail, trailing, download }: { href: s
       </span>
       {trailing}
       <Icon name="chevron" size="sm" className="tpy-chev" />
-    </>
+    </Link>
   );
-  return download ? <a className="tpy-row" href={href} download>{inner}</a> : <Link className="tpy-row" href={href}>{inner}</Link>;
 }
 
-export function YouScreen({ d }: { d: YouData }) {
-  const r = d.rewards;
-  const levelBase = (r.level - 1) * 1000;
-  const toNext = r.next_level_at - r.points_total;
-  const active = d.enrollments.filter((e) => !e.completed_at);
-  const finished = d.enrollments.filter((e) => e.completed_at);
+function BlockHead({ id, title, lede, action }: { id: string; title: string; lede?: string; action?: ReactNode }) {
   return (
-    <>
-      <AmbientBackdrop src={PHOTOS.coaching.src} position={PHOTOS.coaching.position} fixed />
-      <div className="tpy-title">
-        <LargeTitle title="You" trailing={<IconButton icon="settings" label="Settings" href="/you/settings" />} />
+    <header className="yu-block-head">
+      <div>
+        <h2 id={id} className="lq-t22">{title}</h2>
+        {lede && <p className="lq-t15 lq-c2">{lede}</p>}
       </div>
+      {action}
+    </header>
+  );
+}
 
-      <div className="tpy-profile">
-        <Avatar name={d.profile.displayName} src={d.profile.avatarUrl} size="xl" variant="glass" />
-        <div style={{ minWidth: 0 }}>
-          <div className="lq-t22">{d.profile.displayName}</div>
-          <div className="lq-t13 lq-c2">{d.profile.email}</div>
-          <div className="lq-t13 lq-c2">Member since {since(d.profile.createdAt)}</div>
-        </div>
+/** You: the training passport header, then the legacy account tabs. */
+export function YouScreen({ d, tab }: { d: PassportData; tab: YouTab }) {
+  const active = [...d.enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""))[0];
+  const earned = Object.fromEntries(d.rewards.badges.map((b) => [b.id, b.earned_at]));
+  const s = d.saves;
+  const savesCount = s.videos.length + s.tools.length + s.plans.length;
+
+  const overview = (
+    <div className="yu-stack">
+      <div className="yu-grid2">
+        <DetailsCard name={d.profile.displayName} email={d.profile.email} level={active?.path_name ? `${active.path_name.replace("·", "—")}` : null} />
+        <ProgressByLevel levels={d.stats.programs} />
       </div>
-
-      <div className="tpy-you-grid">
-        <Link href="/you/rewards" className="tpy-tplbtn" aria-label={`Rewards: level ${r.level}, ${r.level_name}, ${r.points_total} points, ${r.streak_current} day streak, ${plural(r.badges.length, "medal")}`}>
-          <Glass radius="card" interactive className="tpy-pad" style={{ display: "grid", gap: 14 }}>
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              <LevelEmblem level={r.level} size={76} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div className="lq-t13 lq-c2" style={{ fontWeight: 600 }}>Level {r.level}</div>
-                <div className="lq-t22">{r.level_name}</div>
-                <div className="lq-t13 lq-c2 lq-num"><Ticker value={r.points_total} /> points · {toNext.toLocaleString("en-GB")} to level {r.level + 1}</div>
-                <ProgressBar value={(r.points_total - levelBase) / 1000} label="Points to next level" style={{ marginTop: 8 }} />
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, paddingTop: 12, borderTop: "1px solid var(--sep)" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <StreakFlame size={24} lit={r.streak_current > 0} title="" />
-                <span className="lq-t17 lq-num">{r.streak_current}</span>
-                <span className="lq-t13 lq-c2">day streak</span>
-              </span>
-              <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center" }} aria-hidden>
-                {r.badges.slice(-4).map((b, i) => (
-                  <Medal key={b.id} tier={b.tier} size={34} style={{ marginLeft: i ? -8 : 0 }} title="">{medalArt(b.icon)}</Medal>
-                ))}
-              </span>
-              <span className="lq-t13 lq-c2">{plural(r.badges.length, "medal")}</span>
-              <Icon name="chevron" size="sm" className="tpy-chev" />
-            </div>
-          </Glass>
-        </Link>
-
-        <section aria-labelledby="progress-t">
-          <h2 id="progress-t" className="tpy-section-title">Progress</h2>
+      <section aria-labelledby="yu-things">
+        <h2 id="yu-things" className="tpy-section-title">Your things</h2>
+        <div className="yu-grid2">
           <Glass radius="card" className="tpy-list">
-            {active.length === 0 && finished.length === 0 && (
-              <div className="tpy-row"><span className="tpy-row-main"><span className="lq-t15 lq-c2">No programs started yet.</span></span><Button size="sm" variant="fill" href="/programs">Explore</Button></div>
-            )}
-            {[...active, ...finished].map((e) => {
-              const { day } = splitDayTitle(e.current_lesson_title ?? "");
-              const p = e.lessons_total ? e.lessons_done / e.lessons_total : 0;
-              return (
-                <Link key={e.enrollment_id} className="tpy-row" href={e.completed_at ? `/programs/${e.program_slug}` : lessonHref(e.program_slug, e.current_lesson_id)}>
-                  <Rings size={40} stroke={5} rings={[{ value: p, tone: 1 }]} label={`${Math.round(p * 100)}% complete`} />
-                  <span className="tpy-row-main">
-                    <span className="lq-t15" style={{ fontWeight: 600 }}>{e.program_name}</span>
-                    <span className="lq-t13 lq-c2 lq-num">
-                      {e.path_name ? `${e.path_name.split("·")[0]!.trim()} · ` : ""}
-                      {e.completed_at ? "Complete" : `${e.lessons_done} of ${e.lessons_total} done${day ? ` · next Day ${day}` : ""}`}
-                    </span>
-                  </span>
-                  <Icon name="chevron" size="sm" className="tpy-chev" />
-                </Link>
-              );
-            })}
+            <Row href="/you/saves" icon="bookmark" title="Saves" detail={savesCount ? [s.plans.length && plural(s.plans.length, "session plan"), s.tools.length && plural(s.tools.length, "tool result"), s.videos.length && plural(s.videos.length, "video")].filter(Boolean).join(" · ") : "Session plans, tool results and videos"} />
+            <Row href="/you/rewards" icon="sparkle" title="Rewards" detail={`${plural(d.rewards.badges.length, "medal")} · ${d.rewards.points_total.toLocaleString("en-GB")} points`} />
+            <Row href="/you/referrals" icon="share" title="Invite friends" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Share your code, earn points"} />
           </Glass>
-        </section>
-
-        <section aria-labelledby="certs-t">
-          <h2 id="certs-t" className="tpy-section-title">Certificates</h2>
-          <Glass radius="card" className="tpy-list">
-            {d.certificates.length ? (
-              d.certificates.map((c) => (
-                <Row key={c.id} href={`/you/certificates/${c.id}`} icon="sparkle" title={`${c.program_name}${c.path_name ? ` · ${c.path_name.split("·")[0]!.trim()}` : ""}`} detail={`Issued ${since(c.issued_at)}`} />
-              ))
-            ) : (
-              <div className="tpy-row">
-                <span className="tpy-row-icon" aria-hidden><Icon name="sparkle" size="sm" /></span>
-                <span className="tpy-row-main" style={{ whiteSpace: "normal" }}>
-                  <span className="lq-t15">Your first certificate</span>
-                  <span className="lq-t13 lq-c2" style={{ whiteSpace: "normal" }}>
-                    {active[0] ? `Finish ${active[0].path_name?.split("·")[0]?.trim() ?? active[0].program_name} to earn it. ${active[0].lessons_total - active[0].lessons_done} days to go.` : "Complete a program level to earn one."}
-                  </span>
-                </span>
-              </div>
-            )}
-          </Glass>
-        </section>
-
-        <section aria-labelledby="more-t">
-          <h2 id="more-t" className="tpy-section-title">Your things</h2>
-          <Glass radius="card" className="tpy-list">
-            <Row href="/you/saves" icon="bookmark" title="Saves" detail={d.counts.saves + d.counts.toolResults + d.counts.readiness ? [d.counts.saves && plural(d.counts.saves, "video"), d.counts.toolResults && plural(d.counts.toolResults, "tool result"), d.counts.readiness && plural(d.counts.readiness, "readiness check")].filter(Boolean).join(" · ") : "Videos, tool results and readiness"} />
-            <Row href="/plan" icon="plan" title="Plan and goal" detail={d.goal ? d.goal.title : "No goal set yet"} />
-            <Row href="/you/referrals" icon="share" title="Invite friends" detail={d.counts.referrals ? `${plural(d.counts.referrals, "friend")} joined` : "Share your code"} />
-          </Glass>
-        </section>
-
-        <section aria-labelledby="acct-t">
-          <h2 id="acct-t" className="tpy-section-title">Account</h2>
           <Glass radius="card" className="tpy-list">
             <Row href="/you/settings" icon="settings" title="Settings" detail="Notifications, playback, appearance" />
             <Row href="/you/billing" icon="ring" title="Membership and billing" />
-            <Row href="/you/organization" icon="people" title="Organization" />
             <form action={signOut}>
               <button type="submit" className="tpy-row">
                 <span className="tpy-row-icon" aria-hidden><Icon name="back" size="sm" /></span>
@@ -146,7 +74,120 @@ export function YouScreen({ d }: { d: YouData }) {
               </button>
             </form>
           </Glass>
+        </div>
+      </section>
+    </div>
+  );
+
+  const achievements = (
+    <div className="yu-stack">
+      <section aria-labelledby="yu-badges" className="yu-block">
+        <BlockHead id="yu-badges" title="Badges" lede="Keep training to unlock the rest." action={<SeeAll href="/you/rewards">Medal cabinet</SeeAll>} />
+        <NextMedalCard badges={d.badges} progress={d.progress} />
+        <MedalCabinet badges={d.badges} progress={d.progress} earned={earned} compact />
+      </section>
+      <PastRuns runs={d.runs} />
+      <section aria-labelledby="yu-certs" className="yu-block">
+        <BlockHead id="yu-certs" title="Certificates" lede="Engraved, signed and verifiable: anyone can scan the code to check it." />
+        <div className="yu-cert-grid">
+          {d.certificates.length ? d.certificates.map((c) => <CertificateCard key={c.id} c={c} name={d.profile.displayName} />) : <CertificateTeaser active={active} name={d.profile.displayName} />}
+        </div>
+      </section>
+    </div>
+  );
+
+  const history = (
+    <div className="yu-stack">
+      <section aria-labelledby="yu-orders" className="yu-block">
+        <BlockHead id="yu-orders" title="Orders" lede="Everything you've bought or unlocked." action={<SeeAll href="/you/billing">Billing</SeeAll>} />
+        <Glass radius="card" className="tpy-list">
+          {d.orders.length ? (
+            d.orders.slice(0, 6).map((o) => (
+              <Link key={o.id} href="/you/billing" className="tpy-row">
+                <span className="tpy-row-icon" aria-hidden><Icon name={o.items.some((i) => i.kind === "product") ? "bookmark" : "ring"} size="sm" /></span>
+                <span className="tpy-row-main">
+                  <span className="lq-t15">{o.items.map((i) => i.name).join(", ") || o.reference}</span>
+                  <span className="lq-t13 lq-c2 lq-num">{fmtDayYear(o.created_at)} · {o.status === "paid" ? "Paid" : o.status === "refunded" ? "Refunded" : o.status}</span>
+                </span>
+                <span className="lq-t15 lq-num" style={{ fontWeight: 600 }}>{o.total_cents ? money(o.total_cents, o.currency) : "Free"}</span>
+              </Link>
+            ))
+          ) : (
+            <div className="tpy-row"><span className="tpy-row-main"><span className="lq-t15 lq-c2">No orders yet.</span></span><Link href="/shop" className="yu-seeall lq-t15">Shop <Icon name="chevron" size="xs" /></Link></div>
+          )}
+        </Glass>
+      </section>
+
+      <section aria-labelledby="yu-insights" className="yu-block">
+        <BlockHead id="yu-insights" title="Training insights" lede="Read from every session you log and every day you finish: time, rhythm and readiness over time." />
+        <TrainingInsights stats={d.stats} plans={s.plans} source={d.statsSource} />
+      </section>
+
+      <div className="yu-grid2">
+        <section aria-labelledby="yu-assess" className="yu-block">
+          <BlockHead id="yu-assess" title="Saved assessments" action={s.tools.length ? <SeeAll href="/you/saves?kind=tools">All</SeeAll> : undefined} />
+          {s.tools.length ? (
+            <Glass radius="card" className="tpy-list">
+              {s.tools.slice(0, 5).map((t) => (
+                <Link key={t.id} href={`/you/saves?kind=tools&open=${t.id}`} className="tpy-row">
+                  <span className="tpy-row-icon" aria-hidden><Icon name="compass" size="sm" /></span>
+                  <span className="tpy-row-main">
+                    <span className="lq-t15" style={{ fontWeight: 600 }}>{t.title}</span>
+                    <span className="lq-t13 lq-c2">{t.tool_name}</span>
+                  </span>
+                  <span className="lq-t13 lq-c2 lq-num">{fmtDayYear(t.created_at)}</span>
+                </Link>
+              ))}
+            </Glass>
+          ) : (
+            <Glass radius="card" className="yu-empty-card">
+              <EmptyScene scene="nothing-saved" size={120} />
+              <p className="lq-t17">No saved results</p>
+              <p className="lq-t13 lq-c2">Run an assessment and save it to build your history.</p>
+              <Link href="/tools" className="yu-seeall lq-t15">Open the tools <Icon name="chevron" size="xs" /></Link>
+            </Glass>
+          )}
         </section>
+        <section aria-labelledby="yu-tables" className="yu-block">
+          <BlockHead id="yu-tables" title="Workout tables" action={s.plans.length ? <SeeAll href="/you/saves?kind=plans">All</SeeAll> : undefined} />
+          {s.plans.length ? (
+            <Glass radius="card" className="tpy-list">
+              {s.plans.slice(0, 5).map((p) => {
+                const day = splitDay(p.lesson_title);
+                return (
+                  <Link key={p.id} href={`/you/saves?kind=plans&open=${p.id}`} className="tpy-row">
+                    <ReadinessDial score={Math.max(0, 60 - p.score)} band={p.band as "green" | "amber" | "red"} size={44} bare animated={false} />
+                    <span className="tpy-row-main">
+                      <span className="lq-t15" style={{ fontWeight: 600 }}>{day.day ? `Day ${day.day} · ${day.title}` : p.lesson_title}</span>
+                      <span className="lq-t13 lq-c2">{[p.section_title, p.band_name].filter(Boolean).join(" · ")}</span>
+                    </span>
+                    <span className="lq-t13 lq-c2 lq-num">{fmtDayYear(p.created_at)}</span>
+                  </Link>
+                );
+              })}
+            </Glass>
+          ) : (
+            <Glass radius="card" className="yu-empty-card">
+              <EmptyScene scene="plan-empty" size={120} />
+              <p className="lq-t17">No workout tables yet</p>
+              <p className="lq-t13 lq-c2">Complete a workout day&apos;s check-in and your table is saved here.</p>
+            </Glass>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <CelebrationHost />
+      <AmbientBackdrop src={PHOTOS.coaching.src} position={PHOTOS.coaching.position} fixed />
+      <div className="tpy-title">
+        <LargeTitle title="You" trailing={<IconButton icon="settings" label="Settings" href="/you/settings" />} />
+      </div>
+      <div className="yu-page">
+        <PassportHeader d={d} />
+        <YouTabs initial={tab} panels={{ overview, achievements, history }} />
       </div>
     </>
   );
