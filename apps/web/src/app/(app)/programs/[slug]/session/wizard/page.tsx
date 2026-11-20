@@ -32,7 +32,7 @@ export default async function WizardPage({ params, searchParams }: Props) {
         </p>
         <h1 className="lq-d-xl">Your weeks, laid out.</h1>
         <p className="lq-lede lq-c2" style={{ margin: 0 }}>
-          {data.program.name} already has a day-by-day plan. Pick a level, your days and a start date — we add it to your one schedule, one session a day.
+          {data.program.name} already has a day-by-day plan. Put it on your training days, or keep it as an order with no dates and do the next one whenever you're ready.
         </p>
       </header>
       <Glass radius="card" style={{ padding: "22px 24px 16px" }}>

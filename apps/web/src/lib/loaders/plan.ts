@@ -24,6 +24,19 @@ export interface ScheduleData {
   rules: Record<string, "shift" | "skip" | "weekend">;
   /** plan id → training weekdays (0 = Sunday) when known. */
   days: Record<string, number[]>;
+  /** Self-Guided plans saved "No dates — just the order": kept off the calendar, shown as an ordered queue. */
+  queues?: PlanQueue[];
+}
+
+export interface PlanQueue {
+  plan_id: string;
+  name: string;
+  program_slug: string | null;
+  program_name: string | null;
+  /** The next session in order (null when every session is done). */
+  next: { title: string; lesson_id: string | null; minutes: number | null } | null;
+  left: number;
+  total: number;
 }
 
 export const loadSchedule = mockable("plan-schedule", async (): Promise<ScheduleData> => {
@@ -31,7 +44,8 @@ export const loadSchedule = mockable("plan-schedule", async (): Promise<Schedule
   if (!user) throw new Error("Not signed in");
   const { data: plans } = await sb.from("member_plans").select("id, source, inputs").eq("user_id", user.id).eq("status", "active");
   const ids = (plans ?? []).map((p) => p.id);
-  if (!ids.length) return { items: [], rules: {}, days: {} };
+  if (!ids.length) return { items: [], rules: {}, days: {}, queues: [] };
+  const undated = new Set((plans ?? []).filter((p) => (p.inputs as { undated?: boolean } | null)?.undated === true).map((p) => p.id));
   const [{ data: items }, { data: enr }] = await Promise.all([
     sb
       .from("plan_items")
@@ -51,17 +65,24 @@ export const loadSchedule = mockable("plan-schedule", async (): Promise<Schedule
     const d = inputs.days ?? inputs.trainingDays ?? (e?.training_days as number[] | undefined);
     if (d?.length) days[p.id] = d;
   }
-  return {
-    rules,
-    days,
-    items: (items ?? []).map((i) => {
+  const all: ScheduleItem[] = (items ?? []).map((i) => {
       const l = i.lessons as unknown as { title: string; estimated_minutes: number | null; programs: { slug: string; name: string } | null } | null;
       return {
         id: i.id, plan_id: i.plan_id, on_date: i.on_date, kind: i.kind as ScheduleItem["kind"], title: l?.title ?? i.title ?? "Session", lesson_id: i.lesson_id,
         program_slug: l?.programs?.slug ?? null, program_name: l?.programs?.name ?? null, minutes: l?.estimated_minutes ?? null, done: !!i.done_at, skipped: !!i.skipped_at,
       };
-    }),
-  };
+    });
+  const queues: PlanQueue[] = [...undated].map((id) => {
+    const list = all.filter((i) => i.plan_id === id && i.kind !== "rest");
+    const open = list.filter((i) => !i.done && !i.skipped);
+    const nx = open[0] ?? null;
+    const meta = (plans ?? []).find((p) => p.id === id);
+    return {
+      plan_id: id, name: ((meta?.inputs ?? {}) as { name?: string }).name ?? nx?.program_name ?? "Self-Guided", program_slug: list[0]?.program_slug ?? null, program_name: list[0]?.program_name ?? null,
+      next: nx ? { title: nx.title, lesson_id: nx.lesson_id, minutes: nx.minutes } : null, left: open.length, total: list.length,
+    };
+  });
+  return { rules, days, queues, items: all.filter((i) => !undated.has(i.plan_id)) };
 });
 
 /** The member's one training profile (shared intake answers). Preview fixture: fixtures/training-profile.json. */

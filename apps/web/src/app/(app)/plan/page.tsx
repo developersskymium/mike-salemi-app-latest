@@ -28,10 +28,12 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
   const origin = `${h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https")}://${host}`;
   const feedUrl = userId ? `${origin}/cal/${feedToken(userId)}.ics` : `${origin}/plan/calendar.ics`;
+  // Local preview only: ?preview=empty shows a member with nothing planned and no training profile yet.
+  const empty = MOCK && sp.preview === "empty";
   return (
     <PlanScreen
-      raw={raw} catalog={catalog} schedule={schedule} n={n} anchor={d ?? raw.today} view={sp.view === "month" ? "month" : "week"}
-      build={sp.build === "1"} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={profile}
+      raw={empty ? { ...raw, plans: [], entries: [] } : raw} catalog={catalog} schedule={empty ? { items: [], rules: {}, days: {}, queues: [] } : schedule} n={n} anchor={d ?? raw.today} view={sp.view === "month" ? "month" : "week"}
+      build={sp.build === "1"} manage={sp.manage === "1"} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={empty ? {} : profile}
     />
   );
 }

@@ -1,18 +1,20 @@
 import Link from "next/link";
-import { EmptyScene } from "@/components/graphics";
-import { Button, EmptyState, Glass, Icon, ProgressBar } from "@/components/ui";
+import { Button, Glass, Icon, ProgressBar } from "@/components/ui";
 import type { LessonCatalog, PlanRaw } from "@/lib/loaders/today-plan-you";
 import type { ScheduleData, ScheduleItem } from "@/lib/loaders/plan";
 import type { NotificationsData } from "@/lib/loaders/notifications";
-import { addDays } from "@ms/core";
-import { shortDate, startOfWeek } from "@/components/today/dates";
+import { addDays, type IsoDate } from "@ms/core";
+import { defaultDays, startOfWeek } from "@/components/today/dates";
 import { lessonHref, plural, splitDayTitle } from "@/components/today/model";
 import { PlanBoard } from "./PlanBoard";
+import { WeekView } from "./WeekView";
+import { PrefsAsk, PrefsChip } from "./WeekPrefs";
 import { programColor } from "./programColor";
 import { TrainingProfileEditor } from "@/components/profile/TrainingProfileEditor";
 import type { TrainingProfile } from "@ms/api";
 import { ConflictCard, MoreMenu, SubscribeRow, type Clash } from "./ScheduleParts";
 import { BehindBanner, GuidedPatterns, MissedDayCard, RemindersCard, type Rule } from "./ScheduleControls";
+import "./week.css";
 import "@/components/today/tpy.css";
 import "./pln.css";
 
@@ -49,188 +51,209 @@ function findClashes(items: ScheduleItem[], plans: PlanRaw["plans"], today: stri
   return null;
 }
 
-/** Plan health in one sentence (spec 12 Plan #10). */
-function health(items: ScheduleItem[], today: string) {
-  const ws = startOfWeek(today);
+const WD_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/** This week in one plain sentence. */
+function summary(items: ScheduleItem[], today: string, ws: string) {
   const we = addDays(ws, 6);
   const week = items.filter((i) => i.kind !== "rest" && !i.skipped && i.on_date >= ws && i.on_date <= we);
+  if (!week.length) return null;
   const done = week.filter((i) => i.done).length;
-  const missed = items.filter((i) => i.kind !== "rest" && !i.done && !i.skipped && i.on_date < today && i.on_date >= addDays(today, -14)).length;
-  const left = week.filter((i) => !i.done && i.on_date >= today).length;
-  if (!week.length) return "A light week — nothing planned. Add a session or enjoy the rest.";
-  if (missed > 1) return `${done} of ${week.length} done this week, ${missed} sessions behind. One tap slides them forward.`;
-  if (done === week.length) return `All ${week.length} sessions done this week. That's the rhythm.`;
-  return `${done} of ${week.length} sessions done this week${left ? `, ${left} to go` : ""}${missed ? " — one to catch up" : " — on track"}.`;
+  const left = week.filter((i) => !i.done && i.on_date >= today);
+  const missed = week.filter((i) => !i.done && i.on_date < today).length;
+  const n = week.length;
+  if (done === n) return `All ${n} sessions done this week. Nice work.`;
+  const nx = left[0];
+  const when = nx ? (nx.on_date === today ? "next one is today" : `next one is ${WD_LONG[new Date(`${nx.on_date}T12:00:00Z`).getUTCDay()]}`) : "";
+  return `${n} ${n === 1 ? "session" : "sessions"} this week, ${done} done${missed ? `, ${missed} missed` : ""}${when ? ` — ${when}` : ""}.`;
 }
 
 /**
- * Schedule — the ONE schedule (spec 11 #1, spec 12 Plan). Every program's plan feeds this calendar, tagged by
- * program with a colour dot; program pages link here with ?program=<slug>. Calm layout: header with one primary
- * action → plan health → (one clash card) → week canvas → programs on your schedule → settings (folded).
+ * Schedule — "Your week" (client note, Nov 20: one clear mental model). Header with this week in one sentence and
+ * ONE primary button → your training days (from the training profile) → Self-Guided queues → the seven-day week.
+ * Everything else (plan list, month view, build-your-own, pace, reminders, missed days, calendar sync) lives
+ * behind "Manage plans" (?manage=1), still one tap away.
  */
 export function PlanScreen({
-  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile,
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, manage = false,
 }: {
   raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
-  selectedId?: string; origin?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null;
+  selectedId?: string; origin?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; manage?: boolean;
 }) {
   const today = raw.today;
   const plans = raw.plans;
   const items = program ? schedule.items.filter((i) => i.program_slug === program) : schedule.items;
+  const queues = (schedule.queues ?? []).filter((q) => !program || q.program_slug === program);
   const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped;
+  const todayItem = items.find((i) => open(i) && i.on_date === today) ?? null;
   const nextItem = items.filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date))[0] ?? null;
   const programs = [...new Map(schedule.items.filter((i) => i.program_slug).map((i) => [i.program_slug!, i.program_name ?? i.program_slug!])).entries()];
   const programName = program ? programs.find(([s]) => s === program)?.[1] ?? null : null;
+  const weekStart = startOfWeek(anchor);
+  const sentence = summary(items, today, weekStart);
+  const prefDays = profile?.training_days?.length ? profile.training_days : profile?.days_per_week ? defaultDays(profile.days_per_week) : [];
+  const minutes = profile?.session_minutes ?? null;
+  const q0 = queues.find((q) => q.next) ?? null;
+  const qs = (extra: Record<string, string>) => {
+    const u = new URLSearchParams();
+    if (program) u.set("program", program);
+    for (const [k, v] of Object.entries(extra)) u.set(k, v);
+    const t = u.toString();
+    return t ? `/plan?${t}` : "/plan";
+  };
+
+  if (manage || build || view === "month") return <Manage {...{ raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, items, plans, today }} />;
+
+  const primary = todayItem ? (
+    <Button icon="play" size="md" href={lessonHref(todayItem.program_slug, todayItem.lesson_id)}>Start today&apos;s session</Button>
+  ) : q0?.next && !nextItem ? (
+    <Button icon="play" size="md" href={lessonHref(q0.program_slug, q0.next.lesson_id)}>Do the next one</Button>
+  ) : nextItem && nextItem.on_date <= addDays(weekStart, 6) ? (
+    <Button icon="play" size="md" variant="secondary" href={lessonHref(nextItem.program_slug, nextItem.lesson_id)}>{`Next: ${weekday(nextItem.on_date)}`}</Button>
+  ) : (
+    <Button icon="plus" size="md" href="/plan/new">Plan my week</Button>
+  );
+
+  return (
+    <div className="pln-page pln-calm wk-page">
+      <header className="wk-head">
+        <div className="wk-head-main">
+          <h1 className="lq-d-lg pln-h1">{programName ? `Your week · ${programName}` : "Your week"}</h1>
+          <p className="wk-sum">
+            {sentence ?? (q0 ? `Nothing on the calendar this week. Your Self-Guided order is ready whenever you are.` : "Nothing planned yet. Pick a plan and we'll put it on your training days.")}
+          </p>
+        </div>
+        <div className="wk-head-acts">
+          {primary}
+          <Link href={qs({ manage: "1" })} className="wk-manage">Manage plans</Link>
+        </div>
+      </header>
+
+      {prefDays.length ? <PrefsChip days={prefDays} minutes={minutes} editHref="/plan?manage=1#prefs" /> : <PrefsAsk />}
+
+      {queues.map((q) => (
+        <Link key={q.plan_id} href={q.next ? lessonHref(q.program_slug, q.next.lesson_id) : `/plan/${q.plan_id}`} className="wk-queue lq-press" style={{ ["--pc" as string]: programColor(q.program_slug) }}>
+          <span className="wk-queue-main">
+            <span className="wk-queue-t">Self-Guided order{q.program_name ? `, ${q.program_name}` : ""}</span>
+            <span className="wk-queue-s">{q.next ? <>Next is <b>{title(q.next.title)}</b>. No dates — do it whenever you&apos;re ready.</> : "All done."}</span>
+          </span>
+          <span className="wk-queue-n lq-num">{q.total - q.left}/{q.total}</span>
+          <Icon name="chevron" size="sm" />
+        </Link>
+      ))}
+
+      <WeekView items={items} today={today as IsoDate} start={weekStart as IsoDate} preferred={prefDays} minutes={minutes} hrefFor={(d) => qs(d === today ? {} : { d })} />
+    </div>
+  );
+}
+
+/** Everything that used to crowd the schedule: plan list, month / build board, catch-up, pace, reminders, sync. */
+function Manage({
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, items, plans, today,
+}: {
+  raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
+  selectedId?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; items: ScheduleItem[]; plans: PlanRaw["plans"]; today: string;
+}) {
+  const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped;
   const clash = program ? null : findClashes(schedule.items, plans, today);
   const behind = plans
     .map((pl) => ({ pl, missed: schedule.items.filter((i) => i.plan_id === pl.id && open(i) && i.on_date < today) }))
     .find((x) => x.missed.length > 0 && (!program || x.missed.some((m) => m.program_slug === program)));
   const selected = plans.find((p) => p.id === selectedId) ?? plans[0] ?? null;
   const rule = ((selected ? schedule.rules[selected.id] : "shift") ?? "shift") as Rule;
-  const hasAnything = plans.length > 0 || raw.entries.length > 0 || build;
-  const goal = raw.goals.find((g) => g.status === "active") ?? null;
-
+  void items;
   return (
-    <div className="pln-page pln-calm">
-      <header className="pln-head">
-        <div className="pln-head-main">
-          <p className="lq-eyebrow" data-tone="accent">{programName ? `Schedule · ${programName}` : goal ? `Schedule · ${goal.title}${goal.target_date ? ` by ${shortDate(goal.target_date)}` : ""}` : "Schedule"}</p>
-          <h1 className="lq-d-lg pln-h1">Your week</h1>
-          {hasAnything && <p className="pln-health">{health(items, today)}</p>}
+    <div className="pln-page pln-calm wk-page">
+      <header className="wk-head">
+        <div className="wk-head-main">
+          <Link href="/plan" className="wk-back"><Icon name="back" size="xs" /> Your week</Link>
+          <h1 className="lq-d-lg pln-h1">Manage plans</h1>
         </div>
-        <div className="pln-head-acts">
-          {nextItem ? (
-            <Button icon="play" size="md" href={lessonHref(nextItem.program_slug, nextItem.lesson_id)}>
-              {nextItem.on_date === today ? "Start today's session" : `Next: ${weekday(nextItem.on_date, "short")}`}
-            </Button>
-          ) : (
-            <Button icon="plus" size="md" href="/plan/new">Add a plan</Button>
-          )}
+        <div className="wk-head-acts">
+          <Button icon="plus" size="md" href="/plan/new">Add a plan</Button>
           <MoreMenu
             items={[
-              ...(nextItem ? [{ label: "Add a plan", href: "/plan/new", icon: "plus" as const }] : []),
               { label: "Create my plan", href: "/plan/create", icon: "sparkle" },
               { label: "Build my own week", href: "/plan?build=1", icon: "plan" },
-              { label: "Reminders & calendar", href: "#pln-settings", icon: "bell" },
+              { label: "Month view", href: "/plan?view=month", icon: "calendar" },
               { label: "Download .ics", href: "/plan/calendar.ics", icon: "down", download: true },
             ]}
           />
         </div>
       </header>
 
-      {programs.length > 1 && (
-        <nav className="pln-filter" aria-label="Filter by program">
-          <Link href="/plan" scroll={false} className="pln-fchip" aria-current={!program ? "true" : undefined}>All</Link>
-          {programs.map(([slug, name]) => (
-            <Link key={slug} href={`/plan?program=${slug}`} scroll={false} className="pln-fchip" aria-current={program === slug ? "true" : undefined}>
-              <i className="pln-dot" style={{ background: programColor(slug) }} aria-hidden /> {name}
-            </Link>
-          ))}
-        </nav>
+      {plans.length > 0 && (
+        <section aria-labelledby="pln-plans-t" className="pln-onsched">
+          <h2 id="pln-plans-t" className="pln-h2s">Your plans</h2>
+          <Glass radius="card" className="pln-planlist">
+            {plans.map((pl) => {
+              const c = raw.planCounts.find((x) => x.plan_id === pl.id);
+              const slug = schedule.items.find((i) => i.plan_id === pl.id && i.program_slug)?.program_slug ?? null;
+              const nx = schedule.items.find((i) => i.plan_id === pl.id && open(i) && i.on_date >= today);
+              const undated = (pl.inputs as { undated?: boolean }).undated === true;
+              return (
+                <Link key={pl.id} href={`/plan/${pl.id}`} className="pln-planrow">
+                  <i className="pln-dot pln-dot-lg" style={{ background: programColor(slug) }} aria-hidden />
+                  <span className="pln-planrow-main">
+                    <span className="pln-planrow-t">{pl.name}</span>
+                    <span className="pln-sub lq-num">
+                      {undated ? "Self-Guided, no dates" : SOURCE[pl.source] ?? "Plan"}
+                      {c ? `, ${c.done} of ${plural(c.total, "session")} done` : ""}
+                      {undated ? "" : nx ? `, next ${dayLabel(nx.on_date)}` : ", all done"}
+                    </span>
+                  </span>
+                  {c && c.total > 0 && <ProgressBar value={c.done / c.total} label={`${pl.name} progress`} size="thin" className="pln-planrow-bar" />}
+                  <Icon name="chevron" size="sm" className="tpy-chev" />
+                </Link>
+              );
+            })}
+          </Glass>
+        </section>
       )}
 
-      {!hasAnything ? (
-        <Glass radius="card">
-          <EmptyState
-            title="No schedule yet"
-            body="Pick one of Mike's plans, let us build one around your goal, or place lessons on your own week."
-            illustration={<EmptyScene scene="plan-empty" size={200} />}
-            action={
-              <div className="pln-empty-actions">
-                <Button icon="plus" href="/plan/new">Add a plan</Button>
-                <Button variant="plain" href="/plan?build=1">Build my own</Button>
-              </div>
-            }
-          />
-        </Glass>
-      ) : (
-        <>
-          {clash && <ConflictCard c={clash} />}
-          {!clash && behind && (
-            <BehindBanner
-              planId={behind.pl.id}
-              count={behind.missed.length}
-              rule={(schedule.rules[behind.pl.id] ?? "shift") as Rule}
-              missed={behind.missed.map((m) => ({ title: title(m.title), date: m.on_date }))}
-            />
-          )}
+      {clash && <ConflictCard c={clash} />}
+      {!clash && behind && (
+        <BehindBanner planId={behind.pl.id} count={behind.missed.length} rule={(schedule.rules[behind.pl.id] ?? "shift") as Rule} missed={behind.missed.map((m) => ({ title: title(m.title), date: m.on_date }))} />
+      )}
 
-          <PlanBoard today={today} from={raw.from} to={raw.to} anchor={anchor} initialView={view} entries={raw.entries} plans={raw.plans} catalog={catalog} build={build} program={program} />
+      {(build || view === "month") && (
+        <PlanBoard today={today as IsoDate} from={raw.from} to={raw.to} anchor={anchor} initialView={view} entries={raw.entries} plans={raw.plans} catalog={catalog} build={build} program={program} />
+      )}
 
-          {plans.length > 0 && (
-            <section aria-labelledby="pln-plans-t" className="pln-onsched">
-              <h2 id="pln-plans-t" className="pln-h2s">On your schedule</h2>
-              <Glass radius="card" className="pln-planlist">
-                {plans.map((pl) => {
-                  const c = raw.planCounts.find((x) => x.plan_id === pl.id);
-                  const slug = schedule.items.find((i) => i.plan_id === pl.id && i.program_slug)?.program_slug ?? null;
-                  const nx = schedule.items.find((i) => i.plan_id === pl.id && open(i) && i.on_date >= today);
-                  return (
-                    <Link key={pl.id} href={`/plan/${pl.id}`} className="pln-planrow">
-                      <i className="pln-dot pln-dot-lg" style={{ background: programColor(slug) }} aria-hidden />
-                      <span className="pln-planrow-main">
-                        <span className="pln-planrow-t">{pl.name}</span>
-                        <span className="pln-sub lq-num">
-                          {SOURCE[pl.source] ?? "Plan"}
-                          {c ? ` · ${c.done}/${plural(c.total, "session")}` : ""}
-                          {nx ? ` · next ${dayLabel(nx.on_date)}` : " · all done"}
-                        </span>
-                      </span>
-                      {c && c.total > 0 && <ProgressBar value={c.done / c.total} label={`${pl.name} progress`} size="thin" className="pln-planrow-bar" />}
-                      <Icon name="chevron" size="sm" className="tpy-chev" />
-                    </Link>
-                  );
-                })}
-              </Glass>
-            </section>
-          )}
-
-          <details className="pln-settings" id="pln-settings">
-            <summary className="lq-press">
-              <span className="pln-settings-ic" aria-hidden><Icon name="settings" size="sm" /></span>
-              <span>
-                <b>Schedule settings</b>
-                <small>Pace, training days, reminder time, missed days, calendar sync</small>
-              </span>
-              <Icon name="chevronDown" size="sm" className="pln-settings-chev" />
-            </summary>
-            <div className="pln-settings-body">
-              {selected && (
-                <Glass as="section" radius="card" className="ntf-card" aria-label="Pace">
-                  {plans.length > 1 && (
-                    <nav className="pln-pills" aria-label="Plans">
-                      {plans.map((pl) => (
-                        <Link key={pl.id} href={`/plan?plan=${pl.id}#pln-settings`} scroll={false} className="pln-pill" aria-current={pl.id === selected.id ? "true" : undefined}>{pl.name}</Link>
-                      ))}
-                    </nav>
-                  )}
-                  <GuidedPatterns key={selected.id} planId={selected.id} current={schedule.days[selected.id]} />
-                  <p className="pln-help">Pick a pace and the rest of <b>{selected.name}</b> re-flows from today, in order.</p>
-                </Glass>
-              )}
-              {profile && (
-                <Glass as="section" radius="card" className="ntf-card" aria-label="Training profile">
-                  <TrainingProfileEditor initial={profile} title="Your training profile" />
-                </Glass>
-              )}
-              <div className="ntf-grid">
-                <RemindersCard prefs={n.prefs} timezone={n.timezone} today={today} now={n.now} />
-                {selected && <MissedDayCard key={selected.id} planId={selected.id} planName={selected.name} rule={rule} />}
-              </div>
-              <Glass as="section" radius="card" className="ntf-card" aria-labelledby="pln-sync-t">
-                <header className="ntf-head">
-                  <span className="ntf-ic" aria-hidden><Icon name="calendar" size="sm" /></span>
-                  <div>
-                    <h2 id="pln-sync-t" className="ntf-title">Subscribe in your calendar</h2>
-                    <p className="ntf-sub">A private link that keeps Apple, Google or Outlook in step with this schedule. Don&apos;t share it.</p>
-                  </div>
-                </header>
-                <SubscribeRow url={feedUrl} />
-              </Glass>
+      <div className="pln-settings-body">
+        {profile && (
+          <Glass as="section" radius="card" className="ntf-card" aria-label="Training days" id="prefs">
+            <TrainingProfileEditor initial={profile} title="Your training days and session length" />
+          </Glass>
+        )}
+        {selected && (
+          <Glass as="section" radius="card" className="ntf-card" aria-label="How often">
+            {plans.length > 1 && (
+              <nav className="pln-pills" aria-label="Plans">
+                {plans.map((pl) => (
+                  <Link key={pl.id} href={`/plan?manage=1&plan=${pl.id}`} scroll={false} className="pln-pill" aria-current={pl.id === selected.id ? "true" : undefined}>{pl.name}</Link>
+                ))}
+              </nav>
+            )}
+            <GuidedPatterns key={selected.id} planId={selected.id} current={schedule.days[selected.id]} />
+            <p className="pln-help">Pick how often, and the rest of <b>{selected.name}</b> moves to those days from today, in order.</p>
+          </Glass>
+        )}
+        <div className="ntf-grid">
+          <RemindersCard prefs={n.prefs} timezone={n.timezone} today={today} now={n.now} />
+          {selected && <MissedDayCard key={selected.id} planId={selected.id} planName={selected.name} rule={rule} />}
+        </div>
+        <Glass as="section" radius="card" className="ntf-card" aria-labelledby="pln-sync-t">
+          <header className="ntf-head">
+            <span className="ntf-ic" aria-hidden><Icon name="calendar" size="sm" /></span>
+            <div>
+              <h2 id="pln-sync-t" className="ntf-title">Add to your calendar app</h2>
+              <p className="ntf-sub">A private link that keeps Apple, Google or Outlook in step with your week. Don&apos;t share it.</p>
             </div>
-          </details>
-        </>
-      )}
+          </header>
+          <SubscribeRow url={feedUrl} />
+        </Glass>
+      </div>
     </div>
   );
 }
