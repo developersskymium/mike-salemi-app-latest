@@ -416,3 +416,10 @@
 .yu-ref-steps li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; background: var(--clear-fill, rgba(10, 18, 30, .45)); -webkit-backdrop-filter: var(--clear-filter, blur(12px)); backdrop-filter: var(--clear-filter, blur(12px)); color: #fff; font: 600 13px/1.2 var(--font); }
 .yu-ref-steps b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--warm); color: #fff; font: 600 12px/1 var(--font-display); }
 .yu-ref-code { background: var(--surface) !important; }
+
+/* "Your first month is on us" (give a month, get a month) */
+.yu-ref-welcome { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 16px 18px; margin-top: 16px; border-radius: var(--r-card); }
+.yu-ref-welcome h3 { margin: 0 0 2px; }
+.yu-ref-welcome p { margin: 0; }
+.yu-ref-welcome-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); }
+@media (max-width: 560px) { .yu-ref-welcome { grid-template-columns: auto 1fr; } .yu-ref-welcome > :last-child:is(a, button) { grid-column: 1 / -1; justify-self: start; } }

@@ -36,5 +36,11 @@
    "points": 1000,
    "reward": "Mastering the Kettlebell — Ballistic tier"
   }
- ]
+ ],
+ "welcome": {
+  "label": "Your first month is on us",
+  "detail": "A friend invited you, so your first month of membership is free. It comes off at checkout automatically.",
+  "expiresAt": "2027-05-20T00:00:00Z",
+  "redeemedAt": null
+ }
 }

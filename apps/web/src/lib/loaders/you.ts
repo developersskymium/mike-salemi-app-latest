@@ -391,11 +391,13 @@ export interface ReferralsV2 {
   /** Points earned from referrals (points_ledger reason 'referral'). */
   points: number;
   tiers: ReferralTier[];
+  /** "Give a month, get a month": the free first month this member got for joining through a friend (member_credits). */
+  welcome?: { label: string; detail: string | null; expiresAt: string | null; redeemedAt: string | null } | null;
 }
 
 export const loadReferralsV2 = mockable("you-referrals", async (): Promise<ReferralsV2> => {
   const { sb, user } = await session();
-  const [profile, code, refs, events, points, tiers] = await Promise.all([
+  const [profile, code, refs, events, points, tiers, welcome] = await Promise.all([
     profileOf(sb, user),
     sb.rpc("my_referral_code").then((r) => {
       if (r.error) throw new Error(r.error.message);
@@ -412,8 +414,19 @@ export const loadReferralsV2 = mockable("you-referrals", async (): Promise<Refer
       .then((r: { data: unknown }) => (r.data ?? []) as ReferralsV2["events"]),
     sb.from("points_ledger").select("amount").eq("user_id", user.id).eq("reason", "referral").then((r) => (r.data ?? []).reduce((n, x) => n + x.amount, 0)),
     referralTiers(sb),
+    // member_credits (0036) is newer than the generated types
+    (sb as unknown as { from: (t: string) => any }) // eslint-disable-line @typescript-eslint/no-explicit-any
+      .from("member_credits")
+      .select("label, detail, expires_at, redeemed_at")
+      .eq("user_id", user.id)
+      .eq("kind", "free_month")
+      .eq("source", "referral")
+      .maybeSingle()
+      .then((r: { data: { label: string; detail: string | null; expires_at: string | null; redeemed_at: string | null } | null }) =>
+        r.data ? { label: r.data.label, detail: r.data.detail, expiresAt: r.data.expires_at, redeemedAt: r.data.redeemed_at } : null,
+      ),
   ]);
-  return { code, firstName: profile.firstName, referrals: refs, events, points, tiers };
+  return { code, firstName: profile.firstName, referrals: refs, events, points, tiers, welcome };
 });
 
 /* ============================================================== Certificate PDF */

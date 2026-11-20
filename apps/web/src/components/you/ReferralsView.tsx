@@ -82,15 +82,29 @@ export function ReferralsView({ d }: { d: ReferralsV2 }) {
         className="yu-ref-hero"
         as="section"
       >
-        <p className="lq-eyebrow yu-ref-hero-eyebrow">Earn a free month</p>
+        <p className="lq-eyebrow yu-ref-hero-eyebrow">Give a month, get a month</p>
         <h2 className="lq-d-lg">Bring someone up the mountain</h2>
-        <p className="lq-lede yu-ref-hero-lede">Share your link. When a friend joins and their first order goes through, a month of Pro is added to your account.</p>
+        <p className="lq-lede yu-ref-hero-lede">Share your link. Your friend&apos;s first month is free, and when it starts, a month of Pro is added to your account.</p>
         <ol className="yu-ref-steps">
           <li><b className="lq-num">1</b><span>Share your link</span></li>
-          <li><b className="lq-num">2</b><span>{d.firstName ? "Your friend joins" : "A friend joins"}</span></li>
+          <li><b className="lq-num">2</b><span>{d.firstName ? "Your friend joins free" : "A friend joins free"}</span></li>
           <li><b className="lq-num">3</b><span>You get 1 month</span></li>
         </ol>
       </PhotoHero>
+      {d.welcome && (
+        <Glass as="section" level="thick" className="yu-ref-welcome" aria-labelledby="yu-welcome-t">
+          <span className="yu-ref-welcome-ic" aria-hidden><Icon name={d.welcome.redeemedAt ? "check" : "sparkle"} size="sm" /></span>
+          <div>
+            <h3 id="yu-welcome-t" className="lq-t17" style={{ fontWeight: 700 }}>{d.welcome.redeemedAt ? "Your free month is active" : d.welcome.label}</h3>
+            <p className="lq-t13 lq-c2">
+              {d.welcome.redeemedAt
+                ? `A friend invited you, so your first month was on us (started ${fmtDayYear(d.welcome.redeemedAt)}).`
+                : `${d.welcome.detail ?? "A friend invited you, so your first month is free."}${d.welcome.expiresAt ? ` Use it by ${fmtDayYear(d.welcome.expiresAt)}.` : ""}`}
+            </p>
+          </div>
+          {!d.welcome.redeemedAt && <Button size="sm" href="/pricing">Start my free month</Button>}
+        </Glass>
+      )}
       <div className="yu-ref-top">
         <Glass as="section" level="thick" className="yu-ref-code" aria-labelledby="yu-code-t">
           <span className="lq-t13 yu-eyebrow" id="yu-code-t">Your code</span>
@@ -119,7 +133,7 @@ export function ReferralsView({ d }: { d: ReferralsV2 }) {
               <span className="lq-t13 lq-c2 lq-num">{next ? `${(next.points - d.points).toLocaleString("en-GB")} pts to ${next.reward}` : "Every reward unlocked"}</span>
             </div>
             <ProgressBar value={tierP} tone="accent" label="Progress to the next reward" />
-            <p className="lq-t13 lq-c2">When a friend&apos;s first order goes through you also get 30 days of Pro.</p>
+            <p className="lq-t13 lq-c2">Your friend&apos;s first month is free. When it starts (or their first order goes through) you get 30 days of Pro.</p>
           </div>
         </Glass>
 
