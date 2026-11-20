@@ -66,7 +66,10 @@
 .wz-mix i, .wz-dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); flex: none; }
 .wz-mix i[data-i="recovery"], .wz-mix i[data-i="mobility"], .wz-dot[data-i="recovery"], .wz-dot[data-i="mobility"] { background: var(--ok); }
 .wz-mix i[data-i="skill"], .wz-dot[data-i="skill"] { background: var(--warm); }
-.wz-preview { display: grid; gap: 14px; max-height: 46vh; overflow: auto; padding-right: 4px; }
+/* Whole weeks, no inner scroll box (a fixed-height box cut the last row in half, D20). */
+.wz-preview { display: grid; gap: 14px; }
+.wz-more { justify-self: start; height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 13.5px/1 var(--font); color: var(--accent-ink); cursor: pointer; }
+.wz-more:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
 .wz-wk { display: grid; gap: 6px; }
 .wz-wk ul { list-style: none; margin: 0; padding: 0; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
 .wz-wk li { display: grid; grid-template-columns: 96px 12px minmax(0, 1fr); align-items: center; gap: 4px 10px; padding: 10px 14px; font: 500 13.5px/1.3 var(--font); }
@@ -77,8 +80,22 @@
 .wz-t em { font-style: normal; color: var(--label-3); }
 .wz-why { grid-column: 3; font: 500 12px/1.3 var(--font); color: var(--label-3); }
 
+/* Saved: one clear next step */
+.wz-done { display: grid; justify-items: center; text-align: center; gap: 10px; padding: 28px 8px 12px; }
+.wz-done p { margin: 0; max-width: 34rem; }
+.wz-done-ic { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--ok-soft); color: var(--ok); }
+.wz-done-ic .lq-icon { width: 24px; height: 24px; stroke-width: 2.4; }
+.wz-done-a { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; }
+.wz-done-edit { margin-top: 4px; background: none; border: 0; font: 600 13px/1 var(--font); color: var(--label-3); cursor: pointer; }
+.wz-done-edit:hover { color: var(--label); }
+@media (prefers-reduced-motion: no-preference) { .wz-done { animation: lq-rise var(--dur-rise) var(--curve-out) both; } }
+
 .wz-foot { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 4px; border-top: 1px solid var(--line); background: var(--surface); }
 .wz-sum { text-align: center; flex: 1; }
+/* Phone, on the wizard page: the footer sticks above the floating tab bar, not behind it. */
+@media (max-width: 1023px) {
+  [data-wz-page] .wz-foot { bottom: calc(var(--tabbar-h) + var(--tabbar-bottom) + env(safe-area-inset-bottom) + 6px); }
+}
 @media (max-width: 559px) {
   .wz-l { display: none; }
   .wz-n::after { content: none; }

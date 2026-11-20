@@ -1,0 +1,41 @@
+import { loadBadges } from "@/lib/loaders/badges";
+import { PROGRAM_MEDAL, medalColorOf } from "./catalog";
+import { MedalPin } from "./MedalPin";
+import "./badges.css";
+
+const STAGE: Record<string, string> = { start: "Start", halfway: "Halfway", complete: "Finish" };
+
+/**
+ * A program's badges (start · halfway · finish, plus program-specific ones), greyed until earned.
+ * For program pages: `<ProgramBadges slug="athleticism-4-life" />`. Server component; renders nothing
+ * when the program has no badges.
+ */
+export async function ProgramBadges({ slug, title = "Badges in this program" }: { slug: string; title?: string }) {
+  const d = await loadBadges().catch(() => null);
+  if (!d) return null;
+  const list = d.defs.filter((b) => b.program_slug === slug).sort((a, z) => a.position - z.position);
+  if (!list.length) return null;
+  const n = list.filter((b) => d.earned[b.id]).length;
+  return (
+    <section className="bd-pb" aria-label={title} style={PROGRAM_MEDAL[slug] ? ({ ["--bd-c" as string]: PROGRAM_MEDAL[slug]!.color } as React.CSSProperties) : undefined}>
+      <header className="bd-pb-h">
+        <b className="lq-t15">{title}</b>
+        <span className="lq-t13 lq-c3 lq-num">
+          {n} of {list.length}
+        </span>
+      </header>
+      <ul className="bd-pb-row" role="list">
+        {list.map((b) => {
+          const e = !!d.earned[b.id];
+          const stage = b.id.startsWith("prog-") ? STAGE[b.id.split("-").at(-1) ?? ""] : null;
+          return (
+            <li key={b.id} className="bd-pb-item" data-earned={e ? "" : undefined} title={b.description}>
+              <MedalPin tier={b.tier} icon={b.icon} color={medalColorOf(b)} size={52} locked={!e} title={`${b.name}${e ? ", earned" : ", not earned yet"}`} />
+              <span className="lq-t12">{stage ?? b.name}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}

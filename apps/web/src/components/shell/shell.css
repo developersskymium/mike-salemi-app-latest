@@ -27,7 +27,7 @@
 .sm-wordmark b { display: block; font: 600 15px/1.1 var(--font-display); letter-spacing: -.015em; }
 .sm-wordmark small { display: block; font: 450 11px/1 var(--font); letter-spacing: .01em; color: var(--label-3); margin-top: 3px; }
 
-/* ---------------------------------------------------------------- the rail (desktop): on the ground, no panel */
+/* ---------------------------------------------------------------- the rail (desktop): its own light surface (--rail), a hairline apart from the body */
 .sm-rail { display: none; }
 @media (min-width: 1024px) {
   .sm-rail {
@@ -36,14 +36,19 @@
     width: var(--sidebar-w);
     padding: 18px 14px 14px;
     overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
-    background: var(--bg);
+    background: var(--rail);
+    box-shadow: inset -1px 0 0 var(--rail-line);
   }
   .sm-rail::-webkit-scrollbar { display: none; }
+  /* When the rail does overflow (very short windows), show a thin scrollbar on hover so the rest is discoverable (D12). */
+  .sm-rail:hover { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+  .sm-rail:hover::-webkit-scrollbar { display: block; width: 6px; }
+  .sm-rail:hover::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 9px; }
 }
 
 /* resume card: slim and light (thumb · Up next · Day N · title · play · 3px ember line) */
-.sm-resume { position: relative; display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding: 10px; border-radius: 14px; background: var(--surface); box-shadow: var(--sh-1); color: var(--label); text-decoration: none; flex: none; }
-.sm-resume:hover { box-shadow: var(--sh-hover); }
+.sm-resume { position: relative; display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding: 10px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--rail-line); color: var(--label); text-decoration: none; flex: none; }
+.sm-resume:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
 .sm-resume-top { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .sm-resume-th { position: relative; width: 40px; height: 40px; border-radius: 10px; overflow: hidden; flex: none; background: #1A1D22; }
 .sm-resume-th img { object-fit: cover; }
@@ -67,9 +72,9 @@
   transition: background-color .15s var(--curve-out), color .15s var(--curve-out), box-shadow .15s var(--curve-out), transform var(--dur-press) var(--curve-spring);
 }
 .sm-nav > a .lq-icon { width: 18px; height: 18px; stroke-width: 1.6; color: var(--label-3); transition: color .15s var(--curve-out); }
-.sm-nav > a:hover { background: color-mix(in srgb, var(--surface) 60%, transparent); color: var(--label); }
+.sm-nav > a:hover { background: var(--rail-hover); color: var(--label); }
 .sm-nav > a:active { transform: scale(.98); transition-duration: var(--dur-press-in); }
-.sm-nav > a[aria-current="page"] { background: var(--surface); color: var(--label); font-weight: 600; box-shadow: var(--sh-1); }
+.sm-nav > a[aria-current="page"] { background: var(--rail-active); color: var(--label); font-weight: 600; }
 .sm-nav > a[aria-current="page"] .lq-icon { color: var(--accent); }
 .sm-navlink-l { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sm-navlink-badge { margin-left: auto; height: 19px; padding: 0 7px; border-radius: 99px; background: var(--warm-soft); color: var(--warm-ink); font: 600 10.5px/19px var(--font); }
@@ -92,10 +97,11 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
 .sm-access > a[aria-current="page"] .sm-access-t { color: var(--label); }
 
 /* member */
-.sm-member { margin-top: auto; border-top: 1px solid var(--line); padding: 12px 6px 0; display: flex; align-items: center; gap: 10px; flex: none; position: sticky; bottom: -14px; background: var(--bg); padding-bottom: 14px; margin-bottom: -14px; z-index: 2; }
-.sm-member::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 22px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+.sm-member { margin-top: auto; border-top: 1px solid var(--line); padding: 12px 6px 0; display: flex; align-items: center; gap: 10px; flex: none; position: sticky; bottom: -14px; background: var(--rail); padding-bottom: 14px; margin-bottom: -14px; z-index: 2; }
+.sm-member::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 22px; background: linear-gradient(transparent, var(--rail)); pointer-events: none; }
 .sm-rail > .sm-navgroup + .sm-member, .sm-rail > .sm-member { margin-top: auto; }
 .sm-member-link { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; color: inherit; text-decoration: none; border-radius: 12px; }
+.sm-member-link[aria-current="page"] .sm-member-name { color: var(--accent); }
 .sm-member-name { display: block; font: 600 13.5px/1.2 var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sm-member-sub { display: block; font: 450 11.5px/1.3 var(--font); color: var(--label-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sm-theme .sm-theme-sun { display: none; }
@@ -118,6 +124,16 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
 .sm-announce .lq-tag::before { display: none; }
 .sm-announce-a { font-weight: 600; display: inline-flex; gap: 4px; align-items: center; color: var(--accent-ink); text-decoration: none; white-space: nowrap; }
 .sm-announce-a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sm-announce:empty { display: none; }
+/* <Announcement>: desktop = one centred line + dismiss; phone = a two-line card (see below). */
+.sm-ann { position: relative; display: flex; align-items: center; min-height: 36px; border-bottom: 1px solid var(--line); }
+.sm-ann-main { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 6px 44px; color: var(--label-2); font: 450 13px/1.35 var(--font); text-decoration: none; }
+a.sm-ann-main:hover .sm-ann-l { text-decoration: underline; text-underline-offset: 3px; }
+.sm-ann .sm-announce-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sm-ann-ic { display: none; }
+.sm-ann-x { position: absolute; right: 10px; top: 50%; translate: 0 -50%; width: 28px; height: 28px; border-radius: 99px; border: 0; background: none; color: var(--label-3); display: grid; place-items: center; cursor: pointer; }
+.sm-ann-x:hover { background: var(--surface-sunk); color: var(--label); }
+.sm-ann-x .lq-icon { width: 14px; height: 14px; }
 
 /* ---------------------------------------------------------------- top bar (desktop) */
 .sm-topbar { display: flex; align-items: center; gap: 12px; height: var(--topbar-h); }
@@ -134,8 +150,10 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
 .sm-search input::placeholder { color: var(--label-3); }
 .sm-search input::-webkit-search-cancel-button { display: none; }
 .sm-search kbd { font: 600 10.5px/1 var(--font); padding: 5px 7px; border-radius: 7px; background: var(--surface-sunk); color: var(--label-3); }
-.sm-streak-skel { width: 92px; background: var(--warm-soft); }
+/* The slot and the chip share one width (1–3 digit streaks), so nothing moves when the streak streams in (D10). */
+.sm-streak-skel { width: 100px; background: var(--warm-soft); }
 .sm-streak-skel[data-compact] { width: 62px; }
+.sm-topbar-r .sm-streak:not([data-compact]) { min-width: 100px; justify-content: center; }
 
 /* ---------------------------------------------------------------- phone header */
 .sm-phead { display: flex; align-items: center; gap: 10px; padding: 14px 0 12px; }
@@ -156,6 +174,20 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
   .sm-announce > p { border-radius: 14px; justify-content: flex-start; text-align: left; padding: 9px 12px; font-size: 12px; gap: 10px; background: var(--surface); box-shadow: var(--sh-1); border-bottom: 0; }
   .sm-announce .lq-tag { font-size: 9px; padding: 3px 6px; flex: none; }
   .sm-announce-t { flex: 1; min-width: 0; }
+  /* <Announcement> on phone: icon · title / one line of detail · chevron (two lines at most, D15) */
+  .sm-ann { border-bottom: 0; border-radius: 14px; background: var(--surface); box-shadow: var(--sh-1); }
+  .sm-ann-main { justify-content: flex-start; gap: 10px; padding: 9px 40px 9px 10px; font-size: 12.5px; }
+  .sm-ann .sm-ann-new { display: none; }
+  .sm-ann-ic { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 10px; background: var(--warm-soft); color: var(--warm); }
+  .sm-ann-ic .lq-icon { width: 16px; height: 16px; }
+  .sm-ann .sm-announce-t { white-space: normal; display: grid; gap: 1px; }
+  .sm-ann .sm-announce-t > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sm-ann .sm-announce-t strong { font: 600 13px/1.3 var(--font); }
+  .sm-ann-sep { display: none; }
+  .sm-ann-d { color: var(--label-3); }
+  .sm-ann .sm-announce-a { flex: none; }
+  .sm-ann .sm-ann-l { display: none; }
+  .sm-ann-x { right: 6px; }
 }
 
 /* ---------------------------------------------------------------- tab bar (phone): the one glass surface */
@@ -247,3 +279,26 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
    (day player, or any page that renders [data-shell-focus]) hide the rail, bars and header. */
 html:has(.kd-day, [data-shell-focus]) :is(.sm-rail, .sm-tabbar, .lq-phone-header, .sm-announce, .lq-statusbar) { display: none; }
 @media (min-width: 1024px) { html:has(.kd-day, [data-shell-focus]) .lq-main { margin-left: 0; } }
+
+/* ---------------------------------------------------------------- short windows (D12)
+   Laptops (≤ 860px tall): a tighter rhythm so the whole original nav — Tools, Coaching, Referrals and Shop —
+   fits above the pinned member without scrolling. Same items, same order; only spacing changes. */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .sm-rail { padding-top: 14px; }
+  .sm-resume { margin-top: 12px; gap: 8px; padding: 8px 10px; }
+  .sm-nav { margin-top: 10px; }
+  .sm-nav > a { height: 32px; }
+  .sm-access > a { height: 30px; }
+  .sm-navgroup { margin-top: 12px; }
+  .sm-navgroup-h { padding-bottom: 4px; }
+  .sm-member { padding-top: 10px; }
+}
+@media (min-width: 1024px) and (max-height: 720px) {
+  .sm-resume-pr { display: none; }
+  .sm-nav > a { height: 30px; }
+  .sm-access > a { height: 28px; }
+}
+
+/* ---------------------------------------------------------------- draft markers (D23)
+   "Draft" pills mark facts Mike hasn't confirmed (draft_note). Members never see them; admins do. */
+.sm-app:not([data-admin]) :is(.com-draft, .ch-draft) { display: none !important; }

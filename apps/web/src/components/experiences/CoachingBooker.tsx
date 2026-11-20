@@ -77,7 +77,11 @@ export function CoachingBooker({ packages, slots, credits, recommended }: { pack
         <header className="ch-sec-head"><div><div className="lq-eyebrow" data-tone="accent">{credits > 0 ? "Book" : "Step two and three"}</div><h2 id="s2" className="lq-d-sm">Pick a time and your focus</h2></div></header>
         <div className="ch-book">
           <Glass radius="card" className="ch-book-pick">
-            <div className="lq-t15" style={{ fontWeight: 600 }}>Mike&rsquo;s coaching day is Tuesday</div>
+            {/* Slots are listed in the member's own time, so abroad a Tuesday can read as Wednesday (D22): say so. */}
+            <div className="lq-t15" style={{ fontWeight: 600 }}>Mike coaches on Tuesdays, Pacific time</div>
+            <div className="lq-t13 lq-c2" style={{ marginTop: -4 }}>
+              Times below are shown in your time{mounted ? ` (${Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, " ")})` : ""}.
+            </div>
             <SlotPicker slots={slots} value={pick?.id ?? null} onChange={setPick} />
             <label className="ch-field">
               <span>What do you want to work on?</span>
@@ -89,7 +93,7 @@ export function CoachingBooker({ packages, slots, credits, recommended }: { pack
             <div className="lq-eyebrow">Your booking</div>
             <dl>
               <div><dt>Package</dt><dd>{credits > 0 ? "From your sessions" : pkg?.name ?? "Choose one"}</dd></div>
-              <div><dt>When</dt><dd className="lq-num">{pick && mounted ? slotWhen(pick.starts_at) : "Pick a Tuesday time"}</dd></div>
+              <div><dt>When</dt><dd className="lq-num">{pick && mounted ? slotWhen(pick.starts_at) : "Pick a time"}</dd></div>
               <div><dt>Length</dt><dd className="lq-num">{pick?.duration_minutes ?? 45} min</dd></div>
               <div className="ch-total"><dt>Total</dt><dd className="lq-num">{credits > 0 ? `1 of ${credits} session${credits === 1 ? "" : "s"}` : pkg ? usd(pkg.price!.amountCents, pkg.price!.currency) : "—"}</dd></div>
             </dl>

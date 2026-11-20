@@ -1,0 +1,17 @@
+/* Training profile editor (reusable: Plan settings, Settings page). */
+.tpe { display: grid; gap: 14px; }
+.tpe-h { margin: 0; font: 650 16px/22px var(--font); color: var(--text); }
+.tpe-f { display: grid; gap: 8px; }
+.tpe-l { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.tpe-l span { font: 600 13.5px/18px var(--font); color: var(--text); }
+.tpe-l small { font: 500 12.5px/17px var(--font); color: var(--text-3); }
+.tpe-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tpe-chip { appearance: none; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font: 550 14px/1 var(--font); color: var(--text-2); cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.tpe-chip[aria-checked="true"], .tpe-chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.tpe-days { display: grid; grid-template-columns: repeat(7, minmax(40px, 48px)); gap: 6px; }
+.tpe-day { appearance: none; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font: 650 14px/1 var(--font); color: var(--text-2); cursor: pointer; }
+.tpe-day[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tpe-input { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-sunk); font: 450 15px/21px var(--font); color: var(--text); }
+.tpe-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tpe-text { min-height: 80px; resize: vertical; }
+.tpe-foot { display: flex; justify-content: flex-end; }

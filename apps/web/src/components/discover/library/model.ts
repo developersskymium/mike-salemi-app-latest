@@ -1,43 +1,47 @@
 import type { LibraryIndex, LibraryIndexVideo } from "@ms/api";
 import type { MoveName } from "@/components/graphics";
 
-/* Library model (legacy src/routes/_authenticated/library.index.tsx): level → category → tag cascade,
-   saved, "In the program", search tokens, sort, source tabs. Pure, shared by the page and tests. */
+/* Library model: program chips on top, then combinable filters across every program (type, movement, length, level),
+   all mirrored in the URL. Pure, shared by the page and the All lessons page. */
 
-export type Sort = "program" | "title-asc" | "title-desc" | "in-program-first" | "level";
-export type Source = "all" | "videos" | "programs";
-
-export const SORTS: { value: Sort; label: string }[] = [
-  { value: "program", label: "Program order" },
-  { value: "title-asc", label: "Title A–Z" },
-  { value: "title-desc", label: "Title Z–A" },
-  { value: "in-program-first", label: "In the program first" },
-  { value: "level", label: "By level" },
-];
-
-export const SOURCES: { value: Source; label: string }[] = [
-  { value: "all", label: "Everything" },
-  { value: "videos", label: "Technique videos" },
-  { value: "programs", label: "Program lessons" },
-];
-
-/** Order of the level chips (legacy libraryLevels). */
+/** LEVEL chips keep the legacy order. */
 const LEVEL_ORDER = ["on-ramp", "phase-1", "phase-2", "phase-3", "level-1", "level-2"];
+
+export type VideoType = "workout" | "warmup" | "mobility" | "technique";
+export const TYPES: { value: VideoType; label: string }[] = [
+  { value: "technique", label: "Technique" },
+  { value: "workout", label: "Workouts" },
+  { value: "warmup", label: "Warm-ups" },
+  { value: "mobility", label: "Stretch and mobility" },
+];
+export type Length = "short" | "medium" | "long";
+export const LENGTHS: { value: Length; label: string }[] = [
+  { value: "short", label: "Under 5 min" },
+  { value: "medium", label: "5 to 15 min" },
+  { value: "long", label: "15 min or more" },
+];
 
 export interface LibState {
   q: string;
-  level: string; // "all" or a level slug
-  cats: string[]; // category slugs (any)
-  tags: string[]; // topic slugs (all)
-  sort: Sort;
+  /** Program slug or "all". */
+  program: string;
+  /** "all" or a VideoType. */
+  type: string;
+  /** Movement index key ("all" or a MOVE_INDEX key): the body area / goal. */
+  move: string;
+  /** "all" or a Length. */
+  len: string;
+  /** "all" or a level slug. */
+  level: string;
   saved: boolean;
   inProgram: boolean;
-  source: Source;
-  /** Movement index key ("all" or a MOVE_INDEX key). */
-  move: string;
 }
 
-export const EMPTY: LibState = { q: "", level: "all", cats: [], tags: [], sort: "program", saved: false, inProgram: false, source: "all", move: "all" };
+export const EMPTY: LibState = { q: "", program: "all", type: "all", move: "all", len: "all", level: "all", saved: false, inProgram: false };
+
+/** Filters other than the program chips and search (the count shown on "Clear"). */
+export const activeFilters = (s: LibState) =>
+  [s.type !== "all", s.move !== "all", s.len !== "all", s.level !== "all", s.saved, s.inProgram].filter(Boolean).length;
 
 /* ------------------------------------------------------------ movement index (signature) */
 
@@ -128,9 +132,8 @@ export function topicsOf(v: LibraryIndexVideo) {
 }
 
 export function terms(index: LibraryIndex) {
-  const by = (ns: string) => index.tags.filter((t) => t.ns === ns).map((t) => ({ slug: t.slug, name: t.name }));
-  const levels = by("level").sort((a, b) => rank(a.slug) - rank(b.slug));
-  return { levels, categories: by("category").sort((a, b) => rank(a.slug) - rank(b.slug)), topics: by("topic") };
+  const levels = index.tags.filter((t) => t.ns === "level").map((t) => ({ slug: t.slug, name: t.name })).sort((a, b) => rank(a.slug) - rank(b.slug));
+  return { levels };
 }
 
 function rank(slug: string) {
@@ -138,87 +141,66 @@ function rank(slug: string) {
   return i === -1 ? LEVEL_ORDER.length : i;
 }
 
-/** Categories that occur inside the chosen level. */
-export function categoriesFor(videos: LibraryIndexVideo[], all: Term[], level: string) {
-  if (level === "all") return all;
-  const ids = new Set(videos.filter((v) => levelsOf(v).includes(level)).flatMap(catsOf));
-  return all.filter((c) => ids.has(c.slug));
+/** What kind of video it is, from its tags and title. */
+export function typeOf(v: Pick<LibraryIndexVideo, "g" | "t">): VideoType {
+  const t = cleanTitle(v.t).toLowerCase();
+  const topics = v.g.filter((k) => k.startsWith("topic:")).map((k) => k.slice(6));
+  if (topics.includes("workouts") || /\bworkout\b/.test(t)) return "workout";
+  if (topics.includes("bodyweight-warm-ups") || /warm[\s-]?up/.test(t)) return "warmup";
+  if (topics.includes("stretching") || topics.includes("working-in") || /stretch|breath|bolt|mobility|90\/90/.test(t)) return "mobility";
+  return "technique";
 }
 
-/** Tags that occur inside the chosen level + categories. */
-export function tagsFor(videos: LibraryIndexVideo[], all: Term[], level: string, cats: string[]) {
-  const ids = new Set(
-    videos
-      .filter((v) => (level === "all" || levelsOf(v).includes(level)) && (!cats.length || cats.some((c) => catsOf(v).includes(c))))
-      .flatMap(topicsOf),
-  );
-  return all.filter((t) => ids.has(t.slug));
+export function lengthOf(d: number | null | undefined): Length | null {
+  if (!d) return null;
+  return d < 300 ? "short" : d < 900 ? "medium" : "long";
 }
 
-/** Technique videos = the tagged KBL library; Everything adds every program lesson video. */
-export const isTechnique = (v: LibraryIndexVideo) => v.g.length > 0;
-
-export function filterSort(videos: LibraryIndexVideo[], s: LibState, names: Map<string, string>, savedOverride: Record<string, boolean>) {
+export function filterVideos(videos: LibraryIndexVideo[], s: LibState, names: Map<string, string>, programId: string | null, savedOverride: Record<string, boolean>) {
   const tokens = s.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  const list = videos.filter((v) => {
-    if (s.source === "videos" && !isTechnique(v)) return false;
-    const saved = savedOverride[v.id] ?? v.s;
-    if (s.saved && !saved) return false;
-    if (s.level !== "all" && !levelsOf(v).includes(s.level)) return false;
-    if (s.cats.length && !s.cats.some((c) => catsOf(v).includes(c))) return false;
-    if (s.tags.length && !s.tags.every((t) => topicsOf(v).includes(t))) return false;
-    if (s.inProgram && !v.ip) return false;
-    if (s.move !== "all" && !movesOf(v).includes(s.move as MoveKey)) return false;
-    if (!tokens.length) return true;
-    const hay = `${cleanTitle(v.t)} ${v.g.map((k) => names.get(k) ?? k).join(" ")} ${movesOf(v).join(" ")}`.toLowerCase().replace(/[–—-]/g, " ");
-    return tokens.every((t) => tokenMatches(hay, t));
-  });
-  switch (s.sort) {
-    case "title-asc":
-      return list.sort((a, b) => cleanTitle(a.t).localeCompare(cleanTitle(b.t)));
-    case "title-desc":
-      return list.sort((a, b) => cleanTitle(b.t).localeCompare(cleanTitle(a.t)));
-    case "in-program-first":
-      return list.sort((a, b) => Number(b.ip) - Number(a.ip) || a.o - b.o);
-    case "level": {
-      const r = (v: LibraryIndexVideo) => Math.min(...levelsOf(v).map(rank), LEVEL_ORDER.length);
-      return list.sort((a, b) => r(a) - r(b) || cleanTitle(a.t).localeCompare(cleanTitle(b.t)));
-    }
-    default:
-      return list.sort((a, b) => a.o - b.o || a.t.localeCompare(b.t));
-  }
+  return videos
+    .filter((v) => {
+      if (programId && !v.pr.includes(programId)) return false;
+      if (s.saved && !(savedOverride[v.id] ?? v.s)) return false;
+      if (s.type !== "all" && typeOf(v) !== s.type) return false;
+      if (s.len !== "all" && lengthOf(v.d) !== s.len) return false;
+      if (s.level !== "all" && !levelsOf(v).includes(s.level)) return false;
+      if (s.inProgram && !v.ip) return false;
+      if (s.move !== "all" && !movesOf(v).includes(s.move as MoveKey)) return false;
+      if (!tokens.length) return true;
+      const hay = `${cleanTitle(v.t)} ${v.g.map((k) => names.get(k) ?? k).join(" ")} ${movesOf(v).join(" ")}`.toLowerCase().replace(/[–—-]/g, " ");
+      return tokens.every((t) => tokenMatches(hay, t));
+    })
+    .sort((a, b) => a.o - b.o || a.t.localeCompare(b.t));
 }
 
 /* ------------------------------------------------------------ URL state */
 
+const pick = <T extends string>(v: string | undefined, ok: readonly T[]): T | "all" => (v && (ok as readonly string[]).includes(v) ? (v as T) : "all");
+
 export function fromParams(sp: Record<string, string | undefined>): LibState {
-  const list = (v?: string) => (v ? v.split(",").map((x) => x.replace(/^(topic|category|level):/, "")).filter(Boolean).slice(0, 12) : []);
-  const sort = SORTS.some((x) => x.value === sp.sort) ? (sp.sort as Sort) : "program";
-  const source = SOURCES.some((x) => x.value === sp.src) ? (sp.src as Source) : "all";
   return {
     q: (sp.q ?? "").slice(0, 80),
-    level: sp.level?.replace(/^level:/, "") || "all",
-    cats: list(sp.cat),
-    tags: list(sp.tags),
-    sort,
+    program: sp.program && /^[a-z0-9-]{1,80}$/.test(sp.program) ? sp.program : "all",
+    type: pick(sp.type, TYPES.map((x) => x.value)),
+    move: pick(sp.move, MOVE_INDEX.map((m) => m.key)),
+    len: pick(sp.len, LENGTHS.map((x) => x.value)),
+    level: sp.level?.replace(/^level:/, "").slice(0, 40) || "all",
     saved: sp.saved === "1",
     inProgram: sp.inprog === "1",
-    source,
-    move: MOVE_INDEX.some((m) => m.key === sp.move) ? (sp.move as string) : "all",
   };
 }
 
 export function toQuery(s: LibState, playing: string | null) {
   const sp = new URLSearchParams();
-  if (s.q.trim()) sp.set("q", s.q.trim());
+  if (s.program !== "all") sp.set("program", s.program);
+  if (s.type !== "all") sp.set("type", s.type);
+  if (s.move !== "all") sp.set("move", s.move);
+  if (s.len !== "all") sp.set("len", s.len);
   if (s.level !== "all") sp.set("level", s.level);
-  if (s.cats.length) sp.set("cat", s.cats.join(","));
-  if (s.tags.length) sp.set("tags", s.tags.join(","));
-  if (s.sort !== "program") sp.set("sort", s.sort);
+  if (s.q.trim()) sp.set("q", s.q.trim());
   if (s.saved) sp.set("saved", "1");
   if (s.inProgram) sp.set("inprog", "1");
-  if (s.source !== "all") sp.set("src", s.source);
-  if (s.move !== "all") sp.set("move", s.move);
   if (playing) sp.set("v", playing);
   return sp.toString();
 }
@@ -307,7 +289,3 @@ export function clock(s: number | null | undefined) {
   return h ? `${h}:${String(m).padStart(2, "0")}:${sec}` : `${m}:${sec}`;
 }
 
-/* ------------------------------------------------------------ saved views (P2, this device) */
-
-export type SavedView = { id: string; name: string; state: LibState };
-export const VIEWS_KEY = "ms:library:views";

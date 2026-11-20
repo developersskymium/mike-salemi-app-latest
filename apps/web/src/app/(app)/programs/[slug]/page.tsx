@@ -5,6 +5,9 @@ import { ProgramView } from "@/components/training/ProgramView";
 import { loadProgramPage } from "@/lib/loaders/training";
 import { loadBoard } from "@/lib/loaders/selfguided";
 import { opensAsCourse } from "@/lib/course-types";
+import { KblHome } from "@/components/journeys/KblHome";
+import { loadIntakePage } from "@/lib/loaders/course";
+import { fixture, MOCK } from "@/lib/mock";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -27,11 +30,20 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
   const data = await loadProgramPage(slug, param(sp.path));
+  // Local preview: courses have course snapshots but no program-page snapshot; open their journey home.
+  if (!data && MOCK && (await fixture(`course-${slug}`).then(() => true, () => false))) redirect(`/programs/${slug}/course`);
   if (!data) notFound();
   // Courses and tools (the Roadmap) open their signature journey home, then lessons in the shared course player.
   if (opensAsCourse(data.program.type)) redirect(`/programs/${slug}/course`);
   // Experiences (coaching, retreats, live programs, challenges) have their own program pages.
   if (["coaching", "live", "challenge", "retreat"].includes(data.program.type)) redirect(`/experiences/programs/${slug}`);
   const board = data.program.access === "locked" ? null : await loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null);
-  return <ProgramView data={data} board={board} initialMode={modeParam(param(sp.mode))} offer={<OfferSlot placement="program_page" />} />;
+  const mode = modeParam(param(sp.mode));
+  // Kettlebell Lifestyle: calm main page (Level choice + Immersion weeks navigator); Self-Guided keeps its board.
+  if (slug === "kettlebell-lifestyle" && mode !== "self_guided") {
+    const intake = await loadIntakePage(slug).catch(() => null);
+    const recommended = intake?.latest?.result?.path_key ?? null;
+    return <KblHome data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<OfferSlot placement="program_page" />} />;
+  }
+  return <ProgramView data={data} board={board} initialMode={mode} offer={<OfferSlot placement="program_page" />} />;
 }

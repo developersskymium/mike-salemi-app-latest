@@ -6,6 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import { Button, Icon, useToast } from "@/components/ui";
 import type { ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
+import type { TrainingProfile } from "@ms/api";
 import { savePlanAction } from "@/lib/actions/selfguided";
 import { wizardLevelAction } from "@/lib/actions/wizard";
 import { buildWizardPlan, defaultWeekdays, FOCUS_COPY, intentOf, type WizardDay, type WizardFocus } from "./wizardPlan";
@@ -54,19 +55,24 @@ function daysOf(data: ProgramPageData, board: BoardData | null): WizardDay[] {
  * pick a level, days per week (and which weekdays), a start date and a focus, preview the schedule
  * generated from the level's real day order and day types, then save it to Plan (save_training_plan).
  */
-export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; board: BoardData | null; onDone?: () => void }) {
+export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPageData; board: BoardData | null; onDone?: () => void; profile?: TrainingProfile | null }) {
+  // Prefilled from the training profile (spec 11 #1): the member's training weekdays / days a week.
+  const profDays = profile?.training_days?.length ? profile.training_days : profile?.days_per_week ? defaultWeekdays(Math.min(6, profile.days_per_week)) : null;
   const router = useRouter();
   const toast = useToast();
   const [step, setStep] = useState(0);
   const [pathKey, setPathKey] = useState<string | null>(data.path?.key ?? null);
   const [levelDays, setLevelDays] = useState<Record<string, WizardDay[]>>(() => ({ [data.path?.key ?? ""]: daysOf(data, board) }));
   const [loading, startLoad] = useTransition();
-  const [perWeek, setPerWeek] = useState(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays.length : 3));
-  const [weekdays, setWeekdays] = useState<number[]>(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : defaultWeekdays(3)));
+  const [perWeek, setPerWeek] = useState(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays.length : profDays?.length ?? 3));
+  const [weekdays, setWeekdays] = useState<number[]>(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : profDays ?? defaultWeekdays(3)));
   const [start, setStart] = useState(() => plus(1));
   const [from, setFrom] = useState<"next" | "first">("next");
   const [focus, setFocus] = useState<WizardFocus>("balanced");
   const [saving, startSave] = useTransition();
+  /** After saving: the plan's page and the first session (D20: a clear next step, not a spinner). */
+  const [saved, setSaved] = useState<{ planHref: string; count: number } | null>(null);
+  const [allWeeks, setAllWeeks] = useState(false);
 
   const days = levelDays[pathKey ?? ""] ?? [];
   const firstOpen = days.find((d) => !d.done) ?? null;
@@ -116,9 +122,67 @@ export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; boa
         return;
       }
       toast(`Plan saved — ${plan.items.length} sessions are on your schedule.`, { tone: "success" });
-      onDone?.();
-      router.push(r.planId && r.planId !== "preview" ? `/plan/${r.planId}` : "/plan");
+      setSaved({ planHref: r.planId && r.planId !== "preview" ? `/plan/${r.planId}` : "/plan", count: plan.items.length });
     });
+  }
+
+  /** Leave the wizard for a page (closes the program page's sheet first). */
+  function go(href: string) {
+    onDone?.();
+    router.push(href);
+  }
+
+  const first = plan.items[0] ?? null;
+  const firstHref = first ? `/programs/${data.program.slug}/session/open?lesson=${first.day.id}&key=${encodeURIComponent(first.day.id)}` : null;
+  const firstIsToday = first?.date === plus(0);
+  // The preview shows whole weeks: the first three, then "show all" (no box cutting a row in half).
+  const weekNumbers = Array.from(new Set(plan.items.map((i) => i.week)));
+  const shownWeeks = allWeeks ? weekNumbers : weekNumbers.slice(0, 3);
+  const hiddenSessions = plan.items.filter((i) => !shownWeeks.includes(i.week)).length;
+
+  if (saved) {
+    return (
+      <div className="wz">
+        <section className="wz-done" aria-labelledby="wz-done-h" role="status">
+          <span className="wz-done-ic" aria-hidden>
+            <Icon name="check" />
+          </span>
+          <h3 id="wz-done-h" className="lq-d-sm">
+            Your plan is on your schedule
+          </h3>
+          <p className="lq-t15 lq-c2">
+            <b className="lq-num">{saved.count}</b> sessions, {perWeek} a week, {levelName}.
+            {first ? ` First up: Day ${first.day.dayNumber}, ${firstIsToday ? "today" : nice(first.date)}.` : ""}
+          </p>
+          <div className="wz-done-a">
+            {firstHref && first && firstIsToday ? (
+              <>
+                <Button size="md" icon="play" onClick={() => go(firstHref)}>
+                  Start Day {first.day.dayNumber}
+                </Button>
+                <Button variant="secondary" size="md" icon="calendar" onClick={() => go(saved.planHref)}>
+                  Go to your Schedule
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button size="md" icon="calendar" iconAfter="chevron" onClick={() => go(saved.planHref)}>
+                  Go to your Schedule
+                </Button>
+                {firstHref && first && (
+                  <Button variant="secondary" size="md" icon="play" onClick={() => go(firstHref)}>
+                    Start Day {first.day.dayNumber} now
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+          <button type="button" className="wz-done-edit lq-link" onClick={() => setSaved(null)}>
+            Change the plan
+          </button>
+        </section>
+      </div>
+    );
   }
 
   const canNext = step === 1 ? weekdays.length > 0 : step === 0 ? days.length > 0 && !loading : true;
@@ -254,7 +318,7 @@ export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; boa
               ))}
             </div>
             <div className="wz-preview">
-              {Array.from(new Set(plan.items.map((i) => i.week))).map((w) => (
+              {shownWeeks.map((w) => (
                 <div key={w} className="wz-wk">
                   <p className="lq-eyebrow">Week {w}</p>
                   <ul>
@@ -274,6 +338,11 @@ export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; boa
                   </ul>
                 </div>
               ))}
+              {hiddenSessions > 0 && (
+                <button type="button" className="wz-more lq-press" onClick={() => setAllWeeks(true)}>
+                  Show all {weekNumbers.length} weeks <span className="lq-c3">· {hiddenSessions} more sessions</span>
+                </button>
+              )}
             </div>
           </section>
         )}

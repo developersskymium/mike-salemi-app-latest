@@ -6,6 +6,7 @@ import type { Enrollment, HomeRaw, HomeRun } from "@/lib/loaders/home";
 import type { TodayView } from "./buildToday";
 import { fmt, shortDate } from "./dates";
 import { lessonHref, plural, relDay, splitDayTitle } from "./model";
+import { programHref } from "@/lib/hrefs";
 import { PROGRAM_PHOTOS } from "@/lib/program-photos";
 import { continueOrder } from "@/lib/continue";
 
@@ -149,7 +150,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       const complete = Boolean(e && (e.completed_at || (total > 0 && done >= total)));
       const unit = isDays ? "day" : "lesson";
       const access = p.access === "org" ? "included" : (p.access as HomeItem["access"]);
-      const startHref = o?.first_lesson_id ? lessonHref(p.slug, o.first_lesson_id) : `/programs/${p.slug}`;
+      const startHref = o?.first_lesson_id ? lessonHref(p.slug, o.first_lesson_id, { type: p.type, mode: e?.mode }) : programHref(p.slug, p.type);
       items.push({
         key: `${p.id}:${t.pathId ?? ""}`,
         programId: p.id,
@@ -177,9 +178,9 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
         nextLabel: e && !complete ? nextLabelOf(e) : null,
         lastActivityAt: e?.last_active_at ?? null,
         verb: verbOf(percent, complete),
-        resumeHref: e?.current_lesson_id ? lessonHref(p.slug, e.current_lesson_id) : complete ? `/programs/${p.slug}` : startHref,
+        resumeHref: e?.current_lesson_id ? lessonHref(p.slug, e.current_lesson_id, { type: p.type, mode: e.mode }) : complete ? programHref(p.slug, p.type) : startHref,
         startHref,
-        pageHref: `/programs/${p.slug}`,
+        pageHref: programHref(p.slug, p.type),
       });
     }
   }
@@ -217,9 +218,9 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       nextLabel: null,
       lastActivityAt: null,
       verb: { label: "Start", icon: "play" },
-      resumeHref: `/programs/${p.slug}`,
-      startHref: `/programs/${p.slug}`,
-      pageHref: p.type === "coaching" ? "/coaching" : `/programs/${p.slug}`,
+      resumeHref: programHref(p.slug, p.type),
+      startHref: programHref(p.slug, p.type),
+      pageHref: programHref(p.slug, p.type),
     }));
   const locked = [...lockedPrograms.filter((i) => !i.draft), ...experiences.filter((i) => !i.draft), ...lockedPrograms.filter((i) => i.draft), ...experiences.filter((i) => i.draft)];
 
@@ -268,7 +269,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       eyebrow: "Next in your plan",
       title: splitDayTitle(n.title).name,
       line: [relDay(n.on_date, v.today), v.goal.planName].filter(Boolean).join(" · "),
-      href: n.lesson_id && n.program_slug ? lessonHref(n.program_slug, n.lesson_id) : `/plan?d=${n.on_date}`,
+      href: n.lesson_id && n.program_slug ? lessonHref(n.program_slug, n.lesson_id, { type: raw.catalog.find((p) => p.slug === n.program_slug)?.type }) : `/plan?d=${n.on_date}`,
       icon: n.item_kind === "recovery" ? "leaf" : "kettlebell",
       now: n.on_date === v.today,
       date: n.on_date,
@@ -305,10 +306,10 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       status,
       statusLabel: status === "open" ? "Applications open" : status === "waitlist" ? "Waitlist" : status === "full" ? "Full" : status === "past" ? "Past retreat" : r.price_note ?? "",
       image: r.image ? { src: r.image.url, alt: r.image.alt } : null,
+      // Each card opens its own run (D13), not the retreats concept page.
       href: `/experiences/${r.id}`,
     };
   });
-  const retreatProgram = raw.catalog.find((p) => p.type === "retreat");
 
   /* ------------------------------------------------------------ getting started (P2) */
   const anyDone = raw.enrollments.some((e) => e.lessons_done > 0 || e.steps_done > 0);
@@ -351,7 +352,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
     locked,
     tiles: tiles.slice(0, 3),
     retreats,
-    retreatsHref: retreatProgram ? "/experiences" : "/programs?tab=experiences",
+    retreatsHref: "/experiences",
     checklist,
     checklistDone: checklist.filter((c) => c.done).length,
     readiness,

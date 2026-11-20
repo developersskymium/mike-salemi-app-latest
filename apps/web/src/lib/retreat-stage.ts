@@ -56,7 +56,7 @@ export function retreatSteps(stage: RetreatStage, when?: string | null): Retreat
   const s = (apply: StepState, call: StepState, pay: StepState, d: [string, string, string]): RetreatStep[] => [
     { key: "apply", label: "Apply", state: apply, detail: d[0] },
     { key: "call", label: "Schedule a call", state: call, detail: d[1] },
-    { key: "pay", label: "If approved, pay", state: pay, detail: d[2] },
+    { key: "pay", label: "Confirm & pay", state: pay, detail: d[2] },
   ];
   switch (stage) {
     case "sales":

@@ -13,6 +13,9 @@ import { CourseNav } from "./CourseNav";
 import { CourseVideo } from "./CourseVideo";
 import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelOpen, Spark, X } from "./glyphs";
 import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
+import { LessonStrip, UnitList } from "@/components/journeys/LessonStrip";
+import { a4lUnits, mtkUnits, unitOf } from "@/components/journeys/units";
+import { AudioOnlyToggle, DownloadChips, KeyPoints, LessonNotes, NextCountdown, Reflection, ResumedPill, keyPointsOf, reflectionFor } from "@/components/lesson/LessonExtras";
 import "./course.css";
 import "../journey/accent.css";
 
@@ -49,7 +52,12 @@ let memoryFocus = false;
  * lesson stage (≤760px). Phone: Lessons drawer. Lesson-level complete, last-lesson memory,
  * MTK plan mode, keyboard (← → F /), 95%-watched auto-complete.
  */
-export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode }) {
+/**
+ * `slim` (KBL family: MTK, A4L): no curriculum sidebar; a slim week/movement strip on top, the
+ * week's lessons in a compact list under the lesson, plus the shared lesson extras (key points,
+ * notes, reflection, audio-only, "Next in 5s").
+ */
+export function CoursePlayer({ data, mode, slim }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l" }) {
   const router = useRouter();
   const toast = useToast();
   const slug = data.program.slug;
@@ -91,6 +99,15 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   const nextGroupFirst = nextGroup?.sections.flatMap((s) => s.lessons).find((l) => !done.has(l.id)) ?? nextGroup?.sections[0]?.lessons[0];
   const firstOpen = all.find((l) => !done.has(l.id)) ?? all[0];
   const isDone = node ? done.has(node.id) : false;
+  const [countdown, setCountdown] = useState(false);
+  const [audioOnly, setAudioOnly] = useState(false);
+  const units = useMemo(() => {
+    if (!slim) return [];
+    const live = { ...data, groups: groups.map((g) => ({ ...g, sections: g.sections.map((s) => ({ ...s, lessons: s.lessons.map((l) => ({ ...l, done: done.has(l.id) })) })) })) };
+    const nextOpen = all.find((l) => !done.has(l.id))?.id ?? null;
+    return slim === "mtk" ? mtkUnits(live, href, nextOpen, new Set(data.mtk?.plan?.lessonIds ?? [])) : a4lUnits(live, href, nextOpen);
+  }, [slim, data, groups, done, all, href]);
+  const unit = slim ? unitOf(units, data.activeId) : null;
   const pct = all.length ? Math.round((all.filter((l) => done.has(l.id)).length / all.length) * 100) : 0;
 
   /* ---------------- persistence: focus, last lesson, cross-device position */
@@ -175,7 +192,8 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   const onWatched = async () => {
     if (!node || done.has(node.id) || (lesson?.steps.length ?? 0) > 1) return;
     const ok = await markDone("watched");
-    if (ok) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
+    if (ok && slim && next) setCountdown(true);
+    else if (ok) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
   };
 
   const toggleFocus = () => focusStore.set(!focus);
@@ -249,7 +267,7 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   const intakeHref = data.intake ? (data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`) : null;
 
   return (
-    <div className="crs" data-shell-focus="" data-jy-theme={data.program.journey.theme} data-focus={focus ? "" : undefined}>
+    <div className="crs" data-shell-focus="" data-jy-theme={data.program.journey.theme} data-focus={focus ? "" : undefined} data-slim={slim ? "" : undefined} data-audio-only={audioOnly ? "" : undefined}>
       <Glass as="header" level="thick" className="crs-bar">
         <div className="crs-bar-row">
           <Link href={planMode ? "/mtk" : `/programs/${slug}/course`} className="crs-ghost" aria-label={planMode ? "Back to My Plan" : `Back to the ${data.program.name} overview`}>
@@ -260,9 +278,11 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
           <button type="button" className="crs-ghost" aria-label="About this course" aria-pressed={overview} onClick={() => setOverview((v) => !v)}>
             <Info />
           </button>
-          <button type="button" className="crs-ghost crs-only-phone" data-tone="accent" aria-label="Lessons" onClick={() => setDrawer("open")}>
-            <ListTree />
-          </button>
+          {!slim && (
+            <button type="button" className="crs-ghost crs-only-phone" data-tone="accent" aria-label="Lessons" onClick={() => setDrawer("open")}>
+              <ListTree />
+            </button>
+          )}
           <button type="button" className="crs-ghost crs-only-desk" aria-pressed={focus} aria-label={focus ? "Show lessons" : "Focus"} onClick={toggleFocus}>
             {focus ? <PanelOpen /> : <PanelClose />}
             <span className="crs-sm">{focus ? "Lessons" : "Focus"}</span>
@@ -272,10 +292,11 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
       </Glass>
 
       <div className="crs-body">
-        <aside className="crs-side" aria-label="Curriculum" inert={focus || undefined}>{nav()}</aside>
+        {!slim && <aside className="crs-side" aria-label="Curriculum" inert={focus || undefined}>{nav()}</aside>}
 
         <main className="crs-main" ref={main} id="main">
           <div className="crs-stage">
+            {slim && !focus && <LessonStrip units={units} unitId={unit?.id ?? null} prevHref={prev && !isIntro ? href(prev.id) : null} nextHref={next ? href(next.id) : nextGroupFirst ? href(nextGroupFirst.id) : null} />}
             {planCtx && (
               <div className="crs-banner">
                 <b>My Plan · Day {planCtx.day}</b>
@@ -339,7 +360,12 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
                 </div>
                 <h2 id="crs-title" className="crs-title">{isIntro ? data.intro?.title === "Home" ? `Welcome to ${data.program.name}` : data.intro?.title : lesson.title}</h2>
 
+                {slim && main0?.video && !isIntro && (
+                  <div className="crs-tools"><AudioOnlyToggle on={audioOnly} onChange={setAudioOnly} /></div>
+                )}
                 {(main0?.video || parsed.directVideo) && (
+                  <div className="crs-vwrap">
+                  {slim && main0?.video && <ResumedPill seconds={lesson.videoSeconds[main0.video.providerId] ?? 0} />}
                   <CourseVideo
                     key={lesson.id}
                     video={main0?.video ?? null}
@@ -355,12 +381,16 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
                     }}
                     onWatched={() => void onWatched()}
                   />
+                  </div>
                 )}
+                {slim && countdown && next && <NextCountdown title={next.title} onGo={() => { setCountdown(false); go(next.id); }} onCancel={() => setCountdown(false)} />}
+                {slim && !isIntro && <KeyPoints points={keyPointsOf(parsed.body)} />}
 
                 <AudioList items={parsed.audio} />
                 {parsed.body && <Markdown source={parsed.body} hide={hideLeads} />}
                 <Clips clips={clips} fallbackImage={data.program.cover?.src ?? data.program.image} />
-                <Downloads items={parsed.files} />
+                {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
+                {slim && !isIntro && <LessonNotes key={lesson.id} lessonId={lesson.id} />}
 
                 <Glass level="thick" float className="crs-next">
                   {prev && !isIntro ? (
@@ -386,6 +416,8 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
                   </button>
                 </Glass>
                 {isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
+                {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
+                {slim && !focus && <UnitList unit={unit} activeId={data.activeId} />}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>
               </article>
             )}
