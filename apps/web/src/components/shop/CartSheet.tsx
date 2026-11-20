@@ -36,6 +36,7 @@ export function CartButton({ onOpen, variant = "glass", size = "md" }: { onOpen:
 /** Free-shipping progress line: "$38 to free shipping" → "Free shipping unlocked". */
 export function ShipProgress({ subtotal, free, physical }: { subtotal: number; free: number; physical: boolean }) {
   if (!physical) return null;
+  if (free <= 0) return <div className="shp-ship" data-done=""><span className="lq-t13"><Icon name="check" size="xs" /> Shipping included · USA orders only</span></div>;
   const left = Math.max(0, free - subtotal);
   return (
     <div className="shp-ship" data-done={left === 0 ? "" : undefined}>
@@ -91,7 +92,7 @@ export function CartSheet({ open, onClose, d }: { open: boolean; onClose: () => 
             </div>
             {memberSaving > 0 && <p className="lq-t13 shp-save-line lq-num">Member prices save you {money(memberSaving, currency)}</p>}
             <Button block icon="lock" href="/shop/checkout" onClick={onClose}>Checkout</Button>
-            <p className="lq-t12 lq-c2 shp-cart-fine">Apple Pay and Google Pay at checkout.{d.payments ? "" : " Payments switch on soon."}</p>
+            <p className="lq-t12 lq-c2 shp-cart-fine">Secure Stripe checkout · Apple Pay and Google Pay.{d.payments ? "" : " Payments switch on soon."}</p>
           </div>
         ) : undefined
       }
@@ -101,7 +102,7 @@ export function CartSheet({ open, onClose, d }: { open: boolean; onClose: () => 
           {rows.map(({ l, p, v }) => (
             <li key={l.variant} className="shp-cart-line">
               <Link href={`/shop/${p.slug}`} className="shp-cart-img" onClick={onClose} aria-label={p.name}>
-                <ProductVisual p={p} sizes="72px" bellSize={52} />
+                <ProductVisual p={p} sizes="72px" />
               </Link>
               <div className="shp-cart-text">
                 <span className="lq-t15 shp-cart-name">{p.name}</span>
@@ -119,7 +120,7 @@ export function CartSheet({ open, onClose, d }: { open: boolean; onClose: () => 
         <div className="shp-cart-empty">
           <EmptyScene scene="nothing-saved" size={170} />
           <p className="lq-d-sm">Your cart is empty</p>
-          <p className="lq-t15 lq-c2">Add equipment and it waits here until you check out.</p>
+          <p className="lq-t15 lq-c2">Add the bag and it waits here until you check out.</p>
           <Button variant="secondary" size="md" onClick={onClose}>Keep browsing</Button>
         </div>
       )}

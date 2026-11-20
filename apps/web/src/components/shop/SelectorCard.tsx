@@ -1,44 +1,31 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button, Icon, useToast } from "@/components/ui";
+import { Button, Icon } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { toolDef, type Answers, type SelectorResult } from "@/components/discover/tools/defs";
-import type { ShopProduct } from "@/lib/loaders/shop";
-import { money } from "@/components/you/format";
-import { cart } from "./cart";
 import { BellArt } from "./BellArt";
-import { nearestBell, unitCents } from "./pricing";
+import { nearestBell } from "./pricing";
+
+const COMP_WEIGHTS = [8, 12, 16, 20, 24, 28, 32];
 
 /**
- * The Kettlebell Selector, built into the shop: the same four questions and scenarios as the tool
- * (tools.kettlebell-selector config), one question at a time; the result adds the bell to the cart.
+ * The Kettlebell Selector, in the shop: the same four questions and scenarios as the tool
+ * (tools.kettlebell-selector config), one question at a time. Mike doesn't sell kettlebells here, so the
+ * result recommends the competition weights to train with and points to Kettlebell Lifestyle.
  */
-export function SelectorCard({ config, products, member, onAdded }: { config: Record<string, unknown>; products: ShopProduct[]; member: boolean; onAdded: () => void }) {
+export function SelectorCard({ config }: { config: Record<string, unknown> }) {
   const def = useMemo(() => toolDef("kettlebell-selector", config, null), [config]);
   const [a, setA] = useState<Answers>({});
   const [open, setOpen] = useState(false);
-  const toast = useToast();
-  const bell = products.find((p) => p.slug === "competition-kettlebell");
-  const starter = products.find((p) => p.slug === "starter-set");
-  if (!def || !bell) return null;
+  if (!def) return null;
   const steps = def.steps(a);
   const step = steps.find((s) => !a[s.id]);
   const result = !step ? (def.result(a) as SelectorResult | null) : null;
   const done = steps.filter((s) => a[s.id]).length;
 
-  const weights = bell.variants.map((v) => v.weight_kg ?? 0).filter(Boolean);
-  const picks = result ? result.bells.map((b) => nearestBell(b.size, weights)) : [];
-  const start = picks[1] ?? picks[0];
-  const startVariant = bell.variants.find((v) => v.weight_kg === start);
-  const starterVariant = starter?.variants.find((v) => v.key === (a.gender === "female" ? "women" : "men"));
-
-  const add = (p: ShopProduct, vId: string, label: string) => {
-    haptic(8);
-    cart.add(p.id, vId, 1);
-    toast(`${label} added to your cart`, { tone: "success", icon: "check" });
-    onAdded();
-  };
+  const picks = result ? result.bells.map((b) => nearestBell(b.size, COMP_WEIGHTS)) : [];
+  const start = picks[0];
 
   if (!open) {
     return (
@@ -46,10 +33,10 @@ export function SelectorCard({ config, products, member, onAdded }: { config: Re
         <BellArt weights={[8, 16, 24]} size={88} className="shp-sel-art" />
         <div className="shp-sel-text">
           <p className="lq-eyebrow" data-tone="accent">Kettlebell Selector</p>
-          <h2 id="shp-sel-h" className="lq-d-sm">Not sure which weight?</h2>
-          <p className="lq-t15 lq-c2">Four quick questions. Mike&apos;s chart picks the bell to start with.</p>
+          <h2 id="shp-sel-h" className="lq-d-sm">Which kettlebell weight is yours?</h2>
+          <p className="lq-t15 lq-c2">Four quick questions. Mike&apos;s chart picks the competition bells to train with.</p>
         </div>
-        <Button onClick={() => setOpen(true)} iconAfter="arrowRight">Find my bell</Button>
+        <Button variant="secondary" onClick={() => setOpen(true)} iconAfter="arrowRight">Find my weight</Button>
       </section>
     );
   }
@@ -84,7 +71,7 @@ export function SelectorCard({ config, products, member, onAdded }: { config: Re
             ))}
           </div>
         </div>
-      ) : result && startVariant ? (
+      ) : result && start ? (
         <div className="shp-sel-res">
           <BellArt weights={picks} size={104} className="shp-sel-art" />
           <div className="shp-sel-text">
@@ -93,10 +80,8 @@ export function SelectorCard({ config, products, member, onAdded }: { config: Re
             <p className="lq-t13 lq-c2 lq-num">Your set, lightest to heaviest: {picks.map((w) => `${w} kg`).join(" · ")}</p>
           </div>
           <div className="shp-sel-acts">
-            <Button icon="shop" onClick={() => add(bell, startVariant.id, `${start} kg kettlebell`)}>Add the {start} kg · {money(unitCents(startVariant, member), startVariant.currency)}</Button>
-            {starter && starterVariant && (
-              <Button variant="secondary" onClick={() => add(starter, starterVariant.id, starter.name)}>Or the Starter Set · {money(unitCents(starterVariant, member), starterVariant.currency)}</Button>
-            )}
+            <Button href="/programs/kettlebell-lifestyle" iconAfter="arrowRight">Train with it in Kettlebell Lifestyle</Button>
+            <Button variant="ghost" href="/tools/kettlebell-selector">Full result and why</Button>
           </div>
         </div>
       ) : (

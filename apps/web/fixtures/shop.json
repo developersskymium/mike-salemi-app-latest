@@ -4,906 +4,189 @@
  "payments": false,
  "products": [
   {
-   "id": "b610b0c0-b99e-448d-b736-ac26f97c52fc",
-   "category": "bundles",
-   "gallery": [],
-   "slug": "starter-set",
-   "name": "Starter Set: Three Bells",
+   "id": "0c621a35-e654-4513-805a-bf04bd222d03",
+   "name": "Suples Bulgarian Bag® — Original Leather Model",
+   "note": "USA orders only · shipping included.",
+   "slug": "suples-bulgarian-bag",
    "type": "physical",
-   "tagline": "Light, medium, heavy. The three bells the Selector builds your set around.",
-   "description": "Three competition bells chosen with the Kettlebell Selector, plus the Mobility Stick. Everything Level I asks for.",
+   "image": "/media/shop/mike-bulgarian-bag.png",
    "bullets": [
-    "Three competition bells",
-    "Mobility Stick included",
-    "Save against buying separately"
+    "Genuine leather, made in Bulgaria",
+    "2-year warranty on genuine leather",
+    "Shipping included (USA orders only)",
+    "Sold by Mike as an authorised Suples distributor"
    ],
-   "image": null,
-   "note": "Ships within the US.",
    "inquiry": null,
+   "tagline": "The bag Mike trains with. Made in Bulgaria.",
    "file_url": null,
-   "program_id": null,
    "variants": [
     {
-     "id": "15e82eee-d881-4130-aa2b-5b05ace89b6f",
-     "key": "men",
-     "label": "Men · 12, 16, 20 kg + stick",
-     "price_cents": 34900,
+     "id": "2f89a656-7980-54c5-af2a-4d16c34b04a8",
+     "key": "xs-6lb",
+     "label": "XS · 6 lb / 3 kg",
+     "price_cents": 13600,
      "currency": "usd",
-     "member_price_cents": 31400,
-     "weight_kg": 16
+     "member_price_cents": null,
+     "weight_kg": 3
     },
     {
-     "id": "7a1f2b5d-b45d-4dd1-9792-27b3677688e8",
-     "key": "women",
-     "label": "Women · 8, 12, 16 kg + stick",
-     "price_cents": 29900,
+     "id": "d6023589-7166-5d76-b0b2-3354d4d6ea00",
+     "key": "xs-11lb",
+     "label": "XS · 11 lb / 5 kg",
+     "price_cents": 16200,
      "currency": "usd",
-     "member_price_cents": 26900,
-     "weight_kg": 12
-    }
-   ],
-   "unlocked": false,
-   "need": "start",
-   "used_in": [
-    {
-     "label": "Kettlebell Lifestyle · Level I, Weeks 1–4",
-     "href": "/programs/kettlebell-lifestyle"
-    }
-   ],
-   "mike_photo": {
-    "src": "/media/summit/mike-goblet.jpg",
-    "alt": "Mike Salemi holding a kettlebell",
-    "focal": "50% 25%",
-    "caption": "The set Mike recommends for Level I."
-   },
-   "bundle": [
-    {
-     "for": "men",
-     "slug": "competition-kettlebell",
-     "key": "12kg",
-     "qty": 1
+     "member_price_cents": null,
+     "weight_kg": 5
     },
     {
-     "for": "men",
-     "slug": "competition-kettlebell",
-     "key": "16kg",
-     "qty": 1
-    },
-    {
-     "for": "men",
-     "slug": "competition-kettlebell",
-     "key": "20kg",
-     "qty": 1
-    },
-    {
-     "for": "women",
-     "slug": "competition-kettlebell",
-     "key": "8kg",
-     "qty": 1
-    },
-    {
-     "for": "women",
-     "slug": "competition-kettlebell",
-     "key": "12kg",
-     "qty": 1
-    },
-    {
-     "for": "women",
-     "slug": "competition-kettlebell",
-     "key": "16kg",
-     "qty": 1
-    },
-    {
-     "slug": "mobility-stick",
-     "key": "standard",
-     "qty": 1
-    }
-   ]
-  },
-  {
-   "id": "c3425810-e49f-47bc-9de8-316066bef5ed",
-   "category": "bundles",
-   "gallery": [],
-   "slug": "recovery-kit",
-   "name": "Recovery Kit",
-   "type": "physical",
-   "tagline": "Stick and balls together, for the days in between.",
-   "description": "The Mobility Stick and the Massage Ball Set, together for less.",
-   "bullets": [
-    "Mobility Stick",
-    "Massage Ball Set",
-    "Save against buying separately"
-   ],
-   "image": "/media/summit/breathwork.jpg",
-   "note": null,
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "a9fde6a1-876e-41dc-bf30-c68b413112a3",
-     "key": "standard",
-     "label": "Stick + ball set",
-     "price_cents": 5400,
+     "id": "211d8824-daeb-58bc-90a6-101f97ff4648",
+     "key": "s-13lb",
+     "label": "S · 13 lb / 6 kg",
+     "price_cents": 16600,
      "currency": "usd",
-     "member_price_cents": 4800,
-     "weight_kg": null
-    }
-   ],
-   "unlocked": false,
-   "need": "recover",
-   "used_in": [
-    {
-     "label": "Working-In",
-     "href": "/programs/working-in"
-    }
-   ],
-   "mike_photo": null,
-   "bundle": [
-    {
-     "slug": "mobility-stick",
-     "key": "standard",
-     "qty": 1
+     "member_price_cents": null,
+     "weight_kg": 6
     },
     {
-     "slug": "massage-ball-set",
-     "key": "standard",
-     "qty": 1
-    }
-   ]
-  },
-  {
-   "id": "6a771dfb-9e8e-4923-b344-bcd83a2111f4",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "competition-kettlebell",
-   "name": "Competition Kettlebell",
-   "type": "physical",
-   "tagline": "One handle, one size. Every weight trains the same.",
-   "description": "Steel competition bells in the standard colours. The handle and body stay the same size at every weight, so your technique carries straight over when you move up.",
-   "bullets": [
-    "Steel, colour-coded by weight",
-    "Same handle and size at every weight",
-    "Flat base for rows and push-ups"
-   ],
-   "image": null,
-   "note": "Ships within the US.",
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "e754da26-f009-4fc9-ac6c-cf2dfb22a804",
-     "key": "8kg",
-     "label": "8 kg · Pink",
-     "price_cents": 7900,
+     "id": "d927db7f-809c-538a-a1a7-9e91ec13035d",
+     "key": "s-17lb",
+     "label": "S · 17 lb / 8 kg",
+     "price_cents": 16900,
      "currency": "usd",
-     "member_price_cents": 7100,
+     "member_price_cents": null,
      "weight_kg": 8
     },
     {
-     "id": "cbd50a53-73ab-4a2c-be5a-41ef8f3aa715",
-     "key": "12kg",
-     "label": "12 kg · Blue",
-     "price_cents": 9900,
+     "id": "ce0db34b-afb4-531b-889c-8355d3b73db8",
+     "key": "m-22lb",
+     "label": "M · 22 lb / 10 kg",
+     "price_cents": 19300,
      "currency": "usd",
-     "member_price_cents": 8900,
-     "weight_kg": 12
+     "member_price_cents": null,
+     "weight_kg": 10
     },
     {
-     "id": "0cd9b043-4765-441f-b264-45494c57a413",
-     "key": "16kg",
-     "label": "16 kg · Yellow",
-     "price_cents": 11900,
-     "currency": "usd",
-     "member_price_cents": 10700,
-     "weight_kg": 16
-    },
-    {
-     "id": "821ecbf4-3274-4b4a-bb04-d586c6fb83a0",
-     "key": "20kg",
-     "label": "20 kg · Purple",
-     "price_cents": 13900,
-     "currency": "usd",
-     "member_price_cents": 12500,
-     "weight_kg": 20
-    },
-    {
-     "id": "2a14d375-7e95-45b8-a323-14fbb9a10063",
-     "key": "24kg",
-     "label": "24 kg · Green",
-     "price_cents": 15900,
-     "currency": "usd",
-     "member_price_cents": 14300,
-     "weight_kg": 24
-    },
-    {
-     "id": "1bb12a06-54f3-483c-ba31-5c115a0aeeef",
-     "key": "28kg",
-     "label": "28 kg · Orange",
-     "price_cents": 17900,
-     "currency": "usd",
-     "member_price_cents": 16100,
-     "weight_kg": 28
-    },
-    {
-     "id": "7c52eb3b-2167-4d46-8209-2bdd0d93faf3",
-     "key": "32kg",
-     "label": "32 kg · Red",
+     "id": "839969b1-cf79-5dec-80b2-ade24af91fd6",
+     "key": "m-26lb",
+     "label": "M · 26 lb / 12 kg",
      "price_cents": 19900,
      "currency": "usd",
-     "member_price_cents": 17900,
-     "weight_kg": 32
-    }
-   ],
-   "unlocked": false,
-   "need": "start",
-   "used_in": [
-    {
-     "label": "Kettlebell Lifestyle · Level I, Weeks 1–4",
-     "href": "/programs/kettlebell-lifestyle"
-    },
-    {
-     "label": "Essential Kettlebell Training: Strength",
-     "href": "/programs/essential-kettlebell-training-strength"
-    }
-   ],
-   "mike_photo": {
-    "src": "/media/summit/mike-goblet.jpg",
-    "alt": "Mike Salemi holding a kettlebell in a goblet squat",
-    "focal": "50% 25%",
-    "caption": "Mike teaches every goblet squat in Level I with a single bell."
-   },
-   "bundle": []
-  },
-  {
-   "id": "0c060c08-0261-4f86-82ec-bbb7a50ac461",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "kettlebell-pair",
-   "name": "Kettlebell Pair",
-   "type": "physical",
-   "tagline": "Double cleans, double front squats, double presses.",
-   "description": "Two matched competition bells. The step from single-bell work to doubles is where strength takes off.",
-   "bullets": [
-    "Two matched bells",
-    "Same competition handle",
-    "Save against buying two singles"
-   ],
-   "image": null,
-   "note": "Ships within the US.",
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "328b4a87-6f87-4cdf-b8fc-edba65d2f20f",
-     "key": "12kg",
-     "label": "2 × 12 kg · Blue",
-     "price_cents": 18900,
-     "currency": "usd",
-     "member_price_cents": 16900,
+     "member_price_cents": null,
      "weight_kg": 12
     },
     {
-     "id": "19543dc1-fe16-4050-93ff-027447ef5028",
-     "key": "16kg",
-     "label": "2 × 16 kg · Yellow",
-     "price_cents": 22900,
+     "id": "d376a61a-21f5-5049-b873-1da74471b087",
+     "key": "m-30lb",
+     "label": "M · 30 lb / 14 kg",
+     "price_cents": 20400,
      "currency": "usd",
-     "member_price_cents": 20500,
-     "weight_kg": 16
+     "member_price_cents": null,
+     "weight_kg": 14
     },
     {
-     "id": "63277619-c780-4e3e-989b-f73128af1bed",
-     "key": "20kg",
-     "label": "2 × 20 kg · Purple",
-     "price_cents": 26900,
+     "id": "c300d9d0-4d9d-53e3-8770-2e12b44618b6",
+     "key": "l-33lb",
+     "label": "L · 33 lb / 15 kg",
+     "price_cents": 19500,
      "currency": "usd",
-     "member_price_cents": 24100,
+     "member_price_cents": null,
+     "weight_kg": 15
+    },
+    {
+     "id": "419d7616-ba90-52f9-870d-9b7ff29df77f",
+     "key": "l-37lb",
+     "label": "L · 37 lb / 17 kg",
+     "price_cents": 23300,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 17
+    },
+    {
+     "id": "cd843076-a392-5bcb-8f9c-a4428dadb368",
+     "key": "l-42lb",
+     "label": "L · 42 lb / 19 kg",
+     "price_cents": 20900,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 19
+    },
+    {
+     "id": "251ce97b-2bf7-51e6-878c-2540772d571c",
+     "key": "xl-44lb",
+     "label": "XL · 44 lb / 20 kg",
+     "price_cents": 23000,
+     "currency": "usd",
+     "member_price_cents": null,
      "weight_kg": 20
     },
     {
-     "id": "3909e4d4-6e5b-4643-b196-842cee3d5fcb",
-     "key": "24kg",
-     "label": "2 × 24 kg · Green",
-     "price_cents": 30900,
+     "id": "35ba71a6-8928-5db4-b723-14a9982b5cee",
+     "key": "xl-50lb",
+     "label": "XL · 50 lb / 22 kg",
+     "price_cents": 24600,
      "currency": "usd",
-     "member_price_cents": 27700,
-     "weight_kg": 24
+     "member_price_cents": null,
+     "weight_kg": 22
+    },
+    {
+     "id": "dedd001b-c7e6-53f2-b2c6-a286518adfd1",
+     "key": "xl-58lb",
+     "label": "XL · 58 lb / 26 kg",
+     "price_cents": 29300,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 26
+    },
+    {
+     "id": "11eeec32-e33f-55e9-b964-bc15ac0aea5c",
+     "key": "xxl-66lb",
+     "label": "XXL · 66 lb / 30 kg",
+     "price_cents": 32100,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 30
+    },
+    {
+     "id": "c12a5b83-b9bc-5106-a07b-568513d53cc1",
+     "key": "xxl-75lb",
+     "label": "XXL · 75 lb / 34 kg",
+     "price_cents": 29500,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 34
+    },
+    {
+     "id": "287f4525-e1c4-5d2a-972a-3e845604c4ad",
+     "key": "xxl-84lb",
+     "label": "XXL · 84 lb / 38 kg",
+     "price_cents": 34500,
+     "currency": "usd",
+     "member_price_cents": null,
+     "weight_kg": 38
     }
    ],
+   "program_id": null,
+   "description": "The original genuine-leather Bulgarian Bag, made in Bulgaria by Suples. \"The one I train with… It's my favorite bag.\" — Mike. Swing it, spin it, throw it and carry it: it loads you in every plane and stands in for kettlebells, dumbbells, medicine balls and sandbags. Mike is an authorised Suples distributor and educator.",
    "unlocked": false,
-   "need": "level-up",
+   "gallery": [],
+   "category": "equipment",
+   "need": null,
    "used_in": [
     {
-     "label": "Kettlebell Lifestyle · Level II",
-     "href": "/programs/kettlebell-lifestyle"
+     "label": "Athleticism 4 Life",
+     "href": "/programs/athleticism-4-life"
     },
     {
-     "label": "Mastering the Kettlebell",
-     "href": "/programs/mastering-the-kettlebell"
+     "label": "Level 1 Bulgarian Bag Certification",
+     "href": "https://mikesalemi.io/bulgarianbagcertifications"
     }
    ],
    "mike_photo": {
-    "src": "/media/summit/mike-press.jpg",
-    "alt": "Mike Salemi pressing a kettlebell overhead",
-    "focal": "60% 14%",
-    "caption": "Doubles are the backbone of Level II."
+    "src": "/media/shop/mike-bulgarian-bag.png",
+    "alt": "Mike Salemi swinging the Suples Bulgarian Bag overhead",
+    "focal": "40% 40%",
+    "caption": "The one I train with. It's my favorite bag."
    },
-   "bundle": []
-  },
-  {
-   "id": "38092454-0baa-403e-ad1d-1f91f6984b19",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "mobility-stick",
-   "name": "Mobility Stick",
-   "type": "physical",
-   "tagline": "Hip hinge, shoulder dislocates, thoracic rotation.",
-   "description": "A light 48-inch hardwood dowel. The simplest tool for grooving the hinge and opening the shoulders between sets.",
-   "bullets": [
-    "48-inch hardwood",
-    "Used in every warm-up",
-    "Packs in a bag"
-   ],
-   "image": "/media/summit/mike-standing.jpg",
-   "note": null,
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "a08d4586-3dc5-4d2f-8336-6894c02b252a",
-     "key": "standard",
-     "label": "48 in · Hardwood",
-     "price_cents": 2900,
-     "currency": "usd",
-     "member_price_cents": 2500,
-     "weight_kg": null
-    }
-   ],
-   "unlocked": false,
-   "need": "recover",
-   "used_in": [
-    {
-     "label": "Working-In · Morning flow",
-     "href": "/programs/working-in"
-    }
-   ],
-   "mike_photo": {
-    "src": "/media/summit/mike-standing.jpg",
-    "alt": "Mike Salemi standing tall after a mobility flow",
-    "focal": "50% 20%",
-    "caption": "Mike opens most sessions with the stick."
-   },
-   "bundle": []
-  },
-  {
-   "id": "cfd47f2c-78bf-4cef-aff8-f0a832bd8c5c",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "massage-ball-set",
-   "name": "Massage Ball Set",
-   "type": "physical",
-   "tagline": "Two firm balls and a peanut for feet, hips and upper back.",
-   "description": "Firm rubber that holds its shape. Five minutes after training does more than an hour of scrolling.",
-   "bullets": [
-    "Two balls and a peanut",
-    "Firm, grippy rubber",
-    "Mesh carry bag"
-   ],
-   "image": "/media/summit/breathwork.jpg",
-   "note": null,
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "85f42e70-890c-49e9-b6c2-56da014c3cd3",
-     "key": "standard",
-     "label": "3-piece set",
-     "price_cents": 3400,
-     "currency": "usd",
-     "member_price_cents": 2900,
-     "weight_kg": null
-    }
-   ],
-   "unlocked": false,
-   "need": "recover",
-   "used_in": [
-    {
-     "label": "Working-In · Recovery days",
-     "href": "/programs/working-in"
-    }
-   ],
-   "mike_photo": {
-    "src": "/media/summit/working-in.jpg",
-    "alt": "Mike Salemi teaching a Working In session",
-    "focal": "28% 30%",
-    "caption": "Part of Mike's recovery days in Working-In."
-   },
-   "bundle": []
-  },
-  {
-   "id": "ac58a6be-2cd9-4705-b576-7fa0ee369307",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "training-tee",
-   "name": "Training Tee",
-   "type": "physical",
-   "tagline": "Soft, heavy cotton that survives a thousand swings.",
-   "description": "A relaxed-fit tee with a small bell mark on the chest. Made for the practice, not the mirror.",
-   "bullets": [
-    "Heavyweight combed cotton",
-    "Relaxed fit",
-    "Small bell mark"
-   ],
-   "image": "/media/summit/mike-deadlift.jpg",
-   "note": null,
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "400f3d09-8ce9-4c84-91c3-873b4061c4ac",
-     "key": "s",
-     "label": "S",
-     "price_cents": 3800,
-     "currency": "usd",
-     "member_price_cents": 3200,
-     "weight_kg": null
-    },
-    {
-     "id": "91556d31-2bd9-4818-8697-30ad55825c30",
-     "key": "m",
-     "label": "M",
-     "price_cents": 3800,
-     "currency": "usd",
-     "member_price_cents": 3200,
-     "weight_kg": null
-    },
-    {
-     "id": "eb90455b-cb34-4d08-a1ae-413338e8221c",
-     "key": "l",
-     "label": "L",
-     "price_cents": 3800,
-     "currency": "usd",
-     "member_price_cents": 3200,
-     "weight_kg": null
-    },
-    {
-     "id": "e0d1e4cc-da72-48a4-b8ea-fb5154d5aced",
-     "key": "xl",
-     "label": "XL",
-     "price_cents": 3800,
-     "currency": "usd",
-     "member_price_cents": 3200,
-     "weight_kg": null
-    }
-   ],
-   "unlocked": false,
-   "need": "wear",
-   "used_in": [],
-   "mike_photo": {
-    "src": "/media/summit/mike-deadlift.jpg",
-    "alt": "Mike Salemi in a kettlebell deadlift",
-    "focal": "50% 30%",
-    "caption": "What Mike trains in."
-   },
-   "bundle": []
-  },
-  {
-   "id": "bcfecfd4-9839-460a-a0e9-5668ed463925",
-   "category": "equipment",
-   "gallery": [],
-   "slug": "training-hoodie",
-   "name": "Training Hoodie",
-   "type": "physical",
-   "tagline": "For cold mornings and the walk home.",
-   "description": "Midweight fleece hoodie with the Mike Salemi wordmark. Warm without being bulky between sets.",
-   "bullets": [
-    "Midweight fleece",
-    "Wordmark on the chest",
-    "Kangaroo pocket"
-   ],
-   "image": "/media/summit/mike-getup.jpg",
-   "note": null,
-   "inquiry": null,
-   "file_url": null,
-   "program_id": null,
-   "variants": [
-    {
-     "id": "6bef4012-873f-499f-8300-cadbc7727c66",
-     "key": "s",
-     "label": "S",
-     "price_cents": 7800,
-     "currency": "usd",
-     "member_price_cents": 6600,
-     "weight_kg": null
-    },
-    {
-     "id": "82aa49e4-41f4-4b47-aebb-09cb44742151",
-     "key": "m",
-     "label": "M",
-     "price_cents": 7800,
-     "currency": "usd",
-     "member_price_cents": 6600,
-     "weight_kg": null
-    },
-    {
-     "id": "f272659a-9bda-49d5-898c-693a8b116e32",
-     "key": "l",
-     "label": "L",
-     "price_cents": 7800,
-     "currency": "usd",
-     "member_price_cents": 6600,
-     "weight_kg": null
-    },
-    {
-     "id": "a7357020-7d0d-4286-bd4c-e5ae14b62e1f",
-     "key": "xl",
-     "label": "XL",
-     "price_cents": 7800,
-     "currency": "usd",
-     "member_price_cents": 6600,
-     "weight_kg": null
-    }
-   ],
-   "unlocked": false,
-   "need": "wear",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "0c621a35-e654-4513-805a-bf04bd222d03",
-   "name": "Suples Bulgarian Bag® — Original Leather",
-   "note": "USA orders only.",
-   "slug": "suples-bulgarian-bag",
-   "type": "physical",
-   "image": "/media/shop/bulgarian-bag.jpg",
-   "bullets": [
-    "Leather construction, made in Bulgaria",
-    "Six sizes from X-Small to XX-Large",
-    "Tri-planar swings, spins and throws",
-    "Suits every sport"
-   ],
-   "inquiry": null,
-   "tagline": "Tri-planar loading no other tool gives you",
-   "file_url": null,
-   "variants": [
-    {
-     "id": "40a7bde4-af4b-442e-aee8-42ede9af3035",
-     "key": "x-small",
-     "label": "X-Small · 12 lb",
-     "currency": "usd",
-     "price_cents": 13600,
-     "member_price_cents": 12200,
-     "weight_kg": null
-    },
-    {
-     "id": "0d647b7c-f235-41c5-b58e-9f0d47ec0d35",
-     "key": "small",
-     "label": "Small · 17 lb",
-     "currency": "usd",
-     "price_cents": 14600,
-     "member_price_cents": 13100,
-     "weight_kg": null
-    },
-    {
-     "id": "72eabe17-cc0c-4b02-9d22-776aeab69490",
-     "key": "medium",
-     "label": "Medium · 26 lb",
-     "currency": "usd",
-     "price_cents": 16600,
-     "member_price_cents": 14900,
-     "weight_kg": null
-    },
-    {
-     "id": "8e92f1e6-775d-41dd-8c28-1273cc712e8b",
-     "key": "large",
-     "label": "Large · 37 lb",
-     "currency": "usd",
-     "price_cents": 19600,
-     "member_price_cents": 17600,
-     "weight_kg": null
-    },
-    {
-     "id": "1486c681-76be-42d5-9ec4-16775a41126e",
-     "key": "x-large",
-     "label": "X-Large · 50 lb",
-     "currency": "usd",
-     "price_cents": 22600,
-     "member_price_cents": 20300,
-     "weight_kg": null
-    },
-    {
-     "id": "37739ec8-8e28-4ae5-a53f-c12abfc19419",
-     "key": "xx-large",
-     "label": "XX-Large · 61 lb",
-     "currency": "usd",
-     "price_cents": 25600,
-     "member_price_cents": 23000,
-     "weight_kg": null
-    }
-   ],
-   "program_id": null,
-   "description": "The original leather Bulgarian Bag, made in Bulgaria. It stands in for kettlebells, dumbbells, medicine balls, weight vests and barbells, and opens up rotational work you cannot replicate with a bell.",
-   "unlocked": false,
-   "gallery": [
-    {
-     "src": "/media/shop/bulgarian-bag.jpg",
-     "alt": "The leather Bulgarian Bag on a gym floor",
-     "focal": "50% 55%"
-    }
-   ],
-   "category": "equipment",
-   "need": "level-up",
-   "used_in": [
-    {
-     "label": "Mastering the Kettlebell · Strength block",
-     "href": "/programs/mastering-the-kettlebell"
-    }
-   ],
-   "mike_photo": {
-    "src": "/media/summit/mike-squat.jpg",
-    "alt": "Mike Salemi training with a heavy load",
-    "focal": "50% 30%",
-    "caption": "Mike uses the bag for rotational throws and carries."
-   },
-   "bundle": []
-  },
-  {
-   "id": "0229250a-2010-4fc0-81b5-afaf32e86b74",
-   "name": "1-on-1 Coaching Intensive with Mike",
-   "note": "Application required — Mike's team confirms fit, timing and pricing with you.",
-   "slug": "1-on-1-coaching-intensive",
-   "type": "digital",
-   "image": "/media/shop/downshift.jpg",
-   "bullets": [
-    "Private video call",
-    "Technique review",
-    "Personal next-step plan"
-   ],
-   "inquiry": {
-    "href": "/coaching",
-    "label": "Request booking"
-   },
-   "tagline": "Technique and movement, coached personally",
-   "file_url": null,
-   "variants": [],
-   "program_id": null,
-   "description": "A private video session with Mike to review your technique, your training plan and what to work on next.",
-   "unlocked": false,
-   "gallery": [
-    {
-     "src": "/media/summit/mike-coaching.jpg",
-     "alt": "Mike coaching one to one",
-     "focal": "50% 30%"
-    },
-    {
-     "src": "/media/shop/downshift.jpg",
-     "alt": "A quiet moment of breathwork",
-     "focal": "55% 40%"
-    }
-   ],
-   "category": "coaching",
-   "need": "level-up",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "9d5d9d39-0531-41d7-9b6b-89e4557de540",
-   "name": "Retreat Deposit",
-   "note": "Application required — deposit details are shared once your place is confirmed.",
-   "slug": "retreat-deposit",
-   "type": "digital",
-   "image": "/media/retreats/fire-circle.jpg",
-   "bullets": [
-    "Holds your place",
-    "Applied to the full retreat price"
-   ],
-   "inquiry": {
-    "href": "/programs/men-of-movement-retreats",
-    "label": "Apply for a place"
-   },
-   "tagline": "Hold your place at the next retreat",
-   "file_url": null,
-   "variants": [],
-   "program_id": null,
-   "description": "Reserve a spot at an upcoming Mike Salemi retreat. The balance is due before the retreat starts.",
-   "unlocked": false,
-   "gallery": [
-    {
-     "src": "/media/summit/summit-group.jpg",
-     "alt": "Men of Movement on Mount Shasta",
-     "focal": "50% 40%"
-    },
-    {
-     "src": "/media/retreats/ridge-circle.jpg",
-     "alt": "A circle on the ridge",
-     "focal": "50% 45%"
-    },
-    {
-     "src": "/media/retreats/sunrise-lodge.jpg",
-     "alt": "The lodge at sunrise",
-     "focal": "50% 50%"
-    }
-   ],
-   "category": "retreats",
-   "need": "recover",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "2b236c18-b3c4-4a52-b62b-75b2b9e28b06",
-   "name": "On Ramp Plan — printable plan",
-   "note": null,
-   "slug": "plan-on-ramp",
-   "type": "digital",
-   "image": "/media/shop/plan.jpg",
-   "bullets": [
-    "Full phase breakdown",
-    "Print or save to your phone",
-    "Included with Kettlebell Lifestyle"
-   ],
-   "inquiry": null,
-   "tagline": "Included with Kettlebell Lifestyle",
-   "file_url": "/media/plans/Kettlebell-Lifestyle-On-Ramp-Phase-Plan.pdf",
-   "variants": [],
-   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
-   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 7 days: get set up, learn the ground rules and ease into the weekly rhythm.",
-   "unlocked": true,
-   "gallery": [
-    {
-     "src": "/media/shop/plans/plan-on-ramp-1.jpg",
-     "alt": "Page 1 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-on-ramp-2.jpg",
-     "alt": "Page 2 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-on-ramp-3.jpg",
-     "alt": "Page 3 of the plan",
-     "fit": "contain"
-    }
-   ],
-   "category": "plans",
-   "need": "start",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "ebebc14f-6aad-4244-8af0-48dedbc6ecd9",
-   "name": "Phase I Plan — printable plan",
-   "note": null,
-   "slug": "plan-phase-1",
-   "type": "digital",
-   "image": "/media/shop/plan.jpg",
-   "bullets": [
-    "Full phase breakdown",
-    "Print or save to your phone",
-    "Included with Kettlebell Lifestyle"
-   ],
-   "inquiry": null,
-   "tagline": "Included with Kettlebell Lifestyle",
-   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-I-Plan.pdf",
-   "variants": [],
-   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
-   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 14 days: movement foundations, kettlebell fundamentals and postural awareness.",
-   "unlocked": true,
-   "gallery": [
-    {
-     "src": "/media/shop/plans/plan-phase-1-1.jpg",
-     "alt": "Page 1 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-1-2.jpg",
-     "alt": "Page 2 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-1-3.jpg",
-     "alt": "Page 3 of the plan",
-     "fit": "contain"
-    }
-   ],
-   "category": "plans",
-   "need": "level-up",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "0760b813-a918-4e97-b93f-8a75cae57b98",
-   "name": "Phase II Plan — printable plan",
-   "note": null,
-   "slug": "plan-phase-2",
-   "type": "digital",
-   "image": "/media/shop/plan.jpg",
-   "bullets": [
-    "Full phase breakdown",
-    "Print or save to your phone",
-    "Included with Kettlebell Lifestyle"
-   ],
-   "inquiry": null,
-   "tagline": "Included with Kettlebell Lifestyle",
-   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-II-Plan.pdf",
-   "variants": [],
-   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
-   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: build on the fundamentals with more strength and skill work.",
-   "unlocked": true,
-   "gallery": [
-    {
-     "src": "/media/shop/plans/plan-phase-2-1.jpg",
-     "alt": "Page 1 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-2-2.jpg",
-     "alt": "Page 2 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-2-3.jpg",
-     "alt": "Page 3 of the plan",
-     "fit": "contain"
-    }
-   ],
-   "category": "plans",
-   "need": "level-up",
-   "used_in": [],
-   "mike_photo": null,
-   "bundle": []
-  },
-  {
-   "id": "ad18647e-cbce-433a-af58-8c345c53603b",
-   "name": "Phase III Plan — printable plan",
-   "note": null,
-   "slug": "plan-phase-3",
-   "type": "digital",
-   "image": "/media/shop/plan.jpg",
-   "bullets": [
-    "Full phase breakdown",
-    "Print or save to your phone",
-    "Included with Kettlebell Lifestyle"
-   ],
-   "inquiry": null,
-   "tagline": "Included with Kettlebell Lifestyle",
-   "file_url": "/media/plans/Kettlebell-Lifestyle-Phase-III-Plan.pdf",
-   "variants": [],
-   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
-   "description": "The printable phase plan: every day laid out with its focus, so you can train from paper when you would rather leave the phone alone. Approximately 21 days: bring it together with full sessions, tougher workouts and lasting habits.",
-   "unlocked": true,
-   "gallery": [
-    {
-     "src": "/media/shop/plans/plan-phase-3-1.jpg",
-     "alt": "Page 1 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-3-2.jpg",
-     "alt": "Page 2 of the plan",
-     "fit": "contain"
-    },
-    {
-     "src": "/media/shop/plans/plan-phase-3-3.jpg",
-     "alt": "Page 3 of the plan",
-     "fit": "contain"
-    }
-   ],
-   "category": "plans",
-   "need": "level-up",
-   "used_in": [],
-   "mike_photo": null,
    "bundle": []
   }
  ],
@@ -967,23 +250,10 @@
  ],
  "member": true,
  "shipping": {
-  "free_cents": 15000,
-  "flat_cents": 1200
+  "free_cents": 0,
+  "flat_cents": 0
  },
- "ratings": {
-  "6a771dfb-9e8e-4923-b344-bcd83a2111f4": {
-   "average": 4.9,
-   "count": 38
-  },
-  "0c060c08-0261-4f86-82ec-bbb7a50ac461": {
-   "average": 4.8,
-   "count": 12
-  },
-  "38092454-0baa-403e-ad1d-1f91f6984b19": {
-   "average": 4.7,
-   "count": 21
-  }
- },
- "ownsBell": true,
+ "ratings": {},
+ "ownsBell": false,
  "myRatings": {}
 }

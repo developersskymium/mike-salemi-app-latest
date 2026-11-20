@@ -148,7 +148,7 @@ export async function loadShop(): Promise<ShopData> {
   if (!user) throw new Error("Not signed in");
   const sb = supabase as unknown as DB;
   // shop_* tables are newer than the generated types
-  const raw = sb as unknown as { from: (t: string) => { select: (c: string) => { order: (c: string) => PromiseLike<{ data: unknown }> } } };
+  const raw = sb as unknown as { from: (t: string) => { select: (c: string) => { eq: (c: string, v: boolean) => { order: (c: string) => PromiseLike<{ data: unknown }> } } } };
   const rpc = sb.rpc.bind(sb) as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: unknown }>;
   const [setting, admin, products, orders, member, ratings, ownsBell, tracking] = await Promise.all([
     sb.from("site_settings").select("value").eq("key", "shop").maybeSingle().then((r) => (r.data?.value ?? {}) as { enabled?: boolean; free_shipping_cents?: number; shipping_cents?: number }),
@@ -156,6 +156,8 @@ export async function loadShop(): Promise<ShopData> {
     raw
       .from("shop_products")
       .select("id, slug, name, type, category, gallery, tagline, description, bullets, image, note, inquiry, file_url, program_id, position, need, used_in, mike_photo, bundle, shop_variants(id, key, label, price_cents, member_price_cents, weight_kg, currency, position, is_active)")
+      // Admins can read unpublished rows (admin_all); the shop shows only published products.
+      .eq("is_active", true)
       .order("position")
       .then((r: { data: unknown }) => (r.data ?? []) as Row[]),
     myOrders(sb).catch(() => [] as Order[]),
@@ -173,7 +175,7 @@ export async function loadShop(): Promise<ShopData> {
     isAdmin: admin,
     payments: stripeConfigured(),
     member,
-    shipping: { free_cents: setting.free_shipping_cents ?? 15000, flat_cents: setting.shipping_cents ?? 1200 },
+    shipping: { free_cents: setting.free_shipping_cents ?? 0, flat_cents: setting.shipping_cents ?? 0 },
     ratings: Object.fromEntries(ratings.map((r) => [r.product_id, { average: Number(r.average), count: r.count }])),
     ownsBell,
     products: products.map(({ shop_variants, ...p }) => withPhotos({

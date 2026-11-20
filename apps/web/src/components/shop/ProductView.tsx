@@ -2,74 +2,86 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { Button, Glass, Icon, IconButton, useToast } from "@/components/ui";
+import { useMemo, useRef, useState } from "react";
+import { Button, Glass, Icon, IconButton, Sheet, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
-import type { ShopData, ShopImage, ShopProduct } from "@/lib/loaders/shop";
+import type { ShopData, ShopImage, ShopProduct, ShopVariant } from "@/lib/loaders/shop";
 import { money } from "@/components/you/format";
 import { cart } from "./cart";
 import { CartButton, CartSheet, Stepper } from "./CartSheet";
-import { buyable, CATEGORY, PreviewBanner, priceLabel, ProductCard, Stars } from "./ShopIndex";
-import { BellArt, bellWeights } from "./BellArt";
-import { bundleFor, unitCents } from "./pricing";
+import { buyable, CATEGORY, PreviewBanner, priceLabel, Stars, TRUST } from "./ShopIndex";
+import { unitCents } from "./pricing";
 import "./shop.css";
 
+const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL"];
+const SIZE_NAME: Record<string, string> = { XS: "X-Small", S: "Small", M: "Medium", L: "Large", XL: "X-Large", XXL: "XX-Large" };
+
+/** "M · 22 lb / 10 kg" → { size: "M", weight: "22 lb / 10 kg", lb: 22 } */
 const split = (label: string) => {
   const [size, detail] = label.split("·").map((x) => x.trim());
-  return { size: size ?? label, detail: detail ?? "" };
+  return { size: size ?? label, weight: detail ?? "", lb: Number(/(\d+(?:\.\d+)?)\s*lb/i.exec(label)?.[1] ?? 0) };
 };
-const weightOf = (label: string) => Number(/(\d+(?:\.\d+)?)\s*(lb|kg)/i.exec(label)?.[1] ?? 0);
 
-/** Product page (legacy L29): context bar, gallery | buy panel, "Also in the shop", phone buy bar. */
+/** Mike's size guide for the Bulgarian Bag (mikesalemi.io). */
+const BAG_GUIDE: { who: string; bag: string; lbs: [number, number] }[] = [
+  { who: "Women under 120 lb", bag: "11–13 lb bag", lbs: [11, 13] },
+  { who: "Women over 120 lb", bag: "13–17 lb bag", lbs: [13, 17] },
+  { who: "Men under 170 lb", bag: "17–22 lb bag", lbs: [17, 22] },
+  { who: "Men 170–199 lb", bag: "22–26 lb bag", lbs: [22, 26] },
+  { who: "Men over 200 lb", bag: "26–37 lb bag", lbs: [26, 37] },
+];
+
+/** Product page: gallery | buy panel (size → weight, quantity, add to cart), details, learn-to-use-it, slide-in cart. */
 export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
+  const isBag = p.slug === "suples-bulgarian-bag";
+  const groups = useMemo(() => {
+    const m = new Map<string, ShopVariant[]>();
+    for (const v of p.variants) {
+      const k = split(v.label).size;
+      m.set(k, [...(m.get(k) ?? []), v]);
+    }
+    return [...m.entries()].sort((a, b) => (SIZE_ORDER.indexOf(a[0]) + 99) % 99 - (SIZE_ORDER.indexOf(b[0]) + 99) % 99);
+  }, [p.variants]);
+  const twoStep = groups.length > 1 && groups.some(([, vs]) => vs.length > 1);
+  const [size, setSize] = useState<string>(p.variants.length === 1 ? split(p.variants[0]!.label).size : "");
   const [variant, setVariant] = useState(p.variants.length === 1 ? p.variants[0]!.id : "");
   const [qty, setQty] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
+  const [guide, setGuide] = useState(false);
   const toast = useToast();
   const v = p.variants.find((x) => x.id === variant);
   const canBuy = buyable(p);
+  const inSize = groups.find(([k]) => k === size)?.[1] ?? [];
+  const sizeFrom = (vs: ShopVariant[]) => Math.min(...vs.map((x) => unitCents(x, d.member)));
   const unitC = v ? unitCents(v, d.member) : 0;
-  const unit = v ? money(unitC, v.currency) : priceLabel(p, d.member);
-  const total = v ? money(unitC * qty, v.currency) : priceLabel(p, d.member);
-  const listUnit = v && d.member && v.member_price_cents != null && v.member_price_cents < v.price_cents ? money(v.price_cents, v.currency) : null;
-  const memberOffer = v && !d.member && v.member_price_cents != null && v.member_price_cents < v.price_cents ? money(v.member_price_cents, v.currency) : null;
-  const bundle = bundleFor(p, v ?? p.variants[0], d.products, d.member);
+  const unit = v ? money(unitC, v.currency) : size && inSize.length ? `From ${money(sizeFrom(inSize), "usd")}` : priceLabel(p, d.member);
+  const total = v ? money(unitC * qty, v.currency) : unit;
   const rating = d.ratings[p.id];
-  const bells = bellWeights(p, v?.key);
-  const others = d.products
-    .filter((x) => x.id !== p.id)
-    .sort((a, b) => Number(b.need === p.need) - Number(a.need === p.need) || Number(b.category === p.category) - Number(a.category === p.category))
-    .slice(0, 3);
-  const images: ShopImage[] = dedupe([...(p.image ? [{ src: p.image, alt: p.name, focal: p.gallery[0]?.focal ?? p.mike_photo?.focal } as ShopImage] : []), ...p.gallery]);
-  const trust =
-    p.type === "physical"
-      ? ["Secure Stripe checkout", `Free US shipping over ${money(d.shipping.free_cents, "usd")}`, ...(p.slug.includes("bag") ? ["Handmade leather"] : [])]
-      : p.file_url
-        ? ["Instant download", "Print or save to phone", "Yours for life"]
-        : ["Personal reply from Mike's team", "No payment to apply", "Fit and timing first"];
+  const images: ShopImage[] = dedupe([...(p.image ? [{ src: p.image, alt: p.name, fit: "cover", focal: "50% 50%" } as ShopImage] : []), ...p.gallery]);
 
-  const needSize = () => {
+  const pickSize = (k: string) => {
+    haptic(6);
+    setSize(k);
+    const vs = groups.find(([g]) => g === k)?.[1] ?? [];
+    setVariant(vs.length === 1 ? vs[0]!.id : "");
+  };
+  const needChoice = () => {
     haptic(12);
-    toast("Choose a size first", { icon: "info" });
-    document.getElementById("shp-sizes")?.focus();
+    toast(size ? "Choose a weight" : "Choose a size first", { icon: "info" });
+    document.getElementById(size ? "shp-weights" : "shp-sizes")?.focus();
   };
   const add = () => {
-    if (!v) return needSize();
+    if (!v) return needChoice();
     haptic(8);
     cart.add(p.id, v.id, qty);
     toast(`${qty > 1 ? `${qty} × ` : ""}${p.name} added`, { tone: "success", icon: "check" });
     setCartOpen(true);
   };
+  const cta = v ? `Add to cart · ${total}` : !size && p.variants.length > 1 ? "Choose a size" : "Choose a weight";
   const primary = p.inquiry ? (
     <Button block href={p.inquiry.href} iconAfter="arrowRight">{p.inquiry.label}</Button>
-  ) : p.file_url ? (
-    p.unlocked ? (
-      <Button block href={p.file_url} icon="download" target="_blank">Download the PDF</Button>
-    ) : (
-      <Button block href="/programs/kettlebell-lifestyle" iconAfter="arrowRight">Included with Kettlebell Lifestyle</Button>
-    )
   ) : (
-    <Button block icon="shop" onClick={add}>{v ? `Add to cart · ${total}` : p.variants.length > 1 ? "Choose a size" : "Add to cart"}</Button>
+    <Button block size="lg" icon="shop" onClick={add}>{cta}</Button>
   );
 
   return (
@@ -90,147 +102,137 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
       <div className="shp-page">
         {!d.enabled && <PreviewBanner payments={d.payments} />}
         <div className="shp-product">
-          {bells.length && !p.image ? (
-            <div className="shp-gal">
-              <div className="shp-gallery shp-gallery-bells" role="img" aria-label={`${p.name}${v ? `, ${v.label}` : ""}`}>
-                <BellArt weights={bells} size={240} />
-              </div>
-            </div>
-          ) : (
-            <Gallery images={images} name={p.name} />
-          )}
+          <Gallery images={images} name={p.name} />
           <section className="shp-buy" aria-labelledby="shp-name">
-            <span className="lq-eyebrow" data-tone="accent">{CATEGORY[p.category].label}</span>
+            <span className="lq-eyebrow" data-tone="accent">{isBag ? "Suples · Made in Bulgaria" : CATEGORY[p.category].label}</span>
             <h1 id="shp-name" className="lq-d-lg shp-name">{p.name}</h1>
             <div className="shp-price-row">
-              <p className="lq-d-sm lq-num shp-price">
-                {unit}
-                {listUnit && <s className="lq-t15 lq-c2 shp-was">{listUnit}</s>}
-              </p>
+              <p className="lq-d-md lq-num shp-price">{unit}</p>
               {rating && <Stars value={rating.average} count={rating.count} />}
             </div>
-            {listUnit && <p className="lq-t13 shp-save-line">Member price, included with your plan</p>}
-            {memberOffer && <p className="lq-t13 lq-c2">{memberOffer} for Pro and Max members · <Link href="/you/billing" className="shp-inline">See plans</Link></p>}
-            {p.description && <p className="lq-t15 lq-c2 shp-desc">{p.description}</p>}
-            {bundle && bundle.parts.length > 0 && (
-              <div className="shp-bundle">
-                <p className="lq-t13 shp-bundle-h">In the box</p>
-                <ul>
-                  {bundle.parts.map((x) => (
-                    <li key={x.variant.id} className="lq-t15">
-                      <span>{x.qty > 1 ? `${x.qty} × ` : ""}{x.product.name} · {x.variant.label.split("·")[0]!.trim()}</span>
-                      <span className="lq-num lq-c2">{money(unitCents(x.variant, d.member) * x.qty, x.variant.currency)}</span>
-                    </li>
-                  ))}
-                </ul>
-                {bundle.saving > 0 && <p className="lq-t13 shp-save-line lq-num">You save {money(bundle.saving, p.variants[0]!.currency)} against buying them separately</p>}
-              </div>
-            )}
-            {p.bullets.length > 0 && !bundle && (
-              <ul className="shp-bullets">
-                {p.bullets.map((b) => (
-                  <li key={b} className="lq-t15"><span className="shp-bullet-ic" aria-hidden><Icon name="check" size="xs" /></span>{b}</li>
-                ))}
-              </ul>
-            )}
+            {v && <p className="lq-t13 lq-c2 lq-num">{SIZE_NAME[split(v.label).size] ?? split(v.label).size} · {split(v.label).weight}</p>}
+            {p.tagline && <p className="lq-t15 shp-desc">{p.tagline}</p>}
 
             {p.variants.length > 1 && (
               <fieldset className="shp-sizes" id="shp-sizes" tabIndex={-1}>
                 <legend className="shp-legend">
-                  <span className="lq-t13">Size</span>
-                  <span className="lq-t12 lq-c2">{v ? split(v.label).detail : p.bundle.length ? "Pick your set" : p.variants.some((x) => x.weight_kg) ? "Pick the weight you'll train with" : "Pick your size"}</span>
+                  <span className="lq-t13"><b>Size</b>{size && <span className="lq-c2"> · {SIZE_NAME[size] ?? size}</span>}</span>
+                  {isBag && <button type="button" className="shp-inline lq-t13" onClick={() => setGuide(true)}><Icon name="info" size="xs" /> Which size do I need?</button>}
                 </legend>
-                <div className="shp-size-grid" role="radiogroup" aria-label="Size">
-                  {p.variants.map((x) => {
+                <div className="shp-chiprow" role="radiogroup" aria-label="Size">
+                  {groups.map(([k, vs]) => (
+                    <button key={k} type="button" role="radio" aria-checked={size === k} className="shp-opt lq-press" onClick={() => (twoStep ? pickSize(k) : (setSize(k), setVariant(vs[0]!.id)))}>
+                      <span className="lq-t15 shp-opt-main">{k}</span>
+                      <span className="lq-t12 lq-c2 lq-num">from {money(sizeFrom(vs), "usd")}</span>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            {twoStep && (
+              <fieldset className="shp-sizes" id="shp-weights" tabIndex={-1} data-off={size ? undefined : ""}>
+                <legend className="shp-legend">
+                  <span className="lq-t13"><b>Weight</b>{!size && <span className="lq-c2"> · choose a size first</span>}</span>
+                </legend>
+                <div className="shp-chiprow" role="radiogroup" aria-label="Weight">
+                  {(size ? inSize : []).map((x) => {
                     const s = split(x.label);
-                    const w = weightOf(x.label);
-                    const max = Math.max(...p.variants.map((y) => weightOf(y.label)), 1);
                     return (
-                      <button
-                        key={x.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={variant === x.id}
-                        className="shp-size lq-press"
-                        onClick={() => {
-                          haptic(6);
-                          setVariant(x.id);
-                        }}
-                      >
-                        <span className="lq-t15 shp-size-name">{s.size}</span>
-                        <span className="lq-t12 lq-c2 lq-num">{s.detail}</span>
-                        <span className="lq-t13 lq-num shp-size-price">{money(unitCents(x, d.member), x.currency)}</span>
-                        {w > 0 && <span className="shp-size-bar" aria-hidden><i style={{ width: `${Math.max(14, (w / max) * 100)}%` }} /></span>}
+                      <button key={x.id} type="button" role="radio" aria-checked={variant === x.id} className="shp-opt shp-opt-w lq-press" onClick={() => { haptic(6); setVariant(x.id); }}>
+                        <span className="lq-t15 shp-opt-main lq-num">{s.weight.split("/")[0]!.trim()}</span>
+                        <span className="lq-t12 lq-c2 lq-num">{s.weight.split("/")[1]?.trim()} · {money(unitCents(x, d.member), x.currency)}</span>
                       </button>
                     );
                   })}
+                  {!size && <span className="lq-t13 lq-c2 shp-opt-empty">Pick XS to XXL above to see the weights.</span>}
                 </div>
-                {p.slug === "suples-bulgarian-bag" && (
-                  <p className="lq-t12 lq-c2 shp-guide">
-                    <Icon name="info" size="xs" /> Most men start with Medium, most women with Small. Go lighter for rotational work, heavier for carries.
-                  </p>
-                )}
-                {p.variants.some((x) => x.weight_kg) && (
-                  <p className="lq-t12 lq-c2 shp-guide">
-                    <Icon name="info" size="xs" /> <span>Not sure? <Link href="/shop#shp-sel-h" className="shp-inline">The Kettlebell Selector</Link> picks your weight in four questions.</span>
-                  </p>
-                )}
               </fieldset>
             )}
 
             {canBuy && (
               <div className="shp-qty">
-                <span className="lq-t13">Quantity</span>
+                <span className="lq-t13"><b>Quantity</b></span>
                 <Stepper value={qty} onChange={(n) => setQty(Math.max(1, n))} label={p.name} />
               </div>
             )}
 
-            <div className="shp-action">
-              {primary}
-            </div>
-            {p.note && !(p.type === "physical" && /ships within the us/i.test(p.note)) && <p className="lq-t13 lq-c2">{p.note}</p>}
-            {canBuy && p.type === "physical" && <p className="lq-t13 lq-c2">Tracking shows in You as soon as it ships.</p>}
-            <div className="shp-chips">
-              {trust.map((t) => (
-                <span key={t} className="shp-chip lq-t12"><Icon name="check" size="xs" /> {t}</span>
-              ))}
+            <div className="shp-action">{primary}</div>
+            {p.type === "physical" && (
+              <p className="lq-t13 lq-c2 shp-shipnote"><Icon name="check" size="xs" /> {p.note ?? "Ships within the US."}{d.payments ? "" : " · Payments switch on soon."}</p>
+            )}
+
+            <div className="shp-acc">
+              {p.description && (
+                <details open>
+                  <summary className="lq-t15"><b>Details</b><Icon name="chevronDown" size="xs" /></summary>
+                  <p className="lq-t15 lq-c2">{p.description}</p>
+                  {p.bullets.length > 0 && (
+                    <ul className="shp-bullets">
+                      {p.bullets.map((b) => (
+                        <li key={b} className="lq-t15"><span className="shp-bullet-ic" aria-hidden><Icon name="check" size="xs" /></span>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                </details>
+              )}
+              {isBag && (
+                <>
+                  <details>
+                    <summary className="lq-t15"><b>Size guide</b><Icon name="chevronDown" size="xs" /></summary>
+                    <GuideTable />
+                  </details>
+                  <details>
+                    <summary className="lq-t15"><b>Warranty, shipping and returns</b><Icon name="chevronDown" size="xs" /></summary>
+                    <p className="lq-t15 lq-c2">Two-year warranty on the genuine leather. USA orders only, and shipping is included in the price. Mike is an authorized Suples distributor and educator, so your bag is the original, made in Bulgaria.</p>
+                  </details>
+                </>
+              )}
             </div>
           </section>
         </div>
 
-        {(p.mike_photo || p.used_in.length > 0) && (
-          <section className="shp-mike" aria-labelledby="shp-mike-h">
-            {p.mike_photo && (
-              <figure className="shp-mike-fig">
-                <Image src={p.mike_photo.src} alt={p.mike_photo.alt} fill sizes="(min-width: 1024px) 520px, 100vw" style={{ objectFit: "cover", objectPosition: p.mike_photo.focal ?? "50% 30%" }} />
-              </figure>
-            )}
-            <div className="shp-mike-text">
-              <p className="lq-eyebrow" data-tone="accent">{p.mike_photo ? "Mike using it" : "Where you'll use it"}</p>
-              <h2 id="shp-mike-h" className="lq-d-md">{p.mike_photo?.caption ?? "In your programs"}</h2>
-              {p.used_in.length > 0 && (
-                <ul className="shp-used">
-                  {p.used_in.map((u) => (
-                    <li key={u.label}>
-                      <Link href={u.href} className="shp-used-link lq-press">
-                        <span className="shp-used-ic" aria-hidden><Icon name="kettlebell" size="sm" /></span>
-                        <span className="lq-t15"><span className="lq-c2">Used in </span>{u.label}</span>
-                        <Icon name="chevron" size="xs" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </section>
-        )}
+        <ul className="shp-trust" aria-label="Why buy from Mike">
+          {TRUST.map((t) => (
+            <li key={t.label} className="shp-trust-item">
+              <span className="shp-trust-ic" aria-hidden><Icon name={t.icon} size="sm" /></span>
+              <span><b className="lq-t13">{t.label}</b><span className="lq-t12 lq-c2">{t.line}</span></span>
+            </li>
+          ))}
+        </ul>
 
-        {others.length > 0 && (
-          <section aria-labelledby="shp-also" className="shp-block">
+        {isBag && (
+          <section aria-labelledby="shp-learn" className="shp-block">
             <div className="shp-sech">
-              <h2 id="shp-also" className="lq-d-md">Also in the shop</h2>
+              <div>
+                <p className="lq-eyebrow" data-tone="warm">Learn to use it</p>
+                <h2 id="shp-learn" className="lq-d-md">Train it the way Mike teaches it</h2>
+              </div>
             </div>
-            <div className="shp-grid">{others.map((x) => <ProductCard key={x.id} p={x} d={d} />)}</div>
+            <div className="shp-grid" data-cols="2">
+              <Link href="/programs/athleticism-4-life" className="shp-learn lq-press">
+                <span className="shp-learn-img">
+                  <Image src="/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png" alt="" fill sizes="(min-width: 640px) 50vw, 100vw" style={{ objectFit: "cover", objectPosition: "30% 30%" }} />
+                </span>
+                <span className="shp-card-body">
+                  <span className="lq-eyebrow" data-tone="accent">Program</span>
+                  <span className="lq-d-xs">Athleticism 4 Life</span>
+                  <span className="lq-t13 lq-c2">The 30-day Bulgarian Bag program: swings, spins, throws and carries, coached step by step.</span>
+                  <span className="shp-card-go lq-t13">See the program <Icon name="chevron" size="xs" /></span>
+                </span>
+              </Link>
+              <a href="https://mikesalemi.io/bulgarianbagcertifications" target="_blank" rel="noreferrer" className="shp-learn lq-press">
+                <span className="shp-learn-img">
+                  <Image src="/media/summit/mike-coaching.jpg" alt="" fill sizes="(min-width: 640px) 50vw, 100vw" style={{ objectFit: "cover", objectPosition: "26% 20%" }} />
+                </span>
+                <span className="shp-card-body">
+                  <span className="lq-eyebrow" data-tone="accent">In person</span>
+                  <span className="lq-d-xs">Level 1 Bulgarian Bag Certification</span>
+                  <span className="lq-t13 lq-c2">Learn the system in person with Mike and teach it to others.</span>
+                  <span className="shp-card-go lq-t13">Certification details <Icon name="arrowRight" size="xs" /></span>
+                </span>
+              </a>
+            </div>
           </section>
         )}
       </div>
@@ -239,14 +241,53 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
         <div className="shp-bar">
           <span className="shp-bar-price">
             <b className="lq-t17 lq-num">{total}</b>
-            <span className="lq-t12 lq-c2">{v ? `${qty > 1 ? `${qty} × ` : ""}${split(v.label).size}` : p.variants.length > 1 ? "Choose a size" : p.tagline}</span>
+            <span className="lq-t12 lq-c2">{v ? `${qty > 1 ? `${qty} × ` : ""}${split(v.label).size} · ${split(v.label).weight.split("/")[0]!.trim()}` : size ? "Choose a weight" : "Choose a size"}</span>
           </span>
-          <span className="shp-bar-act">{canBuy ? <Button size="md" icon="shop" onClick={add}>Add to cart</Button> : primary}</span>
+          <span className="shp-bar-act">{canBuy ? <Button size="md" icon="shop" onClick={add}>{v ? "Add to cart" : "Choose"}</Button> : primary}</span>
         </div>
       </div>
 
+      <Sheet open={guide} onClose={() => setGuide(false)} title="Which size do I need?" description="Mike's guide for the Suples Bulgarian Bag" desktop="side" detents={["large"]}>
+        <div className="shp-guide-sheet">
+          <p className="lq-t15 lq-c2">Pick by your body weight. Between two? Go lighter: the bag is about speed and range, not grinding.</p>
+          <GuideTable
+            onPick={(lbs) => {
+              const target = p.variants.find((x) => split(x.label).lb === lbs[0]) ?? p.variants.find((x) => split(x.label).lb >= lbs[0]);
+              if (target) {
+                setSize(split(target.label).size);
+                setVariant(target.id);
+              }
+              setGuide(false);
+            }}
+          />
+        </div>
+      </Sheet>
+
       <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} d={d} />
     </>
+  );
+}
+
+function GuideTable({ onPick }: { onPick?: (lbs: [number, number]) => void }) {
+  return (
+    <ul className="shp-guide-list">
+      {BAG_GUIDE.map((g) => (
+        <li key={g.who}>
+          {onPick ? (
+            <button type="button" className="shp-guide-row lq-press" onClick={() => onPick(g.lbs)}>
+              <span className="lq-t15">{g.who}</span>
+              <b className="lq-t15 lq-num">{g.bag}</b>
+              <Icon name="chevron" size="xs" />
+            </button>
+          ) : (
+            <span className="shp-guide-row">
+              <span className="lq-t15">{g.who}</span>
+              <b className="lq-t15 lq-num">{g.bag}</b>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
 

@@ -8,7 +8,7 @@ export { Completion, type CompletionProps } from "./Completion";
 export { StreakFlame, type StreakFlameProps } from "./StreakFlame";
 export { EmptyScene, EMPTY_SCENES, type EmptySceneName, type EmptySceneProps } from "./EmptyScene";
 export { Medal, LevelEmblem, MEDAL_TIERS, type MedalTier, type MedalProps, type LevelEmblemProps } from "./Medal";
-export { Kettlebell, COMPETITION_COLOURS, type KettlebellProps } from "./Kettlebell";
+export { Kettlebell, COMPETITION_COLOURS, competitionColour, type KettlebellProps } from "./Kettlebell";
 export { Grain, Aurora, type GrainProps, type AuroraProps } from "./Ambient";
 export { ChalkBurst, type ChalkBurstProps } from "./ChalkBurst";
 export { SwingArc, type SwingArcProps } from "./SwingArc";

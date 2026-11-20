@@ -1,5 +1,5 @@
 import { Glass, Icon, StepSegments } from "@/components/ui";
-import { Kettlebell, MovementFigure, ReadinessDial, type MoveName } from "@/components/graphics";
+import { competitionColour, Kettlebell, MovementFigure, ReadinessDial, type MoveName } from "@/components/graphics";
 import type { ReadinessResult, RoadmapResult, SelectorResult, StretchResult, ToolResultView } from "./defs";
 
 export function ResultVisual({ result }: { result: ToolResultView }) {
@@ -17,22 +17,22 @@ export function ResultVisual({ result }: { result: ToolResultView }) {
 
 /** The three bells, drawn to scale, lightest first; the first carries its weight and the "Start here" mark. */
 function Bells({ r }: { r: SelectorResult }) {
-  const max = Math.max(...r.bells.map((b) => b.size));
   return (
     <div className="dsc-res">
       <div className="dsc-bells" role="list" aria-label="Your kettlebell set">
         {r.bells.map((b, i) => {
           const exact = /^\d+$/.test(b.label);
-          const h = Math.round(72 + (b.size / max) * 58);
+          // Competition bells are the same size at every weight; the colour tells them apart.
+          const h = 124;
           return (
             <div key={i} className="dsc-bell" role="listitem" data-first={i === 0 ? "" : undefined} style={{ ["--d" as string]: `${i * 110}ms` }}>
               <div className="dsc-bell-mark">
                 {exact ? (
-                  <Kettlebell size={h} weight={b.size} title={`${b.label} kg kettlebell`} />
+                  <Kettlebell size={h} variant="competition" weight={b.size} title={`${b.label} kg kettlebell`} />
                 ) : (
                   <span className="dsc-bell-range">
-                    <Kettlebell size={h} variant="solid" title={`${b.label} kg kettlebell`} />
-                    <span className="dsc-bell-label lq-num" style={{ fontSize: Math.round(h * (b.label.length > 3 ? 0.13 : 0.17)) }} aria-hidden>
+                    <Kettlebell size={h} variant="competition" weight={Number.parseInt(b.label, 10) || b.size} hideWeight title={`${b.label} kg kettlebell`} />
+                    <span className="dsc-bell-label lq-num" style={{ fontSize: Math.round(h * (b.label.length > 3 ? 0.12 : 0.16)), top: "62%", color: competitionColour(Number.parseInt(b.label, 10) || b.size).ink }} aria-hidden>
                       {b.label}
                       <small>kg</small>
                     </span>

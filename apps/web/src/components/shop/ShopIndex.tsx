@@ -6,17 +6,14 @@ import { useState } from "react";
 import { PhotoHero } from "@/components/signature";
 import { Button, Icon, useToast, type IconName } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
-import type { ShopCategory, ShopData, ShopNeed, ShopProduct } from "@/lib/loaders/shop";
+import type { ShopCategory, ShopData, ShopProduct } from "@/lib/loaders/shop";
 import { money } from "@/components/you/format";
 import { cart } from "./cart";
 import { CartButton, CartSheet } from "./CartSheet";
-import { BellArt, bellWeights } from "./BellArt";
 import { SelectorCard } from "./SelectorCard";
-import { bestSaving, NEEDS, unitCents } from "./pricing";
+import { bestSaving, unitCents } from "./pricing";
 import "@/components/commerce/commerce.css";
 import "./shop.css";
-
-type Filter = "all" | ShopNeed;
 
 export const CATEGORY: Record<ShopCategory, { label: string; short: string; icon: IconName }> = {
   bundles: { label: "Bundles", short: "Bundle", icon: "gift" },
@@ -67,11 +64,9 @@ export function Stars({ value, count }: { value: number; count?: number }) {
   );
 }
 
-/** Product photo, or the cast bell(s) for kettlebells without one. */
-export function ProductVisual({ p, sizes, bellSize = 132 }: { p: ShopProduct; sizes: string; bellSize?: number }) {
-  const weights = bellWeights(p);
+/** Product photo (real photography only). */
+export function ProductVisual({ p, sizes }: { p: ShopProduct; sizes: string; bellSize?: number }) {
   const cover = p.image ?? p.gallery[0]?.src ?? null;
-  if (weights.length && !p.image) return <BellArt weights={weights} size={bellSize} className="shp-card-bells" />;
   if (cover) return <Image src={cover} alt="" fill sizes={sizes} style={{ objectFit: "cover", objectPosition: p.gallery[0]?.focal ?? p.mike_photo?.focal ?? "50% 30%" }} />;
   return <span className="shp-card-fallback" aria-hidden><Icon name={CATEGORY[p.category].icon} size="lg" /></span>;
 }
@@ -112,16 +107,35 @@ export function ProductCard({ p, d, onAdd }: { p: ShopProduct; d: Pick<ShopData,
   );
 }
 
-/** Shop: one hero, shop by need, the Kettlebell Selector, bundles, the grid. Cart in a side sheet. */
+/** Real reasons to buy from Mike, shown under the hero and on the product page. */
+export const TRUST: { icon: IconName; label: string; line: string }[] = [
+  { icon: "flag", label: "Made in Bulgaria", line: "Original Suples, genuine leather" },
+  { icon: "check", label: "2-year warranty", line: "On genuine leather" },
+  { icon: "shop", label: "Free US shipping", line: "Shipping included · USA only" },
+  { icon: "medal", label: "Authorized Suples distributor", line: "Mike is a Suples educator" },
+];
+
+export function TrustStrip() {
+  return (
+    <ul className="shp-trust" aria-label="Why buy from Mike">
+      {TRUST.map((t) => (
+        <li key={t.label} className="shp-trust-item">
+          <span className="shp-trust-ic" aria-hidden><Icon name={t.icon} size="sm" /></span>
+          <span>
+            <b className="lq-t13">{t.label}</b>
+            <span className="lq-t12 lq-c2">{t.line}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Shop: a real photo of Mike with the bag, the trust strip, the product grid. Cart in a side sheet. No order history here (that lives in You › Orders). */
 export function ShopIndex({ d, selector }: { d: ShopData; selector: Record<string, unknown> | null }) {
-  const [filter, setFilter] = useState<Filter>("all");
   const [cartOpen, setCartOpen] = useState(false);
   const toast = useToast();
-  const needs = NEEDS.filter((n) => d.products.some((p) => p.need === n.id));
-  const inFilter = (p: ShopProduct) => filter === "all" || p.need === filter;
-  const bundles = d.products.filter((p) => p.category === "bundles" && inFilter(p));
-  const list = d.products.filter((p) => p.category !== "bundles" && inFilter(p));
-  const need = NEEDS.find((n) => n.id === filter);
+  const list = d.products;
 
   const add = (p: ShopProduct) => {
     const v = p.variants[0];
@@ -130,79 +144,65 @@ export function ShopIndex({ d, selector }: { d: ShopData; selector: Record<strin
     cart.add(p.id, v.id, 1);
     toast(`${p.name} added to your cart`, { tone: "success", icon: "check" });
   };
+  const hero = list[0];
 
   return (
     <div className="shp-page">
       {!d.enabled && <PreviewBanner payments={d.payments} />}
 
       <PhotoHero
-        image={{ src: "/media/summit/mike-windmill.jpg", alt: "Mike Salemi in a kettlebell windmill", focal: "72% 30%", focalPhone: "70% 24%" }}
+        image={{ src: "/media/shop/mike-bulgarian-bag.png", alt: "Mike Salemi swinging the Suples Bulgarian Bag overhead", focal: "30% 30%", focalPhone: "28% 22%" }}
         scrim="left"
-        minHeight={320}
+        minHeight={420}
         priority
         className="shp-hero"
         as="header"
       >
-        <p className="lq-eyebrow shp-hero-eyebrow">Shop</p>
-        <h1 className="lq-d-xl">Tools for the practice</h1>
-        <p className="lq-lede shp-hero-lede">What Mike trains with, chosen for where you are now.</p>
+        <p className="lq-eyebrow shp-hero-eyebrow">The Mike Salemi Shop</p>
+        <h1 className="lq-d-xl">Train with what Mike trains with.</h1>
+        <p className="lq-lede shp-hero-lede">The original leather Suples Bulgarian Bag®, made in Bulgaria. &ldquo;The one I train with. It&apos;s my favorite bag.&rdquo;</p>
         <div className="shp-hero-actions">
+          {hero && <Button href={`/shop/${hero.slug}`} variant="white" iconAfter="arrowRight">Shop the bag · {priceLabel(hero, d.member)}</Button>}
           <CartButton onOpen={() => setCartOpen(true)} variant="onphoto" />
-          {d.member && <span className="shp-hero-chip lq-t13"><Icon name="check" size="xs" /> Member prices on</span>}
         </div>
       </PhotoHero>
 
-      <div className="shp-toolbar">
-        <div className="shp-cats" role="tablist" aria-label="Shop by need">
-          <NeedChip on={filter === "all"} onClick={() => setFilter("all")} label="Everything" />
-          {needs.map((n) => (
-            <NeedChip key={n.id} on={filter === n.id} onClick={() => setFilter(n.id)} label={n.label} />
-          ))}
-        </div>
-      </div>
-
-      {(filter === "all" || filter === "start") && selector && <SelectorCard config={selector} products={d.products} member={d.member} onAdded={() => setCartOpen(true)} />}
-
-      {bundles.length > 0 && (
-        <section aria-labelledby="shp-bundles" className="shp-block">
-          <div className="shp-sech">
-            <div>
-              <p className="lq-eyebrow" data-tone="warm">Bundles</p>
-              <h2 id="shp-bundles" className="lq-d-md">Better together</h2>
-            </div>
-          </div>
-          <div className="shp-grid" data-cols="2">{bundles.map((p) => <ProductCard key={p.id} p={p} d={d} onAdd={add} />)}</div>
-        </section>
-      )}
+      <TrustStrip />
 
       <section aria-labelledby="shp-pick" className="shp-block">
         <div className="shp-sech">
           <div>
-            <p className="lq-eyebrow" data-tone="accent">{need ? need.label : "Everything"}</p>
-            <h2 id="shp-pick" className="lq-d-md">{need ? need.line : "Pick your next tool"}</h2>
+            <p className="lq-eyebrow" data-tone="accent">Equipment</p>
+            <h2 id="shp-pick" className="lq-d-md">Only what Mike actually uses</h2>
           </div>
-          <Link href="/you?tab=history#yu-orders" className="shp-link lq-t15">Your orders <Icon name="chevron" size="xs" /></Link>
         </div>
-        <div className="shp-grid">
+        <div className="shp-grid" data-cols={list.length < 3 ? "2" : undefined}>
           {list.map((p) => (
             <ProductCard key={p.id} p={p} d={d} onAdd={add} />
           ))}
+          {list.length === 1 && (
+            <Link href="/programs/athleticism-4-life" className="shp-learn lq-press">
+              <span className="shp-learn-img">
+                <Image src="/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png" alt="" fill sizes="(min-width: 640px) 50vw, 100vw" style={{ objectFit: "cover", objectPosition: "30% 30%" }} />
+              </span>
+              <span className="shp-card-body">
+                <span className="lq-eyebrow" data-tone="warm">Learn to use it</span>
+                <span className="lq-d-xs">Athleticism 4 Life</span>
+                <span className="lq-t13 lq-c2">Mike&apos;s 30-day Bulgarian Bag program. Swings, spins and throws, coached step by step.</span>
+                <span className="shp-card-go lq-t13">See the program <Icon name="chevron" size="xs" /></span>
+              </span>
+            </Link>
+          )}
         </div>
       </section>
 
+      {selector && <SelectorCard config={selector} />}
+
       <p className="shp-foot lq-t13 lq-c2">
-        <Icon name="lock" size="xs" /> Secure checkout through Stripe · Free US shipping over {money(d.shipping.free_cents, "usd")} · Only what Mike trains with
+        <Icon name="lock" size="xs" /> Secure checkout through Stripe · USA orders only · Shipping included
       </p>
 
       <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} d={d} />
     </div>
-  );
-}
-
-function NeedChip({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
-  return (
-    <button type="button" role="tab" aria-selected={on} className="shp-cat lq-press" data-on={on ? "" : undefined} onClick={onClick}>
-      <span className="lq-t13">{label}</span>
-    </button>
   );
 }

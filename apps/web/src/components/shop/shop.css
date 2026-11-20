@@ -202,7 +202,7 @@
 /* selector */
 .shp-sel { display: grid; gap: 16px; align-items: center; padding: 18px; border-radius: var(--r-card); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 760px) { .shp-sel:not([data-open]) { grid-template-columns: 200px minmax(0, 1fr) auto; padding: 14px 24px 14px 14px; } }
-.shp-sel .shp-sel-art { position: relative; inset: auto; height: 140px; border-radius: 14px; }
+.shp-sel .shp-sel-art { position: relative; inset: auto; height: 140px; border-radius: 14px; align-items: center; padding: 14px 8%; }
 .shp-sel-text { display: grid; gap: 4px; }
 .shp-sel-text h2, .shp-sel-text p { margin: 0; }
 .shp-sel-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; }
@@ -359,3 +359,49 @@
   .shp-co-sum { padding: 12px 16px; gap: 12px; }
 }
 @media (min-width: 1024px) { .shp-co-sumtoggle { pointer-events: none; } .shp-co-sumtotal { display: none; } }
+
+/* ── Real store (0032): trust strip, size → weight chips, accordions, size guide, learn cards ── */
+.shp-grid[data-cols="2"] { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .shp-grid[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.shp-trust { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--line); border-radius: var(--r-card, 20px); overflow: hidden; box-shadow: var(--sh-1); }
+@media (min-width: 900px) { .shp-trust { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.shp-trust-item { display: flex; gap: 12px; align-items: center; padding: 16px 18px; background: var(--surface); }
+.shp-trust-item > span:last-child { display: grid; gap: 2px; min-width: 0; }
+.shp-trust-ic { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-ink); }
+
+.shp-chiprow { display: flex; flex-wrap: wrap; gap: 8px; }
+.shp-opt { appearance: none; border: 0; font: inherit; color: inherit; cursor: pointer; display: grid; justify-items: center; gap: 1px; min-width: 64px; padding: 10px 14px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow 140ms ease, background 140ms ease; }
+.shp-opt:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.shp-opt[aria-checked="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.shp-opt:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.shp-opt-main { font-weight: 700; }
+.shp-opt-w { min-width: 104px; }
+.shp-opt-empty { padding: 10px 0; }
+.shp-sizes[data-off] .shp-legend { opacity: .7; }
+.shp-legend { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; }
+.shp-legend .shp-inline { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; color: var(--accent); font-weight: 600; }
+.shp-shipnote { display: flex; gap: 6px; align-items: center; margin: 0; }
+.shp-shipnote .lq-icon { color: var(--ok); }
+
+.shp-acc { border-top: 1px solid var(--line); }
+.shp-acc details { border-bottom: 1px solid var(--line); }
+.shp-acc summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; }
+.shp-acc summary::-webkit-details-marker { display: none; }
+.shp-acc summary .lq-icon { transition: transform 200ms ease; }
+.shp-acc details[open] summary .lq-icon { transform: rotate(180deg); }
+.shp-acc details > :not(summary) { margin: 0 2px 16px; }
+
+.shp-guide-sheet { display: grid; gap: 14px; }
+.shp-guide-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.shp-guide-row { appearance: none; border: 0; font: inherit; color: inherit; width: 100%; display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; text-align: left; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+button.shp-guide-row { cursor: pointer; }
+button.shp-guide-row:hover { box-shadow: inset 0 0 0 1px var(--accent); }
+span.shp-guide-row { grid-template-columns: 1fr auto; }
+
+.shp-learn { display: grid; grid-template-rows: auto 1fr; border-radius: var(--r-card, 20px); overflow: hidden; background: var(--surface); box-shadow: var(--sh-2); color: inherit; text-decoration: none; }
+.shp-learn-img { position: relative; aspect-ratio: 4 / 3; background: var(--surface-sunk); overflow: hidden; }
+.shp-learn .shp-card-body { display: grid; gap: 6px; padding: 16px 18px 18px; align-content: start; }
+.shp-learn .shp-card-go { color: var(--accent); display: inline-flex; gap: 4px; align-items: center; margin-top: 4px; }
+#shp-sizes .shp-chiprow { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+#shp-sizes .shp-opt { min-width: 0; padding: 10px 4px; }
+@media (max-width: 520px) { #shp-sizes .shp-chiprow { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
