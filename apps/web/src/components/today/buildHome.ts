@@ -46,6 +46,10 @@ export interface HomeItem {
   sizeLabel: string;
   /** What Resume opens next, e.g. "Day 24 · Recovery Day". */
   nextLabel: string | null;
+  /** The section/phase of the next lesson, e.g. "On Ramp Phase" or "Week 1: Foundations". */
+  sectionTitle: string | null;
+  /** The next lesson's own title, e.g. "Day 3" or "Day 24 - Recovery Day". */
+  nextTitle: string | null;
   lastActivityAt: string | null;
   verb: Verb;
   resumeHref: string;
@@ -176,6 +180,8 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
         progressLabel: `${done} of ${plural(total, unit)}`,
         sizeLabel: isDays ? `${total} training days` : plural(total, "lesson"),
         nextLabel: e && !complete ? nextLabelOf(e) : null,
+        sectionTitle: e && !complete ? e.current_section_title ?? null : null,
+        nextTitle: e && !complete ? e.current_lesson_title ?? null : null,
         lastActivityAt: e?.last_active_at ?? null,
         verb: verbOf(percent, complete),
         resumeHref: e?.current_lesson_id ? lessonHref(p.slug, e.current_lesson_id, { type: p.type, mode: e.mode }) : complete ? programHref(p.slug, p.type) : startHref,
@@ -216,6 +222,8 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       progressLabel: "",
       sizeLabel: p.type === "coaching" ? "1:1 with Mike" : p.durationLabel ?? p.formatLabel ?? "Experience",
       nextLabel: null,
+      sectionTitle: null,
+      nextTitle: null,
       lastActivityAt: null,
       verb: { label: "Start", icon: "play" },
       resumeHref: programHref(p.slug, p.type),

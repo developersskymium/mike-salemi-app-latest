@@ -26,6 +26,32 @@ export function splitDayTitle(title: string): { day: number | null; name: string
   return m ? { day: Number(m[1]), name: m[2]!.trim() } : { day: null, name: title.replace(/\s{2,}/g, " ").trim() };
 }
 
+/** Day number from a lesson title: "Day 24 - Recovery Day" or a bare "Day 3". */
+export function dayNumberOf(title: string | null | undefined): number | null {
+  const m = /^day\s+(\d+)\b/i.exec((title ?? "").trim());
+  return m ? Number(m[1]) : null;
+}
+
+/** Phase or section name for a one-line read: "On Ramp Phase" → "On Ramp", "Phase 2" stays. */
+export function phaseLabel(section: string | null | undefined): string | null {
+  const s = (section ?? "").replace(/\s+phase$/i, "").trim();
+  return s && !/^home$/i.test(s) ? s : null;
+}
+
+/** Plain day type from a lesson's day_type: "Recovery Day" → "Recovery day", "On Ramp" → "Movement prep day". */
+export function dayKindLabel(dayType: string | null | undefined): string | null {
+  const t = (dayType ?? "").trim();
+  if (!t || /^general$/i.test(t)) return null;
+  if (/^on.?ramp$/i.test(t)) return "Movement prep day";
+  if (/^overview$/i.test(t)) return "Phase overview";
+  if (/^preparation/i.test(t)) return "Prep day";
+  if (/^skill/i.test(t)) return "Skill day";
+  const m = /^workout\s+(i{1,3})\b/i.exec(t);
+  if (m) return `Workout ${m[1]!.toUpperCase()} day`;
+  const base = t.replace(/\s+day$/i, "");
+  return `${base.charAt(0).toUpperCase()}${base.slice(1).toLowerCase()} day`;
+}
+
 export function photoFor(dayType: DayType | null, programSlug?: string | null): PhotoKey {
   switch (dayType) {
     case "recovery":

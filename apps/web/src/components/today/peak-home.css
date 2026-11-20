@@ -161,3 +161,7 @@
 .pk-tile { aspect-ratio: 4 / 5; min-height: 0; }
 .pk-tiles[data-n] .pk-tile { aspect-ratio: 4 / 5; }
 @media (max-width: 719px) { .pk-tiles[data-n="1"] > li { flex-basis: 74%; } }
+
+/* Hero eyebrow: the program (and level) on top, so the hero reads program, status, day, then phase and kind of day. */
+.pk-hero-k { margin: 0 0 12px; font: 600 13px/1.3 var(--font); letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .86); }
+@media (max-width: 719px) { .pk-hero-k { font-size: 12px; margin-bottom: 10px; } }
