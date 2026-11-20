@@ -84,11 +84,6 @@ export function setMissedDayRule(sb: DB, planId: string, rule: "shift" | "skip" 
   return rpcAny<string>(sb, "set_missed_day_rule", { p_plan: planId, p_rule: rule });
 }
 
-/** Saves a created plan through the server function that checks every lesson is real and open to the member. */
-export function saveTrainingPlan(sb: DB, name: string, inputs: Record<string, unknown>, items: { lesson_id: string; on_date: IsoDate; kind: "training" | "recovery"; note?: string }[], startsOn?: IsoDate) {
-  return rpcAny<string>(sb, "save_training_plan", { p_name: name, p_inputs: inputs, p_items: items, p_starts_on: startsOn ?? null });
-}
-
 export interface WeekEntry {
   kind: "plan" | "run_session" | "coaching";
   on_date: IsoDate;

@@ -126,7 +126,7 @@ export async function saveCreatedPlan(input: CreatorInput): Promise<Result<strin
     const items = plan.sessions
       .filter((s): s is CreatedSession & { lessonId: string } => !!s.lessonId)
       .map((s) => ({ lesson_id: s.lessonId, on_date: s.date, kind: s.kind === "recovery" ? ("recovery" as const) : ("training" as const), note: s.note }));
-    const id = await saveTrainingPlan(sb, plan.name, { ...input, overview: plan.overview, created: isoDate(new Date()) }, items, input.startDate as IsoDate);
+    const id = await saveTrainingPlan(sb, plan.name, { ...input, overview: plan.overview, created: isoDate(new Date()) }, items.map((i) => ({ date: i.on_date, lessonId: i.lesson_id, kind: i.kind, note: i.note })), input.startDate as IsoDate);
     // Mark it as a created ("Suggested") plan; the row is the member's own.
     await sb.from("member_plans").update({ source: "ai", overview: plan.overview }).eq("id", id);
     return id;

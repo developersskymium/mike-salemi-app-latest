@@ -23,6 +23,7 @@ const GROUPS: { g?: string; items: { href: string; label: string; icon: IconName
   { g: "Site", items: [
     { href: "/studio/site", label: "Site copy", icon: "display" },
     { href: "/studio/notices", label: "Notices", icon: "bell" },
+    { href: "/studio/emails", label: "Emails", icon: "share" },
     { href: "/studio/settings", label: "Settings", icon: "settings" },
   ] },
 ];
