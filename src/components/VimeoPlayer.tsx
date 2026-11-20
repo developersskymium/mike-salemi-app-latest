@@ -91,6 +91,8 @@ export function useVimeoResume(
      * Used to auto-complete a lesson without making the user hunt for a button.
      */
     onWatched?: () => void;
+    /** Fires when the video actually reaches its end (used to chain clips). */
+    onEnded?: () => void;
   },
 ) {
   const [resumeAt, setResumeAt] = useState(0);
@@ -102,6 +104,8 @@ export function useVimeoResume(
   const pausedByUsRef = useRef(false);
   const onWatchedRef = useRef(options?.onWatched);
   onWatchedRef.current = options?.onWatched;
+  const onEndedRef = useRef(options?.onEnded);
+  onEndedRef.current = options?.onEnded;
 
   useEffect(() => {
     if (!resumeKey) return;
@@ -144,6 +148,7 @@ export function useVimeoResume(
       player.on("ended", () => {
         writeResume(resumeKey!, 0);
         markWatched();
+        onEndedRef.current?.();
       });
     })();
 

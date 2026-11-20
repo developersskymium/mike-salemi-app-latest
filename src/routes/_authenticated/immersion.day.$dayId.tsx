@@ -49,6 +49,7 @@ import { idHue, vimeoEmbed } from "@/lib/vimeo";
 import { useVimeoMeta } from "@/hooks/use-vimeo-meta";
 import { formatVimeoDuration } from "@/lib/vimeo-meta";
 import { ResumePill, useVimeoResume } from "@/components/VimeoPlayer";
+import { stagePlaylist } from "@/lib/stage-playlist";
 import { getOnboardingStatus } from "@/lib/onboarding.functions";
 import { DayCompleteScreen, DayStartScreen, useDayGate } from "@/components/day-gates";
 
@@ -257,16 +258,15 @@ function DayStage({ location }: { location: DayLocation }) {
   // When a demo clip finishes we auto-advance to the next clip instead, and
   // hand the stage back to the lesson video after the last one.
   const autoCompleteRef = useRef<() => void>(() => {});
-  const clipEndedRef = useRef<() => void>(() => {});
+  const stageWatchedRef = useRef<() => void>(() => {});
+  const stageEndedRef = useRef<() => void>(() => {});
   const stageResume = useVimeoResume(
     stageFrameRef,
     clip ? `${active?.id}-${clip.vimeoId}` : active?.id,
     stageVideoId,
     {
-      onWatched: () => {
-        if (clip) clipEndedRef.current();
-        else autoCompleteRef.current();
-      },
+      onWatched: () => stageWatchedRef.current(),
+      onEnded: () => stageEndedRef.current(),
     },
   );
 
@@ -337,11 +337,24 @@ function DayStage({ location }: { location: DayLocation }) {
   });
   useEffect(() => autoAdvance.cancel(), [active?.id]);
 
-  const clips = active?.associatedVideos ?? [];
-  const clipIndex = clip ? clips.findIndex((c) => c.vimeoId === clip.vimeoId) : -1;
-  clipEndedRef.current = () => {
-    const next = clips[clipIndex + 1];
-    setClip(next ? { title: next.title, vimeoId: next.vimeoId } : null);
+  /*
+   * A step's videos play as one playlist: the lesson video, then every clip
+   * in its list, one after another. Only when the last one is watched does the
+   * step complete and hand over to the next step. Lessons whose own video is
+   * really their first clip skip that clip so nothing plays twice.
+   */
+  const { nextClip, playingClipId } = stagePlaylist(
+    active?.vimeoId ?? "",
+    active?.associatedVideos ?? [],
+    clip?.vimeoId,
+  );
+  stageWatchedRef.current = () => {
+    // Last video of the step: complete it (and count down to the next step).
+    if (!nextClip) autoCompleteRef.current();
+  };
+  stageEndedRef.current = () => {
+    // More videos in this step: play the next one straight away.
+    if (nextClip) setClip({ title: nextClip.title, vimeoId: nextClip.vimeoId });
   };
 
   const isUnlocked = (i: number) => i <= unlockedThrough || done(lessons[i]?.id ?? "");
@@ -720,7 +733,12 @@ function DayStage({ location }: { location: DayLocation }) {
             </div>
           </div>
 
-          <LessonDetails lesson={active} clipId={clip?.vimeoId} onPlayClip={setClip} />
+          <LessonDetails
+            lesson={active}
+            clipId={clip?.vimeoId}
+            playingId={playingClipId}
+            onPlayClip={setClip}
+          />
 
           {active.special === "completion" && (
             <div className="animate-step-in border-t border-hairline px-4 py-8 text-center sm:px-6">
@@ -898,10 +916,13 @@ function MobileActionBar({
 function LessonDetails({
   lesson,
   clipId,
+  playingId,
   onPlayClip,
 }: {
   lesson: Lesson;
   clipId?: string;
+  /** Clip currently on the stage (may be the lesson video itself). */
+  playingId?: string;
   onPlayClip: (clip: { title: string; vimeoId: string } | null) => void;
 }) {
   const hasNotes = Boolean(lesson.notes || lesson.images?.length || lesson.links?.length);
@@ -944,7 +965,7 @@ function LessonDetails({
                 index={i}
                 title={clip.title}
                 vimeoId={clip.vimeoId}
-                active={clipId === clip.vimeoId}
+                active={(playingId ?? clipId) === clip.vimeoId}
                 onPlay={() => onPlayClip(clip)}
               />
             ))}
