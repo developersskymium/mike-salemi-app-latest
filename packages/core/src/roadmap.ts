@@ -423,8 +423,9 @@ export function placementSummary(cat: RoadmapCatalog, nodes: NodeInfo[]): string
   const name = ROADMAP_PHASES[phase - 1]!.name;
   if (phase === 4) return `Phase 4 — ${name}. Every benchmark through Phase 3 met.`;
   const ns = phaseMovements(cat, phase).map((m) => ({ m, n: nodes.find((x) => x.key === m.key)! }));
-  const met = ns.filter((x) => x.n.state === "passed" || x.n.state === "practising").map((x) => x.m.short);
-  const todo = ns.filter((x) => x.n.state !== "passed" && x.n.state !== "practising").map((x) => x.m.short);
+  const low = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+  const met = ns.filter((x) => x.n.state === "passed" || x.n.state === "practising").map((x) => low(x.m.short));
+  const todo = ns.filter((x) => x.n.state !== "passed" && x.n.state !== "practising").map((x) => low(x.m.short));
   const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
   const parts = [met.length ? `${list(met)} met` : "", todo.length ? `${list(todo)} still to come` : ""].filter(Boolean);
   return `Phase ${phase} — ${parts.join("; ")}.`;

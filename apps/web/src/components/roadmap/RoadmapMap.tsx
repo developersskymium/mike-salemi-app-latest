@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { DAYS_TO_PASS, ROADMAP_PHASES, type NodeInfo, type RoadmapBenchmark, type RoadmapMovement, type RoadmapPhase } from "@ms/core";
 import { Button, Icon, Sheet } from "@/components/ui";
 import { Clip } from "./Clip";
 import { STATE_LABEL, StatePill } from "./NodeStateList";
 
-export type MapMtk = Record<string, { id: string; title: string; minutes: number; href: string }[]>;
+export type MapMtk = Record<string, { id: string; title: string; minutes: number; href: string; kind: string }[]>;
 
 const initials = (s: string) => s.replace(/[^A-Za-z0-9 ]/g, " ").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]!.toUpperCase()).join("");
 
@@ -61,7 +61,7 @@ export function RoadmapMap({ movements, benchmarks, nodes, nextKey, current, mem
                 </span>
                 {status === "current" && <span className="rm-here">You are here</span>}
               </div>
-              <ol className="rm-nodes">
+              <ol className="rm-nodes" style={{ "--n": ms.length } as CSSProperties}>
                 {ms.map((x, i) => {
                   const st = node(x.key);
                   const days = st.progress.length ? Math.min(...st.progress.map((q) => q.days)) : 0;
@@ -73,15 +73,10 @@ export function RoadmapMap({ movements, benchmarks, nodes, nextKey, current, mem
                       <button type="button" className="rm-node" data-state={st.state} data-next={isNext ? "" : undefined} onClick={() => setOpen(x.key)} aria-label={`${x.name}: ${STATE_LABEL[st.state]}${isNext ? ", your next step" : ""}`}>
                         <span className="rm-medal" style={{ "--arc": arc } as CSSProperties}>
                           <span className="rm-medal-in">
-                            {x.clip?.thumb ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img src={x.clip.thumb} alt="" loading="lazy" />
-                            ) : (
-                              <span className="rm-medal-ini">{initials(x.short)}</span>
-                            )}
-                            {st.state === "locked" && <span className="rm-medal-lock"><Icon name="lock" size="xs" /></span>}
-                            {st.state === "passed" && <span className="rm-medal-ok"><Icon name="check" size="xs" /></span>}
+                            <Thumb src={x.clip?.thumb ?? null} label={initials(x.short)} />
                           </span>
+                          {st.state === "locked" && <span className="rm-medal-lock"><Icon name="lock" size="xs" /></span>}
+                          {st.state === "passed" && <span className="rm-medal-ok"><Icon name="check" size="xs" /></span>}
                         </span>
                         <span className="rm-node-t">
                           <b>{fb ? x.fallback!.name : x.short}</b>
@@ -150,7 +145,7 @@ export function RoadmapMap({ movements, benchmarks, nodes, nextKey, current, mem
                 <ul className="rm-lessons">
                   {mtk[m.key]!.map((l) => (
                     <li key={l.id}>
-                      <Link href={l.href}><Icon name="play" size="xs" /><span className="lq-t15">{l.title}</span><span className="lq-t12 lq-c2">{l.minutes} min · Mastering the Kettlebell</span></Link>
+                      <Link href={l.href}><Icon name="play" size="xs" /><span className="lq-t15">{l.title}</span><span className="lq-t12 lq-c2">{l.kind} · {l.minutes} min · Mastering the Kettlebell</span></Link>
                     </li>
                   ))}
                 </ul>
@@ -176,4 +171,17 @@ export function RoadmapMap({ movements, benchmarks, nodes, nextKey, current, mem
       </Sheet>
     </>
   );
+}
+
+/** A node's thumbnail: one frame of Mike's clip, or the lift's initials if there's no clip (or it can't load). */
+function Thumb({ src, label }: { src: string | null; label: string }) {
+  const [broken, setBroken] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setBroken(true);
+  }, []);
+  if (!src || broken) return <span className="rm-medal-ini">{label}</span>;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img ref={ref} src={src} alt="" loading="lazy" onError={() => setBroken(true)} />;
 }

@@ -5,7 +5,7 @@ import {
   type AttemptWrite, type MyRoadmap, type RoadmapMovementRow, type RoadmapPlacementRow,
 } from "@ms/api";
 import {
-  MTK_LESSON_META, ROADMAP_CATALOG, bellAdvice, currentPhase, nextNode, nodeStates, placementSummary, roadmapHandoff,
+  MOVEMENT_LABEL, MTK_LESSON_META, ROADMAP_CATALOG, bellAdvice, currentPhase, nextNode, nodeStates, placementSummary, roadmapHandoff,
   type BellAdvice, type NodeInfo, type RoadmapReadiness, type RoadmapBenchmark, type RoadmapPhase,
 } from "@ms/core";
 import { getAccessMap, isAdminViewer, mockPersona } from "@/lib/access";
@@ -18,7 +18,7 @@ import { getUser } from "@/lib/supabase/server";
  * session) works locally. "free" starts with no placement; the others start placed in Phase 2.
  */
 
-export type MtkLink = { id: string; title: string; minutes: number; href: string };
+export type MtkLink = { id: string; title: string; minutes: number; href: string; kind: string };
 
 export interface RoadmapView {
   movements: RoadmapMovementRow[];
@@ -82,16 +82,21 @@ export async function mockLogAttempt(a: AttemptWrite) {
 
 /* ---------------------------------------------------------------- MTK lessons per movement */
 
-const MTK_TYPES = new Set(["technique", "fault", "precheck"]);
+const GENERIC = /^(introduction|practice|additional resources|tips for training|step \d)/i;
+/** Per movement: its MTK technique lessons first, then the common faults (for "stuck" nodes); 4 at most. */
 function mtkFor(movements: RoadmapMovementRow[]): Record<string, MtkLink[]> {
   const byId = new Map(MTK_LESSON_META.map((l) => [l.id, l]));
   const out: Record<string, MtkLink[]> = {};
   for (const m of movements) {
+    const pool = MTK_LESSON_META.filter((l) => l.movement === m.mtk && !GENERIC.test(l.title));
+    const rank = (l: (typeof pool)[number]) => Number(!l.essential) * 10 + (l.level === "foundation" ? 0 : l.level === "core" ? 1 : 2);
     const picked = m.mtkLessonIds?.length
       ? m.mtkLessonIds.map((id) => byId.get(id)).filter((x) => !!x)
-      : MTK_LESSON_META.filter((l) => l.movement === m.mtk && MTK_TYPES.has(l.type))
-          .sort((a, b) => Number(b.essential) - Number(a.essential) || a.s - b.s || a.q - b.q);
-    out[m.key] = picked.slice(0, 3).map((l) => ({ id: l.id, title: l.title, minutes: l.minutes, href: `/programs/mastering-the-kettlebell/course/${l.id}` }));
+      : [
+          ...pool.filter((l) => l.type === "technique").sort((a, b) => rank(a) - rank(b) || a.s - b.s || a.q - b.q).slice(0, 2),
+          ...pool.filter((l) => l.type === "fault").sort((a, b) => rank(a) - rank(b) || a.s - b.s || a.q - b.q).slice(0, 2),
+        ];
+    out[m.key] = picked.slice(0, 4).map((l) => ({ id: l.id, title: l.title, minutes: l.minutes, href: `/programs/mastering-the-kettlebell/course/${l.id}`, kind: l.type === "fault" ? "Fix a fault" : MOVEMENT_LABEL[l.movement] }));
   }
   return out;
 }

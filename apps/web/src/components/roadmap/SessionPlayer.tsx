@@ -75,7 +75,7 @@ export function SessionPlayer({ session, movements, preview }: { session: PhaseS
       {session.blocks.map((b, i) => (
         <li key={i} data-on={block && step?.block === i ? "" : undefined} data-done={step && i < step.block ? "" : undefined}>
           <span className="rm-outline-k lq-t12">{KIND_LABEL[b.kind]}</span>
-          <span className="lq-t15">{b.kind === "movement" ? (b.track === 1 ? b.level1 : b.level2) : b.title}</span>
+          <span className="lq-t15">{b.kind === "movement" ? (b.track === 1 ? b.level1 : b.level2) : b.video.title}</span>
           <span className="lq-t12 lq-c2">{mmss(b.seconds)}</span>
         </li>
       ))}
@@ -125,7 +125,7 @@ export function SessionPlayer({ session, movements, preview }: { session: PhaseS
     <div className="rm-player" data-shell-focus="">
       <header className="rm-player-bar">
         <Link href="/tools/roadmap" className="rm-icon" aria-label="Leave the session"><Icon name="close" size="sm" /></Link>
-        <span className="lq-t13"><b>Phase {session.phase}</b> · {block ? KIND_LABEL[block.kind] : ""}</span>
+        <span className="lq-t13"><b>Phase {session.phase}</b> · {block ? (block.kind === "movement" ? block.title : KIND_LABEL[block.kind]) : ""}</span>
         <span className="rm-total"><span className="lq-t12 lq-c2">Total time</span><b className="lq-dnum">{mmss(remainingTotal)}</b></span>
       </header>
 

@@ -47,7 +47,7 @@
 .rm-clip iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .4s; }
 .rm-clip[data-ready] iframe { opacity: 1; }
 .rm-clip-badge { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #fff; background: rgba(12, 22, 36, .5); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); backdrop-filter: blur(12px); }
-.rm-clip[data-empty] .rm-clip-poster { object-position: 50% 25%; }
+.rm-clip[data-empty] .rm-clip-poster, .rm-clip-poster[data-fallback] { object-position: 50% 25%; }
 
 /* -------- next step (the one raised card on the map view) */
 .rm-next { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 24px; padding: 14px; background: var(--surface); border-radius: var(--r-card); align-items: center; }
@@ -82,7 +82,7 @@
 .rm-here { font-size: 11.5px; font-weight: 600; color: var(--warm-ink); background: var(--surface); box-shadow: 0 0 0 1px var(--line); border-radius: 999px; padding: 3px 9px; }
 .rm-nodes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; position: relative; }
 /* the route: a line through the medallions, dotted where the lane is still ahead */
-.rm-nodes::before { content: ""; position: absolute; left: 40px; right: 40px; top: 36px; height: 2px; background: var(--line-strong); }
+.rm-nodes::before { content: ""; position: absolute; left: 40px; right: calc((6 - var(--n, 6)) / 6 * 100% + 40px); top: 36px; height: 2px; background: var(--line-strong); }
 .rm-lane[data-status="ahead"] .rm-nodes::before, .rm-lane[data-status="opening"] .rm-nodes::before { background: repeating-linear-gradient(90deg, var(--line-strong) 0 6px, transparent 6px 12px); }
 .rm-lane[data-status="done"] .rm-nodes::before { background: var(--ok); opacity: .45; }
 .rm-node { position: relative; display: grid; justify-items: center; gap: 8px; width: 100%; padding: 0 2px 4px; border: 0; background: none; color: inherit; cursor: pointer; text-align: center; font: inherit; border-radius: var(--r-inner); }
@@ -98,10 +98,9 @@
 .rm-node[data-state="passed"] .rm-medal { --tone: var(--ok); }
 .rm-node[data-state="locked"] .rm-medal-in img { filter: grayscale(1); opacity: .45; }
 .rm-node[data-state="locked"] .rm-medal-ini { color: var(--text-3); }
-.rm-medal-lock, .rm-medal-ok { position: absolute; right: -2px; bottom: -2px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; box-shadow: 0 0 0 2px var(--surface); }
+.rm-medal-lock, .rm-medal-ok { position: absolute; right: -1px; bottom: -1px; z-index: 1; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; box-shadow: 0 0 0 2px var(--surface); }
 .rm-medal-lock { background: var(--surface-sunk); color: var(--text-3); }
 .rm-medal-ok { background: var(--ok); color: #fff; }
-.rm-medal-in .rm-medal-lock, .rm-medal-in .rm-medal-ok { right: 4px; bottom: 4px; }
 .rm-node[data-next] .rm-medal::after { content: ""; position: absolute; inset: -6px; border-radius: 999px; border: 2px solid var(--warm); animation: rm-breathe 4s ease-in-out infinite; }
 @keyframes rm-breathe { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.06); opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .rm-node[data-next] .rm-medal::after { animation: none; } }
@@ -144,7 +143,7 @@
 .rm-handoff-photo { position: relative; width: 96px; height: 72px; border-radius: var(--r-inner); overflow: hidden; flex: none !important; }
 
 /* -------- benchmark runner */
-.rm-runbar { display: flex; align-items: center; gap: 14px; }
+.rm-runbar { display: flex; align-items: center; gap: 14px; padding-top: 16px; }
 .rm-runbar-mid { flex: 1; display: grid; gap: 6px; min-width: 0; }
 .rm-runbar-track { height: 4px; border-radius: 9px; background: var(--surface-sunk); overflow: hidden; }
 .rm-runbar-track i { display: block; height: 100%; background: var(--warm); border-radius: 9px; transition: width .6s; }

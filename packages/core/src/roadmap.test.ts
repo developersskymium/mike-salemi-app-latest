@@ -94,7 +94,7 @@ describe("node states and the pass rule", () => {
     expect(state(n, "clean")).toBe("locked");
     expect(currentPhase(n)).toBe(2);
     expect(nextNode(n)!.key).toBe("two-hand-swing");
-    expect(placementSummary(CAT, n)).toBe("Phase 2 — 2-hand swing met; Standing press, Farmer's carry and Rack lunge still to come.");
+    expect(placementSummary(CAT, n)).toBe("Phase 2 — 2-hand swing met; standing press, farmer's carry and rack lunge still to come.");
   });
   it("opens Phase 4 as Mastery once Phase 3 is passed, and reports what changed", () => {
     const p3 = CAT.benchmarks.filter((b) => b.phase === 3);

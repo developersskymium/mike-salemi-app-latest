@@ -40,7 +40,7 @@ export default async function RoadmapPage({ searchParams }: Props) {
         <div className="rm-head-t">
           <p className="lq-eyebrow" data-tone="accent">Kettlebell Roadmap</p>
           <h1 className="lq-d-xl">Phase {v.phase}: {meta.name}</h1>
-          <p className="lq-lede lq-c2">{v.summary}</p>
+          <p className="lq-lede lq-c2">{sentence(v.summary)}</p>
         </div>
         <div className="rm-head-act">
           {v.member ? (
@@ -153,3 +153,9 @@ function Intro({ movements }: { movements: { key: string; phase: number; short: 
     </div>
   );
 }
+
+/** "Phase 2 — swing met; …" → "Swing met; …" (the headline already names the phase). */
+const sentence = (s: string | null) => {
+  const t = (s ?? "").replace(/^Phase \d — /, "");
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
