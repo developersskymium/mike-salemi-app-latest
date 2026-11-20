@@ -144,6 +144,11 @@ async function activePlans(sb: DB, userId: string): Promise<MemberPlan[]> {
   return (data ?? []).map((p) => ({ ...p, inputs: (p.inputs ?? {}) as Record<string, unknown> }));
 }
 
+async function plansWithStatus(sb: DB, userId: string, status: "paused"): Promise<MemberPlan[]> {
+  const { data } = await sb.from("member_plans").select("*").eq("user_id", userId).eq("status", status).order("created_at", { ascending: false });
+  return (data ?? []).map((p) => ({ ...p, inputs: (p.inputs ?? {}) as Record<string, unknown> }));
+}
+
 async function openRuns(sb: DB): Promise<OpenRun[]> {
   const { data } = await sb
     .from("program_runs")
@@ -273,6 +278,8 @@ export interface PlanRaw {
   to: IsoDate;
   entries: WeekEntry[];
   plans: MemberPlan[];
+  /** Paused plans: off the calendar, listed under "Paused" on Manage plans with Resume. */
+  pausedPlans?: MemberPlan[];
   planCounts: PlanCount[];
   goals: Goal[];
   templates: Template[];
@@ -287,13 +294,14 @@ export const loadPlan = mockable("tpy-plan", async (anchor?: IsoDate): Promise<P
   const gridStart = startOfWeek(`${a.slice(0, 8)}01`);
   const from = [gridStart, addDays(startOfWeek(today), -14)].sort()[0]!;
   const to = addDays(from, 91) < addDays(gridStart, 41) ? addDays(from, 91) : addDays(gridStart, 41);
-  const [entries, plans, goals, templates] = await Promise.all([
+  const [entries, plans, goals, templates, pausedPlans] = await Promise.all([
     myWeek(sb, from, to),
     activePlans(sb, user.id),
     myGoals(sb, user.id) as Promise<Goal[]>,
     planTemplates(sb),
+    plansWithStatus(sb, user.id, "paused"),
   ]);
-  return { today, from, to, entries: entries ?? [], plans, planCounts: await planCounts(sb, plans.map((p) => p.id)), goals, templates: templates.map(toTemplate) };
+  return { today, from, to, entries: entries ?? [], plans, pausedPlans, planCounts: await planCounts(sb, [...plans, ...pausedPlans].map((p) => p.id)), goals, templates: templates.map(toTemplate) };
 });
 
 export interface PlanDetail {

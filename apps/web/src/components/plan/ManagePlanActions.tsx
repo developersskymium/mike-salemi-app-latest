@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 import { Button, Sheet, useToast } from "@/components/ui";
 import { updatePlanStatus, type ActionResult } from "@/lib/actions/today-plan-you";
 
-/** Edit / Pause / Remove for one plan card on Manage plans. Remove = end the plan (it leaves the calendar). */
+/** Edit / Pause (or Resume) / Remove for one plan card on Manage plans. Paused plans are listed under "Paused". Remove = end the plan (it leaves the calendar). */
 export function ManagePlanActions({ planId, name, status }: { planId: string; name: string; status: string }) {
   const [pending, start] = useTransition();
   const [confirm, setConfirm] = useState(false);
@@ -24,7 +24,9 @@ export function ManagePlanActions({ planId, name, status }: { planId: string; na
       <Button size="sm" variant="secondary" href={`/plan/${planId}`}>Edit</Button>
       {status === "paused" ? (
         <Button size="sm" variant="plain" disabled={pending} onClick={() => run(() => updatePlanStatus(planId, "active"), "Plan resumed")}>Resume</Button>
-      ) : null /* Pause hidden until paused plans are listed here (they'd vanish with no way back). */}
+      ) : (
+        <Button size="sm" variant="plain" disabled={pending} onClick={() => run(() => updatePlanStatus(planId, "paused"), "Plan paused. Find it under Paused to resume.")}>Pause</Button>
+      )}
       <Button size="sm" variant="plain" disabled={pending} onClick={() => setConfirm(true)}>Remove</Button>
       <Sheet
         open={confirm}

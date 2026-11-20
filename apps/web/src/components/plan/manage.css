@@ -27,3 +27,10 @@
 .mng-prog { display: grid; gap: 4px; font: var(--t-13); color: var(--label-2); }
 .mng-acts { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .mng-dl { font: var(--t-13); font-weight: 600; }
+
+/* Paused plans (off the calendar, Resume brings them back) */
+.mng-paused { display: grid; gap: 10px; margin-top: 18px; }
+.mng-paused-h { font: 700 15px/1.2 var(--font); color: var(--label); margin: 0; }
+.mng-paused-h span { color: var(--label-2); font-weight: 500; }
+.mng-card[data-paused] { border-top-color: var(--line-strong); }
+.mng-card[data-paused] .mng-card-t { color: var(--label-2); }

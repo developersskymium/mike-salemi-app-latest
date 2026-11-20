@@ -816,5 +816,25 @@
    "description": "Four weeks to arrive ready for Men of Movement: the preparation practices, breath capacity (BOLT), Working In and simple movement prep, with a meditation or breath day between sessions.",
    "sessions": 12
   }
+ ],
+ "pausedPlans": [
+  {
+   "id": "00000000-0000-4000-8000-0000000000aa",
+   "name": "Travel mobility",
+   "inputs": {
+    "days": [
+     2,
+     4,
+     6
+    ],
+    "template": "strength-foundations-6w"
+   },
+   "source": "template",
+   "status": "paused",
+   "goal_id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
+   "overview": "Six weeks of the big strength patterns from Mastering the Kettlebell — deadlift, squat, press, row, lunge and get up — with a mobility or breathing session between every two lifting days.",
+   "starts_on": "2026-11-14",
+   "template_id": "740cd1fb-0117-473d-af4e-a32e218e9393"
+  }
  ]
 }
