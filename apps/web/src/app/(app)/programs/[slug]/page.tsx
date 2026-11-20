@@ -8,6 +8,7 @@ import { loadProgramPage } from "@/lib/loaders/training";
 import { loadBoard } from "@/lib/loaders/selfguided";
 import { opensAsCourse } from "@/lib/course-types";
 import { KblHome } from "@/components/journeys/KblHome";
+import { LevelNudge } from "@/components/journeys/LevelNudge";
 import { loadIntakePage } from "@/lib/loaders/course";
 import { fixture, MOCK } from "@/lib/mock";
 
@@ -45,7 +46,15 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   if (slug === "kettlebell-lifestyle" && mode !== "self_guided") {
     const intake = await loadIntakePage(slug).catch(() => null);
     const recommended = intake?.latest?.result?.path_key ?? null;
-    return <KblHome key={data.path?.id ?? "p"} data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<PairsWellWith program={slug} />} badges={<ProgramBadges slug={slug} />} />;
+    // A retake that changed the recommendation, while the member trains the other level: suggest, never switch.
+    const before = intake?.previousResult?.path_key ?? null;
+    const suggested = recommended && (intake?.attempts ?? 0) > 1 && before !== recommended && data.enrollment && data.path?.key !== recommended && !param(sp.path)
+      ? data.paths.find((p) => p.key === recommended) ?? null
+      : null;
+    const notice = suggested && intake?.latest ? (
+      <LevelNudge attemptId={intake.latest.id} level={suggested.shortName ?? suggested.name} href={`/programs/${slug}?path=${encodeURIComponent(recommended!)}`} />
+    ) : null;
+    return <KblHome key={data.path?.id ?? "p"} data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<PairsWellWith program={slug} />} badges={<ProgramBadges slug={slug} />} notice={notice} />;
   }
   return <ProgramView key={`${data.path?.id ?? "p"}:${mode ?? ""}`} data={data} board={board} initialMode={mode} offer={<OfferSlot placement="program_page" />} />;
 }

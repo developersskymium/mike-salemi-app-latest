@@ -18,7 +18,7 @@ import "./journeys.css";
  * choice (both open any time, "Recommended for you" from the intake), the Immersion weeks navigator
  * and a calm way into Self-Guided. The full Self-Guided board lives at `?mode=self-guided`.
  */
-export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badges }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode; badges?: ReactNode }) {
+export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badges, notice }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode; badges?: ReactNode; /** A quiet note above the level choice (e.g. a retaken intake suggests the other level). */ notice?: ReactNode }) {
   const { program, path, paths, sections, lessons, progress, enrollment, resources } = data;
   const locked = data.locked || program.access === "locked";
   const slug = program.slug;
@@ -83,6 +83,7 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badge
         progress={!locked && dayLessons.length ? { value: doneDays / dayLessons.length, label: `${levelName} · ${doneDays} of ${dayLessons.length} days` } : null}
       />
 
+      {notice}
       {paths.length > 1 && (levelSwitch ?? <LevelChoice data={data} recommendedKey={recommendedKey} />)}
 
       <Navigator

@@ -342,6 +342,8 @@ export interface IntakePageData {
   kind: "kbl" | "mtk" | "program";
   latest: IntakeAttempt | null;
   attempts: number;
+  /** The attempt before the latest one (to notice a retake that changed the recommendation). */
+  previousResult?: IntakeResult | null;
   /** Answers prefilled from the member's training profile (+ earlier intakes); only the rest is asked. */
   prefill?: Prefill | null;
 }
@@ -372,6 +374,7 @@ export async function loadIntakePage(slug: string): Promise<IntakePageData | nul
     kind: form.key === "kbl-intake" ? "kbl" : form.key === "mtk-intake" ? "mtk" : "program",
     latest: h ? { id: h.id, answers: (h.answers ?? {}) as IntakeAttempt["answers"], result: (h.result ?? {}) as IntakeResult, createdAt: h.created_at } : null,
     attempts: history.length,
+    previousResult: history[1] ? ((history[1].result ?? {}) as IntakeResult) : null,
   };
 }
 

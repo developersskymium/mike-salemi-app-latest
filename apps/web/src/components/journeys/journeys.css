@@ -321,3 +321,11 @@
 .crs-preview-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; line-height: 1.4; color: var(--text-2); }
 .crs-preview-note .lq-link { font-weight: 600; }
 .jsb-dock > .crs-preview-note { position: absolute; left: 14px; right: 14px; bottom: calc(100% + 8px); margin: 0; background: var(--bg); }
+
+/* Retaken intake suggests the other level: one quiet line, no automatic change. */
+.jh-nudge { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 0; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; line-height: 1.4; color: var(--text); }
+.jh-nudge-acts { display: inline-flex; align-items: baseline; gap: 16px; }
+.jh-nudge .lq-link { font-weight: 600; }
+.jh-nudge-x { appearance: none; border: 0; background: none; padding: 0; font: inherit; font-size: 14px; color: var(--text-2); cursor: pointer; }
+.jh-nudge-x:hover { color: var(--text); }
+.jh-nudge-x:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
