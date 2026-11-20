@@ -252,7 +252,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       <div className="itk-body">
         <div className="itk-col itk-scene" key={cur.id} data-dir={dir === "back" ? "back" : undefined}>
           <span className="itk-numeral" aria-hidden>{String(step + 1).padStart(2, "0")}</span>
-          <p className="itk-eyebrow">{data.kind === "program" ? "Program intake" : cur.eyebrow ?? data.form.title}</p>
+          <p className="itk-eyebrow">{data.kind === "program" ? "Program intake" : skipped > 0 ? data.form.title : cur.eyebrow ?? data.form.title}</p>
           <h2 ref={title} tabIndex={-1} className="itk-title" aria-live="polite">{cur.title}</h2>
           {cur.intro && <p className="itk-help">{cur.intro}</p>}
           {step === 0 && !editing && skipped > 0 && prefill && prefill.summary.length > 0 && (
