@@ -9,7 +9,7 @@ import "./training.css";
 const ROMAN: Record<string, number> = { I: 1, II: 2, III: 3 };
 const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
-/** A member's certificate: crest, name, level, date, verify code; share and print. */
+/** A member's certificate: a landscape sheet (crest, name, level, signature row with date and verify code); share and print. */
 export function CertificateView({ cert, origin }: { cert: CertificateData; origin: string }) {
   const toast = useToast();
   const [copied, setCopied] = useState(false);
@@ -45,15 +45,23 @@ export function CertificateView({ cert, origin }: { cert: CertificateData; origi
         <div className="trn-cert-meta lq-t15 lq-num">
           {cert.days ? <span>{cert.days} days</span> : null}
           {cert.phases ? <span>{cert.phases} phases</span> : null}
-          <span>{fmt(cert.issuedAt)}</span>
           {cert.run > 1 ? <span>Run {cert.run}</span> : null}
         </div>
-        <p className="lq-t13 lq-c2" style={{ marginTop: 14 }}>
-          Signed, Mike Salemi
-        </p>
-        <span className="trn-cert-code" aria-label={`Verification code ${cert.verifyCode}`}>
-          {cert.verifyCode}
-        </span>
+        {/* Signature row (spec 08 L21): two columns at the foot of the sheet. */}
+        <div className="trn-cert-sign">
+          <div>
+            <span className="trn-cert-sig" aria-hidden>Mike Salemi</span>
+            <span className="trn-cert-line" />
+            <span className="lq-t13 lq-c2">Mike Salemi · Founder, Kettlebell Lifestyle</span>
+          </div>
+          <div>
+            <span className="trn-cert-date lq-num">{fmt(cert.issuedAt)}</span>
+            <span className="trn-cert-line" />
+            <span className="lq-t13 lq-c2">
+              Date issued · <span className="trn-cert-code" aria-label={`Verification code ${cert.verifyCode}`}>{cert.verifyCode}</span>
+            </span>
+          </div>
+        </div>
       </Glass>
       <div className="trn-cert-actions">
         <Button icon="share" onClick={share}>

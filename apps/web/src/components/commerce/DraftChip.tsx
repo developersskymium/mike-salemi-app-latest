@@ -1,6 +1,6 @@
 import { Chip } from "@/components/ui";
 
-/** Quiet marker on facts Mike hasn't confirmed yet (rows with draft_note). */
+/** Quiet marker on facts Mike hasn't confirmed yet (rows with draft_note). Admins only: inside the member shell it shows only with `[data-admin]` (commerce.css). */
 export function DraftChip({ note, onPhoto }: { note: string | null | undefined; onPhoto?: boolean }) {
   if (!note) return null;
   return (

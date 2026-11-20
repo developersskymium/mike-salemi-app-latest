@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Completion } from "@/components/graphics";
-import { AmbientBackdrop, Button, Glass, Icon, IconButton, Rings, StepSegments, useToast } from "@/components/ui";
+import { Button, Glass, Icon, IconButton, Rings, StepSegments, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { StartPlanForm } from "@/components/plan/StartPlan";
 import { skipOnboarding, submitGoalIntake } from "@/lib/actions/today-plan-you";
@@ -74,9 +74,11 @@ export function OnboardingFlow({ data }: { data: OnboardingData }) {
   const canGo = !cur || !cur.q.required || (answers[cur.q.id] !== undefined && answers[cur.q.id] !== "" && !(Array.isArray(answers[cur.q.id]) && !(answers[cur.q.id] as string[]).length));
 
   return (
-    <div className="tpy-ob" role="dialog" aria-modal="true" aria-label="Set your goal">
-      <AmbientBackdrop src={photo.src} position={photo.position} />
-      <div className="tpy-ob-scrim" />
+    <div className="tpy-ob" role="dialog" aria-modal="true" aria-label="Set your goal" data-shell-focus="">
+      {/* Desktop: Mike's photo panel on the left, the questions on the right (the intake layout, D28). */}
+      <div className="tpy-ob-photo" aria-hidden>
+        <Image src={photo.src} alt="" fill sizes="(min-width: 1024px) 44vw, 1px" priority style={{ objectFit: "cover", objectPosition: photo.position }} />
+      </div>
       <div className="tpy-ob-frame">
         <div className="tpy-ob-top">
           {i > -1 && i <= n && !result ? (

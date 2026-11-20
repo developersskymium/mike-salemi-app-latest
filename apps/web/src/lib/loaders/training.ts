@@ -335,9 +335,21 @@ async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: s
   };
 }
 
+/** Preview: links built from enrollments use lesson ids; find the snapshot whose lesson has that id. */
+async function mockLessonById(id: string): Promise<LessonPageData | null> {
+  const { readdir } = await import("node:fs/promises");
+  const path = await import("node:path");
+  const names = (await readdir(path.join(process.cwd(), "fixtures")).catch(() => [] as string[])).filter((n) => n.startsWith("training-lesson-") && !n.includes("-ready"));
+  for (const n of names) {
+    const f = await fixture<LessonPageData>(n.replace(/\.json$/, "")).catch(() => null);
+    if (f?.lesson.id === id) return f;
+  }
+  return null;
+}
+
 /** Day / lesson player data. In preview mode reads `fixtures/training-lesson-<lesson key>.json`. */
 export async function loadLessonPage(slug: string, lessonKey: string): Promise<LessonPageData | null> {
-  if (MOCK) return fixture<LessonPageData>(`training-lesson-${fixtureSlug(lessonKey)}`).catch(() => null);
+  if (MOCK) return fixture<LessonPageData>(`training-lesson-${fixtureSlug(lessonKey)}`).catch(() => mockLessonById(lessonKey));
   const { supabase, user } = await getUser();
   if (!user) return null;
   return realLessonPage(supabase, user.id, slug, lessonKey);

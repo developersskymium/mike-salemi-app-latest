@@ -57,7 +57,7 @@ export function AppShell({
       <ToastProvider>
         <RouteProgress />
         <ThemeSync preference={themePreference} />
-        <div className="lq-shell sm-app">
+        <div className="lq-shell sm-app" data-admin={shell?.admin ? "" : undefined}>
           <Sidebar resume={sidebarResume ? null : shell?.resume} access={shell?.access} shop={shell?.shop} shopAdmin={shell?.shopAdmin} extra={sidebarExtra} more={sidebarMore} active={activeTab} />
           {sidebarResume && <div className="sm-rail-slot">{sidebarResume}</div>}
           <main id="main" className="lq-main sm-main">

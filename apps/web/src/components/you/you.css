@@ -45,6 +45,17 @@
   .yu-pp-ring .lq-ringwrap { transform: scale(.76); transform-origin: center; margin: -14px; }
   .yu-pp-name { font: var(--t-22); font-weight: 600; }
   .yu-pp-photo .lq-avatar { width: 56px; height: 56px; }
+  /* Identity on phone (D24): photo · name · ring on top, then the email and "Issued …" lines across the
+     full card width, wrapping instead of being cut off. */
+  .yu-pp-top { grid-template-columns: 56px minmax(0, 1fr) 84px; column-gap: 12px; row-gap: 2px; }
+  .yu-pp-id, .yu-pp-who { display: contents; }
+  .yu-pp-photo { grid-column: 1; grid-row: 1 / span 2; align-self: center; }
+  .yu-pp-who > .yu-eyebrow { grid-column: 2; grid-row: 1; align-self: end; }
+  .yu-pp-who > .yu-eyebrow .lq-num { white-space: nowrap; }
+  .yu-pp-who > .yu-pp-name { grid-column: 2; grid-row: 2; align-self: start; }
+  .yu-pp-ring { grid-column: 3; grid-row: 1 / span 2; }
+  .yu-pp-who > .yu-pp-meta { grid-column: 1 / -1; white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+  .yu-pp-who > .yu-pp-name + .yu-pp-meta { margin-top: 10px; }
 }
 
 .yu-ministats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
