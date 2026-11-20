@@ -267,8 +267,42 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
           ? { small: isDone ? `${group?.name} finished` : `Finish ${group?.name}`, main: `Then ${nextGroup?.name}: ${nextGroupFirst.title}`, phone: isDone ? "Next chapter" : `Finish ${group?.name}` }
           : { small: isDone ? (multi ? `${group?.name} finished` : "Course finished") : multi ? `Finish ${group?.name}` : "Finish course", main: isDone ? "All done" : "Mark this lesson complete", phone: isDone ? "All done" : "Mark complete" };
 
-  const nav = (onPick?: () => void) => slim ? (
-    <LessonSidebar units={units} activeId={data.activeId} program={data.program.name} backHref={planMode ? "/mtk" : `/programs/${slug}/course`} backLabel={planMode ? "My Plan" : `${data.program.name} home`} pct={pct} shelf={shelf} onPick={onPick} />
+  /* Fixed controls (client: complete + next always in the same place): sidebar foot on desktop, bottom dock on phone. */
+  const nextTarget = next ?? nextGroupFirst;
+  const toggleDone = async () => {
+    if (busy || !node) return;
+    if (isDone) return void undo();
+    setBusy(true);
+    const ok = await markDone("button");
+    setBusy(false);
+    if (ok) toast("Marked complete", { tone: "success" });
+  };
+  const controls = (
+    <div className="jsb-ctl">
+      <button type="button" className="jsb-ctl-step" disabled={!prev || isIntro} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
+        <Arrow dir="left" />
+      </button>
+      {isIntro ? (
+        <button type="button" className="jsb-ctl-main" data-tone="go" onClick={() => void primary()}>
+          <span>{done.size ? "Resume" : "Begin"}</span><Arrow />
+        </button>
+      ) : (
+        <button type="button" className="jsb-ctl-main" data-done={isDone ? "" : undefined} aria-pressed={isDone} aria-busy={busy || undefined} onClick={() => void toggleDone()}>
+          <Check /><span>{isDone ? "Completed" : "Mark complete"}</span>
+        </button>
+      )}
+      {planCtx && !next ? (
+        <Link href="/mtk" className="jsb-ctl-next"><span>My Plan</span><Arrow /></Link>
+      ) : (
+        <button type="button" className="jsb-ctl-next" disabled={!nextTarget || isIntro} onClick={() => nextTarget && go(nextTarget.id)} aria-label={nextTarget ? `Next: ${nextTarget.title}` : "No next lesson"}>
+          <span>Next</span><Arrow />
+        </button>
+      )}
+    </div>
+  );
+
+  const nav = (onPick?: () => void, footer?: ReactNode) => slim ? (
+    <LessonSidebar units={units} activeId={data.activeId} program={data.program.name} backHref={planMode ? "/mtk" : `/programs/${slug}/course`} backLabel={planMode ? "My Plan" : `${data.program.name} home`} pct={pct} shelf={shelf} onPick={onPick} footer={footer} />
   ) : (
     <CourseNav data={data} groups={groups} done={done} href={(id) => (id === "start" ? `/programs/${slug}/course/start${qs}` : href(id))} planMode={planMode} onPick={onPick} searchRef={searchRef} />
   );
@@ -300,7 +334,7 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
       </Glass>
 
       <div className="crs-body">
-        <aside className="crs-side" aria-label={slim ? "Lessons" : "Curriculum"} inert={focus || undefined}>{nav()}</aside>
+        <aside className="crs-side" aria-label={slim ? "Lessons" : "Curriculum"} inert={focus || undefined}>{nav(undefined, slim && lesson ? controls : undefined)}</aside>
 
         <main className="crs-main" ref={main} id="main">
           <div className="crs-stage">
@@ -407,7 +441,13 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                 {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
                 {slim && !isIntro && <LessonNotes key={lesson.id} lessonId={lesson.id} />}
 
-                <Glass level="thick" float className="crs-next">
+                {slim && lesson && (
+                  <div className="jsb-dock" aria-label="Lesson controls">
+                    <button type="button" className="jsb-dock-list" aria-label="All lessons" onClick={() => setDrawer("open")}><ListTree /></button>
+                    {controls}
+                  </div>
+                )}
+                {!slim && <Glass level="thick" float className="crs-next">
                   {prev && !isIntro ? (
                     <>
                       <button type="button" className="crs-prev" onClick={() => go(prev.id)} aria-label={`Previous: ${prev.title}`}>
@@ -429,8 +469,8 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                     <span className="crs-phone-label">{primaryLabel.phone}</span>
                     {next || isIntro || nextGroupFirst ? <Arrow /> : <Check />}
                   </button>
-                </Glass>
-                {isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
+                </Glass>}
+                {!slim && isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
                 {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
                 {slim && isDone && !isIntro && !next && !planCtx && nextStep}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>

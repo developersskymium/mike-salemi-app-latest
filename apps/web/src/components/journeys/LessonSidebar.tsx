@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/ui";
 import type { Unit, UnitCard } from "./units";
 import "./journeys.css";
@@ -49,6 +49,7 @@ export function LessonSidebar({
   pct,
   shelf,
   onPick,
+  footer,
 }: {
   units: Unit[];
   activeId: string;
@@ -58,6 +59,7 @@ export function LessonSidebar({
   pct: number;
   shelf: ShelfLink[];
   onPick?: () => void;
+  footer?: ReactNode;
 }) {
   const path = units.filter((u) => !isShelf(u));
   const activeUnit = units.find((u) => u.rows.some((r) => r.cards.some((c) => c.id === activeId)));
@@ -160,6 +162,7 @@ export function LessonSidebar({
           </div>
         </nav>
       )}
+      {footer && <div className="jsb-foot">{footer}</div>}
     </div>
   );
 }
