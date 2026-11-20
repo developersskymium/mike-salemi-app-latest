@@ -198,7 +198,7 @@ export function PlacementFlow({ movements, benchmarks, bell, initialStep }: {
           <span className="rm-bignum lq-dnum" aria-hidden>{ph}</span>
           <div>
             <h1 className="lq-d-lg">Phase {ph}: {meta.name}</h1>
-            <p className="lq-lede lq-c2">{placementSummary(cat, nodes)}</p>
+            <p className="lq-lede lq-c2">{((t) => t.charAt(0).toUpperCase() + t.slice(1))(placementSummary(cat, nodes).replace(/^Phase \d — /, ""))}</p>
           </div>
         </div>
         <NodeStateList movements={movements.filter((m) => m.phase === ph)} nodes={nodes} />
