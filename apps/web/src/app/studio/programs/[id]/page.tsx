@@ -5,6 +5,7 @@ import { Chip } from "@/components/ui";
 import { CurriculumTab } from "@/components/studio/CurriculumTab";
 import { Disclosure, RecordForm, RowTools } from "@/components/studio/forms";
 import { BenefitCell, ModesEditor } from "@/components/studio/pieces";
+import { MerchEditor } from "@/components/studio/site";
 import { DataTable, Note, PageHead, Panel, Status, Tabs, money } from "@/components/studio/ui";
 import { studioAdmin } from "@/lib/studio/guard";
 import { loadProgram } from "@/lib/studio/loaders";
@@ -20,6 +21,12 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   if (!d) notFound();
   const tab = TABS.find(([k]) => k === sp.tab)?.[0] ?? "details";
   const p = d.program;
+  const cardImage = (d.media.find((m) => m.role === "card") ?? d.media.find((m) => m.role === "hero") ?? d.media[0])?.url ?? null;
+  const card = {
+    id, name: p.name, summary: p.summary, image: cardImage, is_free: p.is_free, is_listed: p.is_listed, position: p.position ?? 0,
+    highlights: p.highlights ?? [], instructor: p.meta?.instructor ?? null, sections: d.counts.sections, lessons: d.counts.lessons,
+    sectionLabel: p.section_label ?? "Section", lessonLabel: p.lesson_label ?? "Lesson", meta: p.meta ?? {},
+  };
   return (
     <>
       <PageHead eyebrow={[{ label: "Programs", href: "/studio/programs" }, { label: p.name }]} title={p.name} sub={<><Status v={p.status} /> <span className="st-faint">/{p.slug} · {String(p.type).replace(/_/g, " ")}</span></>} actions={<Link href={`/programs/${p.slug}`} className="st-faint">View in app</Link>} />
@@ -27,6 +34,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
 
       {tab === "details" && (
         <>
+          <Panel title="Card & placement" meta="Programs page and Home"><MerchEditor key={p.updated_at} p={card} /></Panel>
           <Panel title="Details"><RecordForm key={p.updated_at} table="programs" row={p} /></Panel>
           <Panel title="Learning modes"><ModesEditor programId={id} modes={d.modes.map((m) => m.mode)} defaultMode={d.modes.find((m) => m.is_default)?.mode ?? ""} /></Panel>
           <Panel title="Imagery" meta="by URL">

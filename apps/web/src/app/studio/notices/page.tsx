@@ -11,6 +11,13 @@ export default async function NoticesPage() {
   return (
     <>
       <PageHead title="Notices" sub="Short messages shown to members in a placement, for a date range and audience." />
+      <Panel title="Where notices show" meta="placement">
+        <div className="st-grid st-g4">
+          {[["banner", "Announcement bar", "Full width above every member page (legacy announcement bar). One at a time: the lowest position that is active and in its dates."], ["today", "Home", "A card on Home, under the hero."], ["program_page", "Program pages", "Under the program hero."], ["you", "You", "Top of the You tab."]].map(([k, t, b]) => (
+            <div key={k}><div className="st-label">{t} <span className="st-faint">· {k}</span></div><p className="st-faint" style={{ margin: "4px 0 0", fontSize: 13 }}>{b}</p></div>
+          ))}
+        </div>
+      </Panel>
       <Panel title="All notices" meta={`${notices.length}`}>
         <DataTable rows={notices} empty="No notices. Add one for a launch, a maintenance window or a retreat reminder." cols={[
           { label: "Notice", render: (n) => <span><b style={{ fontWeight: 600 }}>{n.title ?? "Untitled"}</b><br /><span className="st-faint">{n.body}</span></span> }, { label: "Placement", render: (n) => n.placement },

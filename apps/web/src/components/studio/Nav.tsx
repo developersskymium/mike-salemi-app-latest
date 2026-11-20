@@ -21,6 +21,7 @@ const GROUPS: { g?: string; items: { href: string; label: string; icon: IconName
     { href: "/studio/organizations", label: "Organizations", icon: "people" },
   ] },
   { g: "Site", items: [
+    { href: "/studio/site", label: "Site copy", icon: "display" },
     { href: "/studio/notices", label: "Notices", icon: "bell" },
     { href: "/studio/settings", label: "Settings", icon: "settings" },
   ] },

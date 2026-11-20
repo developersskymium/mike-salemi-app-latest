@@ -1,0 +1,79 @@
+{
+ "program": {
+  "id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+  "slug": "coaching",
+  "name": "1:1 Coaching with Mike",
+  "type": "coaching",
+  "status": "published",
+  "tagline": "Your program, built around you",
+  "summary": "Direct coaching for people who want the program adapted to their body, schedule and goals — with feedback on technique and accountability week to week.",
+  "description": "Direct coaching for people who want the program adapted to their body, schedule and goals — with feedback on technique and accountability week to week.",
+  "highlights": [
+   "Personal programming",
+   "Technique review",
+   "Weekly accountability"
+  ],
+  "format_label": "Live video sessions",
+  "duration_label": "Weekly or fortnightly",
+  "draft_note": null,
+  "price_label": "From $180 / session",
+  "commitment": "Weekly or fortnightly",
+  "route": "/coaching",
+  "route_label": "Book a session",
+  "note": null,
+  "sections": [
+   {
+    "heading": "How it works",
+    "body": "Book a session in the app, send your training footage ahead of time, and spend the call working on exactly what is limiting you. Every session ends with a written plan.",
+    "points": [
+     "Video call with Mike, 60 or 90 minutes",
+     "Technique review on your own footage",
+     "A written block you can follow immediately",
+     "Session notes and history kept in the app"
+    ]
+   },
+   {
+    "heading": "Who it is for",
+    "body": "Lifters stuck at a plateau, people coming back from injury, and coaches who want their own coaching eye sharpened."
+   }
+  ],
+  "faq": [
+   {
+    "q": "Do I have to commit to a block?",
+    "a": "No. Single sessions are fine, though most people book a four-session block."
+   },
+   {
+    "q": "What if I need to move a session?",
+    "a": "Cancel from your coaching page up to 24 hours before and the session comes back to you to book again."
+   }
+  ],
+  "hero": {
+   "url": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg",
+   "alt": "Mike Salemi at a retreat fire, in the morning sun"
+  }
+ },
+ "nextRun": null,
+ "others": [
+  {
+   "slug": "men-of-movement-retreats",
+   "name": "Men of Movement Retreats",
+   "tagline": "In-person Men of Movement retreats",
+   "type": "retreat",
+   "image": "/media/retreats/live/breakthrough-circle-room.jpg"
+  },
+  {
+   "slug": "executive-edge",
+   "name": "Executive Edge",
+   "tagline": "A high-touch path for focus, energy and resilience",
+   "type": "coaching",
+   "image": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg"
+  },
+  {
+   "slug": "zen-savage",
+   "name": "Zen Savage Challenge",
+   "tagline": "A possible next chapter in group coaching",
+   "type": "challenge",
+   "image": "/media/l5e/0f8c0c9c-3d88-4297-b30a-2c19e672fb67/working-in.png"
+  }
+ ]
+}

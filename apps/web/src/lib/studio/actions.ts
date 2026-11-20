@@ -6,7 +6,7 @@ import { z } from "zod";
 import { MOCK } from "@/lib/mock";
 import { studioAdmin } from "./guard";
 import { studioDb, type Db } from "./db";
-import { cfg, parseValues, parseVimeo, MODES } from "./tables";
+import { APPLICATION_STATUS, cfg, parseValues, parseVimeo, MODES } from "./tables";
 
 export type Result<T = unknown> = { ok: true; id?: string; data?: T; message?: string } | { ok: false; error: string };
 const fail = (error: string): Result => ({ ok: false, error });
@@ -298,5 +298,122 @@ export async function saveSetting(key: string, raw: string): Promise<Result> {
   return write("update", "site_settings", async (db) => {
     const { error } = await db.from("site_settings").upsert({ key, value, updated_at: new Date().toISOString() });
     return { id: key, error: error?.message };
+  });
+}
+
+/* ------------------------------------------------------------------ W5: merchandising, site copy, pipeline, slots */
+
+const merchSchema = z.object({
+  summary: z.string().max(400).optional(),
+  cta_label: z.string().max(40).optional(),
+  badge: z.string().max(24).optional(),
+  offer: z.string().max(120).optional(),
+  vertical: z.enum(["", "mastery", "athletic", "mind-body"]).optional(),
+  featured: z.boolean().optional(),
+  is_listed: z.boolean().optional(),
+  position: z.number().int().min(0).max(999).optional(),
+});
+export type Merch = z.input<typeof merchSchema>;
+
+/** Catalog card and placement fields (legacy admin "Pricing, offers & placement"). Card copy lives in columns; badge, offer, CTA, vertical and "featured on Home" in programs.meta. */
+export async function saveProgramMerch(programId: string, input: Merch): Promise<Result> {
+  await studioAdmin();
+  const p = merchSchema.safeParse(input);
+  if (!p.success) return fail(p.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join(" · "));
+  const m = p.data;
+  return write("update", "programs", async (db) => {
+    const { data: row, error: e1 } = await db.from("programs").select("meta").eq("id", programId).single();
+    if (e1 || !row) return { error: e1?.message ?? "Program not found" };
+    const meta = { ...((row as { meta: Record<string, unknown> }).meta ?? {}) };
+    const put = (k: string, v: unknown) => { if (v === "" || v === undefined || v === false) delete meta[k]; else meta[k] = v; };
+    put("cta_label", m.cta_label?.trim()); put("badge", m.badge?.trim()); put("offer", m.offer?.trim()); put("vertical", m.vertical); put("featured", m.featured);
+    const cols: Record<string, unknown> = { meta };
+    if (m.summary !== undefined) cols.summary = m.summary.trim() || null;
+    if (m.is_listed !== undefined) cols.is_listed = m.is_listed;
+    if (m.position !== undefined) cols.position = m.position;
+    const { error } = await db.from("programs").update(cols).eq("id", programId);
+    return { id: programId, detail: { merch: Object.keys(m) }, error: error?.message };
+  });
+}
+
+const homeCopy = z.object({ hero_eyebrow: z.string().max(60), featured_slug: z.string().max(80).regex(/^[a-z0-9-]*$/, "Featured program: a program slug"), enrolled_title: z.string().max(60) });
+const programsCopy = z.object({ title: z.string().min(1).max(60), intro: z.string().max(400), flagship_badge: z.string().max(40), flagship_title: z.string().max(60), flagship_copy: z.string().max(400) });
+
+/** Home and Programs page copy (legacy admin "Main copy"), stored in site_settings `home` and `programs_page`. */
+export async function saveSiteCopy(key: "home" | "programs_page", value: Record<string, unknown>): Promise<Result> {
+  await studioAdmin();
+  const p = key === "home" ? homeCopy.safeParse(value) : key === "programs_page" ? programsCopy.safeParse(value) : null;
+  if (!p) return fail("Unknown copy block.");
+  if (!p.success) return fail(p.error.issues.map((i) => i.message).join(" · "));
+  return write("update", "site_settings", async (db) => {
+    const slug = "featured_slug" in p.data ? p.data.featured_slug : "";
+    if (slug) {
+      const { data } = await db.from("programs").select("id").eq("slug", slug).maybeSingle();
+      if (!data) return { error: `No program with the slug "${slug}".` };
+    }
+    const { error } = await db.from("site_settings").upsert({ key, value: p.data, updated_at: new Date().toISOString() });
+    return { id: key, error: error?.message };
+  });
+}
+
+/** Move a retreat application through the pipeline, with an optional note for the team. */
+export async function setApplicationStatus(applicationId: string, status: string, note: string): Promise<Result> {
+  await studioAdmin();
+  if (!(APPLICATION_STATUS as readonly string[]).includes(status)) return fail("Unknown status.");
+  if (note.length > 2000) return fail("Keep the note under 2,000 characters.");
+  return write("update", "run_applications", async (db) => {
+    const cols: Record<string, unknown> = { status, updated_at: new Date().toISOString() };
+    if (note.trim()) cols.admin_note = note.trim();
+    const { error } = await db.from("run_applications").update(cols).eq("id", applicationId);
+    return { id: applicationId, detail: { status }, error: error?.message };
+  });
+}
+
+/** UTC instant for a wall-clock time in an IANA time zone (DST-aware). */
+function zonedUtc(day: string, hhmm: string, tz: string): Date {
+  const [y, mo, d] = day.split("-").map(Number);
+  const [h, mi] = hhmm.split(":").map(Number);
+  const guess = Date.UTC(y!, mo! - 1, d!, h!, mi!);
+  const offsetAt = (t: number) => {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).formatToParts(new Date(t)).map((x) => [x.type, x.value]));
+    return Date.UTC(+parts.year!, +parts.month! - 1, +parts.day!, +parts.hour!, +parts.minute!) - t;
+  };
+  let t = guess - offsetAt(guess);
+  t = guess - offsetAt(t);
+  return new Date(t);
+}
+
+type Schedule = { times: string[]; weekdays: number[]; timezone: string; minutes?: number };
+
+/** The coaching program's schedule (programs.meta.schedule: Tue–Sat, 07:00–14:00 Pacific). */
+async function coachingSchedule(db: Db): Promise<Schedule | null> {
+  const { data } = await db.from("programs").select("meta").eq("slug", "coaching").maybeSingle();
+  const s = (data as { meta?: { schedule?: Schedule } } | null)?.meta?.schedule;
+  return s && Array.isArray(s.times) && Array.isArray(s.weekdays) && s.timezone ? s : null;
+}
+
+/** Open the next N weeks of slots from Mike's schedule. Skips times that already have a slot. */
+export async function openScheduleWeeks(weeks: number): Promise<Result> {
+  await studioAdmin();
+  const n = Math.round(weeks);
+  if (!(n >= 1 && n <= 12)) return fail("Choose between 1 and 12 weeks.");
+  return write("bulk_create", "coaching_slots", async (db) => {
+    const s = await coachingSchedule(db);
+    if (!s) return { error: "The coaching program has no schedule (programs.meta.schedule)." };
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: s.timezone }).format(new Date());
+    const start = new Date(`${today}T00:00:00Z`);
+    const wanted: string[] = [];
+    for (let i = 1; i <= n * 7; i++) {
+      const d = new Date(start.getTime() + i * 864e5);
+      if (!s.weekdays.includes(d.getUTCDay())) continue;
+      const day = d.toISOString().slice(0, 10);
+      for (const t of s.times) wanted.push(zonedUtc(day, t, s.timezone).toISOString());
+    }
+    const { data: have } = await db.from("coaching_slots").select("starts_at").gte("starts_at", wanted[0] ?? new Date().toISOString());
+    const taken = new Set(((have ?? []) as { starts_at: string }[]).map((r) => new Date(r.starts_at).toISOString()));
+    const rows = wanted.filter((w) => !taken.has(w)).map((starts_at) => ({ starts_at, duration_minutes: s.minutes ?? 60, is_open: true }));
+    if (!rows.length) return { detail: { count: 0, weeks: n } };
+    const { error } = await db.from("coaching_slots").insert(rows);
+    return { detail: { count: rows.length, weeks: n }, error: error?.message };
   });
 }

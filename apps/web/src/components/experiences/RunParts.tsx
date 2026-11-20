@@ -85,3 +85,97 @@ export function Travel({ run }: { run: RunHub["run"] }) {
     </div>
   );
 }
+
+/* ---------------------------------------------------------------- Legacy page-kit pieces, in the Liquid style */
+
+/** Sticky context bar (legacy ContextBar): [back + label] [title + meta] [one action]. */
+export function ContextBar({ back, backLabel, title, meta, action }: { back: string; backLabel: string; title: string; meta?: React.ReactNode; action?: React.ReactNode }) {
+  return (
+    <Glass as="nav" radius="pill" className="exp-ctx" aria-label="Page">
+      <a className="exp-ctx-back lq-press" href={back} aria-label={backLabel}>
+        <Icon name="back" size="sm" />
+        <span className="exp-ctx-backlabel">{backLabel}</span>
+      </a>
+      <div className="exp-ctx-mid">
+        <div className="exp-ctx-title">{title}</div>
+        {meta && <div className="exp-ctx-meta lq-num">{meta}</div>}
+      </div>
+      <div className="exp-ctx-act">{action}</div>
+    </Glass>
+  );
+}
+
+/** Legacy SectionHeading: small eyebrow + section title, left-aligned. */
+export function Heading({ eyebrow, title, id, aside }: { eyebrow?: string; title: string; id?: string; aside?: React.ReactNode }) {
+  return (
+    <header className="exp-heading">
+      <div>
+        {eyebrow && <div className="exp-kicker">{eyebrow}</div>}
+        <h2 id={id} className="lq-t22">{title}</h2>
+      </div>
+      {aside}
+    </header>
+  );
+}
+
+export function Ticks({ items, cols = 2 }: { items: string[]; cols?: 1 | 2 }) {
+  return (
+    <ul className="exp-ticks" data-cols={cols} role="list">
+      {items.map((h) => {
+        const [head, ...rest] = h.split(" — ");
+        return (
+          <li key={h}>
+            <span className="exp-ticks-i" aria-hidden><Icon name="check" size="xs" /></span>
+            <span>{rest.length ? <><b>{head}</b> <span className="lq-c2">— {rest.join(" — ")}</span></> : h}</span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+export function Facts({ items }: { items: { icon: "calendar" | "clock" | "people" | "mountain" | "sparkle" | "compass" | "bookmark"; label: string; value: React.ReactNode; href?: string }[] }) {
+  return (
+    <Glass as="dl" radius="card" className="exp-factgrid" data-n={items.length}>
+      {items.map((f) => {
+        const inner = (
+          <>
+            <dt><Icon name={f.icon} size="xs" />{f.label}</dt>
+            <dd>{f.value}</dd>
+          </>
+        );
+        return f.href ? (
+          <a key={f.label} className="exp-fact" href={f.href} target="_blank" rel="noopener">{inner}</a>
+        ) : (
+          <div key={f.label} className="exp-fact">{inner}</div>
+        );
+      })}
+    </Glass>
+  );
+}
+
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"];
+/** "How the four days unfold": one numbered card per day with its items (legacy retreat page). */
+export function DayList({ items }: { items: RunHub["itinerary"] }) {
+  const days = new Map<number, RunHub["itinerary"]>();
+  for (const i of items) days.set(i.day_index, [...(days.get(i.day_index) ?? []), i]);
+  const list = [...days.entries()].sort((a, b) => a[0] - b[0]);
+  return (
+    <ol className="exp-daylist" role="list">
+      {list.map(([d, its], n) => {
+        const desc = its[0]?.description ?? "";
+        const title = desc.includes("·") ? desc.split("·").slice(1).join("·").trim() : null;
+        return (
+          <li key={d}>
+            <span className="exp-daylist-n lq-num" aria-hidden>{n + 1}</span>
+            <div>
+              <div className="exp-kicker">Day {ROMAN[d - 1] ?? d}</div>
+              {title && <h3 className="lq-t17">{title}</h3>}
+              <ul role="list">{its.map((i) => <li key={i.id}>{i.title}</li>)}</ul>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}

@@ -46,7 +46,48 @@ export const loadProgram = studioLoader("studio-program", async (db, id: string)
     rows(db.from("intake_forms").select("*").eq("program_id", id)),
     rows(db.from("program_inclusions").select("*").eq("parent_program_id", id)),
   ]);
-  return { program: program as Row, modes, media, paths, resources, plans, prices, benefits, intakes, inclusions };
+  // Catalog card counts skip intro ("Start here") sections, like the member app.
+  const [secs, less] = await Promise.all([
+    rows(db.from("sections").select("id,meta,parent_id").eq("program_id", id)),
+    rows(db.from("lessons").select("id,section_id").eq("program_id", id)),
+  ]);
+  const intro = new Set(secs.filter((x) => x.meta?.intro === true).map((x) => x.id));
+  const counts = { sections: secs.filter((x) => !intro.has(x.id) && !x.parent_id).length, lessons: less.filter((l) => !intro.has(l.section_id)).length };
+  return { program: program as Row, modes, media, paths, resources, plans, prices, benefits, intakes, inclusions, counts };
+});
+
+/** Home and Programs page copy (site_settings) plus what their previews need. */
+export const loadSiteCopy = studioLoader("studio-site-copy", async (db) => {
+  const [settings, programs, media] = await Promise.all([
+    rows(db.from("site_settings").select("key,value").in("key", ["home", "programs_page"])),
+    rows(db.from("programs").select("id,slug,name,status").eq("status", "published").order("position")),
+    rows(db.from("program_media").select("program_id,role,url").order("position")),
+  ]);
+  const v = (k: string) => (settings.find((x) => x.key === k)?.value ?? {}) as Record<string, string>;
+  const kbl = programs.find((p) => p.slug === "kettlebell-lifestyle");
+  const kblMedia = media.filter((m) => m.program_id === kbl?.id);
+  return {
+    home: { hero_eyebrow: "", featured_slug: "", enrolled_title: "Your enrolled programs", ...v("home") },
+    programsPage: { title: "Programs", intro: "", flagship_badge: "Flagship program", flagship_title: "Kettlebell Lifestyle", flagship_copy: "", ...v("programs_page") },
+    programs: programs.map((p) => ({ slug: p.slug as string, name: p.name as string })),
+    flagshipImage: (kblMedia.find((m) => m.role === "hero") ?? kblMedia.find((m) => m.role === "card"))?.url ?? null,
+  };
+});
+
+/** Readiness check-ins members submitted (legacy "KBL form entries"), newest first, optionally one form. */
+export const loadEntries = studioLoader("studio-entries", async (db, formId: string | null) => {
+  let q = db.from("readiness_results").select("*").order("created_at", { ascending: false }).limit(200);
+  if (formId) q = q.eq("form_id", formId);
+  const [entries, forms] = await Promise.all([rows(q), rows(db.from("forms").select("id,title,max_score").order("title"))]);
+  const lessonIds = [...new Set(entries.map((e) => e.lesson_id).filter(Boolean))] as string[];
+  const lessons = lessonIds.length ? await rows(db.from("lessons").select("id,title,day_number,program_id").in("id", lessonIds)) : [];
+  const people = await profileNames(db, entries.map((e) => e.user_id));
+  const fm = new Map(forms.map((f) => [f.id, f])), lm = new Map(lessons.map((l) => [l.id, l]));
+  const used = new Set(entries.map((e) => e.form_id));
+  return {
+    forms: forms.map((f) => ({ id: f.id as string, title: f.title as string, used: used.has(f.id) })),
+    entries: entries.map((e): Row => ({ ...e, who: people.get(e.user_id) ?? String(e.user_id).slice(0, 8), form: fm.get(e.form_id)?.title ?? e.form_id, max: fm.get(e.form_id)?.max_score ?? null, lesson: lm.get(e.lesson_id) ?? null })),
+  };
 });
 
 /** Full tree for one program: paths, sections (nested via parent_id), lessons, steps (only the selected lesson's steps). */
@@ -138,7 +179,7 @@ export const loadOffer = studioLoader("studio-offer", async (db, id: string) => 
 export const loadExperiences = studioLoader("studio-experiences", async (db) => {
   const [runs, programs, packages, slots, bookings, apps, itinerary] = await Promise.all([
     rows(db.from("program_runs").select("*").order("starts_at", { ascending: false })),
-    rows(db.from("programs").select("id,name,type")),
+    rows(db.from("programs").select("id,name,type,slug,meta")),
     rows(db.from("coaching_packages").select("*").order("position")),
     rows(db.from("coaching_slots").select("*").order("starts_at")),
     rows(db.from("coaching_bookings").select("*").order("starts_at", { ascending: false })),
@@ -148,7 +189,11 @@ export const loadExperiences = studioLoader("studio-experiences", async (db) => 
   const pn = new Map(programs.map((p) => [p.id, p.name]));
   const ic = by(itinerary, "run_id"), ac = by(apps, "run_id");
   const people = await profileNames(db, [...bookings.map((b) => b.user_id), ...apps.map((a) => a.user_id)]);
+  const coach = programs.find((p) => p.slug === "coaching") as Row | undefined;
+  const now = new Date().toISOString();
   return {
+    schedule: (coach?.meta?.schedule ?? null) as { times: string[]; weekdays: number[]; timezone: string } | null,
+    openAhead: slots.filter((s) => s.is_open && s.starts_at > now).length,
     runs: runs.map((r): Row => ({ ...r, programName: pn.get(r.program_id) ?? "", itineraryCount: ic.get(r.id)?.length ?? 0, applicationCount: ac.get(r.id)?.length ?? 0 })),
     packages, slots, programs,
     bookings: bookings.map((b): Row => ({ ...b, who: people.get(b.user_id) ?? b.user_id })),

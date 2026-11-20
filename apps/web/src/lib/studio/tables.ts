@@ -47,6 +47,7 @@ export const STEP_KINDS = ["video", "workout", "warmup", "mobility", "recovery",
 export const OUTCOMES = ["workout", "recovery", "rest"] as const;
 export const PLACEMENTS = ["today", "program_page", "program_complete", "tool_result", "checkout", "library", "you"] as const;
 export const TARGET_KINDS = ["url", "program", "plan", "coaching", "run"] as const;
+export const APPLICATION_STATUS = ["submitted", "call_booked", "accepted", "waitlist", "declined", "booked", "cancelled"] as const;
 export const RUN_STATUS = ["upcoming", "open", "full", "past", "cancelled"] as const;
 
 export const TABLES = {
@@ -161,7 +162,7 @@ export const TABLES = {
   },
   run_applications: {
     label: "Application", pk: ["id"], title: "id",
-    fields: [sel("status", "Status", ["submitted", "reviewing", "accepted", "waitlist", "declined"], { required: true, notNull: true }), long("admin_note", "Admin note")],
+    fields: [sel("status", "Status", APPLICATION_STATUS, { required: true, notNull: true }), long("admin_note", "Admin note")],
   },
   coaching_packages: {
     label: "Package", pk: ["id"], positioned: true, title: "name",
