@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties }
 import { parseLessonBody, type VideoRef } from "@ms/core";
 import { AudioList, Markdown } from "@/components/course/LessonBody";
 import { LessonVideoB } from "@/components/lesson-b/LessonVideoB";
-import { NotesB, keyPoints } from "@/components/lesson-b/NotesB";
+import { KeyPointsB, YourNotes, keyPoints } from "@/components/lesson-b/NotesB";
 import { announceProgress } from "@/components/you/CelebrationHost";
 import { Icon, useToast } from "@/components/ui";
 import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
@@ -23,6 +23,7 @@ type Clip = VideoRef & { title: string };
  * playlist beside it (desktop) or a strip under it (phone). A lesson's extra videos play in the
  * main player; other lessons open in place and the player scrolls into view. Notes below. Previous · complete / next
  * sit at the foot of the playlist (desktop) or in a fixed bottom bar (phone). Stays mounted between lessons (no flash): only the content changes.
+ * Desktop (≥1200): playlist left · lesson centre · "Your notes" right (sticky). 1024–1199: notes under the lesson.
  */
 export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData; preview?: { href: string } | null }) {
   const { data, media, note } = home;
@@ -359,6 +360,7 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
 
         <aside className="srp-list" aria-label="Playlist">
           <div className="srp-list-in">
+          <Link href={programHref} className="srp-home"><Icon name="back" size="xs" /><span className="srp-ellipsis">Program home</span></Link>
           {videos.length > 1 && (
             <div className="srp-sec">
               <p className="srp-sec-h">In this lesson · {videos.length} videos</p>
@@ -425,7 +427,7 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
               ))}
             </div>
           )}
-          {lesson && !isIntro && <NotesB key={lesson.id} lessonId={lesson.id} points={points} initial={note} question={question} />}
+          {lesson && !isIntro && <KeyPointsB lessonId={lesson.id} points={points} />}
           {parsed.body && (
             <details className="srp-more" open={points.length === 0}>
               <summary>{points.length ? "Full lesson notes" : "Lesson notes"}</summary>
@@ -433,6 +435,11 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
             </details>
           )}
         </div>
+        {lesson && !isIntro && (
+          <aside className="srp-side" aria-label="Your notes">
+            <YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={question} />
+          </aside>
+        )}
       </div>
       <div className="srp-dock" aria-label="Lesson controls">{controls}</div>
     </div>

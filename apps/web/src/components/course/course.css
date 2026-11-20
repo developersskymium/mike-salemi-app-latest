@@ -416,3 +416,10 @@ details[open] > summary .crs-chev { transform: rotate(0); }
 .crs { grid-template-columns: minmax(0, 1fr); }
 .crs-stats a { white-space: nowrap; }
 @media (min-width: 1024px) { .crs[data-slim]:not([data-focus]) .crs-body { grid-template-columns: 340px minmax(0, 1fr); } }
+/* Lesson layout (MTK, A4L): lessons left · lesson centre · "Your notes" right on wide desktop */
+.crs-notes-inline { margin-top: 20px; }
+.crs-notes-inline .lb-mine, .crs-notes .lb-mine { padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+@media (min-width: 1200px) {
+  .crs[data-slim]:not([data-focus]) .crs-body { grid-template-columns: 320px minmax(0, 1fr) 320px; }
+  .crs-notes { min-height: 0; overflow-y: auto; padding: 32px 20px 40px 0; }
+}

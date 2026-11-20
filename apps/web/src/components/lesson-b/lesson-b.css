@@ -43,3 +43,7 @@
 .lb-toggle { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--text-2); font: 600 13px/1 var(--font); cursor: pointer; }
 .lb-toggle[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
 @media (prefers-reduced-motion: reduce) { .lb-video { transition: none; } }
+.lb-prompt { margin: 0; display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: var(--accent-soft); color: var(--text-2); font-size: 13.5px; line-height: 1.45; }
+.lb-prompt > :first-child { flex: none; margin-top: 2px; color: var(--accent-ink); }
+.lb-prompt b { color: var(--accent-ink); font-weight: 650; }
+.lb-mine .lb-area { min-height: 140px; }
