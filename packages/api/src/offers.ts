@@ -15,6 +15,8 @@ export type OfferPlacement =
 export type OfferContext =
   | { completed: "phase" | "path" | "program"; program_id?: string; path_id?: string }
   | { tool_id: string; result?: string }
+  /** The program page being viewed (Pairs well with); never offers that same program. */
+  | { program_id: string }
   | Record<string, never>;
 
 export interface Offer {
@@ -28,6 +30,8 @@ export interface Offer {
   target_ref: string;
   priority: number;
   coupon_code: string | null;
+  /** Why this offer, now ("Because you finished a free series"). 0024. */
+  reason?: string | null;
   /** program {id, slug, name} | plan {id, name} | coaching {id, name} | url {url} | null */
   target: { id?: string; slug?: string; name?: string; url?: string } | null;
 }
