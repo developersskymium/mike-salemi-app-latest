@@ -23,7 +23,7 @@ type NextRow = { program_id: string; path_id?: string | null; current_lesson_id:
 /**
  * `my_enrollments` keeps the intro lesson ("Home") as "up next" (legacy showed "Start here" first), so Home
  * labelled tiles "Next: Home". Relabel those rows with the first unfinished real lesson (title + section).
- * The id stays the intro lesson's, so Continue ordering (`continueOrder`) is unchanged. Failures keep the row.
+ * The id moves too, so Resume opens the lesson the label names. Failures keep the row.
  */
 export async function labelPastIntro<E extends NextRow>(sb: DB, rows: E[], introIds: readonly string[] | null): Promise<E[]> {
   const intro = new Set(introIds ?? []);
@@ -43,7 +43,7 @@ export async function labelPastIntro<E extends NextRow>(sb: DB, rows: E[], intro
         const byId = new Map((ls ?? []).map((l) => [l.id, l]));
         const real = open.map((r) => byId.get(r.lesson_id)).find((l) => l && !INTRO_TITLE.test(l.title) && !(l.sections?.meta && String(l.sections.meta.intro) === "true"));
         if (!real) return e;
-        return { ...e, current_lesson_title: real.title, current_section_title: real.sections?.title ?? null };
+        return { ...e, current_lesson_id: real.id, current_lesson_title: real.title, current_section_title: real.sections?.title ?? null };
       } catch {
         return e;
       }
