@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SwingSetupCta } from "@/components/swing/ProgramCta";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { NextStepCard } from "@/components/signature";
@@ -90,6 +91,7 @@ export function SeriesHome({ home, offer, badges, finish }: { home: SeriesHomeDa
       {sig === "journey" && !locked && <ThisWeek chapters={chapters} at={initialChapter} href={href} />}
 
       <SeriesNavigator slug={slug} chapters={chapters} initial={initialChapter} nextId={next?.id ?? null} locked={locked} sig={sig} />
+      <SwingSetupCta slug={slug} />
 
       <About highlights={program.highlights} description={program.description ?? program.summary} done={done} total={items.length} started={started} badges={badges} />
 

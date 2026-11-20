@@ -1,6 +1,11 @@
 {
  "tools": [
   {
+   "id": "swing-setup",
+   "name": "Swing Set-Up Coach",
+   "tagline": "Film your set-up side-on, fix one thing at a time"
+  },
+  {
    "id": "kettlebell-selector",
    "name": "Kettlebell Selector",
    "tagline": "Find the right bells to start with"
@@ -22,6 +27,13 @@
   }
  ],
  "recent": [
+  {
+   "id": "6b1e7a0e-0000-4000-8000-000000000009",
+   "tool_id": "swing-setup",
+   "created_at": "2026-11-20T07:41:00+00:00",
+   "title": "Your head is cranked up",
+   "summary": "Mike's cue: \u201cavoid the \"broken neck\"\u201d. Bring your chin back in line with your back. Neutral, or only slightly up."
+  },
   {
    "id": "6b1e7a0e-0000-4000-8000-000000000001",
    "tool_id": "kettlebell-selector",

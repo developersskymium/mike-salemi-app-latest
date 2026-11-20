@@ -6,6 +6,7 @@ import type { MoveName } from "@/components/graphics";
  */
 export const TOOL_META: Record<string, { title: string; subtitle?: string; draft?: string; move: MoveName; promise: string; minutes: number }> = {
   "kettlebell-selector": { title: "Kettlebell Selector", move: "swing", promise: "Your three bells, from first to heavy", minutes: 1 },
+  "swing-setup": { title: "Swing Set-Up Coach", move: "swing", promise: "One fix at a time, with the moment in Mike's video", minutes: 2 },
   "stretch-test": { title: "Stretch Test", move: "squat", promise: "Your mobility profile across five positions", minutes: 3 },
   "readiness-check": { title: "Readiness Check", move: "breathing", promise: "Push, modify or recover — today's answer", minutes: 1 },
   "kettlebell-roadmap": {
@@ -23,6 +24,7 @@ export const toolTitle = (id: string, fallback: string) => TOOL_META[id]?.title 
 /** Full-colour photo of Mike per tool (face-safe focal point), for the tool cards and the intro. */
 export const TOOL_PHOTO: Record<string, { src: string; focal: string; alt: string }> = {
   "kettlebell-selector": { src: "/media/summit/mike-deadlift.jpg", focal: "45% 10%", alt: "Mike Salemi with a row of kettlebells" },
+  "swing-setup": { src: "/media/l5e/925ade4e-a748-4805-9745-bec41aaeb8d5/what-your-kettlebell-swing-is-missing.png", focal: "60% 12%", alt: "Mike Salemi hinging to pick up a kettlebell" },
   "stretch-test": { src: "/media/summit/mike-windmill.jpg", focal: "70% 40%", alt: "Mike Salemi in a kettlebell windmill" },
   "readiness-check": { src: "/media/summit/mike-standing.jpg", focal: "52% 30%", alt: "Mike Salemi checking in before training" },
   "kettlebell-roadmap": { src: "/media/l5e/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png", focal: "50% 34%", alt: "Mike Salemi lifting a kettlebell" },
@@ -38,9 +40,9 @@ export const STRETCH_DEMOS = [
 ];
 
 /**
- * The tools members see listed and linked (spec 11 #15): only these two. The others (Readiness Check,
+ * The tools members see listed and linked (spec 11 #15), plus the Swing Set-Up Coach (spec 13). The others (Readiness Check,
  * Roadmap phase check) stay in the database and their pages keep working for old links, saves and the
  * day player, but nothing lists them.
  */
-export const LISTED_TOOLS = ["kettlebell-selector", "stretch-test"] as const;
+export const LISTED_TOOLS = ["swing-setup", "kettlebell-selector", "stretch-test"] as const;
 export const isListedTool = (id: string) => (LISTED_TOOLS as readonly string[]).includes(id);

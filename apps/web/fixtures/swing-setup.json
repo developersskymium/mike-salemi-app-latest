@@ -1,0 +1,267 @@
+{
+ "profile": {
+  "neck_history": false,
+  "bell_type": "competition",
+  "bell_kg": 16,
+  "goal": "fix",
+  "disclaimer_at": "2026-11-14T08:00:00+00:00",
+  "adult_confirmed_at": "2026-11-14T08:00:00+00:00"
+ },
+ "checks": [
+  {
+   "id": "5e7a0000-0000-4000-8000-000000000004",
+   "created_at": "2026-11-20T07:40:00+00:00",
+   "measures": {
+    "shin": 12.4,
+    "hip": 0.41,
+    "head": 31.2,
+    "torsoRatio": 0.96,
+    "gapRatio": 0.94,
+    "aspect": 0.5625,
+    "neck_history": false,
+    "bell_distance": "ok",
+    "overlay": {
+     "ear": {
+      "x": 0.7,
+      "y": 0.355
+     },
+     "shoulder": {
+      "x": 0.635,
+      "y": 0.445
+     },
+     "hip": {
+      "x": 0.36,
+      "y": 0.56
+     },
+     "knee": {
+      "x": 0.475,
+      "y": 0.7
+     },
+     "ankle": {
+      "x": 0.44,
+      "y": 0.855
+     }
+    },
+    "side": "right",
+    "sideOn": 0.18,
+    "visibility": 0.91,
+    "calibrated": true
+   },
+   "steps": {
+    "feet": "self",
+    "hips": "adjust",
+    "back": "good",
+    "shoulders": "good",
+    "head": "adjust",
+    "grip": "self",
+    "breath": "self"
+   },
+   "main_fault": "broken_neck",
+   "faults": [
+    "broken_neck",
+    "shin_tilt"
+   ]
+  },
+  {
+   "id": "5e7a0000-0000-4000-8000-000000000003",
+   "created_at": "2026-11-18T07:35:00+00:00",
+   "measures": {
+    "shin": 7.8,
+    "hip": 0.38,
+    "head": 6.1,
+    "torsoRatio": 0.91,
+    "gapRatio": 0.97,
+    "aspect": 0.5625,
+    "neck_history": false,
+    "bell_distance": "ok",
+    "overlay": {
+     "ear": {
+      "x": 0.73,
+      "y": 0.41
+     },
+     "shoulder": {
+      "x": 0.645,
+      "y": 0.45
+     },
+     "hip": {
+      "x": 0.37,
+      "y": 0.565
+     },
+     "knee": {
+      "x": 0.45,
+      "y": 0.705
+     },
+     "ankle": {
+      "x": 0.44,
+      "y": 0.855
+     }
+    },
+    "side": "right",
+    "sideOn": 0.18,
+    "visibility": 0.91,
+    "calibrated": true
+   },
+   "steps": {
+    "feet": "self",
+    "hips": "good",
+    "back": "adjust",
+    "shoulders": "good",
+    "head": "good",
+    "grip": "self",
+    "breath": "self"
+   },
+   "main_fault": null,
+   "faults": []
+  },
+  {
+   "id": "5e7a0000-0000-4000-8000-000000000002",
+   "created_at": "2026-11-16T07:30:00+00:00",
+   "measures": {
+    "shin": 16.0,
+    "hip": 0.33,
+    "head": -4.0,
+    "torsoRatio": 0.86,
+    "gapRatio": 0.78,
+    "aspect": 0.5625,
+    "neck_history": false,
+    "bell_distance": "far",
+    "overlay": {
+     "ear": {
+      "x": 0.7,
+      "y": 0.475
+     },
+     "shoulder": {
+      "x": 0.62,
+      "y": 0.455
+     },
+     "hip": {
+      "x": 0.36,
+      "y": 0.555
+     },
+     "knee": {
+      "x": 0.49,
+      "y": 0.7
+     },
+     "ankle": {
+      "x": 0.44,
+      "y": 0.855
+     }
+    },
+    "side": "right",
+    "sideOn": 0.18,
+    "visibility": 0.91,
+    "calibrated": true
+   },
+   "steps": {
+    "feet": "adjust",
+    "hips": "adjust",
+    "back": "adjust",
+    "shoulders": "adjust",
+    "head": "good",
+    "grip": "self",
+    "breath": "self"
+   },
+   "main_fault": "back_rounding",
+   "faults": [
+    "back_rounding",
+    "bell_far",
+    "shin_tilt",
+    "shoulders_hiked"
+   ]
+  },
+  {
+   "id": "5e7a0000-0000-4000-8000-000000000001",
+   "created_at": "2026-11-14T08:05:00+00:00",
+   "measures": {
+    "shin": null,
+    "hip": null,
+    "head": -14.0,
+    "torsoRatio": null,
+    "gapRatio": null,
+    "aspect": 0.5625,
+    "neck_history": false,
+    "bell_distance": "ok",
+    "overlay": null,
+    "side": "right",
+    "sideOn": 0.18,
+    "visibility": 0.91,
+    "calibrated": true
+   },
+   "steps": {
+    "feet": "self",
+    "hips": "cant",
+    "back": "cant",
+    "shoulders": "cant",
+    "head": "adjust",
+    "grip": "self",
+    "breath": "self"
+   },
+   "main_fault": "head_down",
+   "faults": [
+    "head_down"
+   ]
+  }
+ ],
+ "run": {
+  "id": "5e7b0000-0000-4000-8000-000000000001",
+  "bell_kg": 16,
+  "started_at": "2026-11-16T07:00:00+00:00",
+  "finished_at": null,
+  "sets": [
+   {
+    "session": 1,
+    "set_no": 1,
+    "reps": 8,
+    "feel": "easy",
+    "created_at": "2026-11-16T07:10:00+00:00"
+   },
+   {
+    "session": 1,
+    "set_no": 2,
+    "reps": 8,
+    "feel": "easy",
+    "created_at": "2026-11-16T07:10:00+00:00"
+   },
+   {
+    "session": 1,
+    "set_no": 3,
+    "reps": 8,
+    "feel": "easy",
+    "created_at": "2026-11-16T07:10:00+00:00"
+   },
+   {
+    "session": 2,
+    "set_no": 1,
+    "reps": 10,
+    "feel": "right",
+    "created_at": "2026-11-18T07:10:00+00:00"
+   },
+   {
+    "session": 2,
+    "set_no": 2,
+    "reps": 10,
+    "feel": "right",
+    "created_at": "2026-11-18T07:10:00+00:00"
+   },
+   {
+    "session": 2,
+    "set_no": 3,
+    "reps": 10,
+    "feel": "right",
+    "created_at": "2026-11-18T07:10:00+00:00"
+   },
+   {
+    "session": 2,
+    "set_no": 4,
+    "reps": 10,
+    "feel": "right",
+    "created_at": "2026-11-18T07:10:00+00:00"
+   }
+  ]
+ },
+ "prefill": {
+  "selectorKg": 16,
+  "sex": "male",
+  "profileBells": "12 kg, 16 kg"
+ }
+}

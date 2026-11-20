@@ -45,7 +45,7 @@ export default async function ToolsPage() {
         <header className="w1-tools-hero2">
           <div className="w1-tools-hero2-text">
             <p className="lq-eyebrow" data-tone="accent">Coaching tools</p>
-            <h1 className="lq-d-xl">Straight answers in two minutes</h1>
+            <h1 className="lq-d-xl">Tools that coach you</h1>
             <p className="lq-lede lq-c2">Short flows that ask only what matters, then return a specific recommendation you can act on today.</p>
             <div className="w1-tools-hero2-meta">
               <Chip variant="tint" size="sm" icon="tools">{cards.length} free tools</Chip>
