@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button, Glass, Icon, ProgressBar } from "@/components/ui";
 import type { LessonCatalog, PlanRaw } from "@/lib/loaders/today-plan-you";
-import type { ScheduleData, ScheduleItem } from "@/lib/loaders/plan";
+import type { Schedulable, ScheduleData, ScheduleItem } from "@/lib/loaders/plan";
 import type { NotificationsData } from "@/lib/loaders/notifications";
 import { addDays, type IsoDate } from "@ms/core";
 import { defaultDays, startOfWeek } from "@/components/today/dates";
@@ -9,6 +9,8 @@ import { lessonHref, plural, splitDayTitle } from "@/components/today/model";
 import { PlanBoard } from "./PlanBoard";
 import { ManagePlanActions } from "./ManagePlanActions";
 import { WeekView } from "./WeekView";
+import { ProgramWeeks } from "./ProgramWeeks";
+import { ScheduleProgram } from "./ScheduleProgram";
 import { PrefsAsk, PrefsChip } from "./WeekPrefs";
 import { programColor } from "./programColor";
 import { TrainingProfileEditor } from "@/components/profile/TrainingProfileEditor";
@@ -77,10 +79,12 @@ function summary(items: ScheduleItem[], today: string, ws: string) {
  * behind "Manage plans" (?manage=1), still one tap away.
  */
 export function PlanScreen({
-  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, manage = false, tab,
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, manage = false, tab, schedulable = [],
 }: {
-  raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
+  raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month" | "program"; build: boolean;
   selectedId?: string; origin?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; manage?: boolean; tab?: ManageTab;
+  /** Day-by-day programs (Kettlebell Lifestyle) the member can schedule whole, per level. */
+  schedulable?: Schedulable[];
 }) {
   const today = raw.today;
   const plans = raw.plans;
@@ -104,7 +108,42 @@ export function PlanScreen({
     return t ? `/plan?${t}` : "/plan";
   };
 
-  if (manage || build || view === "month") return <Manage {...{ raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, plans, today, tab }} />;
+  // Programs with access but nothing coming up on the calendar: "Schedule Kettlebell Lifestyle" (whole program, Level I or II).
+  const sched = schedulable.filter((s) => !program || s.slug === program);
+  const unscheduled = sched.filter((s) => !schedule.items.some((i) => i.program_slug === s.slug && open(i) && i.on_date >= today) && !(schedule.queues ?? []).some((q) => q.program_slug === s.slug && q.next));
+  const hasDated = items.length > 0;
+
+  if (manage || build || view === "month") return <Manage {...{ raw, catalog, schedule, n, anchor, view: view === "program" ? "week" : view, build, selectedId, program, feedUrl, profile, plans, today, tab, schedulable: sched, prefDays }} />;
+
+  const viewTabs = hasDated ? (
+    <nav className="mng-tabs" aria-label="Schedule view">
+      <Link href={qs({})} scroll={false} replace className="mng-tab" aria-current={view !== "program" ? "page" : undefined}>This week</Link>
+      <Link href={qs({ view: "program" })} scroll={false} replace className="mng-tab" aria-current={view === "program" ? "page" : undefined}>Whole program</Link>
+    </nav>
+  ) : null;
+
+  if (view === "program") {
+    return (
+      <div className="pln-page pln-calm wk-page">
+        <header className="wk-head">
+          <div className="wk-head-main">
+            <h1 className="lq-d-lg pln-h1">{programName ? `Whole program · ${programName}` : "Whole program"}</h1>
+            <p className="wk-sum">Every week of your plan, from the first session to the last.</p>
+          </div>
+          <div className="wk-head-acts">
+            <Link href={qs({ manage: "1" })} className="wk-manage">Manage plans</Link>
+          </div>
+        </header>
+        {viewTabs}
+        {unscheduled.map((s) => <ScheduleProgram key={s.slug} program={s} today={today as IsoDate} preferredDays={prefDays} />)}
+        {hasDated ? (
+          <ProgramWeeks items={items} plans={plans} today={today} planId={selectedId} hrefFor={(id) => qs({ view: "program", plan: id })} />
+        ) : (
+          <p className="wk-sum">Nothing on the calendar yet.</p>
+        )}
+      </div>
+    );
+  }
 
   const primary = todayItem ? (
     <Button icon="play" size="md" href={lessonHref(todayItem.program_slug, todayItem.lesson_id)}>Start today&apos;s session</Button>
@@ -112,9 +151,12 @@ export function PlanScreen({
     <Button icon="play" size="md" href={lessonHref(q0.program_slug, q0.next.lesson_id)}>Do the next one</Button>
   ) : nextItem && nextItem.on_date <= addDays(weekStart, 6) ? (
     <Button icon="play" size="md" variant="secondary" href={lessonHref(nextItem.program_slug, nextItem.lesson_id)}>{`Next: ${weekday(nextItem.on_date)}`}</Button>
+  ) : !hasDated && !q0 && unscheduled[0] ? (
+    <ScheduleProgram program={unscheduled[0]} today={today as IsoDate} preferredDays={prefDays} variant="button" />
   ) : (
     <Button icon="plus" size="md" href="/plan/new">Plan my week</Button>
   );
+  const primaryIsSchedule = !todayItem && !(q0?.next && !nextItem) && !(nextItem && nextItem.on_date <= addDays(weekStart, 6)) && !hasDated && !q0 && !!unscheduled[0];
 
   return (
     <div className="pln-page pln-calm wk-page">
@@ -122,7 +164,7 @@ export function PlanScreen({
         <div className="wk-head-main">
           <h1 className="lq-d-lg pln-h1">{programName ? `Your week · ${programName}` : "Your week"}</h1>
           <p className="wk-sum">
-            {sentence ?? (q0 ? `Nothing on the calendar this week. Your Self-Guided order is ready whenever you are.` : "Nothing planned yet. Pick a plan and we'll put it on your training days.")}
+            {sentence ?? (q0 ? `Nothing on the calendar this week. Your Self-Guided order is ready whenever you are.` : primaryIsSchedule ? `Put ${unscheduled[0]!.name} on your training days, the whole program, week by week.` : hasDated ? "Nothing on the calendar this week." : "Nothing planned yet. Pick a plan and we'll put it on your training days.")}
           </p>
         </div>
         <div className="wk-head-acts">
@@ -131,7 +173,11 @@ export function PlanScreen({
         </div>
       </header>
 
+      {viewTabs}
+
       {prefDays.length ? <PrefsChip days={prefDays} minutes={minutes} editHref="/plan?manage=1&tab=prefs" /> : <PrefsAsk />}
+
+      {unscheduled.filter((s, i) => !(primaryIsSchedule && i === 0)).map((s) => <ScheduleProgram key={s.slug} program={s} today={today as IsoDate} preferredDays={prefDays} />)}
 
       {queues.map((q) => (
         <Link key={q.plan_id} href={q.locked && q.program_slug ? `/programs/${q.program_slug}/unlock` : q.next ? lessonHref(q.program_slug, q.next.lesson_id) : `/plan/${q.plan_id}`} className="wk-queue lq-press" data-locked={q.locked ? "" : undefined} style={{ ["--pc" as string]: programColor(q.program_slug) }}>
@@ -168,10 +214,11 @@ const WD_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
  * notices only when relevant) · training profile, how often and missed days · reminders and calendar sync.
  */
 function Manage({
-  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, plans, today, tab,
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, plans, today, tab, schedulable, prefDays,
 }: {
   raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
   selectedId?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; plans: PlanRaw["plans"]; today: string; tab?: ManageTab;
+  schedulable: Schedulable[]; prefDays: number[];
 }) {
   const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped && !i.locked;
   const active: ManageTab = tab ?? (build || view === "month" ? "calendar" : "plans");
@@ -213,6 +260,7 @@ function Manage({
               <MoreMenu items={[{ label: "Create my plan", href: "/plan/create", icon: "sparkle" }, { label: "Build my own week", href: href("calendar", { build: "1" }), icon: "plan" }]} />
             </div>
           </div>
+          {schedulable.map((s) => <ScheduleProgram key={s.slug} program={s} today={today as IsoDate} preferredDays={prefDays} />)}
           <div className="mng-cards">
             {plans.map((pl) => {
               const c = raw.planCounts.find((x) => x.plan_id === pl.id);
@@ -239,6 +287,7 @@ function Manage({
                       <span className="lq-num">{c.done} of {plural(c.total, "session")} done</span>
                     </div>
                   )}
+                  {!undated && mine.length > 0 && <Link href={`/plan?view=program&plan=${pl.id}`} className="mng-all">See all weeks <Icon name="chevron" size="xs" /></Link>}
                   <ManagePlanActions planId={pl.id} name={pl.name} status={pl.status} />
                 </article>
               );

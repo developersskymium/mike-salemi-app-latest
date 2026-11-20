@@ -1,6 +1,6 @@
 "use server";
 
-import { generatePlanDraft, GOAL_LABEL, reflowPlan, saveTrainingPlan, setMissedDayRule, type DB, type GoalKind, type PlanDraftItem } from "@ms/api";
+import { enroll, generatePlanDraft, GOAL_LABEL, reflowPlan, scheduleImmersion, saveTrainingPlan, setMissedDayRule, type DB, type GoalKind, type PlanDraftItem } from "@ms/api";
 import { isoDate, type IsoDate } from "@ms/core";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -174,3 +174,21 @@ const profilePatch = z.object({
   focus_areas: z.array(z.string().max(80)).max(12).optional(),
   limitations: z.string().max(1000).optional(),
 });
+
+/**
+ * "Schedule <program>" on /plan: the whole level, day by day (Immersion). Enrolls the chosen level (Level I or
+ * Level II) in Immersion if needed, then `schedule_immersion` puts every day not done yet on the member's
+ * training weekdays from the start date (an earlier schedule of that level is archived by the function).
+ */
+export async function scheduleProgramAction(programId: string, pathId: string | null, weekdays: number[], startsOn: string | null, slug: string): Promise<Result<string>> {
+  if (!uuid.safeParse(programId).success || (pathId !== null && !uuid.safeParse(pathId).success)) return { ok: false, error: "Choose a program and level" };
+  if (!days.safeParse(weekdays).success) return { ok: false, error: "Pick at least one training day" };
+  if (startsOn !== null && !/^\d{4}-\d{2}-\d{2}$/.test(startsOn)) return { ok: false, error: "Pick a start date" };
+  if (!/^[a-z0-9-]{2,80}$/.test(slug)) return { ok: false, error: "Unknown program" };
+  return run(async (sb) => {
+    const enrollmentId = await enroll(sb, programId, pathId, "immersion");
+    const planId = await scheduleImmersion(sb, enrollmentId, weekdays, (startsOn as IsoDate | null) ?? null);
+    revalidatePath(`/programs/${slug}`);
+    return planId;
+  });
+}

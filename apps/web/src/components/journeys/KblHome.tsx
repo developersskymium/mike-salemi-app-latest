@@ -7,6 +7,7 @@ import { currentFrom, lessonHref } from "@/components/training/model";
 import type { ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
 import { Navigator } from "./Navigator";
+import { SwitchToImmersion } from "@/components/selfguided/ModeSync";
 import { ProgramCover } from "./ProgramCover";
 import { kblUnits, openFirst, progressBadges, unitOf } from "./units";
 import { BadgeRow, CoverActions, FinishLine, MoreMenu, WhatYouGet } from "./PageExtras";
@@ -113,11 +114,16 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badge
         <Link href={`/programs/${slug}?${path?.key ? `path=${encodeURIComponent(path.key)}&` : ""}mode=self-guided`} className="jh-sg lq-press">
           <span className="jh-sg-ic" aria-hidden><Icon name="filter" size="sm" /></span>
           <span className="jh-sg-c">
-            <b>Prefer your own order? Self-Guided</b>
-            <small>Every day open, quick 10–45 minute sessions and a plan built around your week.</small>
+            <b>{enrollment?.mode === "self_guided" ? `You're training ${levelName} Self-Guided` : "Prefer your own order? Self-Guided"}</b>
+            <small>{enrollment?.mode === "self_guided" ? "Every day is open. Open your board, or plan your weeks." : "Every day open, quick 10–45 minute sessions and a plan built around your week."}</small>
           </span>
           <Icon name="chevron" size="xs" />
         </Link>
+      )}
+      {!locked && enrollment?.mode === "self_guided" && (
+        <SwitchToImmersion programId={program.id} pathId={path?.id ?? null} slug={slug} href={`/programs/${slug}?${q}mode=immersion`} className="jh-mode lq-link">
+          <Icon name="compass" size="xs" /> Switch {levelName} to Immersion (day by day, in order)
+        </SwitchToImmersion>
       )}
 
       {offer && <div className="jh-offer">{offer}</div>}

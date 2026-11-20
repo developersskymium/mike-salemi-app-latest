@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import {
   startSession,
-  customSession, endSession, logDayCompletion, quickSession, repeatSession, saveDayNote, saveTrainingPlan, sessionProgress, setSessionFavourite,
+  customSession, enroll, endSession, logDayCompletion, quickSession, repeatSession, saveDayNote, saveTrainingPlan, sessionProgress, setSessionFavourite,
   librarySession,
 } from "@ms/api";
 import type { Intent } from "@ms/core";
@@ -154,11 +154,17 @@ export async function savePlanAction(
   name: string,
   inputs: Record<string, unknown>,
   items: { date: string; lessonId: string; kind: "training" | "recovery"; note?: string }[],
+  /** The level the plan trains: enrolled in Self-Guided first, so its days are open (an Immersion enrollment keeps them locked). */
+  level?: { programId: string; pathId: string | null; slug: string },
 ): Promise<SgResult<{ planId: string }>> {
   try {
     if (!items.length) return { ok: false, code: "rule", message: "Build the plan first." };
     if (MOCK) return { ok: true, planId: "preview" };
     const { supabase } = await session();
+    if (level) {
+      await enroll(supabase, level.programId, level.pathId, "self_guided");
+      revalidatePath(`/programs/${level.slug}`);
+    }
     const planId = await saveTrainingPlan(supabase, name, inputs, items, items[0]?.date ?? null);
     revalidatePath("/plan");
     return { ok: true, planId };

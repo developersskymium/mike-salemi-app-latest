@@ -12,6 +12,7 @@ import { lessonLabel, lessonName } from "@/components/training/model";
 import { LevelBadge } from "./parts";
 import { levelDayTitle, levelOf } from "./level";
 import { PlanWizard } from "./PlanWizard";
+import { SelfGuidedSync, SwitchToImmersion } from "./ModeSync";
 import "./selfguided.css";
 import "./hub.css";
 import "./sgprogram.css";
@@ -75,10 +76,11 @@ export function SelfGuidedProgram({
         </p>
         <h1 className="lq-d-lg sgp-title">Train in any order.</h1>
         <p className="lq-t15 lq-c2 sgp-lede">Pick any day, in any order. Your progress is kept per level.</p>
+        {data.enrollment?.mode === "immersion" && <SelfGuidedSync programId={program.id} pathId={path?.id ?? null} slug={program.slug} levelName={path?.shortName ?? program.name} />}
         {immersionHref && (
-          <Link href={immersionHref} className="sgp-switch lq-link">
+          <SwitchToImmersion programId={program.id} pathId={path?.id ?? null} slug={program.slug} href={immersionHref} className="sgp-switch lq-link">
             <Icon name="compass" size="xs" /> Switch to Immersion (day by day)
-          </Link>
+          </SwitchToImmersion>
         )}
       </header>
 
