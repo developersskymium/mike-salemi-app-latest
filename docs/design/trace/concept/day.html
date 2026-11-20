@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Day 25 · Workout III — Trace</title>
+<link rel="stylesheet" href="trace.css">
+<script src="trace.js"></script>
+<style>
+  body { width: 1440px; min-height: 900px; }
+  .topbar { position: sticky; top: 0; z-index: 20; height: 76px; display: grid; grid-template-columns: 380px 1fr auto; align-items: center; gap: 20px; padding: 0 22px 0 16px; background: var(--ground); box-shadow: 0 1px 0 var(--rule); }
+  .where { display: flex; align-items: center; gap: 14px; }
+  .x { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--edge); }
+  .x svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .where .k { font-size: 12.5px; color: var(--ink-3); }
+  .where .t { font-family: var(--display); font-stretch: 140%; font-weight: 700; font-size: 24px; letter-spacing: -.035em; line-height: 1.05; }
+  .steps { justify-self: center; position: relative; width: 470px; height: 44px; }
+  .steps svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .steps .lbls { position: absolute; inset: 0; }
+  .steps .lbls span { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: var(--ink-3); background: var(--ground); box-shadow: inset 0 0 0 1px var(--rule); }
+  .steps .lbls span.done { background: var(--trace); color: var(--on-accent); box-shadow: 0 0 12px -2px var(--trace); }
+  .steps .lbls span.cur { width: auto; padding: 0 12px 0 10px; height: 30px; border-radius: 99px; color: var(--ink); gap: 6px; display: flex; align-items: center; box-shadow: inset 0 0 0 1.5px var(--trace), 0 0 18px -6px var(--trace); white-space: nowrap; }
+  .steps .lbls span.cur i { width: 6px; height: 6px; border-radius: 50%; background: var(--trace-hot); box-shadow: 0 0 8px var(--trace); }
+  .tools { display: flex; align-items: center; gap: 16px; }
+  .toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
+  .sw { width: 44px; height: 26px; border-radius: 13px; background: var(--trace); position: relative; box-shadow: 0 0 14px -4px var(--trace); }
+  .sw i { position: absolute; top: 3px; left: 21px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .tools .btn { height: 40px; padding: 0 16px; font-size: 13.5px; }
+  .count { display: flex; align-items: center; gap: 10px; }
+  .count .n { font-size: 22px; }
+  .count .n small { color: var(--ink-3); font-size: 15px; }
+  .ring { width: 42px; height: 42px; }
+
+  .layout { display: grid; grid-template-columns: 1fr 380px; }
+  .left { min-width: 0; }
+  .video { position: relative; aspect-ratio: 16 / 9; }
+  .video img { object-position: 50% 40%; }
+  .video .over { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; }
+  .play { position: absolute; z-index: 4; left: 50%; top: 47%; width: 104px; height: 104px; transform: translate(-50%, -50%); border-radius: 50%; display: grid; place-items: center; background: rgba(6,12,24,.35); backdrop-filter: blur(6px); box-shadow: inset 0 0 0 1px rgba(170,210,240,.25); }
+  .play svg.orb { position: absolute; inset: -8px; width: 120px; height: 120px; animation: orbit 6s linear infinite; }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  .vbar { position: absolute; z-index: 4; left: 28px; right: 28px; bottom: 18px; display: grid; grid-template-columns: auto 1fr auto auto; gap: 18px; align-items: center; color: #EEF4F8; font-size: 13px; }
+  .vbar svg { width: 100%; height: 18px; }
+
+  .stepbar { display: grid; grid-template-columns: auto 1fr auto auto; gap: 16px; align-items: center; padding: 16px 28px; box-shadow: 0 1px 0 var(--rule); }
+  .nav { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--edge); }
+  .nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .sm .k { font-size: 12.5px; color: var(--ink-3); }
+  .sm .t { font-size: 17px; font-weight: 600; }
+  .sm .t span { color: var(--ink-3); font-weight: 400; }
+  .complete { min-width: 220px; }
+
+  .notes { padding: 22px 28px 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .notes h3 { margin-bottom: 8px; }
+  .notes p { color: var(--ink-2); font-size: 14.5px; max-width: 60ch; }
+  .notes ul { list-style: none; display: grid; gap: 8px; font-size: 14px; color: var(--ink-2); }
+  .notes li { display: flex; gap: 10px; align-items: baseline; }
+  .notes li::before { content: ""; flex: none; width: 14px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--trace)); transform: translateY(-4px); }
+
+  .tbl-wrap { margin: 26px 28px 40px; padding: 22px 22px 18px; }
+  .tbl-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; padding: 0 4px; }
+  .tbl-h .small { display: flex; gap: 16px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+  th { text-align: left; font-weight: 500; font-size: 12px; color: var(--ink-3); padding: 0 12px 10px; border-bottom: 1px solid var(--rule); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+  td.ex { font-weight: 600; font-size: 15px; }
+  td.ex small { display: block; font-weight: 400; font-size: 12.5px; color: var(--ink-3); }
+  td .badge { width: 38px; }
+  td.num, th.num { text-align: center; }
+  th.num { font-family: var(--text); font-stretch: 100%; font-weight: 500; font-size: 12px; letter-spacing: 0; }
+  td.num { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-size: 17px; }
+  .restc { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+  .restc img { height: 26px; width: auto; }
+  [data-theme="dark"] .restc img.down { filter: invert(1) brightness(.85); }
+  .int { display: inline-flex; align-items: center; gap: 10px; font-size: 13.5px; }
+  .int svg { width: 46px; height: 12px; }
+  td.tempo { font-family: var(--display); font-stretch: 120%; font-size: 15px; font-weight: 500; }
+  tr.sep td { padding: 0; border: 0; }
+  .sepbar { position: relative; margin: 8px 0; height: 40px; display: grid; place-items: center; }
+  .sepbar svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sepbar span { position: relative; padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 600; background: var(--film); box-shadow: inset 0 0 0 1px var(--edge); color: var(--ink-2); }
+  tr.cur td { background: color-mix(in srgb, var(--trace) 8%, transparent); }
+  tr.cur td:first-child { box-shadow: inset 2px 0 0 var(--trace); }
+  .foot { margin-top: 12px; font-size: 12.5px; color: var(--ink-3); padding: 0 4px; }
+
+  .seq { position: sticky; top: 76px; height: calc(900px - 76px); padding: 20px 20px 20px 4px; }
+  .seq-in { height: 100%; border-radius: 24px; padding: 24px 18px 18px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden; }
+  .seq .sub { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; }
+  .seq ol { list-style: none; margin-top: 18px; position: relative; display: grid; align-content: start; }
+  .seq ol svg { position: absolute; left: 0; top: 0; width: 40px; height: 100%; }
+  .seq li { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center; height: 66px; padding-right: 8px; position: relative; }
+  .seq li .nm { font-size: 14.5px; font-weight: 500; line-height: 1.25; }
+  .seq li .nm small { display: block; font-size: 12px; color: var(--ink-3); font-weight: 400; }
+  .seq li .dur { font-size: 12.5px; color: var(--ink-3); }
+  .seq li.done .nm { color: var(--ink-2); }
+  .seq li.cur { }
+  .seq li.cur::before { content: ""; position: absolute; inset: 6px -6px 6px 30px; border-radius: 14px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--trace) 45%, transparent); background: color-mix(in srgb, var(--trace) 7%, transparent); }
+  .seq li.cur .nm { font-weight: 600; }
+  .seq .finish { font-size: 13px; color: var(--ink-2); padding: 14px; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--edge); }
+  .seq .finish b { color: var(--ink); display: block; font-weight: 600; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="where">
+    <button class="x press" aria-label="Exit day"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    <div><div class="k">Level I · Phase 2 · Day 25</div><div class="t">Workout III</div></div>
+  </div>
+  <div class="steps" aria-label="Steps">
+    <svg class="trace-svg" id="steptrace" viewBox="0 0 470 44"></svg>
+    <div class="lbls" id="steplbls"></div>
+  </div>
+  <div class="tools">
+    <span class="toggle"><span class="sw"><i></i></span>Auto-advance</span>
+    <button class="btn btn-ghost press">Session plan</button>
+    <div class="count"><span class="n num">2<small>/7</small></span><svg class="ring trace-svg" id="ring" viewBox="0 0 40 40"></svg></div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="left">
+    <div class="video exposed">
+      <img src="assets/img/redgym.jpg" alt="Mike Salemi demonstrating in the gym">
+      <svg class="over trace-svg" id="vtrace" viewBox="0 0 1426 797" preserveAspectRatio="xMidYMid slice"></svg>
+      <button class="play" aria-label="Play"><svg class="orb trace-svg" id="orb" viewBox="0 0 120 120"></svg><svg width="30" height="30" viewBox="0 0 30 30"><path d="M10 6 L24 15 L10 24 Z" fill="#EEF4F8"/></svg></button>
+      <div class="vbar"><span>5:36</span><svg class="trace-svg" id="scrub" viewBox="0 0 800 18" preserveAspectRatio="none"></svg><span>18:02</span><span>1×</span></div>
+    </div>
+
+    <div class="stepbar">
+      <button class="nav press" aria-label="Previous step"><svg viewBox="0 0 20 20"><path d="M12.5 4l-6 6 6 6"/></svg></button>
+      <div class="sm"><div class="k">Step 5 · Training</div><div class="t">Workout III <span>· 2 circuits and a station · about 18 min</span></div></div>
+      <button class="btn btn-light complete press"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.2 9.3l2.4 2.4 5-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Complete step</button>
+      <button class="nav press" aria-label="Next step"><svg viewBox="0 0 20 20"><path d="M7.5 4l6 6-6 6"/></svg></button>
+    </div>
+
+    <div class="notes">
+      <div><h3 class="h3">From Mike</h3><p>Workout III puts your swing and press together under fatigue. Keep every swing crisp: hike, snap, float. If your readiness score was low this morning, drop one round from each circuit and keep the tempo honest.</p></div>
+      <div><h3 class="h3">Before you start</h3><ul><li>One bell you can press 8 times with good form</li><li>A heavier bell for swings and deadlifts</li><li>Clear space of about two metres around you</li></ul></div>
+    </div>
+
+    <div class="tbl-wrap film">
+      <div class="tbl-h"><div class="h2">Today's workout table</div><div class="small"><span>3 rounds per circuit</span><span>Export CSV</span></div></div>
+      <table>
+        <thead><tr><th style="width:70px">Type</th><th>Exercise</th><th>Rest</th><th>Intensity</th><th class="num">Reps</th><th class="num">Sets</th><th>Tempo</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="foot">*Arrows indicate exercises done consecutively</div>
+    </div>
+  </div>
+
+  <aside class="seq">
+    <div class="seq-in film leak">
+      <div><div class="h2">Today's sequence</div><div class="sub">7 steps · about 55 min</div></div>
+      <ol id="seq"><svg class="trace-svg" id="seqtrace" viewBox="0 0 40 462" preserveAspectRatio="none"></svg></ol>
+      <div class="finish"><b>Finish all 7 to close Day 25</b>Your streak goes to 13 days.</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const T = TRACE;
+  /* Step pills strung on one trace */
+  const xs = [20, 70, 120, 170, 260, 390, 440];
+  T.trace(document.getElementById("steptrace"), "M20 22 L440 22", { width: 2, progress: (70 - 20) / 420, segments: 10, head: false, floor: .3 });
+  const lb = document.getElementById("steplbls");
+  xs.forEach((x, i) => { const s = document.createElement("span"); s.style.left = x + "px"; if (i < 2) s.className = "done"; if (i === 4) { s.className = "cur"; s.innerHTML = "<i></i>5 Workout III"; } else s.textContent = i + 1; lb.appendChild(s); });
+
+  /* Ring: the halo glyph, 2 of 7 */
+  T.trace(document.getElementById("ring"), "M20 4 A16 16 0 1 1 19.9 4", { width: 3.4, progress: 2 / 7, segments: 12, animate: true, delay: 400, floor: .35 });
+
+  /* Video: the swing path drawn over the frame as light, and an orbiting trace on the play button */
+  T.trace(document.getElementById("vtrace"), "M640 760 C600 620 700 470 780 340 C820 260 836 160 842 78", { width: 7, progress: 1, ahead: false, floor: 0, animate: true, dur: 1800, delay: 300 });
+  T.trace(document.getElementById("orb"), "M60 6 A54 54 0 1 1 59.9 6", { width: 2, progress: .45, ahead: false, segments: 20, floor: 0 });
+  T.trace(document.getElementById("scrub"), "M2 9 L798 9", { width: 2.4, progress: .31, segments: 20 });
+
+  /* Table */
+  const R = [
+    ["c1", "Two Hand (Russian) Swing", "Hike, snap, float", "down", "None", 3, "Moderate", 15, 3, "Explosive", 1],
+    ["c1", "Half Kneeling Overhead Press", "Each side", "down", "None", 3, "Moderate", 8, 3, "2-1-2"],
+    ["c1", "Romanian Deadlift", "", "up", "45 sec", 4, "Heavy", 10, 3, "3-1-1"], "sep",
+    ["c2", "Split Squat, Goblet Grip", "Each side", "down", "None", 3, "Moderate", 8, 3, "3-1-1"],
+    ["c2", "Bent Over Row, Parallel Stance", "Each side", "down", "None", 3, "Moderate", 10, 3, "2-1-2"],
+    ["c2", "Side Planks", "Seconds each side", "up", "45 sec", 2, "Bodyweight", 30, 3, "Hold"], "sep",
+    ["s1", "Half Turkish Get Up, Loaded", "Each side, slow and owned", "", "60 sec", 2, "Light", 3, 2, "Slow"]];
+  const tb = document.getElementById("rows");
+  R.forEach((r) => {
+    const tr = document.createElement("tr");
+    if (r === "sep") { tr.className = "sep"; tr.innerHTML = `<td colspan="7"><div class="sepbar"><svg class="trace-svg" viewBox="0 0 1000 40" preserveAspectRatio="none"><line x1="0" y1="20" x2="1000" y2="20" class="ahead" stroke-width="1.5"/></svg><span>1 min Rest Before Next Circuit</span></div></td>`; tb.appendChild(tr); return; }
+    const [b, ex, sub, arr, rest, lv, il, reps, sets, tempo, cur] = r;
+    if (cur) tr.className = "cur";
+    const arrow = arr === "down" ? `<img class="down" src="assets/icons/rest-down.png" alt="Straight into next">` : arr === "up" ? `<img src="assets/icons/rest-up-large.png" alt="Rest, then back to the top">` : "";
+    tr.innerHTML = `<td><img class="badge" src="assets/icons/${b}.png" alt="${b.toUpperCase()}"></td><td class="ex">${ex}${sub ? `<small>${sub}</small>` : ""}</td><td><span class="restc">${arrow}${rest}</span></td><td><span class="int"><svg class="trace-svg" viewBox="0 0 46 12"></svg>${il}</span></td><td class="num">${reps}</td><td class="num">${sets}</td><td class="tempo">${tempo}</td>`;
+    tb.appendChild(tr);
+    T.trace(tr.querySelector(".int svg"), "M2 6 L44 6", { width: 2.4, progress: lv / 5, segments: 8, floor: .45 });
+  });
+
+  /* Sequence: one vertical trace through seven nodes */
+  const S = [["Morning Routine", "", "8 min", "done"], ["Training Readiness Assessment", "Score 7 of 10, ready", "3 min", "done"], ["Bodyweight Warm Up", "", "10 min"], ["Kettlebell Preparation", "", "6 min"], ["Workout III", "Playing · 5:36 of 18:02", "18 min", "cur"], ["Post Training Stretching", "", "8 min"], ["Completion", "", "2 min"]];
+  const ol = document.getElementById("seq");
+  S.forEach(([n, s, d, c]) => { const li = document.createElement("li"); if (c) li.className = c; li.innerHTML = `<span></span><span class="nm">${n}${s ? `<small>${s}</small>` : ""}</span><span class="dur">${d}</span>`; ol.appendChild(li); });
+  const st = document.getElementById("seqtrace"); st.setAttribute("viewBox", `0 0 40 ${7 * 66}`); st.style.height = 7 * 66 + "px";
+  T.trace(st, `M16 33 L16 ${33 + 6 * 66}`, { width: 2.2, progress: 1 / 6, nodes: [0, 1 / 6, 2 / 6, 3 / 6, 4 / 6, 5 / 6, 1], nodeR: 5, segments: 12, animate: true, delay: 300 });
+  const cy = 33 + 4 * 66; st.appendChild(T.mk("circle", { cx: 16, cy, r: 9, fill: "none", stroke: "var(--trace)", "stroke-width": 1.5, opacity: .6 }));
+  st.appendChild(T.mk("circle", { cx: 16, cy, r: 4, fill: "var(--trace-hot)" }));
+});
+</script>
+</body>
+</html>

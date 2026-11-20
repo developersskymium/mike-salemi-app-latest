@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Trace — identity sheet</title>
+<link rel="stylesheet" href="trace.css">
+<script src="trace.js"></script>
+<style>
+  body { width: 1440px; padding: 56px 64px 72px; }
+  .sec { margin-top: 56px; display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
+  .sec > h2 { font-family: var(--display); font-stretch: 135%; font-size: 24px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
+  .sec > h2 small { display: block; font-family: var(--text); font-stretch: 100%; letter-spacing: 0; font-size: 13.5px; font-weight: 400; color: var(--ink-2); margin-top: 10px; line-height: 1.5; max-width: 30ch; }
+
+  .hero { height: 560px; border-radius: 34px; position: relative; overflow: hidden; }
+  .hero svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero .stars { opacity: .8; }
+  .hero .mtn { fill: #03060B; } .hero .mtn-line { fill: none; stroke: rgba(160,210,240,.25); }
+  .hero .copy { position: absolute; left: 60px; top: 56px; max-width: 560px; }
+  .hero .name { font-family: var(--display); font-stretch: 150%; font-weight: 200; font-size: 168px; line-height: .8; letter-spacing: -.06em; }
+  .hero p { margin-top: 26px; font-size: 18px; line-height: 1.55; color: #A9BBCB; max-width: 46ch; }
+  .hero p b { color: #fff; font-weight: 600; }
+
+  .swatches { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr; gap: 14px; }
+  .sw { height: 190px; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 12.5px; position: relative; overflow: hidden; }
+  .sw b { font-family: var(--display); font-stretch: 130%; font-size: 18px; font-weight: 650; letter-spacing: -.02em; display: block; }
+  .sw.g { background: radial-gradient(circle at 70% 30%, #E6F8FF 0, #5CC8F5 30%, #1478BC 80%); color: #04182A; box-shadow: 0 18px 40px -20px rgba(92,200,245,.8); }
+  .sw.gi { background: #0E7DC2; color: #fff; }
+  .sw.nt { background: radial-gradient(120% 90% at 70% 0%, #0E1A30 0%, #070C17 60%); color: #EEF4F8; box-shadow: inset 0 0 0 1px rgba(150,200,235,.12); }
+  .sw.fm { background: #0C1322; color: #EEF4F8; box-shadow: inset 0 0 0 1px rgba(150,200,235,.12); }
+  .sw.sn { background: #EEF3F6; color: #0B1A28; box-shadow: inset 0 0 0 1px rgba(20,90,140,.14); }
+  .sw.wh { background: #FBFDFE; color: #0B1A28; box-shadow: inset 0 0 0 1px rgba(20,90,140,.12); }
+  .rule-note { margin-top: 14px; font-size: 13.5px; color: var(--ink-2); max-width: 92ch; }
+
+  .type { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+  .spec { padding: 28px 30px; overflow: hidden; }
+  .spec .who { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-3); margin-bottom: 18px; }
+  .spec .who b { color: var(--ink); font-weight: 600; }
+  .widths { display: grid; gap: 2px; }
+  .widths div { font-family: var(--display); font-weight: 600; font-size: 46px; line-height: 1; letter-spacing: -.03em; white-space: nowrap; display: flex; align-items: baseline; gap: 16px; }
+  .widths small { font-family: var(--text); font-size: 12px; color: var(--ink-3); font-weight: 400; letter-spacing: 0; }
+  .spec .thin { font-family: var(--display); font-stretch: 150%; font-weight: 200; font-size: 110px; letter-spacing: -.05em; line-height: .9; margin-top: 16px; }
+  .spec .txt { font-size: 22px; line-height: 1.4; font-weight: 500; }
+  .spec .txt2 { font-size: 15px; line-height: 1.55; color: var(--ink-2); margin-top: 12px; }
+
+  .mats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .mat { height: 220px; border-radius: 22px; position: relative; display: grid; place-items: center; overflow: hidden; }
+  .mat .cap { position: absolute; left: 16px; bottom: 14px; right: 16px; font-size: 12.5px; color: var(--ink-2); z-index: 5; }
+  .mat .cap b { display: block; color: var(--ink); font-weight: 600; font-size: 14px; }
+
+  .anat { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; }
+  .anat > div { border-radius: 22px; padding: 22px; position: relative; display: grid; align-items: center; }
+  .anat svg { width: 100%; }
+  .glyphs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .gl { border-radius: 16px; padding: 12px 12px 10px; display: grid; justify-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+  .gl svg { width: 64px; height: 64px; }
+  .gl b { color: var(--ink); font-weight: 600; font-size: 13px; }
+
+  .icons { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 12px; }
+  .ic { aspect-ratio: 1; border-radius: 18px; display: grid; place-items: center; }
+  .ic svg { width: 32px; height: 32px; fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .ic svg .lit { stroke: var(--trace); }
+  .ic svg .dot { fill: var(--trace-hot); stroke: none; }
+
+  .photo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .photo figure { border-radius: 22px; overflow: hidden; height: 280px; position: relative; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .photo figcaption { position: absolute; left: 16px; bottom: 12px; color: #fff; font-size: 12.5px; z-index: 6; }
+  .photo figcaption b { display: block; font-size: 14px; }
+  .photo svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; }
+
+  .motion { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .mt { border-radius: 22px; padding: 18px; min-height: 250px; display: grid; grid-template-rows: 120px auto; gap: 14px; }
+  .mt .demo { display: grid; place-items: center; position: relative; }
+  .mt .demo svg { width: 100%; height: 100%; }
+  .mt b { font-family: var(--display); font-stretch: 130%; font-size: 18px; font-weight: 650; letter-spacing: -.02em; display: block; }
+  .mt p { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+  .mt code { font-family: var(--text); font-size: 11.5px; color: var(--ink-3); display: block; margin-top: 8px; }
+  .stretch { font-family: var(--display); font-weight: 300; font-size: 64px; letter-spacing: -.04em; animation: st 2.4s var(--ease-out) infinite; }
+  @keyframes st { 0% { font-stretch: 150%; } 20% { font-stretch: 55%; } 50%, 100% { font-stretch: 150%; } }
+  .still .stretch { font-stretch: 150%; }
+</style>
+</head>
+<body>
+<div class="hero night" id="hero">
+  <svg id="hsky" viewBox="0 0 1312 560" preserveAspectRatio="none"></svg>
+  <svg id="htrace" class="trace-svg" viewBox="0 0 1312 560"></svg>
+  <div class="copy">
+    <div class="name">Trace</div>
+    <p><b>Every rep leaves a mark.</b> Leave a camera shutter open while Mike swings and the bell paints an arc of light. Trace makes that the language of the app: your training is drawn as glacier light with a hot head and a fading tail. Dark is a night exposure under Mount Shasta; light is the same mountain in daylight, drawn as glacier contour lines on snow.</p>
+  </div>
+</div>
+
+<section class="sec">
+  <h2>Colour<small>Glacier is the light source. Everything else is night or snow, so the light has somewhere to glow.</small></h2>
+  <div>
+    <div class="swatches">
+      <div class="sw g"><b>Glacier light</b>#5CC8F5 · head #E6F8FF</div>
+      <div class="sw gi"><b>Glacier ink</b>#0E7DC2 · on snow</div>
+      <div class="sw nt"><b>Night</b>#070C17 · dark ground</div>
+      <div class="sw fm"><b>Film</b>#0C1322 · dark surfaces</div>
+      <div class="sw sn"><b>Snow</b>#EEF3F6 · light ground</div>
+      <div class="sw wh"><b>Snow film</b>#FBFDFE · light surfaces</div>
+    </div>
+    <p class="rule-note">Rules: light only comes from traces, the primary pill and real light in photos (fire, dawn). The night is blue-black because a long exposure of the sky is blue-black. No pink, no decorative gradients. Shadows are glow from a light source, never grey drop shadows.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Type<small>Anybody, a variable face with a width axis from 50 to 150. Width is motion: type stretches while it moves and settles wide.</small></h2>
+  <div class="type">
+    <div class="film spec"><div class="who"><b>Anybody</b><span>Display · width 50–150 · weight 200–700</span></div>
+      <div class="widths"><div style="font-stretch:60%">Swing <small>width 60</small></div><div style="font-stretch:100%">Swing <small>width 100</small></div><div style="font-stretch:150%">Swing <small>width 150</small></div></div>
+      <div class="thin">24 · 61</div></div>
+    <div class="film spec"><div class="who"><b>Hanken Grotesk</b><span>Text · 400–700</span></div><div class="txt">Keep every swing crisp: hike, snap, float.</div><div class="txt2">A quiet, warm grotesk for instructions, tables and notes. It stays out of the way of the wide display and the light. Body 15/22, meta 13.5, table 14.</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Surfaces<small>Matte film, not blurred glass. Edges catch light where a trace has passed.</small></h2>
+  <div class="mats">
+    <div class="mat night"><svg class="trace-svg" id="m1" viewBox="0 0 200 200" style="width:100%;height:100%;position:absolute;inset:0"></svg><div class="cap"><b>Night exposure</b>Heroes, video, completion</div></div>
+    <div class="mat film leak"><div class="cap"><b>Film with light leak</b>Cards and panels</div></div>
+    <div class="mat" data-theme="light" style="background:var(--ground)"><svg id="m3" viewBox="0 0 200 200" style="width:100%;height:100%;position:absolute;inset:0"></svg><div class="cap"><b>Snow contours</b>Light ground, living</div></div>
+    <div class="mat film"><button class="btn btn-light">Continue</button><div class="cap"><b>Light pill</b>The one primary action</div></div>
+    <div class="mat film"><span class="thin-num" style="font-size:96px">25</span><div class="cap"><b>Thin wide numerals</b>Days, counts, time</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Signature: the Trace<small>One drawing rule for progress, loaders, dividers, heroes and icons. Each movement has its own shape.</small></h2>
+  <div class="anat">
+    <div class="night"><svg id="anat" class="trace-svg" viewBox="0 0 640 300"></svg></div>
+    <div class="glyphs" id="glyphs"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Iconography<small>1.6 stroke, open shapes ending in a light point. The point is the only coloured part.</small></h2>
+  <div class="icons">
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M3 18 A9 9 0 0 1 21 18"/><path class="lit" d="M3 18 A9 9 0 0 1 14 9.3"/><circle class="dot" cx="14" cy="9.3" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M5 5 A10 10 0 0 0 19 5"/><circle class="dot" cx="19" cy="5" r="1.7"/><path d="M12 15v6"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M2 20l7-12 4 6 3-4 6 10z"/><circle class="dot" cx="9" cy="8" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M12 21c-4 0-6.5-2.6-6.5-5.8 0-3.2 2.4-5 3.4-7 .6 2 1.6 3 2.6 3.5-.4-3 .6-6 3-8.7 0 4 4 6 4 11.8 0 3.5-2.5 6.2-6.5 6.2z"/><circle class="dot" cx="12" cy="17" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M3 9c3-3 6-3 9 0s6 3 9 0M3 15c3-3 6-3 9 0s6 3 9 0"/><circle class="dot" cx="21" cy="15" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path class="lit" d="M12 13V8"/><circle class="dot" cx="12" cy="8" r="1.7"/><path d="M10 2h4"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 17l5-5 4 3 6-7"/><circle class="dot" cx="20" cy="8" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2.5 20c.8-3.5 3-5 5.5-5s4.7 1.5 5.5 5M14 15.3c.6-.2 1.3-.3 2-.3 2.5 0 4.7 1.5 5.5 5"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><path class="lit" d="M5 12.5l4.5 4.5L19 7.5"/><circle class="dot" cx="19" cy="7.5" r="1.7"/></svg></div>
+    <div class="ic film"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="4"/><path d="M8 3v4M16 3v4"/><circle class="dot" cx="12" cy="14" r="1.7"/></svg></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Photography<small>Exposure grade: monochrome under night blue, highlights lifted. A trace is drawn along the real path of the bell. Daylight grade for light screens.</small></h2>
+  <div class="photo">
+    <figure><img src="assets/img/press.jpg" alt=""><figcaption><b>Original</b>As shot</figcaption></figure>
+    <figure class="exposed"><img src="assets/img/press.jpg" alt=""><svg class="trace-svg" id="ph" viewBox="0 0 560 620" preserveAspectRatio="xMidYMid slice"></svg><figcaption><b>Exposure grade + trace</b>The press, drawn as light</figcaption></figure>
+    <figure class="exposed warm"><img src="assets/img/fire.jpg" alt=""><figcaption><b>Fire stays warm</b>Retreats and brotherhood</figcaption></figure>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Motion<small>Light is exposed, never faded. Every animation is a path being drawn, a shutter opening, or type stretching with speed.</small></h2>
+  <div class="motion">
+    <div class="mt film"><div class="demo"><svg class="trace-svg" id="mo1" viewBox="0 0 200 120"></svg></div><div><b>Expose</b><p>Progress draws along its path, the head leading and the tail cooling behind it.</p><code>1.4s · ease-out cubic</code></div></div>
+    <div class="mt film"><div class="demo"><span class="stretch">24</span></div><div><b>Stretch</b><p>Numbers squeeze narrow while counting and spring back wide when they land.</p><code>font-stretch 150 → 55 → 150</code></div></div>
+    <div class="mt film"><div class="demo"><svg class="trace-svg" id="mo3" viewBox="0 0 120 120" style="width:120px;animation:orbit 1.6s linear infinite"></svg></div><div><b>Orbit</b><p>The loader is a halo: a short trace circling, the same shape as the halo move.</p><code>1.6s · linear · infinite</code></div></div>
+    <div class="mt film"><div class="demo"><button class="btn btn-light" style="width:160px">Complete</button></div><div><b>Streak</b><p>Primary buttons carry a passing streak of light; presses scale to 96%.</p><code>4.5s streak · 80ms press</code></div></div>
+    <div class="mt night"><div class="demo"><svg class="trace-svg" id="mo5" viewBox="0 0 200 120"></svg></div><div><b>Flare</b><p>Completing a day ends the swing in a starburst: the shutter closes on it.</p><code>spring 1.4 · 1.2s</code></div></div>
+  </div>
+</section>
+<style>@keyframes orbit { to { transform: rotate(360deg); } } .still #mo3 { animation: none !important; }</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const T = TRACE;
+  const hs = document.getElementById("hsky");
+  T.starTrails(hs, 1100, -80, 320, 60, 900);
+  const M = "M0 560 L0 470 C150 460 330 440 470 420 C580 404 640 386 700 380 C740 360 780 320 820 290 C850 270 866 262 880 264 C900 268 930 296 960 326 C1010 372 1100 404 1200 420 C1260 430 1300 434 1312 436 L1312 560Z";
+  hs.appendChild(T.mk("path", { d: M, class: "mtn" }));
+  hs.appendChild(T.mk("path", { d: M.replace(" L1312 560Z", "").replace("M0 560 L0 470", "M0 470"), class: "mtn-line" }));
+  T.trace(document.getElementById("htrace"), "M640 120 C700 380 820 470 960 470 C1100 470 1210 380 1250 150", { width: 4.5, progress: 1, ahead: false, segments: 50, floor: .02, fullTail: true, nodes: [.12, .32, .5, .68, .88], nodeR: 5 });
+
+  T.trace(document.getElementById("m1"), "M20 40 C40 150 160 150 180 40", { width: 3, progress: .8, segments: 30 });
+  T.contours(document.getElementById("m3"), 100, 150, 12, 8, 12);
+
+  const A = document.getElementById("anat");
+  T.trace(A, "M40 70 C80 250 300 280 420 200 C480 160 500 120 520 80", { width: 5, progress: .78, segments: 40, nodes: [0, .5, 1], nodeR: 6 });
+  const lab = (x, y, t) => { const e = T.mk("text", { x, y, fill: "#A3B2C0", "font-family": "Hanken", "font-size": 13 }); e.textContent = t; A.appendChild(e); };
+  lab(60, 250, "Tail: cools to 8% opacity"); lab(330, 268, "Glow: 3× width, blurred"); lab(512, 150, "Head: white-hot"); lab(520, 60, "Ahead: dotted"); lab(430, 230, "Node: a step");
+
+  const G = [["Swing", "M8 14 A26 26 0 0 0 56 14", "Pendulum arc"], ["Press", "M32 58 C32 40 30 24 32 6", "Straight up"], ["Halo", "M32 14 C46 14 52 24 48 33 C42 44 20 43 16 31 C13 21 21 14 32 14", "Loop round the head"], ["Get-up", "M8 56 C8 34 38 40 44 26 C49 15 40 8 56 8", "Rising S"],
+             ["Clean", "M24 58 C24 40 30 32 36 26 C40 22 38 16 34 14", "Hook to the rack"], ["Squat", "M32 6 L32 40 L32 22", "Down and up"], ["Deadlift", "M20 54 L20 20", "Floor to hip"], ["Breath", "M6 32 C14 18 22 18 32 32 C42 46 50 46 58 32", "A rest wave"]];
+  const gw = document.getElementById("glyphs");
+  G.forEach(([n, d, c]) => { const el = document.createElement("div"); el.className = "gl film"; el.innerHTML = `<svg class="trace-svg" viewBox="0 0 64 64"></svg><b>${n}</b>${c}`; gw.appendChild(el); T.trace(el.querySelector("svg"), d, { width: 2.6, progress: 1, segments: 18, floor: .12, ahead: false }); });
+
+  T.trace(document.getElementById("ph"), "M150 480 C150 420 70 380 80 300 C88 230 110 200 102 150 C98 120 104 96 106 72", { width: 6, progress: 1, ahead: false, floor: 0 });
+  T.trace(document.getElementById("mo1"), "M10 20 C30 110 170 110 190 20", { width: 3, progress: .7, segments: 26, animate: true });
+  T.trace(document.getElementById("mo3"), "M60 14 A46 46 0 1 1 59.9 14", { width: 3, progress: .35, ahead: false, segments: 20, floor: 0 });
+  T.trace(document.getElementById("mo5"), "M10 20 C30 110 170 110 186 30", { width: 3, progress: 1, ahead: false, segments: 26, floor: .02, fullTail: true });
+  const f = document.getElementById("mo5");
+  f.appendChild(T.mk("path", { d: "M156 30 L216 30 M186 6 L186 54", stroke: "#E6F8FF", "stroke-width": 1, opacity: .8 }));
+  f.appendChild(T.mk("circle", { cx: 186, cy: 30, r: 10, fill: "#5CC8F5", opacity: .45, style: "filter:blur(6px)" }));
+});
+</script>
+</body>
+</html>

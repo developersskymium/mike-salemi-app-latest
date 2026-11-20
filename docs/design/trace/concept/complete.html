@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 25 complete — Trace</title>
+<link rel="stylesheet" href="trace.css">
+<script src="trace.js"></script>
+<style>
+  body { width: 390px; height: 844px; margin: 0 auto; overflow: hidden; position: relative; }
+  [data-theme="dark"] body { background: radial-gradient(130% 70% at 50% 0%, #11264A 0%, #08101F 50%, #04070D 100%); }
+  [data-theme="light"] body { background: linear-gradient(180deg, #DDEAF3 0%, var(--ground) 60%); }
+  svg.sky, svg.swing { position: absolute; inset: 0; width: 390px; height: 844px; }
+  .stars { animation: turn 400s linear infinite; opacity: .8; }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  .mtn { fill: #03060B; } .mtn-line { fill: none; stroke: rgba(160,210,240,.25); }
+  [data-theme="light"] .mtn { fill: var(--ground); } [data-theme="light"] .mtn-line { stroke: rgba(14,125,194,.4); }
+  .status { position: relative; height: 47px; display: flex; align-items: center; justify-content: space-between; padding: 6px 28px 0 34px; font-weight: 600; font-size: 15px; z-index: 3; }
+  .close { position: absolute; z-index: 3; top: 56px; right: 18px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--edge); }
+  .big { position: absolute; z-index: 2; left: 0; right: 0; top: 112px; text-align: center; }
+  .big .lbl { font-size: 13px; color: var(--ink-2); }
+  .big .n { font-size: 150px; margin-top: 6px; }
+  [data-theme="dark"] .big .n { text-shadow: 0 0 50px rgba(92,200,245,.35); }
+  .flare { position: absolute; z-index: 2; width: 120px; height: 120px; transform: translate(-50%, -50%); pointer-events: none; }
+  .flare::before, .flare::after { content: ""; position: absolute; left: 50%; top: 50%; background: linear-gradient(90deg, transparent, var(--trace-hot), transparent); transform: translate(-50%, -50%); }
+  .flare::before { width: 84px; height: 1.5px; }
+  .flare::after { width: 1.5px; height: 90px; background: linear-gradient(180deg, transparent, var(--trace-hot), transparent); }
+  .flare i { position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--trace-hot); box-shadow: 0 0 20px 8px color-mix(in srgb, var(--trace) 60%, transparent), 0 0 60px 20px color-mix(in srgb, var(--trace) 25%, transparent); }
+  .words { position: absolute; z-index: 2; left: 24px; right: 24px; top: 482px; text-align: center; }
+  .words .t { font-family: var(--display); font-stretch: 130%; font-weight: 700; font-size: 28px; white-space: nowrap; letter-spacing: -.04em; line-height: 1; }
+  .words p { color: var(--ink-2); margin-top: 10px; font-size: 14.5px; text-wrap: balance; }
+  .tally { position: absolute; z-index: 2; left: 16px; right: 16px; top: 590px; display: grid; grid-template-columns: repeat(3, 1fr); padding: 14px 6px; border-radius: 20px; }
+  .tally div { text-align: center; border-left: 1px solid var(--rule); }
+  .tally div:first-child { border: 0; }
+  .tally .v { font-size: 26px; line-height: 1; }
+  .tally .v small { font-size: 14px; color: var(--ink-3); }
+  .tally .v em { font-style: normal; font-size: 13px; color: var(--accent); vertical-align: top; margin-left: 2px; }
+  .tally .k { font-size: 12px; color: var(--ink-2); margin-top: 4px; }
+  .cta { position: absolute; z-index: 2; left: 16px; right: 16px; bottom: 34px; display: grid; gap: 10px; }
+  .cta .btn { width: 100%; height: 56px; }
+  .cta .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cta .row .btn { height: 46px; font-size: 14px; }
+  .home { position: absolute; bottom: 8px; left: 50%; width: 134px; height: 5px; border-radius: 3px; transform: translateX(-50%); background: var(--ink); opacity: .8; z-index: 3; }
+  .enter .big, .enter .words, .enter .tally, .enter .cta { animation: rise 1s var(--ease-out) both; }
+  .enter .big { animation-delay: 1.9s; } .enter .words { animation-delay: 2.2s; } .enter .tally { animation-delay: 2.35s; } .enter .cta { animation-delay: 2.5s; }
+  .enter .flare { animation: pop 1.2s var(--spring) 1.75s both; }
+  @keyframes pop { from { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(-30deg); } }
+</style>
+</head>
+<body>
+<svg class="sky" id="sky" viewBox="0 0 390 844"></svg>
+<svg class="swing trace-svg" id="swing" viewBox="0 0 390 844"></svg>
+<div class="status"><span>9:41</span><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/></svg></span></div>
+<button class="close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>
+<div class="flare" id="flare"><i></i></div>
+<div class="big"><div class="lbl">Day</div><div class="n thin-num" data-count="25" data-from="24" data-delay="1900" data-dur="500">25</div></div>
+<div class="words"><div class="t">Day 25, complete</div><p>Seven steps, one exposure. Phase 2 is a quarter done.</p></div>
+<div class="tally film">
+  <div><div class="v num">7<small>/7</small></div><div class="k">steps</div></div>
+  <div><div class="v num">52<small>min</small></div><div class="k">trained</div></div>
+  <div><div class="v num">13<em>+1</em></div><div class="k">day streak</div></div>
+</div>
+<div class="cta">
+  <div class="row"><button class="btn btn-ghost press">How it felt</button><button class="btn btn-ghost press">Share</button></div>
+  <button class="btn btn-light press">Back to Today</button>
+</div>
+<div class="home"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const T = TRACE, dark = T.theme === "dark";
+  const sky = document.getElementById("sky");
+  if (dark) T.starTrails(sky, 300, 60, 220, 30, 700); else T.contours(sky, 200, 620, 26, 12, 16);
+  const M = "M0 844 L0 470 C40 466 80 458 110 450 C130 444 142 434 152 428 C158 424 164 424 170 426 C178 416 190 398 202 384 C210 374 216 370 222 372 C230 376 244 394 260 412 C280 434 310 450 350 458 C370 462 384 464 390 466 L390 844Z";
+  sky.appendChild(T.mk("path", { d: M, class: "mtn", transform: "translate(0,10)" }));
+  sky.appendChild(T.mk("path", { d: M.replace(" L390 844Z", "").replace("M0 844 L0 470", "M0 470"), class: "mtn-line", transform: "translate(0,10)" }));
+  /* One full swing across the screen, all seven steps exposed. */
+  const d = "M-20 170 C10 340 90 440 195 440 C300 440 372 340 368 176";
+  const sw = document.getElementById("swing");
+  const nodes = [.07, .2, .34, .5, .66, .8, .93];
+  const { ref, L } = T.trace(sw, d, { width: 4, progress: 1, nodes, nodeR: 4.5, animate: true, dur: 1700, delay: 200, segments: 50, floor: .02, fullTail: true, ahead: false });
+  const end = ref.getPointAtLength(L);
+  const f = document.getElementById("flare"); f.style.left = end.x + "px"; f.style.top = end.y + "px";
+});
+</script>
+</body>
+</html>

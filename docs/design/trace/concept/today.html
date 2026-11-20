@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today — Trace</title>
+<link rel="stylesheet" href="trace.css">
+<script src="trace.js"></script>
+<style>
+  body { width: 390px; min-height: 844px; margin: 0 auto; overflow-x: hidden; padding-bottom: 120px; }
+  /* The exposure: night sky over Shasta (dark) or contour lines on snow (light). */
+  .expo { position: relative; height: 468px; overflow: hidden; }
+  [data-theme="dark"] .expo { background: radial-gradient(120% 80% at 80% -10%, #102445 0%, #08101F 50%, var(--ground) 100%); }
+  [data-theme="light"] .expo { background: linear-gradient(180deg, #E4EEF4, var(--ground)); }
+  .expo svg.sky { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .expo .stars { animation: turn 600s linear infinite; opacity: .75; }
+  .expo .contours { opacity: .7; }
+  .expo svg.sky { -webkit-mask: radial-gradient(ellipse 150px 95px at 50% 45%, rgba(0,0,0,.12) 40%, #000 100%); mask: radial-gradient(ellipse 150px 95px at 50% 45%, rgba(0,0,0,.12) 40%, #000 100%); }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  .expo .mtn { fill: #04070D; }
+  [data-theme="light"] .expo .mtn { fill: none; }
+  .expo .mtn-line { fill: none; stroke: rgba(160,210,240,.25); stroke-width: 1; }
+  [data-theme="light"] .expo .mtn-line { stroke: rgba(14,125,194,.45); }
+  .expo .fade { position: absolute; inset: auto 0 0 0; height: 60px; background: linear-gradient(transparent, var(--ground)); }
+
+  .status { position: relative; height: 47px; display: flex; align-items: center; justify-content: space-between; padding: 6px 28px 0 34px; font-weight: 600; font-size: 15px; }
+  .top { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 10px 22px 0; }
+  .top .d { font-size: 13px; color: var(--ink-2); }
+  .top .hello { font-family: var(--display); font-stretch: 130%; font-weight: 600; font-size: 22px; letter-spacing: -.02em; margin-top: 2px; }
+  .me { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1.5px var(--edge); }
+  .me img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.6); }
+
+  .daynum { position: absolute; left: 0; right: 0; top: 136px; text-align: center; }
+  .daynum .lbl { font-size: 13px; color: var(--ink-2); letter-spacing: .02em; }
+  .daynum .n { font-size: 132px; color: var(--ink); margin-top: 4px; }
+  [data-theme="dark"] .daynum .n { text-shadow: 0 0 40px rgba(92,200,245,.25); }
+  .gauge { position: absolute; left: 0; right: 0; top: 156px; height: 330px; width: 390px; }
+  .gauge .node { fill: var(--ground); stroke: var(--trace-dim); stroke-width: 1.5; }
+  .gauge .node.lit { fill: var(--trace-hot); stroke: var(--trace); stroke-width: 2; }
+  .steps-cap { position: absolute; left: 0; right: 0; top: 410px; display: flex; justify-content: space-between; padding: 0 30px; font-size: 12px; color: var(--ink-3); }
+  .steps-cap b { color: var(--ink); font-weight: 600; }
+
+  .action { position: relative; padding: 4px 22px 0; text-align: center; margin-top: -24px; }
+  .action .kind { font-family: var(--display); font-stretch: 140%; font-weight: 700; font-size: 38px; letter-spacing: -.035em; line-height: 1; }
+  .action .meta { margin-top: 8px; }
+  .action .btn { width: 100%; margin-top: 18px; height: 56px; }
+  .action .next { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; }
+
+  .stats { margin: 26px 16px 0; padding: 18px 18px 16px; }
+  .stats .row { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .stat .v { font-size: 30px; line-height: 1; }
+  .stat .v small { font-size: 15px; color: var(--ink-3); font-weight: 500; }
+  .stat .k { font-size: 12px; color: var(--ink-2); margin-top: 4px; }
+  .prog { margin-top: 14px; height: 22px; width: 100%; }
+
+  section.blk { margin: 30px 16px 0; }
+  .blk-h { display: flex; justify-content: space-between; align-items: baseline; padding: 0 6px 12px; }
+  .blk-h a { font-size: 13px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  .week { display: grid; grid-template-columns: repeat(7, 1fr); padding: 14px 6px 12px; }
+  .day { display: grid; justify-items: center; gap: 4px; font-size: 11.5px; color: var(--ink-3); }
+  .day svg { width: 36px; height: 36px; }
+  .day .dn { font-family: var(--display); font-stretch: 120%; font-weight: 600; font-size: 15px; color: var(--ink); }
+  .day.today .dn { color: var(--accent); }
+  .day.today { position: relative; }
+  .day.today::after { content: ""; position: absolute; inset: -6px -1px -6px; border-radius: 14px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .day .mv { font-size: 10px; color: var(--ink-3); letter-spacing: -.01em; }
+
+  .retreat { overflow: hidden; border-radius: 26px; }
+  .retreat .exposed { height: 250px; }
+  .retreat .exposed img { object-position: 50% 30%; }
+  .retreat .cap { position: absolute; left: 20px; right: 20px; bottom: 18px; color: #fff; }
+  .retreat .cap .k { font-size: 12.5px; color: #B9D8EA; }
+  .retreat .cap .t { font-family: var(--display); font-stretch: 128%; font-weight: 700; font-size: 28px; letter-spacing: -.03em; line-height: 1; margin-top: 6px; }
+  .retreat .body { padding: 16px 20px 20px; display: grid; gap: 14px; }
+  .facts { display: flex; gap: 22px; font-size: 12.5px; color: var(--ink-3); }
+  .facts b { display: block; font-family: var(--display); font-stretch: 105%; font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: -.01em; }
+  .retreat p { font-size: 13.5px; color: var(--ink-2); }
+
+  .offer { display: grid; grid-template-columns: 124px 1fr; overflow: hidden; border-radius: 22px; }
+  .offer .exposed { height: 100%; min-height: 168px; }
+  .offer .exposed::after { background: none; }
+  .offer .exposed svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .offer .in { padding: 16px 16px 16px 18px; }
+  .offer .t { font-family: var(--display); font-stretch: 130%; font-weight: 650; font-size: 19px; letter-spacing: -.02em; line-height: 1.05; }
+  .offer p { font-size: 13px; color: var(--ink-2); margin: 6px 0 10px; }
+  .offer .lnk { font-size: 13.5px; font-weight: 600; color: var(--accent); }
+
+  .tabs { position: fixed; left: 50%; transform: translateX(-50%); bottom: 22px; width: 346px; height: 64px; border-radius: 99px; display: grid; grid-template-columns: repeat(4, 1fr); z-index: 9; background: color-mix(in srgb, var(--film) 92%, transparent); box-shadow: inset 0 0 0 1px var(--edge), 0 16px 40px -16px rgba(0,0,0,.5); backdrop-filter: blur(20px); }
+  .tab { display: grid; justify-items: center; align-content: center; gap: 3px; font-size: 10.5px; color: var(--ink-3); position: relative; }
+  .tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .tab.on { color: var(--ink); }
+  .tab.on svg .lit { stroke: var(--trace); }
+  .tab.on::after { content: ""; position: absolute; bottom: 7px; width: 22px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--trace)); box-shadow: 4px 0 8px var(--trace); }
+  .home { position: fixed; bottom: 8px; left: 50%; width: 134px; height: 5px; border-radius: 3px; transform: translateX(-50%); background: var(--ink); opacity: .8; z-index: 10; }
+  .rail-x { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 0 16px 6px; scrollbar-width: none; }
+  .pcard, .jcard, .rcard { flex: none; border-radius: 20px; overflow: hidden; }
+  .pcard { width: 272px; } .jcard { width: 230px; } .rcard { width: 250px; }
+  .art { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+  .art.cover { aspect-ratio: 5 / 4; } .art.cover img { object-position: 50% 0; filter: saturate(.8); }
+  .art img { width: 100%; height: 100%; object-fit: cover; }
+  .art .ov { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; }
+  .pin { padding: 12px 14px 14px; display: grid; gap: 4px; }
+  .pin .nm { font-family: var(--display); font-stretch: 106%; font-weight: 650; font-size: 15px; letter-spacing: -.02em; line-height: 1.15; }
+  .meter { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin-top: 6px; }
+  .meter svg { width: 100%; height: 12px; }
+  .meter b { font-size: 13px; }
+  .lbl { font-size: 12px; color: var(--ink-3); }
+  .nx { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
+  .go { font-size: 13.5px; font-weight: 600; color: var(--accent); margin-top: 6px; }
+  .badge-done { position: absolute; left: 10px; top: 10px; z-index: 5; font-size: 11.5px; font-weight: 600; padding: 4px 9px; border-radius: 99px; background: var(--trace); color: var(--on-accent); }
+  .btn.sm { height: 38px; font-size: 13px; padding: 0 16px; margin-top: 8px; }
+  .lockline { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+  .locked .art img { opacity: .5; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .tile { padding: 14px; display: grid; gap: 4px; border-radius: 18px; }
+  .tile .tag { font-size: 11.5px; color: var(--accent); font-weight: 500; }
+  .tile b { font-size: 14px; font-weight: 600; line-height: 1.25; }
+  .ctx { font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="expo">
+  <svg class="sky" id="sky" viewBox="0 0 390 468" preserveAspectRatio="xMidYMid slice"></svg>
+  <div class="fade"></div>
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/></svg></span></div>
+  <div class="top" data-in style="--i:0"><div><div class="d">Friday 20 November</div><div class="hello">Morning, Daniel</div></div><div class="me"><img src="assets/img/wide.jpg" alt=""></div></div>
+  <svg class="gauge trace-svg" id="gauge" viewBox="0 0 390 330"></svg>
+  <div class="daynum" data-in style="--i:1"><div class="lbl">Day</div><div class="n thin-num" data-count="24" data-dur="1300">24</div></div>
+  <div class="steps-cap"><span>Morning Routine</span><span><b>2 of 5</b> steps today</span><span>Completion</span></div>
+</div>
+
+<div class="action" data-in style="--i:2">
+  <div class="ctx">Continue training</div>
+  <div class="kind">Recovery</div>
+  <div class="meta">Kettlebell Lifestyle Level I · 5 steps · 34 min</div>
+  <button class="btn btn-light press">Resume step 3</button>
+  <div class="next">Up next: Bodyweight Warm Up, 10 min</div>
+</div>
+
+<div class="stats film leak" data-in style="--i:3">
+  <div class="row">
+    <div class="stat"><div class="v num"><span data-count="23">23</span><small>/61</small></div><div class="k">program days</div></div>
+    <div class="stat"><div class="v num"><span data-count="2" data-dur="600">2</span><small>/5</small></div><div class="k">steps today</div></div>
+    <div class="stat"><div class="v num"><span data-count="12">12</span></div><div class="k">day streak</div></div>
+  </div>
+  <svg class="prog trace-svg" id="prog" viewBox="0 0 322 22" preserveAspectRatio="none"></svg>
+</div>
+
+<section class="blk" data-in style="--i:4">
+  <div class="blk-h"><div class="h3">This week</div><a href="#">Week 4 of 9</a></div>
+  <div class="film week" id="week"></div>
+</section>
+
+<section class="blk" data-in style="--i:5">
+  <div class="blk-h"><div class="h3">Your programs</div><a href="#">See all</a></div>
+  <div class="rail-x">
+    <div class="pcard film"><div class="art exposed"><img src="assets/img/squat.jpg" alt="" style="object-position:50% 25%"></div>
+      <div class="pin"><div class="nm">Kettlebell Lifestyle · Level I</div><div class="meter"><svg class="trace-svg" data-p=".38" viewBox="0 0 200 12" preserveAspectRatio="none"></svg><b class="num">38%</b></div><div class="lbl">23 of 61 days</div><div class="nx">Up next · Day 24, Recovery</div><span class="go">Resume</span></div></div>
+    <div class="pcard film"><div class="art exposed"><img src="assets/img/free-6-video-kettlebell-mini-series.jpg" alt="" style="object-position:50% 35%"><span class="badge-done">Completed</span></div>
+      <div class="pin"><div class="nm">Free 6-video mini-series</div><div class="meter"><svg class="trace-svg" data-p="1" viewBox="0 0 200 12" preserveAspectRatio="none"></svg><b class="num">100%</b></div><div class="lbl">6 of 6 videos</div><div class="nx">Watch again any time</div><span class="go">Review</span></div></div>
+  </div>
+</section>
+
+<section class="blk" data-in style="--i:6">
+  <div class="blk-h"><div class="h3">Upcoming activity</div></div>
+  <div class="film retreat">
+    <div class="exposed day"><img src="assets/img/summit.jpg" alt="Men of Movement group on a ridge facing Mount Shasta">
+      <div class="cap"><div class="k">Retreat · Spring</div><div class="t">The Breakthrough</div></div>
+    </div>
+    <div class="body">
+      <div class="facts"><div><b>Mount Shasta</b>N. California</div><div><b>May 13–16</b>2027 · 4 days</div><div><b>20 men</b>by application</div></div>
+      <p>Four days in Mount Shasta. This is where we go deep: breathwork, ceremony, fire and sweat lodge, every meal by Lauren Salemi.</p>
+      <button class="btn btn-ghost press">Apply for May 13–16, 2027</button>
+    </div>
+  </div>
+  <div class="tiles">
+    <div class="tile film"><span class="tag">Live call · Preview</span><b>Monthly Q&amp;A with Mike</b><span class="small">Date to be announced</span></div>
+    <div class="tile film"><span class="tag">Invitation · Preview</span><b>Community workout drop</b><span class="small">Date to be announced</span></div>
+  </div>
+</section>
+
+<section class="blk" data-in style="--i:7">
+  <div class="blk-h"><div class="h3">Programs you can join</div><a href="#">See all</a></div>
+  <div class="rail-x">
+    <div class="jcard film"><div class="art exposed warm cover"><img src="assets/img/press.jpg" alt=""><svg class="trace-svg ov" id="presstrace" viewBox="0 0 560 620" preserveAspectRatio="xMidYMid slice"></svg></div>
+      <div class="pin"><div class="nm">Mastering the Kettlebell</div><div class="small">The full course: swing, clean, press and get-up, rep by rep</div><button class="btn btn-light press sm">Join the course</button></div></div>
+    <div class="jcard film"><div class="art cover"><img src="assets/img/working-in.jpg" alt="Working In cover"></div>
+      <div class="pin"><div class="nm">Working In</div><div class="small">With Paul Chek and Mike · recovery and energy</div><button class="btn btn-ghost press sm">Join</button></div></div>
+  </div>
+</section>
+
+<section class="blk" data-in style="--i:8">
+  <div class="blk-h"><div class="h3">Retreats &amp; gatherings</div><a href="#">See all</a></div>
+  <div class="rail-x">
+    <div class="rcard film"><div class="art exposed"><img src="assets/img/lodge.jpg" alt=""></div><div class="pin"><div class="nm">The Breakthrough</div><div class="small">May 13–16, 2027 · Mount Shasta</div></div></div>
+    <div class="rcard film"><div class="art exposed warm"><img src="assets/img/fire.jpg" alt=""></div><div class="pin"><div class="nm">The Primal Reset</div><div class="small">Sep 2–5, 2027 · Mt. Shasta · Waitlist</div></div></div>
+  </div>
+</section>
+
+<section class="blk" data-in style="--i:9">
+  <div class="blk-h"><div class="h3">Explore next</div><a href="#">See all</a></div>
+  <div class="rail-x">
+    <div class="jcard film locked"><div class="art exposed"><img src="assets/img/intermediate.jpg" alt=""></div>
+      <div class="pin"><div class="nm">Kettlebell Lifestyle · Level II</div><div class="small">Heavier bells, longer chains, real capacity</div><span class="lockline">Opens when you finish Level I</span></div></div>
+    <div class="jcard film"><div class="art cover"><img src="assets/img/athleticism-4-life.jpg" alt=""></div>
+      <div class="pin"><div class="nm">Athleticism 4 Life</div><div class="small">Move like an athlete at any age</div></div></div>
+  </div>
+</section>
+
+<nav class="tabs" aria-label="Main">
+  <a class="tab on"><svg viewBox="0 0 24 24"><path d="M3 18 A9 9 0 0 1 21 18"/><path class="lit" d="M3 18 A9 9 0 0 1 14 9.3"/><circle cx="14" cy="9.3" r="1.6" fill="currentColor" class="lit"/></svg>Today</a>
+  <a class="tab"><svg viewBox="0 0 24 24"><path d="M5 5 A10 10 0 0 0 19 5"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/><path d="M12 15v6"/></svg>Train</a>
+  <a class="tab"><svg viewBox="0 0 24 24"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Retreats</a>
+  <a class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4-6.5 8-6.5s7 2 8 6.5"/></svg>Coach</a>
+</nav>
+<div class="home"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const T = TRACE, dark = T.theme === "dark";
+  const sky = document.getElementById("sky");
+  const MTN = "M0 468 L0 410 C40 404 80 396 110 388 C130 382 142 372 152 366 C158 362 164 362 170 364 C178 354 190 336 202 322 C210 312 216 308 222 310 C230 314 244 332 260 350 C280 372 310 388 350 396 C370 400 384 402 390 404 L390 468Z";
+  if (dark) T.starTrails(sky, 330, -40, 170, 60, 520);
+  else T.contours(sky, 222, 400, 24, 10, 15);
+  if (dark) sky.appendChild(T.mk("path", { d: MTN, class: "mtn", transform: "translate(0,36)" }));
+  sky.appendChild(T.mk("path", { d: MTN.replace(/ L390 468Z$/, "").replace("M0 468 L0 410", "M0 410"), class: "mtn-line", transform: "translate(0,36)" }));
+
+  /* The pendulum: today's steps along one swing arc. */
+  const g = document.getElementById("gauge");
+  T.trace(g, "M34 70 A190 190 0 0 0 356 70", { width: 3.4, progress: .25, nodes: [0, .25, .5, .75, 1], nodeR: 5, animate: true, dur: 1800, delay: 400, floor: .04 });
+
+  T.trace(document.getElementById("prog"), "M2 11 L320 11", { width: 2.2, progress: 23 / 61, animate: true, dur: 1600, delay: 600, nodes: [7 / 61, 20 / 61, 40 / 61], nodeR: 2.6 });
+
+  /* Week: each day is drawn as the shape of its main movement. */
+  const W = [["M", 16, "Swing", "M4 10 A14 14 0 0 0 32 10", 1], ["T", 17, "Press", "M18 32 C18 22 16 14 18 4", 1], ["W", 18, "Halo", "M18 9 C26 9 29 15 26 20 C22 26 11 25 9 18 C7 12 12 8 18 9", 1], ["T", 19, "Get-up", "M6 30 C6 18 20 22 24 14 C27 8 22 4 30 4", 1], ["F", 20, "Recovery", "M3 22 C9 12 13 12 18 18 C23 24 27 24 33 14", .45], ["S", 21, "Rest", "", 0], ["S", 22, "Swing", "M4 10 A14 14 0 0 0 32 10", 0]];
+  const wk = document.getElementById("week");
+  W.forEach(([w, n, mv, d, p], i) => {
+    const el = document.createElement("div"); el.className = "day" + (i === 4 ? " today" : "");
+    el.innerHTML = `<span>${w}</span><svg class="trace-svg" viewBox="0 0 36 36"></svg><span class="dn">${n}</span><span class="mv">${mv}</span>`;
+    wk.appendChild(el);
+    const s = el.querySelector("svg");
+    if (d) T.trace(s, d, { width: 2, progress: p || 0.0001, head: p > 0 && p < 1 ? true : p === 1, animate: true, dur: 900, delay: 700 + i * 120, segments: 14, floor: .15 });
+    else s.innerHTML = '<circle cx="18" cy="18" r="1.6" fill="var(--ink-3)"/>';
+  });
+
+  document.querySelectorAll(".meter svg").forEach((m) => T.trace(m, "M2 6 L198 6", { width: 2.4, progress: +m.dataset.p, segments: 16, animate: true, delay: 600 }));
+  T.trace(document.getElementById("presstrace"), "M150 480 C150 420 70 380 80 300 C88 230 110 200 102 150 C98 120 104 96 106 72", { width: 11, progress: 1, ahead: false, animate: true, dur: 1600, delay: 900, floor: 0 });
+});
+</script>
+</body>
+</html>

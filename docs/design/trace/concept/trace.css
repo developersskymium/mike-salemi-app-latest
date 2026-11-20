@@ -1,0 +1,136 @@
+/* TRACE — long-exposure light. Every rep leaves a mark.
+   Dark is a night exposure under Mount Shasta (star trails); light is the same mountain in daylight,
+   drawn as glacier contour lines on snow. Movement is drawn as glacier light with a hot head and a fading tail. */
+
+@font-face { font-family: "Anybody"; src: url(assets/fonts/anybody.woff2) format("woff2"); font-weight: 100 900; font-stretch: 50% 150%; }
+@font-face { font-family: "Hanken"; src: url(assets/fonts/hanken-400.woff2) format("woff2"); font-weight: 400; }
+@font-face { font-family: "Hanken"; src: url(assets/fonts/hanken-500.woff2) format("woff2"); font-weight: 500; }
+@font-face { font-family: "Hanken"; src: url(assets/fonts/hanken-600.woff2) format("woff2"); font-weight: 600; }
+@font-face { font-family: "Hanken"; src: url(assets/fonts/hanken-700.woff2) format("woff2"); font-weight: 700; }
+
+:root {
+  --display: "Anybody", sans-serif;
+  --text: "Hanken", system-ui, sans-serif;
+  --glacier: #5CC8F5;
+  --glacier-hot: #E6F8FF;
+  --glacier-deep: #1478BC;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --spring: cubic-bezier(.34, 1.4, .64, 1);
+}
+
+/* Night exposure */
+[data-theme="dark"] {
+  --ground: #060A12;
+  --ground-2: #0A1120;
+  --film: #0C1322;            /* matte surface */
+  --film-2: #111A2C;
+  --edge: rgba(150, 200, 235, .12);
+  --ink: #EEF4F8;
+  --ink-2: #A3B2C0;
+  --ink-3: #66788A;
+  --rule: rgba(160, 200, 230, .1);
+  --trace: #5CC8F5;
+  --trace-hot: #E6F8FF;
+  --trace-dim: rgba(120, 180, 220, .22);
+  --accent: #5CC8F5;
+  --on-accent: #04182A;
+  --lines: rgba(170, 210, 240, .5);
+  color-scheme: dark;
+}
+/* Snow exposure */
+[data-theme="light"] {
+  --ground: #EEF3F6;
+  --ground-2: #E3EAEF;
+  --film: #FBFDFE;
+  --film-2: #F2F6F8;
+  --edge: rgba(20, 90, 140, .12);
+  --ink: #0B1A28;
+  --ink-2: #47596A;
+  --ink-3: #7B8C9B;
+  --rule: rgba(20, 70, 110, .1);
+  --trace: #1490D6;
+  --trace-hot: #0A5E99;
+  --trace-dim: rgba(20, 110, 170, .2);
+  --accent: #0E7DC2;
+  --on-accent: #FFFFFF;
+  --lines: rgba(20, 110, 170, .45);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--ground); color: var(--ink); font-family: var(--text); -webkit-font-smoothing: antialiased; }
+body { font-size: 15px; line-height: 1.45; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img { display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
+
+/* ——— Type: Anybody stretched wide for display, Hanken for text ——— */
+.wide { font-family: var(--display); font-stretch: 140%; }
+.h1 { font-family: var(--display); font-stretch: 135%; font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: -.02em; }
+.h2 { font-family: var(--display); font-stretch: 130%; font-weight: 650; font-size: 24px; line-height: 1.05; letter-spacing: -.015em; }
+.h3 { font-family: var(--display); font-stretch: 125%; font-weight: 650; font-size: 17px; line-height: 1.1; letter-spacing: -.01em; }
+.thin-num { font-family: var(--display); font-stretch: 150%; font-weight: 200; letter-spacing: -.04em; line-height: .8; font-variant-numeric: tabular-nums; }
+.num { font-family: var(--display); font-stretch: 125%; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.meta { color: var(--ink-2); font-size: 13.5px; }
+.small { font-size: 12.5px; color: var(--ink-3); }
+
+/* ——— Surfaces: matte film with a light-leak edge, not blur glass ——— */
+.film {
+  background: var(--film); border-radius: 22px; position: relative;
+  box-shadow: inset 0 0 0 1px var(--edge);
+}
+.film.leak::before { /* where light has passed over the plate edge */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(120deg, transparent 20%, color-mix(in srgb, var(--trace) 70%, transparent) 50%, transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+[data-theme="light"] .film { box-shadow: inset 0 0 0 1px var(--edge), 0 1px 2px rgba(10,60,100,.05), 0 12px 28px -18px rgba(10,60,100,.25); }
+
+/* Night panel: an exposure that stays night in both themes (heroes, video, completion). */
+.night { --ground: #070C17; --ink: #EEF4F8; --ink-2: #A3B2C0; --ink-3: #6E8295; --rule: rgba(160,200,230,.12); --trace: #5CC8F5; --trace-hot: #E6F8FF; --trace-dim: rgba(120,180,220,.22); --accent: #5CC8F5; --on-accent: #04182A; --edge: rgba(150,200,235,.12); --film: #0C1322; --film-2: #111A2C; --lines: rgba(170,210,240,.5);
+  background: radial-gradient(120% 90% at 70% 0%, #0E1A30 0%, #070C17 55%, #04070D 100%); color: var(--ink); }
+
+/* ——— Buttons: rounded like a light trail's end ——— */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 54px; padding: 0 26px; border-radius: 99px; font-weight: 600; font-size: 15.5px; position: relative; overflow: hidden; transition: transform .45s var(--spring); }
+.btn:active, .btn.pressed { transform: scale(.96); transition-duration: .08s; }
+.btn-light { background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 60%, #fff), 0 10px 30px -10px color-mix(in srgb, var(--accent) 80%, transparent); }
+.btn-light::after { /* a streak of light passes across, like a trail through the lens */
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -50%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); animation: streak 4.5s var(--ease-out) 1.2s infinite; }
+@keyframes streak { 0% { left: -50%; } 35%, 100% { left: 120%; } }
+.btn-ghost { box-shadow: inset 0 0 0 1px var(--edge); color: var(--ink); background: color-mix(in srgb, var(--film) 60%, transparent); }
+
+/* ——— Signature: the trace ——— */
+.trace-svg { overflow: visible; }
+.trace-svg .tail { fill: none; stroke: var(--trace); stroke-linecap: round; }
+.trace-svg .glow { fill: none; stroke: var(--trace); stroke-linecap: round; opacity: .35; filter: blur(6px); }
+.trace-svg .ahead { fill: none; stroke: var(--trace-dim); stroke-linecap: round; stroke-dasharray: 1 7; }
+.trace-svg .head { fill: var(--trace-hot); }
+.trace-svg .head-halo { fill: var(--trace); opacity: .35; filter: blur(5px); }
+[data-theme="light"] .trace-svg .glow { opacity: .22; }
+.night .trace-svg .glow { opacity: .4; }
+
+/* Exposure grade: night duotone with lifted highlights. */
+.exposed { position: relative; overflow: hidden; background: #071022; }
+.exposed img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15) brightness(.95); mix-blend-mode: screen; opacity: .95; }
+.exposed::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #0B2340, #050B16); z-index: 0; }
+.exposed img { position: relative; z-index: 1; }
+.exposed::after { content: ""; position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, rgba(4,8,16,.0) 35%, rgba(4,8,16,.85)); pointer-events: none; }
+.exposed > :not(img) { z-index: 3; }
+.exposed.warm img { filter: grayscale(.35) contrast(1.1) brightness(.95); mix-blend-mode: normal; }
+/* Daylight grade for light theme: high key, cool. */
+[data-theme="light"] .exposed.day { background: #DCE8F0; }
+[data-theme="light"] .exposed.day::before { background: linear-gradient(180deg, #CFE3F1, #EAF2F7); }
+[data-theme="light"] .exposed.day img { filter: grayscale(.85) contrast(1.05) brightness(1.08); mix-blend-mode: multiply; }
+
+.still * { animation-duration: 0s !important; animation-delay: 0s !important; transition: none !important; }
+.still .btn-light::after { display: none; }
+html.full .tabs { position: absolute !important; }
+html.full body { position: relative; }
+.enter [data-in] { animation: rise 1s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 80ms + 120ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.trace-svg .node { fill: var(--ground); stroke: var(--trace-dim); stroke-width: 1.5; }
+.film .trace-svg .node { fill: var(--film); }
+.trace-svg .node.lit { fill: var(--trace-hot); stroke: var(--trace); stroke-width: 1.5; }
+
+html.full .home { display: none; }
