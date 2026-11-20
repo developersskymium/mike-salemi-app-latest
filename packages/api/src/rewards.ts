@@ -6,6 +6,10 @@ export interface EarnedBadge {
   tier: "bronze" | "silver" | "gold" | "platinum";
   icon: string | null;
   earned_at: string;
+  /** 0023: family, program enamel colour, program slug. */
+  family?: string | null;
+  medal_color?: string | null;
+  program_slug?: string | null;
 }
 
 export interface Rewards {
@@ -126,4 +130,76 @@ export async function referralTiers(sb: DB): Promise<ReferralTier[]> {
   const { data } = await sb.from("site_settings").select("value").eq("key", "referral_tiers").maybeSingle();
   const v = data?.value;
   return Array.isArray(v) ? (v as unknown as ReferralTier[]).filter((t) => typeof t.points === "number").sort((a, b) => a.points - b.points) : [];
+}
+
+/* ------------------------------------------------------------------ 0023: badges & rewards across all programs */
+
+export type BadgeFamily = "consistency" | "program" | "mastery" | "explorer" | "mike";
+
+export interface BadgePerkDef {
+  kind: "bonus_video" | "discount" | "free_month" | "coaching_credit";
+  label: string;
+  detail?: string | null;
+  percent?: number | null;
+  href?: string | null;
+}
+
+/** A badge definition with its family, program, enamel colour and perk. */
+export interface BadgeDefinition {
+  id: string;
+  name: string;
+  description: string;
+  tier: EarnedBadge["tier"];
+  icon: string | null;
+  points: number;
+  position: number;
+  family: BadgeFamily;
+  program_slug: string | null;
+  medal_color: string | null;
+  perk: BadgePerkDef | null;
+}
+
+/** A perk the member unlocked with a badge (discount perks carry a one-time coupon code). */
+export interface MemberPerk {
+  id: string;
+  badge_id: string;
+  kind: BadgePerkDef["kind"];
+  label: string;
+  detail: string | null;
+  href: string | null;
+  coupon_code: string | null;
+  percent_off: number | null;
+  expires_at: string | null;
+  redeemed_at: string | null;
+  created_at: string;
+}
+
+/** Every badge definition, in order (public read). */
+export async function badgeDefinitions(sb: DB): Promise<BadgeDefinition[]> {
+  const { data, error } = await sb
+    .from("badges")
+    .select("id, name, description, tier, icon, points, position, family, medal_color, perk, programs(slug)")
+    .order("position");
+  if (error) throw new Error(`badgeDefinitions: ${error.message}`);
+  return (data ?? []).map((b) => {
+    const { programs, ...rest } = b as typeof b & { programs: { slug: string } | null };
+    return { ...rest, program_slug: programs?.slug ?? null, perk: (rest.perk ?? null) as unknown as BadgePerkDef | null } as BadgeDefinition;
+  });
+}
+
+/** The member's unlocked perks, newest first. */
+export async function myPerks(sb: DB): Promise<MemberPerk[]> {
+  const { data, error } = await sb
+    .from("member_perks")
+    .select("id, badge_id, kind, label, detail, href, coupon_code, percent_off, expires_at, redeemed_at, created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`myPerks: ${error.message}`);
+  return (data ?? []) as MemberPerk[];
+}
+
+/** Re-checks every badge rule for the signed-in member and awards what is due. Returns new badge ids. */
+export async function evaluateMyBadges(sb: DB): Promise<string[]> {
+  const { data, error } = await rpc(sb, "evaluate_my_badges");
+  if (error) throw new Error(`evaluateMyBadges: ${error.message}`);
+  return (data ?? []) as string[];
 }
