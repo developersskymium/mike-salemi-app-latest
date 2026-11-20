@@ -3,6 +3,7 @@
 import { announceProgress } from "@/components/you/CelebrationHost";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { ReadinessForm } from "@ms/core";
+import Image from "next/image";
 import Link from "next/link";
 import type { LibraryVideo } from "@ms/api";
 import { Button, Chip, Glass, Icon, IconButton, StepSegments, haptic, useToast } from "@/components/ui";
@@ -13,7 +14,8 @@ import { VideoCard } from "../VideoCard";
 import { toolDef, type Answers, type ToolResultView } from "./defs";
 import { ResultVisual } from "./Results";
 import { ShareResult } from "./ShareCard";
-import { TOOL_META } from "./meta";
+import { STRETCH_DEMOS, TOOL_META, TOOL_PHOTO } from "./meta";
+import { MIKE_FACE } from "@/lib/covers";
 import { MovementCover } from "../library/MovementCover";
 import "../library/library.css";
 
@@ -138,8 +140,21 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
           <IconButton icon="back" label="All tools" href="/tools" />
         </div>
         <div className="w1-ti dsc-step-in">
-          <div className="w1-ti-art" aria-hidden>
-            <MovementCover move={meta?.move ?? "swing"} seed={tool.id} level="phase-1" size={260} animated />
+          <div className="w1-ti-art">
+            {TOOL_PHOTO[tool.id] ? (
+              <>
+                <Image src={TOOL_PHOTO[tool.id]!.src} alt={TOOL_PHOTO[tool.id]!.alt} fill priority sizes="(min-width: 960px) 520px, 100vw" style={{ objectFit: "cover", objectPosition: TOOL_PHOTO[tool.id]!.focal }} />
+                <span className="w1-ti-motif" aria-hidden>
+                  <MovementCover move={meta?.move ?? "swing"} seed={tool.id} level="phase-1" size={74} />
+                </span>
+                <span className="w1-ti-by">
+                  <span className="w1-ti-face"><Image src={MIKE_FACE} alt="" fill sizes="32px" /></span>
+                  <span><b>Mike Salemi</b> · your coach</span>
+                </span>
+              </>
+            ) : (
+              <MovementCover move={meta?.move ?? "swing"} seed={tool.id} level="phase-1" size={260} animated />
+            )}
           </div>
           <div className="w1-ti-text">
             <div className="w1-ti-chips">
@@ -163,6 +178,19 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
                 </li>
               ))}
             </ol>
+            {tool.id === "stretch-test" && (
+              <figure className="w1-ti-demos">
+                <figcaption className="lq-t13 lq-c2">Mike shows each position</figcaption>
+                <ul role="list">
+                  {STRETCH_DEMOS.map((d) => (
+                    <li key={d.src}>
+                      <span className="w1-ti-demo"><Image src={d.src} alt={`Mike Salemi in the ${d.label.toLowerCase()} stretch`} fill sizes="72px" /></span>
+                      <span className="lq-t12">{d.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </figure>
+            )}
             <Button block icon={last ? "repeat" : "play"} onClick={() => setStage({ at: "q", i: 0, dir: 1 })} className="dsc-tool-cta">
               {last ? copy.again : copy.start}
             </Button>

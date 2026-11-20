@@ -56,6 +56,8 @@ const isDraft = (p: CatalogProgram) => Boolean(p.draftNote && /await|concept|dra
 export function programHref(p: Pick<CatalogProgram, "slug" | "type">) {
   if (p.type === "course") return `/programs/${p.slug}/course`;
   if (p.type === "tool") return `/programs/${p.slug}/course`;
+  // Retreats open the retreats index (every run with its dates), never a generic concept page.
+  if (p.type === "retreat") return "/experiences";
   return `/programs/${p.slug}`;
 }
 

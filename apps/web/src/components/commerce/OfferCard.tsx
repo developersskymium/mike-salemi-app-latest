@@ -78,7 +78,7 @@ export function OfferCard({ view, placement, variant, className }: Props) {
         {variant === "feature" && image ? (
           <div className="com-offer com-offer-feature lq-fx lq-lift" data-fx="">
             <div className="com-offer-photo">
-              <Image src={image.url} alt={image.alt} fill sizes="(min-width: 1024px) 640px, 100vw" />
+              <Image src={image.url} alt={image.alt} fill sizes="(min-width: 1024px) 640px, 100vw" style={{ objectPosition: image.focal }} />
               <div className="lq-photo-scrim" />
             </div>
             <Glass level="clear" radius="panel" className="com-offer-feature-body">
@@ -96,7 +96,7 @@ export function OfferCard({ view, placement, variant, className }: Props) {
           <Glass radius="card" className="com-offer com-offer-compact lq-lift">
             <div className="com-offer-thumb">
               {image ? (
-                <Image src={image.url} alt={image.alt} fill sizes="112px" />
+                <Image src={image.url} alt={image.alt} fill sizes="112px" style={{ objectPosition: image.focal }} />
               ) : (
                 <span className="com-offer-glyph" aria-hidden>
                   <Icon name={KIND_ICON[offer.target_kind] ?? "sparkle"} size="lg" />

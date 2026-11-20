@@ -3,6 +3,7 @@
  * (TrainingHeatmap, TrainingStats, ContinueRail) and the client board share them.
  */
 import Image from "next/image";
+import { SafeImage } from "@/components/discover/library/SafeImage";
 import Link from "next/link";
 import { heatmapGrid, INTENT_LABEL, type HeatEntry, type LessonIntent } from "@ms/core";
 import type { ContinuePoint, TrainingStatsDTO } from "@ms/api";
@@ -139,7 +140,16 @@ export function ContinueCard({ c, eyebrow = "Continue where you left off" }: { c
   return (
     <Glass as={Link} href={continueHref(c)} radius="card" interactive className="sg-card sg-cont" aria-label={`Continue ${continueLabel(c)}, ${c.stepTitle ?? ""}`}>
       <div className="sg-cont-poster">
-        {c.poster && <Image src={c.poster} alt="" fill sizes="(min-width: 900px) 40vw, 100vw" unoptimized={c.poster.startsWith("http")} />}
+        {c.poster && (
+          <SafeImage
+            src={c.poster}
+            alt=""
+            fill
+            sizes="(min-width: 900px) 40vw, 100vw"
+            unoptimized={c.poster.startsWith("http")}
+            fallback={<Image src="/media/summit/mike-standing.jpg" alt="" fill sizes="(min-width: 900px) 40vw, 100vw" style={{ objectFit: "cover", objectPosition: "52% 26%" }} />}
+          />
+        )}
         <span className="sg-cont-play">
           <i>
             <Icon name="play" size="sm" />

@@ -69,16 +69,15 @@
 .jy[data-theme="mastery"] { --jy-motif: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 28px 28px, linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 28px 28px; }
 .jy[data-theme="athletic"] { --jy-motif: repeating-linear-gradient(-62deg, transparent 0 26px, rgba(215, 38, 46, .16) 26px 30px); }
 .jy[data-theme="athletic"] .jy-hero-t { text-transform: uppercase; letter-spacing: -.02em; }
-.jy[data-theme="athletic"] .jy-hero { border-radius: var(--r-xl, 26px) var(--r-xl, 26px) 0 0; box-shadow: none; }
 .jy[data-theme="calm"] { --jy-motif: radial-gradient(120% 90% at 0% 100%, rgba(167, 217, 190, .16), transparent 60%); }
 .jy[data-theme="calm"] .jy-hero-t { font-weight: 600; letter-spacing: -.03em; }
 .jy[data-theme="dusk"] { --jy-motif: radial-gradient(90% 70% at 10% 0%, rgba(232, 180, 60, .14), transparent 60%), linear-gradient(180deg, transparent 60%, rgba(82, 87, 196, .25)); }
 .jy[data-theme="earth"] { --jy-motif: radial-gradient(80% 60% at 0% 100%, rgba(242, 99, 42, .18), transparent 65%); }
 .jy[data-theme="ember"] { --jy-motif: radial-gradient(90% 70% at 0% 100%, rgba(242, 99, 42, .2), transparent 65%); }
 
-/* A4L: the brand strip directly under the hero */
-.jy-brand { margin-top: -28px; background: #000; border-radius: 0 0 var(--r-xl, 26px) var(--r-xl, 26px); box-shadow: var(--sh-3); overflow: hidden; display: grid; place-items: center; padding: 6px 16px; }
-.jy-brand img { width: min(100%, 760px); height: auto; display: block; }
+/* A4L: the brand mark as a small overlay badge on the photo (never a baked strip across the hero) */
+.jy-brand { position: absolute; right: 16px; bottom: 16px; z-index: 2; display: block; width: min(46%, 230px); padding: 6px 10px; border-radius: 12px; background: #000; box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.jy-brand img { width: 100%; height: auto; display: block; }
 
 /* ---------------------------------------------------------------- columns */
 .jy-cols { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
@@ -381,8 +380,7 @@
   .jy-pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .jy-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .jy-side { grid-template-columns: minmax(0, 1fr); }
-  .jy-brand { margin-top: -20px; }
-  .jy[data-theme="athletic"] .jy-hero { border-radius: var(--r-xl, 26px) var(--r-xl, 26px) 0 0; }
+  .jy-brand { right: 12px; bottom: 12px; width: min(52%, 190px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .jy-skill, .jy-day, .jy-meter-fill, .jy-bar > i { transition: none; }

@@ -282,7 +282,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       eyebrow: "Retreat · Applications open",
       title: openRun.name,
       line: [dateSpan(openRun.starts_at, openRun.ends_at), openRun.place].filter(Boolean).join(" · ") + (days > 0 ? ` · in ${days} days` : ""),
-      href: `/programs/${openRun.program_slug}`,
+      href: `/experiences/${openRun.id}`,
       icon: "mountain",
       date: openRun.starts_at.slice(0, 10),
     });
@@ -305,7 +305,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       status,
       statusLabel: status === "open" ? "Applications open" : status === "waitlist" ? "Waitlist" : status === "full" ? "Full" : status === "past" ? "Past retreat" : r.price_note ?? "",
       image: r.image ? { src: r.image.url, alt: r.image.alt } : null,
-      href: `/programs/${r.program_slug}`,
+      href: `/experiences/${r.id}`,
     };
   });
   const retreatProgram = raw.catalog.find((p) => p.type === "retreat");
@@ -351,7 +351,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
     locked,
     tiles: tiles.slice(0, 3),
     retreats,
-    retreatsHref: retreatProgram ? `/programs/${retreatProgram.slug}` : "/programs?tab=experiences",
+    retreatsHref: retreatProgram ? "/experiences" : "/programs?tab=experiences",
     checklist,
     checklistDone: checklist.filter((c) => c.done).length,
     readiness,

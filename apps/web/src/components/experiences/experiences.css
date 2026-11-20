@@ -403,3 +403,50 @@ a.exp-fact:hover { background: var(--fill); }
   .exp-notice .exp-note-art { display: none; }
 }
 .exp-l3-hero::after { background: linear-gradient(180deg, rgba(8,8,8,.18) 0%, rgba(8,8,8,.05) 28%, rgba(8,8,8,.55) 62%, rgba(8,8,8,.82) 100%); }
+
+/* Concept hero: focal point keeps the face in frame (desktop wide, phone tall). */
+.exp-l3-hero > img { object-position: var(--focal, 50% 35%); }
+@media (max-width: 639px) { .exp-l3-hero > img { object-position: var(--focal-phone, 50% 30%); } }
+
+/* Coaching concept: the full experience (CoachingStory) */
+.cst-sides { display: grid; gap: var(--s-4); }
+@media (min-width: 900px) { .cst-sides { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cst-side { display: flex; flex-direction: column; background: var(--surface); border-radius: var(--r-card); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+.cst-side-photo { position: relative; aspect-ratio: 16 / 10; background: #1A1D22; }
+.cst-side-photo img { object-fit: cover; }
+.cst-side-kicker { position: absolute; left: 14px; bottom: 14px; font: 600 12px/1 var(--font); letter-spacing: .02em; color: #fff; padding: 7px 11px; border-radius: 999px; background: rgba(12, 14, 18, .55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.cst-side-body { padding: var(--s-5); display: grid; gap: var(--s-3); }
+.cst-side-body h3 { margin: 0; }
+.cst-side-body ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.cst-side-body li { display: flex; gap: 10px; align-items: flex-start; font: var(--t-15); color: var(--text-2); }
+.cst-side-body li > svg { flex: none; margin-top: 4px; color: var(--ok); }
+.cst-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); counter-reset: none; }
+@media (min-width: 900px) { .cst-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cst-step { background: var(--surface); border-radius: var(--r-card); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; display: flex; flex-direction: column; }
+.cst-step-photo { position: relative; aspect-ratio: 4 / 3; background: #1A1D22; }
+.cst-step-photo img { object-fit: cover; }
+.cst-step-n { position: absolute; left: 14px; top: 14px; min-width: 40px; height: 40px; display: grid; place-items: center; border-radius: 999px; background: var(--surface); color: var(--text); font: 700 14px/1 var(--font-display); box-shadow: var(--sh-2); }
+.cst-step-body { padding: var(--s-4) var(--s-5) var(--s-5); display: grid; gap: 4px; }
+.cst-step-body b { font: 600 17px/1.25 var(--font-display); color: var(--text); }
+.cst-step-body span { font: var(--t-14, 400 14px/1.5 var(--font)); color: var(--text-2); }
+.cst-edge { position: relative; isolation: isolate; display: flex; align-items: flex-end; min-height: 340px; border-radius: var(--r-hero, 28px); overflow: hidden; color: #fff; text-decoration: none; background: #121418; }
+.cst-edge > img { object-fit: cover; z-index: -2; }
+.cst-edge::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10, 11, 14, .86) 0%, rgba(10, 11, 14, .6) 42%, rgba(10, 11, 14, 0) 72%); }
+.cst-edge-copy { display: grid; gap: 10px; max-width: 520px; padding: var(--s-8, 32px); }
+.cst-edge-copy > span:not([class]) { font: 400 15.5px/1.55 var(--font); color: rgba(255, 255, 255, .86); }
+.cst-edge-tag { justify-self: start; font: 700 11px/1 var(--font); letter-spacing: .08em; text-transform: uppercase; color: #1B1406; background: var(--gold, #E8B43C); padding: 6px 9px; border-radius: 999px; }
+.cst-edge-cta { display: inline-flex; align-items: center; gap: 6px; font: 600 14px/1 var(--font); margin-top: 6px; }
+.cst-band { margin-top: var(--s-8); display: flex; align-items: center; gap: var(--s-4); padding: var(--s-4) var(--s-5); border-radius: var(--r-card); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line), var(--sh-2); }
+.cst-band-face { position: relative; flex: none; width: 56px; height: 56px; border-radius: 999px; overflow: hidden; background: var(--surface-sunk); }
+.cst-band-face img { object-fit: cover; }
+.cst-band-tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.cst-band-tx b { font: 600 16px/1.3 var(--font-display); color: var(--text); }
+.cst-band-tx span { font: var(--t-13); color: var(--text-2); }
+@media (max-width: 639px) {
+  .cst-edge { min-height: 420px; }
+  .cst-edge > img { object-position: 45% 0%; }
+  .cst-edge::after { background: linear-gradient(180deg, rgba(10, 11, 14, 0) 25%, rgba(10, 11, 14, .88) 70%); }
+  .cst-edge-copy { padding: var(--s-5); }
+  .cst-band { flex-wrap: wrap; }
+  .cst-band > a { width: 100%; justify-content: center; }
+}

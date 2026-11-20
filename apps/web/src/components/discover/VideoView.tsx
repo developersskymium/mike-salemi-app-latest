@@ -6,10 +6,9 @@ import { useState } from "react";
 import type { LibraryVideo } from "@ms/api";
 import { Button, Chip, Glass, Icon, IconButton, Sheet, useToast } from "@/components/ui";
 import { addVideoToCollection, toggleSaveVideo } from "@/lib/actions/discover";
-import { moveFor, phaseOf, topicsOf, VideoCard } from "./VideoCard";
+import { moveFor, phaseOf, topicsOf, VideoCard, videoPoster } from "./VideoCard";
 import { LibraryPlayer } from "./library/LibraryPlayer";
-import { MovementCover } from "./library/MovementCover";
-import { coverOf } from "./library/model";
+import { VideoPoster } from "./library/VideoPoster";
 import "./library/library.css";
 
 type Props = {
@@ -77,14 +76,10 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
       <div className="dsc-video-main">
         <div className="dsc-player" data-playing={playing ? "" : undefined}>
           {playing ? (
-            <LibraryPlayer id={v.id} providerId={v.provider_id} hash={v.privacy_hash} title={v.title} />
+            <LibraryPlayer id={v.id} providerId={v.provider_id} hash={v.privacy_hash} title={v.title} poster={<VideoPoster {...videoPoster(v)} move={moveFor(v)} seed={v.id} figure={220} sizes="(min-width: 1024px) 720px, 100vw" />} />
           ) : (
             <button type="button" className="dsc-player-poster" onClick={() => setPlaying(true)} aria-label={`Play ${v.title}`}>
-              {coverOf(v.thumbnail_url) ? (
-                <Image src={coverOf(v.thumbnail_url)!} alt="" fill priority sizes="(min-width: 1024px) 720px, 100vw" />
-              ) : (
-                <MovementCover move={moveFor(v)} seed={v.id} level={v.tags.find((t) => t.namespace === "level")?.slug} size={220} />
-              )}
+              <VideoPoster {...videoPoster(v)} move={moveFor(v)} seed={v.id} level={v.tags.find((t) => t.namespace === "level")?.slug} figure={220} sizes="(min-width: 1024px) 720px, 100vw" priority />
               <span className="dsc-play" aria-hidden>
                 <Icon name="play" size="lg" />
               </span>

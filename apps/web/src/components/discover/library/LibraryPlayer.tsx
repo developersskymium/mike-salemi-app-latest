@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { saveVideoPositionAction } from "@/lib/actions/discover";
 
 type VimeoLike = {
+  ready: () => Promise<void>;
   on: (e: string, cb: (d: { seconds: number; duration: number }) => void) => void;
   setCurrentTime: (s: number) => Promise<number>;
   destroy: () => Promise<void>;
@@ -13,8 +14,9 @@ type VimeoLike = {
  * Inline Vimeo player (privacy hash supported) that remembers where the member stopped:
  * resumes at `resumeAt`, saves the position every ~15 s, on pause and when closed (Continue watching).
  */
-export function LibraryPlayer({ id, providerId, hash, title, resumeAt = 0 }: { id: string; providerId: string; hash: string | null; title: string; resumeAt?: number }) {
+export function LibraryPlayer({ id, providerId, hash, title, resumeAt = 0, poster }: { id: string; providerId: string; hash: string | null; title: string; resumeAt?: number; /** Shown (with the title) until the player is ready, never a grey box. */ poster?: ReactNode }) {
   const frame = useRef<HTMLIFrameElement>(null);
+  const [ready, setReady] = useState(false);
   const last = useRef({ seconds: resumeAt, duration: 0, saved: 0 });
   const src = `https://player.vimeo.com/video/${providerId}?${new URLSearchParams({
     ...(hash ? { h: hash } : {}),
@@ -38,6 +40,8 @@ export function LibraryPlayer({ id, providerId, hash, title, resumeAt = 0 }: { i
     void import("@vimeo/player").then(({ default: Player }) => {
       if (!alive || !frame.current) return;
       player = new Player(frame.current) as unknown as VimeoLike;
+      void player.ready().then(() => alive && setReady(true), () => {});
+      player.on("play", () => alive && setReady(true));
       if (resumeAt > 8) void player.setCurrentTime(resumeAt).catch(() => {});
       player.on("timeupdate", (d) => {
         last.current.seconds = d.seconds;
@@ -57,5 +61,15 @@ export function LibraryPlayer({ id, providerId, hash, title, resumeAt = 0 }: { i
     };
   }, [id, resumeAt]);
 
-  return <iframe ref={frame} src={src} title={title} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen className="w1-lib-frame" />;
+  return (
+    <>
+      <iframe ref={frame} src={src} title={title} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen className="w1-lib-frame" />
+      {poster && (
+        <div className="w1-lib-poster2" data-ready={ready ? "" : undefined} aria-hidden>
+          {poster}
+          <span className="w1-lib-poster2-cap">{title}</span>
+        </div>
+      )}
+    </>
+  );
 }

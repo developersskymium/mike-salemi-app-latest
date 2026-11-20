@@ -5,6 +5,7 @@ import { DraftChip } from "@/components/commerce/DraftChip";
 import { kindLabel, type ConceptProgram } from "@/lib/loaders/experiences";
 import { PosterFallback } from "@/components/poster/PosterFallback";
 import { ContextBar, Facts, Faq, Heading, Ticks } from "./RunParts";
+import { CoachingStory } from "./CoachingStory";
 
 /**
  * Program detail for coaching / live / challenge / retreat programs — legacy layout L3:
@@ -30,7 +31,11 @@ export function ConceptView({ data }: { data: ConceptProgram }) {
       <ContextBar back="/programs" backLabel="All programs" title={p.name} meta={kind} action={href ? <Button size="sm" variant="filled" href={href}>{p.type === "coaching" ? "Book" : "Open"}</Button> : <Chip variant="outline">Preview</Chip>} />
 
       <section className="exp-l3-hero" aria-labelledby="l3-title">
-        {p.hero ? <Image src={p.hero.url} alt={p.hero.alt} fill priority sizes="(min-width: 1024px) 1100px, 100vw" /> : <PosterFallback seed={p.slug} title={p.name} />}
+        {p.hero ? (
+          <Image src={p.hero.url} alt={p.hero.alt} fill priority sizes="(min-width: 1024px) 1100px, 100vw" style={{ "--focal": p.hero.focal ?? "50% 35%", "--focal-phone": p.hero.focalPhone ?? p.hero.focal ?? "50% 30%" } as React.CSSProperties} />
+        ) : (
+          <PosterFallback seed={p.slug} title={p.name} />
+        )}
         <div className="exp-l3-copy">
           <div className="exp-eyebrow"><span>{kind}</span>{preview && <Chip variant="clear">Preview</Chip>}<DraftChip note={p.draft_note} onPhoto /></div>
           <h1 id="l3-title" className="lq-display">{p.name}</h1>
@@ -57,6 +62,8 @@ export function ConceptView({ data }: { data: ConceptProgram }) {
             {p.highlights.map((h) => <li key={h}><Chip variant="glass" icon="sparkle">{h}</Chip></li>)}
           </ul>
         )}
+
+        {p.type === "coaching" && <CoachingStory priceLabel={p.price_label} />}
 
         {p.sections.map((s, i) => (
           <section key={s.heading} className="exp-section" aria-labelledby={`sec-${i}`}>

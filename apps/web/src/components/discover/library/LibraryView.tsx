@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { ContinueWatching, LibraryIndexVideo } from "@ms/api";
@@ -9,11 +10,10 @@ import { Rail } from "@/components/today/Rail";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { toggleSaveVideo } from "@/lib/actions/discover";
 import { LibraryPlayer } from "./LibraryPlayer";
-import { MovementCover } from "./MovementCover";
 import { SearchSuggest, type Suggestion } from "./SearchSuggest";
-import { SafeImage } from "./SafeImage";
+import { VideoPoster } from "./VideoPoster";
 import {
-  EMPTY, MOVE_INDEX, SORTS, SOURCES, VIEWS_KEY, categoriesFor, catsOf, cleanTitle, clock, coverOf, figureFor, filterSort, levelsOf, movesOf, primaryMove,
+  EMPTY, MOVE_INDEX, SORTS, SOURCES, VIEWS_KEY, categoriesFor, catsOf, cleanTitle, clock, figureFor, posterOf, filterSort, levelsOf, movesOf, primaryMove,
   tagsFor, terms, toQuery, topicsOf, type LibState, type MoveKey, type SavedView, type Sort, type Source,
 } from "./model";
 import "./library.css";
@@ -146,8 +146,28 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
   const clearAll = () => set({ ...EMPTY, source: s.source });
   const pool = s.source === "videos" ? videos.filter((v) => v.g.length > 0).length : videos.length;
 
+  const inProgramCount = videos.filter((v) => v.ip).length;
+  const moveCount = MOVE_INDEX.filter((m) => moveCounts.get(m.key)).length;
+
   return (
     <div className="w1-lib">
+      {/* ------------------------------------------------ photo hero: Mike leads (hidden while searching or playing) */}
+      {!filtered && !playing && (
+        <section className="w1-lib-hero" aria-labelledby="lib-hero-t">
+          <Image src="/media/summit/mike-windmill.jpg" alt="Mike Salemi in a kettlebell windmill" fill priority sizes="(min-width: 1024px) 1100px, 100vw" className="w1-lib-hero-img" />
+          <div className="w1-lib-hero-copy">
+            <p className="w1-lib-hero-eyebrow">The Library · filmed by Mike</p>
+            <h2 id="lib-hero-t" className="w1-lib-hero-t">Every move Mike teaches, in one place.</h2>
+            <p className="w1-lib-hero-p">Pick a movement, search a cue like &ldquo;tgu&rdquo; or &ldquo;hinge&rdquo;, or pick up where you stopped.</p>
+            <dl className="w1-lib-hero-stats">
+              <div><dt>Videos</dt><dd className="lq-num">{videos.length}</dd></div>
+              <div><dt>Movements</dt><dd className="lq-num">{moveCount}</dd></div>
+              <div><dt>In your program</dt><dd className="lq-num">{inProgramCount}</dd></div>
+            </dl>
+          </div>
+        </section>
+      )}
+
       {/* ------------------------------------------------ sticky compact toolbar + inline drawer */}
       <Glass className="w1-lib-bar" radius="card">
         <div className="w1-lib-barrow">
@@ -336,7 +356,15 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
         <section ref={playerRef} className="w1-lib-anchor" aria-label={`Now playing: ${cleanTitle(current.t)}`}>
         <Glass radius="card" className="w1-lib-player">
           <div className="w1-lib-stage">
-            <LibraryPlayer key={current.id} id={current.id} providerId={current.p} hash={current.h} title={cleanTitle(current.t)} resumeAt={resume[current.id] ?? 0} />
+            <LibraryPlayer
+              key={current.id}
+              id={current.id}
+              providerId={current.p}
+              hash={current.h}
+              title={cleanTitle(current.t)}
+              resumeAt={resume[current.id] ?? 0}
+              poster={<VideoPoster {...posterOf(current)} move={figureFor(primaryMove(current))} seed={current.id} level={levelsOf(current)[0]} figure={150} sizes="(min-width: 1024px) 900px, 100vw" />}
+            />
           </div>
           <div className="w1-lib-info">
             <div className="w1-lib-chips w1-lib-wrap">
@@ -468,13 +496,13 @@ function PortraitCard({
     <article className="w1-lib-card" data-active={active ? "" : undefined}>
       <button type="button" className="w1-lib-cardbtn lq-press" onClick={onPlay} aria-label={`Play ${title}`}>
         <span className="w1-lib-poster">
-          <SafeImage
-            src={coverOf(v.th, v.ct) ?? ""}
-            alt=""
-            fill
+          <VideoPoster
+            {...posterOf(v)}
+            move={figureFor(primaryMove(v))}
+            seed={v.id}
+            level={level}
             sizes="(min-width: 1536px) 18vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
             priority={priority}
-            fallback={<MovementCover move={figureFor(primaryMove(v))} seed={v.id} level={level} size={96} />}
           />
           {level && <span className="w1-lib-level lq-t11">{name("level", level)}</span>}
           {v.d ? <span className="w1-lib-dur lq-t11 lq-num">{clock(v.d)}</span> : null}
@@ -508,12 +536,12 @@ function ContinueCard({ c, inLibrary, onPlay }: { c: ContinueWatching; inLibrary
   const body = (
     <Glass radius="card" interactive className="w1-cw-card lq-lift">
       <span className="w1-cw-poster">
-        <SafeImage
-          src={coverOf(c.thumbnail_url, c.cover_has_text) ?? ""}
-          alt=""
-          fill
+        <VideoPoster
+          {...posterOf({ th: c.thumbnail_url, ct: c.cover_has_text, g: [], t: c.title, id: c.video_id })}
+          move={figureFor(primaryMove({ g: [], t: c.title }))}
+          seed={c.video_id}
+          figure={84}
           sizes="256px"
-          fallback={<MovementCover move={figureFor(primaryMove({ g: [], t: c.title }))} seed={c.video_id} size={84} />}
         />
         <span className="w1-cw-play" aria-hidden><Icon name="play" size="sm" /></span>
         {pct !== null && (

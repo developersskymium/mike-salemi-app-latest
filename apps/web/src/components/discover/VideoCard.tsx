@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { LibraryVideo } from "@ms/api";
-import { Glass, Icon, Poster } from "@/components/ui";
+import { Glass, Icon } from "@/components/ui";
 import type { MoveName } from "@/components/graphics";
-import { MovementCover } from "./library/MovementCover";
-import { coverOf } from "./library/model";
+import { posterOf } from "./library/model";
+import { VideoPoster } from "./library/VideoPoster";
 import "./discover.css";
 import "./library/library.css";
 
@@ -23,6 +23,11 @@ export function duration(s: number | null) {
   return `${m}:${String(s % 60).padStart(2, "0")}`;
 }
 
+/** Poster sources for a library video (Vimeo frame → photo of Mike doing the movement → designed cover). */
+export function videoPoster(v: Pick<LibraryVideo, "id" | "title" | "thumbnail_url" | "tags">) {
+  return posterOf({ id: v.id, t: v.title, th: v.thumbnail_url, g: v.tags.map((t) => `${t.namespace}:${t.slug}`) });
+}
+
 /** Glass video card: poster, title, phase and movement. The bookmark overlay is passed in by interactive parents. */
 export function VideoCard({ video: v, overlay, priority, compact }: { video: LibraryVideo; overlay?: React.ReactNode; priority?: boolean; compact?: boolean }) {
   const phase = phaseOf(v);
@@ -31,18 +36,11 @@ export function VideoCard({ video: v, overlay, priority, compact }: { video: Lib
   return (
     <Glass radius="card" interactive className="dsc-vc lq-lift" data-compact={compact ? "" : undefined}>
       <Link href={`/library/${v.id}`} className="dsc-vc-link" aria-label={v.title} />
-      {coverOf(v.thumbnail_url) ? (
-        <Poster aspect="16 / 9" className="dsc-vc-poster" image={{ src: coverOf(v.thumbnail_url)!, alt: "", sizes: "(min-width: 1024px) 320px, 92vw", priority }}>
-          {dur && <span className="lq-chip lq-glass dsc-vc-dur lq-num" data-level="clear">{dur}</span>}
-          {overlay}
-        </Poster>
-      ) : (
-        <div className="dsc-vc-poster dsc-vc-art">
-          <MovementCover move={moveFor(v)} seed={v.id} level={v.tags.find((t) => t.namespace === "level")?.slug} size={96} />
-          {dur && <span className="lq-chip lq-glass dsc-vc-dur lq-num" data-level="clear">{dur}</span>}
-          <div className="lq-over">{overlay}</div>
-        </div>
-      )}
+      <div className="dsc-vc-poster dsc-vc-art">
+        <VideoPoster {...videoPoster(v)} move={moveFor(v)} seed={v.id} level={v.tags.find((t) => t.namespace === "level")?.slug} sizes="(min-width: 1024px) 320px, 92vw" priority={priority} />
+        {dur && <span className="lq-chip lq-glass dsc-vc-dur lq-num" data-level="clear">{dur}</span>}
+        <div className="lq-over">{overlay}</div>
+      </div>
       <div className="dsc-vc-text">
         <div className="lq-t15 dsc-vc-title dsc-clamp2">{v.title}</div>
         <div className="lq-t12 lq-c2 dsc-vc-meta">
