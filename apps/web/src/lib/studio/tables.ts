@@ -174,7 +174,7 @@ export const TABLES = {
   },
   coaching_bookings: {
     label: "Booking", pk: ["id"], title: "id",
-    fields: [sel("status", "Status", ["booked", "completed", "cancelled", "no_show"], { required: true, notNull: true }), t("meeting_url", "Meeting URL"), long("coach_note", "Coach note")],
+    fields: [sel("status", "Status", ["booked", "completed", "cancelled", "no_show"], { required: true, notNull: true }), t("meeting_url", "Meeting URL"), long("coach_note", "Coach note"), long("homework", "Homework (one highest-priority thing)")],
   },
   organizations: {
     label: "Organization", pk: ["id"], title: "name",

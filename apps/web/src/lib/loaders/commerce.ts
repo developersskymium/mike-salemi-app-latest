@@ -159,6 +159,11 @@ export interface RunDetails {
   documents?: RunDocument[];
   help?: { email?: string; phone?: string; note?: string };
   format?: string;
+  /** "Hold Your Ground" / "Primal Reset" (spec 10). */
+  track?: string;
+  /** Regular price shown struck through next to the draft price, e.g. "$3,100–$3,250". */
+  price_compare_label?: string;
+  checklist_draft_note?: string;
 }
 export interface GalleryPhoto { url: string; caption: string; stock?: boolean }
 export interface ItineraryItem { id: string; day_index: number; starts_at: string | null; title: string; description: string | null; location: string | null }
@@ -181,25 +186,68 @@ export interface RunHub {
   };
   program: { id: string; slug: string; name: string; type: string };
   itinerary: ItineraryItem[];
-  application: { id: string; status: ApplicationStatus; applied_at: string } | null;
+  application: RunApplicationView | null;
   checklist: Record<string, boolean>;
   sessions: { id: string; title: string; starts_at: string; ends_at: string | null; join_url: string | null }[];
   /** Server price for booking this run (after acceptance or when no application is needed). */
   quote: Quote | null;
+  /** The run's draft price row (shown before acceptance; the quote decides what is charged). */
+  price: { amountCents: number; currency: string; draftNote: string | null } | null;
+  /** Open times for the alignment call (step 2); empty unless the call is still to book. */
+  callSlots: { id: string; starts_at: string; duration_minutes: number }[];
+  /** Men of Movement: Preparation, included with a booked place; opens ~3 months before the run. */
+  prepProgram: { slug: string; name: string; lessons: number; opensAt: string; open: boolean } | null;
+  /** The retreat program's shared copy: the five pillars, the two tracks, the daily rhythm. */
+  about: {
+    pillars: string[];
+    pillarsDraftNote: string | null;
+    tracks: { name: string; focus: string; venue: string }[];
+    tracksDraftNote: string | null;
+    rhythm: string | null;
+  };
 }
+
+export interface RunApplicationView {
+  id: string;
+  status: ApplicationStatus;
+  applied_at: string;
+  call_at: string | null;
+  call_url: string | null;
+  call_done_at: string | null;
+  decided_at: string | null;
+  payment_link_sent_at: string | null;
+}
+
+const PREP_SLUG = "men-of-movement";
+const PREP_DAYS_BEFORE = 90;
 
 async function realRunHub(runId: string): Promise<RunHub | null> {
   const { supabase: sb, user } = await getUser();
   const run = await getRun(sb, runId);
   if (!run) return null;
   const prog = (Array.isArray(run.programs) ? run.programs[0] : run.programs) as { id: string; slug: string; name: string; type: string } | null;
-  const [exp, checklist, sessions, q] = await Promise.all([
-    user ? myExperiences(sb).catch(() => null) : null,
+  const [app, checklist, sessions, q, priceRow, parent, prep] = await Promise.all([
+    user
+      ? sb.from("run_applications").select("id, status, created_at, call_at, call_url, call_done_at, decided_at, payment_link_sent_at").eq("run_id", runId).eq("user_id", user.id).neq("status", "cancelled").maybeSingle().then((r) => r.data)
+      : null,
     user ? myChecklist(sb, user.id, runId).catch(() => new Map<string, boolean>()) : new Map<string, boolean>(),
     runSessions(sb, runId).catch(() => []),
     quote(sb, "run", runId).catch(() => null),
+    sb.from("prices").select("amount_cents, currency, draft_note").eq("kind", "run").eq("ref_id", runId).eq("interval", "one_time").order("amount_cents").limit(1).maybeSingle().then((r) => r.data),
+    sb.from("programs").select("meta").eq("id", run.program_id).maybeSingle().then((r) => r.data),
+    sb.from("programs").select("id, slug, name, meta").eq("slug", PREP_SLUG).maybeSingle().then((r) => r.data),
   ]);
-  const mine = exp?.runs.find((r) => r.run_id === runId) ?? null;
+  const needsCall = app && (app.status === "submitted" || app.status === "call_booked") && !app.call_done_at;
+  const [slots, lessons, grant] = await Promise.all([
+    needsCall ? openCoachingSlots(sb, new Date(Date.now() + 2 * 3600000), new Date(Date.now() + 1000 * 60 * 60 * 24 * 28)).catch(() => []) : [],
+    prep ? sb.from("lessons").select("id", { count: "exact", head: true }).eq("program_id", prep.id).then((r) => r.count ?? 0) : 0,
+    prep && user && app?.status === "booked"
+      ? sb.from("access_grants").select("starts_at").eq("user_id", user.id).eq("program_id", prep.id).is("revoked_at", null).order("starts_at").limit(1).maybeSingle().then((r) => r.data)
+      : null,
+  ]);
+  const meta = (parent?.meta ?? {}) as { tracks?: RunHub["about"]["tracks"]; tracks_draft_note?: string; pillars_draft_note?: string; sections?: { heading: string; body: string }[] };
+  const prepMeta = (prep?.meta ?? {}) as { pillars?: string[] };
+  const opensAt = grant?.starts_at ?? new Date(new Date(run.starts_at).getTime() - PREP_DAYS_BEFORE * 86400000).toISOString();
   return {
     run: {
       id: run.id,
@@ -218,19 +266,47 @@ async function realRunHub(runId: string): Promise<RunHub | null> {
     },
     program: prog ?? { id: run.program_id, slug: "", name: "", type: "retreat" },
     itinerary: run.itinerary_items.map((i) => ({ id: i.id, day_index: i.day_index, starts_at: i.starts_at, title: i.title, description: i.description, location: i.location })),
-    application: mine ? { id: mine.application_id, status: mine.status, applied_at: mine.applied_at } : null,
+    application: app
+      ? { id: app.id, status: app.status as ApplicationStatus, applied_at: app.created_at, call_at: app.call_at, call_url: app.call_url, call_done_at: app.call_done_at, decided_at: app.decided_at, payment_link_sent_at: app.payment_link_sent_at }
+      : null,
     checklist: Object.fromEntries(checklist),
     sessions: sessions.map((s) => ({ id: s.id, title: s.title, starts_at: s.starts_at, ends_at: s.ends_at, join_url: s.join_url })),
     quote: q,
+    price: priceRow ? { amountCents: priceRow.amount_cents, currency: priceRow.currency, draftNote: priceRow.draft_note } : null,
+    callSlots: slots.map((x) => ({ id: x.id, starts_at: x.starts_at, duration_minutes: x.duration_minutes })),
+    prepProgram: prep ? { slug: prep.slug, name: prep.name, lessons, opensAt, open: Date.parse(opensAt) <= Date.now() && app?.status === "booked" } : null,
+    about: {
+      pillars: prepMeta.pillars ?? [],
+      pillarsDraftNote: meta.pillars_draft_note ?? null,
+      tracks: meta.tracks ?? [],
+      tracksDraftNote: meta.tracks_draft_note ?? null,
+      rhythm: meta.sections?.find((x) => /what it is/i.test(x.heading))?.body.match(/Mornings[^.]*\./)?.[0] ?? null,
+    },
   };
 }
 
-/** Retreat hub. Local preview: `commerce-run.json` (real run, member not booked) or `?preview=booked`. */
+/** Shifts a fixture run so `now` falls on day 2 (live) or three days after it ended (after). */
+function shiftRun(hub: RunHub, mode: "live" | "after"): RunHub {
+  const len = (hub.run.ends_at ? Date.parse(hub.run.ends_at) : Date.parse(hub.run.starts_at) + 3 * 86400000) - Date.parse(hub.run.starts_at);
+  const start = mode === "live" ? Date.now() - 1.3 * 86400000 : Date.now() - len - 3 * 86400000;
+  return {
+    ...hub,
+    run: { ...hub.run, status: mode === "live" ? "in_progress" : "past", starts_at: new Date(start).toISOString(), ends_at: new Date(start + len).toISOString() },
+    prepProgram: hub.prepProgram ? { ...hub.prepProgram, open: true, opensAt: new Date(start - PREP_DAYS_BEFORE * 86400000).toISOString() } : null,
+  };
+}
+
+/**
+ * Retreat page / hub. Local preview: `commerce-run.json` (not applied) or `?preview=` submitted · call · review ·
+ * accepted · booked · live · after (live/after reuse the booked fixture with the dates moved around today).
+ */
 export async function loadRunHub(runId: string, preview?: string | null): Promise<RunHub | null> {
   if (!/^[0-9a-f-]{36}$/i.test(runId)) return null;
   if (MOCK) {
-    const hub = await mockFixture<RunHub>("commerce-run", preview);
-    return hub.run.id === runId ? hub : null;
+    const mode = preview === "live" || preview === "after" ? preview : null;
+    const hub = await mockFixture<RunHub>("commerce-run", mode ? "booked" : preview);
+    if (hub.run.id !== runId) return null;
+    return mode ? shiftRun(hub, mode) : hub;
   }
   return realRunHub(runId);
 }
@@ -256,6 +332,10 @@ export interface CoachingSessionView {
   coach_note: string | null;
   can_cancel_with_refund: boolean;
   package: string | null;
+  /** Mike's one highest-priority thing after the session. */
+  homework?: string | null;
+  /** Member prep before the call. */
+  prep?: { goals: string | null; footage_url: string | null } | null;
 }
 export interface CoachingData {
   packages: CoachingPackageView[];
@@ -263,21 +343,42 @@ export interface CoachingData {
   slots: { id: string; starts_at: string; duration_minutes: number }[];
   upcoming: CoachingSessionView[];
   past: CoachingSessionView[];
+  /** The member's applications to packages that need one (package id → status). */
+  applications?: Record<string, string>;
+  /** Mike's coaching schedule (programs.meta.schedule). */
+  schedule?: { weekdays: number[]; minutes: number; timezone: string; draftNote: string | null } | null;
+  faq?: { q: string; a: string }[];
+  /** Executive Edge program copy (the package carries sessions and price). */
+  executive?: { summary: string | null; points: string[]; priceLabel: string | null } | null;
+  /** The group path that replaces group coaching (Zen Savage challenge). */
+  group?: { slug: string; name: string; tagline: string | null; summary: string | null } | null;
 }
 
 async function realCoaching(): Promise<CoachingData> {
   const { supabase: sb, user } = await getUser();
   if (!user) throw new Error("not signed in");
   const to = new Date(Date.now() + 1000 * 60 * 60 * 24 * 42);
-  const [pkgs, slots, exp, notes] = await Promise.all([
+  const [pkgs, slots, exp, notes, apps, progs] = await Promise.all([
     coachingPackages(sb),
     openCoachingSlots(sb, new Date(), to),
     myExperiences(sb),
-    sb.from("coaching_bookings").select("id, coach_note").eq("user_id", user.id),
+    sb.from("coaching_bookings").select("id, coach_note, homework, prep").eq("user_id", user.id),
+    sb.from("coaching_applications").select("package_id, status").eq("user_id", user.id),
+    sb.from("programs").select("slug, name, tagline, summary, meta, status").in("slug", ["coaching", "executive-edge", "zen-savage"]),
   ]);
-  const noteById = new Map((notes.data ?? []).map((n) => [n.id, n.coach_note]));
+  const extra = new Map((notes.data ?? []).map((n) => [n.id, n]));
   const now = Date.now();
-  const sessions: CoachingSessionView[] = exp.coaching.bookings.map((b) => ({ ...b, coach_note: noteById.get(b.id) ?? null }));
+  const sessions: CoachingSessionView[] = exp.coaching.bookings.map((b) => {
+    const x = extra.get(b.id);
+    const prep = (x?.prep ?? {}) as { goals?: string | null; footage_url?: string | null };
+    return { ...b, coach_note: x?.coach_note ?? null, homework: x?.homework ?? null, prep: prep.goals || prep.footage_url ? { goals: prep.goals ?? null, footage_url: prep.footage_url ?? null } : null };
+  });
+  const prog = (slug: string) => (progs.data ?? []).find((p) => p.slug === slug);
+  const coach = prog("coaching");
+  const cmeta = (coach?.meta ?? {}) as { schedule?: { weekdays?: number[]; minutes?: number; timezone?: string; draft_note?: string }; faq?: { q: string; a: string }[] };
+  const ee = prog("executive-edge");
+  const emeta = (ee?.meta ?? {}) as { sections?: { points?: string[] }[]; price_label?: string };
+  const zen = prog("zen-savage");
   return {
     packages: pkgs.map((p) => {
       const price = p.prices.find((x) => x.interval === "one_time") ?? p.prices[0];
@@ -295,6 +396,13 @@ async function realCoaching(): Promise<CoachingData> {
     slots: slots.map((s) => ({ id: s.id, starts_at: s.starts_at, duration_minutes: s.duration_minutes })),
     upcoming: sessions.filter((s) => s.status === "booked" && new Date(s.starts_at).getTime() + s.duration_minutes * 60000 > now).sort((a, b) => a.starts_at.localeCompare(b.starts_at)),
     past: sessions.filter((s) => !(s.status === "booked" && new Date(s.starts_at).getTime() + s.duration_minutes * 60000 > now)).sort((a, b) => b.starts_at.localeCompare(a.starts_at)),
+    applications: Object.fromEntries((apps.data ?? []).map((a) => [a.package_id, a.status])),
+    schedule: cmeta.schedule
+      ? { weekdays: cmeta.schedule.weekdays ?? [2], minutes: cmeta.schedule.minutes ?? 45, timezone: cmeta.schedule.timezone ?? "America/Los_Angeles", draftNote: cmeta.schedule.draft_note ?? null }
+      : null,
+    faq: cmeta.faq ?? [],
+    executive: ee ? { summary: ee.summary, points: emeta.sections?.[0]?.points ?? [], priceLabel: emeta.price_label ?? null } : null,
+    group: zen && zen.status === "published" ? { slug: zen.slug, name: zen.name, tagline: zen.tagline, summary: zen.summary } : null,
   };
 }
 

@@ -272,15 +272,58 @@ export type Database = {
           },
         ]
       }
+      coaching_applications: {
+        Row: {
+          admin_note: string | null
+          answers: Json
+          created_at: string
+          id: string
+          package_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_note?: string | null
+          answers?: Json
+          created_at?: string
+          id?: string
+          package_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_note?: string | null
+          answers?: Json
+          created_at?: string
+          id?: string
+          package_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coaching_applications_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       coaching_bookings: {
         Row: {
           coach_note: string | null
           created_at: string
           credit_id: string | null
           duration_minutes: number
+          homework: string | null
           id: string
           meeting_url: string | null
           member_note: string | null
+          prep: Json
           slot_id: string | null
           starts_at: string
           status: string
@@ -291,9 +334,11 @@ export type Database = {
           created_at?: string
           credit_id?: string | null
           duration_minutes?: number
+          homework?: string | null
           id?: string
           meeting_url?: string | null
           member_note?: string | null
+          prep?: Json
           slot_id?: string | null
           starts_at: string
           status?: string
@@ -304,9 +349,11 @@ export type Database = {
           created_at?: string
           credit_id?: string | null
           duration_minutes?: number
+          homework?: string | null
           id?: string
           meeting_url?: string | null
           member_note?: string | null
+          prep?: Json
           slot_id?: string | null
           starts_at?: string
           status?: string
@@ -559,6 +606,68 @@ export type Database = {
             columns: ["lesson_id"]
             isOneToOne: false
             referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_outbox: {
+        Row: {
+          attempts: number
+          created_at: string
+          dedupe_key: string
+          event_id: string | null
+          id: string
+          kind: string
+          last_error: string | null
+          payload: Json
+          provider_id: string | null
+          sent_at: string | null
+          status: string
+          subject: string | null
+          to_email: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          dedupe_key: string
+          event_id?: string | null
+          id?: string
+          kind: string
+          last_error?: string | null
+          payload?: Json
+          provider_id?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          to_email?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          dedupe_key?: string
+          event_id?: string | null
+          id?: string
+          kind?: string
+          last_error?: string | null
+          payload?: Json
+          provider_id?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          to_email?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_outbox_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "notification_events"
             referencedColumns: ["id"]
           },
         ]
@@ -1131,6 +1240,66 @@ export type Database = {
           },
         ]
       }
+      mtk_plans: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          days: Json
+          id: string
+          lesson_ids: string[]
+          program_id: string
+          response_id: string | null
+          result: Json
+          schedule: Json
+          status: string
+          user_id: string
+          version: number
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          days?: Json
+          id?: string
+          lesson_ids?: string[]
+          program_id: string
+          response_id?: string | null
+          result?: Json
+          schedule?: Json
+          status?: string
+          user_id: string
+          version?: number
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          days?: Json
+          id?: string
+          lesson_ids?: string[]
+          program_id?: string
+          response_id?: string | null
+          result?: Json
+          schedule?: Json
+          status?: string
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mtk_plans_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mtk_plans_response_id_fkey"
+            columns: ["response_id"]
+            isOneToOne: false
+            referencedRelation: "intake_responses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notices: {
         Row: {
           audience: Json
@@ -1173,41 +1342,125 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_events: {
+        Row: {
+          body: string | null
+          channel: string
+          cleared_at: string | null
+          created_at: string
+          dedupe_key: string | null
+          detail: string | null
+          error: string | null
+          id: string
+          kind: string
+          opened_at: string | null
+          payload: Json
+          scheduled_for: string | null
+          seen_at: string | null
+          status: string
+          title: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          channel: string
+          cleared_at?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          detail?: string | null
+          error?: string | null
+          id?: string
+          kind: string
+          opened_at?: string | null
+          payload?: Json
+          scheduled_for?: string | null
+          seen_at?: string | null
+          status?: string
+          title: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          channel?: string
+          cleared_at?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          detail?: string | null
+          error?: string | null
+          id?: string
+          kind?: string
+          opened_at?: string | null
+          payload?: Json
+          scheduled_for?: string | null
+          seen_at?: string | null
+          status?: string
+          title?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       notification_prefs: {
         Row: {
+          announcements: boolean
           email_enabled: boolean
+          frequency: string
+          in_app_enabled: boolean
+          new_content: boolean
           offers_email: boolean
           push_enabled: boolean
           quiet_end: string | null
           quiet_start: string | null
           reminder_days: number[]
           reminder_time: string
+          reminder_times: Json
+          reminders_enabled: boolean
+          skip_date: string | null
+          snoozed_until: string | null
           streak_nudge: boolean
           updated_at: string
           user_id: string
           weekly_recap: boolean
         }
         Insert: {
+          announcements?: boolean
           email_enabled?: boolean
+          frequency?: string
+          in_app_enabled?: boolean
+          new_content?: boolean
           offers_email?: boolean
           push_enabled?: boolean
           quiet_end?: string | null
           quiet_start?: string | null
           reminder_days?: number[]
           reminder_time?: string
+          reminder_times?: Json
+          reminders_enabled?: boolean
+          skip_date?: string | null
+          snoozed_until?: string | null
           streak_nudge?: boolean
           updated_at?: string
           user_id: string
           weekly_recap?: boolean
         }
         Update: {
+          announcements?: boolean
           email_enabled?: boolean
+          frequency?: string
+          in_app_enabled?: boolean
+          new_content?: boolean
           offers_email?: boolean
           push_enabled?: boolean
           quiet_end?: string | null
           quiet_start?: string | null
           reminder_days?: number[]
           reminder_time?: string
+          reminder_times?: Json
+          reminders_enabled?: boolean
+          skip_date?: string | null
+          snoozed_until?: string | null
           streak_nudge?: boolean
           updated_at?: string
           user_id?: string
@@ -1926,16 +2179,19 @@ export type Database = {
         Row: {
           access_days: number | null
           included_program_id: string
+          opens_days_before: number | null
           parent_program_id: string
         }
         Insert: {
           access_days?: number | null
           included_program_id: string
+          opens_days_before?: number | null
           parent_program_id: string
         }
         Update: {
           access_days?: number | null
           included_program_id?: string
+          opens_days_before?: number | null
           parent_program_id?: string
         }
         Relationships: [
@@ -2386,6 +2642,30 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_events: {
+        Row: {
+          channel: string | null
+          created_at: string
+          id: number
+          kind: string
+          referrer_id: string
+        }
+        Insert: {
+          channel?: string | null
+          created_at?: string
+          id?: never
+          kind: string
+          referrer_id: string
+        }
+        Update: {
+          channel?: string | null
+          created_at?: string
+          id?: never
+          kind?: string
+          referrer_id?: string
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           created_at: string
@@ -2483,9 +2763,15 @@ export type Database = {
         Row: {
           admin_note: string | null
           answers: Json
+          call_at: string | null
+          call_done_at: string | null
+          call_slot_id: string | null
+          call_url: string | null
           created_at: string
+          decided_at: string | null
           id: string
           order_id: string | null
+          payment_link_sent_at: string | null
           run_id: string
           status: string
           updated_at: string
@@ -2494,9 +2780,15 @@ export type Database = {
         Insert: {
           admin_note?: string | null
           answers?: Json
+          call_at?: string | null
+          call_done_at?: string | null
+          call_slot_id?: string | null
+          call_url?: string | null
           created_at?: string
+          decided_at?: string | null
           id?: string
           order_id?: string | null
+          payment_link_sent_at?: string | null
           run_id: string
           status?: string
           updated_at?: string
@@ -2505,15 +2797,28 @@ export type Database = {
         Update: {
           admin_note?: string | null
           answers?: Json
+          call_at?: string | null
+          call_done_at?: string | null
+          call_slot_id?: string | null
+          call_url?: string | null
           created_at?: string
+          decided_at?: string | null
           id?: string
           order_id?: string | null
+          payment_link_sent_at?: string | null
           run_id?: string
           status?: string
           updated_at?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "run_applications_call_slot_id_fkey"
+            columns: ["call_slot_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_slots"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "run_applications_order_id_fkey"
             columns: ["order_id"]
@@ -2781,6 +3086,118 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      shop_products: {
+        Row: {
+          bullets: Json
+          category: string | null
+          created_at: string
+          description: string | null
+          file_url: string | null
+          gallery: Json
+          id: string
+          image: string | null
+          inquiry: Json | null
+          is_active: boolean
+          name: string
+          note: string | null
+          position: number
+          program_id: string | null
+          slug: string
+          tagline: string | null
+          type: string
+        }
+        Insert: {
+          bullets?: Json
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          gallery?: Json
+          id?: string
+          image?: string | null
+          inquiry?: Json | null
+          is_active?: boolean
+          name: string
+          note?: string | null
+          position?: number
+          program_id?: string | null
+          slug: string
+          tagline?: string | null
+          type: string
+        }
+        Update: {
+          bullets?: Json
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          gallery?: Json
+          id?: string
+          image?: string | null
+          inquiry?: Json | null
+          is_active?: boolean
+          name?: string
+          note?: string | null
+          position?: number
+          program_id?: string | null
+          slug?: string
+          tagline?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shop_products_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shop_variants: {
+        Row: {
+          currency: string
+          id: string
+          is_active: boolean
+          key: string
+          label: string
+          position: number
+          price_cents: number
+          product_id: string
+          stripe_price_id: string | null
+        }
+        Insert: {
+          currency?: string
+          id?: string
+          is_active?: boolean
+          key: string
+          label: string
+          position?: number
+          price_cents: number
+          product_id: string
+          stripe_price_id?: string | null
+        }
+        Update: {
+          currency?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          label?: string
+          position?: number
+          price_cents?: number
+          product_id?: string
+          stripe_price_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shop_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "shop_products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       site_settings: {
         Row: {
@@ -3233,6 +3650,38 @@ export type Database = {
         }
         Relationships: []
       }
+      video_positions: {
+        Row: {
+          duration: number | null
+          seconds: number
+          updated_at: string
+          user_id: string
+          video_id: string
+        }
+        Insert: {
+          duration?: number | null
+          seconds?: number
+          updated_at?: string
+          user_id: string
+          video_id: string
+        }
+        Update: {
+          duration?: number | null
+          seconds?: number
+          updated_at?: string
+          user_id?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_positions_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       video_tags: {
         Row: {
           tag_id: string
@@ -3344,6 +3793,14 @@ export type Database = {
     }
     Functions: {
       accept_org_invite: { Args: { p_token: string }; Returns: Json }
+      ack_notifications: {
+        Args: { p_ids: string[]; p_opened?: boolean }
+        Returns: number
+      }
+      apply_for_coaching: {
+        Args: { p_answers?: Json; p_package: string }
+        Returns: Json
+      }
       apply_missed_day_rule: {
         Args: { p_plan: string; p_today?: string }
         Returns: Json
@@ -3357,10 +3814,21 @@ export type Database = {
         Args: { p_note?: string; p_slot: string }
         Returns: Json
       }
+      book_run_call: { Args: { p_run: string; p_slot: string }; Returns: Json }
       can_access: { Args: { p_program: string }; Returns: boolean }
       cancel_coaching: { Args: { p_booking: string }; Returns: Json }
       claim_referral: { Args: { p_code: string }; Returns: Json }
+      clear_notification_history: { Args: never; Returns: number }
       complete_step: { Args: { p_step: string; p_via?: string }; Returns: Json }
+      create_mtk_plan: {
+        Args: {
+          p_days: Json
+          p_response: string
+          p_result: Json
+          p_schedule: Json
+        }
+        Returns: Json
+      }
       create_pending_order: {
         Args: {
           p_coupon?: string
@@ -3370,6 +3838,14 @@ export type Database = {
           p_ref: string
           p_user: string
         }
+        Returns: Json
+      }
+      create_shop_cart_order: {
+        Args: { p_items: Json; p_user: string }
+        Returns: Json
+      }
+      create_shop_order: {
+        Args: { p_quantity?: number; p_user: string; p_variant: string }
         Returns: Json
       }
       curriculum_progress: {
@@ -3406,6 +3882,24 @@ export type Database = {
       join_org: { Args: { p_join_token: string }; Returns: Json }
       lesson_state: { Args: { p_lesson: string }; Returns: Json }
       lesson_unlocked: { Args: { p_lesson: string }; Returns: boolean }
+      library_continue: {
+        Args: { p_limit?: number }
+        Returns: {
+          duration_seconds: number
+          lesson_id: string
+          lesson_title: string
+          privacy_hash: string
+          program_name: string
+          program_slug: string
+          provider_id: string
+          seconds: number
+          thumbnail_url: string
+          title: string
+          updated_at: string
+          video_id: string
+        }[]
+      }
+      library_index: { Args: never; Returns: Json }
       library_session: { Args: { p_video: string }; Returns: Json }
       library_videos: {
         Args: {
@@ -3440,6 +3934,9 @@ export type Database = {
         Args: { p_event: string; p_offer: string; p_placement: string }
         Returns: undefined
       }
+      log_referral_share: { Args: { p_channel: string }; Returns: undefined }
+      log_referral_visit: { Args: { p_code: string }; Returns: undefined }
+      my_badge_progress: { Args: never; Returns: Json }
       my_continue: {
         Args: { p_limit?: number; p_program?: string }
         Returns: {
@@ -3536,6 +4033,34 @@ export type Database = {
         Args: { p_coach: string; p_member: string; p_org: string }
         Returns: undefined
       }
+      pending_notifications: {
+        Args: never
+        Returns: {
+          body: string | null
+          channel: string
+          cleared_at: string | null
+          created_at: string
+          dedupe_key: string | null
+          detail: string | null
+          error: string | null
+          id: string
+          kind: string
+          opened_at: string | null
+          payload: Json
+          scheduled_for: string | null
+          seen_at: string | null
+          status: string
+          title: string
+          url: string | null
+          user_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "notification_events"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       program_access_states: {
         Args: never
         Returns: {
@@ -3543,6 +4068,18 @@ export type Database = {
           state: string
         }[]
       }
+      program_outline_stats: {
+        Args: never
+        Returns: {
+          first_lesson_id: string
+          first_lesson_title: string
+          lessons: number
+          path_id: string
+          program_id: string
+          sections: number
+        }[]
+      }
+      queue_welcome_email: { Args: never; Returns: boolean }
       quick_session: {
         Args: {
           p_intent?: string
@@ -3561,10 +4098,28 @@ export type Database = {
         }
         Returns: Json
       }
+      reflow_plan: {
+        Args: { p_days: number[]; p_from?: string; p_plan: string }
+        Returns: Json
+      }
+      refresh_estimated_minutes: { Args: never; Returns: Json }
       refund_order: { Args: { p_order: string }; Returns: Json }
+      reminder_candidates: { Args: { p_now?: string }; Returns: Json }
+      reminder_control: {
+        Args: { p_action: string; p_minutes?: number }
+        Returns: Json
+      }
       repeat_session: { Args: { p_session: string }; Returns: Json }
+      reschedule_coaching: {
+        Args: { p_booking: string; p_slot: string }
+        Returns: Json
+      }
       restart_path: {
         Args: { p_path?: string; p_program: string }
+        Returns: Json
+      }
+      save_coaching_prep: {
+        Args: { p_booking: string; p_footage_url?: string; p_goals: string }
         Returns: Json
       }
       save_day_note: {
@@ -3606,6 +4161,10 @@ export type Database = {
           p_video?: string
         }
         Returns: Json
+      }
+      set_missed_day_rule: {
+        Args: { p_plan: string; p_rule: string }
+        Returns: string
       }
       set_session_favourite: {
         Args: { p_on: boolean; p_session: string }

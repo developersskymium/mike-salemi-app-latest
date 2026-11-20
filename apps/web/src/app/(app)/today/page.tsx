@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { RetreatJourney } from "@/components/experiences/RetreatJourney";
 import { buildHome } from "@/components/today/buildHome";
 import { buildToday } from "@/components/today/buildToday";
 import { TodayScreen } from "@/components/today/TodayScreen";
@@ -17,5 +19,5 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
   // First visit with no goal: the goal-setting onboarding (members can skip it once).
   if (view.needsOnboarding) redirect("/onboarding");
   const home = homeRaw ? buildHome(homeRaw, view) : null;
-  return <TodayScreen v={view} home={home} homeError={!homeRaw} />;
+  return <TodayScreen v={view} home={home} homeError={!homeRaw} retreat={<Suspense fallback={null}><RetreatJourney /></Suspense>} />;
 }

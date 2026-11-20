@@ -61,9 +61,9 @@ export function ApplyForm({ runId, runName, dates, waitlist }: { runId: string; 
     return (
       <Glass radius="card" className="com-result-card" style={{ margin: "0 auto" }}>
         <Completion variant="milestone" size={160} label="Application sent" />
-        <h2 className="lq-t28">{sent === "waitlist" ? "You’re on the waitlist" : "Application sent"}</h2>
-        <p className="lq-t15 lq-c2">Mike&rsquo;s team reads every application and will reach out to book a short alignment call. Nothing has been charged.</p>
-        <Button block href={`/experiences/${runId}`}>Back to {runName}</Button>
+        <h2 className="lq-t28">{sent === "waitlist" ? "You’re on the waitlist" : "Step 1 done. Application sent."}</h2>
+        <p className="lq-t15 lq-c2">{sent === "waitlist" ? "You’ll be first to hear when a place opens. Nothing has been charged." : "Next, pick a time for a short call with Mike’s team. Nothing has been charged."}</p>
+        <Button block href={sent === "waitlist" ? `/experiences/${runId}` : `/experiences/${runId}#call`} icon={sent === "waitlist" ? undefined : "calendar"}>{sent === "waitlist" ? `Back to ${runName}` : "Pick a call time"}</Button>
       </Glass>
     );
   }
@@ -133,7 +133,7 @@ export function ApplyForm({ runId, runName, dates, waitlist }: { runId: string; 
             <div>
               <div className="exp-kicker">Review</div>
               <h2 className="lq-t22">Ready to send?</h2>
-              <p className="lq-t13 lq-c2" style={{ marginTop: 4 }}>Nothing is charged. Mike&rsquo;s team reviews every application and books a short alignment call.</p>
+              <p className="lq-t13 lq-c2" style={{ marginTop: 4 }}>Nothing is charged. Next you pick a time for a short call with Mike&rsquo;s team.</p>
             </div>
             <div className="exp-review">
               {([
