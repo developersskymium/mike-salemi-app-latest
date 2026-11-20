@@ -26,6 +26,8 @@ export function useAutoAdvance(options: {
   seconds?: number;
   /** Called when a countdown starts, so the caller can move the overlay into the fullscreen element. */
   onCountdownStart?: () => void;
+  /** Run even when the athlete has switched "Autoplay next" off (e.g. clips inside one step). */
+  ignorePreference?: boolean;
 }) {
   const total = options.seconds ?? DEFAULT_SECONDS;
   const [enabled, setEnabledState] = useState(true);
@@ -60,8 +62,9 @@ export function useAutoAdvance(options: {
     [stop],
   );
 
+  const ignorePreference = Boolean(options.ignorePreference);
   const start = useCallback(() => {
-    if (!enabled || timer.current) return;
+    if ((!enabled && !ignorePreference) || timer.current) return;
     startCb.current?.();
     setRemaining(total);
     timer.current = setInterval(() => {
@@ -76,7 +79,7 @@ export function useAutoAdvance(options: {
         return value - 1;
       });
     }, 1000);
-  }, [enabled, total]);
+  }, [enabled, ignorePreference, total]);
 
   const advanceNow = useCallback(() => {
     stop();

@@ -338,6 +338,37 @@ function DayStage({ location }: { location: DayLocation }) {
   useEffect(() => autoAdvance.cancel(), [active?.id]);
 
   /*
+   * Between videos inside one step: a 5-second "Up next" countdown, then the
+   * next clip plays. Always on — the "Autoplay next" switch governs moving
+   * between steps only.
+   */
+  const [pendingClip, setPendingClip] = useState<{ title: string; vimeoId: string } | null>(null);
+  const pendingClipRef = useRef(pendingClip);
+  pendingClipRef.current = pendingClip;
+  const clipAdvance = useAutoAdvance({
+    seconds: 5,
+    ignorePreference: true,
+    onAdvance: () => {
+      const next = pendingClipRef.current;
+      setPendingClip(null);
+      if (next) setClip(next);
+    },
+    onCountdownStart: () => {
+      const wrap = stageWrapRef.current;
+      const current = document.fullscreenElement;
+      if (!wrap || !current || current === wrap) return;
+      void Promise.resolve(document.exitFullscreen?.())
+        .then(() => wrap.requestFullscreen?.())
+        .catch(() => {});
+    },
+  });
+  useEffect(() => {
+    clipAdvance.cancel();
+    setPendingClip(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active?.id, clip?.vimeoId]);
+
+  /*
    * A step's videos play as one playlist: the lesson video, then every clip
    * in its list, one after another. Only when the last one is watched does the
    * step complete and hand over to the next step. Lessons whose own video is
@@ -354,7 +385,9 @@ function DayStage({ location }: { location: DayLocation }) {
   };
   stageEndedRef.current = () => {
     // More videos in this step: play the next one straight away.
-    if (nextClip) setClip({ title: nextClip.title, vimeoId: nextClip.vimeoId });
+    if (!nextClip) return;
+    setPendingClip({ title: nextClip.title, vimeoId: nextClip.vimeoId });
+    clipAdvance.start();
   };
 
   const isUnlocked = (i: number) => i <= unlockedThrough || done(lessons[i]?.id ?? "");
@@ -595,11 +628,26 @@ function DayStage({ location }: { location: DayLocation }) {
                   </div>
                 )}
 
-                {stageResume.show && autoAdvance.remaining === null && (
+                {stageResume.show &&
+                  autoAdvance.remaining === null &&
+                  clipAdvance.remaining === null && (
                   <ResumePill
                     seconds={stageResume.resumeAt}
                     onResume={stageResume.seek}
                     onDismiss={stageResume.dismiss}
+                  />
+                )}
+
+                {clipAdvance.remaining !== null && pendingClip && (
+                  <AutoAdvanceOverlay
+                    remaining={clipAdvance.remaining}
+                    total={clipAdvance.total}
+                    title={pendingClip.title}
+                    onCancel={() => {
+                      clipAdvance.cancel();
+                      setPendingClip(null);
+                    }}
+                    onNow={clipAdvance.advanceNow}
                   />
                 )}
 
