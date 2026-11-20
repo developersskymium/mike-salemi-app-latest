@@ -74,7 +74,7 @@
 .pv-card-a { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .pv-weekdays { display: flex; gap: 6px; }
 .pv-weekdays span { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 600 12px/1 var(--font); color: var(--label-3); }
-.pv-weekdays span[data-on] { background: var(--accent); color: #fff; box-shadow: none; }
+.pv-weekdays span[data-on] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 .pv-offer:empty { display: none; }
 
 .pv-today { display: block; border-radius: 22px; overflow: hidden; background: var(--hero-ink, #0E1B2C); color: #fff; text-decoration: none; box-shadow: var(--sh-3); }
@@ -148,6 +148,8 @@ li[data-now] .pv-path-n i { width: 10px; height: 10px; border-radius: 50%; backg
 .cv-tab small { font: 600 11.5px/1 var(--font); color: var(--ok); }
 .cv-tab[aria-pressed="true"] { background: var(--text); color: var(--bg); box-shadow: none; }
 .cv-tab[aria-pressed="true"] small { color: var(--ember-300); }
+:root[data-theme="dark"] .cv-tab[aria-pressed="true"] small { color: #A93C12; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cv-tab[aria-pressed="true"] small { color: #A93C12; } }
 .cv-tab .lq-icon { color: var(--ok); }
 .cv-search { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border-radius: 99px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--label-3); width: 200px; }
 .cv-search input { flex: 1; min-width: 0; border: 0; background: none; outline: none; font: 500 13.5px/1 var(--font); color: var(--text); }

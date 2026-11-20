@@ -192,7 +192,7 @@ p.lq-t17, p.lq-t20, .lq-t17.lq-c2, .lq-t17.lq-c3 { font-family: var(--font); fon
 .lq-btn[data-variant="filled"] { color: var(--on-accent); background: var(--accent); box-shadow: var(--sh-accent); }
 .lq-btn[data-variant="filled"]:hover { background: var(--accent-strong); }
 /* ember: resume / progress actions */
-.lq-btn[data-variant="warm"] { color: #fff; background: var(--warm); box-shadow: var(--sh-warm); }
+.lq-btn[data-variant="warm"] { color: var(--on-warm, #fff); background: var(--warm); box-shadow: var(--sh-warm); }
 .lq-btn[data-variant="warm"]:hover { background: var(--warm-strong); }
 /* ink: strong neutral (Apply) */
 .lq-btn[data-variant="ink"] { color: var(--bg); background: var(--label); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); }
@@ -275,7 +275,7 @@ p.lq-t17, p.lq-t20, .lq-t17.lq-c2, .lq-t17.lq-c3 { font-family: var(--font); fon
 .lq-chip[data-variant="tint"], .lq-chip[data-variant="accent"] { background: var(--accent-soft); color: var(--accent-ink); box-shadow: none; }
 .lq-chip[data-variant="warm"] { background: var(--warm-soft); color: var(--warm-ink); box-shadow: none; }
 .lq-chip[data-variant="ok"] { background: var(--ok-soft); color: var(--ok-ink); box-shadow: none; }
-.lq-chip[data-variant="solid"] { background: var(--accent); color: #fff; box-shadow: none; }
+.lq-chip[data-variant="solid"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 .lq-chip[data-variant="light"] { background: rgba(255, 255, 255, .94); color: var(--ink-900); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
 .lq-chip[data-variant="ink"] { background: var(--label); color: var(--bg); box-shadow: none; }
 .lq-chip[data-variant="outline"] { background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
@@ -283,7 +283,7 @@ p.lq-t17, p.lq-t20, .lq-t17.lq-c2, .lq-t17.lq-c3 { font-family: var(--font); fon
   background: rgba(12, 22, 36, .42); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
 }
-.lq-chip[data-selected] { background: var(--accent); color: #fff; box-shadow: none; }
+.lq-chip[data-selected] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 a.lq-chip, button.lq-chip { cursor: pointer; transition: transform var(--dur-press) var(--curve-spring), background-color .2s var(--curve-out); }
 a.lq-chip:active, button.lq-chip:active { transform: scale(.96); }
 .lq-chip .lq-dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--warm); }
@@ -298,7 +298,7 @@ a.lq-chip:active, button.lq-chip:active { transform: scale(.96); }
   border-radius: var(--r-pill); background: var(--label); color: var(--bg);
   font: 600 11.5px/1 var(--font-display); font-variant-numeric: tabular-nums;
 }
-.lq-score[data-now] { background: var(--warm); color: #fff; }
+.lq-score[data-now] { background: var(--warm); color: var(--on-warm, #fff); }
 
 /* Tag (v4): a small white pill with a coloured dot — colour lives in the dot, not the chrome.
    size lg = the clear pill used over hero photos. */
@@ -722,5 +722,9 @@ select.lq-input { padding-right: 36px; background-image: url("data:image/svg+xml
 
 /* controls inside a white caption plate read as on-surface controls */
 .lq-card > .lq-foot .lq-chip[data-level="clear"] { background: var(--surface-sunk); color: var(--label-2); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.lq-card > .lq-foot .lq-btn[data-variant="white"] { background: var(--accent); color: #fff; box-shadow: var(--sh-accent); }
+.lq-card > .lq-foot .lq-btn[data-variant="white"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--sh-accent); }
 .lq-card > .lq-foot .lq-btn[data-variant="onphoto"] { background: var(--surface); color: var(--label); box-shadow: var(--sh-control); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* dark: the bright glacier/ember fills carry dark ink (white measured 2.5-2.8:1) */
+:root[data-theme="dark"] { --on-accent: #08141F; --on-warm: #1C0B02; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --on-accent: #08141F; --on-warm: #1C0B02; } }

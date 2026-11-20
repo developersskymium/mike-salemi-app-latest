@@ -191,7 +191,7 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 .pln-page .tpy-entry[draggable="true"]::after { content: ""; position: absolute; right: 8px; top: 10px; width: 6px; height: 10px; opacity: 0; background-image: radial-gradient(circle, var(--text-3) 1px, transparent 1.4px); background-size: 3px 3.4px; transition: opacity 140ms ease; }
 .pln-page .tpy-entry[draggable="true"]:hover::after { opacity: 1; }
 .pln-page .tpy-glyph { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-.pln-page .tpy-glyph[data-now] { background: var(--warm); color: #fff; box-shadow: none; }
+.pln-page .tpy-glyph[data-now] { background: var(--warm); color: var(--on-warm, #fff); box-shadow: none; }
 .pln-page .tpy-drop[data-over] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
 .pln-page .tpy-empty-day { padding: 6px 10px; }
 .pln-page .tpy-mday[data-today] > span:first-child { background: var(--warm); }
@@ -205,7 +205,7 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 .pln-pill { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); -webkit-backdrop-filter: none; backdrop-filter: none; }
 .pln-pill[aria-current="true"] { background: var(--ink-900, #0E1B2C); color: #fff; }
 .pln-pattern { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-.pln-pattern[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: var(--sh-accent, none); }
+.pln-pattern[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: var(--sh-accent, none); }
 .pln-ov-stats > div { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
 .pln-ov-stats b { font-family: var(--font-display); font-weight: 600; }
 .pln-ov-stats [data-alert] b { color: var(--warm-ink); text-decoration: none; }
@@ -218,7 +218,7 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 .pln-rule[aria-checked="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
 .pln-rule[aria-checked="true"] .pln-radio { box-shadow: inset 0 0 0 6px var(--accent); }
 .pln-cr-form { background: var(--surface) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
-.pln-goal[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.pln-goal[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 
 /* ---------------------------------------------------------------- One schedule, calm (spec 11/12) */
 .pln-calm { display: grid; gap: 20px; padding-bottom: 32px; }

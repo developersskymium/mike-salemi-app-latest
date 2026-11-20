@@ -17,7 +17,7 @@
 .st-nav-g { font: 650 10.5px/1 var(--font); color: var(--text-3); padding: 14px 12px 6px; text-transform: uppercase; letter-spacing: .08em; }
 .st-side-foot { margin-top: auto; padding: 12px 6px 2px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
 .st-side-who { display: flex; gap: 10px; align-items: center; min-width: 0; }
-.st-side-av { width: 34px; height: 34px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--warm); color: #fff; font: 600 14px/1 var(--font-display); }
+.st-side-av { width: 34px; height: 34px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--warm); color: var(--on-warm, #fff); font: 600 14px/1 var(--font-display); }
 .st-side-who b { display: block; font: 650 13.5px/1.2 var(--font); }
 .st-side-who small { display: block; font: 400 12px/1.3 var(--font); color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
 .st-side-links { display: flex; gap: 6px; }
@@ -130,7 +130,7 @@ select.st-in { appearance: none; padding-right: 30px; background-image: linear-g
 .st-pcard-img { position: relative; aspect-ratio: 16 / 10; background: var(--surface-sunk); }
 .st-pcard-img img { object-fit: cover; }
 .st-pcard-art { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); }
-.st-pcard-badge { position: absolute; top: 10px; left: 10px; display: inline-flex; padding: 4px 9px; border-radius: 7px; background: var(--accent); color: #fff; font: 650 10.5px/1.2 var(--font); letter-spacing: .05em; text-transform: uppercase; animation: st-pop var(--dur-lens) var(--curve-spring) both; }
+.st-pcard-badge { position: absolute; top: 10px; left: 10px; display: inline-flex; padding: 4px 9px; border-radius: 7px; background: var(--accent); color: var(--on-accent); font: 650 10.5px/1.2 var(--font); letter-spacing: .05em; text-transform: uppercase; animation: st-pop var(--dur-lens) var(--curve-spring) both; }
 .st-pcard-flag { position: absolute; top: 10px; right: 10px; display: inline-flex; gap: 4px; align-items: center; padding: 4px 9px; border-radius: var(--r-pill); background: var(--accent); color: var(--on-accent); font: 600 11px/1.2 var(--font); animation: st-pop var(--dur-lens) var(--curve-spring) both; }
 @keyframes st-pop { from { transform: scale(.85); opacity: 0; } }
 .st-pcard-body { padding: 14px 16px 16px; display: grid; gap: 6px; }
@@ -142,7 +142,7 @@ select.st-in { appearance: none; padding-right: 30px; background-image: linear-g
 .st-pcard li { display: flex; gap: 6px; align-items: flex-start; font-size: 12.5px; color: var(--text-2); }
 .st-pcard li .lq-icon { flex: none; margin-top: 2px; color: var(--text); }
 .st-pcard-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 500 12px/1.3 var(--font); color: var(--text-3); margin-top: 4px; font-variant-numeric: tabular-nums; }
-.st-pcard-cta { display: inline-flex; gap: 6px; align-items: center; justify-content: center; height: 38px; margin-top: 6px; border-radius: var(--r-pill); background: var(--accent); color: #fff; font: 600 13px/1 var(--font); }
+.st-pcard-cta { display: inline-flex; gap: 6px; align-items: center; justify-content: center; height: 38px; margin-top: 6px; border-radius: var(--r-pill); background: var(--accent); color: var(--on-accent); font: 600 13px/1 var(--font); }
 .st-hero-prev, .st-pagehead-prev { padding: 16px; border-radius: 20px; background: var(--surface-sunk); display: grid; gap: 6px; }
 .st-hero-prev { background: var(--ink-900); color: #fff; }
 .st-hero-prev b, .st-pagehead-prev b { font: 600 20px/1.15 var(--font); letter-spacing: -.02em; }

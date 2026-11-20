@@ -208,7 +208,7 @@ a.kc-foot-c:hover { background: var(--surface); box-shadow: inset 0 0 0 1px var(
 .kf-feel { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; font: 500 13px/1 var(--font); color: var(--text-2); }
 .kf-feel > span { margin-right: 4px; }
 .kf-feel button { all: unset; cursor: pointer; padding: 7px 12px; border-radius: 99px; font: 600 13px/1 var(--font); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
-.kf-feel button[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+.kf-feel button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 .kf-feel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .kc-ready-t .kc-ready-s { font-size: 12px; color: var(--text-3); }
 .kc-preview { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 12px 16px; border-radius: 14px; background: var(--accent-soft); color: var(--accent-ink); font: 500 13.5px/19px var(--font); }

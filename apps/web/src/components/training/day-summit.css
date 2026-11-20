@@ -148,7 +148,7 @@
 .kd-li-n { width: 30px; height: 30px; background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); color: var(--text-4); font: 600 12px/1 var(--font); }
 .kd-list > li[data-done] .kd-li-n { background: var(--warm-soft); color: var(--warm-strong); box-shadow: none; }
 .kd-list > li[data-done] .kd-li-n .lq-icon { stroke-width: 2.6; }
-.kd-list > li[data-now] .kd-li-n { background: var(--accent); color: #fff; box-shadow: none; transform: none; }
+.kd-list > li[data-now] .kd-li-n { background: var(--accent); color: var(--on-accent); box-shadow: none; transform: none; }
 .kd-list > li[data-locked] .kd-li { opacity: 1; }
 .kd-list > li[data-locked] .kd-li-t > :first-child { color: var(--label-3); }
 .kd-list > li[data-locked] .kd-li-n { color: var(--label-3); }
