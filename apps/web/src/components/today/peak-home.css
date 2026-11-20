@@ -165,3 +165,24 @@
 /* Hero eyebrow: the program (and level) on top, so the hero reads program, status, day, then phase and kind of day. */
 .pk-hero-k { margin: 0 0 12px; font: 600 13px/1.3 var(--font); letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .86); }
 @media (max-width: 719px) { .pk-hero-k { font-size: 12px; margin-bottom: 10px; } }
+/* Suggested for you (onboarding suggestions, until the member joins a program) */
+.pk-sug-lede { margin: -6px 0 14px; }
+.pk-sug { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pk-sug-card { display: grid; grid-template-columns: 96px minmax(0, 1fr) 20px; align-items: center; gap: 14px; padding: 10px 14px 10px 10px; border-radius: 20px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: inherit; text-decoration: none; transition: box-shadow .2s, transform .15s; }
+.pk-sug-card:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.pk-sug-card:active { transform: scale(.99); }
+.pk-sug-ph { position: relative; width: 96px; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: var(--surface-sunk); }
+.pk-sug-b { display: grid; justify-items: start; min-width: 0; }
+.pk-sug-best { margin-bottom: 4px; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); font: 600 11.5px/15px var(--font); font-style: normal; }
+.pk-sug-t { font: 600 16px/21px var(--font); }
+.pk-sug-r { margin-top: 2px; font: 450 13.5px/19px var(--font); color: var(--text-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pk-sug-a { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font: 600 12.5px/16px var(--font); color: var(--text-2); }
+.pk-sug-a[data-tone="open"] { color: var(--ok); }
+.pk-sug-go { color: var(--text-3, var(--text-2)); }
+@media (min-width: 900px) {
+  .pk-sug { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .pk-sug-card { grid-template-columns: 1fr; align-items: start; gap: 0; padding: 0; overflow: hidden; height: 100%; }
+  .pk-sug-ph { width: 100%; aspect-ratio: 16 / 10; border-radius: 0; }
+  .pk-sug-b { padding: 14px 16px 16px; }
+  .pk-sug-go { display: none; }
+}

@@ -4,28 +4,32 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import type React from "react";
-import { Button, Chip, Icon, useToast } from "@/components/ui";
+import { Button, Icon, useToast } from "@/components/ui";
 import { useAutosave } from "@/components/ui/form";
 import { Kettlebell } from "@/components/graphics";
 import { IntakeArt } from "@/components/intake/IntakeArt";
-import { ChoiceCards, NumberStepper, QuestionShell } from "@/components/intake/QuestionShell";
+import { ChoiceCards, NumberStepper, QsCheck, QuestionShell } from "@/components/intake/QuestionShell";
 import { completeOnboarding, saveFormDraft, skipOnboardingNow } from "@/lib/settings/actions";
-import { EQUIPMENT, EXPERIENCE, GOALS, recommend, SESSION_LENGTHS, WEEKDAYS, type Recommendation, type TrainingProfile } from "@/lib/settings/model";
+import { EQUIPMENT, EXPERIENCE, GOALS, SESSION_LENGTHS, suggest, WEEKDAYS, type Recommendation, type TrainingProfile } from "@/lib/settings/model";
 import "./onboarding.css";
 
 const SCREENS = ["goal", "experience", "days", "weekdays", "length", "equipment"] as const;
 
 type Photo = { src: string; position: string; alt: string };
+type Access = { label: string; tone: "open" | "buy" | "upgrade" };
 
 /**
  * Onboarding, one question per screen (goal → experience → days → best days → length → equipment). Writes the training profile,
- * then shows one recommendation with its reason and a preview. Autosaves; resumes where you left off.
+ * marks onboarding complete, then suggests two or three programs (best fit first, one-line reason, access) that the member can
+ * open now or decide on later. Picking one opens the program's home (its own intake/schedule, prefilled), never a lesson.
+ * Autosaves; resumes where you left off.
  */
-export function Onboarding({ firstName, initial, next, photos }: { firstName: string; initial: TrainingProfile; next: string | null; photos: Record<string, Photo> }) {
+export function Onboarding({ firstName, initial, next, photos, access = {} }: { firstName: string; initial: TrainingProfile; next: string | null; photos: Record<string, Photo>; access?: Record<string, Access> }) {
   const [p, setP] = useState<TrainingProfile>(initial);
   const [screen, setScreen] = useState(0);
   const [dir, setDir] = useState<"fwd" | "back">("fwd");
-  const [rec, setRec] = useState<Recommendation | null>(null);
+  const [recs, setRecs] = useState<Recommendation[] | null>(null);
+  const [pick, setPick] = useState(0);
   const [pending, start] = useTransition();
   const router = useRouter();
   const toast = useToast();
@@ -52,15 +56,17 @@ export function Onboarding({ firstName, initial, next, photos }: { firstName: st
 
   const finish = () => {
     const profile: TrainingProfile = { ...p, days_per_week: p.days_per_week ?? 3, session_minutes: p.session_minutes ?? 30 };
-    const r = recommend(profile, photoFor);
+    const list = suggest(profile, photoFor);
     start(async () => {
-      const res = await completeOnboarding(profile, r.slug);
+      // Finishing marks onboarding complete (completed_at), so "Decide later" or leaving here never sends the member back.
+      const res = await completeOnboarding(profile, list[0]!.slug, list.map((r) => ({ slug: r.slug, reason: r.reason })));
       if (!res.ok) {
         toast(res.error, { icon: "close" });
         return;
       }
       clear();
-      setRec(r);
+      setPick(0);
+      setRecs(list);
     });
   };
 
@@ -90,21 +96,33 @@ export function Onboarding({ firstName, initial, next, photos }: { firstName: st
   const close = { label: "Skip for now", onClick: skip, disabled: pending };
   const cont = (label = "Continue", disabled = false) => <Button block size="lg" onClick={fwd} disabled={disabled || pending} aria-busy={pending || undefined}>{label}</Button>;
 
-  if (rec) {
+  if (recs) {
+    const chosen = recs[pick] ?? recs[0]!;
     return (
-      <div className="ob" data-shell-focus="">
-        <QuestionShell at={total - 1} total={total} sceneKey="rec" art={<IntakeArt topic="plan" />} eyebrow={<span className="qs-tag">Saved to your training profile</span>}
-          title="Here’s your plan" help={<p>{rec.reason}</p>}
-          footer={<><Button block size="lg" href={rec.href}>Start with {rec.title.split(" · ")[0]}</Button><Button block size="md" variant="plain" href={next ?? "/programs"}>{next ? "Continue where I was going" : "See all programs"}</Button></>}>
-          <article className="ob-rec">
-            <div className="ob-rec-media">
-              <Image src={rec.photo.src} alt={rec.photo.alt} fill sizes="(min-width: 640px) 520px, 100vw" style={{ objectFit: "cover", objectPosition: rec.photo.position }} />
-            </div>
-            <div className="ob-rec-body">
-              <b className="ob-rec-t">{rec.title}</b>
-              <div className="ob-rec-facts">{rec.facts.map((f) => <Chip key={f} size="sm" variant="fill">{f}</Chip>)}</div>
-            </div>
-          </article>
+      <div className="ob ob-sum" data-shell-focus="">
+        <QuestionShell at={total - 1} total={total} sceneKey="rec" art={<IntakeArt topic="plan" />} eyebrow={<span className="qs-tag">Based on your answers</span>}
+          title="A few good places to start" help={<p>You can start any of these now or decide later. Your answers are saved.</p>}
+          footer={<><Button block size="lg" href={chosen.href}>Open {chosen.title}</Button><Button block size="md" variant="plain" href={next ?? "/today"}>Decide later</Button></>}>
+          <div className="qs-cards ob-sg" role="radiogroup" aria-label="Suggested programs">
+            {recs.map((r, i) => {
+              const a = access[r.slug];
+              const on = i === pick;
+              return (
+                <button key={r.slug} type="button" role="radio" aria-checked={on} className="qs-card ob-sg-card" onClick={() => setPick(i)} style={{ animationDelay: `${120 + i * 50}ms` }}>
+                  <span className="ob-sg-ph" aria-hidden>
+                    <Image src={r.photo.src} alt="" fill sizes="72px" style={{ objectFit: "cover", objectPosition: r.photo.position }} />
+                  </span>
+                  <span className="qs-card-t ob-sg-t">
+                    {i === 0 && <em className="ob-sg-best">Best fit</em>}
+                    <b>{r.title}</b>
+                    <small>{r.reason}</small>
+                    {a && <span className="ob-sg-access" data-tone={a.tone}>{a.tone === "open" ? <Icon name="check" size="xs" /> : null}{a.label}</span>}
+                  </span>
+                  <span className="qs-mark" aria-hidden><QsCheck /></span>
+                </button>
+              );
+            })}
+          </div>
         </QuestionShell>
       </div>
     );
@@ -149,7 +167,7 @@ export function Onboarding({ firstName, initial, next, photos }: { firstName: st
     );
   else
     body = (
-      <QuestionShell {...shell} art={<IntakeArt topic="equipment" />} title="What do you have to train with?" help={<p>Tick all that apply. No bell yet? That&apos;s fine.</p>} footer={cont("See my recommendation")}>
+      <QuestionShell {...shell} art={<IntakeArt topic="equipment" />} title="What do you have to train with?" help={<p>Tick all that apply. No bell yet? That&apos;s fine.</p>} footer={cont("See my suggestions")}>
         <ChoiceCards label="Equipment" multi value={p.equipment ?? []} options={EQUIPMENT.map((e) => ({ value: e.value, label: e.label }))}
           onPick={(v) => { const cur = p.equipment ?? []; set({ equipment: cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v] }); }} />
       </QuestionShell>

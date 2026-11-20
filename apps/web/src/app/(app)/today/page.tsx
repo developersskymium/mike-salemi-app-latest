@@ -12,6 +12,7 @@ import { loadToday, type TodayRaw } from "@/lib/loaders/today-plan-you";
 import { loadBadges } from "@/lib/loaders/badges";
 import { loadMikeNote } from "@/lib/loaders/mike-note";
 import { requestTime } from "@/lib/request-time";
+import { loadSuggestions } from "@/lib/settings/suggestions";
 
 export const metadata: Metadata = { title: "Today" };
 
@@ -29,6 +30,8 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
   // First visit with no goal: the goal-setting onboarding (members can skip it once).
   if (view.needsOnboarding) redirect("/onboarding");
   const home = homeRaw ? buildHome(homeRaw, view) : null;
+  // Onboarding suggestions stay on Home as "Suggested for you" until the member joins a program.
+  const suggested = home && home.enrolled.length === 0 ? (await loadSuggestions(raw.profile.onboarding).catch(() => [])).filter((s) => !s.enrolled) : [];
   const now = requestTime();
   // Latest badge, shown for 48 hours after it is earned (spec 12, Home #9).
   const latest = badges
@@ -48,6 +51,7 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
       homeError={!homeRaw}
       now={now}
       latestBadge={latest}
+      suggested={suggested}
       mikeNote={note}
       firstWeek={
         <Suspense fallback={null}>

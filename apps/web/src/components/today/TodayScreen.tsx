@@ -6,6 +6,7 @@ import { medalColorOf } from "@/components/badges/catalog";
 import { PhotoHero } from "@/components/signature";
 import { Button, Glass, Icon, ProgressBar, Tag } from "@/components/ui";
 import type { BadgeDefinition, MikeNote } from "@ms/api";
+import type { SuggestedProgram } from "@/lib/settings/suggestions";
 import { PHOTO, photoByFile, programCover, surfacePhoto, type Photo, type PhotoName } from "@/lib/photos";
 import { programHref } from "@/lib/hrefs";
 import type { HomeItem, HomeView } from "./buildHome";
@@ -43,7 +44,7 @@ function localHour(now: number, tz: string | null | undefined) {
  * The retreat card appears only when the member has a retreat application or booking (`retreat`).
  * New members get one welcoming start state with the recommended first program.
  */
-export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, firstWeek, now = 0 }: { v: TodayView; /** First-week host (welcome video, checklist, resume draft, install prompt); one card shows at a time. */ firstWeek?: React.ReactNode; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
+export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, firstWeek, suggested = [], now = 0 }: { v: TodayView; /** Onboarding suggestions, shown until the member joins a program. */ suggested?: SuggestedProgram[]; /** First-week host (welcome video, checklist, resume draft, install prompt); one card shows at a time. */ firstWeek?: React.ReactNode; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
   const cur = home?.continuing ?? null;
   const enrolled = home?.enrolled ?? [];
   const isNew = !!home && !cur && enrolled.length === 0;
@@ -55,7 +56,9 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
     <div className="sh ch pk">
       <h1 className="lq-sr">Home</h1>
 
-      {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+      {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && suggested.length ? <SuggestedHero v={v} s={suggested[0]!} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+
+      {isNew && suggested.length > 0 && <SuggestedRow items={suggested} />}
 
       {firstWeek && <div className="ch-first">{firstWeek}</div>}
 
@@ -181,6 +184,65 @@ function WelcomeHero({ v, item }: { v: TodayView; item: HomeItem }) {
         Or browse every program <Icon name="arrowRight" size="xs" />
       </Link>
     </PhotoHero>
+  );
+}
+
+/** New member who finished onboarding: their best fit, opening the program's home (not a lesson). */
+function SuggestedHero({ v, s }: { v: TodayView; s: SuggestedProgram }) {
+  const photo = framed(s.photo.src, s.slug, surfacePhoto("homeEmpty"));
+  return (
+    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={440} priority>
+      <Tag tone="accent" size="lg">
+        Best fit for you
+      </Tag>
+      <h2 className="lq-d-xxl sh-hero-t">Welcome{v.firstName ? `, ${v.firstName}` : ""}.</h2>
+      <p className="sh-hero-meta">
+        <b className="ch-on-photo">{s.title}</b> fits your answers best. Start when you&apos;re ready, or pick another below.
+      </p>
+      <div className="sh-hero-actions">
+        <Button href={s.href} size="lg" iconAfter="arrowRight" className="sh-hero-go">
+          Open {s.title}
+        </Button>
+      </div>
+    </PhotoHero>
+  );
+}
+
+/** "Suggested for you": the onboarding suggestions (best fit first), each opening the program home. */
+function SuggestedRow({ items }: { items: SuggestedProgram[] }) {
+  return (
+    <section className="ch-sec" aria-labelledby="ch-sug-t">
+      <header className="ch-head">
+        <h2 id="ch-sug-t" className="lq-d-sm">
+          Suggested for you
+        </h2>
+        <Link href="/programs" className="lq-link ch-all">
+          All programs <Icon name="arrowRight" size="xs" />
+        </Link>
+      </header>
+      <p className="lq-t13 lq-c2 pk-sug-lede">From your answers. Start any of these when you&apos;re ready.</p>
+      <ul className="pk-sug" role="list">
+        {items.map((s, i) => (
+          <li key={s.slug}>
+            <Link href={s.href} className="pk-sug-card" aria-label={`${s.title}${i === 0 ? ", best fit" : ""}. ${s.access.label}`}>
+              <span className="pk-sug-ph">
+                <Image src={s.photo.src} alt="" fill sizes="(min-width: 900px) 120px, 96px" style={{ objectFit: "cover", objectPosition: s.photo.position }} />
+              </span>
+              <span className="pk-sug-b">
+                {i === 0 && <em className="pk-sug-best">Best fit</em>}
+                <b className="pk-sug-t">{s.title}</b>
+                {s.reason && <span className="pk-sug-r">{s.reason}</span>}
+                <span className="pk-sug-a" data-tone={s.access.tone}>
+                  {s.access.tone === "open" && <Icon name="check" size="xs" />}
+                  {s.access.label}
+                </span>
+              </span>
+              <Icon name="chevron" size="sm" className="pk-sug-go" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
