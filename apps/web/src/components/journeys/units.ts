@@ -3,7 +3,7 @@
  * Athleticism 4 Life (spec 11 §2): a strip of units across the top (weeks / movements / blocks) and
  * a grid of small cards for the selected unit. Pure module: safe in server and client components.
  */
-import type { DayType, MoveName } from "@/components/graphics";
+import type { DayType, MedalTier, MoveName } from "@/components/graphics";
 import type { CourseData, CourseLessonNode } from "@/lib/loaders/course";
 import { dayGlyph, dayTypeShort, lessonName } from "@/components/training/model";
 import type { LessonLite, ProgressRow, SectionLite } from "@/lib/loaders/training";
@@ -294,3 +294,32 @@ export function unitOf(units: Unit[], lessonId: string | null) {
   }
   return units.find((u) => u.done < u.total) ?? units[0] ?? null;
 }
+
+/** Locked preview (spec 12 idea 9): the outline stays visible with locks; the first lesson is a free taste. */
+export function openFirst(units: Unit[]): Unit[] {
+  let opened = false;
+  return units.map((u) => ({
+    ...u,
+    rows: u.rows.map((r) => ({
+      ...r,
+      cards: r.cards.map((c) => {
+        if (opened || c.external || c.kind === "bonus" || c.kind === "resource") return c;
+        opened = true;
+        return { ...c, status: "open" as const, eyebrow: "Free preview" };
+      }),
+    })),
+  }));
+}
+
+export type ProgramBadge = { key: string; label: string; sub: string; tier: MedalTier; earned: boolean };
+
+/** Progress medals every program shares: start, halfway, finish (+ one program-specific). */
+export function progressBadges(pct: number, started: boolean, special?: { label: string; sub: string; earned: boolean }): ProgramBadge[] {
+  return [
+    { key: "start", label: "First step", sub: "Finish your first lesson", tier: "bronze", earned: started },
+    ...(special ? [{ key: "special", label: special.label, sub: special.sub, tier: "silver" as MedalTier, earned: special.earned }] : []),
+    { key: "half", label: "Halfway", sub: "Reach 50%", tier: "silver", earned: pct >= 0.5 },
+    { key: "done", label: "Finisher", sub: "Complete every lesson", tier: "gold", earned: pct >= 1 },
+  ];
+}
+

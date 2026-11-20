@@ -8,7 +8,9 @@ import type { ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
 import { Navigator } from "./Navigator";
 import { ProgramCover } from "./ProgramCover";
-import { kblUnits, unitOf } from "./units";
+import { kblUnits, openFirst, progressBadges, unitOf } from "./units";
+import { BadgeRow, CoverActions, FinishLine, MoreMenu, WhatYouGet } from "./PageExtras";
+import { programCover, PHOTO } from "@/lib/photos";
 import "./journeys.css";
 
 /**
@@ -16,7 +18,7 @@ import "./journeys.css";
  * choice (both open any time, "Recommended for you" from the intake), the Immersion weeks navigator
  * and a calm way into Self-Guided. The full Self-Guided board lives at `?mode=self-guided`.
  */
-export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode }) {
+export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badges }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode; badges?: ReactNode }) {
   const { program, path, paths, sections, lessons, progress, enrollment, resources } = data;
   const locked = data.locked || program.access === "locked";
   const slug = program.slug;
@@ -29,14 +31,23 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
     const p = progress.find((x) => x.lessonId === l.id);
     return lessonHref(slug, l.key, l.id, orderLocked && p && !p.unlocked ? "self_guided" : "immersion");
   };
-  const units = kblUnits({ slug, sections, lessons, progress, extras: board?.lessons, resources, currentId: current?.id ?? null, orderLocked, locked, href });
+  const built = kblUnits({ slug, sections, lessons, progress, extras: board?.lessons, resources, currentId: current?.id ?? null, orderLocked, locked, href });
+  const units = locked ? openFirst(built) : built;
   const here = unitOf(units, current?.id ?? null);
+  const pathDone = lessons.length > 0 && doneIds.size >= lessons.length;
+  const phaseCleared = sections.some((s) => {
+    const ds = dayLessons.filter((l) => l.sectionId === s.id);
+    return ds.length > 0 && ds.every((l) => doneIds.has(l.id));
+  });
+  const pathIndex = paths.findIndex((p) => p.id === path?.id);
+  const other = paths[pathIndex === 0 ? 1 : 0] ?? null;
+  const q = path?.key ? `path=${encodeURIComponent(path.key)}&` : "";
+  const heroPhoto = programCover(slug) ?? PHOTO.windmill;
   const levelName = path?.shortName ?? "Level I";
   const started = progress.some((p) => p.doneSteps > 0);
 
   let cta: ReactNode;
-  if (locked) cta = <Button href={`/explore/${slug}`} icon="lock" size="lg">See access options</Button>;
-  else if (!enrollment) cta = <JoinButton programId={program.id} pathId={path?.id ?? null} name={`${program.name} ${levelName}`} variant="filled" size="lg" label={`Start ${levelName}`} />;
+  if (locked || !enrollment) cta = <JoinButton programId={program.id} pathId={path?.id ?? null} name={program.name} slug={slug} variant="filled" size="lg" label={`Start ${levelName}`} />;
   else if (current) cta = (
     <Button href={href(current)} icon="play" size="lg" variant={started ? "warm" : "filled"}>
       {started ? "Continue" : "Start"} · {here?.label ?? ""}{current.dayNumber != null ? ` · Day ${current.dayNumber}` : ""}
@@ -50,8 +61,25 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
         eyebrow="Flagship program · with Mike Salemi"
         title={program.name}
         promise={path?.tagline ?? program.tagline ?? "Nine weeks to a kettlebell you can trust."}
-        image={{ src: "/media/summit/mike-windmill.jpg", alt: "Mike Salemi holding a kettlebell overhead in the gym", focal: "62% 8%", focalPhone: "62% 10%" }}
-        cta={cta}
+        image={heroPhoto}
+        cta={
+          <CoverActions
+            primary={cta}
+            more={
+              <MoreMenu
+                introVideo={board?.extras.heroVideo ?? null}
+                introPoster={heroPhoto.src}
+                introTitle={`${program.name} · a word from Mike`}
+                introKey={slug}
+                items={[
+                  ...(locked ? [] : [{ label: "Self-Guided board", href: `/programs/${slug}?${q}mode=self-guided`, icon: "filter" as const }]),
+                  { label: "Schedule", href: `/plan?program=${slug}`, icon: "calendar" as const },
+                  { label: "Level intake", href: `/intake/${slug}`, icon: "clipboard" as const },
+                ]}
+              />
+            }
+          />
+        }
         progress={!locked && dayLessons.length ? { value: doneDays / dayLessons.length, label: `${levelName} · ${doneDays} of ${dayLessons.length} days` } : null}
       />
 
@@ -64,6 +92,21 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
         currentId={here?.id ?? null}
         label={`${levelName} · Immersion weeks`}
       />
+
+      {pathDone && !locked && (
+        <FinishLine
+          certificateHref={data.certificateId ? `/you/certificates/${data.certificateId}` : null}
+          next={[
+            ...(other && pathIndex === 0 ? [{ title: other.shortName ?? other.name, reason: "Heavier bells, longer chains, real capacity.", href: `/programs/${slug}?path=${encodeURIComponent(other.key ?? other.id)}`, image: { src: PHOTO.press.src, focal: PHOTO.press.focal } }] : []),
+            { title: "Mastering the Kettlebell", reason: "Every lift as a skill: pre-check, technique, errors, variations.", href: "/programs/mastering-the-kettlebell/course", image: { src: PHOTO.squat.src, focal: PHOTO.squat.focal } },
+            { title: "Athleticism 4 Life", reason: "A 30-day strength block with the Bulgarian bag.", href: "/programs/athleticism-4-life/course", image: { src: PHOTO.bag.src, focal: PHOTO.bag.focal } },
+          ]}
+        />
+      )}
+
+      <WhatYouGet points={path?.outcomes.length ? path.outcomes : program.highlights ?? []} more={path?.description ?? program.description} />
+
+      {badges ?? (!locked && <BadgeRow badges={progressBadges(dayLessons.length ? doneDays / dayLessons.length : 0, doneDays > 0, { label: "Phase cleared", sub: "Finish every day of a phase", earned: phaseCleared })} />)}
 
       {!locked && (
         <Link href={`/programs/${slug}?${path?.key ? `path=${encodeURIComponent(path.key)}&` : ""}mode=self-guided`} className="jh-sg lq-press">
