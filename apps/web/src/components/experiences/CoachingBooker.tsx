@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button, Chip, Glass, Icon, Sheet, haptic, useToast } from "@/components/ui";
 import { CheckoutButton } from "@/components/commerce/CheckoutButton";
+import { AdultCheck } from "@/components/commerce/AdultCheck";
 import { applyForCoachingAction, bookCoachingAction } from "@/lib/actions/commerce";
 import type { CoachingData } from "@/lib/loaders/commerce";
 import { SlotPicker, slotWhen, useMounted, type PickSlot } from "./SlotPicker";
@@ -29,13 +30,14 @@ export function CoachingBooker({ packages, slots, credits, recommended }: { pack
   const pkg = buyable.find((p) => p.id === pkgId) ?? null;
   const [pick, setPick] = useState<PickSlot | null>(null);
   const [note, setNote] = useState("");
+  const [adult, setAdult] = useState(false);
   const [pending, start] = useTransition();
   const [done, setDone] = useState<string | null>(null);
 
   const book = () =>
     start(async () => {
       if (!pick) return;
-      const r = await bookCoachingAction(pick.id, note || undefined);
+      const r = await bookCoachingAction(pick.id, note || undefined, adult);
       if (r.ok) {
         haptic(14);
         setDone(slotWhen(pick.starts_at, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" }));
@@ -98,7 +100,10 @@ export function CoachingBooker({ packages, slots, credits, recommended }: { pack
               <div className="ch-total"><dt>Total</dt><dd className="lq-num">{credits > 0 ? `1 of ${credits} session${credits === 1 ? "" : "s"}` : pkg ? usd(pkg.price!.amountCents, pkg.price!.currency) : "—"}</dd></div>
             </dl>
             {credits > 0 ? (
-              <Button block size="lg" icon="calendarCheck" onClick={book} disabled={!pick || pending} aria-busy={pending}>{pending ? "Booking…" : "Book this session"}</Button>
+              <>
+                <AdultCheck checked={adult} onChange={setAdult} what="Coaching" />
+                <Button block size="lg" icon="calendarCheck" onClick={book} disabled={!pick || !adult || pending} aria-busy={pending}>{pending ? "Booking…" : "Book this session"}</Button>
+              </>
             ) : pkg ? (
               <CheckoutButton kind="coaching" refId={pkg.id} label={`Get ${pkg.name.toLowerCase()}`} block size="lg" />
             ) : null}
@@ -120,10 +125,11 @@ export function ExecutiveApply({ packageId, status }: { packageId: string; statu
   const [goal, setGoal] = useState("");
   const [pressure, setPressure] = useState("");
   const [commit, setCommit] = useState(false);
+  const [adult, setAdult] = useState(false);
   const [pending, start] = useTransition();
   const submit = () =>
     start(async () => {
-      const r = await applyForCoachingAction(packageId, { role, goal, pressure, commit: commit as true });
+      const r = await applyForCoachingAction(packageId, { role, goal, pressure, commit: commit as true, adult: adult as true });
       if (r.ok) {
         setState(r.data.status);
         setOpen(false);
@@ -143,7 +149,7 @@ export function ExecutiveApply({ packageId, status }: { packageId: string; statu
         onClose={() => setOpen(false)}
         title="Apply for Executive Edge"
         description="Four questions. Nothing is charged; Mike reads every application and books a short call."
-        footer={<Button block size="lg" onClick={submit} disabled={pending || !commit || role.trim().length < 2 || goal.trim().length < 10} aria-busy={pending}>{pending ? "Sending…" : "Send application"}</Button>}
+        footer={<Button block size="lg" onClick={submit} disabled={pending || !commit || !adult || role.trim().length < 2 || goal.trim().length < 10} aria-busy={pending}>{pending ? "Sending…" : "Send application"}</Button>}
       >
         <div className="ch-form">
           <label className="ch-field"><span>What do you do?</span><input className="com-input" value={role} onChange={(e) => setRole(e.target.value)} placeholder="Founder, 40 people; two kids" /></label>
@@ -153,6 +159,7 @@ export function ExecutiveApply({ packageId, status }: { packageId: string; statu
             <span className="exp-tick" aria-hidden style={{ borderRadius: 7 }}><svg viewBox="0 0 24 24"><path d="M5.5 12.5 10 17l8.5-9.5" /></svg></span>
             <span className="com-grow">I can give five minutes a day to the homework, every day for eight weeks.</span>
           </button>
+          <AdultCheck checked={adult} onChange={setAdult} what="Executive Edge" />
         </div>
       </Sheet>
     </>

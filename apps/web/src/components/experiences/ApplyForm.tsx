@@ -10,8 +10,8 @@ const INTENTIONS = ["Break through patterns I've carried for years", "Reconnect 
 const EXPERIENCE = ["This is new to me", "I've done some breathwork or men's work", "I have an established practice"];
 const STEPS = ["Intention", "Readiness", "Commitment", "Review"] as const;
 
-type A = { intention: string; calling: string; experience: string; health: string; diet: string; sweatLodgeOk: boolean; fullAttendance: boolean; agreements: boolean; phone: string; emergencyName: string; emergencyPhone: string };
-const EMPTY: A = { intention: "", calling: "", experience: "", health: "", diet: "", sweatLodgeOk: false, fullAttendance: false, agreements: false, phone: "", emergencyName: "", emergencyPhone: "" };
+type A = { intention: string; calling: string; experience: string; health: string; diet: string; sweatLodgeOk: boolean; fullAttendance: boolean; agreements: boolean; phone: string; emergencyName: string; emergencyPhone: string; adult: boolean };
+const EMPTY: A = { intention: "", calling: "", experience: "", health: "", diet: "", sweatLodgeOk: false, fullAttendance: false, agreements: false, phone: "", emergencyName: "", emergencyPhone: "", adult: false };
 
 function Option({ label, selected, onClick, multi }: { label: string; selected: boolean; onClick: () => void; multi?: boolean }) {
   return (
@@ -45,7 +45,7 @@ export function ApplyForm({ runId, runName, dates, waitlist }: { runId: string; 
   const ready = [
     a.intention !== "" && a.calling.trim().length >= 10,
     a.experience !== "" && a.sweatLodgeOk,
-    a.fullAttendance && a.agreements && a.phone.trim().length >= 7 && a.emergencyName.trim().length >= 2 && a.emergencyPhone.trim().length >= 7,
+    a.fullAttendance && a.agreements && a.adult && a.phone.trim().length >= 7 && a.emergencyName.trim().length >= 2 && a.emergencyPhone.trim().length >= 7,
     true,
   ][step];
 
@@ -115,6 +115,7 @@ export function ApplyForm({ runId, runName, dates, waitlist }: { runId: string; 
             </div>
             <Option multi selected={a.fullAttendance} onClick={() => set("fullAttendance", !a.fullAttendance)} label={`I can attend the full retreat: ${dates}`} />
             <Option multi selected={a.agreements} onClick={() => set("agreements", !a.agreements)} label="I agree to the circle agreements: confidentiality, presence and no phones during the work." />
+            <Option multi selected={a.adult} onClick={() => set("adult", !a.adult)} label="I’m 18 or older. The retreat is for adults only." />
             <Field id="phone" label="Your phone number">
               <input id="phone" className="com-input" inputMode="tel" autoComplete="tel" value={a.phone} onChange={(e) => set("phone", e.target.value)} />
             </Field>

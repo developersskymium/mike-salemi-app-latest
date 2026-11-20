@@ -6,6 +6,7 @@ import { Button, Icon, haptic, useToast } from "@/components/ui";
 import { CheckoutButton } from "@/components/commerce/CheckoutButton";
 import { useIsClient } from "@/lib/hooks/clock";
 import { bookCoachingAction } from "@/lib/actions/commerce";
+import { AdultCheck } from "@/components/commerce/AdultCheck";
 import type { CoachingData } from "@/lib/loaders/commerce";
 
 type Slot = CoachingData["slots"][number];
@@ -39,6 +40,7 @@ export function BookCalendar({ slots, credits, packages, mikeTz = "America/Los_A
   const buyable = packages.filter((p) => p.price && !p.requires_application);
   const [pkgId, setPkgId] = useState(buyable.find((p) => p.sessions === 1 && p.duration_minutes === 45)?.id ?? buyable[0]?.id ?? "");
   const pkg = buyable.find((p) => p.id === pkgId) ?? null;
+  const [adult, setAdult] = useState(false);
   const [pending, start] = useTransition();
 
   const tz = client ? Intl.DateTimeFormat().resolvedOptions().timeZone : "";
@@ -67,7 +69,7 @@ export function BookCalendar({ slots, credits, packages, mikeTz = "America/Los_A
   const book = () =>
     start(async () => {
       if (!pick) return;
-      const r = await bookCoachingAction(pick.id);
+      const r = await bookCoachingAction(pick.id, undefined, adult);
       if (r.ok) {
         haptic(14);
         toast("Booked · three quick questions next", { tone: "success", icon: "check" });
@@ -134,7 +136,10 @@ export function BookCalendar({ slots, credits, packages, mikeTz = "America/Los_A
           <div><dt>Uses</dt><dd>{credits > 0 ? `1 of ${credits} session${credits === 1 ? "" : "s"}` : pkg ? usd(pkg.price!.amountCents, pkg.price!.currency) : "—"}</dd></div>
         </dl>
         {credits > 0 ? (
-          <Button block size="lg" icon="calendarCheck" onClick={book} disabled={!pick || pending} aria-busy={pending}>{pending ? "Booking…" : "Book this call"}</Button>
+          <>
+            <AdultCheck checked={adult} onChange={setAdult} what="Coaching" />
+            <Button block size="lg" icon="calendarCheck" onClick={book} disabled={!pick || !adult || pending} aria-busy={pending}>{pending ? "Booking…" : "Book this call"}</Button>
+          </>
         ) : pkg ? (
           <CheckoutButton kind="coaching" refId={pkg.id} label={`Get ${pkg.name.toLowerCase()}`} block size="lg" />
         ) : null}
