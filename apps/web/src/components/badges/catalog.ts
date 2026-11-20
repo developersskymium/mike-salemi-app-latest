@@ -32,7 +32,7 @@ export interface BadgeDef {
 
 export const FAMILIES: { id: BadgeFamily; title: string; lede: string }[] = [
   { id: "consistency", title: "Consistency", lede: "Show up. Streaks and active weeks, in any program." },
-  { id: "program", title: "Program milestones", lede: "Start, halfway and finish — a medal in each program's own colour." },
+  { id: "program", title: "Program milestones", lede: "First day to finish line — six to twelve medals in each program, in its own colour." },
   { id: "mastery", title: "Mastery", lede: "Skills unlocked, blocks finished, readiness and mobility improved." },
   { id: "explorer", title: "Explorer", lede: "Try programs, use the tools, watch the library." },
 ];
@@ -75,3 +75,20 @@ export const MOMENTS: { id: string; title: string; how: string; icon: string; hr
   { id: "mike-retreat-attend", title: "Train on the mountain", how: "Attend a retreat with Mike in person.", icon: "flag", href: "/experiences", cta: "See retreats" },
   { id: "mike-refer", title: "Bring a friend", how: "A friend you invited joins. You get a free month.", icon: "gift", href: "/you/referrals", cta: "Invite a friend" },
 ];
+
+/** Label for a badge shown inside its program ("Started · A4L" → "Started"). */
+export const shortName = (b: Pick<BadgeDef, "name" | "id">) => (b.name || "").split(" · ")[0]?.trim() || titleFromId(b.id);
+
+/** A readable name from an id, for any legacy row that arrives without one ("streak-7" → "Streak 7"). */
+export const titleFromId = (id: string) => id.replace(/^prog-/, "").replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+/** Never show a blank description. */
+export const descOf = (b: Pick<BadgeDef, "description" | "name" | "id" | "program_slug">) =>
+  b.description?.trim() || (b.program_slug && PROGRAM_MEDAL[b.program_slug] ? `A ${PROGRAM_MEDAL[b.program_slug]!.short} milestone.` : `${b.name || titleFromId(b.id)}.`);
+
+/** "3 of 7" style progress for a badge, or null when it is a simple yes/no. Program % stages read as percent. */
+export function progressText(p: { current: number; target: number } | undefined, id: string) {
+  if (!p || p.target <= 1) return null;
+  if (id.startsWith("prog-") && (id.endsWith("-halfway") || id.endsWith("-complete"))) return `${p.current}%`;
+  return `${p.current} of ${p.target}`;
+}

@@ -56,3 +56,6 @@
 .bd-pb-item { display: grid; justify-items: center; gap: 4px; min-width: 64px; color: var(--text-3); }
 .bd-pb-item[data-earned] { color: var(--text); }
 .bd-rest { margin: 2px 4px 0; }
+.bd-pb-item { width: 78px; text-align: center; }
+.bd-pb-item > span { line-height: 1.2; }
+.bd-pb-p { color: var(--text-3); }

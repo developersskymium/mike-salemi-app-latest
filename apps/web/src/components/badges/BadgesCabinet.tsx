@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { BadgeDefinition, BadgeProgress } from "@ms/api";
 import { Button, Chip, ProgressBar, Sheet } from "@/components/ui";
-import { FAMILIES, PROGRAM_MEDAL, familyOf, medalColorOf, type BadgeFamily } from "./catalog";
+import { FAMILIES, PROGRAM_MEDAL, descOf, familyOf, medalColorOf, progressText, shortName, titleFromId, type BadgeFamily } from "./catalog";
 import { MedalPin } from "./MedalPin";
 import "./badges.css";
 
@@ -27,14 +27,17 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
     const e = !!earned[b.id];
     return (
       <button key={b.id} type="button" className="bd-tile lq-press" data-earned={e ? "" : undefined} onClick={() => setOpen(b)} aria-label={`${b.name}${e ? ", earned" : p ? `, ${p.current} of ${p.target}` : ", not earned yet"}`}>
-        <MedalPin tier={b.tier} icon={b.icon} color={medalColorOf(b)} size={60} locked={!e} />
-        <span className="bd-tile-n">{label ?? b.name}</span>
+        <MedalPin tier={b.tier} icon={b.icon} family={familyOf(b)} color={medalColorOf(b)} size={60} locked={!e} />
+        <span className="bd-tile-n">{label ?? (b.name || titleFromId(b.id))}</span>
         {e ? (
           <small className="lq-num">{fmt(earned[b.id]!)}</small>
         ) : p && p.target > 1 ? (
-          <span className="bd-tile-bar" aria-hidden>
-            <i style={{ width: `${Math.round((p.current / p.target) * 100)}%` }} />
-          </span>
+          <>
+            <span className="bd-tile-bar" aria-hidden>
+              <i style={{ width: `${Math.round((p.current / p.target) * 100)}%` }} />
+            </span>
+            <small className="lq-num">{progressText(p, b.id)}</small>
+          </>
         ) : (
           <small>Not yet</small>
         )}
@@ -72,8 +75,8 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
       <Sheet open={!!open} onClose={() => setOpen(null)} title={open?.name ?? ""} detents={["medium"]} footer={<Button block variant="fill" onClick={() => setOpen(null)}>Done</Button>}>
         {open && (
           <div className="bd-detail">
-            <MedalPin tier={open.tier} icon={open.icon} color={medalColorOf(open)} size={150} locked={!got} animated={!!got} />
-            <p className="lq-t17">{open.description}</p>
+            <MedalPin tier={open.tier} icon={open.icon} family={familyOf(open)} color={medalColorOf(open)} size={150} locked={!got} animated={!!got} />
+            <p className="lq-t17">{descOf(open)}</p>
             {got ? (
               <p className="lq-t15 lq-c2">
                 Earned {fmt(got)}
@@ -83,8 +86,8 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
               <div className="bd-detail-prog">
                 <ProgressBar value={op.current / op.target} tone="warm" label={`${open.name} progress`} />
                 <span className="lq-t13 lq-c2 lq-num">
-                  {op.current} of {op.target}
-                  {open.family === "program" && op.target === 50 ? "% of the way to halfway" : ""}
+                  {progressText(op, open.id) ?? `${op.current} of ${op.target}`}
+                  {open.id.startsWith("prog-") && open.id.endsWith("-halfway") ? " of the way — halfway is 50%" : open.id.startsWith("prog-") && open.id.endsWith("-complete") ? " complete" : ""}
                 </span>
               </div>
             ) : null}
@@ -104,9 +107,7 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
   );
 }
 
-const STAGE_LABEL: Record<string, string> = { start: "Start", halfway: "Halfway", complete: "Finish" };
-
-/** Program milestones: one row per program (start · halfway · finish), most progressed first. */
+/** Program milestones: one row per program (its full set, in order), most progressed first. */
 function ProgramRows({ list, earned, progress, tile }: { list: BadgeDefinition[]; earned: Record<string, string>; progress: Map<string, BadgeProgress>; tile: (b: BadgeDefinition, label?: string) => React.ReactNode }) {
   const groups = new Map<string, BadgeDefinition[]>();
   for (const b of list) {
@@ -122,22 +123,21 @@ function ProgramRows({ list, earned, progress, tile }: { list: BadgeDefinition[]
     <div className="bd-progs">
       {rest.length > 0 && rows.length === 0 && <p className="lq-t13 lq-c2">Start a program to begin its medals.</p>}
       {rows.map(([slug, bs]) => {
-        const stages = bs.filter((b) => b.id.startsWith("prog-"));
-        const extra = bs.filter((b) => !b.id.startsWith("prog-"));
+        const ordered = [...bs].sort((a, z) => (a.position ?? 0) - (z.position ?? 0));
         const color = PROGRAM_MEDAL[slug]?.color;
+        const got = bs.filter((b) => earned[b.id]).length;
         return (
           <div key={slug} className="bd-prog" style={color ? ({ ["--bd-c" as string]: color } as React.CSSProperties) : undefined}>
-            <b className="bd-prog-n">{PROGRAM_MEDAL[slug]?.short ?? slug.replace(/-/g, " ")}</b>
-            <div className="bd-prog-row">
-              {stages.map((b) => tile(b, STAGE_LABEL[b.id.split("-").at(-1) ?? ""] ?? b.name))}
-              {extra.map((b) => tile(b))}
-            </div>
+            <b className="bd-prog-n">
+              {PROGRAM_MEDAL[slug]?.short ?? titleFromId(slug)} <span className="lq-t13 lq-c3 lq-num">· {got} of {bs.length}</span>
+            </b>
+            <div className="bd-prog-row">{ordered.map((b) => tile(b, shortName(b)))}</div>
           </div>
         );
       })}
       {rest.length > 0 && (
         <p className="lq-t13 lq-c3 bd-rest">
-          Also waiting: {rest.map(([slug]) => PROGRAM_MEDAL[slug]?.short ?? slug.replace(/-/g, " ")).join(" · ")} — start, halfway and finish medals in each.
+          Also waiting: {rest.map(([slug, bs]) => `${PROGRAM_MEDAL[slug]?.short ?? titleFromId(slug)} (${bs.length})`).join(" · ")} — medals on each program page.
         </p>
       )}
     </div>

@@ -1,1184 +1,1892 @@
 {
- "defs": [
-  {
-   "id": "first-day",
-   "name": "First Rep",
-   "description": "Complete your first day",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 0,
-   "position": 1,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "day-7",
-   "name": "One Week In",
-   "description": "Complete 7 days",
-   "tier": "bronze",
-   "icon": "calendar",
-   "points": 0,
-   "position": 2,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "day-30",
-   "name": "Thirty Deep",
-   "description": "Complete 30 days",
-   "tier": "silver",
-   "icon": "dumbbell",
-   "points": 0,
-   "position": 3,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "on-ramp",
-   "name": "On Ramp Cleared",
-   "description": "Finish the On Ramp phase",
-   "tier": "bronze",
-   "icon": "compass",
-   "points": 0,
-   "position": 4,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "phase-1",
-   "name": "Phase I Complete",
-   "description": "Finish Phase I",
-   "tier": "silver",
-   "icon": "target",
-   "points": 0,
-   "position": 5,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "phase-2",
-   "name": "Phase II Complete",
-   "description": "Finish Phase II",
-   "tier": "silver",
-   "icon": "target",
-   "points": 0,
-   "position": 6,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "phase-3",
-   "name": "Phase III Complete",
-   "description": "Finish Phase III",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 0,
-   "position": 7,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "streak-3",
-   "name": "Momentum",
-   "description": "Train 3 days in a row",
-   "tier": "bronze",
-   "icon": "flame",
-   "points": 0,
-   "position": 8,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "streak-7",
-   "name": "Unbroken",
-   "description": "Train 7 days in a row",
-   "tier": "silver",
-   "icon": "flame",
-   "points": 0,
-   "position": 9,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "streak-30",
-   "name": "Lifestyle",
-   "description": "Train 30 days in a row",
-   "tier": "gold",
-   "icon": "flame",
-   "points": 0,
-   "position": 10,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "tool-first",
-   "name": "Self-Aware",
-   "description": "Complete your first tool",
-   "tier": "bronze",
-   "icon": "heart",
-   "points": 0,
-   "position": 11,
-   "family": "explorer",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "tool-all",
-   "name": "Fully Assessed",
-   "description": "Complete every assessment tool",
-   "tier": "silver",
-   "icon": "heart",
-   "points": 0,
-   "position": 12,
-   "family": "explorer",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "level-1",
-   "name": "Beginner Graduate",
-   "description": "Complete Level I",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 0,
-   "position": 13,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "level-2",
-   "name": "Intermediate Graduate",
-   "description": "Complete Level II",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 0,
-   "position": 14,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "first-session",
-   "name": "First Session",
-   "description": "Log your first session in any program.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 100,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "weeks-4",
-   "name": "Four Good Weeks",
-   "description": "Train in 4 different weeks.",
-   "tier": "silver",
-   "icon": "calendar",
-   "points": 100,
-   "position": 101,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "weeks-12",
-   "name": "Twelve Good Weeks",
-   "description": "Train in 12 different weeks. Mike has a bonus session for you.",
-   "tier": "gold",
-   "icon": "calendar",
-   "points": 300,
-   "position": 102,
-   "family": "consistency",
-   "medal_color": null,
-   "perk": {
-    "href": "/library",
-    "kind": "bonus_video",
-    "label": "Bonus: Mike's 20-minute mobility reset",
-    "detail": "An extra session from Mike, yours to keep."
-   },
-   "program_slug": null
-  },
-  {
-   "id": "mastery-mtk-skill",
-   "name": "First Skill Unlocked",
-   "description": "Finish your first stage in Mastering the Kettlebell.",
-   "tier": "silver",
-   "icon": "target",
-   "points": 100,
-   "position": 200,
-   "family": "mastery",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mastery-mtk-skills-5",
-   "name": "Skilled Hands",
-   "description": "Finish five stages in Mastering the Kettlebell.",
-   "tier": "gold",
-   "icon": "target",
-   "points": 300,
-   "position": 201,
-   "family": "mastery",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mastery-a4l-block",
-   "name": "Block Done",
-   "description": "Finish a training block in Athleticism 4 Life.",
-   "tier": "silver",
-   "icon": "dumbbell",
-   "points": 100,
-   "position": 202,
-   "family": "mastery",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mastery-readiness",
-   "name": "Readiness Up",
-   "description": "Your readiness check came back better than before.",
-   "tier": "silver",
-   "icon": "heart",
-   "points": 50,
-   "position": 203,
-   "family": "mastery",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mastery-stretch",
-   "name": "More Mobile",
-   "description": "Retest the Stretch Test and beat your last score.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 50,
-   "position": 204,
-   "family": "mastery",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "explore-3-programs",
-   "name": "Explorer",
-   "description": "Try three different programs.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 300,
-   "family": "explorer",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "explore-both-tools",
-   "name": "Both Tools",
-   "description": "Use the Kettlebell Selector and the Stretch Test.",
-   "tier": "bronze",
-   "icon": "heart",
-   "points": 25,
-   "position": 301,
-   "family": "explorer",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "explore-25-videos",
-   "name": "Library Regular",
-   "description": "Watch 25 videos from the library to the end.",
-   "tier": "silver",
-   "icon": "sparkles",
-   "points": 100,
-   "position": 302,
-   "family": "explorer",
-   "medal_color": null,
-   "perk": {
-    "href": "/library",
-    "kind": "bonus_video",
-    "label": "Bonus: Mike's favourite flow",
-    "detail": "Unlocked for watching the library."
-   },
-   "program_slug": null
-  },
-  {
-   "id": "mike-book-1on1",
-   "name": "Booked a 1:1",
-   "description": "You booked a call with Mike.",
-   "tier": "gold",
-   "icon": "calendar",
-   "points": 100,
-   "position": 400,
-   "family": "mike",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mike-live-call",
-   "name": "On a Call with Mike",
-   "description": "You joined a live call with Mike.",
-   "tier": "gold",
-   "icon": "people",
-   "points": 100,
-   "position": 401,
-   "family": "mike",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mike-note",
-   "name": "A Note from Mike",
-   "description": "Mike wrote you a note after a call.",
-   "tier": "gold",
-   "icon": "sparkles",
-   "points": 50,
-   "position": 402,
-   "family": "mike",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mike-finish-program",
-   "name": "Finished a Program",
-   "description": "You finished a program or level.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 200,
-   "position": 403,
-   "family": "mike",
-   "medal_color": null,
-   "perk": {
-    "href": "/coaching",
-    "kind": "discount",
-    "label": "15% off a 1:1 call with Mike",
-    "detail": "Review your progress with Mike.",
-    "percent": 15
-   },
-   "program_slug": null
-  },
-  {
-   "id": "mike-retreat-apply",
-   "name": "Applied to a Retreat",
-   "description": "You applied to train with Mike in person.",
-   "tier": "gold",
-   "icon": "compass",
-   "points": 100,
-   "position": 404,
-   "family": "mike",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mike-retreat-attend",
-   "name": "On the Mountain",
-   "description": "You trained with Mike at a retreat.",
-   "tier": "platinum",
-   "icon": "trophy",
-   "points": 500,
-   "position": 405,
-   "family": "mike",
-   "medal_color": null,
-   "perk": null,
-   "program_slug": null
-  },
-  {
-   "id": "mike-refer",
-   "name": "Brought a Friend",
-   "description": "A friend you invited joined.",
-   "tier": "gold",
-   "icon": "people",
-   "points": 0,
-   "position": 406,
-   "family": "mike",
-   "medal_color": null,
-   "perk": {
-    "href": "/you/referrals",
-    "kind": "free_month",
-    "label": "A free month",
-    "detail": "Added to your membership when your friend joined."
-   },
-   "program_slug": null
-  },
-  {
-   "id": "prog-athleticism-4-life-start",
-   "name": "Started \u00b7 Athleticism 4 Life",
-   "description": "You started Athleticism 4 Life.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 503,
-   "family": "program",
-   "medal_color": "#1F9D6A",
-   "perk": null,
-   "program_slug": "athleticism-4-life"
-  },
-  {
-   "id": "prog-athleticism-4-life-halfway",
-   "name": "Halfway \u00b7 Athleticism 4 Life",
-   "description": "Halfway through Athleticism 4 Life.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 504,
-   "family": "program",
-   "medal_color": "#1F9D6A",
-   "perk": null,
-   "program_slug": "athleticism-4-life"
-  },
-  {
-   "id": "prog-athleticism-4-life-complete",
-   "name": "Finished \u00b7 Athleticism 4 Life",
-   "description": "You finished Athleticism 4 Life.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 505,
-   "family": "program",
-   "medal_color": "#1F9D6A",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing Athleticism 4 Life. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "athleticism-4-life"
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-start",
-   "name": "Started \u00b7 the Mini Series",
-   "description": "You started the Mini Series.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 506,
-   "family": "program",
-   "medal_color": "#0E7490",
-   "perk": null,
-   "program_slug": "free-6-video-kettlebell-mini-series"
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-halfway",
-   "name": "Halfway \u00b7 the Mini Series",
-   "description": "Halfway through the Mini Series.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 507,
-   "family": "program",
-   "medal_color": "#0E7490",
-   "perk": null,
-   "program_slug": "free-6-video-kettlebell-mini-series"
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-complete",
-   "name": "Finished \u00b7 the Mini Series",
-   "description": "You finished the Mini Series.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 508,
-   "family": "program",
-   "medal_color": "#0E7490",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing the Mini Series. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "free-6-video-kettlebell-mini-series"
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-start",
-   "name": "Started \u00b7 Kettlebell Lifestyle",
-   "description": "You started Kettlebell Lifestyle.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 509,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-halfway",
-   "name": "Halfway \u00b7 Kettlebell Lifestyle",
-   "description": "Halfway through Kettlebell Lifestyle.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 510,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": null,
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-complete",
-   "name": "Finished \u00b7 Kettlebell Lifestyle",
-   "description": "You finished Kettlebell Lifestyle.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 511,
-   "family": "program",
-   "medal_color": "#E2551F",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing Kettlebell Lifestyle. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "kettlebell-lifestyle"
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-start",
-   "name": "Started \u00b7 Mastering the Kettlebell",
-   "description": "You started Mastering the Kettlebell.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 512,
-   "family": "program",
-   "medal_color": "#1A85D6",
-   "perk": null,
-   "program_slug": "mastering-the-kettlebell"
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-halfway",
-   "name": "Halfway \u00b7 Mastering the Kettlebell",
-   "description": "Halfway through Mastering the Kettlebell.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 513,
-   "family": "program",
-   "medal_color": "#1A85D6",
-   "perk": null,
-   "program_slug": "mastering-the-kettlebell"
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-complete",
-   "name": "Finished \u00b7 Mastering the Kettlebell",
-   "description": "You finished Mastering the Kettlebell.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 514,
-   "family": "program",
-   "medal_color": "#1A85D6",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing Mastering the Kettlebell. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "mastering-the-kettlebell"
-  },
-  {
-   "id": "prog-men-of-movement-start",
-   "name": "Started \u00b7 Men of Movement",
-   "description": "You started Men of Movement.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 515,
-   "family": "program",
-   "medal_color": "#2F4B72",
-   "perk": null,
-   "program_slug": "men-of-movement"
-  },
-  {
-   "id": "prog-men-of-movement-halfway",
-   "name": "Halfway \u00b7 Men of Movement",
-   "description": "Halfway through Men of Movement.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 516,
-   "family": "program",
-   "medal_color": "#2F4B72",
-   "perk": null,
-   "program_slug": "men-of-movement"
-  },
-  {
-   "id": "prog-men-of-movement-complete",
-   "name": "Finished \u00b7 Men of Movement",
-   "description": "You finished Men of Movement.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 517,
-   "family": "program",
-   "medal_color": "#2F4B72",
-   "perk": null,
-   "program_slug": "men-of-movement"
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-start",
-   "name": "Started \u00b7 The Path",
-   "description": "You started The Path.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 518,
-   "family": "program",
-   "medal_color": "#C2410C",
-   "perk": null,
-   "program_slug": "the-path-to-inspired-action"
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-halfway",
-   "name": "Halfway \u00b7 The Path",
-   "description": "Halfway through The Path.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 519,
-   "family": "program",
-   "medal_color": "#C2410C",
-   "perk": null,
-   "program_slug": "the-path-to-inspired-action"
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-complete",
-   "name": "Finished \u00b7 The Path",
-   "description": "You finished The Path.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 520,
-   "family": "program",
-   "medal_color": "#C2410C",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing The Path. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "the-path-to-inspired-action"
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-start",
-   "name": "Started \u00b7 the Swing series",
-   "description": "You started the Swing series.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 521,
-   "family": "program",
-   "medal_color": "#B8860B",
-   "perk": null,
-   "program_slug": "what-your-kettlebell-swing-is-missing"
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-halfway",
-   "name": "Halfway \u00b7 the Swing series",
-   "description": "Halfway through the Swing series.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 522,
-   "family": "program",
-   "medal_color": "#B8860B",
-   "perk": null,
-   "program_slug": "what-your-kettlebell-swing-is-missing"
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-complete",
-   "name": "Finished \u00b7 the Swing series",
-   "description": "You finished the Swing series.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 523,
-   "family": "program",
-   "medal_color": "#B8860B",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing the Swing series. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "what-your-kettlebell-swing-is-missing"
-  },
-  {
-   "id": "prog-working-in-start",
-   "name": "Started \u00b7 Working-In",
-   "description": "You started Working-In.",
-   "tier": "bronze",
-   "icon": "sparkles",
-   "points": 25,
-   "position": 524,
-   "family": "program",
-   "medal_color": "#7A5BC7",
-   "perk": null,
-   "program_slug": "working-in"
-  },
-  {
-   "id": "prog-working-in-halfway",
-   "name": "Halfway \u00b7 Working-In",
-   "description": "Halfway through Working-In.",
-   "tier": "silver",
-   "icon": "compass",
-   "points": 100,
-   "position": 525,
-   "family": "program",
-   "medal_color": "#7A5BC7",
-   "perk": null,
-   "program_slug": "working-in"
-  },
-  {
-   "id": "prog-working-in-complete",
-   "name": "Finished \u00b7 Working-In",
-   "description": "You finished Working-In.",
-   "tier": "gold",
-   "icon": "trophy",
-   "points": 300,
-   "position": 526,
-   "family": "program",
-   "medal_color": "#7A5BC7",
-   "perk": {
-    "href": "/programs",
-    "kind": "discount",
-    "label": "20% off your next program",
-    "detail": "For finishing Working-In. One use, 90 days.",
-    "percent": 20
-   },
-   "program_slug": "working-in"
-  }
- ],
- "earned": {
-  "first-day": "2026-09-02T08:00:00Z",
-  "day-7": "2026-09-12T08:00:00Z",
-  "on-ramp": "2026-09-20T08:00:00Z",
-  "tool-first": "2026-09-05T08:00:00Z",
-  "first-session": "2026-09-02T08:00:00Z",
-  "streak-3": "2026-11-10T08:00:00Z",
-  "streak-7": "2026-11-14T08:00:00Z",
-  "weeks-4": "2026-10-01T08:00:00Z",
-  "explore-3-programs": "2026-10-15T08:00:00Z",
-  "explore-both-tools": "2026-10-20T08:00:00Z",
-  "mastery-readiness": "2026-11-03T08:00:00Z",
-  "mastery-a4l-block": "2026-11-19T18:30:00Z",
-  "prog-kettlebell-lifestyle-start": "2026-09-02T08:00:00Z",
-  "prog-mastering-the-kettlebell-start": "2026-10-02T08:00:00Z",
-  "prog-athleticism-4-life-start": "2026-11-01T08:00:00Z",
-  "prog-working-in-start": "2026-09-15T08:00:00Z",
-  "prog-working-in-halfway": "2026-09-30T08:00:00Z",
-  "prog-working-in-complete": "2026-10-12T08:00:00Z",
-  "mike-finish-program": "2026-10-12T08:00:00Z",
-  "mike-retreat-apply": "2026-11-12T08:00:00Z",
-  "mike-book-1on1": "2026-10-14T08:00:00Z"
- },
- "progress": [
-  {
-   "id": "first-day",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "day-7",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "day-30",
-   "current": 23,
-   "target": 30,
-   "earned": false
-  },
-  {
-   "id": "on-ramp",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "phase-1",
-   "current": 7,
-   "target": 12,
-   "earned": false
-  },
-  {
-   "id": "phase-2",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "phase-3",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "streak-3",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "streak-7",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "streak-30",
-   "current": 27,
-   "target": 30,
-   "earned": false
-  },
-  {
-   "id": "tool-first",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "tool-all",
-   "current": 2,
-   "target": 4,
-   "earned": false
-  },
-  {
-   "id": "level-1",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "level-2",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "first-session",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "weeks-4",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "weeks-12",
-   "current": 9,
-   "target": 12,
-   "earned": false
-  },
-  {
-   "id": "mastery-mtk-skill",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "mastery-mtk-skills-5",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "mastery-a4l-block",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "mastery-readiness",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "mastery-stretch",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "explore-3-programs",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "explore-both-tools",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "explore-25-videos",
-   "current": 11,
-   "target": 25,
-   "earned": false
-  },
-  {
-   "id": "mike-book-1on1",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "mike-live-call",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "mike-note",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "mike-finish-program",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "mike-retreat-apply",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "mike-retreat-attend",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "mike-refer",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-athleticism-4-life-start",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "prog-athleticism-4-life-halfway",
-   "current": 1,
-   "target": 50,
-   "earned": false
-  },
-  {
-   "id": "prog-athleticism-4-life-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-start",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-halfway",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-free-6-video-kettlebell-mini-series-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-start",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-halfway",
-   "current": 38,
-   "target": 50,
-   "earned": false
-  },
-  {
-   "id": "prog-kettlebell-lifestyle-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-start",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-halfway",
-   "current": 12,
-   "target": 50,
-   "earned": false
-  },
-  {
-   "id": "prog-mastering-the-kettlebell-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-men-of-movement-start",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-men-of-movement-halfway",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-men-of-movement-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-start",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-halfway",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-the-path-to-inspired-action-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-start",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-halfway",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-what-your-kettlebell-swing-is-missing-complete",
-   "current": 0,
-   "target": 1,
-   "earned": false
-  },
-  {
-   "id": "prog-working-in-start",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "prog-working-in-halfway",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  },
-  {
-   "id": "prog-working-in-complete",
-   "current": 1,
-   "target": 1,
-   "earned": true
-  }
- ],
- "perks": [
-  {
-   "id": "p1",
-   "badge_id": "mike-finish-program",
-   "kind": "discount",
-   "label": "15% off a 1:1 call with Mike",
-   "detail": "Review your progress with Mike.",
-   "href": "/coaching",
-   "coupon_code": "MS7F3A9C21",
-   "percent_off": 15,
-   "expires_at": "2027-01-10T08:00:00Z",
-   "redeemed_at": null,
-   "created_at": "2026-10-12T08:00:00Z"
-  },
-  {
-   "id": "p2",
-   "badge_id": "prog-working-in-complete",
-   "kind": "discount",
-   "label": "20% off your next program",
-   "detail": "For finishing Working-In. One use, 90 days.",
-   "href": "/programs",
-   "coupon_code": "MS2B81D0E4",
-   "percent_off": 20,
-   "expires_at": "2027-01-10T08:00:00Z",
-   "redeemed_at": null,
-   "created_at": "2026-10-12T08:00:00Z"
-  }
- ]
+  "defs": [
+    {
+      "id": "first-day",
+      "name": "First Rep",
+      "description": "Complete your first day",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 0,
+      "position": 1,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "day-7",
+      "name": "One Week In",
+      "description": "Complete 7 days",
+      "tier": "bronze",
+      "icon": "calendar",
+      "points": 0,
+      "position": 2,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "day-30",
+      "name": "Thirty Deep",
+      "description": "Complete 30 days",
+      "tier": "silver",
+      "icon": "dumbbell",
+      "points": 0,
+      "position": 3,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "streak-3",
+      "name": "Momentum",
+      "description": "Train 3 days in a row",
+      "tier": "bronze",
+      "icon": "flame",
+      "points": 0,
+      "position": 8,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "streak-7",
+      "name": "Unbroken",
+      "description": "Train 7 days in a row",
+      "tier": "silver",
+      "icon": "flame",
+      "points": 0,
+      "position": 9,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "streak-30",
+      "name": "Lifestyle",
+      "description": "Train 30 days in a row",
+      "tier": "gold",
+      "icon": "flame",
+      "points": 0,
+      "position": 10,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "tool-first",
+      "name": "Self-Aware",
+      "description": "Complete your first tool",
+      "tier": "bronze",
+      "icon": "heart",
+      "points": 0,
+      "position": 11,
+      "family": "explorer",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "tool-all",
+      "name": "Fully Assessed",
+      "description": "Complete every assessment tool",
+      "tier": "silver",
+      "icon": "heart",
+      "points": 0,
+      "position": 12,
+      "family": "explorer",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "first-session",
+      "name": "First Session",
+      "description": "Log your first session in any program.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "position": 100,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "weeks-4",
+      "name": "Four Good Weeks",
+      "description": "Train in 4 different weeks.",
+      "tier": "silver",
+      "icon": "calendar",
+      "points": 100,
+      "position": 101,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "weeks-12",
+      "name": "Twelve Good Weeks",
+      "description": "Train in 12 different weeks. Mike has a bonus session for you.",
+      "tier": "gold",
+      "icon": "calendar",
+      "points": 300,
+      "position": 102,
+      "family": "consistency",
+      "medal_color": null,
+      "perk": {
+        "href": "/library",
+        "kind": "bonus_video",
+        "label": "Bonus: Mike's 20-minute mobility reset",
+        "detail": "An extra session from Mike, yours to keep."
+      },
+      "program_slug": null
+    },
+    {
+      "id": "mastery-mtk-skill",
+      "name": "First Skill Unlocked",
+      "description": "Finish your first stage in Mastering the Kettlebell.",
+      "tier": "silver",
+      "icon": "target",
+      "points": 100,
+      "position": 200,
+      "family": "mastery",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mastery-mtk-skills-5",
+      "name": "Skilled Hands",
+      "description": "Finish five stages in Mastering the Kettlebell.",
+      "tier": "gold",
+      "icon": "target",
+      "points": 300,
+      "position": 201,
+      "family": "mastery",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mastery-a4l-block",
+      "name": "Block Done",
+      "description": "Finish a training block in Athleticism 4 Life.",
+      "tier": "silver",
+      "icon": "dumbbell",
+      "points": 100,
+      "position": 202,
+      "family": "mastery",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mastery-readiness",
+      "name": "Readiness Up",
+      "description": "Your readiness check came back better than before.",
+      "tier": "silver",
+      "icon": "heart",
+      "points": 50,
+      "position": 203,
+      "family": "mastery",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mastery-stretch",
+      "name": "More Mobile",
+      "description": "Retest the Stretch Test and beat your last score.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 50,
+      "position": 204,
+      "family": "mastery",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "explore-3-programs",
+      "name": "Explorer",
+      "description": "Try three different programs.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "position": 300,
+      "family": "explorer",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "explore-both-tools",
+      "name": "Both Tools",
+      "description": "Use the Kettlebell Selector and the Stretch Test.",
+      "tier": "bronze",
+      "icon": "heart",
+      "points": 25,
+      "position": 301,
+      "family": "explorer",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "explore-25-videos",
+      "name": "Library Regular",
+      "description": "Watch 25 videos from the library to the end.",
+      "tier": "silver",
+      "icon": "sparkles",
+      "points": 100,
+      "position": 302,
+      "family": "explorer",
+      "medal_color": null,
+      "perk": {
+        "href": "/library",
+        "kind": "bonus_video",
+        "label": "Bonus: Mike's favourite flow",
+        "detail": "Unlocked for watching the library."
+      },
+      "program_slug": null
+    },
+    {
+      "id": "mike-book-1on1",
+      "name": "Booked a 1:1",
+      "description": "You booked a call with Mike.",
+      "tier": "gold",
+      "icon": "calendar",
+      "points": 100,
+      "position": 400,
+      "family": "mike",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mike-live-call",
+      "name": "On a Call with Mike",
+      "description": "You joined a live call with Mike.",
+      "tier": "gold",
+      "icon": "people",
+      "points": 100,
+      "position": 401,
+      "family": "mike",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mike-note",
+      "name": "A Note from Mike",
+      "description": "Mike wrote you a note after a call.",
+      "tier": "gold",
+      "icon": "sparkles",
+      "points": 50,
+      "position": 402,
+      "family": "mike",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mike-finish-program",
+      "name": "Finished a Program",
+      "description": "You finished a program or level.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 200,
+      "position": 403,
+      "family": "mike",
+      "medal_color": null,
+      "perk": {
+        "href": "/coaching",
+        "kind": "discount",
+        "label": "15% off a 1:1 call with Mike",
+        "detail": "Review your progress with Mike.",
+        "percent": 15
+      },
+      "program_slug": null
+    },
+    {
+      "id": "mike-retreat-apply",
+      "name": "Applied to a Retreat",
+      "description": "You applied to train with Mike in person.",
+      "tier": "gold",
+      "icon": "compass",
+      "points": 100,
+      "position": 404,
+      "family": "mike",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mike-retreat-attend",
+      "name": "On the Mountain",
+      "description": "You trained with Mike at a retreat.",
+      "tier": "platinum",
+      "icon": "trophy",
+      "points": 500,
+      "position": 405,
+      "family": "mike",
+      "medal_color": null,
+      "perk": null,
+      "program_slug": null
+    },
+    {
+      "id": "mike-refer",
+      "name": "Brought a Friend",
+      "description": "A friend you invited joined.",
+      "tier": "gold",
+      "icon": "people",
+      "points": 0,
+      "position": 406,
+      "family": "mike",
+      "medal_color": null,
+      "perk": {
+        "href": "/you/referrals",
+        "kind": "free_month",
+        "label": "A free month",
+        "detail": "Added to your membership when your friend joined."
+      },
+      "program_slug": null
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-start",
+      "name": "Started · Kettlebell Lifestyle",
+      "description": "You started Kettlebell Lifestyle.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "position": 600
+    },
+    {
+      "id": "kbl-first-session",
+      "name": "First Session",
+      "description": "Complete your first Kettlebell Lifestyle day.",
+      "tier": "bronze",
+      "icon": "kettlebell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "position": 601
+    },
+    {
+      "id": "on-ramp",
+      "name": "On Ramp Cleared",
+      "description": "Finish the On Ramp phase",
+      "tier": "bronze",
+      "icon": "compass",
+      "points": 0,
+      "position": 602,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "phase-1",
+      "name": "Phase I Complete",
+      "description": "Finish Phase I",
+      "tier": "silver",
+      "icon": "target",
+      "points": 0,
+      "position": 603,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "phase-2",
+      "name": "Phase II Complete",
+      "description": "Finish Phase II",
+      "tier": "silver",
+      "icon": "target",
+      "points": 0,
+      "position": 604,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "phase-3",
+      "name": "Phase III Complete",
+      "description": "Finish Phase III",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 0,
+      "position": 605,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "kbl-streak-7",
+      "name": "Seven Straight",
+      "description": "Train Kettlebell Lifestyle 7 days in a row.",
+      "tier": "silver",
+      "icon": "flame",
+      "points": 100,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "position": 606
+    },
+    {
+      "id": "level-1",
+      "name": "Beginner Graduate",
+      "description": "Complete Level I",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 0,
+      "position": 607,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "level-2",
+      "name": "Intermediate Graduate",
+      "description": "Complete Level II",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 0,
+      "position": 608,
+      "family": "program",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "program_slug": "kettlebell-lifestyle"
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-halfway",
+      "name": "Halfway · Kettlebell Lifestyle",
+      "description": "Halfway through your Kettlebell Lifestyle level.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "position": 609
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-complete",
+      "name": "Finished · Kettlebell Lifestyle",
+      "description": "You finished Kettlebell Lifestyle.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing Kettlebell Lifestyle. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 610
+    },
+    {
+      "id": "kbl-both-levels",
+      "name": "Both Levels",
+      "description": "Complete Level I and Level II — every phase, every day.",
+      "tier": "platinum",
+      "icon": "mountain",
+      "points": 500,
+      "family": "program",
+      "program_slug": "kettlebell-lifestyle",
+      "medal_color": "#E2551F",
+      "perk": null,
+      "position": 611
+    },
+    {
+      "id": "prog-athleticism-4-life-start",
+      "name": "Started · Athleticism 4 Life",
+      "description": "You started Athleticism 4 Life.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 620
+    },
+    {
+      "id": "a4l-first-day",
+      "name": "First Day",
+      "description": "Complete your first Athleticism 4 Life day.",
+      "tier": "bronze",
+      "icon": "kettlebell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 621
+    },
+    {
+      "id": "a4l-week-1",
+      "name": "Week 1 Done",
+      "description": "Finish every day of Week 1: Foundations.",
+      "tier": "bronze",
+      "icon": "calendar",
+      "points": 50,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 622
+    },
+    {
+      "id": "a4l-first-workout",
+      "name": "First Workout Logged",
+      "description": "Log your first full workout from the Workouts library.",
+      "tier": "bronze",
+      "icon": "dumbbell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 623
+    },
+    {
+      "id": "a4l-perfect-week",
+      "name": "Perfect Week",
+      "description": "Every day of one training week, done.",
+      "tier": "silver",
+      "icon": "star",
+      "points": 100,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 624
+    },
+    {
+      "id": "a4l-block-1",
+      "name": "Block 1: Foundations",
+      "description": "Finish Weeks 1 and 2 — the Foundations block.",
+      "tier": "silver",
+      "icon": "target",
+      "points": 150,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 625
+    },
+    {
+      "id": "prog-athleticism-4-life-halfway",
+      "name": "Halfway · Athleticism 4 Life",
+      "description": "Halfway through Athleticism 4 Life.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 626
+    },
+    {
+      "id": "a4l-block-2",
+      "name": "Block 2: Performance",
+      "description": "Finish Weeks 3 and 4 — Performance Integration.",
+      "tier": "gold",
+      "icon": "bolt",
+      "points": 200,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": null,
+      "position": 627
+    },
+    {
+      "id": "prog-athleticism-4-life-complete",
+      "name": "Finished · Athleticism 4 Life",
+      "description": "You finished Athleticism 4 Life.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "athleticism-4-life",
+      "medal_color": "#1F9D6A",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing Athleticism 4 Life. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 628
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-start",
+      "name": "Started · Mastering the Kettlebell",
+      "description": "You started Mastering the Kettlebell.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 640
+    },
+    {
+      "id": "mtk-first-lesson",
+      "name": "First Lesson",
+      "description": "Complete your first Mastering the Kettlebell lesson.",
+      "tier": "bronze",
+      "icon": "kettlebell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 641
+    },
+    {
+      "id": "mtk-foundations",
+      "name": "Foundations Mastered",
+      "description": "Finish Starting Up and Grips and Positions.",
+      "tier": "silver",
+      "icon": "target",
+      "points": 100,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 642
+    },
+    {
+      "id": "mtk-streak-7",
+      "name": "Plan Streak",
+      "description": "Practise Mastering the Kettlebell 7 days in a row.",
+      "tier": "silver",
+      "icon": "flame",
+      "points": 100,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 643
+    },
+    {
+      "id": "mtk-grinds",
+      "name": "Grinds Mastered",
+      "description": "Deadlift, squat, lunge and row — every lesson done.",
+      "tier": "gold",
+      "icon": "dumbbell",
+      "points": 250,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 644
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-halfway",
+      "name": "Halfway · Mastering the Kettlebell",
+      "description": "Halfway through Mastering the Kettlebell.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 645
+    },
+    {
+      "id": "mtk-ballistics",
+      "name": "Ballistics Mastered",
+      "description": "Swing, clean and snatch — every lesson done.",
+      "tier": "gold",
+      "icon": "bolt",
+      "points": 250,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 646
+    },
+    {
+      "id": "mtk-overhead",
+      "name": "Overhead Mastered",
+      "description": "Press, jerk, get-up and windmill — every lesson done.",
+      "tier": "gold",
+      "icon": "mountain",
+      "points": 250,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": null,
+      "position": 647
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-complete",
+      "name": "Finished · Mastering the Kettlebell",
+      "description": "You finished Mastering the Kettlebell.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "mastering-the-kettlebell",
+      "medal_color": "#1A85D6",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing Mastering the Kettlebell. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 648
+    },
+    {
+      "id": "prog-working-in-start",
+      "name": "Started · Working-In",
+      "description": "You started Working-In.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": null,
+      "position": 660
+    },
+    {
+      "id": "wi-practice-1",
+      "name": "First Practice",
+      "description": "Do your first Working-In practice.",
+      "tier": "bronze",
+      "icon": "heart",
+      "points": 25,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": null,
+      "position": 661
+    },
+    {
+      "id": "wi-practice-7",
+      "name": "Seven Practices",
+      "description": "Practise Working-In on 7 different days.",
+      "tier": "silver",
+      "icon": "calendar",
+      "points": 100,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": null,
+      "position": 662
+    },
+    {
+      "id": "prog-working-in-halfway",
+      "name": "Halfway · Working-In",
+      "description": "Halfway through Working-In.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": null,
+      "position": 663
+    },
+    {
+      "id": "wi-practice-21",
+      "name": "Twenty-One Practices",
+      "description": "Practise Working-In on 21 different days — a habit now.",
+      "tier": "gold",
+      "icon": "flame",
+      "points": 250,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": null,
+      "position": 664
+    },
+    {
+      "id": "prog-working-in-complete",
+      "name": "Finished · Working-In",
+      "description": "You finished Working-In.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "working-in",
+      "medal_color": "#7A5BC7",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing Working-In. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 665
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-start",
+      "name": "Started · The Path",
+      "description": "You started The Path.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 680
+    },
+    {
+      "id": "path-first-reflection",
+      "name": "First Reflection",
+      "description": "Complete your first reflection on The Path.",
+      "tier": "bronze",
+      "icon": "book",
+      "points": 25,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 681
+    },
+    {
+      "id": "path-week-1",
+      "name": "Week 1 Reflected",
+      "description": "Finish every reflection in Week 1.",
+      "tier": "bronze",
+      "icon": "calendar",
+      "points": 50,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 682
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-halfway",
+      "name": "Halfway · The Path",
+      "description": "Halfway through The Path.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 683
+    },
+    {
+      "id": "path-streak-7",
+      "name": "Seven Days of Action",
+      "description": "Show up on The Path 7 days in a row.",
+      "tier": "silver",
+      "icon": "flame",
+      "points": 100,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 684
+    },
+    {
+      "id": "path-all-reflections",
+      "name": "All Reflections",
+      "description": "Every reflection across all 10 weeks, done.",
+      "tier": "gold",
+      "icon": "star",
+      "points": 250,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": null,
+      "position": 685
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-complete",
+      "name": "Finished · The Path",
+      "description": "You finished The Path.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "the-path-to-inspired-action",
+      "medal_color": "#C2410C",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing The Path. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 686
+    },
+    {
+      "id": "prog-men-of-movement-start",
+      "name": "Started · Men of Movement",
+      "description": "You started Men of Movement.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 700
+    },
+    {
+      "id": "mom-pillar-1",
+      "name": "First Pillar",
+      "description": "Watch your first Men of Movement pillar.",
+      "tier": "bronze",
+      "icon": "book",
+      "points": 25,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 701
+    },
+    {
+      "id": "prog-men-of-movement-halfway",
+      "name": "Halfway · Men of Movement",
+      "description": "Halfway through Men of Movement.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 702
+    },
+    {
+      "id": "mom-pillars-4",
+      "name": "Four Pillars",
+      "description": "Watch four of the Men of Movement pillars.",
+      "tier": "silver",
+      "icon": "people",
+      "points": 100,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 703
+    },
+    {
+      "id": "mom-all-pillars",
+      "name": "Every Pillar",
+      "description": "Every pillar watched — ready for the mountain.",
+      "tier": "gold",
+      "icon": "mountain",
+      "points": 250,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 704
+    },
+    {
+      "id": "prog-men-of-movement-complete",
+      "name": "Finished · Men of Movement",
+      "description": "You finished Men of Movement.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "men-of-movement",
+      "medal_color": "#2F4B72",
+      "perk": null,
+      "position": 705
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-start",
+      "name": "Started · the Swing series",
+      "description": "You started the Swing series.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 720
+    },
+    {
+      "id": "swing-step-1",
+      "name": "First Step",
+      "description": "Complete the first of the 7 swing steps.",
+      "tier": "bronze",
+      "icon": "kettlebell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 721
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-halfway",
+      "name": "Halfway · the Swing series",
+      "description": "Halfway through the Swing series.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 722
+    },
+    {
+      "id": "swing-7-steps",
+      "name": "All 7 Steps",
+      "description": "Every one of the 7 swing steps, done.",
+      "tier": "silver",
+      "icon": "target",
+      "points": 100,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 723
+    },
+    {
+      "id": "swing-two-week",
+      "name": "Two-Week Swing Plan",
+      "description": "Open the bonus two-week swing program.",
+      "tier": "silver",
+      "icon": "calendar",
+      "points": 50,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 724
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-complete",
+      "name": "Finished · the Swing series",
+      "description": "You finished the Swing series.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing the Swing series. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 725
+    },
+    {
+      "id": "swing-next-step",
+      "name": "Next Step Taken",
+      "description": "Finished the Swing series and joined a full program.",
+      "tier": "gold",
+      "icon": "flag",
+      "points": 200,
+      "family": "program",
+      "program_slug": "what-your-kettlebell-swing-is-missing",
+      "medal_color": "#B8860B",
+      "perk": null,
+      "position": 726
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-start",
+      "name": "Started · the Mini Series",
+      "description": "You started the Mini Series.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": null,
+      "position": 740
+    },
+    {
+      "id": "mini-first-video",
+      "name": "First Video",
+      "description": "Finish the first Mini Series video.",
+      "tier": "bronze",
+      "icon": "kettlebell",
+      "points": 25,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": null,
+      "position": 741
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-halfway",
+      "name": "Halfway · the Mini Series",
+      "description": "Halfway through the Mini Series.",
+      "tier": "silver",
+      "icon": "compass",
+      "points": 100,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": null,
+      "position": 742
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-complete",
+      "name": "Finished · the Mini Series",
+      "description": "You finished the Mini Series.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": {
+        "href": "/programs",
+        "kind": "discount",
+        "label": "20% off your next program",
+        "detail": "For finishing the Mini Series. One use, 90 days.",
+        "percent": 20
+      },
+      "position": 743
+    },
+    {
+      "id": "mini-streak-3",
+      "name": "Three in a Row",
+      "description": "Watch the Mini Series 3 days in a row.",
+      "tier": "bronze",
+      "icon": "flame",
+      "points": 50,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": null,
+      "position": 744
+    },
+    {
+      "id": "mini-next-step",
+      "name": "Next Step Taken",
+      "description": "Finished the Mini Series and joined a full program.",
+      "tier": "gold",
+      "icon": "flag",
+      "points": 200,
+      "family": "program",
+      "program_slug": "free-6-video-kettlebell-mini-series",
+      "medal_color": "#0E7490",
+      "perk": null,
+      "position": 745
+    },
+    {
+      "id": "prog-kettlebell-roadmap-start",
+      "name": "Started · the Roadmap",
+      "description": "You started the Kettlebell Roadmap.",
+      "tier": "bronze",
+      "icon": "sparkles",
+      "points": 25,
+      "family": "program",
+      "program_slug": "kettlebell-roadmap",
+      "medal_color": "#64748B",
+      "perk": null,
+      "position": 760
+    },
+    {
+      "id": "roadmap-phase-1",
+      "name": "The Foundation",
+      "description": "Finish Phase 1 of the Roadmap.",
+      "tier": "bronze",
+      "icon": "compass",
+      "points": 25,
+      "family": "program",
+      "program_slug": "kettlebell-roadmap",
+      "medal_color": "#64748B",
+      "perk": null,
+      "position": 761
+    },
+    {
+      "id": "roadmap-all-phases",
+      "name": "Whole Roadmap",
+      "description": "All four Roadmap phases read.",
+      "tier": "silver",
+      "icon": "mountain",
+      "points": 100,
+      "family": "program",
+      "program_slug": "kettlebell-roadmap",
+      "medal_color": "#64748B",
+      "perk": null,
+      "position": 762
+    },
+    {
+      "id": "prog-kettlebell-roadmap-complete",
+      "name": "Finished · the Roadmap",
+      "description": "You finished the Kettlebell Roadmap.",
+      "tier": "gold",
+      "icon": "trophy",
+      "points": 300,
+      "family": "program",
+      "program_slug": "kettlebell-roadmap",
+      "medal_color": "#64748B",
+      "perk": null,
+      "position": 763
+    },
+    {
+      "id": "roadmap-next-step",
+      "name": "Next Step Taken",
+      "description": "Finished the Roadmap and joined a full program.",
+      "tier": "gold",
+      "icon": "flag",
+      "points": 200,
+      "family": "program",
+      "program_slug": "kettlebell-roadmap",
+      "medal_color": "#64748B",
+      "perk": null,
+      "position": 764
+    }
+  ],
+  "earned": {
+    "first-day": "2026-09-02T08:00:00Z",
+    "day-7": "2026-09-12T08:00:00Z",
+    "on-ramp": "2026-09-20T08:00:00Z",
+    "tool-first": "2026-09-05T08:00:00Z",
+    "first-session": "2026-09-02T08:00:00Z",
+    "streak-3": "2026-11-10T08:00:00Z",
+    "streak-7": "2026-11-14T08:00:00Z",
+    "weeks-4": "2026-10-01T08:00:00Z",
+    "explore-3-programs": "2026-10-15T08:00:00Z",
+    "explore-both-tools": "2026-10-20T08:00:00Z",
+    "mastery-readiness": "2026-11-03T08:00:00Z",
+    "mastery-a4l-block": "2026-11-19T18:30:00Z",
+    "prog-kettlebell-lifestyle-start": "2026-09-02T08:00:00Z",
+    "prog-mastering-the-kettlebell-start": "2026-10-02T08:00:00Z",
+    "prog-athleticism-4-life-start": "2026-11-01T08:00:00Z",
+    "prog-working-in-start": "2026-09-15T08:00:00Z",
+    "prog-working-in-halfway": "2026-09-30T08:00:00Z",
+    "prog-working-in-complete": "2026-10-12T08:00:00Z",
+    "mike-finish-program": "2026-10-12T08:00:00Z",
+    "mike-retreat-apply": "2026-11-12T08:00:00Z",
+    "mike-book-1on1": "2026-10-14T08:00:00Z",
+    "kbl-first-session": "2026-11-12T09:00:00Z",
+    "a4l-first-day": "2026-11-12T09:00:00Z",
+    "a4l-week-1": "2026-11-12T09:00:00Z",
+    "a4l-first-workout": "2026-11-12T09:00:00Z",
+    "mtk-first-lesson": "2026-11-12T09:00:00Z"
+  },
+  "progress": [
+    {
+      "id": "first-day",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "day-7",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "day-30",
+      "current": 23,
+      "target": 30,
+      "earned": false
+    },
+    {
+      "id": "on-ramp",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "phase-1",
+      "current": 7,
+      "target": 12,
+      "earned": false
+    },
+    {
+      "id": "phase-2",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "phase-3",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "streak-3",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "streak-7",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "streak-30",
+      "current": 27,
+      "target": 30,
+      "earned": false
+    },
+    {
+      "id": "tool-first",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "tool-all",
+      "current": 2,
+      "target": 4,
+      "earned": false
+    },
+    {
+      "id": "level-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "level-2",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "first-session",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "weeks-4",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "weeks-12",
+      "current": 9,
+      "target": 12,
+      "earned": false
+    },
+    {
+      "id": "mastery-mtk-skill",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mastery-mtk-skills-5",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mastery-a4l-block",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mastery-readiness",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mastery-stretch",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "explore-3-programs",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "explore-both-tools",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "explore-25-videos",
+      "current": 11,
+      "target": 25,
+      "earned": false
+    },
+    {
+      "id": "mike-book-1on1",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mike-live-call",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mike-note",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mike-finish-program",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mike-retreat-apply",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mike-retreat-attend",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mike-refer",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-athleticism-4-life-start",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "prog-athleticism-4-life-halfway",
+      "current": 1,
+      "target": 50,
+      "earned": false
+    },
+    {
+      "id": "prog-athleticism-4-life-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-start",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-halfway",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-free-6-video-kettlebell-mini-series-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-start",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-halfway",
+      "current": 38,
+      "target": 50,
+      "earned": false
+    },
+    {
+      "id": "prog-kettlebell-lifestyle-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-start",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-halfway",
+      "current": 12,
+      "target": 50,
+      "earned": false
+    },
+    {
+      "id": "prog-mastering-the-kettlebell-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-men-of-movement-start",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-men-of-movement-halfway",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-men-of-movement-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-start",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-halfway",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-the-path-to-inspired-action-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-start",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-halfway",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-what-your-kettlebell-swing-is-missing-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-working-in-start",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "prog-working-in-halfway",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "prog-working-in-complete",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "kbl-first-session",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "kbl-streak-7",
+      "current": 4,
+      "target": 7,
+      "earned": false
+    },
+    {
+      "id": "kbl-both-levels",
+      "current": 19,
+      "target": 144,
+      "earned": false
+    },
+    {
+      "id": "a4l-first-day",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "a4l-week-1",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "a4l-first-workout",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "a4l-perfect-week",
+      "current": 7,
+      "target": 9,
+      "earned": false
+    },
+    {
+      "id": "a4l-block-1",
+      "current": 11,
+      "target": 18,
+      "earned": false
+    },
+    {
+      "id": "a4l-block-2",
+      "current": 0,
+      "target": 18,
+      "earned": false
+    },
+    {
+      "id": "mtk-first-lesson",
+      "current": 1,
+      "target": 1,
+      "earned": true
+    },
+    {
+      "id": "mtk-foundations",
+      "current": 6,
+      "target": 11,
+      "earned": false
+    },
+    {
+      "id": "mtk-streak-7",
+      "current": 2,
+      "target": 7,
+      "earned": false
+    },
+    {
+      "id": "mtk-grinds",
+      "current": 3,
+      "target": 120,
+      "earned": false
+    },
+    {
+      "id": "mtk-ballistics",
+      "current": 0,
+      "target": 110,
+      "earned": false
+    },
+    {
+      "id": "mtk-overhead",
+      "current": 0,
+      "target": 56,
+      "earned": false
+    },
+    {
+      "id": "wi-practice-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "wi-practice-7",
+      "current": 0,
+      "target": 7,
+      "earned": false
+    },
+    {
+      "id": "wi-practice-21",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "path-first-reflection",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "path-week-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "path-streak-7",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "path-all-reflections",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mom-pillar-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mom-pillars-4",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mom-all-pillars",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "swing-step-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "swing-7-steps",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "swing-two-week",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "swing-next-step",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mini-first-video",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mini-streak-3",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "mini-next-step",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-kettlebell-roadmap-start",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "roadmap-phase-1",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "roadmap-all-phases",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "prog-kettlebell-roadmap-complete",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    },
+    {
+      "id": "roadmap-next-step",
+      "current": 0,
+      "target": 1,
+      "earned": false
+    }
+  ],
+  "perks": [
+    {
+      "id": "p1",
+      "badge_id": "mike-finish-program",
+      "kind": "discount",
+      "label": "15% off a 1:1 call with Mike",
+      "detail": "Review your progress with Mike.",
+      "href": "/coaching",
+      "coupon_code": "MS7F3A9C21",
+      "percent_off": 15,
+      "expires_at": "2027-01-10T08:00:00Z",
+      "redeemed_at": null,
+      "created_at": "2026-10-12T08:00:00Z"
+    },
+    {
+      "id": "p2",
+      "badge_id": "prog-working-in-complete",
+      "kind": "discount",
+      "label": "20% off your next program",
+      "detail": "For finishing Working-In. One use, 90 days.",
+      "href": "/programs",
+      "coupon_code": "MS2B81D0E4",
+      "percent_off": 20,
+      "expires_at": "2027-01-10T08:00:00Z",
+      "redeemed_at": null,
+      "created_at": "2026-10-12T08:00:00Z"
+    }
+  ]
 }
