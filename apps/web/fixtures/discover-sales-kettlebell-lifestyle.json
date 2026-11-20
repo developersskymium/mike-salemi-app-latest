@@ -1,0 +1,363 @@
+{
+ "program": {
+  "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "slug": "kettlebell-lifestyle",
+  "name": "Kettlebell Lifestyle",
+  "type": "day_program",
+  "tagline": "Nine weeks to a kettlebell you can trust, at two levels",
+  "audience": null,
+  "summary": "A 9-week personalised, multi-level kettlebell and wellness program: morning routines, bodyweight warm-ups, follow-along workouts and personalised stretching.",
+  "formatLabel": "61 days · 4 phases per level",
+  "durationLabel": "9 weeks per level",
+  "level": "all",
+  "catalogGroup": "training",
+  "isFree": false,
+  "draftNote": null,
+  "modes": [
+   "immersion",
+   "self_guided",
+   "library"
+  ],
+  "paths": [
+   {
+    "id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+    "key": "beginner",
+    "name": "Level I · Beginner",
+    "shortName": "Level I",
+    "kind": "level",
+    "position": 1
+   },
+   {
+    "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+    "key": "intermediate",
+    "name": "Level II · Intermediate",
+    "shortName": "Level II",
+    "kind": "level",
+    "position": 2
+   }
+  ],
+  "media": [
+   {
+    "role": "card",
+    "url": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+    "alt": "Kettlebell Lifestyle Level I"
+   },
+   {
+    "role": "gallery",
+    "url": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+    "alt": "Kettlebell Lifestyle Level II"
+   }
+  ],
+  "access": "locked",
+  "position": 0,
+  "description": "**Level I — Beginner.** Kettlebell Lifestyle is a 9-week personalised, multi-level kettlebell and wellness program. Level I teaches the swing variations, squats, presses, cleans and combination movements from the ground up — alongside morning routines, personalised stretching, bodyweight warm-ups and follow-along workouts.\n\n**Level II — Intermediate.** Level II picks up where the Beginner program ends. Denser conditioning, double-bell work, snatch progressions and complexes — with the same morning routine, warm-up and stretching structure holding it all together.",
+  "highlights": [
+   "Two nine-week levels: Beginner and Intermediate",
+   "Follow-along workouts with a daily readiness check",
+   "Morning routine, warm-up and personalised stretching every day"
+  ],
+  "sectionLabel": "Phase",
+  "lessonLabel": "Day",
+  "sequenceLocked": false
+ },
+ "outline": [
+  {
+   "id": "4ce6f008-7a2e-4c20-98e2-1e890920484d",
+   "title": "On Ramp Phase",
+   "subtitle": "Week 0",
+   "lessonCount": 8,
+   "lessons": [
+    "On Ramp Overview",
+    "Day 1",
+    "Day 2",
+    "Day 3"
+   ]
+  },
+  {
+   "id": "b26bf84f-0520-42a6-bab0-e8de04175187",
+   "title": "Phase 1",
+   "subtitle": "Weeks 1–3",
+   "lessonCount": 15,
+   "lessons": [
+    "Phase 1 Overview",
+    "Day 8 - Workout I Day",
+    "Day 9 - Recovery Day",
+    "Day 10 - Workout II Day"
+   ]
+  },
+  {
+   "id": "df188a11-d6e4-4f79-9bb2-e114037d511a",
+   "title": "Phase 2",
+   "subtitle": "Weeks 4–6",
+   "lessonCount": 22,
+   "lessons": [
+    "Phase 2 Overview",
+    "Day 21 - Workout I Day",
+    "Day 22 - Recovery Day",
+    "Day 23 - Workout II Day"
+   ]
+  },
+  {
+   "id": "2d611df1-9ac1-47e1-9978-84e09f687e22",
+   "title": "Phase 3",
+   "subtitle": "Weeks 7–9",
+   "lessonCount": 22,
+   "lessons": [
+    "Phase 3 Overview",
+    "Day 41 - Workout I Day",
+    "Day 42 - Recovery Day",
+    "Day 43 - Workout II Day"
+   ]
+  }
+ ],
+ "quote": {
+  "kind": "program",
+  "ref": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "name": "Kettlebell Lifestyle",
+  "interval": "one_time",
+  "state": "unavailable",
+  "reason": "no_price",
+  "currency": "usd",
+  "base_cents": 0,
+  "discount_cents": 0,
+  "amount_cents": 0,
+  "benefit_applied": null,
+  "coupon_id": null,
+  "coupon_error": null,
+  "price_id": null,
+  "stripe_price_id": null,
+  "access_days": null,
+  "member_plan": "free"
+ },
+ "plans": [
+  {
+   "id": "free",
+   "name": "Free",
+   "tagline": null,
+   "rank": 0,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [],
+   "benefits": [
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  },
+  {
+   "id": "pro",
+   "name": "Pro",
+   "tagline": null,
+   "rank": 1,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [
+    {
+     "id": "e60050f0-d5c7-41e2-9299-39c9f61283e2",
+     "interval": "month",
+     "amountCents": 2900,
+     "currency": "usd",
+     "label": "Pro monthly",
+     "draftNote": "Draft - price awaiting Mike"
+    },
+    {
+     "id": "e68cf9ba-a9a1-451b-9cc2-0c07a6a921c6",
+     "interval": "year",
+     "amountCents": 29000,
+     "currency": "usd",
+     "label": "Pro yearly",
+     "draftNote": "Draft - price awaiting Mike"
+    }
+   ],
+   "benefits": [
+    {
+     "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "programSlug": "kettlebell-lifestyle",
+     "programName": "Kettlebell Lifestyle",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "programSlug": "mastering-the-kettlebell",
+     "programName": "Mastering the Kettlebell",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 20,
+     "coachingCredits": null
+    },
+    {
+     "programId": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "programSlug": "athleticism-4-life",
+     "programName": "Athleticism 4 Life",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 20,
+     "coachingCredits": null
+    },
+    {
+     "programId": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "programSlug": "working-in",
+     "programName": "Working-In with Paul Chek & Mike Salemi",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  },
+  {
+   "id": "max",
+   "name": "Max",
+   "tagline": null,
+   "rank": 2,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [
+    {
+     "id": "0cccc1e6-aa4e-405d-8592-3aac2e58885c",
+     "interval": "month",
+     "amountCents": 5900,
+     "currency": "usd",
+     "label": "Max monthly",
+     "draftNote": "Draft - price awaiting Mike"
+    },
+    {
+     "id": "5a0ecb3b-ee3c-4643-80fb-e65b7f2596f1",
+     "interval": "year",
+     "amountCents": 59000,
+     "currency": "usd",
+     "label": "Max yearly",
+     "draftNote": "Draft - price awaiting Mike"
+    }
+   ],
+   "benefits": [
+    {
+     "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "programSlug": "kettlebell-lifestyle",
+     "programName": "Kettlebell Lifestyle",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "programSlug": "mastering-the-kettlebell",
+     "programName": "Mastering the Kettlebell",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "programSlug": "athleticism-4-life",
+     "programName": "Athleticism 4 Life",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "programSlug": "the-path-to-inspired-action",
+     "programName": "The Path to Inspired Action",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 25,
+     "coachingCredits": null
+    },
+    {
+     "programId": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "programSlug": "working-in",
+     "programName": "Working-In with Paul Chek & Mike Salemi",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  }
+ ]
+}

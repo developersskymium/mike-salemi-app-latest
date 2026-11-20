@@ -1,0 +1,917 @@
+{
+ "program": {
+  "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+  "slug": "mastering-the-kettlebell",
+  "name": "Mastering the Kettlebell",
+  "type": "course",
+  "tagline": null,
+  "audience": null,
+  "summary": "Kettlebell technique from foundations to performance",
+  "formatLabel": null,
+  "durationLabel": null,
+  "level": null,
+  "catalogGroup": "training",
+  "isFree": false,
+  "draftNote": null,
+  "modes": [
+   "self_guided",
+   "library"
+  ],
+  "paths": [
+   {
+    "id": "407a7bd2-dae0-4a41-bc24-adbbbb462d17",
+    "key": "mtk-ballistic",
+    "name": "Ballistic Movements",
+    "shortName": "Ballistic Movements",
+    "kind": "focus",
+    "position": 1
+   },
+   {
+    "id": "403ba7d6-a192-43c8-a458-d0dd14555dcf",
+    "key": "mtk-overhead",
+    "name": "Overhead Movements",
+    "shortName": "Overhead Movements",
+    "kind": "focus",
+    "position": 2
+   },
+   {
+    "id": "dfa1ac1f-85f4-4965-9554-3b8d52579f82",
+    "key": "mtk-lower",
+    "name": "Lower Body & Pulling",
+    "shortName": "Lower Body & Pulling",
+    "kind": "focus",
+    "position": 3
+   },
+   {
+    "id": "b334b714-e1e8-4988-bbc9-22d791a8a5ff",
+    "key": "mtk-full",
+    "name": "Full Mastering the Kettlebell",
+    "shortName": "Full program",
+    "kind": "focus",
+    "position": 4
+   }
+  ],
+  "media": [
+   {
+    "role": "hero",
+    "url": "/media/l5e/2c8245bf-d2f2-4483-8be4-dccd5af4dbef/mastering-the-kettlebell.png",
+    "alt": "Mastering the Kettlebell"
+   }
+  ],
+  "access": "locked",
+  "position": 1,
+  "description": "Learn grips, pre-checks, technique, common errors and variations across the major kettlebell movements, with bonus expert talks and program design lessons.",
+  "highlights": [
+   "Movement-by-movement instruction",
+   "Pre-checks and common errors",
+   "Expert talks and program design"
+  ],
+  "sectionLabel": "Section",
+  "lessonLabel": "Lesson",
+  "sequenceLocked": false
+ },
+ "outline": [
+  {
+   "id": "3a3dead0-fd9e-5847-aa3b-85e17eb99dcd",
+   "title": "Home",
+   "subtitle": null,
+   "lessonCount": 1,
+   "lessons": [
+    "Home"
+   ]
+  },
+  {
+   "id": "6d277788-6a9f-5501-8d82-d784ae82c1e3",
+   "title": "Starting Up",
+   "subtitle": "Getting Started",
+   "lessonCount": 5,
+   "lessons": [
+    "Weights to Choose",
+    "Kettlebell Types",
+    "Safety, Clothing, and Chalking",
+    "Kettlebell History and Benefits"
+   ]
+  },
+  {
+   "id": "ea6e7329-e2ed-5c17-94b8-3820ed355825",
+   "title": "Grips and Positions",
+   "subtitle": "Getting Started",
+   "lessonCount": 6,
+   "lessons": [
+    "Hook Grip",
+    "Goblet Grip",
+    "Crush Grip",
+    "Rack Position"
+   ]
+  },
+  {
+   "id": "ffdf5f96-e1bb-555d-b9b0-e29ed0a1c128",
+   "title": "Deadlift Pre-Check",
+   "subtitle": "Deadlift",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "7141dafa-134f-5363-9107-0ebed7eaf084",
+   "title": "Two Hand Deadlift",
+   "subtitle": "Deadlift",
+   "lessonCount": 7,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Practice - Set Up",
+    "Two Hand Deadlift"
+   ]
+  },
+  {
+   "id": "bdc5c062-a8c8-5c14-b7c4-405b226e3d8a",
+   "title": "Common Errors",
+   "subtitle": "Deadlift",
+   "lessonCount": 8,
+   "lessons": [
+    "Introduction",
+    "Rounding the  Shoulders",
+    "Rounding the Back",
+    "Head and Neck Alignment"
+   ]
+  },
+  {
+   "id": "d373a805-c50f-5558-a46d-04ac693824e4",
+   "title": "Variations",
+   "subtitle": "Deadlift",
+   "lessonCount": 13,
+   "lessons": [
+    "Introduction",
+    "Two Hand Deadlift",
+    "Tall Kneeling  Deadlift",
+    "Sumo Deadlift"
+   ]
+  },
+  {
+   "id": "ccb34647-2e04-5f51-9ed2-582103d8bff3",
+   "title": "SINGLE-LEG DEADLIFT",
+   "subtitle": "Deadlift",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Single-Arm Single-Leg Deadlift",
+    "Practice"
+   ]
+  },
+  {
+   "id": "f059d350-50ce-5251-9efa-d1ed9b221279",
+   "title": "Choosing Your Swing Technique",
+   "subtitle": "Swing",
+   "lessonCount": 1,
+   "lessons": [
+    "Russian vs. Pendulum Swing Technique"
+   ]
+  },
+  {
+   "id": "75d1a042-47fb-5418-af2d-b650abb642fa",
+   "title": "Swing Pre-Check",
+   "subtitle": "Swing",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "4cf73d02-6838-55d1-8c91-a7b6370ebc9a",
+   "title": "Russian Swing",
+   "subtitle": "Swing",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Two Hand Russian Swing"
+   ]
+  },
+  {
+   "id": "31208eb9-ee61-5c8f-890c-8f7253e1b315",
+   "title": "Pendulum Swing",
+   "subtitle": "Swing",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Two Hand  Pendulum Swing"
+   ]
+  },
+  {
+   "id": "9898ad60-0780-53db-8586-cbbde1795fd6",
+   "title": "Common Errors",
+   "subtitle": "Swing",
+   "lessonCount": 12,
+   "lessons": [
+    "Introduction",
+    "The Tail",
+    "Pulling with the Arms",
+    "Swinging Too Low"
+   ]
+  },
+  {
+   "id": "fa46bdb2-a0d6-5bec-b7eb-5e826d1cdca0",
+   "title": "Variations",
+   "subtitle": "Swing",
+   "lessonCount": 2,
+   "lessons": [
+    "Russian Swing",
+    "Pendulum Swing"
+   ]
+  },
+  {
+   "id": "b2510cd8-5518-5d66-babf-476999e6566f",
+   "title": "Choosing Your Clean Technique",
+   "subtitle": "Clean",
+   "lessonCount": 1,
+   "lessons": [
+    "Russian vs. Pendulum Clean Technique"
+   ]
+  },
+  {
+   "id": "f5a4beb9-28fe-5be8-883c-5031aa8d0590",
+   "title": "Clean Pre-Check",
+   "subtitle": "Clean",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "fc2182c1-6bd0-513b-b57c-2dc472c1c38a",
+   "title": "Russian Clean",
+   "subtitle": "Clean",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Single Arm Russian Clean"
+   ]
+  },
+  {
+   "id": "0177d634-6a0d-5aeb-b26f-7de49d8b1fd5",
+   "title": "Pendulum Clean",
+   "subtitle": "Clean",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Single Arm Pendulum Clean"
+   ]
+  },
+  {
+   "id": "adf2ff91-9346-5ccc-b66c-8ef9229bedfb",
+   "title": "Common Errors",
+   "subtitle": "Clean",
+   "lessonCount": 7,
+   "lessons": [
+    "Introduction",
+    "Forearm Impact",
+    "Cleaning Out to the Side",
+    "Casting  and Disconnection"
+   ]
+  },
+  {
+   "id": "38a3f27d-84cd-57ff-92e4-5f08077c0b8b",
+   "title": "Variations",
+   "subtitle": "Clean",
+   "lessonCount": 2,
+   "lessons": [
+    "Russian Clean",
+    "Pendulum Clean"
+   ]
+  },
+  {
+   "id": "e9b3f19a-a1bb-5dad-bdce-2f031ee3d734",
+   "title": "Choosing  Your Snatch Technique",
+   "subtitle": "Snatch",
+   "lessonCount": 1,
+   "lessons": [
+    "Russian vs. Pendulum Snatch Technique"
+   ]
+  },
+  {
+   "id": "585aa5ab-3ce1-5cd0-b887-9d312b4febad",
+   "title": "Snatch Pre-Check",
+   "subtitle": "Snatch",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "4d0ac102-1f87-5ee0-b79c-1af193c77cc7",
+   "title": "Russian Snatch",
+   "subtitle": "Snatch",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Single Arm Russian Snatch"
+   ]
+  },
+  {
+   "id": "702cf8be-4f75-5979-8d74-9795d99f9ea6",
+   "title": "Pendulum Snatch",
+   "subtitle": "Snatch",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Single Arm Pendulum Snatch"
+   ]
+  },
+  {
+   "id": "66f4e6c3-c597-58ee-a6e0-6308575ca8a2",
+   "title": "Common Errors",
+   "subtitle": "Snatch",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Forearm Impact",
+    "Snatching Out to the Side",
+    "Casting and Disconnection"
+   ]
+  },
+  {
+   "id": "2e20ebd8-febb-5d5d-b29a-6f63ae99d050",
+   "title": "Variations",
+   "subtitle": "Snatch",
+   "lessonCount": 2,
+   "lessons": [
+    "Russian Snatch",
+    "Pendulum Snatch"
+   ]
+  },
+  {
+   "id": "11505c22-60ee-5076-96fd-033b707cc75d",
+   "title": "Press and Jerk Pre-Check",
+   "subtitle": "Presses and Jerks",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "a971564b-5229-5ec0-8bab-886d616a50b9",
+   "title": "Overhead Press",
+   "subtitle": "Presses and Jerks",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Single Arm Overhead Press",
+    "Breathing and Tension Tips"
+   ]
+  },
+  {
+   "id": "fb4c8aae-e7ad-5caa-9af8-1cf5e06ff522",
+   "title": "Jerk",
+   "subtitle": "Presses and Jerks",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Single Arm Jerk"
+   ]
+  },
+  {
+   "id": "5ff0e811-6a50-5b6a-b4d8-934a99072615",
+   "title": "Common Errors",
+   "subtitle": "Presses and Jerks",
+   "lessonCount": 2,
+   "lessons": [
+    "Overhead Press Common Errors",
+    "Jerk Common Errors"
+   ]
+  },
+  {
+   "id": "50800fc1-ba79-5803-af3c-66c5a1c91e56",
+   "title": "Variations",
+   "subtitle": "Presses and Jerks",
+   "lessonCount": 2,
+   "lessons": [
+    "Overhead Press Variations",
+    "Jerk Variations"
+   ]
+  },
+  {
+   "id": "c6d1ba5b-ff4b-5c0c-a04d-40932e2d0a74",
+   "title": "Turkish Get Up Pre-Check",
+   "subtitle": "Get Up",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "1302b249-777d-5623-8179-377863ae0372",
+   "title": "Turkish Get Up",
+   "subtitle": "Get Up",
+   "lessonCount": 8,
+   "lessons": [
+    "Introduction",
+    "Progressing Into the Movement",
+    "Breathing",
+    "Turkish Get Up"
+   ]
+  },
+  {
+   "id": "b5e931ab-fbba-5046-bd95-f657cdef6634",
+   "title": "Common Errors",
+   "subtitle": "Get Up",
+   "lessonCount": 5,
+   "lessons": [
+    "Introduction",
+    "Starting Position Errors",
+    "Transition to the Elbow Post",
+    "Transition to the Half Windmill"
+   ]
+  },
+  {
+   "id": "ec617e80-37bf-51de-96b2-6c0859f4a88c",
+   "title": "Variations",
+   "subtitle": "Get Up",
+   "lessonCount": 7,
+   "lessons": [
+    "Introduction",
+    "High Hip Lunge Style",
+    "Low Hip Lunge Style",
+    "Combat Position"
+   ]
+  },
+  {
+   "id": "60e19898-f876-5104-b4f5-706f5f891a83",
+   "title": "WINDMILL",
+   "subtitle": "Get Up",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Windmill",
+    "Practice"
+   ]
+  },
+  {
+   "id": "015df9ef-1bb7-52df-9bd7-bd7a03409218",
+   "title": "Squat Pre-Check",
+   "subtitle": "Squat",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "bafc7cd4-a736-5a72-bd1a-941cc3ff46f0",
+   "title": "Squat",
+   "subtitle": "Squat",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Breathing",
+    "Racked Front Squat"
+   ]
+  },
+  {
+   "id": "1693c73b-cd23-5c64-85f2-a8601e6baea7",
+   "title": "Common Errors",
+   "subtitle": "Squat",
+   "lessonCount": 5,
+   "lessons": [
+    "Introduction",
+    "Rounding the Back",
+    "Head and Neck Alignment",
+    "Knee Valgus"
+   ]
+  },
+  {
+   "id": "668cc060-40a2-512e-ad7e-4d3120e16194",
+   "title": "Variations",
+   "subtitle": "Squat",
+   "lessonCount": 11,
+   "lessons": [
+    "Introduction",
+    "Racked Front Squat",
+    "Box Squat Multi-Grip",
+    "Modified Goblet Squat"
+   ]
+  },
+  {
+   "id": "db766f0f-a8fa-56c7-ac2b-44bcd109be04",
+   "title": "Lunge Pre-Check",
+   "subtitle": "Lunge",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "61005782-9692-59a7-89b0-aa9321676b54",
+   "title": "Multi-Directional  Lunges",
+   "subtitle": "Lunge",
+   "lessonCount": 8,
+   "lessons": [
+    "Introduction",
+    "Progressing into the Movement",
+    "Forward Lunge",
+    "Reverse Lunge"
+   ]
+  },
+  {
+   "id": "4232e01e-98e2-5770-abe2-7e61b48d061c",
+   "title": "Common Errors",
+   "subtitle": "Lunge",
+   "lessonCount": 3,
+   "lessons": [
+    "Introduction",
+    "Forward and Reverse Lunge Common Errors",
+    "Side Lunge Common Errors"
+   ]
+  },
+  {
+   "id": "943ad2f6-5646-53ce-87f8-4cdd4b90d964",
+   "title": "Variations",
+   "subtitle": "Lunge",
+   "lessonCount": 8,
+   "lessons": [
+    "Introduction",
+    "Split Squat Multi-Grip",
+    "Forward Lunge Multi-Grip",
+    "Reverse Lunge Multi-Grip"
+   ]
+  },
+  {
+   "id": "8b6fe16a-9db8-5bb6-b29f-10dc2fbc9497",
+   "title": "Row Pre-Check",
+   "subtitle": "Row",
+   "lessonCount": 9,
+   "lessons": [
+    "Introduction",
+    "Step 1 - Watch Demonstration",
+    "Step 2 - Perform Yourself",
+    "Step 3 - Common Faults"
+   ]
+  },
+  {
+   "id": "bed25f6c-4ee7-5c90-9d42-1f92a7249ebe",
+   "title": "Row",
+   "subtitle": "Row",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Progressing Into the Movement",
+    "Staggered  Stance Bent Over Row",
+    "Breathing"
+   ]
+  },
+  {
+   "id": "ba2ca6da-56c3-5564-b489-5280b90ea8a7",
+   "title": "Common Errors",
+   "subtitle": "Row",
+   "lessonCount": 4,
+   "lessons": [
+    "Introduction",
+    "Excessive Momentum and Poor Posture",
+    "Faulty Initiation Sequence",
+    "Incomplete Range of Motion"
+   ]
+  },
+  {
+   "id": "981098b6-b741-5bec-b68b-9d2ef641957b",
+   "title": "Variations",
+   "subtitle": "Row",
+   "lessonCount": 6,
+   "lessons": [
+    "Introduction",
+    "Bent Over Row Staggered Stance",
+    "PVC Box Supported Row",
+    "Two Hand Towel Row"
+   ]
+  },
+  {
+   "id": "569ff7b7-2529-5341-a0e8-168142f0a0f6",
+   "title": "Expert Talks",
+   "subtitle": "Bonus",
+   "lessonCount": 2,
+   "lessons": [
+    "Paul Chek",
+    "Dr. Drew Vercellino"
+   ]
+  },
+  {
+   "id": "e56026e4-fe81-543e-8b90-ee39efd68315",
+   "title": "Program Design",
+   "subtitle": "Bonus",
+   "lessonCount": 2,
+   "lessons": [
+    "Program Design Lecture",
+    "Resources"
+   ]
+  },
+  {
+   "id": "7eefa906-f8dc-57e9-948e-11bc995f499a",
+   "title": "Posture and the Spine",
+   "subtitle": "Bonus",
+   "lessonCount": 2,
+   "lessons": [
+    "Posture and the Spine",
+    "Resources"
+   ]
+  },
+  {
+   "id": "2e71749d-4067-54a8-b98b-61cb6b8f717b",
+   "title": "Performance Benchmarks",
+   "subtitle": "Bonus",
+   "lessonCount": 1,
+   "lessons": [
+    "Physical Tests"
+   ]
+  }
+ ],
+ "quote": {
+  "kind": "program",
+  "ref": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+  "name": "Mastering the Kettlebell",
+  "interval": "one_time",
+  "state": "purchasable",
+  "reason": null,
+  "currency": "usd",
+  "base_cents": 29700,
+  "discount_cents": 0,
+  "amount_cents": 29700,
+  "benefit_applied": null,
+  "coupon_id": null,
+  "coupon_error": null,
+  "price_id": "645874a0-cf4f-442f-ac9b-cdbf0a698eeb",
+  "stripe_price_id": null,
+  "access_days": null,
+  "member_plan": "free"
+ },
+ "plans": [
+  {
+   "id": "free",
+   "name": "Free",
+   "tagline": null,
+   "rank": 0,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [],
+   "benefits": [
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  },
+  {
+   "id": "pro",
+   "name": "Pro",
+   "tagline": null,
+   "rank": 1,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [
+    {
+     "id": "e60050f0-d5c7-41e2-9299-39c9f61283e2",
+     "interval": "month",
+     "amountCents": 2900,
+     "currency": "usd",
+     "label": "Pro monthly",
+     "draftNote": "Draft - price awaiting Mike"
+    },
+    {
+     "id": "e68cf9ba-a9a1-451b-9cc2-0c07a6a921c6",
+     "interval": "year",
+     "amountCents": 29000,
+     "currency": "usd",
+     "label": "Pro yearly",
+     "draftNote": "Draft - price awaiting Mike"
+    }
+   ],
+   "benefits": [
+    {
+     "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "programSlug": "kettlebell-lifestyle",
+     "programName": "Kettlebell Lifestyle",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "programSlug": "mastering-the-kettlebell",
+     "programName": "Mastering the Kettlebell",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 20,
+     "coachingCredits": null
+    },
+    {
+     "programId": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "programSlug": "athleticism-4-life",
+     "programName": "Athleticism 4 Life",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 20,
+     "coachingCredits": null
+    },
+    {
+     "programId": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "programSlug": "working-in",
+     "programName": "Working-In with Paul Chek & Mike Salemi",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  },
+  {
+   "id": "max",
+   "name": "Max",
+   "tagline": null,
+   "rank": 2,
+   "features": [],
+   "draftNote": "Names and prices awaiting Mike",
+   "prices": [
+    {
+     "id": "0cccc1e6-aa4e-405d-8592-3aac2e58885c",
+     "interval": "month",
+     "amountCents": 5900,
+     "currency": "usd",
+     "label": "Max monthly",
+     "draftNote": "Draft - price awaiting Mike"
+    },
+    {
+     "id": "5a0ecb3b-ee3c-4643-80fb-e65b7f2596f1",
+     "interval": "year",
+     "amountCents": 59000,
+     "currency": "usd",
+     "label": "Max yearly",
+     "draftNote": "Draft - price awaiting Mike"
+    }
+   ],
+   "benefits": [
+    {
+     "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "programSlug": "kettlebell-lifestyle",
+     "programName": "Kettlebell Lifestyle",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "programSlug": "mastering-the-kettlebell",
+     "programName": "Mastering the Kettlebell",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "programSlug": "athleticism-4-life",
+     "programName": "Athleticism 4 Life",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "programSlug": "the-path-to-inspired-action",
+     "programName": "The Path to Inspired Action",
+     "scope": "content",
+     "benefit": "discount",
+     "discountPercent": 25,
+     "coachingCredits": null
+    },
+    {
+     "programId": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "programSlug": "working-in",
+     "programName": "Working-In with Paul Chek & Mike Salemi",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "programSlug": "kettlebell-roadmap",
+     "programName": "Kettlebell Roadmap",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "programSlug": "what-your-kettlebell-swing-is-missing",
+     "programName": "What Your Kettlebell Swing Is Missing",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    },
+    {
+     "programId": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "programSlug": "free-6-video-kettlebell-mini-series",
+     "programName": "Free 6 Video Kettlebell Mini Series",
+     "scope": "content",
+     "benefit": "included",
+     "discountPercent": null,
+     "coachingCredits": null
+    }
+   ]
+  }
+ ]
+}

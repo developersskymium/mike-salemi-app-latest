@@ -1,0 +1,93 @@
+{
+ "tool": {
+  "id": "kettlebell-roadmap",
+  "name": "Kettlebell Roadmap",
+  "tagline": "The four fundamental lifts, and your next step",
+  "position": 4,
+  "status": "published",
+  "config": {
+   "phases": [
+    {
+     "id": "phase-1",
+     "title": "Phase 1 - The Foundation",
+     "intro": "In this phase, you develop what I call body integrity. Body integrity is the ability to feel where your body is in space and maintain safe positions throughout the exercise. In other words, it's the foundation.",
+     "movements": "- Goblet Squat\n- Deadlift\n- Half Kneeling Overhead Press OR Halo (if mobility doesn’t allow for quality overhead movements)\n- Single Arm Row",
+     "benchmarks": "- 20 spinal roll ups\n- Glute bridges 30 without feeling it in your back\n- 30 bodyweight squats\n- For the 4 KB movements: 15 reps with a light KB hitting the standards of quality, *reuse the material from KBL + add in quantity, be able to stay nasal breathing during 15-20 min walk/30 squats/easy workout",
+     "skills": "- Postural awareness\n- Breathing Bodyweight control\n- Grips Positions Warmups/cool downs\n- Training barefoot",
+     "image": "/media/ext/d11n7da8rpqbjy/mikesalemi/29554765_1658532062MwiEbook_Sample_Cover_and_Body_Designs.png",
+     "clips": [
+      {
+       "title": "Goblet Squat",
+       "video_id": "2359fcd2-3d61-4cac-a127-e9cdaa3bb947"
+      },
+      {
+       "title": "Half Kneeling Overhead",
+       "video_id": "62b81c56-fc49-4070-839d-8d6a6ca261aa"
+      }
+     ]
+    },
+    {
+     "id": "phase-2",
+     "title": "Phase 2 - Adding Complexity",
+     "intro": "In this phase you’ll practice movements that require more precision, coordination, and explosiveness. You’ll set yourself up to safely take advantage of the huge variety of movements that can be performed with a kettlebell.",
+     "movements": "- 2-Hand Swing\n- Standing Overhead Press\n- Single Arm Farmer’s Carry\n- Reverse Lunge in Rack Position",
+     "benchmarks": "- 5 sets of 10 swings with 60 sec rest between\n- Overhead press-7-10 reps each arm with moderate weight (for you) 2 sets\n- Farmers carry with proper posture for 30 yards each arm with low to medium (for you) weight, Lunge do it with the quality standards",
+     "skills": "- Preparing for repetitive higher speed movements\n- Integrated movement through multiple planes of movement with speed\n- Nasal breathing during loaded movement",
+     "image": "/media/ext/d11n7da8rpqbjy/mikesalemi/29566353_1658606192BHeEbook_Sample_Cover_and_Body_Designs_2.png",
+     "clips": [
+      {
+       "title": "2-Hand Swing",
+       "video_id": "dc049a15-ea3a-43e7-a691-67e4a826d61b"
+      },
+      {
+       "title": "Reverse Lunge in Rack Position",
+       "video_id": "af65427b-1653-43fc-8de8-42544ca6dc78"
+      }
+     ]
+    },
+    {
+     "id": "phase-3",
+     "title": "Phase 3 - Ready for Performance",
+     "intro": "You’re ready to turn up the speed, add more load, and combine movements. The skills and movements in this phase have the components that will transfer to virtually any movement you’d like to learn with the kettlebell.",
+     "movements": "- Clean\n- Push Press\n- Loaded Half Turkish Getup\n- Single Arm Swing\n- Walking Overhead Lunge/Overhead Reverse Lunge\n- Row With Reciprocity (or staggered stance)",
+     "benchmarks": "- *Nasal breathing should be the standard at this stage\n- 4 sets of 8 reps each arm with 30 sec. rest with moderate weight\n- Clean + push press (or strict press) with moderate weight and quality 3 sets of 5 reps each side, loaded half getup 3-5 reps each side with moderate weight\n- lunges - 10 reps each side",
+     "skills": "- Integrating upper and lower body\n- Combining planes and patterns of movement\n- Higher speed\n- Heavier weight\n- Coordination",
+     "image": "/media/ext/d11n7da8rpqbjy/mikesalemi/29566638_16586079153lGEbook_Sample_Cover_and_Body_Designs_3.png",
+     "clips": [
+      {
+       "title": "Clean",
+       "video_id": "f8945956-c7ed-4e68-9d15-6f2c52ab1f6f"
+      },
+      {
+       "title": "Push Press",
+       "video_id": "51cbe437-0092-4466-b72b-6145fd42ea38"
+      },
+      {
+       "title": "Loaded Half Turkish Getup",
+       "video_id": "efc04873-909a-4dc2-b72d-e8644d6daaec"
+      },
+      {
+       "title": "Single Arm Swing",
+       "video_id": "6dee9330-5298-4a23-8632-a21e8279a7ca"
+      },
+      {
+       "title": "Row With Reciprocity",
+       "video_id": "52b9dd01-c228-436e-a8f4-95e184024c6c"
+      }
+     ]
+    },
+    {
+     "id": "phase-4",
+     "title": "Phase 4 - Mastery",
+     "intro": "The sky's the limit. Not only are you prepared to push the load and intensity in your workouts, you’ll find that you are able to get a tremendous workout with lighter loads. Athleticism is essentially multiplying the positions your body can safely be in so you can solve movement problems in an instant.",
+     "movements": "- Snatch (half and full)\n- Loaded Full Turkish Getup\n- Double Bell Work\n- Overhead Squat\n- RMT (rotational movement) exercises",
+     "benchmarks": "At this phase, you have developed the skills to use these movements (and many many others) for whatever goal you are working on. You can vary the weight, the rest periods, the repetitions, and more to suit yourself. Once you have this level of mastery, I hope that you have fallen in love with the process. There will always be goals you can set and new movements to learn or combine. Enjoy the process!",
+     "skills": "the combo of safely increasing weight + getting more from lighter weights with speed, timing, coordination, balance etc.",
+     "clips": []
+    }
+   ]
+  }
+ },
+ "form": null,
+ "last": null
+}

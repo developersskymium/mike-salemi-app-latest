@@ -1,0 +1,544 @@
+{
+ "catalog": [
+  {
+   "id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+   "slug": "men-of-movement-retreats",
+   "name": "Men of Movement Retreats",
+   "type": "retreat",
+   "tagline": "In-person Men of Movement retreats",
+   "audience": "Men ready to go deep, in any shape",
+   "summary": "Four days of movement, training, breathwork, ceremony and brotherhood with Mike and his team in Mount Shasta, California.",
+   "formatLabel": "Four days, in person",
+   "durationLabel": "4 days",
+   "level": null,
+   "catalogGroup": "experiences",
+   "isFree": false,
+   "draftNote": "Retreat dates, pricing and details awaiting Mike",
+   "modes": [],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/retreats/live/breakthrough-circle-room.jpg",
+     "alt": "The sacred circle room at The Breakthrough"
+    },
+    {
+     "role": "card",
+     "url": "/media/retreats/mom-cover.jpg",
+     "alt": "Men of Movement"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/breakthrough-circle-room.jpg",
+     "alt": "The sacred circle room at The Breakthrough"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/breakthrough-venue.jpg",
+     "alt": "The Breakthrough venue at golden hour"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/qi-gong.png",
+     "alt": "Qi Gong on Mount Shasta"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/breathwork.jpg",
+     "alt": "Breathwork ceremony"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/fire.jpg",
+     "alt": "Men around the fire"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/tims-land.jpg",
+     "alt": "Men walking through Tim's land"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/maloca.jpg",
+     "alt": "Inside the maloca, Tim's land"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/after-sweat-lodge.jpg",
+     "alt": "Brotherhood after the sweat lodge"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/shared-meals.png",
+     "alt": "Shared meals and brotherhood"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/group-tims-land.jpg",
+     "alt": "Men of Movement group on Tim's land"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/live/facing-shasta.png",
+     "alt": "One man facing Mount Shasta"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/summit-clouds.jpg",
+     "alt": "Peaks above the clouds at first light"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/campfire-men.jpg",
+     "alt": "An evening around the fire"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/forest-path.jpg",
+     "alt": "Forest trail through old-growth pines"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/alpine-pines.jpg",
+     "alt": "Alpine valley and pine forest"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/misty-ridge.jpg",
+     "alt": "Mist lifting off the ridge"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/foggy-forest.jpg",
+     "alt": "Morning fog in the forest"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/retreats/online/sunrise-camp.jpg",
+     "alt": "Sunrise over the mountain camp"
+    }
+   ],
+   "access": "locked",
+   "position": 0
+  },
+  {
+   "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "slug": "kettlebell-lifestyle",
+   "name": "Kettlebell Lifestyle",
+   "type": "day_program",
+   "tagline": "Nine weeks to a kettlebell you can trust, at two levels",
+   "audience": null,
+   "summary": "A 9-week personalised, multi-level kettlebell and wellness program: morning routines, bodyweight warm-ups, follow-along workouts and personalised stretching.",
+   "formatLabel": "61 days · 4 phases per level",
+   "durationLabel": "9 weeks per level",
+   "level": "all",
+   "catalogGroup": "training",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [
+    "immersion",
+    "self_guided",
+    "library"
+   ],
+   "paths": [
+    {
+     "id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+     "key": "beginner",
+     "name": "Level I · Beginner",
+     "shortName": "Level I",
+     "kind": "level",
+     "position": 1
+    },
+    {
+     "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+     "key": "intermediate",
+     "name": "Level II · Intermediate",
+     "shortName": "Level II",
+     "kind": "level",
+     "position": 2
+    }
+   ],
+   "media": [
+    {
+     "role": "card",
+     "url": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+     "alt": "Kettlebell Lifestyle Level I"
+    },
+    {
+     "role": "gallery",
+     "url": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+     "alt": "Kettlebell Lifestyle Level II"
+    }
+   ],
+   "access": "included",
+   "position": 0
+  },
+  {
+   "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+   "slug": "mastering-the-kettlebell",
+   "name": "Mastering the Kettlebell",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": "Kettlebell technique from foundations to performance",
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "training",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [
+    {
+     "id": "407a7bd2-dae0-4a41-bc24-adbbbb462d17",
+     "key": "mtk-ballistic",
+     "name": "Ballistic Movements",
+     "shortName": "Ballistic Movements",
+     "kind": "focus",
+     "position": 1
+    },
+    {
+     "id": "403ba7d6-a192-43c8-a458-d0dd14555dcf",
+     "key": "mtk-overhead",
+     "name": "Overhead Movements",
+     "shortName": "Overhead Movements",
+     "kind": "focus",
+     "position": 2
+    },
+    {
+     "id": "dfa1ac1f-85f4-4965-9554-3b8d52579f82",
+     "key": "mtk-lower",
+     "name": "Lower Body & Pulling",
+     "shortName": "Lower Body & Pulling",
+     "kind": "focus",
+     "position": 3
+    },
+    {
+     "id": "b334b714-e1e8-4988-bbc9-22d791a8a5ff",
+     "key": "mtk-full",
+     "name": "Full Mastering the Kettlebell",
+     "shortName": "Full program",
+     "kind": "focus",
+     "position": 4
+    }
+   ],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/2c8245bf-d2f2-4483-8be4-dccd5af4dbef/mastering-the-kettlebell.png",
+     "alt": "Mastering the Kettlebell"
+    }
+   ],
+   "access": "included",
+   "position": 1
+  },
+  {
+   "id": "5944a03d-94be-5595-b9da-b212edfdc892",
+   "slug": "athleticism-4-life",
+   "name": "Athleticism 4 Life",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": null,
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "training",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png",
+     "alt": "Athleticism 4 Life"
+    }
+   ],
+   "access": "included",
+   "position": 3
+  },
+  {
+   "id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+   "slug": "the-path-to-inspired-action",
+   "name": "The Path to Inspired Action",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": null,
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "training",
+   "isFree": false,
+   "draftNote": "Predecessor to The Grounded King",
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/16aadc2c-a37d-488e-9a9e-0e1ddc6a51ec/path-to-inspired-action.png",
+     "alt": "The Path to Inspired Action"
+    }
+   ],
+   "access": "locked",
+   "position": 4
+  },
+  {
+   "id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+   "slug": "working-in",
+   "name": "Working-In with Paul Chek & Mike Salemi",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": "Explore the practice of working in",
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "training",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/0f8c0c9c-3d88-4297-b30a-2c19e672fb67/working-in.png",
+     "alt": "Working-In with Paul Chek & Mike Salemi"
+    }
+   ],
+   "access": "included",
+   "position": 5
+  },
+  {
+   "id": "414b4325-9841-525f-960d-e8438e5ee94b",
+   "slug": "men-of-movement",
+   "name": "Men of Movement: Preparation",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": null,
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "experiences",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/54062bc2-c7f2-45a2-b97a-79f0ad066ba7/men-of-movement.png",
+     "alt": "Men of Movement: Preparation"
+    }
+   ],
+   "access": "locked",
+   "position": 6
+  },
+  {
+   "id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+   "slug": "kettlebell-roadmap",
+   "name": "Kettlebell Roadmap",
+   "type": "tool",
+   "tagline": null,
+   "audience": null,
+   "summary": null,
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "free",
+   "isFree": true,
+   "draftNote": null,
+   "modes": [],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png",
+     "alt": "Kettlebell Roadmap"
+    }
+   ],
+   "access": "free",
+   "position": 7
+  },
+  {
+   "id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+   "slug": "what-your-kettlebell-swing-is-missing",
+   "name": "What Your Kettlebell Swing Is Missing",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": "Seven steps to a stronger swing setup",
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "free",
+   "isFree": true,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/925ade4e-a748-4805-9745-bec41aaeb8d5/what-your-kettlebell-swing-is-missing.png",
+     "alt": "What Your Kettlebell Swing Is Missing"
+    }
+   ],
+   "access": "free",
+   "position": 8
+  },
+  {
+   "id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+   "slug": "free-6-video-kettlebell-mini-series",
+   "name": "Free 6 Video Kettlebell Mini Series",
+   "type": "course",
+   "tagline": null,
+   "audience": null,
+   "summary": "Six kettlebell lessons with practical coaching cues",
+   "formatLabel": null,
+   "durationLabel": null,
+   "level": null,
+   "catalogGroup": "free",
+   "isFree": true,
+   "draftNote": null,
+   "modes": [
+    "self_guided",
+    "library"
+   ],
+   "paths": [],
+   "media": [
+    {
+     "role": "hero",
+     "url": "/media/l5e/d44b5ed0-8c18-4ebc-8f7d-1113a79eee1d/free-6-video-kettlebell-mini-series.png",
+     "alt": "Free 6 Video Kettlebell Mini Series"
+    }
+   ],
+   "access": "free",
+   "position": 9
+  },
+  {
+   "id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+   "slug": "coaching",
+   "name": "1:1 Coaching with Mike",
+   "type": "coaching",
+   "tagline": "Your program, built around you",
+   "audience": null,
+   "summary": "Direct coaching for people who want the program adapted to their body, schedule and goals — with feedback on technique and accountability week to week.",
+   "formatLabel": "Live video sessions",
+   "durationLabel": "Weekly or fortnightly",
+   "level": null,
+   "catalogGroup": "experiences",
+   "isFree": false,
+   "draftNote": null,
+   "modes": [],
+   "paths": [],
+   "media": [],
+   "access": "locked",
+   "position": 41
+  },
+  {
+   "id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+   "slug": "executive-edge",
+   "name": "Executive Edge",
+   "type": "coaching",
+   "tagline": "A high-touch path for focus, energy and resilience",
+   "audience": null,
+   "summary": "An eight-week, 60-day concept combining daily five-minute practices with three to four direct coaching interactions.",
+   "formatLabel": "8 weeks / 60 days",
+   "durationLabel": "5 minutes daily + direct support",
+   "level": null,
+   "catalogGroup": "experiences",
+   "isFree": false,
+   "draftNote": "Concept preview — format and price ($4,500–$5,000) awaiting Mike",
+   "modes": [],
+   "paths": [],
+   "media": [],
+   "access": "locked",
+   "position": 42
+  },
+  {
+   "id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+   "slug": "zen-savage",
+   "name": "Zen Savage Challenge",
+   "type": "challenge",
+   "tagline": "A possible next chapter in group coaching",
+   "audience": null,
+   "summary": "A stakeholder concept for balancing grounded awareness with decisive action.",
+   "formatLabel": "Four-week group challenge",
+   "durationLabel": "Jan 11 – Feb 7, 2027 (draft)",
+   "level": null,
+   "catalogGroup": "experiences",
+   "isFree": false,
+   "draftNote": "Concept — format, dates and pricing awaiting Mike",
+   "modes": [],
+   "paths": [],
+   "media": [],
+   "access": "locked",
+   "position": 44
+  }
+ ],
+ "enrollments": [
+  {
+   "enrollment_id": "c37b911b-c9d9-4a12-b731-7f74ea620f23",
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "program_slug": "kettlebell-lifestyle",
+   "program_name": "Kettlebell Lifestyle",
+   "program_type": "day_program",
+   "path_id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+   "path_name": "Level I · Beginner",
+   "mode": "immersion",
+   "pace": "free",
+   "run_number": 1,
+   "lessons_total": 67,
+   "lessons_done": 27,
+   "steps_total": 369,
+   "steps_done": 141,
+   "current_lesson_id": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+   "current_lesson_title": "Day 24 - Recovery Day",
+   "current_section_title": "Phase 2",
+   "last_active_at": "2026-11-20T04:45:29.354933+00:00",
+   "completed_at": null
+  }
+ ],
+ "tools": [
+  {
+   "id": "kettlebell-selector",
+   "name": "Kettlebell Selector",
+   "tagline": "Find the right bells to start with"
+  },
+  {
+   "id": "stretch-test",
+   "name": "Stretch Test",
+   "tagline": "Check the positions the program demands"
+  },
+  {
+   "id": "readiness-check",
+   "name": "Readiness Check",
+   "tagline": "Should you push today, or back off?"
+  },
+  {
+   "id": "kettlebell-roadmap",
+   "name": "Kettlebell Roadmap",
+   "tagline": "The four fundamental lifts, and your next step"
+  }
+ ]
+}

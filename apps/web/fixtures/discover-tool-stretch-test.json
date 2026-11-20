@@ -1,0 +1,165 @@
+{
+ "tool": {
+  "id": "stretch-test",
+  "name": "Stretch Test",
+  "tagline": "Check the positions the program demands",
+  "position": 2,
+  "status": "published",
+  "config": {
+   "beta": true,
+   "description": "Five self-assessments covering hips, ankles, shoulders and t-spine. You get a mobility profile and the exact drills to prioritise.",
+   "bands": [
+    {
+     "title": "Restricted — mobility first",
+     "points": [
+      "Run the daily mobility minimums before every session.",
+      "Stay in Phase 1 until the toe touch and ankle test improve.",
+      "Retake this test in two weeks."
+     ],
+     "summary": "Several positions the program relies on are not available yet. That is fixable, and quickly.",
+     "maxScore": 4,
+     "videoIds": [
+      "daily-mobility",
+      "hip-opener-flow"
+     ]
+    },
+    {
+     "title": "Workable — train and maintain",
+     "points": [
+      "Ten minutes of mobility before each session.",
+      "Prioritise whichever test scored lowest for you.",
+      "Retake this test monthly."
+     ],
+     "summary": "You can train the full program safely with targeted maintenance work.",
+     "maxScore": 9,
+     "videoIds": [
+      "daily-mobility"
+     ]
+    },
+    {
+     "title": "Open — keep it",
+     "points": [
+      "Short mobility flow on rest days is enough.",
+      "Move straight into Phase 2 when your strength base allows.",
+      "Retake this test each quarter."
+     ],
+     "summary": "You have the range the program asks for. The job now is keeping it.",
+     "maxScore": 99,
+     "videoIds": [
+      "hip-opener-flow",
+      "training-forever"
+     ]
+    }
+   ],
+   "questions": [
+    {
+     "id": "toe-touch",
+     "question": "Standing with straight legs, how far do your hands reach?",
+     "options": [
+      {
+       "label": "Mid-shin or higher",
+       "score": 0,
+       "value": "shins"
+      },
+      {
+       "label": "Around my ankles",
+       "score": 1,
+       "value": "ankles"
+      },
+      {
+       "label": "Fingertips or palms to the floor",
+       "score": 3,
+       "value": "floor"
+      }
+     ]
+    },
+    {
+     "id": "deep-squat",
+     "question": "Can you sit into a deep squat with heels down?",
+     "options": [
+      {
+       "label": "No — heels lift or I fall back",
+       "score": 0,
+       "value": "no"
+      },
+      {
+       "label": "Briefly, with effort",
+       "score": 1,
+       "value": "briefly"
+      },
+      {
+       "label": "Yes, I can rest there",
+       "score": 3,
+       "value": "rest"
+      }
+     ]
+    },
+    {
+     "id": "overhead",
+     "question": "Lying on your back, can you press your arms overhead to the floor with ribs down?",
+     "options": [
+      {
+       "label": "No — my ribs flare or arms stop short",
+       "score": 0,
+       "value": "no"
+      },
+      {
+       "label": "Almost",
+       "score": 1,
+       "value": "partly"
+      },
+      {
+       "label": "Yes, easily",
+       "score": 3,
+       "value": "yes"
+      }
+     ]
+    },
+    {
+     "id": "ankle",
+     "question": "Knee-to-wall ankle test: how far from the wall is your toe?",
+     "options": [
+      {
+       "label": "Less than 5 cm / 2 in",
+       "score": 0,
+       "value": "under5"
+      },
+      {
+       "label": "5–10 cm / 2–4 in",
+       "score": 2,
+       "value": "5-10"
+      },
+      {
+       "label": "More than 10 cm / 4 in",
+       "score": 3,
+       "value": "over10"
+      }
+     ]
+    },
+    {
+     "id": "rotation",
+     "question": "Seated, how freely can you rotate your upper back each way?",
+     "options": [
+      {
+       "label": "Stiff and uneven side to side",
+       "score": 0,
+       "value": "stiff"
+      },
+      {
+       "label": "Reasonable, slightly uneven",
+       "score": 2,
+       "value": "ok"
+      },
+      {
+       "label": "Free and symmetrical",
+       "score": 3,
+       "value": "free"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "form": null,
+ "last": null
+}
