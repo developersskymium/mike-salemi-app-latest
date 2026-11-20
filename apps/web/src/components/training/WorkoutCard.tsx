@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import type { WorkoutRow, WorkoutTable } from "@ms/core";
 import { Button, Icon, haptic } from "@/components/ui";
 import { CircuitBadge, CircuitTable } from "./CircuitTable";
+import { useDayMemory } from "./DayMemory";
+import { WeightChip, usesBell } from "./TableBits";
 import { circuitsOf, circuitWord, cleanBreak, clock, estimateMinutes, restUp, timeline, type Phase } from "./workout";
 import "./workout.css";
 
@@ -17,6 +19,8 @@ const tone = (intensity: string) => (/body ?weight/i.test(intensity) ? "bw" : /h
  * legend, Print, and Workout mode (a set/rest timer that follows the table's rows, rounds and rests).
  */
 export function WorkoutCard({ table, onRetake, chosenFromReadiness, onFinished, finishLabel }: { table: WorkoutTable; onRetake?: () => void; chosenFromReadiness?: boolean; onFinished?: () => void; finishLabel?: string }) {
+  // Inside a day the bell chips (saved to the account) show on the cards too.
+  const inDay = Boolean(useDayMemory());
   const cs = useMemo(() => circuitsOf(table), [table]);
   const minutes = useMemo(() => estimateMinutes(table), [table]);
   const [view, setView] = useState<"cards" | "table">("cards");
@@ -97,6 +101,7 @@ export function WorkoutCard({ table, onRetake, chosenFromReadiness, onFinished, 
                     </span>
                   ) : null}
                   {r.tempo ? <span className="wk-tag">{text(r.tempo)}</span> : null}
+                  {inDay && r.exercise && usesBell(r.intensity) ? <WeightChip exercise={text(r.exercise)} /> : null}
                 </div>
               </div>
             ))}
