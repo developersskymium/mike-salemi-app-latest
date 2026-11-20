@@ -1,0 +1,422 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { parseLessonBody, type VideoRef } from "@ms/core";
+import { Glass, useToast } from "@/components/ui";
+import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
+import type { CourseLessonNode, CoursePageData } from "@/lib/loaders/course";
+import { CourseNav } from "./CourseNav";
+import { CourseVideo } from "./CourseVideo";
+import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelOpen, Spark, X } from "./glyphs";
+import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
+import "./course.css";
+
+type Mode = "plan" | "full" | null;
+
+const FOCUS_KEY = "crs-focus";
+
+/**
+ * Course player (legacy Template 2): sticky glass bar · grouped curriculum (300px, own scroll) ·
+ * lesson stage (≤760px). Phone: Lessons drawer. Lesson-level complete, last-lesson memory,
+ * MTK plan mode, keyboard (← → F /), 95%-watched auto-complete.
+ */
+export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode }) {
+  const router = useRouter();
+  const toast = useToast();
+  const slug = data.program.slug;
+  const groups = data.groups;
+  const all = useMemo(() => groups.flatMap((g) => g.sections.flatMap((s) => s.lessons)), [groups]);
+  const [done, setDone] = useState(() => new Set(all.filter((l) => l.done).map((l) => l.id)));
+  const [focus, setFocus] = useState(false);
+  const [drawer, setDrawer] = useState<"open" | "closing" | null>(null);
+  const [busy, setBusy] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const main = useRef<HTMLDivElement>(null);
+
+  const isIntro = data.activeId === "intro";
+  const lesson = data.lesson;
+  const firstVisit = done.size === 0 && !data.lastLessonId;
+  const [overview, setOverview] = useState(firstVisit);
+
+  const planMode = mode === "plan" && Boolean(data.mtk?.plan);
+  const planOrder = useMemo(
+    () => (planMode ? data.mtk!.plan!.days.flatMap((d) => d.lessonIds.map((id, i) => ({ id, day: d.day, title: d.title, size: d.lessonIds.length, pos: i + 1 }))) : []),
+    [planMode, data.mtk],
+  );
+  const qs = planMode ? "?mode=plan" : mode === "full" ? "?mode=full" : "";
+  const href = useCallback((id: string) => `/programs/${slug}/course/${id}${qs}`, [slug, qs]);
+
+  const node: CourseLessonNode | undefined = all.find((l) => l.id === data.activeId);
+  const section = groups.flatMap((g) => g.sections).find((s) => s.id === node?.sectionId);
+  const groupIdx = groups.findIndex((g) => g.sections.some((s) => s.id === section?.id));
+  const group = groups[groupIdx];
+  const multi = groups.length > 1;
+  const groupLessons = group?.sections.flatMap((s) => s.lessons) ?? [];
+  const index = node ? groupLessons.findIndex((l) => l.id === node.id) : -1;
+  const planIdx = planMode && node ? planOrder.findIndex((p) => p.id === node.id) : -1;
+  const planCtx = planIdx >= 0 ? planOrder[planIdx] : undefined;
+  const byId = (id?: string) => (id ? all.find((l) => l.id === id) : undefined);
+  const prev = planCtx ? byId(planOrder[planIdx - 1]?.id) : index > 0 ? groupLessons[index - 1] : undefined;
+  const next = planCtx ? byId(planOrder[planIdx + 1]?.id) : index >= 0 ? groupLessons[index + 1] : undefined;
+  const nextGroup = !planCtx && !next && groupIdx >= 0 ? groups[groupIdx + 1] : undefined;
+  const nextGroupFirst = nextGroup?.sections.flatMap((s) => s.lessons).find((l) => !done.has(l.id)) ?? nextGroup?.sections[0]?.lessons[0];
+  const firstOpen = all.find((l) => !done.has(l.id)) ?? all[0];
+  const isDone = node ? done.has(node.id) : false;
+  const pct = all.length ? Math.round((all.filter((l) => done.has(l.id)).length / all.length) * 100) : 0;
+
+  /* ---------------- persistence: focus, last lesson, cross-device position */
+  useEffect(() => {
+    try {
+      setFocus(window.localStorage.getItem(FOCUS_KEY) === "1");
+    } catch {}
+  }, []);
+  useEffect(() => {
+    if (!lesson) return;
+    try {
+      window.localStorage.setItem(`course-last-lesson:${slug}`, isIntro ? "intro" : lesson.id);
+    } catch {}
+    if (!isIntro) void touchLessonAction(lesson.id, lesson.steps[0]?.id ?? null);
+  }, [lesson, isIntro, slug]);
+
+  const seconds = useRef<Record<string, number>>({ ...(lesson?.videoSeconds ?? {}) });
+  const lastSave = useRef(0);
+  const saveSeconds = useCallback(
+    (force = false) => {
+      if (!lesson || isIntro) return;
+      const now = Date.now();
+      if (!force && now - lastSave.current < 15000) return;
+      lastSave.current = now;
+      void touchLessonAction(lesson.id, lesson.steps[0]?.id ?? null, seconds.current);
+    },
+    [lesson, isIntro],
+  );
+  useEffect(() => () => saveSeconds(true), [saveSeconds]);
+
+  /* ---------------- complete */
+  const markDone = useCallback(
+    async (via: "button" | "watched") => {
+      if (!node || done.has(node.id)) return true;
+      setDone((s) => new Set(s).add(node.id));
+      const r = await completeLessonAction(data.program.id, node.id, via);
+      if (!r.ok && r.code !== "offline") {
+        setDone((s) => {
+          const n = new Set(s);
+          n.delete(node.id);
+          return n;
+        });
+        toast(r.message);
+        return false;
+      }
+      if (!r.ok) toast(r.message);
+      return true;
+    },
+    [node, done, data.program.id, toast],
+  );
+
+  const go = useCallback(
+    (id: string) => {
+      setDrawer(null);
+      router.push(href(id), { scroll: false });
+    },
+    [router, href],
+  );
+
+  const primary = async () => {
+    if (busy) return;
+    if (isIntro) {
+      if (data.intro && lesson) void completeLessonAction(data.program.id, data.intro.lessonId, "button");
+      if (firstOpen) go(firstOpen.id);
+      return;
+    }
+    setBusy(true);
+    const ok = await markDone("button");
+    setBusy(false);
+    if (!ok) return;
+    if (next) go(next.id);
+    else if (planCtx) router.push("/mtk");
+    else if (nextGroupFirst) {
+      toast(`${group?.name ?? "Chapter"} finished`, { tone: "success" });
+      go(nextGroupFirst.id);
+    } else toast(all.every((l) => done.has(l.id) || l.id === node?.id) ? "Course complete — every lesson is done." : "Lesson complete", { tone: "success" });
+  };
+
+  const undo = async () => {
+    if (!node) return;
+    setDone((s) => {
+      const n = new Set(s);
+      n.delete(node.id);
+      return n;
+    });
+    const r = await uncompleteLessonAction(node.id);
+    if (!r.ok && r.code !== "offline") {
+      setDone((s) => new Set(s).add(node.id));
+      toast(r.message);
+    }
+  };
+
+  const onWatched = async () => {
+    if (!node || done.has(node.id) || (lesson?.steps.length ?? 0) > 1) return;
+    const ok = await markDone("watched");
+    if (ok) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
+  };
+
+  /* ---------------- keyboard: ← → prev/next, F focus, / search, Esc */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) {
+        if (e.key === "Escape") t.blur();
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "ArrowRight" && (next || nextGroupFirst)) go((next ?? nextGroupFirst)!.id);
+      else if (e.key === "ArrowLeft" && prev && !isIntro) go(prev.id);
+      else if (e.key === "f" || e.key === "F") toggleFocus();
+      else if (e.key === "/") {
+        e.preventDefault();
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+          if (focus) toggleFocus();
+          requestAnimationFrame(() => searchRef.current?.focus());
+        } else setDrawer("open");
+      } else if (e.key === "Escape" && drawer) closeDrawer();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  const toggleFocus = () => {
+    setFocus((f) => {
+      try {
+        window.localStorage.setItem(FOCUS_KEY, f ? "0" : "1");
+      } catch {}
+      return !f;
+    });
+  };
+  const closeDrawer = () => {
+    setDrawer("closing");
+    window.setTimeout(() => setDrawer(null), 240);
+  };
+
+  /* ---------------- lesson content */
+  const steps = lesson?.steps ?? [];
+  const main0 = steps[0];
+  const parsed = useMemo(() => {
+    const body = steps.map((s) => s.body ?? "").filter(Boolean).join("\n\n");
+    return parseLessonBody(body, steps.flatMap((s) => s.attachments));
+  }, [steps]);
+  const clips = useMemo(() => {
+    const seen = new Set<string>([main0?.video?.providerId ?? ""]);
+    const out: (VideoRef & { title: string })[] = [];
+    for (const s of steps) {
+      if (s !== main0 && s.video && !seen.has(s.video.providerId)) {
+        seen.add(s.video.providerId);
+        out.push({ ...s.video, title: s.title });
+      }
+      for (const c of s.clips) if (!seen.has(c.providerId)) (seen.add(c.providerId), out.push(c));
+    }
+    for (const c of parsed.clips) if (!seen.has(c.providerId)) (seen.add(c.providerId), out.push(c));
+    return out;
+  }, [steps, main0, parsed.clips]);
+  const hideLeads = useMemo(() => new Set([lesson?.title ?? "", main0?.video?.title ?? "", ...clips.map((c) => c.title)].filter(Boolean)), [lesson, main0, clips]);
+
+  const groupDone = groupLessons.filter((l) => done.has(l.id)).length;
+  const primaryLabel = isIntro
+    ? { small: done.size ? "Resume the course" : "Begin the course", main: firstOpen?.title ?? "Start", phone: done.size ? "Resume" : "Start training" }
+    : next
+      ? { small: isDone ? "Next lesson" : "Complete & continue", main: next.title, phone: isDone ? "Next" : "Complete & continue" }
+      : planCtx
+        ? { small: isDone ? "Plan day finished" : "Complete plan day", main: "Back to My Plan", phone: isDone ? "Plan complete" : "Complete plan" }
+        : nextGroupFirst
+          ? { small: isDone ? `${group?.name} finished` : `Finish ${group?.name}`, main: `Then ${nextGroup?.name}: ${nextGroupFirst.title}`, phone: isDone ? "Next chapter" : `Finish ${group?.name}` }
+          : { small: isDone ? (multi ? `${group?.name} finished` : "Course finished") : multi ? `Finish ${group?.name}` : "Finish course", main: isDone ? "All done" : "Mark this lesson complete", phone: isDone ? "All done" : "Mark complete" };
+
+  const nav = (onPick?: () => void) => (
+    <CourseNav data={data} groups={groups} done={done} href={(id) => (id === "start" ? `/programs/${slug}/course/start${qs}` : href(id))} planMode={planMode} onPick={onPick} searchRef={searchRef} />
+  );
+
+  const byline = data.program.tagline && /^with /i.test(data.program.tagline) ? data.program.tagline : null;
+  const intakeHref = data.intake ? (data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`) : null;
+
+  return (
+    <div className="crs" data-focus={focus ? "" : undefined}>
+      <Glass as="header" level="thick" className="crs-bar">
+        <div className="crs-bar-row">
+          <Link href={planMode ? "/mtk" : `/programs`} className="crs-ghost" aria-label={planMode ? "Back to My Plan" : "Back to Programs"}>
+            <Back /><span className="crs-sm">{planMode ? "My Plan" : "Programs"}</span>
+          </Link>
+          <p className="crs-bar-title crs-ellipsis">{data.program.name}</p>
+          <span className="crs-bar-pct crs-num" aria-label={`${pct}% complete`}>{pct}%</span>
+          <button type="button" className="crs-ghost" aria-label="About this course" aria-pressed={overview} onClick={() => setOverview((v) => !v)}>
+            <Info />
+          </button>
+          <button type="button" className="crs-ghost crs-only-phone" data-tone="accent" aria-label="Lessons" onClick={() => setDrawer("open")}>
+            <ListTree />
+          </button>
+          <button type="button" className="crs-ghost crs-only-desk" aria-pressed={focus} aria-label={focus ? "Show lessons" : "Focus"} onClick={toggleFocus}>
+            {focus ? <PanelOpen /> : <PanelClose />}
+            <span className="crs-sm">{focus ? "Lessons" : "Focus"}</span>
+          </button>
+        </div>
+        <span className="crs-line" aria-hidden><i style={{ "--p": pct / 100 } as CSSProperties} /></span>
+      </Glass>
+
+      <div className="crs-body">
+        <aside className="crs-side" aria-label="Curriculum" inert={focus || undefined}>{nav()}</aside>
+
+        <main className="crs-main" ref={main} id="main">
+          <div className="crs-stage">
+            {planCtx && (
+              <div className="crs-banner">
+                <b>My Plan · Day {planCtx.day}</b>
+                <span className="crs-ellipsis">Lesson {planCtx.pos} of {planCtx.size} · {planCtx.title}</span>
+                <Link href="/mtk">View plan</Link>
+              </div>
+            )}
+            {data.mtk && !data.mtk.plan && (
+              <div className="crs-banner">
+                <Spark />
+                <span className="crs-banner-strong">Get a plan built around your strengths and gaps — about 2 minutes.</span>
+                <Link href={data.mtk.assessmentDone ? "/mtk/results" : `/intake/${slug}`}>{data.mtk.assessmentDone ? "Finish my plan →" : "Create my personalized plan →"}</Link>
+              </div>
+            )}
+
+            {overview && (
+              <section className="crs-over" aria-labelledby="crs-over-h">
+                {data.program.image && (
+                  <figure className="crs-over-art">
+                    <Image src={data.program.image} alt="" fill sizes="(min-width: 1024px) 760px, 100vw" priority />
+                    {data.program.tagline && !byline && <figcaption>{data.program.tagline}</figcaption>}
+                  </figure>
+                )}
+                <div className="crs-over-top">
+                  <div>
+                    <p className="crs-eyebrow">{byline ?? `With ${data.program.instructor}`}</p>
+                    <h1 id="crs-over-h">{data.program.name}</h1>
+                    {data.program.summary && <p className="crs-over-sum">{data.program.summary}</p>}
+                  </div>
+                  <button type="button" className="crs-ghost" aria-label="Close details" onClick={() => setOverview(false)}><X /></button>
+                </div>
+                <div className="crs-stats">
+                  <span><b>{multi ? groups.length : groups.reduce((n, g) => n + g.sections.length, 0)}</b> {multi ? "chapters" : "sections"}</span>
+                  <span><b>{all.length}</b> sessions</span>
+                  <span><b>{pct}%</b> complete</span>
+                  {intakeHref && (
+                    <Link href={intakeHref}><Clipboard />{data.intake?.done ? "Review intake" : "Take the intake"}</Link>
+                  )}
+                </div>
+                {data.program.highlights.length > 0 && (
+                  <ul className="crs-ticks">{data.program.highlights.map((h) => <li key={h}><Check />{h}</li>)}</ul>
+                )}
+              </section>
+            )}
+
+            {slug === "men-of-movement" && (overview || isIntro) && <MomPanel />}
+
+            {lesson && (
+              <article key={lesson.id} aria-labelledby="crs-title">
+                <div className="crs-crumb">
+                  {isIntro ? (
+                    <b>Start here</b>
+                  ) : (
+                    <>
+                      {multi && group && <b>{group.name}</b>}
+                      {section && <span>{multi && group ? "· " : ""}{section.title}</span>}
+                      <span className="crs-crumb-n">{index + 1} of {groupLessons.length}</span>
+                      {isDone && <span className="crs-crumb-done"><Check />Done</span>}
+                    </>
+                  )}
+                </div>
+                <h2 id="crs-title" className="crs-title">{isIntro ? data.intro?.title === "Home" ? `Welcome to ${data.program.name}` : data.intro?.title : lesson.title}</h2>
+
+                {(main0?.video || parsed.directVideo) && (
+                  <CourseVideo
+                    key={lesson.id}
+                    video={main0?.video ?? null}
+                    directUrl={parsed.directVideo?.url}
+                    poster={main0?.poster ?? null}
+                    title={isIntro ? data.program.name : lesson.title}
+                    fallbackImage={data.program.image}
+                    kicker={isIntro ? "Start here" : group ? `${group.name} · ${index + 1}` : undefined}
+                    resumeAt={main0?.video ? lesson.videoSeconds[main0.video.providerId] ?? 0 : 0}
+                    onProgress={(s) => {
+                      if (main0?.video) seconds.current[main0.video.providerId] = Math.floor(s);
+                      saveSeconds();
+                    }}
+                    onWatched={() => void onWatched()}
+                  />
+                )}
+
+                <AudioList items={parsed.audio} />
+                {parsed.body && <Markdown source={parsed.body} hide={hideLeads} />}
+                <Clips clips={clips} fallbackImage={data.program.image} />
+                <Downloads items={parsed.files} />
+
+                <Glass level="thick" float className="crs-next">
+                  {prev && !isIntro ? (
+                    <>
+                      <button type="button" className="crs-prev" onClick={() => go(prev.id)} aria-label={`Previous: ${prev.title}`}>
+                        <Arrow dir="left" />
+                      </button>
+                      <button type="button" className="crs-prev-card" onClick={() => go(prev.id)}>
+                        <Arrow dir="left" />
+                        <span className="crs-go-main"><small>Previous</small><b>{prev.title}</b></span>
+                      </button>
+                    </>
+                  ) : (
+                    <span className="crs-prev-card" hidden />
+                  )}
+                  <button type="button" className="crs-go" data-state={isDone && !next && !nextGroupFirst && !planCtx ? "done" : undefined} onClick={() => void primary()} aria-busy={busy || undefined}>
+                    <span className="crs-go-main">
+                      <small>{primaryLabel.small}</small>
+                      <b>{primaryLabel.main}</b>
+                    </span>
+                    <span className="crs-phone-label">{primaryLabel.phone}</span>
+                    {next || isIntro || nextGroupFirst ? <Arrow /> : <Check />}
+                  </button>
+                </Glass>
+                {isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
+                <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>
+              </article>
+            )}
+            {!lesson && !data.locked && <p className="crs-empty">This lesson isn’t available.</p>}
+          </div>
+        </main>
+      </div>
+
+      {drawer && (
+        <div className="crs-drawer" role="dialog" aria-modal="true" aria-label="Lessons" data-closing={drawer === "closing" ? "" : undefined}>
+          <button type="button" className="crs-x crs-drawer-scrim" aria-label="Close" onClick={closeDrawer} />
+          <div className="crs-drawer-panel">
+            <div className="crs-drawer-head">
+              <p className="crs-ellipsis">{data.program.name}</p>
+              <button type="button" className="crs-ghost" aria-label="Close lessons" onClick={closeDrawer}><X /></button>
+            </div>
+            {nav(() => setDrawer(null))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Men of Movement preparation: the five pillars and the locked post-retreat module (legacy copy). */
+export function MomPanel() {
+  return (
+    <div className="crs-mom">
+      <Glass className="crs-mom-card">
+        <p className="crs-eyebrow" data-tone="accent">Retreat preparation</p>
+        <h2>Arrive grounded through five pillars</h2>
+        <div className="crs-pillars">{["Rotation", "Movement", "Breathwork", "Nature", "Storywork"].map((p) => <span key={p}>{p}</span>)}</div>
+        <p>Six foundational practices are included with retreat enrollment. For now, access remains available without an expiry date.</p>
+      </Glass>
+      <div className="crs-mom-card" data-locked="">
+        <span className="crs-lockic"><Lock /></span>
+        <h3>Post-retreat integration</h3>
+        <p>Content in development. This module will unlock after a future retreat when its material and release rules are confirmed.</p>
+      </div>
+    </div>
+  );
+}

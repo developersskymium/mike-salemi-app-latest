@@ -1,0 +1,430 @@
+{
+ "program": {
+  "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+  "slug": "mastering-the-kettlebell",
+  "name": "Mastering the Kettlebell",
+  "type": "course",
+  "image": "/media/l5e/2c8245bf-d2f2-4483-8be4-dccd5af4dbef/mastering-the-kettlebell.png"
+ },
+ "kind": "mtk",
+ "latest": null,
+ "attempts": 0,
+ "form": {
+  "id": "f251990a-2c25-4680-b20c-e217f9cd5342",
+  "key": "mtk-intake",
+  "programId": null,
+  "title": "Mastering the Kettlebell assessment",
+  "introduction": "Tell us where your lifts are today and we will recommend where to start in Mastering the Kettlebell.",
+  "version": 1,
+  "steps": [
+   {
+    "id": "about",
+    "eyebrow": "Step 01",
+    "title": "About you",
+    "questions": [
+     {
+      "id": "role",
+      "type": "single",
+      "required": true,
+      "label": "Which best describes you?",
+      "options": [
+       {
+        "value": "Training for myself",
+        "label": "Training for myself"
+       },
+       {
+        "value": "Athlete",
+        "label": "Athlete"
+       },
+       {
+        "value": "Personal trainer / strength coach",
+        "label": "Personal trainer / strength coach"
+       },
+       {
+        "value": "Movement / rehab professional",
+        "label": "Movement / rehab professional"
+       },
+       {
+        "value": "I train myself and coach others",
+        "label": "I train myself and coach others"
+       }
+      ]
+     },
+     {
+      "id": "experience",
+      "type": "single",
+      "required": true,
+      "label": "How much kettlebell experience do you have?",
+      "options": [
+       {
+        "value": "Completely new",
+        "label": "Completely new"
+       },
+       {
+        "value": "Used kettlebells a few times",
+        "label": "Used kettlebells a few times"
+       },
+       {
+        "value": "Less than 1 year",
+        "label": "Less than 1 year"
+       },
+       {
+        "value": "1–3 years",
+        "label": "1–3 years"
+       },
+       {
+        "value": "More than 3 years",
+        "label": "More than 3 years"
+       },
+       {
+        "value": "I regularly coach kettlebells",
+        "label": "I regularly coach kettlebells"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "movements",
+    "eyebrow": "Step 02",
+    "title": "Where your movements are today",
+    "questions": [
+     {
+      "id": "confident",
+      "type": "multi",
+      "help": "Select all that apply.",
+      "label": "Which movements do you already feel confident with?",
+      "options": [
+       {
+        "value": "Deadlift",
+        "label": "Deadlift"
+       },
+       {
+        "value": "Single-Leg Deadlift",
+        "label": "Single-Leg Deadlift"
+       },
+       {
+        "value": "Swing",
+        "label": "Swing"
+       },
+       {
+        "value": "Clean",
+        "label": "Clean"
+       },
+       {
+        "value": "Snatch",
+        "label": "Snatch"
+       },
+       {
+        "value": "Press",
+        "label": "Press"
+       },
+       {
+        "value": "Jerk",
+        "label": "Jerk"
+       },
+       {
+        "value": "Turkish Get Up",
+        "label": "Turkish Get Up"
+       },
+       {
+        "value": "Windmill",
+        "label": "Windmill"
+       },
+       {
+        "value": "Squat",
+        "label": "Squat"
+       },
+       {
+        "value": "Lunge",
+        "label": "Lunge"
+       },
+       {
+        "value": "Row",
+        "label": "Row"
+       },
+       {
+        "value": "Still learning fundamentals",
+        "label": "Still learning fundamentals"
+       },
+       {
+        "value": "Unsure about my technique",
+        "label": "Unsure about my technique"
+       }
+      ]
+     },
+     {
+      "id": "struggle",
+      "type": "multi",
+      "help": "Select all that apply.",
+      "label": "Which movements do you struggle with most?",
+      "options": [
+       {
+        "value": "Deadlift",
+        "label": "Deadlift"
+       },
+       {
+        "value": "Single-Leg Deadlift",
+        "label": "Single-Leg Deadlift"
+       },
+       {
+        "value": "Swing",
+        "label": "Swing"
+       },
+       {
+        "value": "Clean",
+        "label": "Clean"
+       },
+       {
+        "value": "Snatch",
+        "label": "Snatch"
+       },
+       {
+        "value": "Press",
+        "label": "Press"
+       },
+       {
+        "value": "Jerk",
+        "label": "Jerk"
+       },
+       {
+        "value": "Turkish Get Up",
+        "label": "Turkish Get Up"
+       },
+       {
+        "value": "Windmill",
+        "label": "Windmill"
+       },
+       {
+        "value": "Squat",
+        "label": "Squat"
+       },
+       {
+        "value": "Lunge",
+        "label": "Lunge"
+       },
+       {
+        "value": "Row",
+        "label": "Row"
+       },
+       {
+        "value": "None in particular",
+        "label": "None in particular"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "goals",
+    "eyebrow": "Step 03",
+    "title": "What you want from MTK",
+    "questions": [
+     {
+      "id": "improve",
+      "type": "single",
+      "required": true,
+      "label": "What do you most want to improve?",
+      "options": [
+       {
+        "value": "Strong kettlebell fundamentals",
+        "label": "Strong kettlebell fundamentals"
+       },
+       {
+        "value": "Swing / Clean / Snatch",
+        "label": "Swing / Clean / Snatch"
+       },
+       {
+        "value": "Power and conditioning",
+        "label": "Power and conditioning"
+       },
+       {
+        "value": "Overhead strength and technique",
+        "label": "Overhead strength and technique"
+       },
+       {
+        "value": "Turkish Get Up / overhead control",
+        "label": "Turkish Get Up / overhead control"
+       },
+       {
+        "value": "Squat / Lunge / Row",
+        "label": "Squat / Lunge / Row"
+       },
+       {
+        "value": "Overall strength and movement quality",
+        "label": "Overall strength and movement quality"
+       },
+       {
+        "value": "Become a better kettlebell coach",
+        "label": "Become a better kettlebell coach"
+       },
+       {
+        "value": "Learn the full system",
+        "label": "Learn the full system"
+       }
+      ]
+     },
+     {
+      "id": "focus",
+      "type": "single",
+      "required": true,
+      "label": "Which movement area do you want to work on first?",
+      "options": [
+       {
+        "value": "Ballistic Movements",
+        "label": "Ballistic Movements"
+       },
+       {
+        "value": "Overhead Movements",
+        "label": "Overhead Movements"
+       },
+       {
+        "value": "Lower Body & Pulling",
+        "label": "Lower Body & Pulling"
+       },
+       {
+        "value": "All of them",
+        "label": "All of them"
+       },
+       {
+        "value": "Not sure",
+        "label": "Not sure"
+       }
+      ]
+     },
+     {
+      "id": "challenge",
+      "type": "single",
+      "label": "What is your biggest challenge right now?",
+      "options": [
+       {
+        "value": "Technique",
+        "label": "Technique"
+       },
+       {
+        "value": "Power/explosiveness",
+        "label": "Power/explosiveness"
+       },
+       {
+        "value": "Conditioning",
+        "label": "Conditioning"
+       },
+       {
+        "value": "Stability/control",
+        "label": "Stability/control"
+       },
+       {
+        "value": "Strength",
+        "label": "Strength"
+       },
+       {
+        "value": "Mobility",
+        "label": "Mobility"
+       },
+       {
+        "value": "Programming for myself",
+        "label": "Programming for myself"
+       },
+       {
+        "value": "Programming for clients",
+        "label": "Programming for clients"
+       },
+       {
+        "value": "Complete system understanding",
+        "label": "Complete system understanding"
+       },
+       {
+        "value": "Advanced progressions",
+        "label": "Advanced progressions"
+       },
+       {
+        "value": "Not sure where to start",
+        "label": "Not sure where to start"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "practice",
+    "eyebrow": "Step 04",
+    "title": "Your practice",
+    "questions": [
+     {
+      "id": "knowledge",
+      "type": "single",
+      "label": "How would you rate your kettlebell knowledge?",
+      "options": [
+       {
+        "value": "1 — New",
+        "label": "1 — New"
+       },
+       {
+        "value": "2 — Developing",
+        "label": "2 — Developing"
+       },
+       {
+        "value": "3 — Competent",
+        "label": "3 — Competent"
+       },
+       {
+        "value": "4 — Experienced",
+        "label": "4 — Experienced"
+       },
+       {
+        "value": "5 — Coach / Advanced",
+        "label": "5 — Coach / Advanced"
+       }
+      ]
+     },
+     {
+      "id": "time",
+      "type": "single",
+      "label": "How much time can you give MTK each week?",
+      "options": [
+       {
+        "value": "Less than 1 hour",
+        "label": "Less than 1 hour"
+       },
+       {
+        "value": "1–2 hours",
+        "label": "1–2 hours"
+       },
+       {
+        "value": "2–3 hours",
+        "label": "2–3 hours"
+       },
+       {
+        "value": "3–4 hours",
+        "label": "3–4 hours"
+       },
+       {
+        "value": "4+ hours",
+        "label": "4+ hours"
+       }
+      ]
+     },
+     {
+      "id": "guidance",
+      "type": "single",
+      "label": "How much guidance do you want?",
+      "options": [
+       {
+        "value": "Show me exactly where to start",
+        "label": "Show me exactly where to start"
+       },
+       {
+        "value": "Recommend a path but let me explore",
+        "label": "Recommend a path but let me explore"
+       },
+       {
+        "value": "I already know what I want to work on",
+        "label": "I already know what I want to work on"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

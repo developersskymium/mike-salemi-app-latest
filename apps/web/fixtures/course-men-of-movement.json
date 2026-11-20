@@ -1,0 +1,113 @@
+{
+ "program": {
+  "id": "414b4325-9841-525f-960d-e8438e5ee94b",
+  "name": "Men of Movement: Preparation",
+  "tagline": "Prepare for your retreat",
+  "summary": "A practice program Mike builds for each retreat, sent in the weeks before, with foundational breathwork and meditation.",
+  "description": "This is your Men of Movement platform.",
+  "highlights": [
+   "Foundational breathwork and meditation",
+   "Practices to try before the retreat",
+   "Packing list and key details"
+  ],
+  "isFree": false,
+  "level": null,
+  "access": "locked",
+  "slug": "men-of-movement",
+  "type": "course",
+  "image": "/media/l5e/54062bc2-c7f2-45a2-b97a-79f0ad066ba7/men-of-movement.png",
+  "instructor": "Mike Salemi"
+ },
+ "locked": true,
+ "intro": {
+  "sectionId": "4893bde7-6310-5cd5-91a9-7e488bbb6cd7",
+  "lessonId": "18fbfd96-f109-5f27-a0b3-815b5bc776ac",
+  "title": "Home"
+ },
+ "groups": [
+  {
+   "name": "Start Here",
+   "sections": [
+    {
+     "id": "94bc21a4-c540-5b46-b911-04805c0340f8",
+     "title": "Start Here",
+     "position": 2,
+     "group": null,
+     "lessons": [
+      {
+       "id": "fa1f1243-dcd0-55e7-9dae-d5b31e054798",
+       "key": null,
+       "title": "Hear In Meditation",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "9957898c-19bc-5691-af95-b700fa8d23d1",
+       "key": null,
+       "title": "Piston Breathing",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "4c533898-db10-5044-b0d2-0ea08e8cdd0e",
+       "key": null,
+       "title": "Breathe Light 1",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "10a891da-68fc-58a6-b663-63fa36327e20",
+       "key": null,
+       "title": "Abdominal (organ) Prep",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "acdec95f-29c1-54d3-ac1e-d76e7956fdbb",
+       "key": null,
+       "title": "Book Recommendations",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "94c08186-2a3c-5e58-81c4-09f9f345392b",
+       "key": null,
+       "title": "Playlist",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "2eff4014-eb61-52a3-ab09-3159a8a6ddc3",
+       "key": null,
+       "title": "Wall Squat: Moving Beyond Discomfort",
+       "sectionId": "94bc21a4-c540-5b46-b911-04805c0340f8",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "enrolled": false,
+ "lastLessonId": null,
+ "intake": {
+  "key": "mom-prep-intake",
+  "done": false
+ },
+ "mtk": null,
+ "lessons": {}
+}

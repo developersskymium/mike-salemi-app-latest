@@ -9,3 +9,4 @@ export * from "./vimeo";
 export * from "./pricing";
 export * from "./mtk";
 export * from "./selfguided";
+export * from "./lesson-body";
