@@ -1,5 +1,6 @@
 "use client";
 
+import { announceProgress } from "@/components/you/CelebrationHost";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { stagePlaylist, type ReadinessOutcome } from "@ms/core";
@@ -57,7 +58,7 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
   async function submit(answers: Record<string, string>, p: ReadinessOutcome) {
     const before = ready;
     setReady({ score: p.score, band: p.band, name: p.name, outcome: p.outcome, tableId: p.tableId, message: p.message, answers, saved: false });
-    const r = await submitReadinessAction(lesson.id, answers);
+    const r = await submitReadinessAction(lesson.id, answers); announceProgress();
     if (!r.ok && r.code !== "offline") {
       toast(r.message);
       setReady(before);

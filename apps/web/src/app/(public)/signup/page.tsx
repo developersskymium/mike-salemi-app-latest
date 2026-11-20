@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MOCK } from "@/lib/mock";
-import { getUser } from "@/lib/supabase/server";
+import { createClient, getUser } from "@/lib/supabase/server";
+import { logReferralVisit } from "@ms/api";
 import { AuthShell } from "@/components/discover/public/AuthShell";
 import { SignUpForm } from "@/components/discover/public/AuthForms";
 import photo from "@/components/discover/img/coaching.jpg";
@@ -17,6 +18,8 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
   const plan = sp.plan && /^[a-z]{2,16}$/.test(sp.plan) ? sp.plan : null;
   const next = safe(sp.next ?? (plan && plan !== "free" ? `/you/billing?plan=${plan}` : undefined));
   if (!MOCK && (await getUser()).user) redirect(next);
+  // Count the referral link visit (anonymous; the server function de-duplicates and ignores unknown codes).
+  if (!MOCK && ref) await logReferralVisit(await createClient(), ref).catch(() => undefined);
   return (
     <AuthShell
       photo={photo}

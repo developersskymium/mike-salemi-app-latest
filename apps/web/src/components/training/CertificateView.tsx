@@ -59,8 +59,8 @@ export function CertificateView({ cert, origin }: { cert: CertificateData; origi
         <Button icon="share" onClick={share}>
           {copied ? "Link copied" : "Share"}
         </Button>
-        <Button variant="glass" icon="down" onClick={() => window.print()}>
-          Save as PDF
+        <Button variant="glass" icon="down" href={`/api/certificates/${cert.id}/pdf`} prefetch={false}>
+          Download PDF
         </Button>
       </div>
     </div>

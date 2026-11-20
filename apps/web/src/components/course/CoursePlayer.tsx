@@ -1,5 +1,6 @@
 "use client";
 
+import { announceProgress } from "@/components/you/CelebrationHost";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -100,7 +101,7 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
     async (via: "button" | "watched") => {
       if (!node || done.has(node.id)) return true;
       setDone((s) => new Set(s).add(node.id));
-      const r = await completeLessonAction(data.program.id, node.id, via);
+      const r = await completeLessonAction(data.program.id, node.id, via); announceProgress();
       if (!r.ok && r.code !== "offline") {
         setDone((s) => {
           const n = new Set(s);

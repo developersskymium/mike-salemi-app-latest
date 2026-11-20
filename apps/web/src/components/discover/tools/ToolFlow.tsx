@@ -1,5 +1,6 @@
 "use client";
 
+import { announceProgress } from "@/components/you/CelebrationHost";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { ReadinessForm } from "@ms/core";
 import Link from "next/link";
@@ -69,7 +70,7 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
       const r = def?.result(a);
       if (!r) return;
       setSave({ state: "saving" });
-      const res = await saveToolRun(tool.id, a, { ...r, title: r.headline });
+      const res = await saveToolRun(tool.id, a, { ...r, title: r.headline }); announceProgress();
       setSave(res.ok ? { state: "saved" } : { state: "error", message: res.error });
       if (res.ok) toast(`${tool.name} complete — saved to your account`, { tone: "success", icon: "check" });
     },

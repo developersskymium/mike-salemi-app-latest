@@ -1,5 +1,6 @@
 "use client";
 
+import { announceProgress } from "@/components/you/CelebrationHost";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { stagePlaylist } from "@ms/core";
@@ -96,7 +97,7 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
 
   const end = () =>
     start(async () => {
-      const r = await endSessionAction(session.id, minutes, notes.trim() || null, program.slug);
+      const r = await endSessionAction(session.id, minutes, notes.trim() || null, program.slug); announceProgress();
       if (!r.ok && r.code !== "offline") return toast(r.message);
       setEnded({ minutes: r.ok ? r.minutes : minutes, streak: r.ok ? r.streak : 0 });
       toast(r.ok ? "Session logged" : "Saved here. It logs when you're back online.", { tone: "success" });

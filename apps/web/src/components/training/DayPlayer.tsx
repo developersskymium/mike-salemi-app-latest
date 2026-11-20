@@ -1,5 +1,6 @@
 "use client";
 
+import { announceProgress } from "@/components/you/CelebrationHost";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -198,7 +199,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     setCompleted(after);
     const finished = steps.every((x) => !x.isRequired || after.has(x.id));
     celebrate(i, finished, at);
-    const r = await completeStepAction(s.id, via);
+    const r = await completeStepAction(s.id, via); announceProgress();
     if (!r.ok && r.code !== "offline") {
       setCompleted((c) => {
         const n = new Set(c);
@@ -240,7 +241,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     const local: Readiness = { score: preview.score, band: preview.band, name: preview.name, outcome: preview.outcome, tableId: preview.tableId, message: preview.message, answers, saved: false };
     const before = readiness;
     setReadiness(local);
-    const r = await submitReadinessAction(lesson.id, answers);
+    const r = await submitReadinessAction(lesson.id, answers); announceProgress();
     if (!r.ok && r.code !== "offline") {
       toast(r.message);
       setReadiness(before);
