@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useTransition } from "react";
+import Link from "next/link";
+import { useRef, useState } from "react";
 import { Button, Glass, Icon, IconButton, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
-import { buyShopItem } from "@/lib/actions/shop";
 import type { ShopData, ShopImage, ShopProduct } from "@/lib/loaders/shop";
 import { money } from "@/components/you/format";
 import { cart } from "./cart";
-import { CartButton, CartSheet, CHECKOUT_ERR, Stepper } from "./CartSheet";
-import { buyable, CATEGORY, PreviewBanner, priceLabel, ProductCard } from "./ShopIndex";
+import { CartButton, CartSheet, Stepper } from "./CartSheet";
+import { buyable, CATEGORY, PreviewBanner, priceLabel, ProductCard, Stars } from "./ShopIndex";
+import { BellArt, bellWeights } from "./BellArt";
+import { bundleFor, unitCents } from "./pricing";
 import "./shop.css";
 
 const split = (label: string) => {
@@ -23,14 +25,22 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
   const [variant, setVariant] = useState(p.variants.length === 1 ? p.variants[0]!.id : "");
   const [qty, setQty] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
-  const [pending, start] = useTransition();
   const toast = useToast();
   const v = p.variants.find((x) => x.id === variant);
   const canBuy = buyable(p);
-  const unit = v ? money(v.price_cents, v.currency) : priceLabel(p);
-  const total = v ? money(v.price_cents * qty, v.currency) : priceLabel(p);
-  const others = d.products.filter((x) => x.id !== p.id).sort((a, b) => Number(b.category === p.category) - Number(a.category === p.category)).slice(0, 3);
-  const images: ShopImage[] = dedupe([...(p.image ? [{ src: p.image, alt: p.name, focal: p.gallery[0]?.focal } as ShopImage] : []), ...p.gallery]);
+  const unitC = v ? unitCents(v, d.member) : 0;
+  const unit = v ? money(unitC, v.currency) : priceLabel(p, d.member);
+  const total = v ? money(unitC * qty, v.currency) : priceLabel(p, d.member);
+  const listUnit = v && d.member && v.member_price_cents != null && v.member_price_cents < v.price_cents ? money(v.price_cents, v.currency) : null;
+  const memberOffer = v && !d.member && v.member_price_cents != null && v.member_price_cents < v.price_cents ? money(v.member_price_cents, v.currency) : null;
+  const bundle = bundleFor(p, v ?? p.variants[0], d.products, d.member);
+  const rating = d.ratings[p.id];
+  const bells = bellWeights(p, v?.key);
+  const others = d.products
+    .filter((x) => x.id !== p.id)
+    .sort((a, b) => Number(b.need === p.need) - Number(a.need === p.need) || Number(b.category === p.category) - Number(a.category === p.category))
+    .slice(0, 3);
+  const images: ShopImage[] = dedupe([...(p.image ? [{ src: p.image, alt: p.name, focal: p.gallery[0]?.focal ?? p.mike_photo?.focal } as ShopImage] : []), ...p.gallery]);
   const trust =
     p.category === "equipment"
       ? ["Secure Stripe checkout", "Ships within the US", "Handmade leather"]
@@ -50,20 +60,6 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
     toast(`${qty > 1 ? `${qty} × ` : ""}${p.name} added`, { tone: "success", icon: "check" });
     setCartOpen(true);
   };
-  const buyNow = () => {
-    if (!v) return needSize();
-    if (!d.payments) {
-      toast(CHECKOUT_ERR.payments_not_configured!, { icon: "info" });
-      return;
-    }
-    haptic(8);
-    start(async () => {
-      const r = await buyShopItem(v.id, qty);
-      if (r.ok) window.location.href = r.url;
-      else toast(CHECKOUT_ERR[r.error] ?? CHECKOUT_ERR.failed!, { icon: "close" });
-    });
-  };
-
   const primary = p.inquiry ? (
     <Button block href={p.inquiry.href} iconAfter="arrowRight">{p.inquiry.label}</Button>
   ) : p.file_url ? (
@@ -73,7 +69,7 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
       <Button block href="/programs/kettlebell-lifestyle" iconAfter="arrowRight">Included with Kettlebell Lifestyle</Button>
     )
   ) : (
-    <Button block icon="shop" onClick={add}>{v ? `Add to cart · ${total}` : "Add to cart"}</Button>
+    <Button block icon="shop" onClick={add}>{v ? `Add to cart · ${total}` : p.variants.length > 1 ? "Choose a size" : "Add to cart"}</Button>
   );
 
   return (
@@ -94,16 +90,43 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
       <div className="shp-page">
         {!d.enabled && <PreviewBanner payments={d.payments} />}
         <div className="shp-product">
-          <Gallery images={images} name={p.name} />
+          {bells.length && !p.image ? (
+            <div className="shp-gal">
+              <div className="shp-gallery shp-gallery-bells" role="img" aria-label={`${p.name}${v ? `, ${v.label}` : ""}`}>
+                <BellArt weights={bells} size={240} />
+              </div>
+            </div>
+          ) : (
+            <Gallery images={images} name={p.name} />
+          )}
           <section className="shp-buy" aria-labelledby="shp-name">
             <span className="lq-eyebrow" data-tone="accent">{CATEGORY[p.category].label}</span>
             <h1 id="shp-name" className="lq-d-lg shp-name">{p.name}</h1>
-            <p className="lq-d-sm lq-num shp-price">
-              {unit}
-              {v && p.variants.length > 1 && <span className="lq-t13 lq-c2"> · {split(v.label).size}</span>}
-            </p>
+            <div className="shp-price-row">
+              <p className="lq-d-sm lq-num shp-price">
+                {unit}
+                {listUnit && <s className="lq-t15 lq-c2 shp-was">{listUnit}</s>}
+              </p>
+              {rating && <Stars value={rating.average} count={rating.count} />}
+            </div>
+            {listUnit && <p className="lq-t13 shp-save-line">Member price, included with your plan</p>}
+            {memberOffer && <p className="lq-t13 lq-c2">{memberOffer} for Pro and Max members · <Link href="/you/billing" className="shp-inline">See plans</Link></p>}
             {p.description && <p className="lq-t15 lq-c2 shp-desc">{p.description}</p>}
-            {p.bullets.length > 0 && (
+            {bundle && bundle.parts.length > 0 && (
+              <div className="shp-bundle">
+                <p className="lq-t13 shp-bundle-h">In the box</p>
+                <ul>
+                  {bundle.parts.map((x) => (
+                    <li key={x.variant.id} className="lq-t15">
+                      <span>{x.qty > 1 ? `${x.qty} × ` : ""}{x.product.name} · {x.variant.label.split("·")[0]!.trim()}</span>
+                      <span className="lq-num lq-c2">{money(unitCents(x.variant, d.member) * x.qty, x.variant.currency)}</span>
+                    </li>
+                  ))}
+                </ul>
+                {bundle.saving > 0 && <p className="lq-t13 shp-save-line lq-num">You save {money(bundle.saving, p.variants[0]!.currency)} against buying them separately</p>}
+              </div>
+            )}
+            {p.bullets.length > 0 && !bundle && (
               <ul className="shp-bullets">
                 {p.bullets.map((b) => (
                   <li key={b} className="lq-t15"><span className="shp-bullet-ic" aria-hidden><Icon name="check" size="xs" /></span>{b}</li>
@@ -115,7 +138,7 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
               <fieldset className="shp-sizes" id="shp-sizes" tabIndex={-1}>
                 <legend className="shp-legend">
                   <span className="lq-t13">Size</span>
-                  <span className="lq-t12 lq-c2">{v ? split(v.label).detail : "Pick the weight you'll train with"}</span>
+                  <span className="lq-t12 lq-c2">{v ? split(v.label).detail : p.variants.some((x) => x.weight_kg) ? "Pick the weight you'll train with" : "Pick your size"}</span>
                 </legend>
                 <div className="shp-size-grid" role="radiogroup" aria-label="Size">
                   {p.variants.map((x) => {
@@ -136,15 +159,20 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
                       >
                         <span className="lq-t15 shp-size-name">{s.size}</span>
                         <span className="lq-t12 lq-c2 lq-num">{s.detail}</span>
-                        <span className="lq-t13 lq-num shp-size-price">{money(x.price_cents, x.currency)}</span>
+                        <span className="lq-t13 lq-num shp-size-price">{money(unitCents(x, d.member), x.currency)}</span>
                         {w > 0 && <span className="shp-size-bar" aria-hidden><i style={{ width: `${Math.max(14, (w / max) * 100)}%` }} /></span>}
                       </button>
                     );
                   })}
                 </div>
-                {p.category === "equipment" && (
+                {p.slug === "suples-bulgarian-bag" && (
                   <p className="lq-t12 lq-c2 shp-guide">
                     <Icon name="info" size="xs" /> Most men start with Medium, most women with Small. Go lighter for rotational work, heavier for carries.
+                  </p>
+                )}
+                {p.variants.some((x) => x.weight_kg) && (
+                  <p className="lq-t12 lq-c2 shp-guide">
+                    <Icon name="info" size="xs" /> Not sure? <Link href="/shop#shp-sel-h" className="shp-inline">The Kettlebell Selector</Link> picks your weight in four questions.
                   </p>
                 )}
               </fieldset>
@@ -159,15 +187,9 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
 
             <div className="shp-action">
               {primary}
-              {canBuy && (
-                <Button block variant="secondary" onClick={buyNow} disabled={pending}>
-                  {pending ? "Opening secure checkout…" : "Buy now"}
-                </Button>
-              )}
             </div>
-            {canBuy && !d.payments && <p className="lq-t12 lq-c2 shp-paynote"><Icon name="info" size="xs" /> Payments aren&apos;t switched on yet. Add to your cart now and check out when they are.</p>}
             {p.note && <p className="lq-t13 lq-c2">{p.note}</p>}
-            {canBuy && <p className="lq-t13 lq-c2">{p.type === "physical" ? "Ships within the US. We email tracking as soon as it leaves." : "One-time payment · lifetime access."}</p>}
+            {canBuy && p.type === "physical" && <p className="lq-t13 lq-c2">Free US shipping over {money(d.shipping.free_cents, "usd")}. Tracking shows in You as soon as it leaves.</p>}
             <div className="shp-chips">
               {trust.map((t) => (
                 <span key={t} className="shp-chip lq-t12"><Icon name="check" size="xs" /> {t}</span>
@@ -176,12 +198,39 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
           </section>
         </div>
 
+        {(p.mike_photo || p.used_in.length > 0) && (
+          <section className="shp-mike" aria-labelledby="shp-mike-h">
+            {p.mike_photo && (
+              <figure className="shp-mike-fig">
+                <Image src={p.mike_photo.src} alt={p.mike_photo.alt} fill sizes="(min-width: 1024px) 520px, 100vw" style={{ objectFit: "cover", objectPosition: p.mike_photo.focal ?? "50% 30%" }} />
+              </figure>
+            )}
+            <div className="shp-mike-text">
+              <p className="lq-eyebrow" data-tone="accent">{p.mike_photo ? "Mike using it" : "Where you'll use it"}</p>
+              <h2 id="shp-mike-h" className="lq-d-md">{p.mike_photo?.caption ?? "In your programs"}</h2>
+              {p.used_in.length > 0 && (
+                <ul className="shp-used">
+                  {p.used_in.map((u) => (
+                    <li key={u.label}>
+                      <Link href={u.href} className="shp-used-link lq-press">
+                        <span className="shp-used-ic" aria-hidden><Icon name="kettlebell" size="sm" /></span>
+                        <span className="lq-t15"><span className="lq-c2">Used in </span>{u.label}</span>
+                        <Icon name="chevron" size="xs" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </section>
+        )}
+
         {others.length > 0 && (
           <section aria-labelledby="shp-also" className="shp-block">
             <div className="shp-sech">
               <h2 id="shp-also" className="lq-d-md">Also in the shop</h2>
             </div>
-            <div className="shp-grid">{others.map((x) => <ProductCard key={x.id} p={x} />)}</div>
+            <div className="shp-grid">{others.map((x) => <ProductCard key={x.id} p={x} d={d} />)}</div>
           </section>
         )}
       </div>
@@ -196,7 +245,7 @@ export function ProductView({ p, d }: { p: ShopProduct; d: ShopData }) {
         </div>
       </div>
 
-      <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} products={d.products} payments={d.payments} />
+      <CartSheet open={cartOpen} onClose={() => setCartOpen(false)} d={d} />
     </>
   );
 }

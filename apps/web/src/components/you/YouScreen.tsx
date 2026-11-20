@@ -1,8 +1,9 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { EmptyScene, ReadinessDial } from "@/components/graphics";
 import { AmbientBackdrop, Glass, Icon, IconButton, LargeTitle, type IconName } from "@/components/ui";
 import { signOut } from "@/lib/auth/actions";
+import { YouOrders } from "@/components/shop/YouOrders";
 import type { PassportData } from "@/lib/loaders/you";
 import { PHOTOS } from "@/components/today/photos";
 import { CelebrationHost } from "./CelebrationHost";
@@ -116,23 +117,10 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
   const history = (
     <div className="yu-stack">
       <section aria-labelledby="yu-orders" className="yu-block">
-        <BlockHead id="yu-orders" title="Orders" lede="Everything you've bought or unlocked." action={<SeeAll href="/you/billing">Billing</SeeAll>} />
-        <Glass radius="card" className="tpy-list">
-          {d.orders.length ? (
-            d.orders.slice(0, 6).map((o) => (
-              <Link key={o.id} href="/you/billing" className="tpy-row">
-                <span className="tpy-row-icon" aria-hidden><Icon name={o.items.some((i) => i.kind === "product") ? "bookmark" : "ring"} size="sm" /></span>
-                <span className="tpy-row-main">
-                  <span className="lq-t15">{o.items.map((i) => i.name).join(", ") || o.reference}</span>
-                  <span className="lq-t13 lq-c2 lq-num">{fmtDayYear(o.created_at)} · {o.status === "paid" ? "Paid" : o.status === "refunded" ? "Refunded" : o.status}</span>
-                </span>
-                <span className="lq-t15 lq-num" style={{ fontWeight: 600 }}>{o.total_cents ? money(o.total_cents, o.currency) : "Free"}</span>
-              </Link>
-            ))
-          ) : (
-            <div className="tpy-row"><span className="tpy-row-main"><span className="lq-t15 lq-c2">No orders yet.</span></span><Link href="/shop" className="yu-seeall lq-t15">Shop <Icon name="chevron" size="xs" /></Link></div>
-          )}
-        </Glass>
+        <BlockHead id="yu-orders" title="Orders" lede="Everything you've bought, with tracking for equipment." action={<SeeAll href="/you/billing">Billing</SeeAll>} />
+        <Suspense fallback={<Glass radius="card" className="tpy-list shp-yo-skel" aria-busy="true" />}>
+          <YouOrders orders={d.orders} />
+        </Suspense>
       </section>
 
       <section aria-labelledby="yu-insights" className="yu-block">
