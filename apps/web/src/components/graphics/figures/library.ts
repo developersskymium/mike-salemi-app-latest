@@ -25,6 +25,7 @@ const sw = (p: Partial<Pose> & Pick<Pose, "hip" | "pelvis" | "chest" | "head" | 
 });
 
 export const SWING: MoveDef = {
+  traceTail: 0.55,
   label: "Swing",
   cfg: { armN: "world", armF: "world", grip: "bar2" },
   trace: true,
@@ -58,6 +59,7 @@ const gobletBase = {
   bellRot: 0,
 };
 export const GOBLET_SQUAT: MoveDef = {
+  traceTail: 0.45,
   label: "Goblet squat",
   cfg: { armN: "torso", armF: "torso", grip: "horns" },
   still: 0.5,
@@ -303,6 +305,7 @@ function pingPong(up: Key[]): Key[] {
 }
 
 export const GETUP: MoveDef = {
+  traceTail: 0.14,
   label: "Turkish get-up",
   cfg: { armN: "world", armF: "point", grip: "bar" },
   still: 0.24,
@@ -328,6 +331,7 @@ const SNAP = { ...FEET, hip: [X + 1.5, 0] as V, shin: 1.5, pelvis: 2, chest: 0, 
    From the hike the hips snap, the bell travels close to the body (a zipper
    path, elbow bending) and turns over softly into the rack. */
 export const CLEAN: MoveDef = {
+  traceTail: 0.5,
   label: "Clean",
   cfg: { armN: "world", armF: "world", grip: "bar" },
   still: 0,
@@ -346,6 +350,7 @@ export const CLEAN: MoveDef = {
    Rack to lockout: the fist travels straight up past the face, finishing with
    the biceps by the ear and the wrist straight; then back to the rack. */
 export const PRESS: MoveDef = {
+  traceTail: 0.45,
   label: "Press",
   cfg: { armN: "world", armF: "world", grip: "bar" },
   still: 0.5,
@@ -360,9 +365,10 @@ export const PRESS: MoveDef = {
    One continuous pull: hike, hip snap, a high pull with the elbow leading,
    then the hand punches through to lockout. The drop retraces the arc. */
 export const SNATCH: MoveDef = {
+  traceTail: 0.5,
   label: "Snatch",
   cfg: { armN: "world", armF: "world", grip: "bar" },
-  still: 0.91,
+  still: 0,
   trace: true,
   keys: [
     { pose: { ...TALL, ...LOCK, ...HANG_FAR }, dur: 0.3, hold: 0.4, stop: true, order: "over", handF: "relaxed" },
@@ -380,27 +386,43 @@ export const SNATCH: MoveDef = {
    more knee than a swing, flat back, arms long; the bell travels straight up. */
 const DL_GRIP_X = X + 3;
 export const DEADLIFT: MoveDef = {
+  traceTail: 0.45,
   label: "Deadlift",
   cfg: { armN: "point", armF: "world", grip: "bar2" },
   still: 0.5,
   keys: [
     { pose: { ...FEET, hip: [X + 1.5, HIP_Y], pelvis: -1, chest: -2, head: 0, armN: [DL_GRIP_X, 150], armF: [0, 1], bellRot: 0 }, dur: 1.0, hold: 0.45, stop: true },
-    { pose: { ...FEET, hip: [X - 33, 165], pelvis: 56, chest: 52, head: 30, armN: [DL_GRIP_X, GROUND - 31.6], armF: [0, 1], bellRot: 0 }, dur: 0.85, hold: 0.35, stop: true },
+    // Hips higher than the knees, shins near vertical, flat back, neck neutral; arms hang to the handle.
+    { pose: { ...FEET, hip: [X - 36, 164], pelvis: 56, chest: 52, head: 47, armN: [DL_GRIP_X, GROUND - 32.6], armF: [0, 1], bellRot: 0 }, dur: 0.85, hold: 0.35, stop: true },
   ],
 };
 
 /* ---------------------------------------------------------- bent-over row
    Hinged, flat back, the bell hanging under the shoulder; the elbow drives
    back and the bell rows to the hip. */
-// The free hand braces on the far knee.
-const ROW_BASE = { ...FEET, hip: [X - 22, 0] as V, shin: 7, pelvis: 52, chest: 50, head: 32, bellRot: 0, armF: [X + 6, 176] as V, wristF: 30 };
+/* Staggered stance: the far foot forward with its hand braced on that thigh,
+   the near foot back; hinge to a flat back about 40° above horizontal. */
+const ROW_BASE = {
+  ankleN: [X - 34, AY] as V,
+  ankleF: [X + 16, AY] as V,
+  farOff: [-3, -0.6] as V,
+  hip: [X - 8, 147] as V,
+  pelvis: 50,
+  chest: 48,
+  head: 42,
+  bellRot: 0,
+  armF: [X + 15, 174] as V,
+  wristF: 40,
+};
 export const ROW: MoveDef = {
   label: "Bent-over row",
   cfg: { armN: "world", armF: "point", grip: "bar" },
   still: 0.5,
+  traceTail: 0.45,
   keys: [
-    { pose: { ...ROW_BASE, armN: [0, 1] }, dur: 0.7, hold: 0.35, stop: true, handF: "relaxed" },
-    { pose: { ...ROW_BASE, armN: [-38, 0.44] }, dur: 0.95, hold: 0.4, stop: true, handF: "relaxed" },
+    { pose: { ...ROW_BASE, armN: [-2, 1] }, dur: 0.7, hold: 0.35, stop: true, handF: "flat" },
+    // Elbow drives back past the torso, the bell rows to the hip.
+    { pose: { ...ROW_BASE, armN: [-40, 0.46] }, dur: 0.95, hold: 0.4, stop: true, handF: "flat" },
   ],
 };
 
@@ -409,6 +431,7 @@ export const ROW: MoveDef = {
    knee hovers over the floor: front shin near vertical, torso tall. */
 const LG = { armN: [74, 0.3] as V, armF: [74, 0.3] as V, bellRot: 0 };
 export const LUNGE: MoveDef = {
+  traceTail: 0.45,
   label: "Reverse lunge",
   cfg: { armN: "torso", armF: "torso", grip: "horns" },
   still: 0.55,
@@ -424,6 +447,7 @@ export const LUNGE: MoveDef = {
    in front of the face, past the ear, behind the head, and round again. */
 const HALO_BASE = { ...TALL, chest: -2, armF: [0, 1] as V, bellRot: 180 };
 export const HALO: MoveDef = {
+  traceTail: 0.7,
   label: "Halo",
   cfg: { armN: "point", armF: "world", grip: "horns" },
   still: 0,
@@ -469,6 +493,7 @@ export const BREATHING: MoveDef = {
    (heel strike, roll through, toe off), the free arm swinging opposite. */
 const WK = { pelvis: 1, chest: 0, head: 0, farOff: [-3, -0.6] as V, bellRot: 0, armN: [3, 0.98] as V };
 export const WALKING: MoveDef = {
+  traceTail: 0.6,
   label: "Walking",
   cfg: { armN: "world", armF: "world", grip: "bar" },
   still: 0,

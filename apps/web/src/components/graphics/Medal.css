@@ -87,7 +87,26 @@
   font: 700 6.6px/1 -apple-system, "SF Pro Text", "Inter Liquid", system-ui, sans-serif;
   letter-spacing: 1.4px; text-transform: uppercase; fill: var(--g-specular); opacity: .8;
 }
-.gfx-medal-eNum, .gfx-medal-eNumShadow {
-  font: 800 32px/1 -apple-system, "SF Pro Display", "Inter Liquid", system-ui, sans-serif; letter-spacing: -.5px;
+.gfx-medal-eNum, .gfx-medal-eNumGlow {
+  font-family: var(--gfx-display, "Anybody", var(--font, system-ui), sans-serif);
+  font-weight: 200; font-stretch: 150%; font-size: 34px; letter-spacing: -1px;
 }
-.gfx-medal-eNumShadow { fill: var(--g-relief-shadow); opacity: .5; }
+.gfx-medal-eNum { fill: var(--g-night-ink); }
+.gfx-medal-eNumGlow { fill: none; stroke: var(--g-glacier); stroke-width: 3; opacity: .35; filter: blur(2px); }
+
+/* Trace faces */
+.gfx-medal-medal, .gfx-medal-emblem {
+  --g-trace: var(--gfx-trace-dark, #5CC8F5);
+  --g-trace-hot: var(--gfx-trace-hot-dark, #E6F8FF);
+  --g-trace-dim: var(--gfx-trace-dim-dark, rgba(120, 180, 220, .22));
+  --g-trace-glow: .45;
+}
+.gfx-medal-ridge { fill: var(--g-night-lo); }
+.gfx-medal-ridgeRim { fill: none; stroke: var(--gfx-ridge-rim, rgba(160, 210, 240, .3)); stroke-width: .7; }
+.gfx-medal-ringAhead { fill: none; stroke: var(--g-trace-dim); stroke-width: 1.6; stroke-dasharray: .1 5; stroke-linecap: round; }
+.gfx-medal-light path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.gfx-medal-light .gfx-day-glyph-base { stroke: var(--g-night-ink); opacity: .85; }
+.gfx-medal-light .gfx-day-glyph-lit { stroke: var(--g-trace); filter: drop-shadow(0 0 1px var(--g-trace)); }
+.gfx-medal-light .gfx-day-glyph-dot { fill: var(--g-trace-hot); filter: drop-shadow(0 0 1.2px var(--g-trace)); }
+.gfx-medal-locked .gfx-medal-light { opacity: .45; }
+.gfx-medal-locked .gfx-medal-light .gfx-day-glyph-lit, .gfx-medal-locked .gfx-medal-light .gfx-day-glyph-dot { stroke: var(--g-night-ink); fill: var(--g-night-ink); filter: none; }

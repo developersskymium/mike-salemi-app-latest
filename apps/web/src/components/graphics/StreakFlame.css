@@ -1,19 +1,18 @@
-/* Streak flame: --gfx-flame-hi/-/-lo re-skin the fire (glacier by default). */
-.gfx-streak-flame-flame { overflow: visible; color: var(--g-fg); }
-.gfx-streak-flame-o0 { stop-color: var(--gfx-flame-hi, var(--g-accent-hi)); }
-.gfx-streak-flame-o1 { stop-color: var(--gfx-flame, var(--g-accent)); }
-.gfx-streak-flame-o2 { stop-color: var(--gfx-flame-lo, var(--g-accent-deep)); }
-.gfx-streak-flame-i0 { stop-color: color-mix(in srgb, var(--gfx-flame-hi, var(--g-accent-hi)) 45%, var(--g-specular)); }
-.gfx-streak-flame-i1 { stop-color: var(--gfx-flame-hi, var(--g-accent-hi)); }
-.gfx-streak-flame-c0 { stop-color: var(--g-specular); stop-opacity: 1; }
-.gfx-streak-flame-c1 { stop-color: var(--g-specular); stop-opacity: 0; }
-.gfx-streak-flame-spec { fill: none; stroke: var(--g-specular); stroke-opacity: .5; stroke-width: 1.2; stroke-linecap: round; }
-.gfx-streak-flame-out { fill: color-mix(in srgb, currentColor 6%, transparent); stroke: currentColor; stroke-opacity: .35; stroke-width: 1.5; stroke-linejoin: round; }
-.gfx-streak-flame-body { transform-box: fill-box; transform-origin: 50% 100%; }
+/* Streak pill: --gfx-streak (light), --gfx-streak-ink (the flame on it). */
+.gfx-streak-flame-pill { overflow: visible; color: var(--g-figure); }
+.gfx-streak-flame-p0 { stop-color: var(--gfx-streak-hi, color-mix(in srgb, var(--g-glacier) 60%, var(--g-glacier-hot))); }
+.gfx-streak-flame-p1 { stop-color: var(--gfx-streak, var(--g-glacier)); }
+.gfx-streak-flame-glow { fill: var(--gfx-streak, var(--g-glacier)); opacity: .55; }
+.gfx-streak-flame-body { stroke: color-mix(in srgb, var(--g-glacier-hot) 60%, transparent); stroke-width: .6; }
+.gfx-streak-flame-flame { fill: none; stroke: var(--gfx-streak-ink, #04182A); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.gfx-streak-flame-point { fill: var(--gfx-streak-point, #FFFFFF); }
+.gfx-streak-flame-sw0 { stop-color: #fff; stop-opacity: 0; }
+.gfx-streak-flame-sw1 { stop-color: #fff; stop-opacity: .7; }
+.gfx-streak-flame-streak { opacity: 0; }
+.gfx-streak-flame-unlit .gfx-streak-flame-body { fill: none; stroke: currentColor; stroke-opacity: .28; stroke-width: 1.2; }
+.gfx-streak-flame-unlit .gfx-streak-flame-flame { stroke: currentColor; stroke-opacity: .5; }
+.gfx-streak-flame-unlit .gfx-streak-flame-point { fill: currentColor; opacity: .5; }
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-streak-flame-animated .gfx-streak-flame-body { animation: gfx-streak-flame-ignite 700ms var(--g-spring) both; }
+  .gfx-streak-flame-animated .gfx-streak-flame-streak { animation: gfx-streak-flame-pass 1.1s var(--g-ease) .3s both; }
 }
-@keyframes gfx-streak-flame-ignite {
-  from { transform: scale(.4, .2); opacity: 0; }
-  to { transform: none; opacity: 1; }
-}
+@keyframes gfx-streak-flame-pass { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 1; transform: translateX(50px); } }

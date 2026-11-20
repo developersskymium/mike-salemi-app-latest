@@ -1,0 +1,20 @@
+.gfx-flare-flare { overflow: visible; pointer-events: none; }
+.gfx-flare-hot { stop-color: var(--g-glacier-hot); stop-opacity: 1; }
+.gfx-flare-body { stop-color: var(--g-glacier); stop-opacity: .8; }
+.gfx-flare-fade { stop-color: var(--g-glacier); stop-opacity: 0; }
+.gfx-flare-haloA { stop-color: var(--g-glacier); stop-opacity: .55; }
+.gfx-flare-haloB { stop-color: var(--g-glacier); stop-opacity: 0; }
+.gfx-flare-core { fill: var(--g-glacier-hot); }
+.gfx-flare-rays, .gfx-flare-halo, .gfx-flare-core { transform-box: view-box; transform-origin: 50% 50%; }
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-flare-animated .gfx-flare-rays { animation: gfx-flare-burst 1.2s var(--g-spring-soft) both; }
+  .gfx-flare-animated .gfx-flare-halo { animation: gfx-flare-halo 1.2s var(--g-ease) both; }
+  .gfx-flare-animated .gfx-flare-core { animation: gfx-flare-core 1.2s var(--g-spring) both; }
+}
+@keyframes gfx-flare-burst {
+  0% { transform: scale(.1) rotate(-20deg); opacity: 0; }
+  30% { transform: scale(1.18) rotate(4deg); opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes gfx-flare-halo { 0% { transform: scale(.2); opacity: 0; } 35% { transform: scale(1.4); opacity: 1; } 100% { transform: none; opacity: 1; } }
+@keyframes gfx-flare-core { 0% { transform: scale(0); } 40% { transform: scale(1.6); } 100% { transform: none; } }

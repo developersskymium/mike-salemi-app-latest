@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import "./gfx.css";
 import "./ShastaSky.css";
+import { StarTrails } from "./exposure";
 import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
@@ -46,7 +47,8 @@ const PINES = Array.from({ length: 26 }, (_, i) => {
 
 /**
  * Mount Shasta under a time-of-day sky for the Today header: dawn, day, dusk
- * or night. Every colour is a custom property (--gfx-sky-<time>-*), so the
+ * or night (star trails over the mountain, as in the Trace identity). No pink:
+ * dawn is ice and first warm light, dusk is steel blue. Every colour is a custom property (--gfx-sky-<time>-*), so the
  * header can be re-tinted without touching the art.
  */
 export function ShastaSky({ time, width = "100%", height, animated = false, title, className, style }: ShastaSkyProps) {
@@ -92,13 +94,7 @@ export function ShastaSky({ time, width = "100%", height, animated = false, titl
         </mask>
       </defs>
       <rect x={-10} y={-10} width={410} height={200} fill={`url(#${id}-sky)`} />
-      {night ? (
-        <g className={s.stars}>
-          {Array.from({ length: 34 }, (_, i) => (
-            <circle key={i} cx={(i * 97) % 390} cy={8 + ((i * 53) % 84)} r={0.5 + ((i * 7) % 4) * 0.22} />
-          ))}
-        </g>
-      ) : null}
+      {night ? <StarTrails cx={300} cy={-30} n={110} rmin={8} rmax={420} seed={17} /> : null}
       <g className={s.orb}>
         <circle cx={sun[0]} cy={sun[1]} r={sun[2] * 4} fill={`url(#${id}-glow)`} />
         <circle cx={sun[0]} cy={sun[1]} r={sun[2]} className={s.disc} mask={night ? `url(#${id}-moon)` : undefined} />

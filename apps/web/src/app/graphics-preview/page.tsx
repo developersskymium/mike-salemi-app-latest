@@ -5,6 +5,7 @@ import { cls } from "@/components/graphics/util";
 import {
   Aurora,
   ChalkBurst,
+  Flare,
   Completion,
   DAY_TYPE_LABEL,
   DAY_TYPES,
@@ -66,9 +67,10 @@ const RESKIN = {
   "--gfx-bell-hi": "#E7C58A",
   "--gfx-bell": "#B88A3E",
   "--gfx-bell-lo": "#7A5520",
-  "--gfx-enamel-hi": "#3A3A3C",
-  "--gfx-enamel": "#1C1C1E",
-  "--gfx-enamel-lo": "#000000",
+  "--gfx-trace": "#B88A3E",
+  "--gfx-trace-dark": "#E7C58A",
+  "--gfx-trace-hot": "#7A5520",
+  "--gfx-trace-hot-dark": "#FFF4DE",
   "--gfx-glyph-accent": "#B88A3E",
 } as CSSProperties;
 
@@ -103,7 +105,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Movement figures" note="A real rig: true limb lengths, planted feet, hands on the handle. Rim light, shoe soles, contact shadow; the bell is the one accent" wide>
+      <Block title="Movement figures" note="A real rig: true limb lengths, planted feet, hands on the handle. Each bell leaves its Trace: glacier light with a hot head and a cooling tail" wide>
         <div className={s.figs} data-shot={`figures-${theme}`}>
           {MOVE_NAMES.map((m) => (
             <figure key={m} className={s.fig}>
@@ -128,7 +130,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Day types" note="Filled, palette rendering: ink plus one accent part, an even optical weight">
+      <Block title="Day types" note="Trace icons: 1.6 strokes, open shapes, the exposed stretch ending in a light point">
         <div className={s.glyphs} data-shot={`glyphs-${theme}`}>
           {DAY_TYPES.map((t) => (
             <figure key={t} className={s.glyphCell}>
@@ -149,7 +151,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Awards" note="Struck rims, engraved legend, glacier enamel under glass; locked is an unpainted strike">
+      <Block title="Awards" note="Struck rims around a night exposure, the award drawn in light; locked is unlit">
         <div className={s.row} data-shot={`awards-${theme}`}>
           {MEDAL_TIERS.map((t, i) => (
             <Medal key={t} tier={t} size={104} glyph={(["workout-1", "recovery", "challenge", undefined] as const)[i]} animated={motion} />
@@ -165,7 +167,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Empty states" note="Small worlds from Mike's universe: one porthole, foreground breaking out, exactly one accent" wide>
+      <Block title="Empty states" note="Night exposure in dark, snow contours in light; matte objects from Mike's world, one mark of light" wide>
         <div className={s.scenes} data-shot={`scenes-${theme}`}>
           {EMPTY_SCENES.map((sc) => (
             <figure key={sc} className={s.scene}>
@@ -179,13 +181,16 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Moments" note="One-shot, never looping: the step check with a chalk burst, the summit flag, the streak igniting">
+      <Block title="Moments" note="One-shot, never looping: the check traced into a Flare, the day ending in a Flare under the night sky, the chalk burst; the streak as a light pill">
         <div className={s.row} data-shot={`moments-${theme}`}>
           <Replay>
             <Completion animated={motion} size={120} />
           </Replay>
           <Replay>
             <Completion variant="milestone" animated={motion} size={260} />
+          </Replay>
+          <Replay>
+            <Flare size={120} animated={motion} />
           </Replay>
           <Replay>
             <ChalkBurst size={120} animated={motion} />
@@ -202,7 +207,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Progress" note="The swing arc as loader and progress bar; the training heatmap">
+      <Block title="Progress" note="The swing arc as a Trace (loader and progress); heatmap cells in glacier light">
         <div className={s.row} data-shot={`progress-${theme}`}>
           <SwingArc size={96} />
           <SwingArc size={96} progress={0.15} />
@@ -215,7 +220,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Phase landscape" note="Program hero: day 24 of 61, today pulses, camps mark the phases" wide>
+      <Block title="Phase landscape" note="The program as a climb: the route exposed to today, phases as nodes, the rest dotted ahead" wide>
         <div className={s.heroGrid} data-shot={`landscape-${theme}`}>
           <div className={s.card}>
             <div className={s.cardHead}>
@@ -254,7 +259,7 @@ function Band({ theme, motion }: { theme: "light" | "dark"; motion: boolean }) {
         </div>
       </Block>
 
-      <Block title="Re-skinned with --gfx-* hooks" note="The same components with a bronze bell and graphite enamel set on a parent, no code changes">
+      <Block title="Re-skinned with --gfx-* hooks" note="The same components with a bronze bell and bronze light set on a parent, no code changes">
         <div className={s.row} style={RESKIN} data-shot={`reskin-${theme}`}>
           <MovementFigure move="swing" size={120} at={0} />
           <MovementFigure move="squat" size={120} />

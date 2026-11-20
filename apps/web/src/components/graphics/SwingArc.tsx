@@ -1,14 +1,15 @@
 import type { CSSProperties } from "react";
-import { BELL_OUTLINE, BELL_WINDOW } from "./figures/bell";
 import "./gfx.css";
 import "./SwingArc.css";
-import { cls, cx, polar, useGfxId } from "./util";
+import { Line, traceGeo, type Pt } from "./trace";
+import { TraceMarks } from "./Trace";
+import { cls, cx } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-swing-arc");
 
 export interface SwingArcProps {
-  /** 0..1 fills the arc and parks the bell there; leave out for an indeterminate loader (the bell swings). */
+  /** 0..1 exposes the arc up to that point; leave out for an indeterminate loader (a short trace sweeps the arc). */
   progress?: number;
   /** Width in px; height follows 64:40. */
   size?: number;
@@ -17,28 +18,24 @@ export interface SwingArcProps {
   style?: CSSProperties;
 }
 
-const PIVOT = { x: 32, y: 2 };
-const R = 30;
-const SPAN = 56; // degrees either side of straight down
-
-/** Clock angle (0 = up, clockwise) for a swing angle (0 = down, + towards the right). */
-const clock = (a: number) => 180 - a;
+const PIVOT = { x: 32, y: 0 };
+const R = 32;
+const SPAN = 56;
+/** Point on the swing arc for a swing angle (0 = straight down, + to the right). */
+const on = (a: number): Pt => [PIVOT.x + R * Math.sin((a * Math.PI) / 180), PIVOT.y + R * Math.cos((a * Math.PI) / 180)];
+const arc = (from: number, to: number, n = 40) => new Line(Array.from({ length: n + 1 }, (_, i) => on(from + ((to - from) * i) / n)));
+const FULL = arc(-SPAN, SPAN);
+const SHORT = arc(-40, 0, 24);
 
 /**
- * The swing arc: the path a kettlebell travels, as a progress bar or a loader.
- * Determinate: the arc fills and the bell sits at the progress point.
- * Indeterminate: the bell swings back and forth along the arc (reduced motion:
- * it rests at the bottom).
+ * The swing arc: the bell's path as progress or loader, drawn as a Trace.
+ * Determinate: exposed to the progress point, hot head leading, the rest of
+ * the arc dotted ahead. Indeterminate: a short trace sweeps the arc again and
+ * again (reduced motion: it rests at the bottom).
  */
 export function SwingArc({ progress, size = 64, label, className, style }: SwingArcProps) {
-  const id = useGfxId("arc");
   const det = progress !== undefined;
   const p = Math.min(1, Math.max(0, progress ?? 0));
-  const [x0, y0] = polar(PIVOT.x, PIVOT.y, R, clock(-SPAN));
-  const [x1, y1] = polar(PIVOT.x, PIVOT.y, R, clock(SPAN));
-  const arc = `M${x0.toFixed(2)} ${y0.toFixed(2)}A${R} ${R} 0 0 0 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-  const len = (Math.PI * R * (SPAN * 2)) / 180;
-  const angle = -SPAN + p * SPAN * 2;
   return (
     <svg
       viewBox="0 0 64 40"
@@ -52,20 +49,16 @@ export function SwingArc({ progress, size = 64, label, className, style }: Swing
       className={cx(g.root, s.arc, !det && s.indeterminate, className)}
       style={style}
     >
-      <defs>
-        <radialGradient id={`${id}-bell`} cx=".34" cy=".58" r=".75">
-          <stop offset="0" className={s.hi} />
-          <stop offset=".55" className={s.mid} />
-          <stop offset="1" className={s.lo} />
-        </radialGradient>
-      </defs>
-      <path d={arc} className={s.track} />
-      {det ? <path d={arc} className={s.fill} strokeDasharray={`${(len * p).toFixed(2)} ${len.toFixed(2)}`} /> : <path d={arc} className={s.trail} />}
-      <g className={s.pendulum} style={{ transform: det ? `rotate(${(-angle).toFixed(2)}deg)` : undefined }}>
-        <g transform={`translate(${PIVOT.x} ${PIVOT.y + R - 6}) scale(.34)`}>
-          <path d={BELL_OUTLINE + BELL_WINDOW} fillRule="evenodd" fill={`url(#${id}-bell)`} />
-        </g>
-      </g>
+      {det ? (
+        <TraceMarks geo={traceGeo(FULL, p, { width: 2.6, segments: 18, floor: 0.1 })} />
+      ) : (
+        <>
+          <TraceMarks geo={traceGeo(FULL, 0, { width: 2.6, head: false })} />
+          <g className={s.sweep}>
+            <TraceMarks geo={traceGeo(SHORT, 1, { width: 2.6, segments: 14, floor: 0.02, ahead: false })} />
+          </g>
+        </>
+      )}
     </svg>
   );
 }

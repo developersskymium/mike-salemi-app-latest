@@ -589,8 +589,10 @@ export interface MoveDef {
   keys: Key[];
   /** Phase 0..1 of the loop that reads best as a still. */
   still: number;
-  /** Show the bell's path as a dotted trace. */
+  /** Show the bell's path (legacy flag; every bell move now draws its Trace). */
   trace?: boolean;
+  /** How much of the loop the Trace's tail covers (fraction of the loop's time). */
+  traceTail?: number;
   /** A quiet accent extra: the breath ring, or the halo's orbit. */
   extra?: "breath" | "orbit";
   /** Square view box [x, y, size]. */

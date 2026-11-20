@@ -3,6 +3,7 @@ import "./gfx.css";
 import "./Heatmap.css";
 import { cls, cx } from "./util";
 
+const g = cls("gfx");
 const s = cls("gfx-heat");
 
 export type HeatLevel = 0 | 1 | 2 | 3 | 4;
@@ -32,7 +33,7 @@ export function HeatmapCell({ level, today, future, size = 14, title, className,
       aria-label={title}
       title={title}
       data-level={level}
-      className={cx(s.cell, today && s.today, future && s.future, className)}
+      className={cx(g.root, s.cell, today && s.today, future && s.future, className)}
       style={{ ...style, ["--heat-size" as string]: `${size}px` }}
     />
   );
@@ -58,7 +59,7 @@ export function TrainingHeatmap({ days, todayIndex, rows = 7, size = 14, gap = 4
     <div
       role="img"
       aria-label={label}
-      className={cx(s.grid, className)}
+      className={cx(g.root, s.grid, className)}
       style={{ ...style, gridTemplateRows: `repeat(${rows}, ${size}px)`, gap }}
     >
       {days.map((l, i) => (

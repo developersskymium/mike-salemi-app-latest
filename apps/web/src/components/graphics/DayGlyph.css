@@ -1,5 +1,10 @@
-/* Day glyphs: --gfx-glyph and --gfx-glyph-accent re-skin the ink and the accent part. */
-.gfx-day-glyph-glyph { color: var(--gfx-glyph, var(--g-fg)); }
-.gfx-day-glyph-ink { fill: currentColor; }
-.gfx-day-glyph-accent { fill: var(--gfx-glyph-accent, var(--g-accent)); }
-.gfx-day-glyph-mono .gfx-day-glyph-accent { fill: currentColor; }
+/* Day glyphs (Trace icons): --gfx-glyph ink, --gfx-glyph-accent lit stretch, --gfx-glyph-point the light point. */
+.gfx-day-glyph-glyph { color: var(--gfx-glyph, var(--g-figure)); overflow: visible; }
+.gfx-day-glyph-base, .gfx-day-glyph-lit { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.gfx-day-glyph-base { stroke: currentColor; }
+.gfx-day-glyph-lit { stroke: var(--gfx-glyph-accent, var(--g-trace)); }
+.gfx-day-glyph-dot { fill: var(--gfx-glyph-point, var(--g-trace-hot)); }
+.gfx-day-glyph-node { fill: currentColor; opacity: .55; }
+.gfx-day-glyph-mono .gfx-day-glyph-lit { stroke: currentColor; }
+.gfx-day-glyph-mono .gfx-day-glyph-dot { fill: currentColor; }
+:where([data-theme="dark"]) .gfx-day-glyph-dot { filter: drop-shadow(0 0 1.5px var(--g-trace)); }

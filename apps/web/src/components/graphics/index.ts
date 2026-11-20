@@ -14,3 +14,7 @@ export { ChalkBurst, type ChalkBurstProps } from "./ChalkBurst";
 export { SwingArc, type SwingArcProps } from "./SwingArc";
 export { ShastaSky, SKY_TIMES, skyTimeFor, type ShastaSkyProps, type SkyTime } from "./ShastaSky";
 export { HeatmapCell, TrainingHeatmap, type HeatmapCellProps, type TrainingHeatmapProps, type HeatLevel } from "./Heatmap";
+export { Flare, type FlareProps } from "./Flare";
+export { TraceMarks } from "./Trace";
+export { Line as TraceLine, traceGeo, smooth as smoothPath, type TraceGeo, type TraceOpts } from "./trace";
+export { StarTrails, Contours, shastaPath } from "./exposure";

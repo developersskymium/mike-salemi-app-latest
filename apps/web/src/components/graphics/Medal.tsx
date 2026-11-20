@@ -3,6 +3,9 @@ import { dayGlyphArt, type DayType } from "./DayGlyph";
 import { BELL_OUTLINE, BELL_SPEC, BELL_WINDOW } from "./figures/bell";
 import "./gfx.css";
 import "./Medal.css";
+import { Exposure, shastaPath } from "./exposure";
+import { Line, traceGeo } from "./trace";
+import { TraceMarks } from "./Trace";
 import { cls, cx, polar, useGfxId } from "./util";
 
 const g = cls("gfx");
@@ -27,6 +30,9 @@ export interface MedalProps {
   className?: string;
   style?: CSSProperties;
 }
+
+/* The ring of light around an earned medal's face: exposed all the way, head at twelve. */
+const RING = new Line(Array.from({ length: 73 }, (_, i) => polar(60, 60, 37, 200 + i * 4.86) as [number, number]));
 
 const ring = (c: number, r: number) => `M${c - r} ${c}a${r} ${r} 0 1 1 ${r * 2} 0a${r} ${r} 0 1 1 ${-r * 2} 0`;
 
@@ -80,9 +86,10 @@ function MetalDefs({ id }: { id: string }) {
 }
 
 /**
- * Award medal: a struck coin with a brushed rim and an engraved legend, a
- * guilloché glacier-enamel field under a glass dome, and the emblem in raised
- * metal. Every material is a custom property (see Medal.css).
+ * Award medal: a struck coin with a brushed rim and an engraved legend; the
+ * face is a night exposure with a ring of glacier light around it (dotted when
+ * still to earn) and the emblem drawn in light. Materials are custom
+ * properties (see Medal.css).
  */
 export function Medal({
   tier,
@@ -151,22 +158,20 @@ export function Medal({
       ) : null}
 
       <circle cx={C} cy={C} r={45.6} fill={`url(#${id}-bevel)`} />
-      <circle cx={C} cy={C} r={43.2} fill={`url(#${id}-enamel)`} />
-
       <g clipPath={`url(#${id}-face)`}>
-        <g className={s.guilloche}>
-          {Array.from({ length: 19 }, (_, i) => (
-            <circle key={i} cx={C + 3} cy={C + 4} r={4 + i * 2.35} />
-          ))}
+        {/* The face is a night exposure; the award is drawn in light on it. */}
+        <g transform={`translate(${C - 43.2} ${C - 43.2})`}>
+          <Exposure w={86.4} h={86.4} pole={[70, 6]} seed={tier.length * 7 + 3} scale={0.8} night />
         </g>
-        <circle cx={C} cy={C + 2.2} r={43.2} className={s.innerEdge} />
-
+        <path d={shastaPath(C - 46, C + 44, 92, 30)} className={s.ridge} />
+        {locked ? (
+          <circle cx={C} cy={C} r={37} className={s.ringAhead} />
+        ) : (
+          <TraceMarks geo={traceGeo(RING, 1, { width: 2.2, segments: 26, floor: 0.04, ahead: false })} className={s.ringTrace} />
+        )}
         {emblem ? (
-          <g transform={`translate(${C - 26.4} ${C - 26.4}) scale(2.2)`}>
-            <g className={s.reliefShadow} transform="translate(.25 .6)">
-              {emblem}
-            </g>
-            <g fill={`url(#${id}-relief)`}>{emblem}</g>
+          <g transform={`translate(${C - 26.4} ${C - 26.4}) scale(2.2)`} className={s.light} strokeWidth={1.25}>
+            {emblem}
           </g>
         ) : (
           <g transform={`translate(${C} ${C - 19.6}) scale(1.36)`}>
@@ -176,11 +181,6 @@ export function Medal({
             <path d={BELL_SPEC} className={s.reliefSpec} />
           </g>
         )}
-
-        <path
-          d={`M${C - 43} ${C - 2}C${C - 40} ${C - 32} ${C - 20} ${C - 43} ${C} ${C - 43}S${C + 40} ${C - 32} ${C + 43} ${C - 2}C${C + 20} ${C - 12} ${C - 20} ${C - 12} ${C - 43} ${C - 2}Z`}
-          fill={`url(#${id}-dome)`}
-        />
       </g>
       <path d={`M${C - 38.6} ${C - 16}A41.6 41.6 0 0 1 ${C - 8} ${C - 40.8}`} className={s.spec} />
       {animated && !locked ? (
@@ -209,9 +209,8 @@ const hex = (r: number, cx0 = 50, cy0 = 56) => Array.from({ length: 6 }, (_, i) 
 const poly = (pts: Array<[number, number]>) => `M${pts.map(([x, y]) => `${x.toFixed(2)} ${y.toFixed(2)}`).join("L")}Z`;
 
 /**
- * Level emblem: a faceted hexagonal crest (six bevel facets catching the
- * light), an enamel plate with the Shasta ridge, and the level numeral struck
- * in metal.
+ * Level emblem: a faceted hexagonal crest, a night-exposure plate with Mount
+ * Shasta under star trails, and the level in thin, wide numerals of light.
  */
 export function LevelEmblem({ level, size = 96, tier, label = "Level", className, style }: LevelEmblemProps) {
   const id = useGfxId("lvl");
@@ -243,24 +242,20 @@ export function LevelEmblem({ level, size = 96, tier, label = "Level", className
         <path key={`f${i}`} d={d} className={s[`facet${i}`]} />
       ))}
       <path d={poly(O)} className={s.eOutline} />
-      <path d={poly(I)} fill={`url(#${id}-enamel)`} />
       <g clipPath={`url(#${id}-plate)`}>
-        <g className={s.guilloche}>
-          {Array.from({ length: 14 }, (_, i) => (
-            <circle key={i} cx={52} cy={60} r={4 + i * 2.6} />
-          ))}
+        <g transform="translate(11 16)">
+          <Exposure w={78} h={80} pole={[60, 2]} seed={level * 13 + 5} scale={0.7} night />
         </g>
-        <path d="M0 92 20 79Q23 77 26 79L32 83 47 66Q50 62.6 53 66L62 75 70 70Q72.6 68.4 75 70L100 86V112H0Z" className={s.eRidge} />
-        <path d="M43.2 70.6 47 66Q50 62.6 53 66L57.2 70.8 53.6 69.4 50.4 72 47.2 69.2Z" className={s.eSnow} />
-        <path d="M14 30C26 20 74 20 86 30V48C70 40 30 40 14 48Z" fill={`url(#${id}-dome)`} />
+        <path d={shastaPath(10, 98, 80, 30)} className={s.ridge} />
+        <path d={shastaPath(10, 98, 80, 30)} className={s.ridgeRim} />
       </g>
       <text x={50} y={34} textAnchor="middle" className={s.eLabel}>
         {label}
       </text>
-      <text x={50.5} y={65.2} textAnchor="middle" className={s.eNumShadow}>
+      <text x={50} y={68} textAnchor="middle" className={s.eNumGlow}>
         {numeral}
       </text>
-      <text x={50} y={64.2} textAnchor="middle" className={s.eNum} fill={`url(#${id}-relief)`}>
+      <text x={50} y={68} textAnchor="middle" className={s.eNum}>
         {numeral}
       </text>
     </svg>

@@ -26,27 +26,15 @@
   stroke-linecap: round;
 }
 
-.gfx-rig-floorA { stop-color: var(--g-figure); stop-opacity: .09; }
-.gfx-rig-floorB { stop-color: var(--g-figure); stop-opacity: 0; }
-.gfx-rig-contact { fill: var(--g-figure); fill-opacity: .2; }
-.gfx-rig-contactFar { fill: var(--g-figure); fill-opacity: .1; }
-.gfx-rig-trace {
-  fill: none;
-  stroke: var(--g-bell);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: .1 5;
-  opacity: .5;
-}
-.gfx-rig-orbit {
-  fill: none;
-  stroke: var(--g-bell);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-dasharray: .1 4.4;
-  opacity: .55;
-}
-.gfx-rig-breathOuter { fill: none; stroke: var(--g-bell); stroke-width: 1; opacity: .35; }
-.gfx-rig-breathInner { fill: var(--g-accent-soft); stroke: var(--g-bell); stroke-width: 1; stroke-opacity: .55; }
+/* No grey shadows: the floor only catches a little of the bell's light. */
+.gfx-rig-floorA { stop-color: var(--g-trace); stop-opacity: .12; }
+.gfx-rig-floorB { stop-color: var(--g-trace); stop-opacity: 0; }
+.gfx-rig-contact { fill: var(--g-figure); fill-opacity: .14; }
+.gfx-rig-contactFar { fill: var(--g-figure); fill-opacity: .07; }
+.gfx-rig-traceTail { fill: none; stroke: var(--g-trace); }
+.gfx-rig-traceGlow { fill: none; stroke: var(--g-trace); stroke-linecap: round; opacity: var(--g-trace-glow); }
+.gfx-rig-traceHalo { fill: var(--g-trace); opacity: .45; }
+.gfx-rig-breathOuter { fill: none; stroke: var(--g-trace); stroke-width: 1.2; opacity: .35; }
+.gfx-rig-breathInner { fill: none; stroke: var(--g-trace); stroke-width: 1.6; stroke-opacity: .8; }
 .gfx-rig-debug circle { fill: #e33; }
 .gfx-rig-debug path { stroke: #e33; stroke-width: .5; fill: none; }

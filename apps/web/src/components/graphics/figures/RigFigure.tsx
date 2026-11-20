@@ -6,7 +6,8 @@ import "./RigFigure.css";
 import { cls, cx, useGfxId } from "../util";
 import { BELL_OUTLINE, BELL_SHEEN, BELL_SPEC, BELL_WINDOW } from "./bell";
 import { MOVES, type MoveName } from "./library";
-import { bellTrace, duration, geoAt, GROUND, type Geo, type MoveDef, type Order } from "./rig";
+import { Line, traceGeo, type Pt, type TraceGeo } from "../trace";
+import { duration, geoAt, GROUND, sampleMove, solve, type Geo, type MoveDef, type Order } from "./rig";
 
 const g = cls("gfx");
 const s = cls("gfx-rig");
@@ -95,7 +96,39 @@ function dOf(geo: Geo): Record<PathName, string> {
   };
 }
 
-type Live = PathName | "bellA" | "bellS" | "shadow" | "footN" | "footF" | "breath";
+type Live = PathName | "bellA" | "bellS" | "shadow" | "footN" | "footF" | "breath" | "glow" | "halo" | "head";
+
+/* The bell's path through the loop, sampled once per move (the Trace follows it). */
+const pathCache = new WeakMap<MoveDef, Array<Pt | null>>();
+function bellPath(m: MoveDef): Array<Pt | null> {
+  let p = pathCache.get(m);
+  if (!p) {
+    const K = Math.min(480, Math.max(120, Math.round(duration(m) * 60)));
+    p = Array.from({ length: K }, (_, i) => {
+      const { pose, disc } = sampleMove(m, i / K);
+      return solve(pose, disc, m.cfg).bellCentre;
+    });
+    pathCache.set(m, p);
+  }
+  return p;
+}
+const TAIL_N = 18;
+/** The exposure at phase t: the bell's last stretch of path, hot at the bell, cooling behind it. */
+function traceAt(m: MoveDef, t: number, width: number): TraceGeo | null {
+  const path = bellPath(m);
+  const K = path.length;
+  const steps = Math.round((m.traceTail ?? 0.5) * K);
+  const i0 = Math.round((((t % 1) + 1) % 1) * K);
+  const pts: Pt[] = [];
+  for (let k = steps; k >= 0; k--) {
+    const q = path[(((i0 - k) % K) + K) % K];
+    if (!q) continue;
+    const last = pts[pts.length - 1];
+    if (!last || Math.hypot(q[0] - last[0], q[1] - last[1]) > 0.35) pts.push(q);
+  }
+  if (pts.length < 3) return null;
+  return traceGeo(new Line(pts), 1, { width, segments: TAIL_N, tail: 1, ahead: false, floor: 0.03 });
+}
 
 const breathT = (geo: Geo) => {
   const c = geo.joints.belly ?? geo.joints.waist;
@@ -107,6 +140,8 @@ const breathT = (geo: Geo) => {
  * rig (true limb lengths, planted feet, hands on the handle), the kettlebell
  * as the single accent. Server-renders the still; animates on the client.
  */
+const vsOf = (m: MoveDef) => (m.view ?? [0, 0, 240])[2];
+
 export function RigFigure({
   move: moveProp,
   size = 240,
@@ -128,9 +163,12 @@ export function RigFigure({
   const [order, setOrder] = useState<Order>(geo0.order);
   const refs = useRef<Partial<Record<Live, SVGElement | null>>>({});
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const showTrace = (trace ?? !!move.trace) && !bare && size >= 64;
-  const tracePath = useMemo(() => (showTrace ? bellTrace(move) : ""), [move, showTrace]);
+  const showTrace = (trace ?? true) && !bare && size >= 64 && move.cfg.grip !== "none";
+  const traceW = Math.max(1.8, (vsOf(move) / size) * 2.2);
+  const trace0 = useMemo(() => (showTrace ? traceAt(move, phase0, traceW) : null), [move, phase0, showTrace, traceW]);
+  const tailRefs = useRef<Array<SVGPathElement | null>>([]);
   const [vx, vy, vs] = move.view ?? [0, 0, 240];
+  const filt = `${id}-glow`;
   // A hairline gap of about 1 px at any size.
   const gap = Math.max(1.3, Math.min(6, vs / size));
   const fine = size >= 64;
@@ -149,6 +187,7 @@ export function RigFigure({
     const T = (duration(move) * 1000) / speed;
     let start = performance.now() - phase0 * T;
     let last = geo0.order;
+    let tNow = phase0;
 
     const apply = (geo: Geo) => {
       const d = dOf(geo);
@@ -170,6 +209,19 @@ export function RigFigure({
         }
       });
       refs.current.breath?.setAttribute("transform", breathT(geo));
+      if (showTrace) {
+        const tr = traceAt(move, tNow, traceW);
+        tailRefs.current.forEach((el, i) => el?.setAttribute("d", tr?.tail[i]?.d ?? ""));
+        refs.current.glow?.setAttribute("d", tr?.glow ?? "");
+        const h = tr?.head;
+        for (const k of ["halo", "head"] as const) {
+          const el = refs.current[k];
+          if (el && h) {
+            el.setAttribute("cx", h[0].toFixed(1));
+            el.setAttribute("cy", h[1].toFixed(1));
+          }
+        }
+      }
       if (geo.order !== last) {
         last = geo.order;
         setOrder(geo.order);
@@ -179,6 +231,7 @@ export function RigFigure({
       raf = 0;
       if (!visible || mq.matches) return;
       const t = ((now - start) % T) / T;
+      tNow = t;
       apply(geoAt(move, t, weight));
       raf = requestAnimationFrame(tick);
     };
@@ -192,7 +245,10 @@ export function RigFigure({
     });
     io.observe(svg);
     const onMq = () => {
-      if (mq.matches) apply(geo0);
+      if (mq.matches) {
+        tNow = phase0;
+        apply(geo0);
+      }
       else {
         start = performance.now();
         play();
@@ -205,7 +261,7 @@ export function RigFigure({
       io.disconnect();
       mq.removeEventListener("change", onMq);
     };
-  }, [animated, at, move, phase0, speed, weight, geo0]);
+  }, [animated, at, move, phase0, speed, weight, geo0, showTrace, traceW]);
 
   const d0 = dOf(geo0);
   const P = (name: PathName, className?: string) => (
@@ -280,6 +336,9 @@ export function RigFigure({
           <stop offset=".55" className={s.bellMid} />
           <stop offset="1" className={s.bellLo} />
         </radialGradient>
+        <filter id={filt} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation={(traceW * 1.5).toFixed(2)} />
+        </filter>
         <radialGradient id={`${id}-floor`} cx=".5" cy=".5" r=".5">
           <stop offset="0" className={s.floorA} />
           <stop offset="1" className={s.floorB} />
@@ -378,7 +437,26 @@ export function RigFigure({
           ))}
         </g>
       ) : null}
-      {tracePath ? <path d={tracePath} className={s.trace} suppressHydrationWarning /> : null}
+      {trace0 ? (
+        <g className={s.trace}>
+          <path ref={(el) => void (refs.current.glow = el)} d={trace0.glow} className={s.traceGlow} strokeWidth={trace0.glowWidth} filter={`url(#${filt})`} suppressHydrationWarning />
+          {trace0.tail.map((t, i) => (
+            <path
+              key={i}
+              ref={(el) => void (tailRefs.current[i] = el)}
+              d={t.d}
+              className={s.traceTail}
+              strokeWidth={t.w.toFixed(2)}
+              strokeOpacity={t.o.toFixed(3)}
+              strokeLinecap={i === TAIL_N - 1 ? "round" : "butt"}
+              suppressHydrationWarning
+            />
+          ))}
+          {trace0.head ? (
+            <circle ref={(el) => void (refs.current.halo = el)} cx={trace0.head[0]} cy={trace0.head[1]} r={traceW * 5} className={s.traceHalo} filter={`url(#${filt})`} suppressHydrationWarning />
+          ) : null}
+        </g>
+      ) : null}
       {!bare && move.extra === "breath" ? (
         <g ref={(el) => void (refs.current.breath = el)} transform={breathT(geo0)} className={s.breath} suppressHydrationWarning>
           <circle r={14} className={s.breathOuter} />
@@ -396,9 +474,6 @@ export function RigFigure({
         </g>
       ) : null}
 
-      {!bare && move.extra === "orbit" && geo0.joints.head ? (
-        <ellipse cx={geo0.joints.head[0] + 2} cy={geo0.joints.head[1] + 6} rx={23} ry={5} className={s.orbit} />
-      ) : null}
 
       {debug ? (
         <g className={s.debug}>
