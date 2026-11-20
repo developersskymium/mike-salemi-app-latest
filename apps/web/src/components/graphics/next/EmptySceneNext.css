@@ -1,0 +1,51 @@
+.gfx-es-scene { color: var(--g-terrain); }
+
+.gfx-es-skyA { stop-color: var(--g-terrain); stop-opacity: .1; }
+.gfx-es-skyB { stop-color: var(--g-terrain); stop-opacity: .03; }
+.gfx-es-mtnBack { fill: var(--g-terrain); opacity: .12; }
+.gfx-es-mtnTop { stop-color: var(--g-terrain); stop-opacity: .4; }
+.gfx-es-mtnBottom { stop-color: var(--g-terrain); stop-opacity: .12; }
+.gfx-es-portRim { fill: none; stroke: var(--g-terrain); stroke-opacity: .06; stroke-width: .8; }
+.gfx-es-hazeA { stop-color: var(--g-bg-elev); stop-opacity: 0; }
+.gfx-es-hazeB { stop-color: var(--g-bg-elev); stop-opacity: .95; }
+.gfx-es-snow { fill: var(--g-snow); opacity: var(--g-snow-opacity); }
+.gfx-es-floorA { stop-color: var(--g-terrain); stop-opacity: .06; }
+.gfx-es-floorB { stop-color: var(--g-terrain); stop-opacity: 0; }
+
+/* Glass: light theme frosted white, dark theme smoked. */
+.gfx-es-glassFill { fill: var(--g-glass); opacity: var(--g-glass-opacity); }
+.gfx-es-sheenA { stop-color: var(--g-specular); stop-opacity: var(--g-glass-sheen); }
+.gfx-es-spec { stop-color: var(--g-specular); }
+.gfx-es-spec0 { stop-color: var(--g-specular); stop-opacity: 0; }
+.gfx-es-glassEdge { fill: none; stroke: var(--g-glass-edge); stroke-opacity: var(--g-glass-edge-opacity); stroke-width: .7; }
+.gfx-es-glassRim { fill: none; stroke-width: 1; }
+.gfx-es-thumb { fill: var(--g-terrain); opacity: .07; }
+.gfx-es-line { fill: var(--g-terrain); opacity: .16; }
+.gfx-es-lineSoft { fill: var(--g-terrain); opacity: .09; }
+.gfx-es-track { fill: var(--g-terrain); opacity: .06; }
+
+.gfx-es-bellHi { stop-color: var(--g-bell-hi); }
+.gfx-es-bellMid { stop-color: var(--g-bell); }
+.gfx-es-bellLo { stop-color: var(--g-bell-lo); }
+.gfx-es-shadowA { stop-color: var(--g-terrain); stop-opacity: .2; }
+.gfx-es-shadowB { stop-color: var(--g-terrain); stop-opacity: 0; }
+.gfx-es-bellSpec { fill: none; stroke: var(--g-specular); stroke-opacity: var(--g-bell-spec); stroke-width: 1.5; stroke-linecap: round; }
+.gfx-es-bellSheen { fill: none; stroke: var(--g-specular); stroke-opacity: .4; stroke-width: .9; stroke-linecap: round; }
+
+:where([data-theme="dark"]) .gfx-es-mtnTop { stop-opacity: .4; }
+:where([data-theme="dark"]) .gfx-es-skyA { stop-opacity: .12; }
+:where([data-theme="dark"]) .gfx-es-shadowA { stop-color: var(--g-shade); stop-opacity: .6; }
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-es-mtnTop { stop-opacity: .4; }
+  :where([data-theme="system"]) .gfx-es-skyA { stop-opacity: .12; }
+  :where([data-theme="system"]) .gfx-es-shadowA { stop-color: var(--g-shade); stop-opacity: .6; }
+}
+
+/* One-shot entrance: the cards settle, the bell lands. */
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-es-animated .gfx-es-back { animation: gfx-es-rise 900ms var(--g-spring-soft) both; }
+  .gfx-es-animated .gfx-es-front { animation: gfx-es-rise 900ms var(--g-spring-soft) 90ms both; }
+  .gfx-es-animated .gfx-es-bell { animation: gfx-es-land 700ms var(--g-spring) 260ms both; }
+}
+@keyframes gfx-es-rise { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes gfx-es-land { from { transform: translateY(-8px); opacity: 0; } to { transform: none; opacity: 1; } }

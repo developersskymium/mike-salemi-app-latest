@@ -15,6 +15,29 @@
   --g-spring: var(--curve-spring, cubic-bezier(.34, 1.56, .64, 1));
   --g-spring-soft: var(--curve-spring-soft, cubic-bezier(.3, 1.3, .6, 1));
   --g-ease: var(--curve-out, cubic-bezier(.22, .8, .2, 1));
+
+  /* Materials. Re-skin any graphic by setting the public --gfx-* hooks on an
+     ancestor; graphics only ever read the resolved --g-* values below. */
+  --g-specular: var(--gfx-specular, #FFFFFF);
+  --g-shade: var(--gfx-shade, #000000);
+  --g-figure: var(--gfx-figure, var(--g-fg));
+  --g-figure-far: var(--gfx-figure-far-opacity, .3);
+  --g-bell-hi: var(--gfx-bell-hi, var(--g-accent-hi));
+  --g-bell: var(--gfx-bell, var(--g-accent));
+  --g-bell-lo: var(--gfx-bell-lo, var(--g-accent-deep));
+  --g-bell-spec: var(--gfx-bell-spec-opacity, .5);
+  --g-glass: var(--gfx-glass, #FFFFFF);
+  --g-glass-opacity: var(--gfx-glass-opacity, .34);
+  --g-glass-sheen: var(--gfx-glass-sheen, .6);
+  --g-glass-edge: var(--gfx-glass-edge, var(--g-fg));
+  --g-glass-edge-opacity: var(--gfx-glass-edge-opacity, .1);
+  --g-snow: var(--gfx-snow, #FFFFFF);
+  --g-snow-opacity: var(--gfx-snow-opacity, .92);
+  --g-terrain: var(--gfx-terrain, var(--g-fg));
+  --g-enamel-hi: var(--gfx-enamel-hi, var(--g-accent-hi));
+  --g-enamel: var(--gfx-enamel, var(--g-accent));
+  --g-enamel-lo: var(--gfx-enamel-lo, color-mix(in srgb, var(--g-accent-deep) 70%, #000));
+  --g-relief-shadow: var(--gfx-relief-shadow, #001A40);
   display: inline-block;
   flex: none;
   vertical-align: middle;
@@ -32,4 +55,22 @@
 @media (prefers-reduced-motion: no-preference) {
   .gfx-animated .gfx-loop { display: inline; }
   .gfx-animated .gfx-still { display: none; }
+}
+
+/* Dark materials: smoked glass, a touch more depth on the far limbs. */
+:where([data-theme="dark"]) .gfx-root {
+  --g-figure-far: var(--gfx-figure-far-opacity-dark, .36);
+  --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
+  --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
+  --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
+  --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+}
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-root {
+    --g-figure-far: var(--gfx-figure-far-opacity-dark, .36);
+    --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
+    --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
+    --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
+    --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+  }
 }

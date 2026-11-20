@@ -1,0 +1,34 @@
+/* Movement figures on the rig: ink silhouette, far limbs a step back, the bell the one accent. */
+.gfx-rig-fig { color: var(--g-figure); }
+.gfx-rig-ink { fill: currentColor; }
+.gfx-rig-far { fill: currentColor; opacity: var(--g-figure-far); }
+
+.gfx-rig-bellHi { stop-color: var(--g-bell-hi); }
+.gfx-rig-bellMid { stop-color: var(--g-bell); }
+.gfx-rig-bellLo { stop-color: var(--g-bell-lo); }
+.gfx-rig-bellSpec {
+  fill: none;
+  stroke: var(--g-specular);
+  stroke-opacity: var(--g-bell-spec);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.gfx-rig-bellSheen {
+  fill: none;
+  stroke: var(--g-specular);
+  stroke-opacity: .35;
+  stroke-width: .9;
+  stroke-linecap: round;
+}
+
+.gfx-rig-shadow { fill: var(--g-figure); opacity: .07; }
+.gfx-rig-trace {
+  fill: none;
+  stroke: var(--g-bell);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: .1 5;
+  opacity: .55;
+}
+.gfx-rig-debug circle { fill: #e33; }
+.gfx-rig-debug path { stroke: #e33; stroke-width: .5; fill: none; }
