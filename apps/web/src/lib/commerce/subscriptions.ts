@@ -39,8 +39,12 @@ export function subscriptionSnapshot(sub: Stripe.Subscription) {
   };
 }
 
-/** Mirror a Stripe subscription change onto our row (status, period end, cancel flag, plan if the price is known). */
-export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscription, deleted: boolean) {
+/**
+ * Mirror a Stripe subscription change onto our row (status, period end, cancel flag, plan if the price is known).
+ * Always updates the one row keyed by the Stripe subscription id, so a plan change never adds a row.
+ * Pass `stripe` so inline prices (no catalog price id) can be mapped back to a plan through their product.
+ */
+export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscription, deleted: boolean, stripe?: Stripe) {
   const end = periodEnd(sub);
   const patch: Record<string, unknown> = {
     status: deleted ? "expired" : mapStripeStatus(sub.status),
@@ -65,6 +69,15 @@ export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscr
     if (price) {
       patch.plan_id = price.ref_id;
       if (price.interval === "month" || price.interval === "year") patch.interval = price.interval;
+    } else {
+      // Inline prices (checkout or an in-app plan change) carry the plan on their product's metadata.
+      const planRef = await planFromProduct(sub, stripe);
+      if (planRef) {
+        const { data: plan } = await admin.from("plans").select("id").eq("id", planRef).maybeSingle();
+        if (plan) patch.plan_id = plan.id;
+      }
+      const iv = sub.items?.data?.[0]?.price?.recurring?.interval;
+      if (patch.plan_id && (iv === "month" || iv === "year")) patch.interval = iv;
     }
   }
 
@@ -76,4 +89,21 @@ export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscr
     .select("id");
   if (error) throw new Error(`subscriptions update: ${error.message}`);
   return data?.length ?? 0;
+}
+
+/** The plan id stored on the subscription item's product (`metadata.kind = plan`, `metadata.ref = <plan id>`), if any. */
+async function planFromProduct(sub: Stripe.Subscription, stripe?: Stripe): Promise<string | null> {
+  const product = sub.items?.data?.[0]?.price?.product;
+  if (!product) return null;
+  let meta: Stripe.Metadata | undefined;
+  if (typeof product === "object" && "metadata" in product) meta = product.metadata;
+  else if (typeof product === "string" && stripe) {
+    try {
+      const p = await stripe.products.retrieve(product);
+      meta = p.metadata;
+    } catch {
+      return null;
+    }
+  }
+  return meta?.kind === "plan" && meta.ref ? meta.ref : null;
 }

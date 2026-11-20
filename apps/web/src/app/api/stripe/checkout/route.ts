@@ -4,6 +4,7 @@ import { getUser } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { getStripe, paymentsNotConfigured, siteOrigin, stripeConfigured } from "@/lib/stripe";
 import { ensureStripeCustomer } from "@/lib/commerce/customers";
+import { changeSubscriptionPlan, findLiveStripeSubscription } from "@/lib/commerce/upgrade";
 
 const APPLY_FIRST = "Apply first — Mike reviews every application.";
 
@@ -39,7 +40,7 @@ interface PendingOrder {
 export async function POST(request: Request) {
   if (!stripeConfigured()) return paymentsNotConfigured();
 
-  const { user } = await getUser();
+  const { supabase, user } = await getUser();
   if (!user) return Response.json({ error: "not_signed_in" }, { status: 401 });
 
   const parsed = Body.safeParse(await request.json().catch(() => null));
@@ -47,6 +48,44 @@ export async function POST(request: Request) {
   const { kind, ref, interval, coupon, offer_id } = parsed.data;
 
   const admin = createServiceClient();
+
+  // Plan change for a member who already pays by card (Pro -> Max, monthly -> yearly): change the price on the
+  // existing Stripe subscription instead of opening a second Checkout, so there is only ever one subscription.
+  if (kind === "plan") {
+    const live = await findLiveStripeSubscription(admin, user.id);
+    if (live) {
+      const { data: qd, error: qe } = await supabase.rpc("quote", {
+        p_kind: "plan",
+        p_ref: ref,
+        p_interval: interval === "year" ? "year" : "month",
+      });
+      if (qe) {
+        console.error("quote", qe.message);
+        return Response.json({ error: "order_failed" }, { status: 500 });
+      }
+      const q = qd as unknown as ServerQuote;
+      if (q.state !== "purchasable") return Response.json({ error: "not_purchasable", quote: q }, { status: 409 });
+      const change = await changeSubscriptionPlan(getStripe(), admin, {
+        stripeSubscriptionId: live.stripeId,
+        userId: user.id,
+        plan: {
+          ref: q.ref,
+          name: q.name,
+          interval: q.interval === "year" ? "year" : "month",
+          currency: q.currency,
+          baseCents: q.base_cents,
+          stripePriceId: q.stripe_price_id,
+        },
+      });
+      if (change.ok) {
+        return Response.json({ url: `${siteOrigin(request)}/you/billing?changed=${encodeURIComponent(q.ref)}`, changed: true });
+      }
+      if (change.error !== "not_changeable") {
+        return Response.json({ error: change.error, message: change.message }, { status: change.error === "card_declined" ? 402 : 409 });
+      }
+      // The Stripe subscription is gone or already ending: fall through to a fresh Checkout.
+    }
+  }
   const { data, error } = await admin.rpc("create_pending_order", {
     p_user: user.id,
     p_kind: kind,

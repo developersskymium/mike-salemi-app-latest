@@ -2,6 +2,7 @@ import type Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { getStripe, paymentsNotConfigured, stripeConfigured } from "@/lib/stripe";
 import { subscriptionSnapshot, syncSubscription } from "@/lib/commerce/subscriptions";
+import { endOtherSubscriptions } from "@/lib/commerce/upgrade";
 
 type Admin = ReturnType<typeof createServiceClient>;
 
@@ -68,6 +69,9 @@ async function handle(event: Stripe.Event, stripe: Stripe, admin: Admin) {
         p_subscription: subscription,
       });
       if (error) throw new Error(`apply_paid_order: ${error.message}`);
+      // One subscription per member: if an older one is still renewing (double tap, two tabs), end it at its period end.
+      const userId = session.metadata?.user_id;
+      if (subId && userId) await endOtherSubscriptions(stripe, admin, userId, subId);
       return;
     }
 
@@ -81,7 +85,7 @@ async function handle(event: Stripe.Event, stripe: Stripe, admin: Admin) {
 
     case "customer.subscription.updated":
     case "customer.subscription.deleted": {
-      await syncSubscription(admin, event.data.object, event.type === "customer.subscription.deleted");
+      await syncSubscription(admin, event.data.object, event.type === "customer.subscription.deleted", stripe);
       return;
     }
 

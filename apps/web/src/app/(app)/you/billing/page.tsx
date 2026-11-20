@@ -18,8 +18,8 @@ const STATUS: Record<string, { label: string; tone: "tint" | "fill" | "outline" 
   cancelled: { label: "Ending", tone: "outline" },
 };
 
-export default async function BillingPage() {
-  const { subscription: sub, planPrice, planDraftNote, orders, provider } = await loadBilling();
+export default async function BillingPage({ searchParams }: { searchParams: Promise<{ changed?: string }> }) {
+  const [{ subscription: sub, planPrice, planDraftNote, orders, provider }, { changed }] = await Promise.all([loadBilling(), searchParams]);
   const tier = !sub ? null : sub.planRank >= 2 ? "platinum" : sub.planRank === 1 ? "silver" : "bronze";
   const ending = sub && (sub.cancelAtPeriodEnd || sub.status === "cancelled");
   const status = sub ? STATUS[sub.status] ?? { label: sub.status, tone: "fill" as const } : null;
@@ -27,6 +27,12 @@ export default async function BillingPage() {
   return (
     <div className="com-page">
       <LargeTitle title="Billing" eyebrow="You" leading={<IconButton icon="back" label="Back to You" href="/you" size="sm" />} />
+
+      {changed && (
+        <p className="com-billing-note lq-t15" role="status">
+          <Icon name="check" size="xs" /> Your plan is changed. The difference for the rest of this period is charged now, and you renew at the new price.
+        </p>
+      )}
 
       <Glass as="section" radius="card" className="com-plan-hero com-billing-hero" aria-labelledby="plan-h">
         <div className="com-plan-medal-wrap">
