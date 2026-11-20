@@ -8,7 +8,7 @@ import { AudioList, Markdown } from "@/components/course/LessonBody";
 import { LessonVideoB } from "@/components/lesson-b/LessonVideoB";
 import { NotesB, keyPoints } from "@/components/lesson-b/NotesB";
 import { announceProgress } from "@/components/you/CelebrationHost";
-import { Button, Icon, useToast } from "@/components/ui";
+import { Icon, useToast } from "@/components/ui";
 import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
 import { KIND_LABEL, buildChapters, chapterProgress, signatureOf, type SeriesItem } from "@/lib/series";
 import type { SeriesLessonData } from "@/lib/loaders/series";
@@ -21,8 +21,8 @@ type Clip = VideoRef & { title: string };
 /**
  * Lesson view for the journeys-b programs: the player on top with this chapter's lessons as a
  * playlist beside it (desktop) or a strip under it (phone). A lesson's extra videos play in the
- * main player; other lessons open in place and the player scrolls into view. Notes below, then
- * previous / next. Stays mounted between lessons (no flash): only the content changes.
+ * main player; other lessons open in place and the player scrolls into view. Notes below. Previous · complete / next
+ * sit at the foot of the playlist (desktop) or in a fixed bottom bar (phone). Stays mounted between lessons (no flash): only the content changes.
  */
 export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData; preview?: { href: string } | null }) {
   const { data, media, note } = home;
@@ -141,6 +141,13 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
     if (next) go(next.id);
     else toast(`${data.program.name} complete`, { tone: "success", icon: "check" });
   };
+  const markOnly = async () => {
+    if (busy) return;
+    setBusy(true);
+    const ok = await complete("button");
+    setBusy(false);
+    if (ok && !next) toast(`${data.program.name} complete`, { tone: "success", icon: "check" });
+  };
   const undo = async () => {
     if (!item || !lesson) return;
     setDone(item.id, false);
@@ -208,7 +215,39 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
   const hide = new Set([lesson?.title ?? "", ...videos.map((v) => v.title)].filter(Boolean));
   const fallback = item?.thumb ?? item?.photo.src ?? data.program.cover.src;
   const playKey = `${lesson?.id}:${clip?.providerId ?? "none"}`;
-  const primaryLabel = isIntro ? (countable.some((i) => i.done) ? "Continue" : "Begin") : next ? (isDone ? "Next" : "Complete & next") : isDone ? "All done" : "Complete";
+
+  /* Fixed controls (client: complete + next always in the same place): foot of the playlist on
+     desktop, bottom bar on phone. prev · main · next keep fixed sizes so nothing shifts. */
+  const nextChapter = next ? chapters.findIndex((c) => c.items.some((i) => i.id === next.id)) !== chapterIdx : false;
+  const programHref = `/programs/${slug}/course`;
+  const mainBtn = preview ? (
+    <Link href={preview.href} className="srp-ctl-main" data-tone="go"><Icon name="lock" size="xs" /><span>Get full access</span></Link>
+  ) : isIntro ? (
+    <button type="button" className="srp-ctl-main" data-tone="go" onClick={() => void primary()}>
+      <span>{countable.some((i) => i.done) ? "Continue" : "Begin"}</span><Icon name="arrowRight" size="xs" />
+    </button>
+  ) : !isDone ? (
+    <button type="button" className="srp-ctl-main" aria-busy={busy || undefined} disabled={busy} onClick={() => void markOnly()}>
+      <Icon name="check" size="xs" /><span>Mark complete</span>
+    </button>
+  ) : next ? (
+    <button type="button" className="srp-ctl-main" data-tone="go" onClick={() => go(next.id)}>
+      <span>{nextChapter ? "Next chapter" : "Next lesson"}</span><Icon name="arrowRight" size="xs" />
+    </button>
+  ) : (
+    <Link href={programHref} className="srp-ctl-main" data-done=""><span>Back to program</span></Link>
+  );
+  const controls = (
+    <div className="srp-ctl">
+      <button type="button" className="srp-ctl-step" disabled={!prev} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
+        <Icon name="arrowLeft" size="sm" />
+      </button>
+      {mainBtn}
+      <button type="button" className="srp-ctl-step" data-dir="next" disabled={!next} onClick={() => next && go(next.id)} aria-label={next ? `Next: ${next.title}` : "No next lesson"}>
+        <Icon name="arrowRight" size="sm" />
+      </button>
+    </div>
+  );
 
   const chapterItems = chapter?.items.filter((i) => i.kind !== "welcome") ?? [];
   const posInChapter = item ? chapterItems.findIndex((i) => i.id === item.id) : -1;
@@ -236,8 +275,6 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
           {isIntro ? "Start here" : `${chapter?.label ?? ""}${posInChapter >= 0 ? ` · ${KIND_LABEL[item!.kind] === "Lesson" ? "Lesson" : KIND_LABEL[item!.kind]} ${posInChapter + 1} of ${chapterItems.length}` : ""}`}
         </span>
         <span className="srp-tools">
-          <button type="button" className="srp-icon" aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"} disabled={!prev} onClick={() => prev && go(prev.id)}><Icon name="arrowLeft" size="xs" /></button>
-          <button type="button" className="srp-icon" aria-label={next ? `Next: ${next.title}` : "No next lesson"} disabled={!next} onClick={() => next && go(next.id)}><Icon name="arrowRight" size="xs" /></button>
           <button type="button" className="lb-toggle srp-only-desk" aria-pressed={focus} onClick={() => setFocus((f) => !f)}>
             <Icon name={focus ? "close" : "fullscreen"} size="xs" />{focus ? "Exit focus" : "Focus"}
           </button>
@@ -308,9 +345,6 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
             <h1 className="srp-title">{title}</h1>
             {clipIdx > 0 && clip && <p className="sr-muted">Now playing: {clip.title}</p>}
             <div className="srp-acts">
-              {!preview && <Button variant={isDone && !next ? "secondary" : "filled"} size="md" iconAfter={next || isIntro ? "arrowRight" : "check"} onClick={() => void primary()} disabled={busy || (isDone && !next)} aria-busy={busy || undefined}>
-                {primaryLabel}
-              </Button>}
               {talk && (clip || parsed.directVideo) && (
                 <button type="button" className="lb-toggle" aria-pressed={audio} onClick={() => setAudio((a) => !a)}>
                   <Icon name="speaker" size="xs" />{audio ? "Show video" : "Audio only"}
@@ -324,6 +358,7 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
         </div>
 
         <aside className="srp-list" aria-label="Playlist">
+          <div className="srp-list-in">
           {videos.length > 1 && (
             <div className="srp-sec">
               <p className="srp-sec-h">In this lesson · {videos.length} videos</p>
@@ -374,6 +409,8 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
               <p className="sr-muted srp-soon"><Icon name="lock" size="xs" /> {shown?.soon ?? "Opening soon"}</p>
             )}
           </div>
+          </div>
+          <div className="srp-foot">{controls}</div>
         </aside>
 
         <div className="srp-notes">
@@ -395,22 +432,9 @@ export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData;
               <Markdown source={parsed.body} hide={hide} />
             </details>
           )}
-          <nav className="srp-pn" aria-label="Previous and next">
-            {prev ? (
-              <Link href={`/programs/${slug}/course/${prev.id}`} scroll={false} className="srp-pn-a lq-press" prefetch>
-                <Icon name="arrowLeft" size="xs" />
-                <span><small>Previous</small><b className="srp-ellipsis">{prev.title}</b></span>
-              </Link>
-            ) : <span />}
-            {next && (
-              <Link href={`/programs/${slug}/course/${next.id}`} scroll={false} className="srp-pn-a lq-press" data-dir="next" prefetch>
-                <span><small>Next</small><b className="srp-ellipsis">{next.title}</b></span>
-                <Icon name="arrowRight" size="xs" />
-              </Link>
-            )}
-          </nav>
         </div>
       </div>
+      <div className="srp-dock" aria-label="Lesson controls">{controls}</div>
     </div>
   );
 }
