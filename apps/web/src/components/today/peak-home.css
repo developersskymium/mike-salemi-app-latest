@@ -149,3 +149,15 @@
   .pk-tile, .pk-tile-ph img { transition: none; }
   .pk-tile:hover, .pk-tile:hover .pk-tile-ph img { transform: none; }
 }
+
+/* Client, Nov 21: calmer scale. Hero shorter with a smaller title; program tiles keep card proportions
+   (fixed columns, never one full-width tile when only one program is enrolled). */
+.pk-hero { min-height: 380px; }
+.pk-hero .sh-hero-t { font-size: clamp(36px, 4.2vw, 60px); line-height: 1; margin: 14px 0 10px; }
+@media (max-width: 719px) { .pk-hero { min-height: 440px; } .pk-hero .sh-hero-t { font-size: 36px; } }
+.pk-tiles, .pk-tiles[data-n="1"], .pk-tiles[data-n="2"], .pk-tiles[data-n="3"], .pk-tiles[data-n="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1099px) { .pk-tiles, .pk-tiles[data-n] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 719px) { .pk-tiles, .pk-tiles[data-n] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pk-tile { aspect-ratio: 4 / 5; min-height: 0; }
+.pk-tiles[data-n] .pk-tile { aspect-ratio: 4 / 5; }
+@media (max-width: 719px) { .pk-tiles[data-n="1"] > li { flex-basis: 74%; } }
