@@ -6,6 +6,7 @@ import type { RunHub } from "@/lib/loaders/commerce";
 import { retreatSteps, type RetreatStage } from "@/lib/retreat-stage";
 import { CallPicker } from "./CallPicker";
 import { RetreatSteps } from "./RetreatSteps";
+import { Countdown } from "./Countdown";
 
 const day = (iso: string, tz: string) => new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: tz }).format(new Date(iso));
 const callWhen = (iso: string, tz: string) => new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: tz, timeZoneName: "short" }).format(new Date(iso));
@@ -42,7 +43,10 @@ export function BookingCard({ hub, stage }: { hub: RunHub; stage: RetreatStage }
       <dl className="rt-book-dates">
         <div><dt>Arrive</dt><dd className="lq-num">{day(run.starts_at, run.timezone)}</dd></div>
         <div><dt>Depart</dt><dd className="lq-num">{run.ends_at ? day(run.ends_at, run.timezone) : "—"}</dd></div>
-        <div className="rt-book-wide"><dt>Group</dt><dd>{run.capacity ? `${run.capacity} men maximum` : "Small group"}{run.details.duration_label ? ` · ${run.details.duration_label}` : ""}</dd></div>
+        <div className="rt-book-wide"><dt>Group</dt><dd>{run.capacity ? `${run.capacity} men maximum` : "Small group"}{run.details.nights ? ` · ${run.details.nights} nights` : run.details.duration_label ? ` · ${run.details.duration_label}` : ""}</dd></div>
+        {hub.seatsLeft != null && run.capacity && ["sales", "applied", "call", "review", "pay"].includes(stage) && (
+          <div className="rt-book-wide"><dt>Places</dt><dd className="lq-num" data-few={hub.seatsLeft <= 3 ? "" : undefined}>{hub.seatsLeft === 0 ? "Full · waitlist open" : hub.seatsLeft <= 3 ? `Only ${hub.seatsLeft} left` : `${hub.seatsLeft} of ${run.capacity} left`}</dd></div>
+        )}
       </dl>
 
       {stage === "sales" && (
@@ -80,8 +84,9 @@ export function BookingCard({ hub, stage }: { hub: RunHub; stage: RetreatStage }
         <div className="rt-book-act" id="pay">
           <div className="rt-book-msg" data-tone="ok" role="status">
             <Icon name="check" size="sm" />
-            <div><b>You&rsquo;re approved</b><p>Confirm your place to open your retreat hub: countdown, preparation, travel and the group.</p></div>
+            <div><b>You&rsquo;re approved</b><p>Confirm your place to open your retreat hub: the pre-retreat program, packing list, travel and the group.</p></div>
           </div>
+          <div className="rtp-book-count"><span className="lq-t12 lq-c2">Until the mountain</span><Countdown startsAt={run.starts_at} endsAt={run.ends_at} /></div>
           {hub.quote?.state === "purchasable" && (
             <div className="rt-book-total">
               <span>Total</span>
@@ -102,7 +107,7 @@ export function BookingCard({ hub, stage }: { hub: RunHub; stage: RetreatStage }
       {stage === "sales" && (
         <ul className="rt-book-trust" role="list">
           <li><Icon name="people" size="xs" />Capped at {run.capacity ?? 20} men</li>
-          <li><Icon name="sparkle" size="xs" />Preparation program included</li>
+          <li><Icon name="sparkle" size="xs" />Pre-retreat program included · 6 videos</li>
         </ul>
       )}
     </Glass>

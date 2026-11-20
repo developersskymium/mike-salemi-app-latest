@@ -10,6 +10,7 @@ import type { RetreatStage } from "@/lib/retreat-stage";
 import { BookingBar, BookingCard } from "./BookingCard";
 import { Faq } from "./RunParts";
 import { PhotoTour } from "./PhotoTour";
+import { Guides, Included, Timeline } from "./RetreatParts";
 
 /* ------------------------------------------------------------------ helpers shared with the hub */
 
@@ -159,7 +160,6 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
   const place = run.location.city ? `${run.location.city}, ${run.location.region === "California" ? "California" : run.location.region ?? ""}` : run.location.label ?? "";
   const venue = photoFor(photos, ["venue", "golden"], 1);
   const pick = photoPicker(photos);
-  const rhythm = about.rhythm;
   const fac = d.facilitators ?? [];
   const mike = fac.find((f) => /mike/i.test(f.name));
 
@@ -234,31 +234,9 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
             </Section>
           )}
 
-          {rhythm && (
-            <Section id="rhythm" eyebrow="Every day" title="The daily rhythm">
-              <ol className="rt-rhythm" role="list">
-                {[
-                  { k: "Morning", t: "Move", w: ["qi gong", "sunrise"], s: "Qi Gong and team training to wake the body." },
-                  { k: "Afternoon", t: "Go inward", w: ["breathwork", "maloca", "circle room"], s: "Breathwork, ceremony and the deeper work." },
-                  { k: "Evening", t: "Fire, food and circle", w: ["fire", "meals"], s: "Shared meals and the fire, every night." },
-                ].map((r) => {
-                  const ph = pick(r.w);
-                  return (
-                    <li key={r.k} className="rt-rhythm-item">
-                      <div className="rt-rhythm-photo">{ph && <Image src={ph.url} alt={ph.caption} fill sizes="(min-width: 1024px) 240px, 80vw" />}</div>
-                      <div className="lq-eyebrow" data-tone="warm">{r.k}</div>
-                      <b className="lq-d-xs">{r.t}</b>
-                      <span className="lq-t13 lq-c2">{r.s}</span>
-                    </li>
-                  );
-                })}
-              </ol>
-            </Section>
-          )}
-
           {hub.itinerary.length > 0 && (
             <Section id="days" eyebrow="Day by day" title={`How the ${byDay(hub.itinerary).length === 4 ? "four " : ""}days unfold`}>
-              <DayCards hub={hub} photos={photos} picker={pick} />
+              <Timeline hub={hub} photos={byDay(hub.itinerary).map((_, n) => pick(DAY_PICK_WORDS[n] ?? []))} startsAt={run.starts_at} tz={run.timezone} />
             </Section>
           )}
 
@@ -273,6 +251,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
                 <ul className="rt-where-list" role="list">
                   {d.accommodation && <li><Icon name="moon" size="sm" /><span><b>Stay</b> {d.accommodation}</span></li>}
                   {d.travel && <li><Icon name="route" size="sm" /><span><b>Getting there</b> {d.travel}</span></li>}
+                  {d.travel_time && <li><Icon name="map" size="sm" /><span><b>Travel time</b> {d.travel_time}</span></li>}
                   <li><Icon name="clock" size="sm" /><span><b>Time zone</b> {run.timezone.replace("America/", "").replace("_", " ")} (Pacific)</span></li>
                 </ul>
                 {run.location.map_query && (
@@ -305,23 +284,13 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
           </Section>
 
           {fac.length > 0 && (
-            <Section id="fac" eyebrow="Who holds the space" title="Your facilitators">
-              <Facilitators people={fac} />
+            <Section id="fac" eyebrow="Who holds the space" title="Your guides">
+              <Guides people={fac} />
             </Section>
           )}
 
-          <Section id="incl" eyebrow="What your place includes" title="Before, during and after">
-            <ul className="rt-incl" role="list">
-              {hub.prepProgram && (
-                <li><span className="rt-incl-i"><Icon name="play" size="sm" /></span><div><b>{hub.prepProgram.name}</b><span className="lq-c2">{hub.prepProgram.lessons} lessons of breathwork and meditation. Opens about three months before the retreat.</span></div></li>
-              )}
-              {d.accommodation && <li><span className="rt-incl-i"><Icon name="heart" size="sm" /></span><div><b>Stay and every meal</b><span className="lq-c2">{d.accommodation}</span></div></li>}
-              {d.travel && /pickup/i.test(d.travel) && <li><span className="rt-incl-i"><Icon name="route" size="sm" /></span><div><b>Airport pickup</b><span className="lq-c2">On Day I.</span></div></li>}
-              {(d.aftercare ?? []).filter((x) => !/preparation/i.test(x)).map((x) => {
-                const [head, ...rest] = x.split(" — ");
-                return <li key={x}><span className="rt-incl-i"><Icon name="check" size="sm" /></span><div><b>{head}</b>{rest.length > 0 && <span className="lq-c2">{rest.join(" — ")}</span>}</div></li>;
-              })}
-            </ul>
+          <Section id="incl" eyebrow="What your place includes" title="Included, and not" aside={<DraftChip note={d.copy_draft_note} />}>
+            <Included hub={hub} />
           </Section>
 
           {d.faq?.length ? (

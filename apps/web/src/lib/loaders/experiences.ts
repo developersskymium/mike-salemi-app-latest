@@ -29,7 +29,15 @@ export interface RetreatCard {
   /** Up to four real (non-stock) photos for the card carousel. */
   photos?: string[];
   price?: { amountCents: number; currency: string; compareLabel: string | null; draftNote: string | null } | null;
+  /** Nights on the land (details.nights). */
+  nights?: number | null;
+  /** Places left (capacity minus accepted/booked), from public.run_seats(). */
+  seatsLeft?: number | null;
+  /** "1 hr from Redding airport (RDD)" (details.travel_time). */
+  travelTime?: string | null;
+  mapQuery?: string | null;
 }
+export interface RetreatTestimonial { name: string; line: string; videoUrl: string; poster: string | null }
 export interface RetreatsData {
   program: { slug: string; name: string; tagline: string | null } | null;
   runs: RetreatCard[];
@@ -37,6 +45,12 @@ export interface RetreatsData {
   tracksDraftNote?: string | null;
   pillars?: string[];
   pillarsDraftNote?: string | null;
+  /** First lesson of the pre-retreat program, open to everyone as a taste ("Watch Pillar 1 free"). */
+  pillarPreview?: { href: string; title: string; lessons: number } | null;
+  /** 30-second clip from a past retreat (programs.meta.testimonial); hidden until Mike adds one. */
+  testimonial?: RetreatTestimonial | null;
+  /** Booking link for a 15-minute questions call (programs.meta.question_call_url); otherwise a request form. */
+  questionCallUrl?: string | null;
 }
 
 async function realRetreats(): Promise<RetreatsData> {
@@ -44,27 +58,34 @@ async function realRetreats(): Promise<RetreatsData> {
   const { data: programs } = await sb.from("programs").select("id, slug, name, tagline, meta").eq("type", "retreat").eq("status", "published").order("position");
   const ids = (programs ?? []).map((p) => p.id);
   if (!ids.length) return { program: null, runs: [] };
-  const [{ data: runs }, { data: apps }, { data: prep }] = await Promise.all([
+  const [{ data: runs }, { data: apps }, { data: prep }, { data: firstLesson }] = await Promise.all([
     sb.from("program_runs").select("id, name, status, starts_at, ends_at, timezone, capacity, draft_note, details, location, gallery").in("program_id", ids).neq("status", "draft").neq("status", "cancelled").order("starts_at", { ascending: false }),
     user ? sb.from("run_applications").select("run_id, status, call_at, call_done_at").eq("user_id", user.id) : Promise.resolve({ data: [] as { run_id: string; status: string; call_at: string | null; call_done_at: string | null }[] }),
     sb.from("programs").select("meta").eq("slug", "men-of-movement").maybeSingle(),
+    sb.from("lessons").select("id, title, programs!inner(slug)").eq("programs.slug", "men-of-movement").neq("title", "Home").order("position").limit(1).maybeSingle(),
   ]);
   const runIds = (runs ?? []).map((r) => r.id);
+  const { data: seats } = runIds.length ? await sb.rpc("run_seats" as never, { p_runs: runIds } as never) : { data: [] as { run_id: string; seats_left: number | null }[] };
+  const seatsBy = new Map(((seats ?? []) as { run_id: string; seats_left: number | null }[]).map((x) => [x.run_id, x.seats_left]));
   const { data: prices } = runIds.length
     ? await sb.from("prices").select("ref_id, amount_cents, currency, draft_note").eq("kind", "run").in("ref_id", runIds).eq("interval", "one_time")
     : { data: [] as { ref_id: string; amount_cents: number; currency: string; draft_note: string | null }[] };
   const mine = new Map((apps ?? []).map((a) => [a.run_id, a]));
   const p = programs![0]!;
-  const pmeta = (p.meta ?? {}) as { tracks?: { name: string; focus: string; venue: string }[]; tracks_draft_note?: string; pillars_draft_note?: string };
+  const pmeta = (p.meta ?? {}) as { tracks?: { name: string; focus: string; venue: string }[]; tracks_draft_note?: string; pillars_draft_note?: string; testimonial?: { name?: string; line?: string; video_url?: string; poster?: string }; question_call_url?: string };
+  const t = pmeta.testimonial;
   return {
     program: { slug: p.slug, name: p.name, tagline: p.tagline },
     tracks: pmeta.tracks ?? [],
     tracksDraftNote: pmeta.tracks_draft_note ?? null,
     pillars: ((prep?.meta ?? {}) as { pillars?: string[] }).pillars ?? [],
     pillarsDraftNote: pmeta.pillars_draft_note ?? null,
+    pillarPreview: firstLesson ? { href: `/programs/men-of-movement/course/${firstLesson.id}`, title: firstLesson.title, lessons: 6 } : null,
+    testimonial: t?.video_url ? { name: t.name ?? "", line: t.line ?? "", videoUrl: t.video_url, poster: t.poster ?? null } : null,
+    questionCallUrl: pmeta.question_call_url ?? null,
     runs: (runs ?? []).map((r) => {
-      const d = (r.details ?? {}) as { season?: string; tagline?: string; cover?: string; track?: string; duration_label?: string; price_compare_label?: string };
-      const loc = (r.location ?? {}) as { label?: string; city?: string };
+      const d = (r.details ?? {}) as { season?: string; tagline?: string; cover?: string; track?: string; duration_label?: string; price_compare_label?: string; nights?: number; travel_time?: string };
+      const loc = (r.location ?? {}) as { label?: string; city?: string; map_query?: string };
       const gallery = (r.gallery ?? []) as { url: string; stock?: boolean }[];
       const real = gallery.filter((g) => !g.stock).map((g) => g.url);
       const cover = d.cover ?? real[0] ?? null;
@@ -76,15 +97,21 @@ async function realRetreats(): Promise<RetreatsData> {
         mine: a?.status ?? null, mineCallAt: a?.call_at ?? null, mineCallDone: Boolean(a?.call_done_at),
         track: d.track ?? null, durationLabel: d.duration_label ?? null,
         photos: [...new Set([cover, ...real].filter(Boolean) as string[])].slice(0, 4),
+        nights: d.nights ?? null, seatsLeft: seatsBy.get(r.id) ?? null, travelTime: d.travel_time ?? null, mapQuery: loc.map_query ?? null,
         price: price ? { amountCents: price.amount_cents, currency: price.currency, compareLabel: d.price_compare_label ?? null, draftNote: price.draft_note } : null,
       };
     }).sort((a, b) => Number(a.status === "past") - Number(b.status === "past") || a.starts_at.localeCompare(b.starts_at)),
   };
 }
 
-/** Retreats index. Local preview: `fixtures/commerce-retreats.json` (real runs). */
+/** Upcoming only (spec 11 #15): past and finished runs never list. */
+export const isUpcoming = (r: Pick<RetreatCard, "status" | "starts_at" | "ends_at">, now = Date.now()) =>
+  r.status !== "past" && Date.parse(r.ends_at ?? r.starts_at) > now;
+
+/** Retreats index, upcoming runs only. Local preview: `fixtures/commerce-retreats.json` (sample states). */
 export async function loadRetreats(): Promise<RetreatsData> {
-  return MOCK ? fixture<RetreatsData>("commerce-retreats") : realRetreats();
+  const d = MOCK ? await fixture<RetreatsData>("commerce-retreats") : await realRetreats();
+  return { ...d, runs: d.runs.filter((r) => isUpcoming(r)) };
 }
 
 /* ================================================================ Concept / experience program page (legacy L3) */
