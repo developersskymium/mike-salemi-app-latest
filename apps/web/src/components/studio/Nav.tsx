@@ -12,9 +12,9 @@ const GROUPS: { g?: string; items: { href: string; label: string; icon: IconName
     { href: "/studio/library", label: "Library", icon: "library" },
   ] },
   { g: "Business", items: [
-    { href: "/studio/commerce", label: "Commerce", icon: "bookmark" },
+    { href: "/studio/commerce", label: "Commerce", icon: "shop" },
     { href: "/studio/offers", label: "Offers", icon: "sparkle" },
-    { href: "/studio/experiences", label: "Experiences", icon: "mountain" },
+    { href: "/studio/experiences", label: "Experiences", icon: "retreats" },
   ] },
   { g: "People", items: [
     { href: "/studio/members", label: "Members", icon: "you" },
@@ -23,8 +23,11 @@ const GROUPS: { g?: string; items: { href: string; label: string; icon: IconName
   { g: "Site", items: [
     { href: "/studio/site", label: "Site copy", icon: "display" },
     { href: "/studio/notices", label: "Notices", icon: "bell" },
-    { href: "/studio/emails", label: "Emails", icon: "share" },
+    { href: "/studio/emails", label: "Emails", icon: "file" },
     { href: "/studio/settings", label: "Settings", icon: "settings" },
+  ] },
+  { g: "Design", items: [
+    { href: "/studio/design", label: "Design system", icon: "grid" },
   ] },
 ];
 
@@ -37,7 +40,7 @@ export function StudioNav() {
         <div key={i} style={{ display: "contents" }}>
           {grp.g && <div className="st-nav-g">{grp.g}</div>}
           {grp.items.map((it) => (
-            <Link key={it.href} href={it.href} aria-current={active(it.href) ? "page" : undefined}>
+            <Link key={it.href} href={it.href} prefetch aria-current={active(it.href) ? "page" : undefined}>
               <Icon name={it.icon} size="sm" />
               {it.label}
             </Link>

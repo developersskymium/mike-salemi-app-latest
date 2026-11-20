@@ -1,14 +1,13 @@
 import { PublicFooter, PublicNav } from "@/components/discover/public/PublicChrome";
-import { getUser } from "@/lib/supabase/server";
-import "@/components/discover/discover.css";
+import { publicViewer } from "@/lib/loaders/public";
 
-/** Public site frame: floating glass nav, page, footer. */
+/** Public site frame: chalk top bar, page, footer. Sales pages put their hero under the bar. */
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const { user } = await getUser();
+  const { signedIn } = await publicViewer();
   return (
-    <div className="dsc-public">
-      <PublicNav signedIn={Boolean(user)} />
-      <main id="main" className="dsc-public-main">{children}</main>
+    <div className="pub">
+      <PublicNav signedIn={signedIn} />
+      <main id="main" className="pub-main">{children}</main>
       <PublicFooter />
     </div>
   );

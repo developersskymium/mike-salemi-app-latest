@@ -53,10 +53,11 @@ export function DataTable<R>({ cols, rows, empty = "Nothing here yet." }: { cols
   );
 }
 
-const TONE: Record<string, "tint" | "fill" | "outline" | "glass"> = { published: "tint", active: "tint", open: "tint", accepted: "tint", upcoming: "fill", draft: "outline", archived: "outline", past: "outline", cancelled: "outline", submitted: "fill" };
+/** Status chips: green = live, glacier = scheduled, ember = waiting on someone, outline = draft, sunk = done/past. */
+const TONE: Record<string, "ok" | "tint" | "warm" | "fill" | "outline"> = { published: "ok", active: "ok", open: "ok", accepted: "ok", paid: "ok", sent: "ok", upcoming: "tint", scheduled: "tint", submitted: "warm", pending: "warm", waitlist: "warm", draft: "outline", archived: "fill", past: "fill", cancelled: "fill", rejected: "fill" };
 export function Status({ v }: { v: string | null | undefined }) {
   if (!v) return null;
-  return <Chip variant={TONE[v] ?? "fill"}>{v.replace(/_/g, " ")}</Chip>;
+  return <Chip size="sm" variant={TONE[v] ?? "fill"}>{v.replace(/_/g, " ")}</Chip>;
 }
 
 export function Stat({ n, label }: { n: ReactNode; label: string }) {

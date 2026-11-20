@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/env";
 
 /** Public routes anyone can open. Everything else needs a session. */
-const PUBLIC_PREFIXES = ["/", "/signin", "/signup", "/auth", "/explore", "/pricing", "/verify", "/legal", "/join", "/api/stripe/webhook", "/api/revenuecat/webhook", "/api/internal", "/api/cron", "/sw.js", "/gallery", "/graphics-preview"]; // previews: remove before launch
+const PUBLIC_PREFIXES = ["/", "/signin", "/signup", "/auth", "/explore", "/pricing", "/verify", "/legal", "/join", "/api/stripe/webhook", "/api/revenuecat/webhook", "/api/internal", "/api/cron", "/sw.js"]; // /gallery and /graphics-preview are admin-only (Studio › Design)
 
 function isPublic(pathname: string) {
   if (pathname === "/") return true;
