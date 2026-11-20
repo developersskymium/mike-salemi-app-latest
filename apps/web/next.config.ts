@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "i.vimeocdn.com" },
       { protocol: "https", hostname: "*.supabase.co" },
+      { protocol: "https", hostname: "assets.cdn.filesafe.space" },
     ],
   },
   poweredByHeader: false,

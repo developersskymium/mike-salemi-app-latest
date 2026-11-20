@@ -1,0 +1,13 @@
+{
+  "goal_kind": "strength",
+  "target_date": "2027-01-29",
+  "days_per_week": 3,
+  "training_days": [1, 3, 5],
+  "session_minutes": 45,
+  "equipment": ["Two kettlebells (a pair)", "Mat and floor space"],
+  "bell_weights": "16 kg, 20 kg pair",
+  "kb_experience": 1,
+  "kb_level": "intermediate",
+  "focus_areas": ["Strength", "Flexibility/Mobility"],
+  "limitations": "Left shoulder gets sore with heavy overhead work."
+}

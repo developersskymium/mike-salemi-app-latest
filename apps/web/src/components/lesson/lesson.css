@@ -1,0 +1,38 @@
+/* Shared lesson-page pieces (spec 12 lesson ideas). Calm: hairlines, radius 20, no resting shadows. */
+.lx-card { border: 1px solid var(--line); border-radius: 20px; background: var(--surface); padding: 16px 18px; margin: 16px 0 0; }
+.lx-eyebrow { margin: 0; font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
+.lx-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.lx-points ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.lx-points li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: var(--text); }
+.lx-points li svg { flex: none; margin-top: 3px; color: var(--accent); }
+.lx-notes textarea, .lx-reflect textarea { width: 100%; margin-top: 10px; resize: vertical; min-height: 76px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-sunk); color: var(--text); font: inherit; font-size: 15px; line-height: 1.45; padding: 10px 12px; }
+.lx-notes textarea:focus, .lx-reflect textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lx-save { font-size: 12.5px; color: var(--text-3); }
+.lx-reflect-q { all: unset; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; width: 100%; align-items: center; }
+.lx-reflect-q .lx-eyebrow { grid-column: 1; }
+.lx-reflect-q b, .lx-reflect-t { display: block; font-weight: 600; font-size: 15px; color: var(--text); }
+.lx-reflect-q svg { grid-row: 1 / span 2; grid-column: 2; color: var(--text-3); }
+.lx-reflect .lx-row { margin-top: 10px; justify-content: flex-end; }
+.lx-reflect-done { display: flex; align-items: center; gap: 8px; color: var(--ok); font-weight: 600; font-size: 14px; }
+.lx-btn { height: 36px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.lx-btn[data-primary] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.lx-btn:disabled { opacity: .5; cursor: default; }
+.lx-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+.lx-chip { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; font-size: 13.5px; font-weight: 600; max-width: 100%; }
+.lx-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lx-chip svg { color: var(--accent); flex: none; }
+.lx-tog { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--text-2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.lx-tog[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink, var(--accent)); border-color: var(--accent); }
+.lx-resumed { position: absolute; left: 12px; top: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 99px; background: rgba(10, 12, 15, .62); color: #fff; font-size: 12.5px; font-weight: 600; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: lx-fade 2.2s ease forwards; pointer-events: none; }
+@keyframes lx-fade { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
+.lx-next { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; padding: 12px 14px; border-radius: 20px; border: 1px solid var(--warm); background: var(--warm-soft); }
+.lx-next-ring { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--warm); color: #fff; font-weight: 800; }
+.lx-next-c { display: grid; gap: 1px; flex: 1; min-width: 0; }
+.lx-next-c small { font-size: 12.5px; color: var(--warm-ink); font-weight: 600; }
+.lx-next-c b { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 560px) { .lx-next { flex-wrap: wrap; } .lx-next-c { flex-basis: calc(100% - 50px); } }
+@media (prefers-reduced-motion: reduce) { .lx-resumed { animation: none; } }
+/* Audio-only: keep the iframe playing, collapse it to a slim strip. */
+[data-audio-only] .crs-video { aspect-ratio: auto; height: 64px; overflow: hidden; }
+[data-audio-only] .crs-video iframe, [data-audio-only] .crs-video video { opacity: 0; }
+[data-audio-only] .crs-video::after { content: "Audio only · playing"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 13.5px; font-weight: 600; color: var(--text-2); background: var(--surface-sunk); pointer-events: none; }

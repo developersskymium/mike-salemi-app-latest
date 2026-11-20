@@ -40,5 +40,6 @@ export default async function CoursePage({ params, searchParams }: Props) {
   // MTK with a plan: My Plan is the home unless a lesson or the full curriculum was asked for.
   if (slug === MTK_SLUG && token === "resume" && !mode && data.mtk?.plan) redirect("/mtk");
   if (data.locked) return <CourseLocked data={data} />;
-  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} />;
+  const slim = slug === MTK_SLUG ? "mtk" : slug === "athleticism-4-life" ? "a4l" : undefined;
+  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} slim={slim} />;
 }

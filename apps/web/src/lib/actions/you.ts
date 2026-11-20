@@ -1,6 +1,6 @@
 "use server";
 
-import { logReferralShare, myRewards, type DB, type ShareChannel } from "@ms/api";
+import { evaluateMyBadges, logReferralShare, myRewards, type DB, type ShareChannel } from "@ms/api";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -8,7 +8,7 @@ export type YouResult<T = void> = { ok: true; data: T } | { ok: false; error: st
 
 export interface AchievementSnapshot {
   userId: string;
-  badges: { id: string; name: string; tier: "bronze" | "silver" | "gold" | "platinum"; icon: string | null; description: string; earned_at: string }[];
+  badges: { id: string; name: string; tier: "bronze" | "silver" | "gold" | "platinum"; icon: string | null; description: string; earned_at: string; medal_color?: string | null }[];
   certificates: { id: string; program: string; path: string | null; issued_at: string }[];
   /** Programs where every level (path) has a certificate: the "program complete" milestone. */
   programsComplete: { id: string; slug: string; name: string }[];
@@ -26,6 +26,8 @@ export async function syncAchievements(): Promise<YouResult<AchievementSnapshot>
     const { supabase, user } = await getUser();
     if (!user) return { ok: false, error: "signed_out" };
     const sb = supabase as unknown as DB;
+    // Award anything now due (badge rules run server-side for the caller only), then read.
+    await evaluateMyBadges(sb).catch(() => []);
     const [rewards, badges, certs, paths] = await Promise.all([
       myRewards(sb),
       sb.from("badges").select("id, description").then((r) => r.data ?? []),

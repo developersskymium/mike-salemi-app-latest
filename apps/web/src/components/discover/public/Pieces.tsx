@@ -15,7 +15,7 @@ export function Photo({ p, sizes, priority, className, style, children }: { p: P
   );
 }
 
-/** Public wordmark: the bell in an ink tile, "Mike Salemi", a quiet sub line. */
+/** Public wordmark: the bell in an ink tile and "Mike Salemi" (no sub line: the brand is just his name). */
 export function PubWordmark({ onPhoto, href = "/" }: { onPhoto?: boolean; href?: string }) {
   return (
     <Link href={href} className="pub-wordmark" data-on-photo={onPhoto ? "" : undefined} aria-label="Mike Salemi, home">
@@ -24,7 +24,6 @@ export function PubWordmark({ onPhoto, href = "/" }: { onPhoto?: boolean; href?:
       </span>
       <span>
         <b>Mike Salemi</b>
-        <small>Kettlebell · Movement</small>
       </span>
     </Link>
   );
