@@ -18,7 +18,7 @@ import "./journeys.css";
  * choice (both open any time, "Recommended for you" from the intake), the Immersion weeks navigator
  * and a calm way into Self-Guided. The full Self-Guided board lives at `?mode=self-guided`.
  */
-export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode }) {
+export function KblHome({ data, board, recommendedKey, offer, levelSwitch, badges }: { data: ProgramPageData; board: BoardData | null; recommendedKey: string | null; offer?: ReactNode; levelSwitch?: ReactNode; badges?: ReactNode }) {
   const { program, path, paths, sections, lessons, progress, enrollment, resources } = data;
   const locked = data.locked || program.access === "locked";
   const slug = program.slug;
@@ -47,8 +47,7 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
   const started = progress.some((p) => p.doneSteps > 0);
 
   let cta: ReactNode;
-  if (locked) cta = <Button href={`/explore/${slug}`} icon="lock" size="lg">See access options</Button>;
-  else if (!enrollment) cta = <JoinButton programId={program.id} pathId={path?.id ?? null} name={`${program.name} ${levelName}`} variant="filled" size="lg" label={`Start ${levelName}`} />;
+  if (locked || !enrollment) cta = <JoinButton programId={program.id} pathId={path?.id ?? null} name={program.name} slug={slug} variant="filled" size="lg" label={`Start ${levelName}`} />;
   else if (current) cta = (
     <Button href={href(current)} icon="play" size="lg" variant={started ? "warm" : "filled"}>
       {started ? "Continue" : "Start"} · {here?.label ?? ""}{current.dayNumber != null ? ` · Day ${current.dayNumber}` : ""}
@@ -74,7 +73,7 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
                 introKey={slug}
                 items={[
                   ...(locked ? [] : [{ label: "Self-Guided board", href: `/programs/${slug}?${q}mode=self-guided`, icon: "filter" as const }]),
-                  { label: "Your schedule", href: "/plan", icon: "calendar" as const },
+                  { label: "Schedule", href: `/plan?program=${slug}`, icon: "calendar" as const },
                   { label: "Level intake", href: `/intake/${slug}`, icon: "clipboard" as const },
                 ]}
               />
@@ -107,7 +106,7 @@ export function KblHome({ data, board, recommendedKey, offer, levelSwitch }: { d
 
       <WhatYouGet points={path?.outcomes.length ? path.outcomes : program.highlights ?? []} more={path?.description ?? program.description} />
 
-      {!locked && <BadgeRow badges={progressBadges(dayLessons.length ? doneDays / dayLessons.length : 0, doneDays > 0, { label: "Phase cleared", sub: "Finish every day of a phase", earned: phaseCleared })} />}
+      {badges ?? (!locked && <BadgeRow badges={progressBadges(dayLessons.length ? doneDays / dayLessons.length : 0, doneDays > 0, { label: "Phase cleared", sub: "Finish every day of a phase", earned: phaseCleared })} />)}
 
       {!locked && (
         <Link href={`/programs/${slug}?${path?.key ? `path=${encodeURIComponent(path.key)}&` : ""}mode=self-guided`} className="jh-sg lq-press">

@@ -18,7 +18,7 @@ export const A4L_SLUG = "athleticism-4-life";
  * Main page for MTK (skill tree condensed into a movement strip + My Plan entry) and Athleticism 4
  * Life (training blocks strip with session cards): cover + one action, then the navigator.
  */
-export function CourseHome({ data, offer }: { data: CourseData & { resumeId: string }; offer?: ReactNode }) {
+export function CourseHome({ data, offer, badges, schedule }: { data: CourseData & { resumeId: string }; offer?: ReactNode; badges?: ReactNode; schedule?: ReactNode }) {
   const { program } = data;
   const slug = program.slug;
   const isMtk = Boolean(data.mtk) || slug === "mastering-the-kettlebell";
@@ -46,7 +46,7 @@ export function CourseHome({ data, offer }: { data: CourseData & { resumeId: str
       ]
     : [
         ...(data.intro ? [{ label: "Start here: the introduction", href: href("start"), icon: "play" as const }] : []),
-        { label: "Your schedule", href: "/plan", icon: "calendar" as const },
+        { label: "Schedule", href: `/plan?program=${slug}`, icon: "calendar" as const },
         ...(data.intake ? [{ label: data.intake.done ? "Your program approach" : "Tailor it to you", href: `/intake/${slug}`, icon: "clipboard" as const }] : []),
       ];
   const planDay = plan?.days.find((d) => d.lessonIds.some((id) => !done.has(id))) ?? null;
@@ -54,8 +54,7 @@ export function CourseHome({ data, offer }: { data: CourseData & { resumeId: str
   const nextLabel = nextNode ? (/^day\s*\d+$/i.test(nextNode.title) ? nextNode.title : nextNode.title) : null;
 
   let cta: ReactNode;
-  if (data.locked) cta = <Button href={`/explore/${slug}`} icon="lock" size="lg">See access options</Button>;
-  else if (!data.enrolled && !started) cta = <JoinButton programId={program.id} pathId={null} name={program.name} variant="filled" size="lg" label={`Start ${isMtk ? "MTK" : program.name}`} />;
+  if (data.locked || (!data.enrolled && !started)) cta = <JoinButton programId={program.id} pathId={null} name={program.name} slug={slug} variant="filled" size="lg" label={`Start ${isMtk ? "MTK" : program.name}`} />;
   else if (plan && planDay) cta = <Button href="/mtk" icon="play" variant="warm" size="lg">Continue My Plan · Day {planDay.day}</Button>;
   else if (p.pct >= 1) cta = <Button href={href("start")} icon="repeat" size="lg">Review the course</Button>;
   else if (!started && data.intro) cta = <Button href={href("start")} icon="play" size="lg">Start here</Button>;
@@ -91,6 +90,8 @@ export function CourseHome({ data, offer }: { data: CourseData & { resumeId: str
         </Link>
       )}
 
+      {schedule}
+
       <Navigator
         units={units}
         initialId={here?.id ?? null}
@@ -117,7 +118,7 @@ export function CourseHome({ data, offer }: { data: CourseData & { resumeId: str
 
       <WhatYouGet points={program.highlights} more={program.description ?? program.summary} />
 
-      {!data.locked && <BadgeRow badges={progressBadges(p.pct, p.done > 0, special)} />}
+      {badges ?? (!data.locked && <BadgeRow badges={progressBadges(p.pct, p.done > 0, special)} />)}
 
       {offer && <div className="jh-offer">{offer}</div>}
     </div>

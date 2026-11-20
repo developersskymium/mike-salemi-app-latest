@@ -214,3 +214,14 @@
 @media (max-width: 760px) { .jf-grid { grid-template-columns: 1fr; } }
 .jh-preview { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; }
 @media (max-width: 760px) { .jh-preview { color: var(--accent); } }
+
+/* MTK: add My Plan to the schedule */
+.jsch { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 14px 18px; border-radius: 20px; border: 1px solid var(--line); background: var(--surface); }
+.jsch-c { flex: 1; min-width: 200px; display: grid; gap: 2px; }
+.jsch-t { margin: 0; font-size: 15px; font-weight: 650; }
+.jsch-days { display: flex; gap: 6px; }
+.jsch-days button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text-2); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
+.jsch-days button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.jsch-go { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; }
+.jsch-go:disabled { opacity: .6; cursor: default; }
+@media (max-width: 760px) { .jsch-days { width: 100%; justify-content: space-between; } .jsch-go { width: 100%; justify-content: center; } }

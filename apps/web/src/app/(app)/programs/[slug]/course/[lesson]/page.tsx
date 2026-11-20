@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { MTK_SLUG } from "@ms/core";
 import { CourseLocked } from "@/components/course/CourseLocked";
 import { CoursePlayer } from "@/components/course/CoursePlayer";
+import { ChooseNextStep } from "@/components/access/ChooseNextStep";
 import { loadCoursePage } from "@/lib/loaders/course";
 import { SeriesPlayer } from "@/components/series/SeriesPlayer";
 import { loadSeriesLesson } from "@/lib/loaders/series";
@@ -41,5 +42,5 @@ export default async function CoursePage({ params, searchParams }: Props) {
   if (slug === MTK_SLUG && token === "resume" && !mode && data.mtk?.plan) redirect("/mtk");
   if (data.locked) return <CourseLocked data={data} />;
   const slim = slug === MTK_SLUG ? "mtk" : slug === "athleticism-4-life" ? "a4l" : undefined;
-  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} slim={slim} />;
+  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} slim={slim} nextStep={slim ? <ChooseNextStep program={slug} /> : undefined} />;
 }
