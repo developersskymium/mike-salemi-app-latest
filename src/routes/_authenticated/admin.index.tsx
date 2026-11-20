@@ -3,11 +3,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { ArrowRight, CalendarDays, LayoutGrid, Lock, Megaphone, PanelsTopLeft, Save, Tags } from "lucide-react";
+import { ArrowRight, CalendarDays, ClipboardList, LayoutGrid, Lock, Megaphone, PanelsTopLeft, Save, Tags } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { PageHead, Section } from "@/components/page-kit";
 import { Spinner, buttonStyles } from "@/components/ui-kit";
 import { DatabaseProgramCard } from "@/components/database-program-card";
+import { KblFormEntriesPanel } from "@/components/kbl/form-entries-panel";
 import { getContentGraph, getIsAdmin } from "@/lib/admin-content.functions";
 import {
   getSiteSettings,
@@ -49,6 +50,7 @@ const TABS = [
   { id: "announcement", label: "Announcement bar", icon: Megaphone },
   { id: "copy", label: "Main copy", icon: PanelsTopLeft },
   { id: "retreats", label: "Retreats & applications", icon: CalendarDays },
+  { id: "kbl-entries", label: "KBL form entries", icon: ClipboardList },
 ] as const;
 
 const input = "w-full rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary";
@@ -91,6 +93,7 @@ function AdminStudio() {
         {tab === "announcement" && <AnnouncementPanel />}
         {tab === "copy" && <CopyPanel />}
         {tab === "retreats" && <RetreatsPanel />}
+        {tab === "kbl-entries" && <KblFormEntriesPanel />}
       </Section>
     </AppShell>
   );

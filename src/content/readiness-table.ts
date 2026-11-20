@@ -1,5 +1,15 @@
 import { readinessSteps, type ReadinessBand } from "./average-day";
-import sourceRules from "./source-readiness.json";
+import {
+  formSelections,
+  isFormComplete,
+  kblFormForDay,
+  matchesRule,
+  matchRule,
+  pickFormAnswers,
+  scoreForm,
+  type KblForm,
+  type KblRule,
+} from "./kbl-forms";
 import sourceTables from "./source-workout-tables.json";
 
 export type RestDirection = "down" | "up";
@@ -24,25 +34,6 @@ export type WorkoutTable = {
   notes?: string;
   images?: { url: string; alt: string }[];
 };
-type SourceRule = {
-  name: string;
-  tableId: string | null;
-  message: string;
-  logic: {
-    logicType: "all" | "any";
-    rules: { fieldId: string; operator: string; value: string }[];
-  };
-};
-type SourceForm = {
-  id: string;
-  title: string;
-  questions: { id: string; weights: Record<string, number> }[];
-  maxScore: number;
-  defaultTableId: string;
-  rules: SourceRule[];
-};
-const forms = sourceRules.forms as unknown as Record<string, SourceForm>;
-const dayForms = sourceRules.dayForms as Record<string, string>;
 export const WORKOUT_TABLES = sourceTables as unknown as Record<string, WorkoutTable>;
 
 export type ReadinessResult = {
@@ -56,53 +47,39 @@ export type ReadinessResult = {
   guidance: string[];
 };
 
+/**
+ * True when the answers are complete. With a day id, checks that day's own
+ * form questions; without one, checks the shared five readiness questions.
+ */
 export function isReadinessComplete(
   answers: Record<string, string> | null | undefined,
+  dayId?: string,
 ): answers is Record<string, string> {
-  return Boolean(
-    answers &&
-    readinessSteps.every((step) =>
-      step.options.some((option) => option.value === answers[step.id]),
-    ),
-  );
+  const form = dayId ? kblFormForDay(dayId) : undefined;
+  return isFormComplete(form ?? { questions: readinessSteps as KblForm["questions"] }, answers);
 }
 
-export function readinessSelections(answers: Record<string, string>) {
-  return readinessSteps.map((step) => ({
-    id: step.id,
-    question: step.question,
-    answer: step.options.find((option) => option.value === answers[step.id])?.label ?? "—",
-  }));
+export function readinessSelections(answers: Record<string, string>, dayId?: string) {
+  const form = dayId ? kblFormForDay(dayId) : undefined;
+  return formSelections(form ?? { questions: readinessSteps as KblForm["questions"] }, answers);
 }
 
-export function readinessFormForDay(dayId: string) {
-  return forms[dayForms[dayId]];
+export function readinessFormForDay(dayId: string): KblForm | undefined {
+  return kblFormForDay(dayId);
 }
 
 /** Evaluate the source Gravity Forms conditions, in their authored order. */
-export function matchesReadinessRule(rule: SourceRule, score: number) {
-  const results = rule.logic.rules.map((condition) => {
-    if (condition.fieldId !== "gquiz_score")
-      throw new Error("Unsupported source readiness condition.");
-    const value = Number(condition.value);
-    if (condition.operator === "is") return score === value;
-    if (condition.operator === ">") return score > value;
-    if (condition.operator === "<") return score < value;
-    throw new Error("Unsupported source readiness operator.");
-  });
-  return rule.logic.logicType === "any" ? results.some(Boolean) : results.every(Boolean);
+export function matchesReadinessRule(rule: KblRule, score: number) {
+  return matchesRule(rule, score);
 }
 
 /** Source quiz weights and authored tables; no generated exercise prescriptions. */
 export function resolveReadiness(answers: Record<string, string>, dayId: string): ReadinessResult {
-  if (!isReadinessComplete(answers)) throw new Error("Answer all five readiness questions.");
-  const form = readinessFormForDay(dayId);
+  const form = kblFormForDay(dayId);
   if (!form) throw new Error("This page does not have a Training Readiness Assessment.");
-  const score = form.questions.reduce(
-    (sum, question) => sum + question.weights[answers[question.id]],
-    0,
-  );
-  const rule = form.rules.find((candidate) => matchesReadinessRule(candidate, score));
+  if (!isFormComplete(form, answers)) throw new Error("Answer every readiness question.");
+  const score = scoreForm(form, pickFormAnswers(form, answers));
+  const rule = matchRule(form, score);
   // Three source forms had a copied default pointing at Phase I. Use the
   // full-workout table authored for this exact form when no modifier matches.
   const tableId = rule ? rule.tableId : form.defaultTableId;

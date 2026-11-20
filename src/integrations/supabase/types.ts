@@ -1618,6 +1618,12 @@ export type Database = {
       }
       workout_tables: {
         Row: {
+          band: string | null
+          band_name: string | null
+          form_id: string | null
+          outcome: string | null
+          score: number | null
+          table_id: string | null
           answers: Json
           course_id: string
           created_at: string
@@ -1630,6 +1636,12 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          band?: string | null
+          band_name?: string | null
+          form_id?: string | null
+          outcome?: string | null
+          score?: number | null
+          table_id?: string | null
           answers?: Json
           course_id: string
           created_at?: string
@@ -1642,6 +1654,12 @@ export type Database = {
           user_id: string
         }
         Update: {
+          band?: string | null
+          band_name?: string | null
+          form_id?: string | null
+          outcome?: string | null
+          score?: number | null
+          table_id?: string | null
           answers?: Json
           course_id?: string
           created_at?: string

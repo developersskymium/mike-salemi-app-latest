@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { findDay } from "@/content/program";
-import { isReadinessComplete, resolveReadiness } from "@/content/readiness-table";
-import { readinessSteps } from "@/content/average-day";
+import { resolveReadiness } from "@/content/readiness-table";
+import { isFormComplete, kblFormForDay, pickFormAnswers } from "@/content/kbl-forms";
 
 export type WorkoutTableRow = {
   id: string;
@@ -12,6 +12,12 @@ export type WorkoutTableRow = {
   lesson_id: string | null;
   answers: Record<string, string>;
   table_data: Record<string, unknown>;
+  form_id: string | null;
+  score: number | null;
+  band: string | null;
+  band_name: string | null;
+  table_id: string | null;
+  outcome: string | null;
   created_at: string;
 };
 
@@ -20,7 +26,9 @@ export const getWorkoutTables = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("workout_tables")
-      .select("id, course_id, phase_id, day_id, lesson_id, answers, table_data, created_at")
+      .select(
+        "id, course_id, phase_id, day_id, lesson_id, answers, table_data, form_id, score, band, band_name, table_id, outcome, created_at",
+      )
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
@@ -44,21 +52,24 @@ export const saveWorkoutTable = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const location = findDay(data.dayId);
+    const form = kblFormForDay(data.dayId);
     if (
       !location ||
+      !form ||
       location.course.id !== data.courseId ||
       location.phase.id !== data.phaseId ||
       !location.day.lessons.some(
         (lesson) => lesson.id === data.lessonId && lesson.special === "readiness",
       ) ||
-      !isReadinessComplete(data.answers)
+      !isFormComplete(form, data.answers)
     ) {
       throw new Error("Complete the Training Readiness Assessment for this KBL workout.");
     }
-    const answers = Object.fromEntries(
-      readinessSteps.map((question) => [question.id, data.answers[question.id]]),
-    );
+    // Never trust the client's score: keep only this form's answers and
+    // recompute the result on the server.
+    const answers = pickFormAnswers(form, data.answers);
     const result = resolveReadiness(answers, data.dayId);
+    const tableId = result.table?.id ?? null;
     const { error } = await context.supabase.from("workout_tables").insert({
       user_id: context.userId,
       course_id: data.courseId,
@@ -66,8 +77,14 @@ export const saveWorkoutTable = createServerFn({ method: "POST" })
       day_id: data.dayId,
       lesson_id: data.lessonId ?? null,
       answers: answers as never,
+      form_id: result.sourceFormId,
+      score: result.score,
+      band: result.band.id,
+      band_name: result.band.title,
+      table_id: tableId,
+      outcome: result.outcome,
       table_data: {
-        tableId: result.table?.id ?? null,
+        tableId,
         score: result.score,
         band: result.band.id,
         outcome: result.outcome,
