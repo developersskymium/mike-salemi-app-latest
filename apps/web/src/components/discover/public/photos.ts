@@ -3,6 +3,8 @@
  * each with a focal point (object-position) for wide crops and one for tall phone crops, so faces
  * never fall out of frame.
  */
+import { programCover } from "@/lib/photos";
+
 export type PubPhoto = { src: string; alt: string; focal: string; focalPhone?: string; /** Large landscape original: safe as a full-bleed background. */ wide?: boolean };
 
 const S = (f: string) => `/media/summit/${f}`;
@@ -22,7 +24,8 @@ export const PHOTOS = {
   summitGroup: { src: S("summit-group.jpg"), alt: "Men of Movement on a ridge facing Mount Shasta", focal: "50% 55%", wide: true },
   ridgeCircle: { src: S("ridge-circle.jpg"), alt: "The group standing in a circle on the ridge", focal: "50% 50%", wide: true },
   shastaRidge: { src: S("shasta-ridge.jpg"), alt: "Morning practice on the rocks below Mount Shasta", focal: "60% 50%", wide: true },
-  summitClouds: { src: S("summit-clouds.jpg"), alt: "Peaks above a sea of clouds at sunrise", focal: "50% 45%", wide: true },
+  // Was a stock alpine photo (not Mike's): now the Men of Movement group on the land (key kept for callers).
+  summitClouds: { src: R("group-tims-land.jpg"), alt: "Men of Movement together on the land", focal: "50% 36%", focalPhone: "50% 36%", wide: true },
   fire: { src: R("fire.jpg"), alt: "Men around the fire at night", focal: "50% 55%", wide: true },
   sweatLodge: { src: R("after-sweat-lodge.jpg"), alt: "The group together after the sweat lodge", focal: "50% 45%", wide: true },
   timsLand: { src: R("tims-land.jpg"), alt: "Walking single file across open land", focal: "50% 55%", wide: true },
@@ -35,26 +38,10 @@ export const PHOTOS = {
 
 export type PhotoKey = keyof typeof PHOTOS;
 
-/** Program slug → photo (no baked-in text). */
-const BY_SLUG: Record<string, PhotoKey> = {
-  "kettlebell-lifestyle": "hero",
-  "mastering-the-kettlebell": "deadlift",
-  "athleticism-4-life": "getup",
-  "working-in": "workingIn",
-  "the-path-to-inspired-action": "ridgeCircle",
-  "the-grounded-king": "ridgeCircle",
-  "men-of-movement": "facingShasta",
-  "men-of-movement-retreats": "summitGroup",
-  "what-your-kettlebell-swing-is-missing": "goblet",
-  "free-6-video-kettlebell-mini-series": "press",
-  "kettlebell-roadmap": "squat",
-  coaching: "coaching",
-  "executive-edge": "shastaRidge",
-  "zen-savage": "summitClouds",
-};
-
+/** Program slug → photo (no baked-in text): the central map in lib/photos.ts, so the public site matches the app. */
 export function photoFor(slug: string | null | undefined): PubPhoto {
-  return PHOTOS[(slug && BY_SLUG[slug]) || "hero"];
+  const p = programCover(slug);
+  return p ? { src: p.src, alt: p.alt, focal: p.focal, focalPhone: p.focalPhone, wide: p.aspect >= 1.3 } : PHOTOS.hero;
 }
 
 /** focal points as CSS custom properties for .pub-photo frames. */
