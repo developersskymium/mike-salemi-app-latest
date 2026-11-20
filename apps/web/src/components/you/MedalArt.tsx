@@ -39,7 +39,41 @@ const ART: Record<string, ReactNode> = {
       <path d="M15.5 14.3c2.4-.3 4.3.9 5 3.7" />
     </>
   ),
+  dumbbell: <path d="M3.5 9.5v5M6.5 7.5v9M17.5 7.5v9M20.5 9.5v5M6.5 12h11" />,
+  star: <path d="m12 3.8 2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z" />,
+  bolt: <path d="M13.2 3 5.8 13.2h5.4L10.4 21l7.8-10.4h-5.5z" />,
+  book: (
+    <>
+      <path d="M12 6.5c-1.8-1.4-4.6-2-7.5-1.8v13c2.9-.2 5.7.4 7.5 1.8 1.8-1.4 4.6-2 7.5-1.8v-13c-2.9-.2-5.7.4-7.5 1.8z" />
+      <path d="M12 6.5v13" />
+    </>
+  ),
+  flag: <path d="M5.5 21V4M5.5 4.5h11l-2.4 4 2.4 4h-11" />,
+  mountain: <path d="m2.8 19.5 6.4-11 3.6 6.1 2.2-3.6 6.2 8.5zM9.2 8.5l1.9 3.2" />,
+  video: (
+    <>
+      <rect x="3.5" y="6.5" width="12" height="11" rx="2.6" />
+      <path d="m15.5 10.5 5-3v9l-5-3" />
+    </>
+  ),
+  gift: (
+    <>
+      <rect x="4" y="9" width="16" height="11" rx="2" />
+      <path d="M3.5 9h17M12 9v11M12 9c-1.5-3.5-5.5-3.5-5-1 .3 1.3 3 1 5 1zM12 9c1.5-3.5 5.5-3.5 5-1-.3 1.3-3 1-5 1z" />
+    </>
+  ),
 };
 
-/** undefined → the Medal's default kettlebell engraving (e.g. "dumbbell"). */
-export const medalArt = (icon: string | null | undefined) => (icon ? ART[icon] : undefined);
+/** Fallback engraving by family when an icon is missing or not drawn yet — never a blank or "unknown" medal. */
+const FAMILY_ART: Record<string, string> = { consistency: "flame", program: "trophy", mastery: "target", explorer: "compass", mike: "sparkles" };
+
+/**
+ * Engraving for a badge icon. "kettlebell" (and any unknown icon without a family) → the Medal's default
+ * kettlebell engraving; an unknown icon with a family → that family's art.
+ */
+export const medalArt = (icon: string | null | undefined, family?: string | null) => {
+  if (icon && ART[icon]) return ART[icon];
+  if (icon === "kettlebell") return undefined;
+  const f = family ? FAMILY_ART[family] : undefined;
+  return f ? ART[f] : undefined;
+};

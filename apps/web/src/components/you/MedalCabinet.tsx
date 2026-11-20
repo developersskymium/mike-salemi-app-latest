@@ -17,7 +17,12 @@ export function unitFor(id: string, n: number) {
   if (id.startsWith("streak")) return n === 1 ? "day in a row" : "days in a row";
   if (id.startsWith("tool")) return n === 1 ? "tool" : "tools";
   if (id.startsWith("referral")) return n === 1 ? "friend" : "friends";
-  return n === 1 ? "day" : "days";
+  if (id.startsWith("prog-")) return "percent";
+  if (/streak/.test(id)) return n === 1 ? "day in a row" : "days in a row";
+  if (/practice/.test(id)) return n === 1 ? "practice" : "practices";
+  if (/^(weeks-)/.test(id)) return n === 1 ? "week" : "weeks";
+  if (/^(first-day|day-)/.test(id)) return n === 1 ? "day" : "days";
+  return n === 1 ? "step" : "steps";
 }
 
 /** The unearned medal the member is closest to (highest share done, then fewest left). */
