@@ -203,3 +203,11 @@ export async function evaluateMyBadges(sb: DB): Promise<string[]> {
   if (error) throw new Error(`evaluateMyBadges: ${error.message}`);
   return (data ?? []) as string[];
 }
+
+/** Mike's weekly note for Home (admin-set; null when none is live). */
+export interface MikeNote { text: string; photo?: string | null; week_of?: string | null }
+export async function homeMikeNote(sb: DB): Promise<MikeNote | null> {
+  const { data, error } = await rpc(sb, "home_mike_note");
+  if (error || !data) return null;
+  return data as MikeNote;
+}

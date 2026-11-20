@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { MedalPin } from "@/components/badges/MedalPin";
-import { medalColorOf, type BadgeDef } from "@/components/badges/catalog";
+import { medalColorOf } from "@/components/badges/catalog";
 import { PhotoHero } from "@/components/signature";
 import { Button, Glass, Icon, ProgressBar, Tag } from "@/components/ui";
-import { programPhoto } from "@/lib/program-photos";
+import type { BadgeDefinition, MikeNote } from "@ms/api";
+import { PHOTO, photoByFile, programCover, surfacePhoto, type Photo, type PhotoName } from "@/lib/photos";
+import { programHref } from "@/lib/hrefs";
 import type { HomeItem, HomeView } from "./buildHome";
 import type { TodayView } from "./buildToday";
 import { JoinButton } from "./JoinButton";
@@ -19,24 +21,42 @@ const levelOf = (pathName: string | null | undefined) => pathName?.split("·")[0
 const STREAK_GOALS = [3, 7, 14, 30, 60, 100, 365];
 
 /** The member's most recent badge (from my_rewards), dressed with its definition when we have it. */
-export type LatestBadge = Pick<BadgeDef, "id" | "name" | "tier" | "icon"> & { earned_at: string; description?: string; medal_color?: string | null; program_slug?: string | null };
+export type LatestBadge = Pick<BadgeDefinition, "id" | "name" | "tier" | "icon"> & { earned_at: string; description?: string; medal_color?: string | null; program_slug?: string | null };
+
+/** Photo for a Home card/hero from the central photo map (framing included). */
+function framed(src: string | null | undefined, slug: string | null | undefined, fallback: Photo = surfacePhoto("homeHero")): Photo {
+  return photoByFile(src) ?? programCover(slug) ?? (src ? { ...fallback, src } : fallback);
+}
+
+/** Member-local hour, for the time-aware hero. */
+function localHour(now: number, tz: string | null | undefined) {
+  try {
+    return Number(new Intl.DateTimeFormat("en-US", { hour: "numeric", hourCycle: "h23", timeZone: tz || "UTC" }).format(new Date(now)));
+  } catch {
+    return new Date(now).getUTCHours();
+  }
+}
 
 /**
  * Home (Today), calm: one Continue hero, your programs (compact), this week, one offer, the latest badge.
  * The retreat card appears only when the member has a retreat application or booking (`retreat`).
  * New members get one welcoming start state with the recommended first program.
  */
-export function TodayScreen({ v, home, homeError, retreat, latestBadge }: { v: TodayView; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; latestBadge?: LatestBadge | null }) {
+export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, now = 0 }: { v: TodayView; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
   const cur = home?.continuing ?? null;
   const enrolled = home?.enrolled ?? [];
   const isNew = !!home && !cur && enrolled.length === 0;
-  const badge = latestBadge ?? latest(v);
+  const badge = latestBadge ?? null;
+  const today = v.week.find((d) => d.isToday);
+  const restDay = !!today && today.state === "rest" && !isNew;
 
   return (
     <div className="sh ch">
       <h1 className="lq-sr">Home</h1>
 
-      {home && cur ? <ContinueHero v={v} h={home} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+      {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+
+      {restDay && <RestDayCard />}
 
       {homeError && (
         <Glass radius="card" className="sh-error" role="alert">
@@ -74,6 +94,8 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge }: { v: T
         </div>
       )}
 
+      {mikeNote && <MikeNoteCard note={mikeNote} />}
+
       <div className="sh-offer">
         <OfferSlot placement="today" />
       </div>
@@ -81,15 +103,9 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge }: { v: T
   );
 }
 
-function latest(v: TodayView): LatestBadge | null {
-  const list = (v.rewards.badges ?? []) as LatestBadge[];
-  if (!list.length) return null;
-  return [...list].sort((a, b) => (b.earned_at ?? "").localeCompare(a.earned_at ?? ""))[0] ?? null;
-}
-
 /* ================================================================== heroes */
 
-function ContinueHero({ v, h }: { v: TodayView; h: HomeView }) {
+function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number }) {
   const item = h.continuing!;
   const p = v.primary;
   const same = p && p.program_slug === item.slug;
@@ -99,23 +115,33 @@ function ContinueHero({ v, h }: { v: TodayView; h: HomeView }) {
   const minutes = cl?.minutes ?? (steps.length ? steps.reduce((n, s) => n + (parseInt(s.duration ?? "", 10) || 0), 0) || null : null);
   const started = steps.some((s) => s.done);
   const level = levelOf(p?.path_name);
-  const photo = item.image ?? programPhoto(item.slug);
+  const photo = framed(item.image?.src, item.slug);
   const action = h.heroAction!;
-  const label = item.complete ? "Review" : day ? `${started ? "Continue" : "Start"} Day ${day}` : action.label;
-  const meta = [item.name.split(" · ")[0], level, minutes ? `${minutes} min` : null].filter(Boolean).join(" · ");
+  const week = day ? Math.ceil(Number(day) / 7) : null;
+  const meta = [day ? `Week ${week} · Day ${day}` : item.name.split(" · ")[0], level, minutes ? `${minutes} min` : null].filter(Boolean).join(" · ");
+  // Time-aware (Home #3) and comeback (Home #8) states.
+  const hour = now ? localHour(now, v.timezone) : 12;
+  const doneToday = v.week.find((d) => d.isToday)?.state === "done";
+  const away = now && item.lastActivityAt ? Math.floor((now - Date.parse(item.lastActivityAt)) / 864e5) : 0;
+  const mode: "comeback" | "tomorrow" | "morning" | "continue" = away >= 5 ? "comeback" : doneToday && hour >= 15 ? "tomorrow" : hour < 12 ? "morning" : "continue";
+  const tag = { comeback: "Welcome back", tomorrow: "Done for today", morning: "This morning", continue: "Continue" }[mode];
+  const title = mode === "tomorrow" ? `Tomorrow: ${name || item.name}` : name || item.name;
+  const sub = mode === "comeback" ? `An easy restart day. Go at 70% and just move — ${meta}` : meta;
+  const label = item.complete ? "Review" : mode === "comeback" ? "Restart easy" : mode === "tomorrow" ? "Preview tomorrow" : day ? `${started ? "Continue" : "Start"} Day ${day}` : action.label;
   return (
-    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: "62% 26%", focalPhone: "56% 18%" }} minHeight={440} priority>
-      <Tag tone="warm" size="lg">
-        Continue
+    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={440} priority>
+      <Tag tone={mode === "tomorrow" ? "accent" : "warm"} size="lg">
+        {mode === "tomorrow" ? <Icon name="check" size="xs" /> : null}
+        {tag}
       </Tag>
-      <h2 className="lq-d-xxl sh-hero-t">{name || item.name}</h2>
-      <p className="sh-hero-meta">{day ? `Day ${day} · ${meta}` : meta}</p>
+      <h2 className="lq-d-xxl sh-hero-t">{title}</h2>
+      <p className="sh-hero-meta">{sub}</p>
       <div className="ch-hero-prog">
         <ProgressBar value={item.percent / 100} tone="white" size="thin" label={`${item.name} progress`} />
         <span className="lq-num">{item.percent}%</span>
       </div>
       <div className="sh-hero-actions">
-        <Button icon={item.complete ? "repeat" : "play"} href={action.href} size="lg" className="sh-hero-go">
+        <Button icon={item.complete ? "repeat" : mode === "tomorrow" ? "calendar" : "play"} variant={mode === "tomorrow" ? "onphoto" : undefined} href={action.href} size="lg" className="sh-hero-go">
           {label}
         </Button>
       </div>
@@ -125,9 +151,9 @@ function ContinueHero({ v, h }: { v: TodayView; h: HomeView }) {
 
 /** New member: one welcome, the recommended first program, one button. */
 function WelcomeHero({ v, item }: { v: TodayView; item: HomeItem }) {
-  const photo = item.image ?? programPhoto(item.slug);
+  const photo = framed(item.image?.src, item.slug, surfacePhoto("homeEmpty"));
   return (
-    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.position ?? "62% 26%", focalPhone: "56% 18%" }} minHeight={440} priority>
+    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={440} priority>
       <Tag tone="accent" size="lg">
         Start here
       </Tag>
@@ -147,9 +173,9 @@ function WelcomeHero({ v, item }: { v: TodayView; item: HomeItem }) {
 
 function EmptyHero({ v }: { v: TodayView }) {
   const n = v.next;
-  const photo = programPhoto("kettlebell-lifestyle");
+  const photo = surfacePhoto("homeEmpty");
   return (
-    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: "62% 26%", focalPhone: "56% 18%" }} minHeight={440} priority>
+    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={440} priority>
       <Tag tone="warm" size="lg">
         {n ? n.eyebrow : "Start here"}
       </Tag>
@@ -167,11 +193,11 @@ function EmptyHero({ v }: { v: TodayView }) {
 /* ================================================================== programs */
 
 function ProgramRow({ item }: { item: HomeItem }) {
-  const img = item.image ?? programPhoto(item.slug);
+  const img = framed(item.image?.src, item.slug);
   return (
     <Link href={item.resumeHref} className="ch-prog lq-press" aria-label={`${item.verb.label} ${item.name}, ${item.percent}% complete`}>
       <span className="ch-thumb">
-        <Image src={img.src} alt="" fill sizes="96px" style={{ objectPosition: img.position ?? "50% 30%" }} />
+        <Image src={img.src} alt="" fill sizes="96px" style={{ objectPosition: img.focal }} />
       </span>
       <span className="ch-prog-b">
         <b className="ch-prog-t">{item.name}</b>
@@ -201,7 +227,7 @@ function WeekCard({ v }: { v: TodayView }) {
           {planned ? `${v.weekSummary.done} of ${plural(planned, "session")}` : "Open schedule"} <Icon name="arrowRight" size="xs" />
         </Link>
       </header>
-      <WeekStrip days={v.week} hrefFor={(d) => `/plan?d=${d}`} />
+      <WeekStrip days={v.week} hrefFor={(d) => `/plan?d=${d}`} colors />
       <p className="ch-streak lq-t13 lq-c2">
         <Icon name="flame" size="xs" className="ch-flame" />
         {streak > 0 ? (
@@ -231,5 +257,45 @@ function BadgeCard({ b }: { b: LatestBadge }) {
         </span>
       </span>
     </Link>
+  );
+}
+
+/* ================================================================== rest day + Mike's note */
+
+/** Rest day (Home #7): one calm line with a 10-minute Working-In practice. */
+function RestDayCard() {
+  const ph = programCover("working-in") ?? surfacePhoto("homeEmpty");
+  return (
+    <Link href={programHref("working-in", "course")} className="ch-card ch-rest lq-press">
+      <span className="ch-thumb ch-thumb-sm">
+        <Image src={ph.src} alt="" fill sizes="72px" style={{ objectPosition: ph.focal }} />
+      </span>
+      <span className="ch-rest-b">
+        <span className="lq-eyebrow" data-tone="accent">
+          Rest day
+        </span>
+        <b className="lq-t15">Ten minutes of Working-In keeps you moving without spending energy.</b>
+      </span>
+      <Icon name="arrowRight" size="sm" className="lq-c3" />
+    </Link>
+  );
+}
+
+/** Mike's weekly note (Home #10): Instrument Serif italic beside a fresh photo, admin-set. */
+function MikeNoteCard({ note }: { note: MikeNote }) {
+  const ph = (note.photo && note.photo in PHOTO ? PHOTO[note.photo as PhotoName] : null) ?? photoByFile(note.photo) ?? surfacePhoto("coaching");
+  return (
+    <section className="ch-card ch-note" aria-label="A note from Mike this week">
+      <span className="ch-note-ph">
+        <Image src={ph.src} alt={ph.alt} fill sizes="(min-width: 720px) 220px, 100vw" style={{ objectPosition: ph.focal }} />
+      </span>
+      <figure className="ch-note-b">
+        <span className="lq-eyebrow" data-tone="warm">
+          This week from Mike
+        </span>
+        <blockquote className="lq-serif ch-note-q">{note.text}</blockquote>
+        <figcaption className="lq-t13 lq-c3">— Mike Salemi</figcaption>
+      </figure>
+    </section>
   );
 }

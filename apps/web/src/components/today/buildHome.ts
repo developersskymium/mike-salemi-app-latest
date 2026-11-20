@@ -7,7 +7,7 @@ import type { TodayView } from "./buildToday";
 import { fmt, shortDate } from "./dates";
 import { lessonHref, plural, relDay, splitDayTitle } from "./model";
 import { programHref } from "@/lib/hrefs";
-import { PROGRAM_PHOTOS } from "@/lib/program-photos";
+import { photo, programCover } from "@/lib/photos";
 import { continueOrder } from "@/lib/continue";
 
 /* Pure: turns Home + Today data into the dashboard model (legacy /home, src/hooks/use-home-programs.ts). */
@@ -90,9 +90,9 @@ const DRAFTY = /await|concept|draft|tbc/i;
 
 /** Summit cover: Mike's text-free photography with a focal point first (no baked-in titles), then the program's media. */
 function photoFor(p: CatalogProgram, pathKey?: string | null): HomeItem["image"] {
-  if (p.slug === "kettlebell-lifestyle" && pathKey && pathKey !== "beginner") return { src: "/media/summit/mike-getup.jpg", alt: "Mike Salemi in a Turkish get-up", position: "50% 25%" };
-  const ph = PROGRAM_PHOTOS[p.slug];
-  if (ph) return { src: ph.src, alt: ph.alt, position: ph.position };
+  // Level II gets its own frame from the photo map (not another program's cover).
+  const ph = p.slug === "kettlebell-lifestyle" && pathKey && pathKey !== "beginner" ? photo("windmill") : programCover(p.slug);
+  if (ph) return { src: ph.src, alt: ph.alt, position: ph.focal };
   return mediaFor(p, pathKey);
 }
 

@@ -4013,6 +4013,7 @@ export type Database = {
       log_referral_share: { Args: { p_channel: string }; Returns: undefined }
       log_referral_visit: { Args: { p_code: string }; Returns: undefined }
       evaluate_my_badges: { Args: never; Returns: string[] }
+      home_mike_note: { Args: never; Returns: Json }
       my_badge_progress: { Args: never; Returns: Json }
       my_continue: {
         Args: { p_limit?: number; p_program?: string }

@@ -449,3 +449,17 @@ do $$ declare u record; begin
     end;
   end loop;
 end $$;
+
+-- ============================================================ 10. Mike's weekly note on Home (spec 12, Home #10)
+-- Admin-set in site_settings 'home_mike_note' ({text, photo, week_of, enabled}); members read it via this function.
+insert into public.site_settings (key, value) values ('home_mike_note',
+  '{"text":"Small, honest sessions beat heroic ones. Give me twenty good minutes a day this week and let the bell do the teaching.","photo":"press","week_of":"2026-11-16","enabled":true}'::jsonb)
+on conflict (key) do nothing;
+
+create or replace function public.home_mike_note()
+returns jsonb language sql stable security definer set search_path = '' as $$
+  select s.value from public.site_settings s
+  where s.key = 'home_mike_note' and coalesce((s.value->>'enabled')::boolean, true) and nullif(btrim(s.value->>'text'), '') is not null;
+$$;
+revoke all on function public.home_mike_note() from public, anon;
+grant execute on function public.home_mike_note() to authenticated;
