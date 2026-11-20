@@ -172,3 +172,8 @@
 /* Safety net: a next/image `fill` photo without its own object-fit rule would stretch to its box.
    Zero specificity, so any component rule (e.g. object-fit: contain in a lightbox) still wins. */
 :where(img[data-nimg="fill"]) { object-fit: cover; }
+
+/* Client, Nov 20: no heavy grey scrollbars inside the app's columns (lesson columns, rails, skeletons).
+   Inner scroll areas keep scrolling; their bar is thin and only shows on hover. The page scrollbar is untouched. */
+body * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+body *:hover { scrollbar-color: color-mix(in srgb, var(--text, #0E1B2C) 22%, transparent) transparent; }
