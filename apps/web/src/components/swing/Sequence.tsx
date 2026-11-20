@@ -135,7 +135,7 @@ export function SequencePlayer({
         <div className="sw-seq-ring" data-breath={paused ? undefined : step.breath} key={`${i}-${step.breath ?? ""}`} style={{ ["--sw-dur" as string]: `${step.seconds ?? 4}s` }}>
           <svg viewBox="0 0 120 120" aria-hidden>
             <circle cx="60" cy="60" r={R} className="sw-ring-track" />
-            {step.seconds ? <circle cx="60" cy="60" r={R} className="sw-ring-arc" strokeDasharray={C} strokeDashoffset={C * (1 - pct)} /> : null}
+            {step.seconds ? <circle cx="60" cy="60" r={R} className="sw-ring-arc" strokeDasharray={C} strokeDashoffset={C * pct} /> : null}
           </svg>
           <span className="sw-seq-num" aria-live="off">{step.seconds ? left : <Icon name="check" size="md" />}</span>
         </div>

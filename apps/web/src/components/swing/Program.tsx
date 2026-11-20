@@ -203,7 +203,7 @@ export function EmomSession({ session, bellKg, neck, onExit, onSave }: { session
         <div className="sw-emom-clock">
           <svg viewBox="0 0 200 200" aria-hidden>
             <circle cx="100" cy="100" r={R} className="sw-ring-track" />
-            <circle cx="100" cy="100" r={R} className="sw-ring-arc" strokeDasharray={C} strokeDashoffset={C * (left / total)} />
+            <circle cx="100" cy="100" r={R} className="sw-ring-arc" strokeDasharray={C} strokeDashoffset={C * (1 - left / total)} />
           </svg>
           <span className="sw-emom-time" role="timer" aria-live="off">{left}</span>
           <span className="sw-emom-unit">seconds</span>

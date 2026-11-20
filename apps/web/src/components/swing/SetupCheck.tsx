@@ -86,9 +86,9 @@ export function SetupCheck({
           <div className="sw-place-text">
             <h1 id="sw-place-h" className="sw-h1">Set the phone side-on</h1>
             <ol className="sw-steps">
-              <li><b>Hip height, 2–3 m away.</b> Prop the phone on a chair or a step, upright.</li>
-              <li><b>Side-on.</b> The camera sees your side, with the bell in front of you.</li>
-              <li><b>Whole body in frame,</b> head to feet. Fitted clothes and good light help.</li>
+              <li><span><b>Hip height, 2–3 m away.</b> Prop the phone on a chair or a step, upright.</span></li>
+              <li><span><b>Side-on.</b> The camera sees your side, with the bell in front of you.</span></li>
+              <li><span><b>Whole body in frame,</b> head to feet. Fitted clothes and good light help.</span></li>
             </ol>
             <p className="sw-note">You’ll stand tall for 2 seconds first, then hold your set-up for 3. Nothing is recorded.</p>
             <div className="sw-actions">
@@ -178,8 +178,7 @@ function PlacementArt() {
       <path d="M68 113 L188 92 M68 113 L188 176" className="sw-art-cone" />
       <line x1="58" y1="192" x2="214" y2="192" className="sw-art-dim" />
       <text x="136" y="188" textAnchor="middle" className="sw-art-label">2–3 m</text>
-      <line x1="96" y1="122" x2="96" y2="128" className="sw-art-dim" />
-      <text x="100" y="118" className="sw-art-label">hip height</text>
+      <text x="58" y="88" textAnchor="middle" className="sw-art-label">hip height</text>
     </svg>
   );
 }

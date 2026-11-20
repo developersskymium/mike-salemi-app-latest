@@ -128,6 +128,7 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-art-label { font: 600 11px/1 var(--font); fill: var(--text-2); }
 .sw-steps { margin: 0; padding: 0; list-style: none; counter-reset: sw; display: grid; gap: 12px; }
 .sw-steps li { counter-increment: sw; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; font: 400 15.5px/23px var(--font); color: var(--text-2); }
+.sw-steps li > span { padding-top: 2px; }
 .sw-steps li::before { content: counter(sw); width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); font: 600 13px/1 var(--font); }
 .sw-steps b { color: var(--text); font-weight: 600; }
 
@@ -171,8 +172,9 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-seq-track li[data-s="done"] { background: var(--accent); }
 .sw-seq-track li[data-s="now"] { background: var(--warm); }
 .sw-seq-stage { display: grid; justify-items: center; align-content: center; gap: 26px; text-align: center; padding: 3vh 0; }
-.sw-seq-ring { position: relative; width: min(56vw, 240px); aspect-ratio: 1; display: grid; place-items: center; }
-.sw-seq-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.sw-seq-ring { position: relative; width: min(56vw, 240px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--surface); }
+.sw-seq-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); z-index: 1; }
+.sw-seq-ring .sw-ring-track { fill: none; }
 .sw-ring-track { fill: var(--surface); stroke: var(--line); stroke-width: 3; }
 .sw-ring-arc { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
 .sw-seq-num { position: relative; font: 600 64px/1 var(--font); letter-spacing: -.04em; color: var(--text); font-variant-numeric: tabular-nums; }
@@ -181,7 +183,7 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-seq-ring[data-breath="out"]::before { animation: sw-out var(--sw-dur) ease-in-out forwards; }
 @keyframes sw-in { from { transform: scale(.7); } to { transform: scale(1.04); } }
 @keyframes sw-out { from { transform: scale(1.04); } to { transform: scale(.7); } }
-.sw-seq-text { display: grid; gap: 8px; max-width: 34ch; }
+.sw-seq-text { display: grid; gap: 8px; max-width: 34ch; align-content: start; }
 .sw-seq-group { margin: 0; font: 600 13.5px/18px var(--font); color: var(--warm-ink); }
 .sw-seq-title { margin: 0; font: var(--d-lg); letter-spacing: var(--d-lg-track); color: var(--text); text-wrap: balance; }
 .sw-seq-detail { margin: 0; font: 400 16px/24px var(--font); color: var(--text-2); }
@@ -198,7 +200,7 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-emom[data-phase="work"] .sw-ring-arc { stroke: var(--warm); }
 .sw-emom-time { position: relative; font: 600 96px/1 var(--font); letter-spacing: -.05em; color: var(--text); font-variant-numeric: tabular-nums; }
 .sw-emom-unit { position: relative; font: 500 13px/1 var(--font); color: var(--text-3); margin-top: 6px; }
-.sw-emom-text { display: grid; gap: 8px; }
+.sw-emom-text { display: grid; gap: 8px; align-content: center; }
 .sw-emom .sw-seq-actions { padding: 0 20px calc(env(safe-area-inset-bottom) + 24px); }
 
 .sw-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -304,3 +306,4 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-cta-body b { font: 600 16px/22px var(--font); color: var(--text); }
 .sw-cta-body small { font: 400 14px/20px var(--font); color: var(--text-2); }
 .sw-cta-go { color: var(--accent-ink); }
+@media (max-width: 899px) { .sw-score-main { order: -1; } }

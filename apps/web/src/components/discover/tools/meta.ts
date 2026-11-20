@@ -6,7 +6,7 @@ import type { MoveName } from "@/components/graphics";
  */
 export const TOOL_META: Record<string, { title: string; subtitle?: string; draft?: string; move: MoveName; promise: string; minutes: number }> = {
   "kettlebell-selector": { title: "Kettlebell Selector", move: "swing", promise: "Your three bells, from first to heavy", minutes: 1 },
-  "swing-setup": { title: "Swing Set-Up Coach", move: "swing", promise: "Film your set-up, fix one thing at a time in Mike's words", minutes: 2 },
+  "swing-setup": { title: "Swing Set-Up Coach", move: "swing", promise: "One fix at a time, with the moment in Mike's video", minutes: 2 },
   "stretch-test": { title: "Stretch Test", move: "squat", promise: "Your mobility profile across five positions", minutes: 3 },
   "readiness-check": { title: "Readiness Check", move: "breathing", promise: "Push, modify or recover — today's answer", minutes: 1 },
   "kettlebell-roadmap": {

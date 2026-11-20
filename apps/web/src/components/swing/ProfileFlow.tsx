@@ -37,6 +37,9 @@ export function ProfileFlow({
   const back = at > 0 ? () => { setDir("back"); setAt((n) => n - 1); } : undefined;
   const close = { label: "Close", icon: true, onClick: onClose };
 
+  return <div data-shell-focus>{screen()}</div>;
+
+  function screen() {
   if (at === 0)
     return (
       <QuestionShell at={0} total={3} onBack={back} close={close} sceneKey="neck" dir={dir} art={<IntakeArt topic="body" move="swing" />}
@@ -75,4 +78,5 @@ export function ProfileFlow({
         ]} />
     </QuestionShell>
   );
+}
 }
