@@ -9,8 +9,11 @@ import { retreatSteps, runDay, type RetreatStage } from "@/lib/retreat-stage";
 import { Checklist } from "./Checklist";
 import { Countdown } from "./Countdown";
 import { PhotoTour } from "./PhotoTour";
-import { byDay, DayCards, dayTitle, Facilitators, photoFor, ROMAN } from "./RetreatPage";
+import { byDay, dayTitle, photoFor, ROMAN } from "./RetreatPage";
 import { RetreatSteps } from "./RetreatSteps";
+import { Guides, HelpFab, retreatPhoto, Timeline, whereNext, withSitePhotos } from "./RetreatParts";
+import { PhotoWall } from "./PhotoWall";
+import { programHref } from "@/lib/hrefs";
 import { Faq } from "./RunParts";
 import { requestTime } from "@/lib/request-time";
 
@@ -61,10 +64,10 @@ function Help({ hub, live }: { hub: RunHub; live?: boolean }) {
 
 /** Booked member's retreat hub: countdown + preparation before, today's plan while live, integration after. */
 export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; stage: Extract<RetreatStage, "booked" | "live" | "after">; now?: number }) {
-  const { run } = hub;
+  const { run, about } = hub;
   const d = run.details;
   const photos = run.gallery.filter((g) => !g.stock);
-  const cover = (stage === "booked" ? null : photoFor(photos, ["group on"], 0)?.url) ?? d.cover ?? photos[0]?.url ?? null;
+  const cover = (stage === "booked" ? null : stage === "after" ? retreatPhoto("celebration").url : photoFor(photos, ["group on"], 0)?.url) ?? d.cover ?? photos[0]?.url ?? null;
   const dates = dateRange(run.starts_at, run.ends_at, run.timezone);
   const prereq = d.prerequisites ?? [];
   const packing = d.packing ?? [];
@@ -82,8 +85,11 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
     stage === "booked"
       ? [["prepare", "Prepare"], ["program", "Program"], ["itinerary", "Itinerary"], ["travel", "Travel"], ["documents", "Documents"], ["help", "Help"]]
       : stage === "live"
-        ? [["today", "Today"], ["itinerary", "Itinerary"], ["gallery", "Gallery"], ["help", "Help"]]
-        : [["integration", "Integration"], ["recap", "Recap"], ["next", "What’s next"]];
+        ? [["today", "Today"], ["itinerary", "Itinerary"], ["wall", "Photo wall"], ["help", "Help"]]
+        : [["integration", "Integration"], ["recap", "Photos"], ["certificate", "Certificate"], ["next", "What’s next"]];
+  const dayPhotos = days.map((_, n) => photoFor(photos, [["shared meals"], ["breathwork ceremony"], ["sweat lodge"], ["facing"]][n] ?? [], n));
+  const prepHref = prep ? programHref(prep.slug, "course") : "#";
+  const next = stage === "live" ? whereNext(todayItems, run.timezone, now) : null;
 
   return (
     <div className="rt-page rt-hub" data-stage={stage}>
@@ -162,9 +168,9 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                 <div className="rt-program-body">
                   <div className="lq-eyebrow" data-tone={prep.open ? "accent" : "warm"}>{prep.open ? "Open now" : `Opens ${dayMonth(prep.opensAt, run.timezone)}`}</div>
                   <h3 className="lq-d-sm">{prep.name}</h3>
-                  <p className="lq-t15 lq-c2">{prep.lessons} lessons of foundational breathwork and meditation that Mike builds for each retreat, so you arrive already practising.</p>
+                  <p className="lq-t15 lq-c2">Six videos across the five pillars{about.pillars.length ? ` (${about.pillars.join(", ")})` : ""}, so you arrive already practising. Lifetime access.</p>
                   {prep.open ? (
-                    <Button href={`/programs/${prep.slug}`} variant="filled" size="md" icon="play">Start the program</Button>
+                    <Button href={prepHref} variant="filled" size="md" icon="play">Start the program</Button>
                   ) : (
                     <div className="rt-program-lock">
                       <div className="com-between"><span className="lq-t13 rt-ic-title"><Icon name="lock" size="xs" /> <span>Unlocks in <b className="lq-num">{prepDaysLeft}</b> days</span></span><span className="lq-t12 lq-c3">about 3 months before</span></div>
@@ -176,7 +182,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
             </Sec>
           )}
 
-          {days.length > 0 && <Sec id="itinerary" eyebrow={d.duration_label ? `The ${d.duration_label}` : "Day by day"} title="Itinerary"><DayCards hub={hub} photos={photos} /></Sec>}
+          {days.length > 0 && <Sec id="itinerary" eyebrow={d.duration_label ? `The ${d.duration_label}` : "Day by day"} title="Itinerary"><Timeline hub={hub} photos={dayPhotos} startsAt={run.starts_at} tz={run.timezone} /></Sec>}
 
           <Sec id="travel" eyebrow="Getting there" title="Travel and stay">
             <div className="rt-where">
@@ -187,6 +193,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                 <ul className="rt-where-list" role="list">
                   {d.travel && <li><Icon name="route" size="sm" /><span><b>Getting there</b> {d.travel}</span></li>}
                   {d.accommodation && <li><Icon name="moon" size="sm" /><span><b>Stay</b> {d.accommodation}</span></li>}
+                  {d.travel_time && <li><Icon name="map" size="sm" /><span><b>Travel time</b> {d.travel_time}</span></li>}
                   <li><Icon name="calendar" size="sm" /><span><b>Arrive</b> {dateLong(run.starts_at, run.timezone)}{run.ends_at ? ` · leave ${dateLong(run.ends_at, run.timezone)}` : ""}</span></li>
                 </ul>
                 {run.location.map_query && <Button size="sm" variant="glass" icon="map" href={`https://maps.google.com/?q=${encodeURIComponent(run.location.map_query)}`} target="_blank" rel="noopener">Open in Maps</Button>}
@@ -204,7 +211,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
             )}
           </Sec>
 
-          {d.facilitators?.length ? <Sec id="guides" eyebrow="Who holds the space" title="Your guides"><Facilitators people={d.facilitators} /></Sec> : null}
+          {d.facilitators?.length ? <Sec id="guides" eyebrow="Who holds the space" title="Your guides"><Guides people={d.facilitators} /></Sec> : null}
           <Sec id="help" eyebrow="We’re here" title="Help and contacts"><Help hub={hub} /></Sec>
           {d.faq?.length ? <Sec id="faq" eyebrow="Good to know" title="Questions men ask"><Faq items={d.faq} /></Sec> : null}
         </>
@@ -227,15 +234,22 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                 {!todayItems.length && <li><div><b>Free time on the land</b></div></li>}
               </ol>
             </Glass>
+            {next && (
+              <div className="rtp-next" role="status">
+                <div><span className="lq-eyebrow" data-tone="ok">Now</span><b>{next.now.title}</b></div>
+                {next.next && <div><span className="lq-eyebrow" data-tone="accent">Where next{next.nextAt ? ` · ${next.nextAt}` : ""}</span><b>{next.next.title}</b><span className="lq-t12 lq-c2">{next.next.location ?? run.location.venue ?? "On the land"}{next.timed ? "" : " · the team will call you"}</span></div>}
+              </div>
+            )}
             {hub.sessions.length > 0 && (
               <ul className="rt-docs" role="list" style={{ marginTop: 12 }}>
                 {hub.sessions.map((s) => <li key={s.id}><a href={s.join_url ?? "#"} className="rt-doc lq-press"><Icon name="video" size="sm" /><span className="com-grow">{s.title} · {time(s.starts_at, run.timezone)}</span><Icon name="external" size="sm" /></a></li>)}
               </ul>
             )}
           </Sec>
-          {days.length > 0 && <Sec id="itinerary" eyebrow="The whole arc" title="Itinerary"><DayCards hub={hub} photos={photos} today={today} /></Sec>}
-          <Sec id="gallery" eyebrow="On the land" title="Gallery" aside={<span className="lq-t13 lq-c2 lq-num">{photos.length} photos</span>}><PhotoTour photos={photos} name={run.name} priority={false} /></Sec>
+          {days.length > 0 && <Sec id="itinerary" eyebrow="The whole arc" title="Itinerary"><Timeline hub={hub} photos={dayPhotos} today={today} startsAt={run.starts_at} tz={run.timezone} /></Sec>}
+          <Sec id="wall" eyebrow="Shared by the group" title="Photo wall" aside={<span className="lq-t13 lq-c2 lq-num">{hub.wall.length} photos</span>}><PhotoWall runId={run.id} photos={hub.wall} /></Sec>
           <Sec id="help" eyebrow="We’re here" title="Help and contacts"><Help hub={hub} live /></Sec>
+          <HelpFab phone={d.help?.phone} />
         </>
       )}
 
@@ -254,17 +268,27 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                     return <li key={x}><Icon name="check" size="xs" /><span><b>{head}</b>{rest.length ? <span className="lq-c2"> · {rest.join(" — ")}</span> : null}</span></li>;
                   })}
                 </ul>
-                {prep && <Button href={`/programs/${prep.slug}`} variant="filled" size="md" icon="play">Open your practices</Button>}
+                {prep && <Button href={prepHref} variant="filled" size="md" icon="play">Open your practices</Button>}
               </div>
             </Glass>
           </Sec>
-          <Sec id="recap" eyebrow="Your retreat" title="The recap">
+          <Sec id="recap" eyebrow="Your retreat" title="The photos" aside={<span className="lq-t13 lq-c2 lq-num">{hub.wall.length + photos.length} photos</span>}>
             <div className="rt-recap">
               <div><b className="lq-d-lg lq-num">{days.length || 4}</b><span>days on the mountain</span></div>
               <div><b className="lq-d-lg lq-num">{hub.itinerary.length}</b><span>practices and ceremonies</span></div>
               <div><b className="lq-d-lg lq-num">{run.capacity ?? 20}</b><span>men in the circle</span></div>
             </div>
-            <PhotoTour photos={photos} name={run.name} priority={false} />
+            {hub.wall.length > 0 ? <PhotoWall runId={run.id} photos={hub.wall} /> : <PhotoTour photos={withSitePhotos(photos)} name={run.name} priority={false} />}
+          </Sec>
+          <Sec id="certificate" eyebrow="Moments with Mike" title="Your certificate">
+            <Glass radius="card" className="rtp-cert">
+              <span className="rtp-cert-medal" aria-hidden><Icon name="medal" size="lg" /></span>
+              <div className="com-grow">
+                <b className="lq-d-xs">{run.name}</b>
+                <p className="lq-t13 lq-c2">{hub.certificate ? `Completed ${dates}. Share it or keep it.` : "Mike’s team issues every man’s certificate within a week of the retreat."}</p>
+              </div>
+              {hub.certificate && hub.certificate.id !== "preview" ? <Button href={`/you/certificates/${hub.certificate.id}`} variant="glass" size="sm" icon="download">View certificate</Button> : hub.certificate ? <Button href="/you" variant="glass" size="sm" icon="medal">See it in You</Button> : null}
+            </Glass>
           </Sec>
           <Sec id="next" eyebrow="Beyond the summit" title="Keep the momentum">
             <div className="rt-next">
@@ -273,8 +297,12 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                 <div><div className="lq-eyebrow" data-tone="accent">1:1 with Mike</div><b className="lq-d-xs">Coaching</b><p className="lq-t13 lq-c2">Physical performance and inner work, 45 minutes on Tuesdays.</p></div>
               </Link>
               <Link href="/experiences" className="rt-next-card lq-press">
-                <div className="rt-next-photo">{photoFor(photos, ["group"], 0) && <Image src={photoFor(photos, ["group"], 0)!.url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" />}</div>
+                <div className="rt-next-photo"><Image src={retreatPhoto("celebration").url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" style={{ objectPosition: retreatPhoto("celebration").focal }} /></div>
                 <div><div className="lq-eyebrow" data-tone="warm">Come back deeper</div><b className="lq-d-xs">The next retreat</b><p className="lq-t13 lq-c2">About half the men return for a second round.</p></div>
+              </Link>
+              <Link href="/you/referrals" className="rt-next-card rtp-brother lq-press">
+                <div className="rt-next-photo"><Image src={retreatPhoto("brothers").url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" style={{ objectPosition: retreatPhoto("brothers").focal }} /></div>
+                <div><div className="lq-eyebrow" data-tone="ok">Referral</div><b className="lq-d-xs">Bring a brother next time</b><p className="lq-t13 lq-c2">Send your link to the man who needs this. You both get a month on Mike.</p></div>
               </Link>
             </div>
           </Sec>

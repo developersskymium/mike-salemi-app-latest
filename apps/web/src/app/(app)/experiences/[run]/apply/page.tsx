@@ -12,6 +12,7 @@ import { retreatSteps } from "@/lib/retreat-stage";
 import "@/components/commerce/commerce.css";
 import "@/components/experiences/experiences.css";
 import "@/components/experiences/retreat.css";
+import "@/components/experiences/retreat-plus.css";
 
 export const metadata: Metadata = { title: "Apply", robots: { index: false } };
 
