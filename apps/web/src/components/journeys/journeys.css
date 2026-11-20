@@ -129,6 +129,7 @@
 .jh-sg-c b { font-weight: 650; font-size: 15px; }
 .jh-sg-c small { font-size: 13.5px; color: var(--text-2); }
 .jh-sg > svg:last-child { color: var(--text-3); flex: none; }
+.jh-mode { display: inline-flex; align-items: center; gap: 6px; width: fit-content; background: none; border: 0; padding: 0; margin-top: -8px; cursor: pointer; font: 600 13.5px/20px var(--font); }
 .jh-offer:empty { display: none; }
 
 @media (prefers-reduced-motion: reduce) {

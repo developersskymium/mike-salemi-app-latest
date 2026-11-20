@@ -5,6 +5,7 @@
 .sgp-title { margin: 0; }
 .sgp-lede { margin: 0; }
 .sgp-switch { display: inline-flex; align-items: center; gap: 6px; width: fit-content; font: 600 13.5px/20px var(--font); margin-top: 2px; }
+button.sgp-switch { background: none; border: 0; padding: 0; cursor: pointer; }
 .sgp-next { grid-template-columns: minmax(200px, 280px) 1fr; }
 .sgp-ways { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
 .sgp-chip { appearance: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: 600 13px/1 var(--font); text-decoration: none; cursor: pointer; }

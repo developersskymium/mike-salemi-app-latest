@@ -21,12 +21,16 @@ export async function GET(request: NextRequest, ctx: { params: Promise<{ slug: s
     if (!user) return NextResponse.redirect(new URL(`/signin?next=${encodeURIComponent(dest.pathname)}`, url.origin));
     const { data: l } = await supabase.from("lessons").select("program_id, path_id").eq("id", lesson).maybeSingle();
     if (l) {
-      const { count } = await supabase.from("enrollments").select("id", { count: "exact", head: true }).eq("user_id", user.id).eq("program_id", l.program_id);
-      if (!count) await enroll(supabase, l.program_id, l.path_id, "self_guided").catch(() => null);
-      await startSession(supabase, lesson).catch(() => null);
+      // Per level: a Level II day opened by a Level I member enrolls Level II too (progress, Continue and plans follow it).
+      let q = supabase.from("enrollments").select("id", { count: "exact", head: true }).eq("user_id", user.id).eq("program_id", l.program_id);
+      q = l.path_id ? q.eq("path_id", l.path_id) : q.is("path_id", null);
+      const { count } = await q;
+      if (!count) await enroll(supabase, l.program_id, l.path_id, "self_guided").catch((e) => console.error("[session/open] enroll failed", slug, e instanceof Error ? e.message : e));
+      await startSession(supabase, lesson).catch((e) => console.error("[session/open] start_session failed", slug, e instanceof Error ? e.message : e));
     }
-  } catch {
-    // Logging must never block training: the day opens regardless.
+  } catch (e) {
+    // Logging must never block training: the day opens regardless (but the failure is visible in the logs).
+    console.error("[session/open]", slug, e instanceof Error ? e.message : e);
   }
   return NextResponse.redirect(dest);
 }

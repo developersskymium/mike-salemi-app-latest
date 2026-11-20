@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { SelfGuidedHome } from "@/components/selfguided/SelfGuidedHome";
 import { SelfGuidedHub } from "@/components/selfguided/SelfGuidedHub";
+import { SelfGuidedSync } from "@/components/selfguided/ModeSync";
 import { loadBoard, loadSelfGuidedHome } from "@/lib/loaders/selfguided";
 import { loadSchedule } from "@/lib/loaders/plan";
 import { loadProgramPage } from "@/lib/loaders/training";
@@ -53,5 +54,7 @@ export default async function SelfGuidedHomePage({ params }: Props) {
         graduation={steadyWeeks(board.stats) >= 8 ? { a4l: !!owned.get("athleticism-4-life"), mtk: !!owned.get("mastering-the-kettlebell") } : null}
       />
     ) : null;
-  return <SelfGuidedHome data={data} hub={hub} offer={<OfferSlot placement="program_page" />} />;
+  // Self-Guided on a level enrolled in Immersion: switch it, or the day lock stays on (days ahead can't be completed).
+  const sync = page?.enrollment?.mode === "immersion" ? <SelfGuidedSync programId={page.program.id} pathId={page.path?.id ?? null} slug={slug} levelName={page.path?.shortName ?? page.program.name} /> : null;
+  return <SelfGuidedHome data={data} hub={sync ? <>{sync}{hub}</> : hub} offer={<OfferSlot placement="program_page" />} />;
 }

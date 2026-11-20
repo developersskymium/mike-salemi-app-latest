@@ -119,6 +119,8 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
     setPerWeek(next.length);
   }
 
+  const enrollLevel = { programId: data.program.id, pathId: level?.id ?? null, slug: data.program.slug };
+
   function save() {
     if (mode === "undated") {
       if (!ordered.length) return;
@@ -128,6 +130,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           name,
           { kind: "self_guided", source: "wizard", undated: true, program: data.program.slug, path: pathKey, from, overview: `${ordered.length} sessions in Mike's order, no dates. Do the next one whenever you're ready.` },
           ordered.map((i) => ({ date: i.date, lessonId: i.day.id, kind: i.kind, note: "Next in Mike's order." })),
+          enrollLevel,
         );
         if (!r.ok) return void toast(r.message);
         toast(`Saved — ${ordered.length} sessions in order, no dates.`, { tone: "success" });
@@ -143,6 +146,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
         name,
         { kind: "self_guided", source: "wizard", program: data.program.slug, path: pathKey, weekdays, perWeek, start, focus, from, overview },
         plan.items.map((i) => ({ date: i.date, lessonId: i.day.id, kind: i.kind, note: i.note })),
+        enrollLevel,
       );
       if (!r.ok) {
         toast(r.message);
