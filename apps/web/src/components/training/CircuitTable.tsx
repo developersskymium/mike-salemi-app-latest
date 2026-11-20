@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { formatWorkoutCsv, workoutCsvFilename, type WorkoutRow, type WorkoutTable } from "@ms/core";
 import { Icon } from "@/components/ui";
+import { circuitsOf, cleanBreak } from "./workout";
+import { TempoPulse, WeightChip, usesBell } from "./TableBits";
+import "./circuit.css";
 
 /** Column headings with the source TablePress tooltips (same order as the original app). */
 const COLUMNS = [
@@ -51,7 +54,8 @@ export function tableLines(table: Pick<WorkoutTable, "rows" | "separators">): Li
   return out;
 }
 
-function download(table: WorkoutTable) {
+/** Saves the table as CSV (the original app's export). */
+export function downloadWorkoutCsv(table: WorkoutTable) {
   const blob = new Blob([formatWorkoutCsv(table)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -61,37 +65,35 @@ function download(table: WorkoutTable) {
 }
 
 /**
- * The KBL workout table, as in the original app: one table, seven columns
- * (Type | Exercise | Rest | Intensity | Reps | Sets | Tempo), the original TablePress
- * circuit badges and rest arrows from /kbl/icons, circuit breaks centred across the row,
- * alternating tint, then the table notes and images. On a phone the same table scrolls
- * sideways with Type and Exercise pinned.
+ * The KBL workout table, as in the original app: seven columns (Type | Exercise | Rest |
+ * Intensity | Reps | Sets | Tempo) with the original TablePress circuit badges and rest arrows
+ * from /kbl/icons — set as a compact training card: small tabular type, tight rows, a light
+ * header, one group per circuit (badge once, hairline between circuits, the break after it as a
+ * quiet caption). On a phone it scrolls sideways with the Type and Exercise columns pinned.
+ * `demoFor` returns a player action for an exercise that has a demo clip today.
  */
-export function CircuitTable({ table, csv = true }: { table: WorkoutTable; csv?: boolean }) {
-  const lines = tableLines(table);
+export function CircuitTable({ table, csv = true, demoFor, training }: { table: WorkoutTable; csv?: boolean; demoFor?: (exercise: string) => (() => void) | null; /** Day view: weight memory, tempo pulse, stacked rows on a phone. */ training?: boolean }) {
+  const groups = circuitsOf(table);
   const scroller = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
     const on = () => setScrolled(el.scrollLeft > 2);
-    // Break labels stay centred in the visible part of the table while it scrolls sideways.
-    const size = () => el.style.setProperty("--kd-vis", `${el.clientWidth}px`);
-    size();
-    const ro = new ResizeObserver(size);
-    ro.observe(el);
     el.addEventListener("scroll", on, { passive: true });
-    return () => {
-      ro.disconnect();
-      el.removeEventListener("scroll", on);
-    };
+    return () => el.removeEventListener("scroll", on);
   }, []);
 
   return (
-    <div className="kd-ct" data-workout-table={table.id}>
-      <div className="kd-ct-scroll" ref={scroller} data-scrolled={scrolled ? "" : undefined}>
-        <table className="kd-ct-table">
+    <div className="ct" data-workout-table={table.id} data-training={training ? "" : undefined}>
+      <div className="ct-scroll" ref={scroller} data-scrolled={scrolled ? "" : undefined}>
+        <table className="ct-table">
           <caption className="lq-sr">{table.title}</caption>
+          <colgroup>
+            <col className="ct-col-type" />
+            <col className="ct-col-ex" />
+            <col span={5} />
+          </colgroup>
           <thead>
             <tr>
               {COLUMNS.map((c) => (
@@ -101,50 +103,113 @@ export function CircuitTable({ table, csv = true }: { table: WorkoutTable; csv?:
               ))}
             </tr>
           </thead>
-          <tbody>
-            {lines.map((line, i) =>
-              line.kind === "sep" ? (
-                <tr key={`s${i}`} className="kd-ct-sep">
+          {groups.map((g) => (
+            <tbody key={g.key} className="ct-group">
+              {g.rows.map((row, ri) => {
+                const ex = text(row.exercise);
+                const demo = demoFor && ex ? demoFor(ex) : null;
+                return (
+                  <tr key={ri}>
+                    {ri === 0 && (
+                      <td className="ct-type" rowSpan={g.rows.length}>
+                        <CircuitBadge circuit={text(row.circuit)} icon={row.circuitIcon ? text(row.circuitIcon) : undefined} />
+                      </td>
+                    )}
+                    <td className="ct-ex">
+                      {demo ? (
+                        <button type="button" className="ct-demo" onClick={demo} title={`Play the ${ex} demo`}>
+                          <span>{ex}</span>
+                          <Icon name="play" size="xs" />
+                        </button>
+                      ) : (
+                        <span>{ex}</span>
+                      )}
+                      {row.note ? <span className="ct-note">{text(row.note)}</span> : null}
+                      {training && ex && usesBell(row.intensity) ? <WeightChip exercise={ex} /> : null}
+                    </td>
+                    <td className="ct-rest">
+                      <span>
+                        {row.restIcon ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={text(row.restIcon)} alt="" width={14} height={14} className="ct-arrow" loading="lazy" />
+                        ) : null}
+                        {text(row.rest)}
+                      </span>
+                    </td>
+                    <td>{text(row.intensity)}</td>
+                    <td className="lq-num">{text(row.reps)}</td>
+                    <td className="lq-num ct-sets">{text(row.sets)}</td>
+                    <td>{training ? <TempoPulse tempo={text(row.tempo)} /> : text(row.tempo)}</td>
+                  </tr>
+                );
+              })}
+              {g.after && (
+                <tr className="ct-break">
                   <td colSpan={7}>
-                    <span>{line.label}</span>
+                    <span>{cleanBreak(g.after)}</span>
                   </td>
                 </tr>
-              ) : (
-                <tr key={`r${i}`} data-alt={line.index % 2 === 1 ? "" : undefined}>
-                  <td className="kd-ct-type">
-                    <CircuitBadge circuit={text(line.row.circuit)} icon={line.row.circuitIcon ? text(line.row.circuitIcon) : undefined} />
-                  </td>
-                  <td className="kd-ct-ex">
-                    {text(line.row.exercise)}
-                    {line.row.note ? <span className="kd-ct-note">{text(line.row.note)}</span> : null}
-                  </td>
-                  <td className="kd-ct-rest">
-                    <span>
-                      {line.row.restIcon ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={text(line.row.restIcon)} alt="" width={20} className="kd-ct-arrow" loading="lazy" />
-                      ) : null}
-                      {text(line.row.rest)}
-                    </span>
-                  </td>
-                  <td className="kd-ct-c2">{text(line.row.intensity)}</td>
-                  <td className="lq-num">{text(line.row.reps)}</td>
-                  <td className="lq-num">{text(line.row.sets)}</td>
-                  <td className="kd-ct-c2">{text(line.row.tempo)}</td>
-                </tr>
-              ),
-            )}
-          </tbody>
+              )}
+            </tbody>
+          ))}
         </table>
       </div>
-      {table.notes ? <p className="kd-ct-notes">{table.notes}</p> : null}
+      {training && (
+        <ol className="ct-stack" aria-label={table.title}>
+          {groups.map((g) => (
+            <li key={g.key} className="ct-sg">
+              <p className="ct-sg-h">
+                <CircuitBadge circuit={g.circuit} icon={g.icon ?? undefined} />
+                <b className="lq-num">
+                  {g.sets} {g.sets === 1 ? "set" : "sets"}
+                </b>
+              </p>
+              {g.rows.map((row, ri) => {
+                const ex = text(row.exercise);
+                const demo = demoFor && ex ? demoFor(ex) : null;
+                return (
+                  <div key={ri} className="ct-sm">
+                    {demo ? (
+                      <button type="button" className="ct-demo ct-sm-n" onClick={demo}>
+                        <span>{ex}</span>
+                        <Icon name="play" size="xs" />
+                      </button>
+                    ) : (
+                      <b className="ct-sm-n">{ex}</b>
+                    )}
+                    <span className="ct-sm-d lq-num">
+                      <span>{text(row.reps)}</span>
+                      {row.rest ? (
+                        <span>
+                          {row.restIcon ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={text(row.restIcon)} alt="" width={12} height={12} className="ct-arrow" loading="lazy" />
+                          ) : null}
+                          {text(row.rest)} rest
+                        </span>
+                      ) : null}
+                      {row.intensity ? <span>{text(row.intensity)}</span> : null}
+                    </span>
+                    <span className="ct-sm-x">
+                      <TempoPulse tempo={text(row.tempo)} />
+                      {ex && usesBell(row.intensity) ? <WeightChip exercise={ex} /> : null}
+                    </span>
+                  </div>
+                );
+              })}
+              {g.after && <p className="ct-sg-b">{cleanBreak(g.after)}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
+      {table.notes ? <p className="ct-notes">{table.notes}</p> : null}
       {table.images?.map((img) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={img.url} src={img.url} alt={img.alt ?? ""} className="kd-ct-img" loading="lazy" />
+        <img key={img.url} src={img.url} alt={img.alt ?? ""} className="ct-img" loading="lazy" />
       ))}
       {csv && (
-        <div className="kd-ct-foot">
-          <button type="button" className="kd-link" onClick={() => download(table)}>
+        <div className="ct-foot">
+          <button type="button" className="kd-link" onClick={() => downloadWorkoutCsv(table)}>
             <Icon name="down" size="xs" />
             Download CSV
           </button>
@@ -158,5 +223,5 @@ export function CircuitTable({ table, csv = true }: { table: WorkoutTable; csv?:
 export function CircuitBadge({ circuit, icon }: { circuit: string; icon?: string }) {
   if (!icon) return <span className="kd-ct-badge-t">{circuit}</span>;
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={icon} alt={circuit} title={circuit} className="kd-ct-badge" loading="lazy" />;
+  return <img src={icon} alt={circuit} title={circuit} className="kd-ct-badge ct-badge" width={28} height={28} loading="lazy" />;
 }
