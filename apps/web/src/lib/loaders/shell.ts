@@ -1,9 +1,11 @@
 import "server-only";
-import { myEnrollments, myRewards, type DB } from "@ms/api";
+import { myEnrollments, type DB } from "@ms/api";
 import { fixture, MOCK } from "@/lib/mock";
 import { programPhoto, type ProgramPhoto } from "@/lib/program-photos";
 import { pickContinue } from "@/lib/continue";
+import { lessonHrefOf, programHref } from "@/lib/hrefs";
 import { introLessonIds } from "./intro-lessons";
+import { streakCount, withTrainingDays } from "./day-progress";
 
 /* The member shell's data: the resume card and the "Your access" list from ONE cheap RPC
    (my_enrollments), plus the shop flag. The streak loads separately inside a Suspense boundary. */
@@ -40,10 +42,11 @@ export interface ShellData {
   shop: boolean;
   /** Shown only because the viewer is an admin while the shop is still off (the rail marks it "Admin"). */
   shopAdmin: boolean;
+  /** The viewer is an admin: unconfirmed facts keep their "Draft" markers (members never see them). */
+  admin?: boolean;
 }
 
-const lessonHref = (e: Enrollment) =>
-  e.current_lesson_id ? `/programs/${e.program_slug}/${e.mode === "self_guided" ? "guide" : "learn"}/${e.current_lesson_id}` : `/programs/${e.program_slug}`;
+const lessonHref = (e: Enrollment) => lessonHrefOf(e.program_slug, e.current_lesson_id, { type: e.program_type, mode: e.mode });
 
 /** "Day 24 - Recovery Day" → { day: "Day 24", title: "Recovery Day" } */
 function splitLesson(t: string | null): { day: string | null; title: string } {
@@ -84,15 +87,15 @@ export function shapeShell(rows: Enrollment[], shopEnabled: boolean, admin = fal
     seen.add(e.program_slug);
     const level = levelOf(e.path_name);
     const sub = e.completed_at ? "Completed" : [level, e.mode === "self_guided" ? "Self-guided" : level ? "Immersion" : KIND[e.program_type] ?? "Program"].filter(Boolean).join(" · ");
-    access.push({ href: `/programs/${e.program_slug}`, title: e.program_name, sub, photo: programPhoto(e.program_slug), slug: e.program_slug });
+    access.push({ href: programHref(e.program_slug, e.program_type), title: e.program_name, sub, photo: programPhoto(e.program_slug), slug: e.program_slug });
   }
-  return { resume, access: access.slice(0, 4), shop: shopEnabled || admin, shopAdmin: !shopEnabled && admin };
+  return { resume, access: access.slice(0, 4), shop: shopEnabled || admin, shopAdmin: !shopEnabled && admin, admin };
 }
 
 export async function loadShell(sb: DB): Promise<ShellData> {
   if (MOCK) {
     const raw = await fixture<{ enrollments: Enrollment[] }>("today-home").catch(() => ({ enrollments: [] as Enrollment[] }));
-    return shapeShell(raw.enrollments, true);
+    return shapeShell(await withTrainingDays(raw.enrollments), true);
   }
   const [rows, shop, admin, intro] = await Promise.all([
     myEnrollments(sb).catch(() => [] as Enrollment[]),
@@ -101,15 +104,10 @@ export async function loadShell(sb: DB): Promise<ShellData> {
     sb.from("user_roles").select("role").eq("role", "admin").limit(1).maybeSingle().then((r) => Boolean(r.data), () => false),
     introLessonIds(sb),
   ]);
-  return shapeShell(rows, shop, admin, intro);
+  return shapeShell(await withTrainingDays(rows), shop, admin, intro);
 }
 
 /** The current streak (days), for the streak chip. Streams in after the shell. */
-export async function loadStreak(sb: DB): Promise<number> {
-  if (MOCK) return 12;
-  try {
-    return (await myRewards(sb)).streak_current ?? 0;
-  } catch {
-    return 0;
-  }
+export async function loadStreak(): Promise<number> {
+  return (await streakCount()).current;
 }
