@@ -45,7 +45,7 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   if (slug === "kettlebell-lifestyle" && mode !== "self_guided") {
     const intake = await loadIntakePage(slug).catch(() => null);
     const recommended = intake?.latest?.result?.path_key ?? null;
-    return <KblHome data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<PairsWellWith program={slug} />} badges={<ProgramBadges slug={slug} />} />;
+    return <KblHome key={data.path?.id ?? "p"} data={data} board={board} recommendedKey={recommended ?? (data.enrollment ? data.path?.key ?? null : null)} offer={<PairsWellWith program={slug} />} badges={<ProgramBadges slug={slug} />} />;
   }
-  return <ProgramView data={data} board={board} initialMode={mode} offer={<OfferSlot placement="program_page" />} />;
+  return <ProgramView key={`${data.path?.id ?? "p"}:${mode ?? ""}`} data={data} board={board} initialMode={mode} offer={<OfferSlot placement="program_page" />} />;
 }

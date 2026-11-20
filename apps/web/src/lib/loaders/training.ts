@@ -109,7 +109,8 @@ async function realProgramPage(sb: DB, userId: string, slug: string, pathKey: st
   });
   const enrolledPathIds = new Set((enrollRows ?? []).map((e) => e.path_id));
   const path =
-    paths.find((p) => p.key === pathKey) ??
+    // `?path=` carries the level key, or the path id when a level has no key.
+    (pathKey ? paths.find((p) => p.key === pathKey || p.id === pathKey) : undefined) ??
     paths.find((p) => enrolledPathIds.has(p.id)) ??
     paths[0] ??
     null;
