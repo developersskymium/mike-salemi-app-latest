@@ -18,7 +18,7 @@ const STATUS: Record<ReminderEvent["status"], { label: string; icon: IconName }>
 };
 const CHANNEL: Record<ReminderEvent["channel"], string> = { email: "Email", push: "Device notification", in_app: "In-app" };
 const KIND: Record<string, string> = {
-  training_reminder: "Training reminder", streak_nudge: "Streak nudge", weekly_summary: "Weekly summary",
+  training_reminder: "Training reminder", streak_nudge: "Streak nudge", weekly_summary: "Weekly summary", win_back: "Welcome back",
   reward: "Reward", certificate: "Certificate", tool_result: "Tool result", schedule_created: "Schedule", welcome: "Welcome", test: "Test",
 };
 

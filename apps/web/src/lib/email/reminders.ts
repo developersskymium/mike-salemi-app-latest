@@ -40,12 +40,14 @@ export interface Candidate {
   week: { days: number; lessons: number; minutes: number; badges: string[] };
   next_up: { title: string; on_date: string } | null;
   push_count: number;
+  /** When this member last got a win-back email (filled by the cron, not the database function). */
+  last_win_back?: string | null;
 }
 
 export type Channel = "email" | "push" | "in_app";
 
 export interface Decision {
-  kind: "training_reminder" | "streak_nudge" | "weekly_summary";
+  kind: "training_reminder" | "streak_nudge" | "weekly_summary" | "win_back";
   dedupeKey: string;
   channels: Channel[];
   title: string;
@@ -94,6 +96,10 @@ const weekdayName = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString
 /** Catch-up window after the target time (the cron runs hourly). */
 export const WINDOW_MIN = 120;
 const STREAK_HOUR = 18 * 60;
+/** Win-back: after this many days without training, at most once per WIN_BACK_GAP days, never past WIN_BACK_MAX. */
+export const WIN_BACK_AFTER = 14;
+export const WIN_BACK_GAP = 30;
+const WIN_BACK_MAX = 90;
 const WEEKLY_HOUR = 18 * 60;
 
 /* ---------------------------------------------------------------- decision */
@@ -187,7 +193,50 @@ export function decide(c: Candidate, now: Date = new Date()): Decision[] {
       },
     });
   }
+  /* Win-back — 14+ quiet days, at the member's reminder time, email only, once a month at most. */
+  if (p.streak_nudge && p.email_enabled && !skippedToday && c.last_active) {
+    const gap = daysBetween(c.last_active, c.local_date);
+    const lastNudge = c.last_win_back ? (now.getTime() - Date.parse(c.last_win_back)) / 86_400_000 : Infinity;
+    if (gap >= WIN_BACK_AFTER && gap <= WIN_BACK_MAX && lastNudge >= WIN_BACK_GAP && !out.length && inWindow(minutesOf(timeFor(p, c.local_dow)))) {
+      const href = c.enrollment ? `/programs/${c.enrollment.program_slug}` : "/today";
+      out.push({
+        kind: "win_back",
+        dedupeKey: `day:${c.local_date}`,
+        channels: ["email"],
+        title: "Pick up where you left off",
+        body: "Your progress is saved. One short session gets you back.",
+        url: href,
+        email: { kind: "win_back", name: c.first_name ?? undefined, daysAway: gap, programName: c.enrollment?.program_name, href },
+      });
+    }
+  }
   return out;
+}
+
+/* ---------------------------------------------------------------- coaching call reminder */
+
+/** Hours before a call the reminder goes out (sent on the first cron run inside the window outside quiet hours). */
+export const COACHING_LEAD_H = 24;
+
+/**
+ * Should a coaching call reminder go out now? Pure. Sent once (the caller dedupes by booking id) when the
+ * call is 2 to 24 hours away and the member is not in quiet hours. Calls booked less than a day ahead
+ * skip it: the booking confirmation just arrived.
+ */
+export function coachingReminderDue(
+  b: { starts_at: string; created_at: string; status: string },
+  p: Pick<CandidatePrefs, "email_enabled" | "quiet_start" | "quiet_end"> | null,
+  localMinutes: number,
+  now: Date = new Date(),
+) {
+  if (b.status !== "booked") return false;
+  if (p && !p.email_enabled) return false;
+  const start = Date.parse(b.starts_at);
+  const hoursAway = (start - now.getTime()) / 3_600_000;
+  if (hoursAway > COACHING_LEAD_H || hoursAway < 2) return false;
+  if (start - Date.parse(b.created_at) < COACHING_LEAD_H * 3_600_000) return false;
+  if (p && inQuiet(p, localMinutes)) return false;
+  return true;
 }
 
 /** Next moment the training reminder is expected (for the UI), as local date + time. */

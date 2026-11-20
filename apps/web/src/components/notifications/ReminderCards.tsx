@@ -183,7 +183,7 @@ export function WhatWeSendCard({ p }: { p: P }) {
   return (
     <NtfCard icon="sparkle" title="What we send" id="ntf-what">
       <div className="ntf-rows">
-        <ToggleRow id="ntf-streak" label="Streak nudges" hint="A gentle push when a streak is at risk" checked={prefs.streak_nudge} onChange={(v) => save({ streak_nudge: v })} />
+        <ToggleRow id="ntf-streak" label="Streak nudges" hint="A gentle push when a streak is at risk or you have been away a while" checked={prefs.streak_nudge} onChange={(v) => save({ streak_nudge: v })} />
         <ToggleRow id="ntf-weekly" label="Weekly summary" hint="Your week in training, every Sunday evening" checked={prefs.weekly_recap} onChange={(v) => save({ weekly_recap: v })} />
         <ToggleRow id="ntf-new" label="New content" hint="When lessons or programs are added" checked={prefs.new_content} onChange={(v) => save({ new_content: v })} />
         <ToggleRow id="ntf-ann" label="Announcements" hint="Retreats, offers and other programs" checked={prefs.announcements} onChange={(v) => save({ announcements: v, offers_email: v })} />
@@ -212,7 +212,7 @@ export function ChannelsCard({ p, today, now, email, emailReady, pushKey, isAdmi
   return (
     <NtfCard icon="share" title="Channels" id="ntf-channels">
       <div className="ntf-rows">
-        <ToggleRow id="ntf-email" label="Email" hint={email ? `Reminders, summaries and milestones to ${email}` : "Reminders, summaries and milestones"} checked={prefs.email_enabled} onChange={(v) => save({ email_enabled: v })} />
+        <ToggleRow id="ntf-email" label="Email" hint={email ? `Reminders, summaries and milestones to ${email}. Receipts and bookings always arrive.` : "Reminders, summaries and milestones. Receipts and bookings always arrive."} checked={prefs.email_enabled} onChange={(v) => save({ email_enabled: v })} />
         <ToggleRow id="ntf-inapp" label="In-app" hint="A reminder card while the app is open" checked={prefs.in_app_enabled} onChange={(v) => save({ in_app_enabled: v })} />
         <PushRow pushKey={pushKey} enabled={prefs.push_enabled} onDisable={() => save({ push_enabled: false }, "Notifications off on this device")} />
       </div>

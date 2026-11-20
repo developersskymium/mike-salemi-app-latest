@@ -36,6 +36,15 @@ function Check({ ok, label, detail }: { ok: boolean; label: string; detail: stri
   );
 }
 
+const PREF_LABEL: Record<NonNullable<EmailKindInfo["pref"]>, string> = {
+  always: "Always sent, even with email switched off.",
+  email: "Sent when the member has email switched on.",
+  reminders: "Sent when email and training reminders are on, outside quiet hours.",
+  streak_nudge: "Sent when email and streak nudges are on, outside quiet hours.",
+  weekly_recap: "Sent when email and the weekly summary are on.",
+  new_content: "Sent when email and new content alerts are on.",
+};
+
 export function EmailCentre({ kinds, groups, previews, status, adminEmail, log }: { kinds: EmailKindInfo[]; groups: EmailGroup[]; previews: Record<string, Preview>; status: Status; adminEmail: string; log: OutboxRow[] }) {
   const [kind, setKind] = useState<EmailKind>("welcome");
   const [mode, setMode] = useState<"light" | "dark" | "text">("light");
@@ -69,7 +78,7 @@ export function EmailCentre({ kinds, groups, previews, status, adminEmail, log }
             <p>
               {status.configured
                 ? `From ${status.from} and ${status.fromMike}.`
-                : "Every trigger already writes to the outbox and is rendered; the final send logs “not configured” until RESEND_API_KEY is set. Welcome, rewards, certificates, tool results and schedules from the last 3 days go out automatically once it is."}
+                : "Every trigger already writes to the outbox and is rendered; the final send logs “not configured” until RESEND_API_KEY is set. Welcome, receipts, orders, bookings, rewards, certificates, tool results and schedules from the last 3 days go out automatically once it is."}
             </p>
           </div>
         </div>
@@ -109,6 +118,7 @@ export function EmailCentre({ kinds, groups, previews, status, adminEmail, log }
               <p className="eml-k">Subject</p>
               <p className="eml-s">{pv.subject}</p>
               <p className="eml-meta">From {info.sender} · {info.trigger}</p>
+              <p className="eml-meta">{PREF_LABEL[info.pref ?? "email"]}</p>
               <p className="eml-meta">Preheader: {pv.preheader} · Trigger: <code>{info.source}</code></p>
             </div>
             <Button size="md" icon="share" onClick={test} disabled={pending}>{pending ? "Sending…" : "Send me a test"}</Button>

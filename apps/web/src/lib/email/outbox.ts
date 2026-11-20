@@ -3,6 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { emailConfigured } from "./config";
 import { sendEmail, type SendResult } from "./send";
 import { renderEmail, type AppEmail } from "./templates";
+import { ALWAYS_SEND } from "./catalog";
 
 /**
  * Drains public.email_outbox (filled by DB triggers, the welcome queue and the reminders cron).
@@ -12,10 +13,14 @@ import { renderEmail, type AppEmail } from "./templates";
 
 type SB = SupabaseClient;
 type Row = { id: string; user_id: string; kind: string; dedupe_key: string; payload: Record<string, unknown>; status: string; attempts: number; event_id: string | null; created_at: string };
-type Prefs = { email_enabled: boolean; new_content: boolean } | null;
+type Prefs = { email_enabled: boolean; new_content: boolean; streak_nudge: boolean } | null;
 
 /** Kinds worth delivering late once email is configured (reminders are not: they'd arrive stale). */
-const DURABLE = ["welcome", "tool_result", "reward", "certificate", "schedule_created"];
+const DURABLE = [
+  "welcome", "tool_result", "reward", "certificate", "schedule_created",
+  "payment_receipt", "payment_failed", "plan_ending", "plan_ended", "plan_paused",
+  "order_confirmation", "order_shipped", "coaching_booked", "retreat_application_received", "retreat_application_update", "referral_reward",
+];
 const MAX_ATTEMPTS = 5;
 
 const longDate = (iso: string, tz = "UTC") =>
@@ -27,6 +32,48 @@ const cleanTitle = (t: string) => {
 const time12 = (hhmm: string) => {
   const [h, m] = hhmm.split(":").map(Number);
   return `${((h! + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h! < 12 ? "AM" : "PM"}`;
+};
+
+/** "$119.00" from cents and an ISO currency. */
+export const money = (cents: number, currency = "usd") =>
+  new Intl.NumberFormat("en-US", { style: "currency", currency: currency.toUpperCase() }).format((cents ?? 0) / 100);
+
+const validTz = (tz: string | null | undefined) => {
+  try {
+    if (tz) new Intl.DateTimeFormat("en-US", { timeZone: tz });
+    return tz || "UTC";
+  } catch {
+    return "UTC";
+  }
+};
+/** "Thursday, November 27 at 9:00 AM" in the member's time zone. */
+export const whenLabel = (iso: string, tz = "UTC") => {
+  const d = new Date(iso);
+  const zone = validTz(tz);
+  const date = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: zone });
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: zone, timeZoneName: "short" });
+  return `${date} at ${time}`;
+};
+const dateRange = (start: string | null, end: string | null, tz = "UTC") => {
+  if (!start) return undefined;
+  const zone = validTz(tz);
+  const f = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: zone });
+  const year = new Date(start).toLocaleDateString("en-US", { year: "numeric", timeZone: zone });
+  return end && f(end) !== f(start) ? `${f(start)} to ${f(end)}, ${year}` : `${f(start)}, ${year}`;
+};
+const placeOf = (loc: unknown) => {
+  if (!loc || typeof loc !== "object") return undefined;
+  const l = loc as Record<string, unknown>;
+  const parts = [l.name, l.city, l.region, l.country].filter((x): x is string => typeof x === "string" && x.trim() !== "");
+  return parts.length ? [...new Set(parts)].join(", ") : undefined;
+};
+const addressOf = (a: unknown) => {
+  if (!a || typeof a !== "object") return undefined;
+  const r = a as Record<string, unknown>;
+  const addr = (r.address && typeof r.address === "object" ? r.address : r) as Record<string, unknown>;
+  const parts = [r.name, addr.line1, addr.line2, addr.city, [addr.state, addr.postal_code].filter(Boolean).join(" "), addr.country]
+    .filter((x): x is string => typeof x === "string" && x.trim() !== "");
+  return parts.length ? parts.join(", ") : undefined;
 };
 
 async function profileOf(sb: SB, userId: string) {
@@ -44,6 +91,118 @@ export async function buildFromRow(sb: SB, row: Row): Promise<{ email: AppEmail 
     case "new_content":
     case "test":
       return p.email ? { email: p.email as AppEmail } : { skip: "Missing email payload" };
+
+    case "payment_receipt":
+    case "payment_failed":
+    case "plan_ending":
+    case "plan_ended":
+    case "plan_paused":
+    case "win_back":
+      return p.email ? { email: p.email as AppEmail } : { skip: "Missing email payload" };
+
+    case "order_confirmation":
+    case "order_shipped": {
+      const { data: o } = await sb
+        .from("orders")
+        .select("id, reference, status, total_cents, shipping_cents, currency, shipping_address, fulfillment, tracking_carrier, tracking_number, tracking_url, order_items(kind, name, quantity, unit_cents)")
+        .eq("id", p.order_id as string)
+        .maybeSingle();
+      if (!o) return { skip: "Order not found" };
+      if (o.status !== "paid") return { skip: "Order is not paid" };
+      const items = ((o.order_items ?? []) as { kind: string; name: string; quantity: number; unit_cents: number }[]).filter((i) => i.kind !== "shipping");
+      const ref = (o.reference as string | null) ?? String(o.id).slice(0, 8).toUpperCase();
+      if (row.kind === "order_shipped") {
+        if (o.fulfillment !== "shipped" && o.fulfillment !== "delivered") return { skip: "Order is not shipped" };
+        return {
+          email: {
+            kind: "order_shipped",
+            reference: ref,
+            items: items.map((i) => (i.quantity > 1 ? `${i.name} × ${i.quantity}` : i.name)),
+            carrier: o.tracking_carrier ?? undefined,
+            trackingNumber: o.tracking_number ?? undefined,
+            trackingUrl: o.tracking_url && /^https?:\/\//.test(o.tracking_url) ? o.tracking_url : undefined,
+            shipTo: addressOf(o.shipping_address),
+          },
+        };
+      }
+      return {
+        email: {
+          kind: "order_confirmation",
+          reference: ref,
+          items: items.map((i) => ({ name: i.name, quantity: i.quantity, amount: money(i.unit_cents * i.quantity, o.currency) })),
+          shipping: o.shipping_cents ? money(o.shipping_cents, o.currency) : undefined,
+          total: money(o.total_cents, o.currency),
+          shipTo: addressOf(o.shipping_address),
+          physical: Boolean(o.fulfillment) || Boolean(o.shipping_address),
+        },
+      };
+    }
+
+    case "coaching_booked":
+    case "coaching_reminder": {
+      const { data: b } = await sb
+        .from("coaching_bookings")
+        .select("id, status, starts_at, duration_minutes, meeting_url, coaching_credits(coaching_packages(name))")
+        .eq("id", p.booking_id as string)
+        .maybeSingle();
+      if (!b) return { skip: "Booking not found" };
+      if (b.status !== "booked") return { skip: "Booking is no longer active" };
+      if (Date.parse(b.starts_at) < Date.now()) return { skip: "Call already started" };
+      const pr = await profileOf(sb, row.user_id);
+      const pkg = (b.coaching_credits as unknown as { coaching_packages: { name: string } | null } | null)?.coaching_packages?.name;
+      return {
+        email: {
+          kind: row.kind,
+          when: whenLabel(b.starts_at, pr?.timezone ?? "UTC"),
+          minutes: b.duration_minutes ?? 45,
+          packageName: pkg ?? undefined,
+          meetingUrl: b.meeting_url && /^https?:\/\//.test(b.meeting_url) ? b.meeting_url : undefined,
+          bookingId: b.id,
+        },
+      };
+    }
+
+    case "retreat_application_received":
+    case "retreat_application_update": {
+      const { data: a } = await sb
+        .from("run_applications")
+        .select("id, run_id, status, program_runs(name, starts_at, ends_at, timezone, location, programs(name))")
+        .eq("id", p.application_id as string)
+        .maybeSingle();
+      if (!a) return { skip: "Application not found" };
+      const run = a.program_runs as unknown as { name: string | null; starts_at: string | null; ends_at: string | null; timezone: string | null; location: unknown; programs: { name: string } | null } | null;
+      const retreatName = run?.name || run?.programs?.name || "your retreat";
+      const base = { retreatName, dates: dateRange(run?.starts_at ?? null, run?.ends_at ?? null, run?.timezone ?? "UTC"), place: placeOf(run?.location), runId: a.run_id as string };
+      if (row.kind === "retreat_application_received") {
+        if (a.status === "cancelled") return { skip: "Application was withdrawn" };
+        return { email: { kind: "retreat_application_received", ...base } };
+      }
+      // Only the decision this row was queued for, and only if it still stands.
+      const want = p.status as string;
+      if ((want !== "accepted" && want !== "waitlist") || a.status !== want) return { skip: "Application status has changed" };
+      return { email: { kind: "retreat_application_update", status: want, ...base } };
+    }
+
+    case "referral_reward": {
+      const { data: r } = await sb.from("referrals").select("id, referred_id, status").eq("id", p.referral_id as string).maybeSingle();
+      if (!r || r.status !== "rewarded") return { skip: "Referral not rewarded" };
+      const [friend, { data: sub }] = await Promise.all([
+        profileOf(sb, r.referred_id as string),
+        sb.from("subscriptions").select("current_period_end").eq("user_id", row.user_id).eq("plan_id", "pro").in("status", ["active", "trialing"]).order("current_period_end", { ascending: false }).limit(1).maybeSingle(),
+      ]);
+      const me = await profileOf(sb, row.user_id);
+      return {
+        email: {
+          kind: "referral_reward",
+          friendName: friend?.first_name || friend?.display_name?.split(" ")[0] || undefined,
+          days: 30,
+          points: 500,
+          proUntil: sub?.current_period_end
+            ? new Date(sub.current_period_end).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: validTz(me?.timezone) })
+            : undefined,
+        },
+      };
+    }
 
     case "welcome": {
       const pr = await profileOf(sb, row.user_id);
@@ -139,10 +298,11 @@ export async function buildFromRow(sb: SB, row: Row): Promise<{ email: AppEmail 
   return { skip: `Unknown kind ${row.kind}` };
 }
 
-function allowed(kind: string, prefs: Prefs) {
-  if (["welcome", "test", "password_reset"].includes(kind)) return true;
+export function allowed(kind: string, prefs: Prefs) {
+  if (ALWAYS_SEND.includes(kind)) return true;
   if (prefs && !prefs.email_enabled) return false;
   if (kind === "new_content" && prefs && !prefs.new_content) return false;
+  if (kind === "win_back" && prefs && prefs.streak_nudge === false) return false;
   return true;
 }
 
@@ -209,7 +369,7 @@ export async function drainOutbox(sb: SB, opts: { limit?: number; ids?: string[]
     };
     try {
       if (!prefsCache.has(row.user_id)) {
-        const { data } = await sb.from("notification_prefs").select("email_enabled, new_content").eq("user_id", row.user_id).maybeSingle();
+        const { data } = await sb.from("notification_prefs").select("email_enabled, new_content, streak_nudge").eq("user_id", row.user_id).maybeSingle();
         prefsCache.set(row.user_id, (data as Prefs) ?? null);
       }
       if (!allowed(row.kind, prefsCache.get(row.user_id)!)) {
