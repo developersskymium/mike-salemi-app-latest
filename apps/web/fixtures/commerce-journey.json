@@ -1,0 +1,19 @@
+{
+ "runId": "b6925b87-238b-6a2a-a0ec-ab2682e21aae",
+ "name": "The Breakthrough",
+ "cover": "/media/retreats/live/breakthrough-circle-room.jpg",
+ "startsAt": "2027-05-13T19:00:00+00:00",
+ "endsAt": "2027-05-16T19:00:00+00:00",
+ "timezone": "America/Los_Angeles",
+ "runStatus": "open",
+ "location": "Mount Shasta",
+ "application": {
+  "status": "submitted",
+  "call_at": null,
+  "call_done_at": null
+ },
+ "checklist": {
+  "done": 0,
+  "total": 11
+ }
+}

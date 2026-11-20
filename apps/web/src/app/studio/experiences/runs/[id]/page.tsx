@@ -6,6 +6,7 @@ import { ApplicationActions } from "@/components/studio/site";
 import { Answers } from "@/components/studio/Answers";
 import { studioAdmin } from "@/lib/studio/guard";
 import { loadRun } from "@/lib/studio/loaders";
+import { RetreatPipeline } from "../../_p3/Pipeline";
 
 export default async function RunPage({ params }: { params: Promise<{ id: string }> }) {
   await studioAdmin();
@@ -31,6 +32,7 @@ export default async function RunPage({ params }: { params: Promise<{ id: string
       <Panel title="Applications" meta={`${d.applications.length}`}>
         <DataTable rows={d.applications} empty="No applications for this run." cols={[
           { label: "Who", render: (a) => a.who }, { label: "Applied", render: (a) => fdate(a.created_at) }, { label: "Status", render: (a) => <Status v={a.status} /> },
+          { label: "Next step", render: (a) => <RetreatPipeline a={a as never} /> },
           { label: "Review", render: (a) => <details><summary className="st-link" style={{ cursor: "pointer" }}>Open</summary><Answers answers={a.answers} /><ApplicationActions id={a.id} status={a.status} note={a.admin_note} /></details> },
         ]} />
       </Panel>

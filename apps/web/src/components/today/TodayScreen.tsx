@@ -20,7 +20,7 @@ function hourIn(tz: string) {
   }
 }
 
-export function TodayScreen({ v, home, homeError }: { v: TodayView; home: HomeView | null; homeError?: boolean }) {
+export function TodayScreen({ v, home, homeError, retreat }: { v: TodayView; home: HomeView | null; homeError?: boolean; /** P3: the member's retreat journey card (streams in). */ retreat?: React.ReactNode }) {
   const hour = hourIn(v.timezone);
   const hello = `${greeting(hour)}, ${v.firstName}`;
   const art = home?.continuing?.image ?? home?.featured?.image;
@@ -49,6 +49,7 @@ export function TodayScreen({ v, home, homeError }: { v: TodayView; home: HomeVi
           <NowCard v={v} />
         )}
         {home?.alsoToday && <AlsoToday a={home.alsoToday} />}
+        {retreat}
 
         {/* (2) Error banner: the rails failed but Today still works */}
         {homeError && (

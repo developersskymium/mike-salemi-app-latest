@@ -177,7 +177,7 @@ export const loadOffer = studioLoader("studio-offer", async (db, id: string) => 
 });
 
 export const loadExperiences = studioLoader("studio-experiences", async (db) => {
-  const [runs, programs, packages, slots, bookings, apps, itinerary] = await Promise.all([
+  const [runs, programs, packages, slots, bookings, apps, itinerary, coachApps] = await Promise.all([
     rows(db.from("program_runs").select("*").order("starts_at", { ascending: false })),
     rows(db.from("programs").select("id,name,type,slug,meta")),
     rows(db.from("coaching_packages").select("*").order("position")),
@@ -185,10 +185,11 @@ export const loadExperiences = studioLoader("studio-experiences", async (db) => 
     rows(db.from("coaching_bookings").select("*").order("starts_at", { ascending: false })),
     rows(db.from("run_applications").select("*").order("created_at", { ascending: false })),
     rows(db.from("itinerary_items").select("run_id")),
+    rows(db.from("coaching_applications").select("*").order("created_at", { ascending: false })).catch(() => [] as Row[]),
   ]);
   const pn = new Map(programs.map((p) => [p.id, p.name]));
   const ic = by(itinerary, "run_id"), ac = by(apps, "run_id");
-  const people = await profileNames(db, [...bookings.map((b) => b.user_id), ...apps.map((a) => a.user_id)]);
+  const people = await profileNames(db, [...bookings.map((b) => b.user_id), ...apps.map((a) => a.user_id), ...coachApps.map((a) => a.user_id)]);
   const coach = programs.find((p) => p.slug === "coaching") as Row | undefined;
   const now = new Date().toISOString();
   return {
@@ -198,6 +199,7 @@ export const loadExperiences = studioLoader("studio-experiences", async (db) => 
     packages, slots, programs,
     bookings: bookings.map((b): Row => ({ ...b, who: people.get(b.user_id) ?? b.user_id })),
     applications: apps.map((a): Row => ({ ...a, who: people.get(a.user_id) ?? a.user_id, runName: runs.find((r) => r.id === a.run_id)?.name ?? "" })),
+    coachingApplications: coachApps.map((a): Row => ({ ...a, who: people.get(a.user_id) ?? a.user_id, packageName: packages.find((p) => p.id === a.package_id)?.name ?? "" })),
   };
 });
 

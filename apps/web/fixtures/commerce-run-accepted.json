@@ -1,0 +1,427 @@
+{
+ "run": {
+  "id": "b6925b87-238b-6a2a-a0ec-ab2682e21aae",
+  "name": "The Breakthrough",
+  "starts_at": "2027-05-13T19:00:00+00:00",
+  "ends_at": "2027-05-16T19:00:00+00:00",
+  "timezone": "America/Los_Angeles",
+  "status": "open",
+  "capacity": 20,
+  "requires_application": true,
+  "price_note": "By application",
+  "draft_note": "Name, dates and price awaiting Mike",
+  "location": {
+   "city": "Mount Shasta",
+   "label": "Private sanctuary, Mount Shasta, Northern California",
+   "venue": "Private sanctuary",
+   "region": "California",
+   "address": "Mount Shasta, Northern California (exact venue shared after acceptance)",
+   "country": "US",
+   "map_query": "Mount Shasta CA"
+  },
+  "details": {
+   "faq": [
+    {
+     "a": "Yes. The physical practices are scaled to meet you where you are. This isn't about performance. If you can walk, breathe, and move with some intention, you can do this.",
+     "q": "I'm not in great physical shape. Can I handle this?"
+    },
+    {
+     "a": "Not at all. About half the men who come are new to this. The other half are returning because they got so much from the first time. That mix is part of what makes it work.",
+     "q": "I've never done this kind of work before. Will I be out of place?"
+    },
+    {
+     "a": "You don't need to be. This work is about your relationship with yourself first. Whether you're single, partnered, a father, or not, it applies directly to where you are right now.",
+     "q": "What if I'm not married or don't have kids?"
+    },
+    {
+     "a": "You're always in charge of how far you go. Some men leave having broken something open they've been carrying for years. Some leave with a quiet shift that takes a few weeks to fully land. All of it counts. And you're guided through every step with care.",
+     "q": "How emotionally intense does it get?"
+    }
+   ],
+   "slug": "breakthrough",
+   "cover": "/media/retreats/live/breakthrough-circle-room.jpg",
+   "season": "Spring Retreat",
+   "travel": "Airport pickup on Day I. The exact venue and travel details are shared after acceptance.",
+   "packing": [
+    {
+     "id": "pack-layers",
+     "label": "Warm layers for mountain nights"
+    },
+    {
+     "id": "pack-move",
+     "label": "Clothes you can move and sweat in"
+    },
+    {
+     "id": "pack-lodge",
+     "label": "Swim shorts and a towel for the sweat lodge"
+    },
+    {
+     "id": "pack-shoes",
+     "label": "Trail shoes and sandals"
+    },
+    {
+     "id": "pack-journal",
+     "label": "A journal and pen"
+    },
+    {
+     "id": "pack-bottle",
+     "label": "Water bottle and headlamp"
+    }
+   ],
+   "tagline": "Four days in Mount Shasta. This is where we go deep.",
+   "aftercare": [
+    "Men of Movement: Preparation — a practice program Mike builds for each retreat, sent in the weeks before, with foundational breathwork and meditation",
+    "Daily practices to take home — breathwork and body practices from the retreat",
+    "The Brotherhood — a private group with the men you went through it alongside",
+    "Men of Movement: Integration — a group call one week after the retreat",
+    "Continued pathways — The Grounded King, 1:1 coaching, private retreats and other offerings"
+   ],
+   "cta_label": "Apply for May 13-16, 2027",
+   "highlights": [
+    "Daily Qi Gong with Dr. Jonny Suarez — one movement per day",
+    "Somatic breathwork ceremony, the largest release of the retreat",
+    "Sweat lodge and rite of passage led by an elder with over fifty years in this work",
+    "Sensory ceremony dinners prepared by Lauren Salemi"
+   ],
+   "description": "What most men haven't had is four uninterrupted days away from everything, in the right place, with the right people around them. We work with the patterns running underneath the surface, built long before you had any say in them, and we begin to change them — in your body, through ceremony and breathwork and the kind of depth that only full immersion can reach. You arrive welcomed like family into a private sanctuary in Mount Shasta, held by a master landscape architect. Every meal is prepared by Lauren Salemi.",
+   "facilitators": [
+    {
+     "name": "Mike Salemi",
+     "role": "Founder · Lead Facilitator"
+    },
+    {
+     "name": "Dr. Jonny Suarez",
+     "role": "Chinese Medicine · Functional Medicine · Qi Gong"
+    },
+    {
+     "name": "Greg Schmaus",
+     "role": "Archetypal & Constellation Facilitator"
+    },
+    {
+     "name": "Tim Corcoran",
+     "role": "Wilderness Elder · Headwaters Outdoor School (guest, select retreats)"
+    },
+    {
+     "name": "Lauren Salemi",
+     "role": "Private Chef · Holistic Coach · Food Ceremony"
+    }
+   ],
+   "accommodation": "Private sanctuary in Mount Shasta; all meals prepared by Lauren Salemi.",
+   "prerequisites": [
+    {
+     "id": "prep-program",
+     "label": "Start Men of Movement: Preparation",
+     "note": "Opens about three months before the retreat"
+    },
+    {
+     "id": "prep-diet",
+     "label": "Share dietary needs with the kitchen",
+     "note": "Every meal is prepared for the group; tell us what you can't eat"
+    },
+    {
+     "id": "prep-health",
+     "label": "Tell us about injuries or medication",
+     "note": "Everything is scalable; the team adapts the practices for you"
+    },
+    {
+     "id": "prep-travel",
+     "label": "Book travel to arrive for the Day I pickup"
+    },
+    {
+     "id": "prep-agreements",
+     "label": "Read the circle agreements"
+    }
+   ],
+   "checklist_note": "The packing list and preparation documents are shared after acceptance.",
+   "duration_label": "4 days",
+   "track": "Hold Your Ground",
+   "price_compare_label": "$3,100–$3,250",
+   "checklist_draft_note": "Starter list; Mike's team sends the final list after acceptance"
+  },
+  "gallery": [
+   {
+    "url": "/media/retreats/live/breakthrough-circle-room.jpg",
+    "caption": "The sacred circle room at The Breakthrough"
+   },
+   {
+    "url": "/media/retreats/live/breakthrough-venue.jpg",
+    "caption": "The Breakthrough venue at golden hour"
+   },
+   {
+    "url": "/media/retreats/live/qi-gong.png",
+    "caption": "Qi Gong on Mount Shasta"
+   },
+   {
+    "url": "/media/retreats/live/breathwork.jpg",
+    "caption": "Breathwork ceremony"
+   },
+   {
+    "url": "/media/retreats/live/fire.jpg",
+    "caption": "Men around the fire"
+   },
+   {
+    "url": "/media/retreats/live/tims-land.jpg",
+    "caption": "Men walking through Tim's land"
+   },
+   {
+    "url": "/media/retreats/live/maloca.jpg",
+    "caption": "Inside the maloca, Tim's land"
+   },
+   {
+    "url": "/media/retreats/live/after-sweat-lodge.jpg",
+    "caption": "Brotherhood after the sweat lodge"
+   },
+   {
+    "url": "/media/retreats/live/shared-meals.png",
+    "caption": "Shared meals and brotherhood"
+   },
+   {
+    "url": "/media/retreats/live/group-tims-land.jpg",
+    "caption": "Men of Movement group on Tim's land"
+   },
+   {
+    "url": "/media/retreats/live/facing-shasta.png",
+    "caption": "One man facing Mount Shasta"
+   },
+   {
+    "url": "/media/retreats/online/summit-clouds.jpg",
+    "stock": true,
+    "caption": "Peaks above the clouds at first light"
+   },
+   {
+    "url": "/media/retreats/online/campfire-men.jpg",
+    "stock": true,
+    "caption": "An evening around the fire"
+   },
+   {
+    "url": "/media/retreats/online/forest-path.jpg",
+    "stock": true,
+    "caption": "Forest trail through old-growth pines"
+   },
+   {
+    "url": "/media/retreats/online/alpine-pines.jpg",
+    "stock": true,
+    "caption": "Alpine valley and pine forest"
+   },
+   {
+    "url": "/media/retreats/online/misty-ridge.jpg",
+    "stock": true,
+    "caption": "Mist lifting off the ridge"
+   },
+   {
+    "url": "/media/retreats/online/foggy-forest.jpg",
+    "stock": true,
+    "caption": "Morning fog in the forest"
+   },
+   {
+    "url": "/media/retreats/online/sunrise-camp.jpg",
+    "stock": true,
+    "caption": "Sunrise over the mountain camp"
+   }
+  ]
+ },
+ "program": {
+  "id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+  "slug": "men-of-movement-retreats",
+  "name": "Men of Movement Retreats",
+  "type": "retreat"
+ },
+ "itinerary": [
+  {
+   "id": "834239f1-1a8c-3548-8ed0-8d73a661073f",
+   "day_index": 1,
+   "starts_at": null,
+   "title": "Airport pickup",
+   "description": "Day 1 · Arrival & Connection",
+   "location": null
+  },
+  {
+   "id": "852aabaa-4b09-e619-3a9a-3ecd9f17f75e",
+   "day_index": 1,
+   "starts_at": null,
+   "title": "Team workout",
+   "description": "Day 1 · Arrival & Connection",
+   "location": null
+  },
+  {
+   "id": "b9efd13f-50c8-b4fd-4687-acf722a7dfeb",
+   "day_index": 1,
+   "starts_at": null,
+   "title": "Shared meal",
+   "description": "Day 1 · Arrival & Connection",
+   "location": null
+  },
+  {
+   "id": "10f517ba-fcbc-e2e1-1599-6a6ab5a98758",
+   "day_index": 1,
+   "starts_at": null,
+   "title": "Circle opens with agreements and intentions",
+   "description": "Day 1 · Arrival & Connection",
+   "location": null
+  },
+  {
+   "id": "fdf23fbe-2f71-ab93-29e9-7e32d33a4def",
+   "day_index": 1,
+   "starts_at": null,
+   "title": "Evening fire with one question",
+   "description": "Day 1 · Arrival & Connection",
+   "location": null
+  },
+  {
+   "id": "9ff1d7ad-4f97-9bdd-4ffb-cc69b1ee4591",
+   "day_index": 2,
+   "starts_at": null,
+   "title": "Qi Gong",
+   "description": "Day 2 · Opening & Release",
+   "location": null
+  },
+  {
+   "id": "6cf4785b-db7a-5073-41bf-328c01625cc1",
+   "day_index": 2,
+   "starts_at": null,
+   "title": "Archetypal work and hot seats",
+   "description": "Day 2 · Opening & Release",
+   "location": null
+  },
+  {
+   "id": "c53d724c-490a-8bf8-b998-c6add28ad0e0",
+   "day_index": 2,
+   "starts_at": null,
+   "title": "Breathwork ceremony",
+   "description": "Day 2 · Opening & Release",
+   "location": null
+  },
+  {
+   "id": "6e34f509-cdaf-5185-e155-07d36cccb61f",
+   "day_index": 3,
+   "starts_at": null,
+   "title": "Move to Tim's outdoor school at Headwaters",
+   "description": "Day 3 · Into the Fire",
+   "location": null
+  },
+  {
+   "id": "8f1e21ff-0d2b-b99e-319d-648b959b1770",
+   "day_index": 3,
+   "starts_at": null,
+   "title": "Tobacco ceremony",
+   "description": "Day 3 · Into the Fire",
+   "location": null
+  },
+  {
+   "id": "4c01d698-f443-bb0d-bde5-c251be8bdf34",
+   "day_index": 3,
+   "starts_at": null,
+   "title": "Sweat lodge",
+   "description": "Day 3 · Into the Fire",
+   "location": null
+  },
+  {
+   "id": "72808a1c-d2a2-492c-2096-0e16a068225b",
+   "day_index": 3,
+   "starts_at": null,
+   "title": "Creek plunge",
+   "description": "Day 3 · Into the Fire",
+   "location": null
+  },
+  {
+   "id": "cebbe4f5-d429-cf20-fb6b-f296a20a3870",
+   "day_index": 3,
+   "starts_at": null,
+   "title": "Rite of passage",
+   "description": "Day 3 · Into the Fire",
+   "location": null
+  },
+  {
+   "id": "e2ff29df-35b6-b153-059a-c53fa48d5e5e",
+   "day_index": 4,
+   "starts_at": null,
+   "title": "Cacao ceremony",
+   "description": "Day 4 · Celebration & Return",
+   "location": null
+  },
+  {
+   "id": "66718557-60d7-559f-f953-03f31b080ca6",
+   "day_index": 4,
+   "starts_at": null,
+   "title": "Visualization of the man you're stepping into",
+   "description": "Day 4 · Celebration & Return",
+   "location": null
+  },
+  {
+   "id": "190cc208-2184-6ae9-d9a8-c7f3c1fce319",
+   "day_index": 4,
+   "starts_at": null,
+   "title": "Shared reflection closes the arc",
+   "description": "Day 4 · Celebration & Return",
+   "location": null
+  }
+ ],
+ "application": {
+  "id": "00000000-0000-4000-8000-0000000000b1",
+  "status": "accepted",
+  "applied_at": "2026-11-18T17:20:00+00:00",
+  "call_at": "2026-11-19T17:00:00+00:00",
+  "call_url": null,
+  "call_done_at": "2026-11-19T17:40:00+00:00",
+  "decided_at": "2026-11-20T09:00:00+00:00",
+  "payment_link_sent_at": "2026-11-20T09:00:00+00:00"
+ },
+ "checklist": {},
+ "sessions": [],
+ "quote": {
+  "ref": "b6925b87-238b-6a2a-a0ec-ab2682e21aae",
+  "kind": "run",
+  "name": "The Breakthrough",
+  "state": "purchasable",
+  "reason": null,
+  "currency": "usd",
+  "interval": "one_time",
+  "price_id": "591dbd43-2b57-4129-8e7c-8f202ae444c7",
+  "coupon_id": null,
+  "base_cents": 270000,
+  "access_days": null,
+  "member_plan": "max",
+  "amount_cents": 270000,
+  "coupon_error": null,
+  "discount_cents": 0,
+  "benefit_applied": null,
+  "stripe_price_id": null
+ },
+ "price": {
+  "amountCents": 270000,
+  "currency": "usd",
+  "draftNote": "Draft: about $2,700 (regular $3,100–$3,250); awaiting Mike"
+ },
+ "callSlots": [],
+ "prepProgram": {
+  "slug": "men-of-movement",
+  "name": "Men of Movement: Preparation",
+  "lessons": 8,
+  "opensAt": "2027-02-12T19:00:00.000Z",
+  "open": false
+ },
+ "about": {
+  "pillars": [
+   "Rotation",
+   "Movement",
+   "Breathwork",
+   "Nature",
+   "Storywork"
+  ],
+  "pillarsDraftNote": "Pillar names from Mike's notes; \"Rotation\" awaits confirmation",
+  "tracks": [
+   {
+    "name": "Hold Your Ground",
+    "focus": "Ceremony, breathwork and deep inner work in a private sanctuary.",
+    "venue": "Private sanctuary, Mount Shasta"
+   },
+   {
+    "name": "Primal Reset",
+    "focus": "Full nature immersion: sleeping on the land, fire, night hikes and solo time.",
+    "venue": "Tim Corcoran's land, Mount Shasta"
+   }
+  ],
+  "tracksDraftNote": "Track names from Mike's notes; which dates belong to which track awaits Mike",
+  "rhythm": "Mornings move, afternoons go inward, and evenings are fire, food and circle."
+ }
+}

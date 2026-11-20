@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_rethrow } from "next/navigation";
 import { MOCK, fixture } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 
@@ -19,33 +20,62 @@ export interface RetreatCard {
   location: string | null;
   /** The member's application status for this run, if any. */
   mine: string | null;
+  /** Call booked / call done, so the card can show the right step. */
+  mineCallAt?: string | null;
+  mineCallDone?: boolean;
+  track?: string | null;
+  durationLabel?: string | null;
+  /** Up to four real (non-stock) photos for the card carousel. */
+  photos?: string[];
+  price?: { amountCents: number; currency: string; compareLabel: string | null; draftNote: string | null } | null;
 }
 export interface RetreatsData {
   program: { slug: string; name: string; tagline: string | null } | null;
   runs: RetreatCard[];
+  tracks?: { name: string; focus: string; venue: string }[];
+  tracksDraftNote?: string | null;
+  pillars?: string[];
+  pillarsDraftNote?: string | null;
 }
 
 async function realRetreats(): Promise<RetreatsData> {
   const { supabase: sb, user } = await getUser();
-  const { data: programs } = await sb.from("programs").select("id, slug, name, tagline").eq("type", "retreat").eq("status", "published").order("position");
+  const { data: programs } = await sb.from("programs").select("id, slug, name, tagline, meta").eq("type", "retreat").eq("status", "published").order("position");
   const ids = (programs ?? []).map((p) => p.id);
   if (!ids.length) return { program: null, runs: [] };
-  const [{ data: runs }, { data: apps }] = await Promise.all([
+  const [{ data: runs }, { data: apps }, { data: prep }] = await Promise.all([
     sb.from("program_runs").select("id, name, status, starts_at, ends_at, timezone, capacity, draft_note, details, location, gallery").in("program_id", ids).neq("status", "draft").neq("status", "cancelled").order("starts_at", { ascending: false }),
-    user ? sb.from("run_applications").select("run_id, status").eq("user_id", user.id) : Promise.resolve({ data: [] as { run_id: string; status: string }[] }),
+    user ? sb.from("run_applications").select("run_id, status, call_at, call_done_at").eq("user_id", user.id) : Promise.resolve({ data: [] as { run_id: string; status: string; call_at: string | null; call_done_at: string | null }[] }),
+    sb.from("programs").select("meta").eq("slug", "men-of-movement").maybeSingle(),
   ]);
-  const mine = new Map((apps ?? []).map((a) => [a.run_id, a.status]));
+  const runIds = (runs ?? []).map((r) => r.id);
+  const { data: prices } = runIds.length
+    ? await sb.from("prices").select("ref_id, amount_cents, currency, draft_note").eq("kind", "run").in("ref_id", runIds).eq("interval", "one_time")
+    : { data: [] as { ref_id: string; amount_cents: number; currency: string; draft_note: string | null }[] };
+  const mine = new Map((apps ?? []).map((a) => [a.run_id, a]));
   const p = programs![0]!;
+  const pmeta = (p.meta ?? {}) as { tracks?: { name: string; focus: string; venue: string }[]; tracks_draft_note?: string; pillars_draft_note?: string };
   return {
     program: { slug: p.slug, name: p.name, tagline: p.tagline },
+    tracks: pmeta.tracks ?? [],
+    tracksDraftNote: pmeta.tracks_draft_note ?? null,
+    pillars: ((prep?.meta ?? {}) as { pillars?: string[] }).pillars ?? [],
+    pillarsDraftNote: pmeta.pillars_draft_note ?? null,
     runs: (runs ?? []).map((r) => {
-      const d = (r.details ?? {}) as { season?: string; tagline?: string; cover?: string };
+      const d = (r.details ?? {}) as { season?: string; tagline?: string; cover?: string; track?: string; duration_label?: string; price_compare_label?: string };
       const loc = (r.location ?? {}) as { label?: string; city?: string };
       const gallery = (r.gallery ?? []) as { url: string; stock?: boolean }[];
+      const real = gallery.filter((g) => !g.stock).map((g) => g.url);
+      const cover = d.cover ?? real[0] ?? null;
+      const price = (prices ?? []).filter((x) => x.ref_id === r.id).sort((a, b) => a.amount_cents - b.amount_cents)[0];
+      const a = mine.get(r.id);
       return {
         id: r.id, name: r.name, status: r.status, starts_at: r.starts_at, ends_at: r.ends_at, timezone: r.timezone, capacity: r.capacity, draft_note: r.draft_note,
-        season: d.season ?? null, tagline: d.tagline ?? null, cover: d.cover ?? gallery.find((g) => !g.stock)?.url ?? null, location: loc.label ?? loc.city ?? null,
-        mine: mine.get(r.id) ?? null,
+        season: d.season ?? null, tagline: d.tagline ?? null, cover, location: loc.label ?? loc.city ?? null,
+        mine: a?.status ?? null, mineCallAt: a?.call_at ?? null, mineCallDone: Boolean(a?.call_done_at),
+        track: d.track ?? null, durationLabel: d.duration_label ?? null,
+        photos: [...new Set([cover, ...real].filter(Boolean) as string[])].slice(0, 4),
+        price: price ? { amountCents: price.amount_cents, currency: price.currency, compareLabel: d.price_compare_label ?? null, draftNote: price.draft_note } : null,
       };
     }).sort((a, b) => Number(a.status === "past") - Number(b.status === "past") || a.starts_at.localeCompare(b.starts_at)),
   };
@@ -121,4 +151,57 @@ export async function loadConceptProgram(slug: string): Promise<ConceptProgram |
   if (!/^[a-z0-9-]{2,80}$/.test(slug)) return null;
   if (MOCK) return fixture<ConceptProgram>(`commerce-concept-${slug}`).catch(() => null);
   return realConcept(slug);
+}
+
+/* ================================================================ Home: the member's retreat journey */
+
+export interface RetreatJourney {
+  runId: string;
+  name: string;
+  cover: string | null;
+  startsAt: string;
+  endsAt: string | null;
+  timezone: string;
+  runStatus: string;
+  location: string | null;
+  application: { status: string; call_at: string | null; call_done_at: string | null };
+  checklist: { done: number; total: number };
+}
+
+async function realJourney(): Promise<RetreatJourney | null> {
+  const { supabase: sb, user } = await getUser();
+  if (!user) return null;
+  const { data } = await sb.rpc("my_experiences");
+  const runs = ((data ?? {}) as { runs?: { run_id: string; status: string; ends_at: string | null; starts_at: string; phase: string; checklist: { done: number; total: number } }[] }).runs ?? [];
+  const now = Date.now();
+  // The live or next retreat first; a finished one stays for two weeks (integration).
+  const pick = runs
+    .filter((r) => !["declined", "cancelled"].includes(r.status))
+    .filter((r) => r.phase !== "after" || (r.ends_at && now - Date.parse(r.ends_at) < 14 * 86400000 && r.status === "booked"))
+    .sort((a, b) => a.starts_at.localeCompare(b.starts_at))[0];
+  if (!pick) return null;
+  const [{ data: run }, { data: app }] = await Promise.all([
+    sb.from("program_runs").select("id, name, starts_at, ends_at, timezone, status, details, location, gallery").eq("id", pick.run_id).maybeSingle(),
+    sb.from("run_applications").select("status, call_at, call_done_at").eq("run_id", pick.run_id).eq("user_id", user.id).maybeSingle(),
+  ]);
+  if (!run || !app) return null;
+  const d = (run.details ?? {}) as { cover?: string };
+  const loc = (run.location ?? {}) as { city?: string; label?: string };
+  return {
+    runId: run.id, name: run.name, cover: d.cover ?? ((run.gallery ?? []) as { url: string; stock?: boolean }[]).find((g) => !g.stock)?.url ?? null,
+    startsAt: run.starts_at, endsAt: run.ends_at, timezone: run.timezone, runStatus: run.status, location: loc.city ?? loc.label ?? null,
+    application: { status: app.status, call_at: app.call_at, call_done_at: app.call_done_at },
+    checklist: pick.checklist,
+  };
+}
+
+/** The member's live or next retreat for Home (null when there is none). Local preview: `commerce-journey.json`. */
+export async function loadRetreatJourney(): Promise<RetreatJourney | null> {
+  try {
+    if (MOCK) return await fixture<RetreatJourney | null>("commerce-journey").catch(() => null);
+    return await realJourney();
+  } catch (e) {
+    unstable_rethrow(e);
+    return null;
+  }
 }

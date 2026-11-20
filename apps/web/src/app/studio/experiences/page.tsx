@@ -7,9 +7,10 @@ import { DataTable, Note, PageHead, Panel, Status, Tabs, fdate, money } from "@/
 import { Chip } from "@/components/ui";
 import { studioAdmin } from "@/lib/studio/guard";
 import { loadExperiences } from "@/lib/studio/loaders";
+import { CoachingApplicationActions, RetreatPipeline } from "./_p3/Pipeline";
 
 export const metadata = { title: "Experiences" };
-const TABS = [["runs", "Runs"], ["applications", "Applications"], ["packages", "Coaching packages"], ["slots", "Coaching slots"], ["bookings", "Bookings"]] as const;
+const TABS = [["runs", "Runs"], ["applications", "Applications"], ["packages", "Coaching packages"], ["coaching-apps", "Coaching applications"], ["slots", "Coaching slots"], ["bookings", "Bookings"]] as const;
 const PIPE = ["submitted", "call_booked", "accepted", "waitlist", "declined", "booked"] as const;
 const PIPE_LABEL: Record<string, string> = { submitted: "New", call_booked: "Call booked", accepted: "Accepted", waitlist: "Waitlist", declined: "Declined", booked: "Booked" };
 
@@ -56,8 +57,9 @@ export default async function ExperiencesPage({ searchParams }: { searchParams: 
                   <span><b style={{ fontWeight: 600 }}>{a.who}</b> <span className="st-faint">· {a.runName} · applied {fdate(a.created_at)}</span></span>
                   <Status v={a.status} />
                 </div>
+                <RetreatPipeline a={a as never} />
                 <details>
-                  <summary className="st-link" style={{ cursor: "pointer", fontSize: 13 }}>Answers and actions</summary>
+                  <summary className="st-link" style={{ cursor: "pointer", fontSize: 13 }}>Answers, notes and other statuses</summary>
                   <Answers answers={a.answers} />
                   <ApplicationActions id={a.id} status={a.status} note={a.admin_note} />
                 </details>
@@ -79,6 +81,21 @@ export default async function ExperiencesPage({ searchParams }: { searchParams: 
           <Panel title="New package"><RecordForm table="coaching_packages" defaults={{ format: "one_to_one", is_active: true }} /></Panel>
         </>
       )}
+      {tab === "coaching-apps" && (
+        <Panel title="Coaching applications" meta={`${d.coachingApplications.length}`}>
+          {d.coachingApplications.length ? d.coachingApplications.map((a) => (
+            <div key={a.id} className="st-app-card">
+              <div className="st-row" style={{ justifyContent: "space-between" }}>
+                <span><b style={{ fontWeight: 600 }}>{a.who}</b> <span className="st-faint">· {a.packageName} · applied {fdate(a.created_at)}</span></span>
+                <Status v={a.status} />
+              </div>
+              <Answers answers={a.answers} />
+              <CoachingApplicationActions id={a.id} status={a.status} />
+            </div>
+          )) : <div className="st-empty">No applications yet. Members apply for Executive Edge from the Coaching page.</div>}
+          <div style={{ marginTop: 10 }}><Note>Accepted members buy the package from the Coaching page; their sessions appear as credits.</Note></div>
+        </Panel>
+      )}
       {tab === "slots" && (
         <>
           <Panel title="Open from the schedule" meta="members book these"><OpenWeeks schedule={d.schedule} openAhead={d.openAhead} /></Panel>
@@ -95,6 +112,7 @@ export default async function ExperiencesPage({ searchParams }: { searchParams: 
         <Panel title="Bookings" meta={`${d.bookings.length}`}>
           <DataTable rows={d.bookings} empty="No bookings yet." cols={[
             { label: "Member", render: (b) => b.who }, { label: "When (UTC)", render: (b) => fdate(b.starts_at, true) }, { label: "Minutes", num: true, render: (b) => b.duration_minutes }, { label: "Status", render: (b) => <Status v={b.status} /> },
+            { label: "Member prep", render: (b) => <span style={{ fontSize: 13 }}>{b.prep?.goals ?? b.member_note ?? <span className="st-faint">None</span>}{b.prep?.footage_url ? <><br /><a className="st-link" href={b.prep.footage_url} target="_blank" rel="noopener">Footage</a></> : null}</span> },
             { label: "Edit", render: (b) => <details><summary className="st-link" style={{ cursor: "pointer" }}>Open</summary><div style={{ minWidth: 320, marginTop: 8 }}><RecordForm table="coaching_bookings" row={b} cols={1} /></div></details> },
           ]} />
           <div style={{ marginTop: 10 }}><Note>Prices for packages live in Commerce → Prices ({money(18000)} single session is the legacy price).</Note></div>

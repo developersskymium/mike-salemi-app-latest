@@ -134,3 +134,25 @@ export function bookCoaching(sb: DB, slotId: string, note?: string) {
 export function cancelCoaching(sb: DB, bookingId: string) {
   return rpc<{ cancelled: boolean; credit_returned: boolean }>(sb, "cancel_coaching", { p_booking: bookingId });
 }
+
+/* ------------------------------------------------------------------ P3: three-step retreat flow and coaching prep */
+
+/** Step 2 of a retreat application: book (or move) the alignment call on one of Mike's open slots. */
+export function bookRunCall(sb: DB, runId: string, slotId: string) {
+  return rpc<{ status: ApplicationStatus; call_at: string; duration_minutes: number }>(sb, "book_run_call", { p_run: runId, p_slot: slotId });
+}
+
+/** Goals and a footage link for an upcoming coaching session. */
+export function saveCoachingPrep(sb: DB, bookingId: string, goals: string, footageUrl?: string | null) {
+  return rpc<{ saved: boolean }>(sb, "save_coaching_prep", { p_booking: bookingId, p_goals: goals, p_footage_url: footageUrl ?? undefined });
+}
+
+/** Move a session to another open slot (24h or more ahead; keeps the credit). */
+export function rescheduleCoaching(sb: DB, bookingId: string, slotId: string) {
+  return rpc<{ starts_at: string }>(sb, "reschedule_coaching", { p_booking: bookingId, p_slot: slotId });
+}
+
+/** Apply for a package that needs an application (Executive Edge). */
+export function applyForCoaching(sb: DB, packageId: string, answers: Record<string, unknown>) {
+  return rpc<{ application_id: string; status: string }>(sb, "apply_for_coaching", { p_package: packageId, p_answers: answers as Json });
+}

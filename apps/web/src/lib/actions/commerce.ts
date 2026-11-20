@@ -3,8 +3,8 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import {
-  acceptOrgInvite, applyToRun, bookCoaching, cancelCoaching, inviteToOrg, joinOrg, logOfferEvent, removeOrgMember,
-  setChecklistItem, setOrgCoach, type OfferPlacement,
+  acceptOrgInvite, applyForCoaching, applyToRun, bookCoaching, bookRunCall, cancelCoaching, inviteToOrg, joinOrg, logOfferEvent,
+  removeOrgMember, rescheduleCoaching, saveCoachingPrep, setChecklistItem, setOrgCoach, type OfferPlacement,
 } from "@ms/api";
 import { getUser } from "@/lib/supabase/server";
 import { MOCK } from "@/lib/mock";
@@ -27,6 +27,12 @@ function friendly(e: unknown, fallback: string): ActionResult<never> {
   const raw = e instanceof Error ? e.message : String(e);
   const map: [RegExp, string][] = [
     [/no.*credit/i, "You have no coaching credits left. Pick a package to add more."],
+    [/no longer available/i, "That time was just taken. Pick another."],
+    [/call step is already done/i, "Your call is already done. Mike’s team will be in touch about the next step."],
+    [/apply first/i, "Send your application first."],
+    [/24 hours/i, "Sessions can only be moved up to 24 hours before they start."],
+    [/web address/i, "The footage link should start with https://"],
+    [/does not need an application/i, "This package doesn’t need an application. Book it directly."],
     [/slot.*(taken|closed|not open)/i, "That time was just taken. Pick another."],
     [/seat/i, "This organization has no seats left. Ask your admin to add more."],
     [/expired/i, "This invite has expired. Ask for a new one."],
@@ -109,7 +115,78 @@ export async function applyToRunAction(runId: string, answers: ApplicationAnswer
   }
 }
 
+/** Step 2 of the retreat sign-up: book or move the alignment call. */
+export async function bookRunCallAction(runId: string, slotId: string): Promise<ActionResult<{ callAt: string }>> {
+  const p = z.object({ runId: z.uuid(), slotId: z.uuid() }).safeParse({ runId, slotId });
+  if (!p.success) return fail("invalid", "Pick a time first.");
+  if (MOCK) return OFFLINE;
+  try {
+    const { sb, user } = await member();
+    if (!user) return fail("not_signed_in", "Sign in first.");
+    const r = await bookRunCall(sb, p.data.runId, p.data.slotId);
+    revalidatePath(`/experiences/${p.data.runId}`);
+    revalidatePath("/today");
+    return { ok: true, data: { callAt: r.call_at } };
+  } catch (e) {
+    return friendly(e, "That time didn't go through. Try another.");
+  }
+}
+
 /* ---------------------------------------------------------------- coaching */
+
+export async function saveCoachingPrepAction(bookingId: string, goals: string, footageUrl: string): Promise<ActionResult> {
+  const p = z.object({ bookingId: z.uuid(), goals: z.string().trim().max(2000), footageUrl: z.union([z.literal(""), z.url("The footage link should start with https://").max(600)]) }).safeParse({ bookingId, goals, footageUrl: footageUrl.trim() });
+  if (!p.success) return fail("invalid", p.error.issues[0]?.message ?? "Check your prep.");
+  if (MOCK) return OFFLINE;
+  try {
+    const { sb, user } = await member();
+    if (!user) return fail("not_signed_in", "Sign in first.");
+    await saveCoachingPrep(sb, p.data.bookingId, p.data.goals, p.data.footageUrl || null);
+    revalidatePath("/coaching");
+    return { ok: true, data: undefined };
+  } catch (e) {
+    return friendly(e, "Couldn't save your prep. Try again.");
+  }
+}
+
+export async function rescheduleCoachingAction(bookingId: string, slotId: string): Promise<ActionResult<{ startsAt: string }>> {
+  const p = z.object({ bookingId: z.uuid(), slotId: z.uuid() }).safeParse({ bookingId, slotId });
+  if (!p.success) return fail("invalid", "Pick a new time first.");
+  if (MOCK) return OFFLINE;
+  try {
+    const { sb, user } = await member();
+    if (!user) return fail("not_signed_in", "Sign in first.");
+    const r = await rescheduleCoaching(sb, p.data.bookingId, p.data.slotId);
+    revalidatePath("/coaching");
+    return { ok: true, data: { startsAt: r.starts_at } };
+  } catch (e) {
+    return friendly(e, "Couldn't move the session. Try again.");
+  }
+}
+
+const CoachingApplication = z.object({
+  role: z.string().trim().min(2, "Tell Mike what you do.").max(200),
+  goal: z.string().trim().min(10, "Tell Mike what you want from the eight weeks (a sentence or two).").max(2000),
+  pressure: z.string().trim().max(2000).default(""),
+  commit: z.literal(true, "Please confirm the daily five minutes."),
+});
+export type CoachingApplicationAnswers = z.input<typeof CoachingApplication>;
+
+export async function applyForCoachingAction(packageId: string, answers: CoachingApplicationAnswers): Promise<ActionResult<{ status: string }>> {
+  if (!z.uuid().safeParse(packageId).success) return fail("invalid", "Unknown package.");
+  const p = CoachingApplication.safeParse(answers);
+  if (!p.success) return fail("invalid", p.error.issues[0]?.message ?? "Check your answers.");
+  if (MOCK) return OFFLINE;
+  try {
+    const { sb, user } = await member();
+    if (!user) return fail("not_signed_in", "Sign in first.");
+    const r = await applyForCoaching(sb, packageId, p.data);
+    revalidatePath("/coaching");
+    return { ok: true, data: { status: r.status } };
+  } catch (e) {
+    return friendly(e, "Your application didn't go through. Try again in a moment.");
+  }
+}
 
 export async function bookCoachingAction(slotId: string, note?: string): Promise<ActionResult<{ startsAt: string; creditsLeft: number }>> {
   const p = z.object({ slotId: z.uuid(), note: z.string().trim().max(1000).optional() }).safeParse({ slotId, note });
