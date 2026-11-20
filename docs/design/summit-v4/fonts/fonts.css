@@ -1,0 +1,16 @@
+@font-face{font-family:"Geist";src:url(geist-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Geist Mono";src:url(geist-mono-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Instrument Sans";src:url(instrument-sans-latin-standard-normal.woff2) format("woff2");font-weight:400 700;font-stretch:75% 100%;font-display:block}
+@font-face{font-family:"Instrument Serif";src:url(instrument-serif-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:block}
+@font-face{font-family:"Instrument Serif";src:url(instrument-serif-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:block}
+@font-face{font-family:"Bricolage Grotesque";src:url(bricolage-grotesque-latin-standard-normal.woff2) format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:block}
+@font-face{font-family:"Familjen Grotesk";src:url(familjen-grotesk-latin-wght-normal.woff2) format("woff2");font-weight:400 700;font-display:block}
+@font-face{font-family:"Hanken Grotesk";src:url(hanken-grotesk-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Host Grotesk";src:url(host-grotesk-latin-wght-normal.woff2) format("woff2");font-weight:300 800;font-display:block}
+@font-face{font-family:"Inter Tight";src:url(inter-tight-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Manrope";src:url(manrope-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:block}
+@font-face{font-family:"Mona Sans";src:url(mona-sans-latin-standard-normal.woff2) format("woff2");font-weight:200 900;font-stretch:75% 125%;font-display:block}
+@font-face{font-family:"Newsreader";src:url(newsreader-latin-standard-normal.woff2) format("woff2");font-weight:200 800;font-display:block}
+@font-face{font-family:"Newsreader";src:url(newsreader-latin-standard-italic.woff2) format("woff2");font-weight:200 800;font-style:italic;font-display:block}
+@font-face{font-family:"Schibsted Grotesk";src:url(schibsted-grotesk-latin-wght-normal.woff2) format("woff2");font-weight:400 900;font-display:block}
+@font-face{font-family:"Fraunces";src:url(fraunces-latin-full-normal.woff2) format("woff2");font-weight:100 900;font-display:block}
