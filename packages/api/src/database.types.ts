@@ -98,35 +98,55 @@ export type Database = {
       badges: {
         Row: {
           description: string
+          family: string
           icon: string | null
           id: string
+          medal_color: string | null
           name: string
+          perk: Json | null
           points: number
           position: number
+          program_id: string | null
           rule: Json
           tier: string
         }
         Insert: {
           description: string
+          family?: string
           icon?: string | null
           id: string
+          medal_color?: string | null
           name: string
+          perk?: Json | null
           points?: number
           position?: number
+          program_id?: string | null
           rule: Json
           tier?: string
         }
         Update: {
           description?: string
+          family?: string
           icon?: string | null
           id?: string
+          medal_color?: string | null
           name?: string
+          perk?: Json | null
           points?: number
           position?: number
+          program_id?: string | null
           rule?: Json
           tier?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "badges_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       billing_customers: {
         Row: {
@@ -1183,6 +1203,62 @@ export type Database = {
           },
         ]
       }
+      member_perks: {
+        Row: {
+          badge_id: string
+          coupon_code: string | null
+          coupon_id: string | null
+          created_at: string
+          detail: string | null
+          expires_at: string | null
+          href: string | null
+          id: string
+          kind: string
+          label: string
+          percent_off: number | null
+          redeemed_at: string | null
+          user_id: string
+        }
+        Insert: {
+          badge_id: string
+          coupon_code?: string | null
+          coupon_id?: string | null
+          created_at?: string
+          detail?: string | null
+          expires_at?: string | null
+          href?: string | null
+          id?: string
+          kind: string
+          label: string
+          percent_off?: number | null
+          redeemed_at?: string | null
+          user_id: string
+        }
+        Update: {
+          badge_id?: string
+          coupon_code?: string | null
+          coupon_id?: string | null
+          created_at?: string
+          detail?: string | null
+          expires_at?: string | null
+          href?: string | null
+          id?: string
+          kind?: string
+          label?: string
+          percent_off?: number | null
+          redeemed_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_perks_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_plans: {
         Row: {
           created_at: string
@@ -1239,6 +1315,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      training_profiles: {
+        Row: {
+          data: Json
+          sources: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          sources?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          sources?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       mtk_plans: {
         Row: {
@@ -3820,6 +3917,22 @@ export type Database = {
       claim_referral: { Args: { p_code: string }; Returns: Json }
       clear_notification_history: { Args: never; Returns: number }
       complete_step: { Args: { p_step: string; p_via?: string }; Returns: Json }
+      resolve_schedule_conflicts: {
+        Args: { p_mode?: string; p_plan: string }
+        Returns: Json
+      }
+      save_training_profile: {
+        Args: { p_patch: Json; p_source?: string }
+        Returns: Json
+      }
+      schedule_conflicts: {
+        Args: { p_from?: string }
+        Returns: { items: number; on_date: string; plan_ids: string[] }[]
+      }
+      schedule_mtk_plan: {
+        Args: { p_days: number[]; p_mtk_plan: string; p_starts_on?: string }
+        Returns: string
+      }
       create_mtk_plan: {
         Args: {
           p_days: Json
@@ -3936,6 +4049,7 @@ export type Database = {
       }
       log_referral_share: { Args: { p_channel: string }; Returns: undefined }
       log_referral_visit: { Args: { p_code: string }; Returns: undefined }
+      evaluate_my_badges: { Args: never; Returns: string[] }
       my_badge_progress: { Args: never; Returns: Json }
       my_continue: {
         Args: { p_limit?: number; p_program?: string }

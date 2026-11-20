@@ -47,6 +47,21 @@ export function CertificateSheet({ name, program, path, issuedAt, code, origin }
   );
 }
 
+/** LinkedIn "Add licence or certification" deep link, prefilled with the program, date and verify URL. */
+export function linkedInUrl(c: Certificate, verify: string) {
+  const d = new Date(c.issued_at);
+  const q = new URLSearchParams({
+    startTask: "CERTIFICATION_NAME",
+    name: `${c.program_name}${c.path_name ? ` — ${c.path_name}` : ""}`,
+    organizationName: "Mike Salemi",
+    issueYear: String(d.getUTCFullYear()),
+    issueMonth: String(d.getUTCMonth() + 1),
+    certUrl: verify,
+    certId: c.verify_code,
+  });
+  return `https://www.linkedin.com/profile/add?${q.toString()}`;
+}
+
 /** Plain anchor (not a client navigation) so the browser downloads the PDF. */
 export function PdfLink({ id, label = "PDF", size = "sm" }: { id: string; label?: string; size?: "sm" | "md" }) {
   return (
@@ -86,6 +101,10 @@ export function CertificateCard({ c, name }: { c: Certificate; name: string }) {
         </span>
         <span className="yu-cert-btns">
           <IconButton icon="share" label="Share verification link" size="sm" onClick={share} />
+          <a className="lq-btn lq-press" data-variant="glass" data-size="sm" href={linkedInUrl(c, url)} target="_blank" rel="noopener noreferrer" aria-label="Add to LinkedIn profile">
+            <Icon name="external" size="xs" />
+            <span>LinkedIn</span>
+          </a>
           <PdfLink id={c.id} />
         </span>
       </div>

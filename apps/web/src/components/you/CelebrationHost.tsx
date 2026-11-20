@@ -3,11 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { Completion, LevelEmblem, Medal, type MedalTier } from "@/components/graphics";
+import { Completion, LevelEmblem, type MedalTier } from "@/components/graphics";
 import { Button, Glass, Icon } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { syncAchievements, type AchievementSnapshot } from "@/lib/actions/you";
-import { medalArt } from "./MedalArt";
+import { MedalPin } from "@/components/badges/MedalPin";
 import { chalkBurst, confetti } from "./fx";
 import "./you.css";
 
@@ -21,11 +21,11 @@ export type Celebration = {
   title: string;
   body: string;
   action?: { label: string; href: string };
-  medal?: { tier: MedalTier; icon: string | null };
+  medal?: { tier: MedalTier; icon: string | null; color?: string | null };
   level?: number;
 };
 
-export type BadgeToast = { id: string; name: string; tier: MedalTier; icon: string | null; description: string };
+export type BadgeToast = { id: string; name: string; tier: MedalTier; icon: string | null; description: string; /** Program enamel colour (0023). */ medal_color?: string | null };
 
 type Event = { type: "celebrate"; c: Celebration } | { type: "badge"; b: BadgeToast };
 const listeners = new Set<(e: Event) => void>();
@@ -259,7 +259,7 @@ export function CelebrationHost() {
               data-leaving={t.leaving ? "" : undefined}
               onClick={() => router.push("/you/rewards")}
             >
-              <Medal tier={t.tier} size={46} animated title="">{medalArt(t.icon)}</Medal>
+              <MedalPin tier={t.tier} icon={t.icon} color={t.medal_color} size={46} animated />
               <span className="yu-badge-toast-main">
                 <span className="lq-t13 yu-eyebrow">Badge unlocked</span>
                 <span className="lq-t15" style={{ fontWeight: 600 }}>{t.name}</span>
@@ -278,7 +278,7 @@ export function CelebrationHost() {
             <div className="yu-cel-fx" ref={fx} aria-hidden />
             <div className="yu-cel-art" aria-hidden>
               {current.kind === "badge" && current.medal ? (
-                <Medal tier={current.medal.tier} size={150} animated title="">{medalArt(current.medal.icon)}</Medal>
+                <MedalPin tier={current.medal.tier} icon={current.medal.icon} color={current.medal.color} size={150} animated />
               ) : current.kind === "program" ? (
                 <Completion variant="milestone" size={150} animated />
               ) : (

@@ -132,3 +132,41 @@ export async function saveCreatedPlan(input: CreatorInput): Promise<Result<strin
     return id;
   });
 }
+
+/* ------------------------------------------------------------- one schedule */
+
+/** "Move to the next free day" or "Keep both" for a plan whose sessions clash with another plan's. */
+export async function resolveConflictsAction(planId: string, mode: "next_free" | "keep"): Promise<Result<{ moved: number }>> {
+  if (!uuid.safeParse(planId).success || !["next_free", "keep"].includes(mode)) return { ok: false, error: "Choose a plan" };
+  const { resolveScheduleConflicts } = await import("@ms/api");
+  return run(async (sb) => ({ moved: (await resolveScheduleConflicts(sb, planId, mode)).moved }));
+}
+
+/** Put the member's MTK learning plan on the main schedule on these weekdays (0 = Sunday). */
+export async function scheduleMtkPlanAction(mtkPlanId: string, weekdays: number[], startsOn?: string): Promise<Result<string>> {
+  if (!uuid.safeParse(mtkPlanId).success || !days.safeParse(weekdays).success) return { ok: false, error: "Choose your training days" };
+  const { scheduleMtkPlan } = await import("@ms/api");
+  return run((sb) => scheduleMtkPlan(sb, mtkPlanId, weekdays, startsOn ?? null));
+}
+
+/** Save shared training-profile answers (profile editor; Settings embeds the same component). */
+export async function saveTrainingProfileAction(patch: import("@ms/api").TrainingProfile): Promise<Result<import("@ms/api").TrainingProfile>> {
+  const { saveTrainingProfile } = await import("@ms/api");
+  const clean = profilePatch.safeParse(patch);
+  if (!clean.success) return { ok: false, error: clean.error.issues[0]?.message ?? "Check your answers" };
+  return run((sb) => saveTrainingProfile(sb, clean.data, "profile"));
+}
+
+const profilePatch = z.object({
+  goal_kind: z.enum(["strength", "technique", "mobility", "conditioning", "mindset", "retreat_prep", "custom"]).optional(),
+  target_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  days_per_week: z.number().int().min(1).max(7).optional(),
+  training_days: z.array(z.number().int().min(0).max(6)).max(7).optional(),
+  session_minutes: z.number().int().min(10).max(120).optional(),
+  equipment: z.array(z.string().max(80)).max(12).optional(),
+  bell_weights: z.string().max(120).optional(),
+  kb_experience: z.number().int().min(0).max(3).optional(),
+  kb_level: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+  focus_areas: z.array(z.string().max(80)).max(12).optional(),
+  limitations: z.string().max(1000).optional(),
+});

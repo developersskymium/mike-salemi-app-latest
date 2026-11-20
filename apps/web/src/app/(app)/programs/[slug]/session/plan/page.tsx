@@ -1,16 +1,15 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { PlanCreator } from "@/components/selfguided/PlanCreator";
-import { loadPlanBuilder } from "@/lib/loaders/selfguided";
+import { redirect } from "next/navigation";
+import { loadProgramPage } from "@/lib/loaders/training";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const metadata: Metadata = { title: "Create my plan", description: "Build a personalised multi-week training path from programs you can access." };
-
-/** Legacy Self-Guided plan creator: form, pathway by week, save and schedule, saved plans. */
-export default async function PlanCreatorPage({ params }: Props) {
+/**
+ * One schedule (spec 11 #1): the old per-program plan creator is gone. Programs with a day-by-day plan
+ * open the Self-Guided wizard (which feeds the main schedule); everything else uses the main creator.
+ */
+export default async function ProgramPlanRedirect({ params }: Props) {
   const { slug } = await params;
-  const data = await loadPlanBuilder();
-  if (!data) notFound();
-  return <PlanCreator data={data} slug={slug} />;
+  const data = await loadProgramPage(slug, null).catch(() => null);
+  const hasDays = !!data && data.program.access !== "locked" && !data.locked && data.lessons.some((l) => l.dayNumber != null);
+  redirect(hasDays ? `/programs/${slug}/session/wizard` : `/plan/create`);
 }

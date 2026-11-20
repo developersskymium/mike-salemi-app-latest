@@ -106,8 +106,8 @@ async function runs(sb: DB): Promise<HomeRun[]> {
   });
   const live = rows.filter((r) => r.published);
   const upcoming = live.filter((r) => (r.ends_at ?? r.starts_at) >= now);
-  const past = live.filter((r) => (r.ends_at ?? r.starts_at) < now).reverse();
-  return [...upcoming, ...past].slice(0, 8).map((r): HomeRun => ({
+  // Past retreats are hidden everywhere members browse (spec 11 #15); the rows stay for history.
+  return upcoming.filter((r) => r.status !== "past").slice(0, 8).map((r): HomeRun => ({
     id: r.id, name: r.name, status: r.status, starts_at: r.starts_at, ends_at: r.ends_at, place: r.place,
     price_note: r.price_note, program_slug: r.program_slug, program_name: r.program_name, image: r.image,
   }));

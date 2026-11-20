@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { SettingsView } from "@/components/you/SettingsView";
+import { SettingsHubView } from "@/components/settings/SettingsHubView";
 import { SubPage } from "@/components/you/SubPage";
-import { loadNotifications } from "@/lib/loaders/notifications";
-import { loadSettings } from "@/lib/loaders/today-plan-you";
+import { loadSettingsHub } from "@/lib/settings/loader";
 
 export const metadata: Metadata = { title: "Settings" };
 
 export default async function Page() {
-  const [d, n] = await Promise.all([loadSettings(), loadNotifications()]);
-  return <SubPage title="Settings" back="/you"><SettingsView d={d} n={n} /></SubPage>;
+  const d = await loadSettingsHub();
+  return (
+    <SubPage title="Settings" back="/you">
+      <SettingsHubView d={d} />
+    </SubPage>
+  );
 }

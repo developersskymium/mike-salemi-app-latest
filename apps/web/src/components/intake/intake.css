@@ -172,3 +172,15 @@ html:has(.itk) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !import
 .itk-title { font-family: var(--font-display); font-weight: 600; letter-spacing: -.03em; }
 .itk-numeral { font-family: var(--font-display); }
 .itk-opt { box-shadow: var(--sh-1); }
+
+/* From your profile — compact prefilled answers (spec 11 #1) */
+.itk-profile { margin-top: 20px; padding: 14px 16px 12px; border-radius: var(--r-card, 20px); border: 1px solid var(--line); background: var(--surface-2); }
+.itk-profile-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.itk-profile-h p { margin: 0; font: 650 11.5px/15px var(--font); letter-spacing: .09em; text-transform: uppercase; color: var(--accent-ink); }
+.itk-profile-edit { appearance: none; border: 0; background: none; padding: 4px 2px; font: 600 14px/18px var(--font); color: var(--accent); cursor: pointer; }
+.itk-profile dl { margin: 8px 0 0; display: grid; gap: 0; }
+.itk-profile dl > div { display: grid; grid-template-columns: minmax(110px, 38%) 1fr; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); }
+.itk-profile dl > div:first-child { border-top: 0; }
+.itk-profile dt { font: 500 13.5px/19px var(--font); color: var(--text-3); }
+.itk-profile dd { margin: 0; font: 600 13.5px/19px var(--font); color: var(--text); overflow-wrap: anywhere; }
+.itk-profile small { display: block; margin-top: 6px; font: 500 12.5px/17px var(--font); color: var(--text-3); }

@@ -11,7 +11,7 @@ import { loadToday, type TodayRaw } from "@/lib/loaders/today-plan-you";
 
 export const metadata: Metadata = { title: "Today" };
 
-/** Home dashboard (legacy /home order): hero, your programs, upcoming, start new, retreats, explore next. */
+/** Home (calm, spec 11): continue hero, your programs, this week, one offer, latest badge; retreat card only with an application/booking. */
 export default async function TodayPage({ searchParams }: { searchParams: Promise<{ preview?: string }> }) {
   const { preview } = await searchParams;
   // Preview: `?preview=live` uses a real member's enrollments (fixtures/*-live.json), `?preview=new` a new member.
