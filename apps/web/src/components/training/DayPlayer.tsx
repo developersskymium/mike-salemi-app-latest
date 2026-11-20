@@ -18,6 +18,7 @@ import { circuitsOf, circuitWord, estimateMinutes } from "./workout";
 import { CircuitTable, downloadWorkoutCsv } from "./CircuitTable";
 import { WorkoutMode } from "./WorkoutCard";
 import { KblLevelSwitch } from "./KblLevelSwitch";
+import { FinishStats, OtherIntensities, useSaveOfflineDay } from "./DayExtras";
 import { MIKE_FACE } from "@/lib/program-photos";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
@@ -362,6 +363,30 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     [items, play],
   );
 
+  /* ---------------------------------------------------------------- readiness bands + offline copy */
+  const bandTables = useMemo(
+    () =>
+      (form?.bands ?? [])
+        .filter((b) => b.outcome === "workout" && b.tableId && tables[b.tableId])
+        .sort((a, b) => a.position - b.position)
+        .map((b) => ({ name: b.name, table: tables[b.tableId!]! }))
+        .filter((x, i, all) => all.findIndex((y) => y.table.id === x.table.id) === i),
+    [form, tables],
+  );
+  useSaveOfflineDay(
+    useMemo(
+      () => ({
+        savedAt: now,
+        href: lessonHref(program.slug, lesson.key, lesson.id),
+        title: lesson.pageType ? lesson.title : lessonName(lesson),
+        eyebrow: [path?.shortName, lessonLabel(lesson, word)].filter(Boolean).join(" · "),
+        table: table && (!form || (readiness && readiness.outcome === "workout")) ? table : null,
+        notes: steps.filter((s) => s.body && s.special !== "completion").map((s) => ({ title: s.title, body: s.body! })),
+      }),
+      [now, program.slug, lesson, path?.shortName, word, table, form, readiness, steps],
+    ),
+  );
+
   /* ---------------------------------------------------------------- view parts */
   const circuits = table ? circuitsOf(table) : [];
   const bandWord = readiness ? (readiness.band === "green" ? "Sharp" : readiness.band === "amber" ? "Steady" : "Low") : null;
@@ -651,7 +676,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
               {readinessBlock}
               {table && tableReady ? (
                 <>
-                  <CircuitTable table={table} csv={false} demoFor={demoFor} />
+                  <CircuitTable table={table} csv={false} demoFor={demoFor} training />
                   <p className="kc-legend">
                     <span>
                       <i data-dir="down" aria-hidden /> Rest, then the next move
@@ -663,6 +688,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
                       <Icon name="play" size="xs" /> Tap an exercise to watch its demo
                     </span>
                   </p>
+                  {form && readiness && <OtherIntensities tables={bandTables} currentId={table.id} />}
                 </>
               ) : readiness && readiness.outcome !== "workout" ? (
                 <div className="kc-quiet" role="status">
@@ -718,7 +744,12 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           onAction={follow}
           levelNumber={levelNumber}
           certificateHref={endKind === "level" && certificateId ? `/you/certificates/${certificateId}` : null}
-          offer={endOffer}
+          offer={
+            <>
+              <FinishStats lessonId={lesson.id} startedAt={now} table={tableReady ? table : null} />
+              {endOffer}
+            </>
+          }
           ctx={endCtx}
         />
       )}

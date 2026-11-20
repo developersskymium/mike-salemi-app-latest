@@ -192,3 +192,21 @@ a.kc-foot-c:hover { background: var(--surface); box-shadow: inset 0 0 0 1px var(
 @media (prefers-reduced-motion: reduce) {
   .kc-pl-eq i { animation: none; }
 }
+
+/* ---------------------------------------------------------------- other intensities, finish stats */
+.ko { border-top: 1px solid var(--line); padding-top: 12px; }
+.ko summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font: 600 13.5px/1 var(--font); color: var(--text-2); }
+.ko summary::-webkit-details-marker { display: none; }
+.ko summary .lq-icon { transition: transform .18s; }
+.ko[open] summary .lq-icon { transform: rotate(180deg); }
+.ko summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.ko-list { display: grid; gap: 18px; margin-top: 14px; }
+.ko-item { display: grid; gap: 8px; }
+.kf { display: grid; gap: 12px; justify-items: center; margin: 4px 0 8px; }
+.kf-stats { display: flex; gap: 18px; font: 500 13px/1 var(--font); color: var(--text-2); }
+.kf-stats b { font: 800 22px/1 var(--font-display); color: var(--text); margin-right: 3px; }
+.kf-feel { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; font: 500 13px/1 var(--font); color: var(--text-2); }
+.kf-feel > span { margin-right: 4px; }
+.kf-feel button { all: unset; cursor: pointer; padding: 7px 12px; border-radius: 99px; font: 600 13px/1 var(--font); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.kf-feel button[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+.kf-feel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatWorkoutCsv, workoutCsvFilename, type WorkoutRow, type WorkoutTable } from "@ms/core";
 import { Icon } from "@/components/ui";
 import { circuitsOf, cleanBreak } from "./workout";
+import { TempoPulse, WeightChip, usesBell } from "./TableBits";
 import "./circuit.css";
 
 /** Column headings with the source TablePress tooltips (same order as the original app). */
@@ -71,7 +72,7 @@ export function downloadWorkoutCsv(table: WorkoutTable) {
  * quiet caption). On a phone it scrolls sideways with the Type and Exercise columns pinned.
  * `demoFor` returns a player action for an exercise that has a demo clip today.
  */
-export function CircuitTable({ table, csv = true, demoFor }: { table: WorkoutTable; csv?: boolean; demoFor?: (exercise: string) => (() => void) | null }) {
+export function CircuitTable({ table, csv = true, demoFor, training }: { table: WorkoutTable; csv?: boolean; demoFor?: (exercise: string) => (() => void) | null; /** Day view: weight memory, tempo pulse, stacked rows on a phone. */ training?: boolean }) {
   const groups = circuitsOf(table);
   const scroller = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -84,7 +85,7 @@ export function CircuitTable({ table, csv = true, demoFor }: { table: WorkoutTab
   }, []);
 
   return (
-    <div className="ct" data-workout-table={table.id}>
+    <div className="ct" data-workout-table={table.id} data-training={training ? "" : undefined}>
       <div className="ct-scroll" ref={scroller} data-scrolled={scrolled ? "" : undefined}>
         <table className="ct-table">
           <caption className="lq-sr">{table.title}</caption>
@@ -124,6 +125,7 @@ export function CircuitTable({ table, csv = true, demoFor }: { table: WorkoutTab
                         <span>{ex}</span>
                       )}
                       {row.note ? <span className="ct-note">{text(row.note)}</span> : null}
+                      {training && ex && usesBell(row.intensity) ? <WeightChip exercise={ex} /> : null}
                     </td>
                     <td className="ct-rest">
                       <span>
@@ -137,7 +139,7 @@ export function CircuitTable({ table, csv = true, demoFor }: { table: WorkoutTab
                     <td>{text(row.intensity)}</td>
                     <td className="lq-num">{text(row.reps)}</td>
                     <td className="lq-num ct-sets">{text(row.sets)}</td>
-                    <td>{text(row.tempo)}</td>
+                    <td>{training ? <TempoPulse tempo={text(row.tempo)} /> : text(row.tempo)}</td>
                   </tr>
                 );
               })}
@@ -152,6 +154,54 @@ export function CircuitTable({ table, csv = true, demoFor }: { table: WorkoutTab
           ))}
         </table>
       </div>
+      {training && (
+        <ol className="ct-stack" aria-label={table.title}>
+          {groups.map((g) => (
+            <li key={g.key} className="ct-sg">
+              <p className="ct-sg-h">
+                <CircuitBadge circuit={g.circuit} icon={g.icon ?? undefined} />
+                <b className="lq-num">
+                  {g.sets} {g.sets === 1 ? "set" : "sets"}
+                </b>
+              </p>
+              {g.rows.map((row, ri) => {
+                const ex = text(row.exercise);
+                const demo = demoFor && ex ? demoFor(ex) : null;
+                return (
+                  <div key={ri} className="ct-sm">
+                    {demo ? (
+                      <button type="button" className="ct-demo ct-sm-n" onClick={demo}>
+                        <span>{ex}</span>
+                        <Icon name="play" size="xs" />
+                      </button>
+                    ) : (
+                      <b className="ct-sm-n">{ex}</b>
+                    )}
+                    <span className="ct-sm-d lq-num">
+                      <span>{text(row.reps)}</span>
+                      {row.rest ? (
+                        <span>
+                          {row.restIcon ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={text(row.restIcon)} alt="" width={12} height={12} className="ct-arrow" loading="lazy" />
+                          ) : null}
+                          {text(row.rest)} rest
+                        </span>
+                      ) : null}
+                      {row.intensity ? <span>{text(row.intensity)}</span> : null}
+                    </span>
+                    <span className="ct-sm-x">
+                      <TempoPulse tempo={text(row.tempo)} />
+                      {ex && usesBell(row.intensity) ? <WeightChip exercise={ex} /> : null}
+                    </span>
+                  </div>
+                );
+              })}
+              {g.after && <p className="ct-sg-b">{cleanBreak(g.after)}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
       {table.notes ? <p className="ct-notes">{table.notes}</p> : null}
       {table.images?.map((img) => (
         // eslint-disable-next-line @next/next/no-img-element
