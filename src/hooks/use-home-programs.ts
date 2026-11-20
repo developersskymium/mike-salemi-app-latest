@@ -59,6 +59,7 @@ export function useHomePrograms(enabled = true) {
     queryFn: () => fetchDashboard(),
     enabled,
     staleTime: 15_000,
+    retry: 1,
   });
   const kblProgress = useProgress(enabled);
   const { position } = useResumePosition(enabled);
@@ -132,7 +133,8 @@ export function useHomePrograms(enabled = true) {
     .sort((a, b) => (b.lastActivityAt ?? "").localeCompare(a.lastActivityAt ?? ""));
 
   return {
-    isLoading: dashboard.isLoading || kblProgress.isLoading,
+    // A failed dashboard request must not leave the page on its skeleton.
+    isLoading: (dashboard.isLoading && !dashboard.isError) || kblProgress.isLoading,
     error: dashboard.error,
     items,
     enrolled,

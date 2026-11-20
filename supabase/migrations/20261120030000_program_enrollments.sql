@@ -21,3 +21,6 @@ create policy program_enrollments_own on public.program_enrollments
 create policy program_enrollments_admin_read on public.program_enrollments
   for select to authenticated
   using (private.has_role((select auth.uid()), 'admin'::public.app_role));
+
+grant select, insert, update, delete on public.program_enrollments to authenticated;
+grant all on public.program_enrollments to service_role;

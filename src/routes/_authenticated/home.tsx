@@ -72,6 +72,12 @@ function HomePage() {
           />
         ) : null}
 
+        {home.error && (
+          <p className="rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+            Your programs couldn't load right now. Refresh to try again.
+          </p>
+        )}
+
         <Row title={settings?.home.enrolledTitle || "Your programs"}>
           {home.enrolled.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-6 text-sm text-muted-foreground">
