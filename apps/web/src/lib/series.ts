@@ -8,6 +8,7 @@
  */
 import type { CourseData, CourseLessonNode } from "@/lib/loaders/course";
 import { allLessons } from "@/lib/journey";
+import { PHOTO, type PhotoName } from "@/lib/photos";
 
 /** MTK and A4L keep their own journeys (journeys-a). Everything else that opens as a course is ours. */
 const NOT_SERIES = new Set(["mastering-the-kettlebell", "athleticism-4-life", "kettlebell-roadmap"]);
@@ -47,19 +48,20 @@ export interface SeriesMedia {
   minutes: Record<string, number>;
 }
 
-const PHOTOS: Record<string, [string, string][]> = {
-  "working-in": [["working-in.jpg", "50% 42%"], ["breathwork.jpg", "50% 40%"], ["summit-clouds.jpg", "50% 50%"], ["mike-coaching.jpg", "26% 20%"]],
-  "the-path-to-inspired-action": [["tgk.jpg", "50% 35%"], ["ridge-circle.jpg", "50% 50%"], ["fire.jpg", "50% 50%"], ["shasta-ridge.jpg", "50% 50%"], ["summit-clouds.jpg", "50% 50%"]],
-  "men-of-movement": [["summit-group.jpg", "50% 40%"], ["breathwork.jpg", "50% 40%"], ["shasta-ridge.jpg", "50% 50%"], ["fire.jpg", "50% 50%"], ["ridge-circle.jpg", "50% 50%"]],
-  "what-your-kettlebell-swing-is-missing": [["mike-goblet.jpg", "52% 10%"], ["mike-deadlift.jpg", "45% 4%"], ["mike-standing.jpg", "52% 22%"], ["mike-press.jpg", "60% 14%"]],
-  "free-6-video-kettlebell-mini-series": [["mike-deadlift.jpg", "45% 4%"], ["mike-coaching.jpg", "26% 20%"], ["mike-press.jpg", "60% 14%"], ["mike-getup.jpg", "35% 30%"], ["mike-windmill.jpg", "70% 38%"], ["mike-squat.jpg", "40% 6%"]],
+/** Text-free photos (lib/photos) for cards whose video has no thumbnail yet, per program. */
+const PHOTOS: Record<string, PhotoName[]> = {
+  "working-in": ["coaching", "breathwork", "qiGong", "walk", "workingIn"],
+  "the-path-to-inspired-action": ["ridgeCircle", "fire", "conversation", "facingShasta", "walk", "breathwork", "valley"],
+  "men-of-movement": ["breathwork", "qiGong", "fire", "ridgeCircle", "facingShasta", "groupLand", "summitGroup"],
+  "what-your-kettlebell-swing-is-missing": ["swingGym", "goblet", "deadlift", "standing", "hinge"],
+  "free-6-video-kettlebell-mini-series": ["coaching", "press", "getup", "windmill", "squat", "swingGym"],
 };
-const DEFAULT_PHOTOS: [string, string][] = [["mike-standing.jpg", "52% 22%"], ["mike-press.jpg", "60% 14%"], ["mike-coaching.jpg", "26% 20%"], ["mike-goblet.jpg", "52% 10%"]];
+const DEFAULT_PHOTOS: PhotoName[] = ["standing", "press", "coaching", "goblet"];
 
 export function photoFor(slug: string, i: number) {
   const pool = PHOTOS[slug] ?? DEFAULT_PHOTOS;
-  const [file, position] = pool[i % pool.length]!;
-  return { src: `/media/summit/${file}`, position };
+  const ph = PHOTO[pool[i % pool.length]!];
+  return { src: ph.src, position: ph.focal };
 }
 
 export function signatureOf(slug: string, kind: string): SeriesSignature {
@@ -167,3 +169,12 @@ export const chapterProgress = (c: SeriesChapter) => {
 
 /** Days until an ISO date (≥ 0), in whole days. */
 export const daysUntil = (iso: string, now = Date.now()) => Math.max(0, Math.ceil((new Date(iso).getTime() - now) / 86400000));
+
+/** Finish line (spec 12 program idea 10): the second "choose next" card beside journey.next. */
+export const FINISH_ALT: Record<string, { slug: string; href: string; label: string; reason: string }> = {
+  "working-in": { slug: "kettlebell-lifestyle", href: "/programs/kettlebell-lifestyle", label: "Kettlebell Lifestyle", reason: "Put Working-In on your recovery days inside a day-by-day plan." },
+  "the-path-to-inspired-action": { slug: "coaching", href: "/coaching", label: "1:1 with Mike", reason: "Tuesdays, 45 minutes: turn the ten weeks into your next ninety days." },
+  "men-of-movement": { slug: "the-grounded-king", href: "/programs/the-grounded-king", label: "The Grounded King", reason: "Keep the retreat's work going with the brothers you trained with." },
+  "what-your-kettlebell-swing-is-missing": { slug: "kettlebell-lifestyle", href: "/programs/kettlebell-lifestyle", label: "Kettlebell Lifestyle", reason: "Your swing, programmed: Level I starts with it on day one." },
+  "free-6-video-kettlebell-mini-series": { slug: "kettlebell-lifestyle", href: "/programs/kettlebell-lifestyle", label: "Kettlebell Lifestyle", reason: "Train the lifts you just coached, day by day." },
+};

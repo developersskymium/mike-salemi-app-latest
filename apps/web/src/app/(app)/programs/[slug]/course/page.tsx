@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { JourneyHome } from "@/components/journey/JourneyHome";
 import { loadCourseOutline } from "@/lib/loaders/course";
 import { SeriesHome } from "@/components/series/SeriesHome";
+import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { loadSeriesHome } from "@/lib/loaders/series";
 import { isSeries } from "@/lib/series";
 
@@ -26,7 +27,7 @@ export default async function JourneyPage({ params }: Props) {
   if (isSeries(slug)) {
     const home = await loadSeriesHome(slug);
     if (!home) notFound();
-    return <SeriesHome home={home} />;
+    return <SeriesHome home={home} offer={home.data.program.journey.next ? undefined : <OfferSlot placement="program_page" />} />;
   }
   const data = await loadCourseOutline(slug);
   if (!data) notFound();

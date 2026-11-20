@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { parseLessonBody, type VideoRef } from "@ms/core";
-import { CourseVideo } from "@/components/course/CourseVideo";
-import { AudioList, Downloads, Markdown } from "@/components/course/LessonBody";
+import { AudioList, Markdown } from "@/components/course/LessonBody";
+import { LessonVideoB } from "@/components/lesson-b/LessonVideoB";
+import { NotesB, keyPoints } from "@/components/lesson-b/NotesB";
 import { announceProgress } from "@/components/you/CelebrationHost";
 import { Button, Icon, useToast } from "@/components/ui";
 import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
@@ -24,7 +25,7 @@ type Clip = VideoRef & { title: string };
  * previous / next. Stays mounted between lessons (no flash): only the content changes.
  */
 export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
-  const { data, media } = home;
+  const { data, media, note } = home;
   const router = useRouter();
   const toast = useToast();
   const slug = data.program.slug;
@@ -149,10 +150,46 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
       toast(r.message);
     }
   };
-  const onWatched = async () => {
-    if (!item || item.done || videos.length > 1) return;
+  // Auto-complete at 90% of the lesson's main video (or of its last clip).
+  const onNinety = async () => {
+    if (!item || item.done || (clipIdx !== 0 && clipIdx !== videos.length - 1)) return;
     if (await complete("watched")) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
   };
+
+  /* ---------------- end of video: "Next in 5 s · Cancel" */
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    if (count === null) return;
+    if (count <= 0) {
+      setCount(null);
+      if (next) go(next.id);
+      return;
+    }
+    const t = window.setTimeout(() => setCount((c) => (c === null ? null : c - 1)), 1000);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line
+  }, [count]);
+  const onEnded = () => {
+    if (clipIdx < videos.length - 1) {
+      setClipSel({ lesson: lesson!.id, idx: clipIdx + 1, auto: true });
+      return;
+    }
+    if (next) {
+      void complete("watched");
+      setCount(5);
+    }
+  };
+
+  /* ---------------- focus mode and audio-only */
+  const [focus, setFocus] = useState(false);
+  const talk = sig === "journey" || item?.kind === "call";
+  const [audio, setAudio] = useState(false);
+  useEffect(() => {
+    if (!focus) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setFocus(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [focus]);
 
   /* ---------------- keyboard ← → */
   useEffect(() => {
@@ -173,46 +210,88 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
   const playKey = `${lesson?.id}:${clip?.providerId ?? "none"}`;
   const primaryLabel = isIntro ? (countable.some((i) => i.done) ? "Continue" : "Begin") : next ? (isDone ? "Next" : "Complete & next") : isDone ? "All done" : "Complete";
 
+  const chapterItems = chapter?.items.filter((i) => i.kind !== "welcome") ?? [];
+  const posInChapter = item ? chapterItems.findIndex((i) => i.id === item.id) : -1;
+  const points = keyPoints(parsed.body, hide);
+  const question = !lesson || isIntro
+    ? null
+    : item?.kind === "reflection"
+      ? "What came up for you in this week's playwork, and what will you do differently?"
+      : sig === "journey"
+        ? "What's one thing from this you'll act on before next week?"
+        : sig === "pillars"
+          ? "What do you want to carry with you to the retreat from this practice?"
+          : sig === "practice"
+            ? "How did your energy feel before and after this practice?"
+            : null;
+
   return (
-    <div className="srp" data-sig={sig} data-jy-theme={cfg.theme}>
+    <div className="srp" data-sig={sig} data-jy-theme={cfg.theme} data-focus={focus ? "" : undefined} data-shell-focus={focus ? "" : undefined}>
       <header className="srp-bar">
         <Link href={`/programs/${slug}/course`} className="srp-back" aria-label={`Back to ${data.program.name}`}>
           <Icon name="back" size="xs" />
           <span className="srp-ellipsis">{data.program.name}</span>
         </Link>
-        <span className="srp-pct lq-num" aria-label={`${Math.round(pct * 100)}% complete`}>
-          <span className="sr-prog-bar"><i style={{ "--p": pct } as CSSProperties} /></span>
-          {Math.round(pct * 100)}%
+        <span className="srp-where srp-ellipsis">
+          {isIntro ? "Start here" : `${chapter?.label ?? ""}${posInChapter >= 0 ? ` · ${KIND_LABEL[item!.kind] === "Lesson" ? "Lesson" : KIND_LABEL[item!.kind]} ${posInChapter + 1} of ${chapterItems.length}` : ""}`}
+        </span>
+        <span className="srp-tools">
+          <button type="button" className="srp-icon" aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"} disabled={!prev} onClick={() => prev && go(prev.id)}><Icon name="arrowLeft" size="xs" /></button>
+          <button type="button" className="srp-icon" aria-label={next ? `Next: ${next.title}` : "No next lesson"} disabled={!next} onClick={() => next && go(next.id)}><Icon name="arrowRight" size="xs" /></button>
+          <button type="button" className="lb-toggle srp-only-desk" aria-pressed={focus} onClick={() => setFocus((f) => !f)}>
+            <Icon name={focus ? "close" : "fullscreen"} size="xs" />{focus ? "Exit focus" : "Focus"}
+          </button>
+          <span className="srp-pct lq-num" aria-label={`${Math.round(pct * 100)}% complete`}>
+            <span className="sr-prog-bar"><i style={{ "--p": pct } as CSSProperties} /></span>
+            {Math.round(pct * 100)}%
+          </span>
         </span>
       </header>
 
       <div className="srp-grid">
         <div className="srp-stage" ref={stage}>
-          {clip || parsed.directVideo ? (
-            <CourseVideo
-              key={playKey}
-              video={clip ?? null}
-              directUrl={clip ? undefined : parsed.directVideo?.url}
-              poster={poster}
-              title={clip?.title ?? title}
-              fallbackImage={fallback}
-              kicker={chapter?.label}
-              autoStart={clipSel?.auto && clipSel.lesson === lesson?.id}
-              resumeAt={clip ? lesson?.videoSeconds[clip.providerId] ?? 0 : 0}
-              onProgress={(s) => {
-                if (clip) seconds.current[clip.providerId] = Math.floor(s);
-                save();
-              }}
-              onWatched={() => void onWatched()}
-            />
-          ) : (
-            <div className="srp-novideo" style={{ backgroundImage: `url(${fallback})` }}>
-              <span>
-                <Icon name="file" size="sm" />
-                {item ? KIND_LABEL[item.kind] : "Lesson"}
-              </span>
-            </div>
-          )}
+          <div className="srp-player">
+            {clip || parsed.directVideo ? (
+              <LessonVideoB
+                key={playKey}
+                video={clip ?? null}
+                directUrl={clip ? undefined : parsed.directVideo?.url}
+                poster={poster}
+                title={clip?.title ?? title}
+                fallbackImage={fallback}
+                kicker={chapter?.label}
+                audio={audio}
+                autoStart={Boolean(clipSel?.auto && clipSel.lesson === lesson?.id)}
+                resumeAt={clip ? lesson?.videoSeconds[clip.providerId] ?? 0 : 0}
+                onProgress={(s) => {
+                  if (clip) seconds.current[clip.providerId] = Math.floor(s);
+                  save();
+                }}
+                onNinety={() => void onNinety()}
+                onEnded={onEnded}
+              />
+            ) : (
+              <div className="srp-novideo" style={{ backgroundImage: `url(${fallback})` }}>
+                <span>
+                  <Icon name="file" size="sm" />
+                  {item ? KIND_LABEL[item.kind] : "Lesson"}
+                </span>
+              </div>
+            )}
+            {count !== null && next && (
+              <div className="lb-count" role="status">
+                <div>
+                  <small>Up next</small>
+                  <b>{next.title}</b>
+                  <span className="lb-count-n lq-num" aria-label={`in ${count} seconds`}>{count}</span>
+                  <span className="lb-count-acts">
+                    <button type="button" onClick={() => (setCount(null), go(next.id))}>Play now</button>
+                    <button type="button" onClick={() => setCount(null)}>Cancel</button>
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="srp-head">
             <p className="sr-eyebrow">
@@ -226,6 +305,11 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
               <Button variant={isDone && !next ? "secondary" : "filled"} size="md" iconAfter={next || isIntro ? "arrowRight" : "check"} onClick={() => void primary()} disabled={busy || (isDone && !next)} aria-busy={busy || undefined}>
                 {primaryLabel}
               </Button>
+              {talk && (clip || parsed.directVideo) && (
+                <button type="button" className="lb-toggle" aria-pressed={audio} onClick={() => setAudio((a) => !a)}>
+                  <Icon name="speaker" size="xs" />{audio ? "Show video" : "Audio only"}
+                </button>
+              )}
               {isDone && !isIntro && (
                 <button type="button" className="srp-undo" onClick={() => void undo()}>Mark as not done</button>
               )}
@@ -288,13 +372,22 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
 
         <div className="srp-notes">
           <AudioList items={parsed.audio} />
-          {parsed.body && <Markdown source={parsed.body} hide={hide} />}
-          <Downloads items={parsed.files} />
-          {sig === "journey" && item?.kind === "reflection" && (
-            <div className="srp-reflect">
-              <Icon name="leaf" size="sm" />
-              <p>Take ten quiet minutes with this before next week's call. Write it by hand if you can; bring one line to share.</p>
+          {parsed.files.length > 0 && (
+            <div className="lb-chips" aria-label="Downloads">
+              {parsed.files.map((f) => (
+                <a key={f.url} className="lb-chip lq-press" href={f.url} target="_blank" rel="noreferrer" download={f.kind === "link" ? undefined : ""}>
+                  <Icon name={f.kind === "link" ? "external" : "download"} size="xs" />
+                  <span>{f.title.replace(/\.(pdf|docx?|zip|mp3)$/i, "").replace(/[-_]+/g, " ")}</span>
+                </a>
+              ))}
             </div>
+          )}
+          {lesson && !isIntro && <NotesB key={lesson.id} lessonId={lesson.id} points={points} initial={note} question={question} />}
+          {parsed.body && (
+            <details className="srp-more" open={points.length === 0}>
+              <summary>{points.length ? "Full lesson notes" : "Lesson notes"}</summary>
+              <Markdown source={parsed.body} hide={hide} />
+            </details>
           )}
           <nav className="srp-pn" aria-label="Previous and next">
             {prev ? (
