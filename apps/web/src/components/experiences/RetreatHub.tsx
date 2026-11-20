@@ -237,7 +237,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
             {next && (
               <div className="rtp-next" role="status">
                 <div><span className="lq-eyebrow" data-tone="ok">Now</span><b>{next.now.title}</b></div>
-                {next.next && <div><span className="lq-eyebrow" data-tone="accent">Where next{next.nextAt ? ` · ${next.nextAt}` : ""}</span><b>{next.next.title}</b><span className="lq-t12 lq-c2">{next.next.location ?? run.location.venue ?? "On the land"}{next.timed ? "" : " · the team will call you"}</span></div>}
+                {next.next && <div><span className="lq-eyebrow" data-tone="accent">Where next{next.nextAt ? ` · ${next.nextAt}` : ""}</span><b>{next.next.title}</b><span className="lq-t12 lq-c2">{next.next.location ?? run.location.venue ?? "On the land"}{next.timed ? "" : " · times on the day"}</span></div>}
               </div>
             )}
             {hub.sessions.length > 0 && (
@@ -272,7 +272,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
               </div>
             </Glass>
           </Sec>
-          <Sec id="recap" eyebrow="Your retreat" title="The photos" aside={<span className="lq-t13 lq-c2 lq-num">{hub.wall.length + photos.length} photos</span>}>
+          <Sec id="recap" eyebrow="Your retreat" title="The photos" aside={<span className="lq-t13 lq-c2 lq-num">{hub.wall.length || photos.length} photos</span>}>
             <div className="rt-recap">
               <div><b className="lq-d-lg lq-num">{days.length || 4}</b><span>days on the mountain</span></div>
               <div><b className="lq-d-lg lq-num">{hub.itinerary.length}</b><span>practices and ceremonies</span></div>
