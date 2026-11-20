@@ -16,3 +16,4 @@ export * from "./tools";
 export * from "./selfguided";
 export * from "./mtk";
 export * from "./access";
+export * from "./profile";

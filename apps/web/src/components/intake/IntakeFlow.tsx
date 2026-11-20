@@ -68,12 +68,24 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
   const theme = resolveJourney(data.program.slug).theme;
   const router = useRouter();
   const toast = useToast();
-  const steps = data.form.steps;
+  const prefill = data.prefill ?? null;
+  const filled = useMemo(() => new Set(prefill?.filled ?? []), [prefill]);
+  // Ask only what the profile doesn't already know; "Edit" brings every step back.
+  const [editing, setEditing] = useState(start === "flow" && !!data.latest);
+  const steps = useMemo(() => {
+    const all = data.form.steps;
+    if (editing || !filled.size) return all;
+    const open = all.filter((st) => !st.questions.every((q) => filled.has(q.id)));
+    return open.length ? open : all.slice(-1);
+  }, [data.form.steps, editing, filled]);
+  const skipped = data.form.steps.length - steps.length;
   const draftKey = `intake-draft:${data.form.key ?? data.form.id}`;
   const [view, setView] = useState<View>(() =>
     start === "review" && data.latest ? { kind: "done", attempt: data.latest } : { kind: "flow", fresh: start === "fresh" || !data.latest },
   );
-  const [answers, setAnswers] = useState<Answers>(() => (start === "fresh" || !data.latest ? {} : (data.latest.answers as Answers)));
+  const [answers, setAnswers] = useState<Answers>(() =>
+    start === "fresh" || !data.latest ? ({ ...(prefill?.answers ?? {}) } as Answers) : ({ ...(prefill?.answers ?? {}), ...(data.latest.answers as Answers) } as Answers),
+  );
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<"fwd" | "back">("fwd");
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +102,8 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       const raw = window.localStorage.getItem(draftKey);
       if (!raw) return;
       const d = JSON.parse(raw) as { answers: Answers; step: number };
-      if (d && Object.keys(d.answers ?? {}).length) {
+      // A draft that only holds the profile prefill isn't "your answers from last time".
+      if (d && Object.keys(d.answers ?? {}).some((k) => !filled.has(k))) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time restore from browser storage after hydration
         setAnswers(d.answers);
         setStep(Math.min(Math.max(0, d.step | 0), steps.length - 1));
@@ -136,7 +149,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
 
   const save = async () => {
     setSaving(true);
-    const r = await submitIntakeAction(data.form.id, answers, data.program.slug);
+    const r = await submitIntakeAction(data.form.id, answers, data.program.slug, data.form.key);
     setSaving(false);
     if (!r.ok) {
       toast(r.message);
@@ -167,7 +180,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
 
   const startFresh = () => {
     setConfirm(false);
-    setAnswers({});
+    setAnswers({ ...(prefill?.answers ?? {}) } as Answers);
     setStep(0);
     setView({ kind: "flow", fresh: true });
     try {
@@ -242,6 +255,20 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
           <p className="itk-eyebrow">{data.kind === "program" ? "Program intake" : cur.eyebrow ?? data.form.title}</p>
           <h2 ref={title} tabIndex={-1} className="itk-title" aria-live="polite">{cur.title}</h2>
           {cur.intro && <p className="itk-help">{cur.intro}</p>}
+          {step === 0 && !editing && skipped > 0 && prefill && prefill.summary.length > 0 && (
+            <section className="itk-profile" aria-label="From your profile">
+              <div className="itk-profile-h">
+                <p>From your profile</p>
+                <button type="button" className="itk-profile-edit" onClick={() => { setEditing(true); setStep(0); setDir("back"); }}>Edit</button>
+              </div>
+              <dl>
+                {prefill.summary.map((l) => (
+                  <div key={l.id}><dt>{l.label}</dt><dd>{l.value}</dd></div>
+                ))}
+              </dl>
+              <small>{skipped === 1 ? "One question" : `${skipped} questions`} already answered — saved back to your profile when you finish.</small>
+            </section>
+          )}
           {step === 0 && data.form.introduction && !cur.intro && <p className="itk-help">{data.form.introduction}</p>}
 
           {cur.questions.map((q) => {
