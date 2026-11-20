@@ -1,0 +1,193 @@
+{
+ "tables": {
+  "39": {
+   "id": "source-39",
+   "sourceId": "39",
+   "title": "(#1 Full) Workout III, Level I, Phase II",
+   "rows": [
+    {
+     "circuit": "S1",
+     "exercise": "Staggered Stance Deadlift",
+     "rest": "30s",
+     "restDir": "down",
+     "restArrow": false,
+     "intensity": "Moderate",
+     "reps": "40s (20sL/20sR)",
+     "sets": "4",
+     "tempo": "Mod-Fast",
+     "circuitIcon": "/kbl/icons/s1.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Alternating Halo - Squat",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s",
+     "sets": "3",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Offset Push Ups",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Bodyweight",
+     "reps": "30s (15sL/15sR)",
+     "sets": "3",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Static Alt. Side Lunge with Counter Rot.",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s",
+     "sets": "3",
+     "tempo": "Mod-Fast",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Lunge Stance Row (supported)",
+     "rest": "20s",
+     "restDir": "up",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s (15sL/15sR)",
+     "sets": "3",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-up.png"
+    },
+    {
+     "circuit": "S3",
+     "exercise": "Modified Butterflies",
+     "rest": "30s",
+     "restDir": "down",
+     "restArrow": false,
+     "intensity": "Bodyweight",
+     "reps": "60s",
+     "sets": "2",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/s3.png"
+    }
+   ],
+   "separators": [
+    {
+     "after": "S1",
+     "label": "[1 min Rest Before Next Circuit]"
+    },
+    {
+     "after": "C2",
+     "label": "[1 min Rest Before Finisher]"
+    }
+   ],
+   "images": []
+  },
+  "42": {
+   "id": "source-42",
+   "sourceId": "42",
+   "title": "(#3 Modified) Workout III, Level I, Phase II",
+   "rows": [
+    {
+     "circuit": "S1",
+     "exercise": "Staggered Stance Deadlift",
+     "rest": "30s",
+     "restDir": "down",
+     "restArrow": false,
+     "intensity": "Moderate",
+     "reps": "40s (20sL/20sR)",
+     "sets": "1",
+     "tempo": "Mod-Fast",
+     "circuitIcon": "/kbl/icons/s1.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Alternating Halo - Squat",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s",
+     "sets": "1",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Offset Push Ups",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Bodyweight",
+     "reps": "30s (15sL/15sR)",
+     "sets": "1",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Static Alt. Side Lunge with Counter Rot.",
+     "rest": "20s",
+     "restDir": "down",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s",
+     "sets": "1",
+     "tempo": "Mod-Fast",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-down.png"
+    },
+    {
+     "circuit": "C2",
+     "exercise": "Lunge Stance Row (supported)",
+     "rest": "20s",
+     "restDir": "up",
+     "restArrow": true,
+     "intensity": "Moderate",
+     "reps": "30s (15sL/15sR)",
+     "sets": "1",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/c2.png",
+     "restIcon": "/kbl/icons/rest-up.png"
+    },
+    {
+     "circuit": "S3",
+     "exercise": "Modified Butterflies",
+     "rest": "30s",
+     "restDir": "down",
+     "restArrow": false,
+     "intensity": "Bodyweight",
+     "reps": "60s",
+     "sets": "1",
+     "tempo": "Moderate",
+     "circuitIcon": "/kbl/icons/s3.png"
+    }
+   ],
+   "separators": [
+    {
+     "after": "S1",
+     "label": "[1 min Rest Before Next Circuit]"
+    },
+    {
+     "after": "C2",
+     "label": "[1 min Rest Before Finisher]"
+    }
+   ],
+   "notes": "Note:\nAdditional suggestions on how to further modify training today if needed:\n1. Increase the rest periods as needed to allow for more full recovery in between sets",
+   "images": []
+  }
+ }
+}

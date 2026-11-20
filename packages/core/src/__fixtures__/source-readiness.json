@@ -1,0 +1,2312 @@
+{
+  "version": 2,
+  "source": "Read-only WordPress Gravity Forms export, 2026-11-01",
+  "scoringCorrection": {
+    "question": "tired",
+    "answer": "yes",
+    "originalWeight": 0,
+    "weight": 15,
+    "authority": "Explicit owner instruction, 2026-11-01. NEW APP only."
+  },
+  "forms": {
+    "2": {
+      "id": "2",
+      "title": "Workout A - level 1",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "15",
+      "originalDefaultTableId": "15",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "15",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "16",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "17",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "22": {
+      "id": "22",
+      "title": "Workout B - level 1",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "18",
+      "originalDefaultTableId": "18",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "18",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "19",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "20",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "23": {
+      "id": "23",
+      "title": "Workout A - level 2",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "21",
+      "originalDefaultTableId": "21",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "21",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "22",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "23",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "24": {
+      "id": "24",
+      "title": "Workout B - level 2",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "24",
+      "originalDefaultTableId": "24",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "24",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "25",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "26",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "25": {
+      "id": "25",
+      "title": "Workout A, Level I, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "29",
+      "originalDefaultTableId": "15",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "29",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "30",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "32",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "26": {
+      "id": "26",
+      "title": "Workout B, Level I, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "33",
+      "originalDefaultTableId": "15",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "33",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "35",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "38",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "27": {
+      "id": "27",
+      "title": "Workout C, Level I, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "39",
+      "originalDefaultTableId": "15",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "39",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "41",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "42",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "28": {
+      "id": "28",
+      "title": "Workout A, Level II, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "43",
+      "originalDefaultTableId": "43",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "43",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "44",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "45",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "29": {
+      "id": "29",
+      "title": "Workout B, Level II, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "46",
+      "originalDefaultTableId": "46",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "46",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "47",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "48",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "30": {
+      "id": "30",
+      "title": "Workout C, Level II, Phase II",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "49",
+      "originalDefaultTableId": "49",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "49",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "50",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "51",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "31": {
+      "id": "31",
+      "title": "Workout A, Level I, Phase III",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "52",
+      "originalDefaultTableId": "52",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "52",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "53",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "54",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "32": {
+      "id": "32",
+      "title": "Workout B, Level I, Phase III",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "55",
+      "originalDefaultTableId": "55",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "55",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "56",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "57",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "33": {
+      "id": "33",
+      "title": "Workout A, Level II, Phase III",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "58",
+      "originalDefaultTableId": "58",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "58",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "59",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "60",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "34": {
+      "id": "34",
+      "title": "Workout B, Level II, Phase III",
+      "questions": [
+        {
+          "id": "tired",
+          "sourceFieldId": "10",
+          "question": "Did I wake up today feeling tired, honestly?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "recovery",
+          "sourceFieldId": "13",
+          "question": "How recovered does my body feel following the prior workout?",
+          "weights": {
+            "full": 0,
+            "moderate": 5,
+            "none": 15
+          }
+        },
+        {
+          "id": "gut",
+          "sourceFieldId": "16",
+          "question": "Did I wake up with water retention, bloating, diarrhea, or constipation?",
+          "weights": {
+            "no": 0,
+            "yes": 15
+          }
+        },
+        {
+          "id": "stress",
+          "sourceFieldId": "18",
+          "question": "My overall stress level today is?",
+          "weights": {
+            "low": 0,
+            "moderate": 5,
+            "high": 10
+          }
+        },
+        {
+          "id": "motivation",
+          "sourceFieldId": "19",
+          "question": "My willingness and motivation level for training today is?",
+          "weights": {
+            "high": 0,
+            "medium": 3,
+            "low": 5
+          }
+        }
+      ],
+      "maxScore": 60,
+      "defaultTableId": "61",
+      "originalDefaultTableId": "61",
+      "rules": [
+        {
+          "name": "Full Workout",
+          "tableId": "61",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": "is",
+                "value": "0"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 2 Modification",
+          "tableId": "62",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "22"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "33"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Chart 3 Modification",
+          "tableId": "63",
+          "message": "",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "32"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "40"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Recovery Day",
+          "tableId": null,
+          "message": "It is suggested that today be a day for Stretching and/or Working In. You can find these corresponding videos in your Program Library, or on any prior recovery day in the Program. Allow gentle movement, breath, and restorative activities guide your personal practice today.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "39"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "54"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Off Day",
+          "tableId": null,
+          "message": "It is suggested today be a day for total and complete rest from training. This would be a great time for a brief nap (~20 minutes), easy walk, massage, and/or anything you can do to relax and restore your body.",
+          "logic": {
+            "actionType": "show",
+            "logicType": "all",
+            "rules": [
+              {
+                "fieldId": "gquiz_score",
+                "operator": ">",
+                "value": "53"
+              },
+              {
+                "fieldId": "gquiz_score",
+                "operator": "<",
+                "value": "61"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "dayForms": {
+    "l1-phase-1-d8": "2",
+    "l1-phase-1-d10": "22",
+    "l1-phase-1-d12": "2",
+    "l1-phase-1-d15": "22",
+    "l1-phase-1-d17": "2",
+    "l1-phase-1-d19": "22",
+    "l1-phase-1-d20": "2",
+    "l1-phase-2-d21": "25",
+    "l1-phase-2-d23": "26",
+    "l1-phase-2-d25": "27",
+    "l1-phase-2-d28": "25",
+    "l1-phase-2-d30": "26",
+    "l1-phase-2-d32": "27",
+    "l1-phase-2-d35": "25",
+    "l1-phase-2-d37": "26",
+    "l1-phase-2-d39": "27",
+    "l1-phase-3-d41": "31",
+    "l1-phase-3-d43": "32",
+    "l1-phase-3-d45": "31",
+    "l1-phase-3-d48": "32",
+    "l1-phase-3-d50": "31",
+    "l1-phase-3-d52": "32",
+    "l1-phase-3-d55": "31",
+    "l1-phase-3-d57": "32",
+    "l1-phase-3-d59": "31",
+    "l2-phase-1-d8": "23",
+    "l2-phase-1-d10": "24",
+    "l2-phase-1-d12": "23",
+    "l2-phase-1-d13": "24",
+    "l2-phase-1-d15": "23",
+    "l2-phase-1-d16": "24",
+    "l2-phase-1-d18": "23",
+    "l2-phase-1-d19": "24",
+    "l2-phase-2-d21": "28",
+    "l2-phase-2-d23": "29",
+    "l2-phase-2-d25": "30",
+    "l2-phase-2-d28": "28",
+    "l2-phase-2-d30": "29",
+    "l2-phase-2-d32": "30",
+    "l2-phase-2-d35": "28",
+    "l2-phase-2-d37": "29",
+    "l2-phase-2-d39": "30",
+    "l2-phase-3-d41": "33",
+    "l2-phase-3-d43": "34",
+    "l2-phase-3-d45": "33",
+    "l2-phase-3-d48": "34",
+    "l2-phase-3-d50": "33",
+    "l2-phase-3-d52": "34",
+    "l2-phase-3-d55": "33",
+    "l2-phase-3-d57": "34",
+    "l2-phase-3-d59": "33"
+  },
+  "fallbackCorrections": [
+    {
+      "formId": "25",
+      "originalDefault": "15",
+      "fullTable": "29",
+      "reason": "Use the authored full table for this workout, rather than a copied fallback from an earlier phase."
+    },
+    {
+      "formId": "26",
+      "originalDefault": "15",
+      "fullTable": "33",
+      "reason": "Use the authored full table for this workout, rather than a copied fallback from an earlier phase."
+    },
+    {
+      "formId": "27",
+      "originalDefault": "15",
+      "fullTable": "39",
+      "reason": "Use the authored full table for this workout, rather than a copied fallback from an earlier phase."
+    }
+  ]
+}
