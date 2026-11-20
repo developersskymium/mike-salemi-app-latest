@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Chip, Icon } from "@/components/ui";
+import { Icon } from "@/components/ui";
 import { CoachingSubNav } from "@/components/coaching/SubNav";
 import { LiveList } from "@/components/coaching/LiveList";
 import { loadCoachingHub } from "@/lib/loaders/coaching";
+import { photo } from "@/lib/photos";
 import "@/components/commerce/commerce.css";
 import "@/components/coaching/coach.css";
 
@@ -15,10 +16,10 @@ const day = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", 
 export default async function ZenSavagePage(props: PageProps<"/coaching/zen-savage">) {
   const sp = await props.searchParams;
   const hub = await loadCoachingHub(typeof sp.preview === "string" ? sp.preview : null);
+  const hero = photo("qiGong");
   const now = Date.now();
   const upcoming = hub.lives.filter((l) => new Date(l.starts_at).getTime() + l.duration_minutes * 60000 > now);
   const replays = hub.lives.filter((l) => l.replay_url && new Date(l.starts_at).getTime() <= now).reverse();
-  const draft = upcoming.find((l) => l.draft_note)?.draft_note;
   const unread = hub.messages.filter((m) => m.from_coach && !m.read_at).length;
 
   return (
@@ -26,7 +27,7 @@ export default async function ZenSavagePage(props: PageProps<"/coaching/zen-sava
       <CoachingSubNav unread={unread} />
       <div className="co-page" style={{ paddingBottom: 0 }}>
         <section className="co-zen-hero" aria-labelledby="zen-h">
-          <Image src="/media/summit/summit-clouds.jpg" alt="" fill priority sizes="100vw" style={{ objectPosition: "50% 50%" }} />
+          <Image src={hero.src} alt={hero.alt} fill priority sizes="100vw" style={{ objectPosition: hero.focal }} />
           <div className="co-zen-body">
             <div className="lq-eyebrow" style={{ color: "#FFB58C" }}>Group coaching · live</div>
             <h1 id="zen-h" className="lq-d-xl">Zen Savage</h1>
@@ -37,7 +38,6 @@ export default async function ZenSavagePage(props: PageProps<"/coaching/zen-sava
         <section aria-labelledby="live-h">
           <header className="co-head">
             <div><div className="lq-eyebrow" data-tone="warm">Live schedule</div><h2 id="live-h" className="lq-d-md">Next lives</h2></div>
-            {draft && <Chip variant="warm" size="sm" title={draft}>Draft schedule</Chip>}
           </header>
           {upcoming.length ? <LiveList lives={upcoming} /> : <div className="co-card co-empty"><b>No lives scheduled yet</b><p>Mike posts the next block of lives here. Turn on reminders when they appear.</p></div>}
         </section>

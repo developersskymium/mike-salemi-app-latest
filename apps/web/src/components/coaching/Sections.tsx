@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui";
 import { ExecutiveApply } from "@/components/experiences/CoachingBooker";
 import type { PodcastEpisode } from "@/lib/loaders/coaching";
+import { photo, programCover, surfacePhoto } from "@/lib/photos";
 
 /** Idea 1 · Three ways to work with Mike. Executive Edge sits below, by application. */
 export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { nextLive?: string | null; oneToOneHref?: string }) {
@@ -13,8 +14,7 @@ export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { n
       text: "The live group challenge that replaces group coaching: breath, kettlebell and one decisive act each week.",
       href: "/coaching/zen-savage",
       cta: nextLive ? `Next live ${nextLive}` : "See the live schedule",
-      photo: "/media/summit/summit-group.jpg",
-      pos: "50% 40%",
+      img: programCover("zen-savage") ?? photo("getup"),
     },
     {
       kind: "Course · inner work",
@@ -22,8 +22,7 @@ export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { n
       text: "The Path to Inspired Action becomes The Grounded King: strength, presence and nervous-system work with other men.",
       href: "/programs/the-path-to-inspired-action",
       cta: "Open the program",
-      photo: "/media/summit/tgk.jpg",
-      pos: "50% 35%",
+      img: programCover("the-path-to-inspired-action") ?? photo("valley"),
     },
     {
       kind: "1:1 · Tuesdays",
@@ -31,8 +30,7 @@ export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { n
       text: "45 minutes with Mike on your footage and your sticking point. Notes and one next step after every call.",
       href: oneToOneHref,
       cta: "Book a Tuesday",
-      photo: "/media/summit/mike-coaching.jpg",
-      pos: "26% 20%",
+      img: surfacePhoto("coaching"),
     },
   ];
   return (
@@ -41,7 +39,7 @@ export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { n
       <div className="co-paths">
         {paths.map((p) => (
           <Link key={p.name} href={p.href} className="co-card co-path lq-press">
-            <div className="co-path-photo"><Image src={p.photo} alt="" fill sizes="(min-width: 1024px) 360px, 132px" style={{ objectPosition: p.pos }} /></div>
+            <div className="co-path-photo"><Image src={p.img.src} alt={p.img.alt} fill sizes="(min-width: 1024px) 360px, 132px" style={{ objectPosition: p.img.focal }} /></div>
             <div className="co-path-body">
               <span className="co-path-kind">{p.kind}</span>
               <h3 className="lq-d-sm">{p.name}</h3>
@@ -59,7 +57,7 @@ export function CoachingPaths({ nextLive, oneToOneHref = "/coaching/book" }: { n
 export function ExecutiveBand({ packageId, status }: { packageId: string; status: string | null }) {
   return (
     <section id="executive" className="co-ee" aria-labelledby="ee-h">
-      <div className="co-ee-photo"><Image src="/media/summit/mike-standing.jpg" alt="" fill sizes="(min-width: 768px) 480px, 100vw" style={{ objectPosition: "50% 25%" }} /></div>
+      <div className="co-ee-photo"><Image src={surfacePhoto("executiveEdge").src} alt={surfacePhoto("executiveEdge").alt} fill sizes="(min-width: 768px) 480px, 100vw" style={{ objectPosition: surfacePhoto("executiveEdge").focal }} /></div>
       <div className="co-ee-body">
         <span className="co-ee-tag">By application · limited places</span>
         <h2 id="ee-h" className="lq-d-lg">Executive Edge</h2>

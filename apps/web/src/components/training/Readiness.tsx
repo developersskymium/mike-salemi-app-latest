@@ -23,6 +23,8 @@ export type Readiness = {
 type Note = { title?: string; body?: string; points?: string[] } | null | undefined;
 
 const BAND_WORD: Record<string, string> = { green: "full", amber: "modified", red: "recovery" };
+/** How the member feels, shown big on the result. */
+const BAND_LABEL: Record<string, string> = { green: "Sharp", amber: "Steady", red: "Recover" };
 
 export function bandSummary(r: Pick<Readiness, "message" | "outcome" | "band">) {
   if (r.message) return r.message;
@@ -202,13 +204,13 @@ export function ReadinessResult({ result, max }: { result: Pick<Readiness, "scor
         <h3 className="lq-t17 kd-result-name">{result.name}</h3>
         <p className="lq-t15 lq-c2">{bandSummary(result)}</p>
       </div>
+      {/* The band leads (a big "0" read as empty, D18); the fatigue score is the secondary label. */}
       <div className="kd-result-score">
-        <p className="lq-num">
-          <b>{result.score}</b>
-          <span className="lq-c2">/{max}</span>
+        <p className="kd-result-band">{BAND_LABEL[result.band] ?? result.name}</p>
+        <p className="lq-t12 lq-c2 lq-num">
+          Fatigue score {result.score}/{max}
         </p>
-        <p className="kd-eyebrow">Fatigue score</p>
-        <p className="lq-t11 lq-c2">Lower is better</p>
+        <p className="lq-t11 lq-c3">Lower is better</p>
       </div>
     </div>
   );

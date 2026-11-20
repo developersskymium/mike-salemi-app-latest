@@ -122,7 +122,7 @@ export function BookCalendar({ slots, credits, packages, mikeTz = "America/Los_A
             {buyable.map((p) => (
               <button key={p.id} type="button" role="radio" aria-checked={p.id === pkgId} className="co-pkg" onClick={() => setPkgId(p.id)}>
                 <span><b>{p.name}</b><small>{p.sessions > 1 ? `${p.sessions} × ${p.duration_minutes} min` : `${p.duration_minutes} min`}</small></span>
-                <span className="co-num" style={{ fontWeight: 650 }}>{usd(p.price!.amountCents, p.price!.currency)}{p.price!.draftNote && <span className="co-draft" title={p.price!.draftNote}>Draft</span>}</span>
+                <span className="co-num" style={{ fontWeight: 650 }}>{usd(p.price!.amountCents, p.price!.currency)}</span>
               </button>
             ))}
           </div>

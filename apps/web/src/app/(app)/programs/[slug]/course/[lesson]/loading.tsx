@@ -1,9 +1,10 @@
 import "@/components/course/course.css";
 
-/** Course frame while the lesson loads: bar, curriculum column and a stage skeleton. */
+/** Course frame while the lesson loads: bar, curriculum column and a stage skeleton. Full-screen like the
+   player (`data-shell-focus` hides the rail), so the page does not jump sideways when it arrives (D10). */
 export default function Loading() {
   return (
-    <div className="crs" aria-busy="true">
+    <div className="crs" data-shell-focus="" aria-busy="true">
       <div className="crs-bar lq-glass" data-level="thick"><div className="crs-bar-row" /></div>
       <div className="crs-body">
         <aside className="crs-side"><div className="crs-nav-head">{[0, 1, 2].map((i) => <span key={i} className="lq-skel" style={{ height: i === 2 ? 38 : 10, borderRadius: 8 }} />)}</div></aside>

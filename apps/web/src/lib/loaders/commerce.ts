@@ -9,6 +9,7 @@ import {
 import { createClient, getUser } from "@/lib/supabase/server";
 import { MOCK, fixture } from "@/lib/mock";
 import { coverFor, isUnfitCover, focalOf } from "@/lib/covers";
+import { programHref } from "@/lib/hrefs";
 
 /* ================================================================== Offers */
 
@@ -65,12 +66,21 @@ async function offerImage(o: Offer): Promise<OfferView["image"]> {
   return null;
 }
 
+/** Program offers link straight to the page that renders (a course's journey home, not a redirect hop). */
+async function programTypeOf(o: Offer): Promise<string | null> {
+  if (o.target_kind !== "program" || !o.target?.id) return null;
+  const sb = await createClient();
+  const { data } = await sb.from("programs").select("type").eq("id", o.target.id).maybeSingle();
+  return (data?.type as string | undefined) ?? null;
+}
+
 async function realOffer(placement: OfferSlotPlacement, context: OfferContext): Promise<OfferView | null> {
   const sb = await createClient();
   const offer = await getOffer(sb, placement, context);
   if (!offer) return null;
+  const [image, type] = await Promise.all([offerImage(offer), programTypeOf(offer)]);
   const { href, external } = offerHref(offer);
-  return { offer, href, external, image: await offerImage(offer), eyebrow: offer.target?.name ?? null };
+  return { offer, href: type ? programHref(offer.target?.slug ?? offer.target_ref, type) : href, external, image, eyebrow: offer.target?.name ?? null };
 }
 
 /**

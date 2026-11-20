@@ -79,8 +79,11 @@ export function Curriculum(p: CurriculumProps) {
     .filter((g) => g.days.length > 0);
   const total = groups.reduce((n, g) => n + g.days.length, 0);
 
+  // Training days only (info pages left out), the same count as the hero, Today, the rail and You.
   const pct = (sid: string) => {
-    const ls = lessons.filter((l) => l.sectionId === sid);
+    const all = lessons.filter((l) => l.sectionId === sid);
+    const days = all.filter((l) => l.dayNumber != null && !l.pageType);
+    const ls = days.length ? days : all;
     const d = ls.filter((l) => byLesson.get(l.id)?.complete).length;
     return ls.length ? Math.round((d / ls.length) * 100) : 0;
   };

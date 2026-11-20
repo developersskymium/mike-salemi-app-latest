@@ -6,6 +6,7 @@ import { HomeworkWeek } from "@/components/coaching/HomeworkWeek";
 import { CoachingPaths, CoachingTiles, ExecutiveBand, PodcastShelf } from "@/components/coaching/Sections";
 import { CoachingSubNav } from "@/components/coaching/SubNav";
 import { currentHomework, loadCoachingHub } from "@/lib/loaders/coaching";
+import { surfacePhoto } from "@/lib/photos";
 import "@/components/commerce/commerce.css";
 import "@/components/experiences/experiences.css";
 import "@/components/experiences/coaching.css";
@@ -28,6 +29,7 @@ export default async function CoachingPage(props: PageProps<"/coaching">) {
   const unread = hub.messages.filter((m) => m.from_coach && !m.read_at).length;
   const lastFromMike = [...hub.messages].reverse().find((m) => m.from_coach);
   const nextLive = hub.lives.find((l) => new Date(l.starts_at).getTime() > Date.now());
+  const hero = surfacePhoto("coaching");
   const q = typeof sp.preview === "string" ? `?preview=${sp.preview}` : "";
 
   return (
@@ -38,7 +40,7 @@ export default async function CoachingPage(props: PageProps<"/coaching">) {
           <CallRoom s={next} homework={hw?.homework} />
         ) : (
           <section className="co-hero" aria-labelledby="co-h">
-            <div className="co-hero-photo"><Image src="/media/summit/mike-coaching.jpg" alt="Mike coaching one to one" fill priority sizes="(min-width: 768px) 520px, 100vw" style={{ objectPosition: "26% 20%" }} /></div>
+            <div className="co-hero-photo"><Image src={hero.src} alt={hero.alt} fill priority sizes="(min-width: 768px) 520px, 100vw" style={{ objectPosition: hero.focal }} /></div>
             <div className="co-hero-body">
               <div className="lq-eyebrow" data-tone="accent">Coaching with Mike</div>
               <h1 className="lq-d-xl">Train the body.<br />Steady the man.</h1>
