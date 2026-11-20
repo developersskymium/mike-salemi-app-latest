@@ -37,7 +37,7 @@ function Check({ ok, label, detail }: { ok: boolean; label: string; detail: stri
 }
 
 const PREF_LABEL: Record<NonNullable<EmailKindInfo["pref"]>, string> = {
-  always: "Always sent, even with email switched off (the member asked for it).",
+  always: "Always sent, even with email switched off.",
   email: "Sent when the member has email switched on.",
   reminders: "Sent when email and training reminders are on, outside quiet hours.",
   streak_nudge: "Sent when email and streak nudges are on, outside quiet hours.",

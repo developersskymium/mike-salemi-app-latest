@@ -465,7 +465,7 @@ function build(email: AppEmail): EmailContent {
         preheader: "Your coaching call is in the calendar. Here's how to get ready.",
         eyebrow: "Coaching",
         heading: "Your call is booked",
-        subheading: email.when,
+        subheading: "Here's everything you need before you talk to Mike.",
         blocks: [
           {
             t: "details",
@@ -491,7 +491,7 @@ function build(email: AppEmail): EmailContent {
         preheader: "Your coaching call is in about 24 hours.",
         eyebrow: "Coaching reminder",
         heading: "Your call is tomorrow",
-        subheading: email.when,
+        subheading: "A quick check now and the call goes further.",
         blocks: [
           { t: "details", rows: [{ label: "When", value: email.when }, { label: "Length", value: `${email.minutes} minutes` }, ...(email.packageName ? [{ label: "Package", value: email.packageName }] : [])] },
           { t: "section", text: "Two minutes now saves ten on the call" },
@@ -551,10 +551,10 @@ function build(email: AppEmail): EmailContent {
     case "referral_reward":
       return {
         subject: `You earned ${email.days} days of Pro`,
-        preheader: email.friendName ? `${email.friendName} joined, so Pro is on us.` : "Your friend joined, so Pro is on us.",
+        preheader: email.friendName ? `${email.friendName} became a member, so Pro is on us.` : "Your friend became a member, so Pro is on us.",
         eyebrow: "Referral reward",
         heading: `${email.days} days of Pro, on us`,
-        subheading: email.friendName ? `${email.friendName} joined through your invite. Thank you.` : "A friend joined through your invite. Thank you.",
+        subheading: email.friendName ? `${email.friendName} became a member through your invite. Thank you.` : "A friend became a member through your invite. Thank you.",
         blocks: [
           {
             t: "stats",
@@ -565,7 +565,7 @@ function build(email: AppEmail): EmailContent {
             ],
           },
           { t: "p", text: "It's already on your account. Nothing to claim." },
-          { t: "callout", title: "Invite another friend", text: `Each friend who joins adds another ${email.days} days.` },
+          { t: "callout", title: "Keep it going", text: `Every friend who becomes a member adds another ${email.days} days.` },
         ],
         cta: { label: "Invite another friend", url: url("/you/referrals") },
         tone: "warm",
