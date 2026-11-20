@@ -1,17 +1,17 @@
 "use client";
 
 import type { WeekEntry } from "@ms/api";
-import { addDays, daysBetween, type IsoDate } from "@ms/core";
+import { addDays, type IsoDate } from "@ms/core";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition, type DragEvent } from "react";
 import { DayGlyph } from "@/components/graphics";
 import { Button, Glass, Icon, IconButton, Segmented, Sheet, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
-import { addLessonToDay, fixMyPlan, moveItem, removeItem, setItemDone, skipItem, type ActionResult } from "@/lib/actions/today-plan-you";
+import { addLessonToDay, moveItem, removeItem, setItemDone, skipItem, type ActionResult } from "@/lib/actions/today-plan-you";
 import type { LessonCatalog, MemberPlan } from "@/lib/loaders/today-plan-you";
 import { dayNum, dayShort, fmt, longDay, monthGrid, monthName, startOfWeek, weekDates, weekRange } from "@/components/today/dates";
-import { dayTypeOf, entryHref, missedByPlan, plural, relDay, splitDayTitle } from "@/components/today/model";
+import { dayTypeOf, entryHref, plural, relDay, splitDayTitle } from "@/components/today/model";
 import { LessonPicker, type PickedLesson } from "./LessonPicker";
 import "@/components/today/tpy.css";
 
@@ -38,7 +38,8 @@ export function PlanBoard(p: Props) {
   const [week, setWeek] = useState(startOfWeek(p.anchor));
   const [month, setMonth] = useState(p.anchor.slice(0, 7));
   const [picked, setPicked] = useState<IsoDate>(p.anchor);
-  const [building, setBuilding] = useState(p.build);
+  // The "Days to place" tray is open on desktop by default (original layout: calendar | tray).
+  const [building, setBuilding] = useState(true);
   const [addTo, setAddTo] = useState<IsoDate | null>(null);
   const [open, setOpen] = useState<WeekEntry | null>(null);
   const [over, setOver] = useState<IsoDate | null>(null);
@@ -52,7 +53,6 @@ export function PlanBoard(p: Props) {
     for (const e of entries) m.set(e.on_date, [...(m.get(e.on_date) ?? []), e]);
     return m;
   }, [entries]);
-  const missed = useMemo(() => missedByPlan(entries, p.today), [entries, p.today]);
   const planName = (id: string | null) => p.plans.find((x) => x.id === id)?.name ?? null;
 
   /** Navigate within the loaded window; outside it, reload the page around the new date. */
@@ -98,18 +98,6 @@ export function PlanBoard(p: Props) {
     haptic(8);
     mutate(entries.map((x) => (x.plan_item_id === itemId ? { ...x, on_date: date } : x)), () => moveItem(itemId, date), `Moved to ${dayShort(date)} ${dayNum(date)}`);
   };
-  const fix = (planId: string) => {
-    const m = missed.find((x) => x.planId === planId);
-    if (!m) return;
-    const offset = daysBetween(m.oldest, p.today);
-    // Preview of the default "shift" rule: everything from the oldest missed session moves forward.
-    mutate(
-      entries.map((x) => (x.plan_id === planId && x.on_date >= m.oldest && !x.skipped ? { ...x, on_date: addDays(x.on_date, offset) } : x)),
-      () => fixMyPlan(planId),
-      `${plural(m.count, "session")} moved forward`,
-    );
-  };
-
   const onDrop = (date: IsoDate) => (e: DragEvent) => {
     e.preventDefault();
     setOver(null);
@@ -144,17 +132,6 @@ export function PlanBoard(p: Props) {
 
   return (
     <div className="tpy-stack">
-      {missed.map((m) => (
-        <Glass key={m.planId} as="section" radius="card" className="tpy-banner" id="missed" aria-live="polite">
-          <span className="tpy-row-icon" aria-hidden><Icon name="repeat" size="sm" /></span>
-          <div>
-            <div className="lq-t15" style={{ fontWeight: 600 }}>{plural(m.count, "session")} missed</div>
-            <div className="lq-t13 lq-c2">{m.planName}<span className="tpy-desk">. Pick up where you left off and the rest moves with you.</span></div>
-          </div>
-          <Button size="sm" onClick={() => fix(m.planId)}>Fix my plan</Button>
-        </Glass>
-      ))}
-
       <div className="tpy-plan-bar">
         <Segmented<View>
           label="Calendar view"
@@ -175,7 +152,7 @@ export function PlanBoard(p: Props) {
           <IconButton icon="chevron" label={view === "week" ? "Next week" : "Next month"} size="sm" variant="plain" onClick={() => (view === "week" ? goWeek(addDays(week, 7)) : goMonth(1))} />
         </div>
         <Button size="sm" variant={building ? "fill" : "glass"} icon={building ? "check" : "plus"} onClick={() => setBuilding((b) => !b)} className="tpy-desk-inline">
-          {building ? "Done adding" : "Add lessons"}
+          {building ? "Hide lessons" : "Days to place"}
         </Button>
       </div>
 
@@ -227,7 +204,7 @@ export function PlanBoard(p: Props) {
 
         {building && (
           <Glass as="aside" radius="card" className="tpy-pad tpy-picker-panel tpy-desk-block" aria-label="Lessons to add">
-            <div className="tpy-sech"><h3>Lessons</h3><span className="lq-t13 lq-c2">Drag onto a day</span></div>
+            <div className="tpy-sech"><h3>Days to place</h3><span className="lq-t13 lq-c2">Drag onto a day, or tap to add</span></div>
             <LessonPicker catalog={p.catalog} defaultProgramId={defaultProgram} draggable dragMime={DRAG_MIME} onPick={(l) => add(l, week <= p.today && p.today <= addDays(week, 6) ? p.today : week)} />
           </Glass>
         )}

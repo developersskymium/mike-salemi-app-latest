@@ -12,6 +12,13 @@ async function rpc<T, F extends keyof Fns & string = keyof Fns & string>(sb: DB,
   return data as T;
 }
 
+/** Untyped call for functions added after database.types.ts was generated (0013). */
+async function rpcAny<T>(sb: DB, fn: string, args: Record<string, unknown>): Promise<T> {
+  const { data, error } = await (sb.rpc as unknown as (f: string, a: unknown) => Promise<{ data: unknown; error: { message: string } | null }>)(fn, args);
+  if (error) throw new Error(error.message);
+  return data as T;
+}
+
 // ---------------------------------------------------------------- reads
 export async function myGoals(sb: DB, userId: string) {
   const { data, error } = await sb.from("goals").select("*").eq("user_id", userId).order("created_at", { ascending: false });
@@ -65,6 +72,21 @@ export function applyMissedDayRule(sb: DB, planId: string, today?: IsoDate) {
   return rpc<{ rule: "shift" | "skip" | "weekend"; missed: number; changed: number; offset_days?: number }>(
     sb, "apply_missed_day_rule", { p_plan: planId, p_today: today ?? undefined },
   );
+}
+
+/** Guided schedule: re-flow the plan's remaining sessions, in order, onto these weekdays (0=Sun) from a date. */
+export function reflowPlan(sb: DB, planId: string, days: number[], from?: IsoDate | null) {
+  return rpcAny<{ moved: number; days: number[]; ends_on: IsoDate }>(sb, "reflow_plan", { p_plan: planId, p_days: days, p_from: from ?? null });
+}
+
+/** "If you miss a day" rule for one plan (also stored on the enrollment for Immersion schedules). */
+export function setMissedDayRule(sb: DB, planId: string, rule: "shift" | "skip" | "weekend") {
+  return rpcAny<string>(sb, "set_missed_day_rule", { p_plan: planId, p_rule: rule });
+}
+
+/** Saves a created plan through the server function that checks every lesson is real and open to the member. */
+export function saveTrainingPlan(sb: DB, name: string, inputs: Record<string, unknown>, items: { lesson_id: string; on_date: IsoDate; kind: "training" | "recovery"; note?: string }[], startsOn?: IsoDate) {
+  return rpcAny<string>(sb, "save_training_plan", { p_name: name, p_inputs: inputs, p_items: items, p_starts_on: startsOn ?? null });
 }
 
 export interface WeekEntry {
@@ -186,7 +208,9 @@ export interface PlanDraftItem {
   kind: PlanItemKind;
   lessonId: string | null;
   title: string;
+  /** Why this session is here (shown in the plan creator). */
   note?: string;
+  programId?: string | null;
 }
 
 export interface PlanDraft {
@@ -204,6 +228,10 @@ export const GOAL_KEYWORDS: Record<GoalKind, string[]> = {
   mindset: ["mind", "breath", "meditat", "inner", "awareness", "presence", "stress", "inspired", "intention"],
   retreat_prep: ["breath", "meditat", "movement", "mobility", "preparation", "grounding", "qi gong"],
   custom: [],
+};
+
+export const GOAL_LABEL: Record<GoalKind, string> = {
+  strength: "strength", technique: "technique", mobility: "mobility", conditioning: "conditioning", mindset: "mindset", retreat_prep: "retreat preparation", custom: "own",
 };
 
 const RECOVERY_WORDS = ["recovery", "rest", "mobility", "stretch", "breath", "restore", "working in"];
@@ -306,17 +334,21 @@ export function generatePlanDraft(input: PlanDraftInput): PlanDraft {
       if (wantRecovery) {
         const r = takeRecovery();
         items.push({
-          date: cursor, week, session, kind: "recovery", lessonId: r?.id ?? null,
+          date: cursor, week, session, kind: "recovery", lessonId: r?.id ?? null, programId: r?.programId ?? null,
           title: r?.title ?? "Recovery: easy walk, breathing and mobility",
+          note: `Recovery after ${recoveryEvery} training ${recoveryEvery === 1 ? "day" : "days"}`,
         });
         streak = 0;
       } else {
         const t = takeTraining();
         if (!t) {
-          items.push({ date: cursor, week, session, kind: "recovery", lessonId: null, title: "Recovery: easy walk, breathing and mobility" });
+          items.push({ date: cursor, week, session, kind: "recovery", lessonId: null, title: "Recovery: easy walk, breathing and mobility", note: "Every lesson that fits is placed — easy movement day" });
           streak = 0;
         } else {
-          items.push({ date: cursor, week, session, kind: "training", lessonId: t.id, title: t.title });
+          items.push({
+            date: cursor, week, session, kind: "training", lessonId: t.id, title: t.title, programId: t.programId,
+            note: input.goal !== "custom" && score(t, input.goal) > 0 ? `Serves your ${GOAL_LABEL[input.goal]} goal` : "Next in the program's order",
+          });
           streak++;
         }
       }
