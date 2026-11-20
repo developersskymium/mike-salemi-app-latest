@@ -1,0 +1,7 @@
+.gfx-day-glyph-glyph { color: var(--g-fg); stroke: currentColor; }
+.gfx-day-glyph-a { stroke: var(--g-accent); }
+.gfx-day-glyph-fill { fill: var(--g-accent); }
+.gfx-day-glyph-mono .gfx-day-glyph-a { stroke: currentColor; }
+.gfx-day-glyph-mono .gfx-day-glyph-fill { fill: currentColor; }
+.gfx-day-glyph-soft { opacity: .35; }
+.gfx-day-glyph-dot { fill: var(--g-bg-elev); }

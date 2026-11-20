@@ -1,0 +1,62 @@
+.gfx-medal-medal { overflow: visible; }
+.gfx-medal-hi { stop-color: var(--m-hi); }
+.gfx-medal-mid { stop-color: var(--m-mid); }
+.gfx-medal-lo { stop-color: var(--m-lo); }
+.gfx-medal-face { stop-color: var(--m-face); }
+.gfx-medal-tint { stop-color: var(--m-tint); }
+
+.gfx-medal-drop { fill: #000; opacity: .16; filter: blur(4px); }
+.gfx-medal-rim { stroke: color-mix(in srgb, var(--m-lo) 70%, #000); stroke-width: .6; }
+.gfx-medal-reeds path { stroke: var(--m-lo); stroke-opacity: .35; stroke-width: .9; stroke-linecap: round; }
+.gfx-medal-bevel { stroke: none; }
+.gfx-medal-face2 { stroke: color-mix(in srgb, var(--m-lo) 50%, transparent); stroke-width: .5; }
+.gfx-medal-fineRing { fill: none; stroke: var(--m-lo); stroke-opacity: .28; stroke-width: .6; }
+
+.gfx-medal-bail { fill: none; stroke: var(--m-mid); stroke-width: 3.2; }
+.gfx-medal-bailHole { fill: none; stroke: var(--m-lo); stroke-opacity: .25; stroke-width: .8; }
+
+.gfx-medal-engrave { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.15; }
+.gfx-medal-engrave path, .gfx-medal-engrave circle { vector-effect: none; }
+.gfx-medal-engraveLight { color: rgba(255, 255, 255, .75); stroke: currentColor; --g-accent: rgba(255, 255, 255, .75); --g-bg-elev: transparent; }
+.gfx-medal-engraveInk { color: var(--m-ink); stroke: currentColor; --g-accent: var(--m-ink); --g-bg-elev: transparent; }
+
+.gfx-medal-sweep { opacity: 0; }
+
+/* Locked: debossed outline in the text colour. */
+.gfx-medal-locked .gfx-medal-rim { fill: color-mix(in srgb, var(--g-fg) 5%, transparent); stroke: color-mix(in srgb, var(--g-fg) 22%, transparent); stroke-width: 1; }
+.gfx-medal-locked .gfx-medal-bevel { fill: none; stroke: color-mix(in srgb, var(--g-fg) 12%, transparent); stroke-width: 1; }
+.gfx-medal-locked .gfx-medal-face2 { fill: color-mix(in srgb, var(--g-fg) 4%, transparent); stroke: none; }
+.gfx-medal-locked .gfx-medal-fineRing { stroke: var(--g-fg); stroke-opacity: .12; stroke-dasharray: 2 3; }
+.gfx-medal-locked .gfx-medal-bail { stroke: color-mix(in srgb, var(--g-fg) 22%, transparent); }
+.gfx-medal-locked .gfx-medal-bailHole { stroke: none; }
+.gfx-medal-locked .gfx-medal-drop { display: none; }
+.gfx-medal-locked .gfx-medal-engraveLight { display: none; }
+.gfx-medal-locked .gfx-medal-engraveInk { color: var(--g-fg3); --g-accent: var(--g-fg3); opacity: .7; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-medal-animated .gfx-medal-sweep { animation: gfx-medal-sweep 5.5s cubic-bezier(.4, 0, .2, 1) infinite 1s; }
+}
+@keyframes gfx-medal-sweep {
+  0% { opacity: 1; transform: translateX(0); }
+  28% { opacity: 1; transform: translateX(170px); }
+  29%, 100% { opacity: 0; transform: translateX(170px); }
+}
+
+/* Level emblem */
+.gfx-medal-emblem { overflow: visible; font-family: var(--font, system-ui); }
+.gfx-medal-eRim0 { stop-color: var(--g-accent-hi); }
+.gfx-medal-eRim1 { stop-color: var(--g-accent); }
+.gfx-medal-eRim2 { stop-color: var(--g-accent-deep); }
+.gfx-medal-emblemMetal .gfx-medal-eRim0 { stop-color: var(--m-hi); }
+.gfx-medal-emblemMetal .gfx-medal-eRim1 { stop-color: var(--m-mid); }
+.gfx-medal-emblemMetal .gfx-medal-eRim2 { stop-color: var(--m-lo); }
+.gfx-medal-eFill0 { stop-color: var(--g-bg-elev); }
+.gfx-medal-eFill1 { stop-color: color-mix(in srgb, var(--g-accent) 10%, var(--g-bg-elev)); }
+.gfx-medal-hex { stroke-width: 3; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .14)); }
+.gfx-medal-eRidge { fill: color-mix(in srgb, var(--g-accent) 16%, transparent); }
+.gfx-medal-eRidgeLine { fill: none; stroke: var(--g-accent); stroke-width: 1.5; stroke-linejoin: round; }
+.gfx-medal-emblemMetal .gfx-medal-eRidge { fill: color-mix(in srgb, var(--m-mid) 30%, transparent); }
+.gfx-medal-emblemMetal .gfx-medal-eRidgeLine { stroke: var(--m-lo); }
+.gfx-medal-eSnow { fill: #fff; }
+.gfx-medal-eLabel { fill: var(--g-fg2); font-size: 10px; font-weight: 600; }
+.gfx-medal-eNum { fill: var(--g-fg); font-size: 28px; font-weight: 700; letter-spacing: -.02em; }

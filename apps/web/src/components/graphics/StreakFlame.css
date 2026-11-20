@@ -1,0 +1,35 @@
+.gfx-streak-flame-flame { overflow: visible; }
+.gfx-streak-flame-o0 { stop-color: var(--g-accent-deep); }
+.gfx-streak-flame-o1 { stop-color: var(--g-accent); }
+.gfx-streak-flame-o2 { stop-color: var(--g-accent-hi); }
+.gfx-streak-flame-i0 { stop-color: #fff; stop-opacity: 1; }
+.gfx-streak-flame-i1 { stop-color: color-mix(in srgb, var(--g-accent-hi) 50%, #fff); stop-opacity: .85; }
+.gfx-streak-flame-glow { fill: var(--g-accent); opacity: .22; filter: blur(1.4px); }
+.gfx-streak-flame-outer, .gfx-streak-flame-inner { transform-box: fill-box; transform-origin: 50% 100%; }
+.gfx-streak-flame-ember { fill: var(--g-accent-hi); opacity: 0; }
+.gfx-streak-flame-outline { fill: none; stroke: var(--g-fg3); stroke-width: 1.5; stroke-linejoin: round; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-streak-flame-animated .gfx-streak-flame-outer { animation: gfx-streak-flame-flick 2.6s ease-in-out infinite; }
+  .gfx-streak-flame-animated .gfx-streak-flame-inner { animation: gfx-streak-flame-flickIn 1.9s ease-in-out infinite; }
+  .gfx-streak-flame-animated .gfx-streak-flame-ember { animation: gfx-streak-flame-ember 3.2s ease-out infinite 1s; }
+  .gfx-streak-flame-animated .gfx-streak-flame-ember2 { animation-delay: 2.4s; animation-duration: 3.8s; }
+  .gfx-streak-flame-animated .gfx-streak-flame-glow { animation: gfx-streak-flame-breathe 2.6s ease-in-out infinite; }
+}
+@keyframes gfx-streak-flame-flick {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  22% { transform: scale(.97, 1.04) skewX(-2deg); }
+  48% { transform: scale(1.02, .97) skewX(1.5deg); }
+  74% { transform: scale(.98, 1.03) skewX(-1deg); }
+}
+@keyframes gfx-streak-flame-flickIn {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  30% { transform: scale(.94, 1.07) skewX(2.5deg); }
+  65% { transform: scale(1.04, .95) skewX(-2deg); }
+}
+@keyframes gfx-streak-flame-ember {
+  0% { opacity: 0; transform: translate(0, 4px); }
+  20% { opacity: .9; }
+  100% { opacity: 0; transform: translate(1.5px, -7px); }
+}
+@keyframes gfx-streak-flame-breathe { 0%, 100% { opacity: .18; } 50% { opacity: .3; } }

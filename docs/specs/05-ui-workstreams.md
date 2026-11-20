@@ -12,6 +12,7 @@
 All screens follow the approved design system: tokens in `packages/tokens`, primitives in `apps/web/src/components/ui`, rules in `docs/design/system.md`, reference artboards in `/home/claude/design/directions/<chosen>/`. Never invent new colours, type sizes, radii or shadows; if a primitive is missing, build it in your own folder following the system and tell the lead.
 
 ## Shared rules
+- Styling: Tailwind v4 utilities mapped to the tokens, plus the `ui` primitives. CSS Modules do NOT work in this app (Turbopack rule); if you need custom CSS, use globally prefixed classes in a `.css` file imported by your component (prefix with your workstream, e.g. `trn-`).
 - Next.js 16 App Router (read `apps/web/AGENTS.md`, `apps/web/node_modules/next/dist/docs`). Server Components fetch with `createClient()` from `@/lib/supabase/server` and the `@ms/api` functions; Client Components only where interaction needs it. Mutations: Server Actions that call `@ms/api` (never trust client input for prices or access).
 - Rules come from `@ms/core` (locks, playlist, readiness, schedules, pricing). Never re-implement them in components.
 - Everything important above the fold on a 390×844 phone. Compact, warm, minimal text. Real imagery only (program media, video posters), never placeholders.

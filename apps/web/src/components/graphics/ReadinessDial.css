@@ -1,0 +1,31 @@
+.gfx-readiness-dial-dial { color: var(--g-fg); font-family: var(--font, system-ui); overflow: visible; }
+
+.gfx-readiness-dial-zone { fill: none; stroke-width: 14; stroke-linecap: round; opacity: .42; transition: opacity .4s; }
+.gfx-readiness-dial-zone.gfx-readiness-dial-active { opacity: 1; }
+.gfx-readiness-dial-recovery { stroke: color-mix(in srgb, var(--g-fg) 22%, transparent); }
+.gfx-readiness-dial-modified { stroke: color-mix(in srgb, var(--g-accent) 45%, color-mix(in srgb, var(--g-fg) 12%, transparent)); }
+.gfx-readiness-dial-full { stroke: var(--g-accent); }
+
+.gfx-readiness-dial-tick { stroke: var(--g-fg); stroke-opacity: .18; stroke-width: 1.25; stroke-linecap: round; }
+.gfx-readiness-dial-tick.gfx-readiness-dial-major { stroke-opacity: .4; }
+.gfx-readiness-dial-tickLabel { fill: var(--g-fg3); font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.gfx-readiness-dial-needle { transform: rotate(var(--needle)); }
+.gfx-readiness-dial-needleLine { stroke: var(--g-fg); stroke-width: 2; stroke-linecap: round; opacity: .55; }
+.gfx-readiness-dial-marker {
+  fill: #fff;
+  stroke: rgba(0, 0, 0, .12);
+  stroke-width: .75;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .3)) drop-shadow(0 4px 8px rgba(0, 0, 0, .18));
+}
+
+.gfx-readiness-dial-score { fill: var(--g-fg); font-size: 46px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.gfx-readiness-dial-bandLabel { font-size: 13px; font-weight: 600; fill: var(--g-fg2); }
+.gfx-readiness-dial-fullText { fill: var(--accent-ink, var(--g-accent)); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-readiness-dial-animated .gfx-readiness-dial-needle { animation: gfx-readiness-dial-swing 1.5s var(--g-spring-soft) .15s both; }
+  .gfx-readiness-dial-animated .gfx-readiness-dial-score { animation: gfx-readiness-dial-rise .7s var(--g-ease) .3s both; }
+}
+@keyframes gfx-readiness-dial-swing { from { transform: rotate(-90deg); } }
+@keyframes gfx-readiness-dial-rise { from { opacity: 0; transform: translateY(6px); } }

@@ -1,0 +1,35 @@
+.gfx-rings-rings {
+  --r1: var(--ring-1, var(--g-accent));
+  --r1-hi: var(--ring-1-hi, var(--g-accent-hi));
+  --r2: var(--ring-2, var(--g-fg));
+  --r2-hi: var(--ring-2-hi, var(--g-fg3));
+  --r3: var(--ring-3, color-mix(in srgb, var(--g-accent) 50%, #fff));
+  --r3-hi: var(--ring-3-hi, color-mix(in srgb, var(--g-accent) 22%, #fff));
+}
+.gfx-rings-ring1 { --hue: var(--r1); --hue-hi: var(--r1-hi); }
+.gfx-rings-ring2 { --hue: var(--r2); --hue-hi: var(--r2-hi); }
+.gfx-rings-ring3 { --hue: var(--r3); --hue-hi: var(--r3-hi); }
+.gfx-rings-hi1 { stop-color: var(--r1-hi); } .gfx-rings-lo1 { stop-color: var(--r1); }
+.gfx-rings-hi2 { stop-color: var(--r2-hi); } .gfx-rings-lo2 { stop-color: var(--r2); }
+.gfx-rings-hi3 { stop-color: var(--r3-hi); } .gfx-rings-lo3 { stop-color: var(--r3); }
+
+.gfx-rings-track { fill: none; stroke: color-mix(in srgb, var(--hue) 14%, transparent); }
+.gfx-rings-fill {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: calc(var(--v) * 100) 100;
+}
+.gfx-rings-cap { transform: rotate(calc(var(--v) * 360deg)); }
+.gfx-rings-capDot {
+  fill: var(--hue);
+  filter: drop-shadow(0 0 2.5px color-mix(in srgb, var(--hue-hi) 70%, transparent))
+          drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .22));
+}
+.gfx-rings-capShine { fill: var(--hue-hi); opacity: .55; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-rings-animated .gfx-rings-fill { animation: gfx-rings-fill var(--dur-ring, 1.6s) var(--g-spring-soft) var(--delay) both; }
+  .gfx-rings-animated .gfx-rings-cap { animation: gfx-rings-cap var(--dur-ring, 1.6s) var(--g-spring-soft) var(--delay) both; }
+}
+@keyframes gfx-rings-fill { from { stroke-dasharray: 0 100; } }
+@keyframes gfx-rings-cap { from { transform: rotate(0deg); } }

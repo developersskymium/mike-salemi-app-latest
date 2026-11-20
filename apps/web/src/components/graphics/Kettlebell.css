@@ -1,0 +1,15 @@
+.gfx-kettlebell-kb { color: var(--g-fg); overflow: visible; font-family: var(--font, system-ui); }
+.gfx-kettlebell-line path { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.gfx-kettlebell-solid { --kb-body: var(--g-fg); --kb-ink: var(--g-bg); }
+.gfx-kettlebell-b0 { stop-color: color-mix(in srgb, var(--kb-body) 70%, #fff); }
+.gfx-kettlebell-b1 { stop-color: var(--kb-body); }
+.gfx-kettlebell-b2 { stop-color: color-mix(in srgb, var(--kb-body) 78%, #000); }
+.gfx-kettlebell-h0 { stop-color: color-mix(in srgb, var(--kb-body) 82%, #000); }
+.gfx-kettlebell-h1 { stop-color: color-mix(in srgb, var(--kb-body) 75%, #fff); }
+.gfx-kettlebell-handle { fill: none; stroke-width: 3.8; stroke-linecap: round; }
+.gfx-kettlebell-shadow { fill: #000; opacity: .14; filter: blur(1px); }
+.gfx-kettlebell-spec { fill: none; stroke: #fff; stroke-opacity: .45; stroke-width: 1.6; stroke-linecap: round; }
+.gfx-kettlebell-weight { fill: var(--kb-ink); }
+.gfx-kettlebell-num { font-size: 12.5px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.gfx-kettlebell-unit { font-size: 7px; font-weight: 600; opacity: .8; }
