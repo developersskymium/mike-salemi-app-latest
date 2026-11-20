@@ -5,7 +5,7 @@
  * For each scenario it opens a start page, clicks a link, and samples the page every animation
  * frame (≈16ms, plus screencast frames every ~40ms) until the destination has rendered. A frame
  * FAILS if it shows Home (the Today page or its "Loading Home" skeleton), the public landing page,
- * an empty <main>, or if the document reloaded (a hard navigation instead of a client one).
+ * an empty <main>, the Home-shaped program/catalog skeleton on the way to a lesson, or if the document reloaded (a hard navigation instead of a client one).
  *
  *   cd apps/web && MOCK_DATA=1 pnpm dev --port 3101
  *   NODE_PATH=/path/to/node_modules node scripts/flash-probe.mjs [--base http://localhost:3101] [--frames out-dir]
@@ -27,6 +27,8 @@ const arg = (name, dflt) => {
 const BASE = arg("--base", "http://localhost:3101");
 const FRAMES = arg("--frames", null);
 const WIDTH = Number(arg("--width", "1440"));
+const ONLY = arg("--only", null); // comma-separated scenario names
+const LATENCY = Number(arg("--latency", "0")); // ms added to every request after the click (production-like data latency)
 
 /** start page → the link to click → the URL the click must land on (no detours). */
 const SCENARIOS = [
@@ -57,6 +59,8 @@ const SAMPLER = () => {
       path: location.pathname,
       home: Boolean(document.querySelector('[aria-label="Loading Home"], [data-page="today"], .sh-hero, .td-page')),
       landing: Boolean(document.querySelector("[data-public-landing], .pl-hero")),
+      // The program / catalog skeleton (a 520px hero block shaped like Home) shown on the way to a lesson.
+      bigHero: Boolean(document.querySelector('.pv[aria-busy="true"], [aria-label="Loading programs"]')),
       empty: main ? main.textContent.trim().length === 0 && main.querySelectorAll("[aria-busy], img, video, iframe").length === 0 : true,
       busy: main ? Boolean(main.querySelector("[aria-busy='true']")) : false,
       h1: (document.querySelector("main h1")?.textContent || "").trim().slice(0, 60),
@@ -71,10 +75,12 @@ const browser = await puppeteer.launch({
   executablePath: process.env.CHROME || "/usr/bin/google-chrome",
   args: ["--no-sandbox", "--disable-dev-shm-usage"],
   defaultViewport: { width: WIDTH, height: 900 },
+  timeout: 180000,
+  protocolTimeout: 240000,
 });
 let failed = 0;
 const report = [];
-for (const s of SCENARIOS) {
+for (const s of SCENARIOS.filter((x) => !ONLY || ONLY.split(",").includes(x.name))) {
   try {
     await runScenario(s);
   } catch (e) {
@@ -118,6 +124,7 @@ async function runScenario(s) {
     await cdp.send("Page.screencastFrameAck", { sessionId: f.sessionId }).catch(() => null);
   });
   await cdp.send("Page.startScreencast", { format: "jpeg", quality: 45, everyNthFrame: 2 });
+  if (LATENCY) await cdp.send("Network.emulateNetworkConditions", { offline: false, latency: LATENCY, downloadThroughput: -1, uploadThroughput: -1 });
   const t0 = Date.now();
   // A real click where possible; a DOM click when the link sits under an overlay or off-screen.
   await page.$eval(s.click, (a) => a.scrollIntoView({ block: "center" }));
@@ -139,12 +146,13 @@ async function runScenario(s) {
   // counts once the start page has been left: i.e. Home flashing in between, or Home as a detour.
   const leftAt = samples.findIndex((x) => x.path !== startPath || (startPath === "/today" && !x.home));
   const after = leftAt < 0 ? [] : samples.slice(leftAt);
-  const bad = after.filter((x) => x.home || x.landing || x.empty);
+  const toLesson = /\/(learn|guide|course|session)\//.test(href);
+  const bad = after.filter((x) => x.home || x.landing || x.empty || (toLesson && x.bigHero));
   const reloads = new Set(samples.map((x) => x.loads)).size > 1 || (samples[0] && samples[0].loads > 1 && false);
   const detour = [...new Set(samples.map((x) => x.path))].filter((p) => p !== startPath && !s.to.test(p));
   const ok = bad.length === 0 && !reloads && detour.length === 0 && s.to.test(end);
   if (!ok) failed++;
-  const line = `${ok ? "PASS" : "FAIL"} ${s.name}: ${startPath} → ${href} → ${end} · ${samples.length} frames · home=${after.filter((x) => x.home).length} landing=${after.filter((x) => x.landing).length} empty=${after.filter((x) => x.empty).length} reload=${reloads} detours=${detour.join(",") || "none"} · screencast ${shots.length}`;
+  const line = `${ok ? "PASS" : "FAIL"} ${s.name}: ${startPath} → ${href} → ${end} · ${samples.length} frames · home=${after.filter((x) => x.home).length} landing=${after.filter((x) => x.landing).length} empty=${after.filter((x) => x.empty).length} heroSkeleton=${toLesson ? after.filter((x) => x.bigHero).length : 0} reload=${reloads} detours=${detour.join(",") || "none"} · screencast ${shots.length}`;
   console.log(line);
   report.push(line);
   if (FRAMES) {

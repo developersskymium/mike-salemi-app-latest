@@ -36,11 +36,12 @@ export function PrepForm({ bookingId, init, prefilled, back }: { bookingId: stri
     { k: "since_last", label: "How did your one thing go since the last call?", rows: 5, placeholder: "Did it most days. Easier in the morning; skipped on travel days." },
     { k: "watch", label: "What should Mike look at?", rows: 4, placeholder: "My swing at rep 15+: the bell floats and my back tightens." },
   ];
-  const left = 3 - step;
+  const answered = (["goals", "since_last", "watch"] as const).filter((k) => v[k].trim().length > 2).length;
+  const left = Math.max(1, 3 - answered);
   return (
     <div className="co-card co-form">
-      <div className="co-progress" aria-hidden><i style={{ width: `${((step + 1) / 3) * 100}%` }} /></div>
-      <p className="lq-t13 co-muted" style={{ margin: 0 }}>About {left === 1 ? "30 seconds" : "1 minute"} left · Mike reads this before the call</p>
+      <div className="co-progress" aria-hidden><i style={{ width: `${(Math.max(answered, step + 1) / 3) * 100}%` }} /></div>
+      <p className="lq-t13 co-muted" style={{ margin: 0 }}>{answered === 3 ? "All set · review and share" : `About ${left === 1 ? "30 seconds" : "1 minute"} left`} · Mike reads this before the call</p>
       <div className="co-qs" data-stepped="">
         {qs.map((q, i) => (
           <div key={q.k} className="co-q" data-on={i === step ? "" : undefined}>

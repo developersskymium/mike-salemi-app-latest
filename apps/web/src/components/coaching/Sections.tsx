@@ -61,14 +61,14 @@ export function ExecutiveBand({ packageId, status }: { packageId: string; status
       <div className="co-ee-body">
         <span className="co-ee-tag">By application · limited places</span>
         <h2 id="ee-h" className="lq-d-lg">Executive Edge</h2>
-        <p>Eight weeks for leaders who want mental focus, energy and antifragility, and a body that keeps up. Five minutes a day on your highest-priority thing, with Mike in your corner.</p>
+        <p>Eight weeks for leaders who want mental focus, energy and antifragility, and a body that keeps up. Five minutes a day on your highest-priority thing, with Mike in your corner. Investment is shared on your call with Mike.</p>
         <ul className="co-ee-facts" role="list">
           <li><b>8 weeks</b><span>60 days, start to finish</span></li>
           <li><b>3–4</b><span>direct sessions with Mike</span></li>
           <li><b>5 min</b><span>daily practice</span></li>
         </ul>
         <div className="co-acts"><ExecutiveApply packageId={packageId} status={status} /></div>
-        <p className="co-room-note"><Icon name="lock" size="xs" />Investment is shared on your call with Mike, once you are a fit.</p>
+        {status && <p className="co-room-note"><Icon name="lock" size="xs" />Investment is shared on your call with Mike, once you are a fit.</p>}
       </div>
     </section>
   );

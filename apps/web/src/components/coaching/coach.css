@@ -257,3 +257,13 @@
 }
 .co-ics { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 999px; font: 600 14px/1 var(--font); color: var(--text-2); text-decoration: none; }
 .co-ics:hover { color: var(--text); background: var(--surface-sunk); }
+.co-ee .ch-ee-status { align-self: flex-start; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); color: #F5F2EC; box-shadow: none; }
+.co-ee .ch-ee-status .lq-icon { color: #FFB58C; }
+@media (max-width: 480px) {
+  .co-subnav { width: 100%; }
+  .co-subnav a { padding: 0 12px; font-size: 13.5px; flex: 1 0 auto; justify-content: center; }
+}
+.co-hwrow .co-week { gap: 2px; }
+.co-hwrow .co-day { min-width: 30px; flex: 1; }
+.co-hwrow .co-tick { width: 30px; height: 30px; }
+.co-zen-hero::after { background: linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(0,0,0,.78) 100%), linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,0) 60%); }
