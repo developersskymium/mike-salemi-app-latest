@@ -1,10 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { z } from "zod";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
-import { NOTIFY_TOPICS, normalizeMatrix, type NotifyMatrix, type Result, type TrainingProfile } from "./model";
+import { MOCK_SUGGEST_COOKIE, NOTIFY_TOPICS, normalizeMatrix, type NotifyMatrix, type Result, type TrainingProfile } from "./model";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Loose = any;
@@ -187,14 +188,29 @@ async function tick(sb: Loose, uid: string, item: string) {
   await upsertSettings(sb, uid, { checklist: { ...(data?.checklist ?? {}), [item]: new Date().toISOString() } });
 }
 
-export async function completeOnboarding(profile: TrainingProfile, recommended: string) {
+/**
+ * Finishes onboarding: saves the training profile and marks it complete (completed_at), so the member is never sent back.
+ * `recommended` is the best fit (kept for older readers); `suggestions` is the ranked list Home shows as "Suggested for you".
+ */
+export async function completeOnboarding(profile: TrainingProfile, recommended: string, suggestions: { slug: string; reason: string }[] = []) {
   const p = profilePatch.safeParse(profile);
   if (!p.success) return { ok: false, error: "Something in your answers looks off." } as Result;
+  const list = (Array.isArray(suggestions) ? suggestions : [])
+    .filter((x) => x && typeof x.slug === "string" && /^[a-z0-9-]{1,80}$/.test(x.slug))
+    .slice(0, 3)
+    .map((x) => ({ slug: x.slug, reason: String(x.reason ?? "").slice(0, 160) }));
+  if (MOCK) {
+    (await cookies()).set(MOCK_SUGGEST_COOKIE, JSON.stringify(list), { path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 30 });
+  }
   return run(async (sb, uid) => {
     const { error } = await sb.rpc("save_training_profile", { p_patch: p.data, p_source: "onboarding" });
     if (error) throw new Error(error.message);
     const { data } = await sb.from("profiles").select("onboarding").eq("id", uid).maybeSingle();
-    await sb.from("profiles").update({ onboarding: { ...(data?.onboarding ?? {}), completed_at: new Date().toISOString(), recommended: recommended.slice(0, 80) } }).eq("id", uid);
+    const { error: e2 } = await sb
+      .from("profiles")
+      .update({ onboarding: { ...(data?.onboarding ?? {}), completed_at: new Date().toISOString(), recommended: recommended.slice(0, 80), suggestions: list } })
+      .eq("id", uid);
+    if (e2) throw new Error(e2.message);
   }, undefined, ["/today", "/you/settings"]);
 }
 

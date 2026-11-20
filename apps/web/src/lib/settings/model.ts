@@ -88,7 +88,7 @@ export const EXPERIENCE_LABEL: Record<string, string> = Object.fromEntries(EXPER
 export const EQUIPMENT_LABEL: Record<string, string> = Object.fromEntries(EQUIPMENT.map((g) => [g.value, g.label]));
 export const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-/** Instant recommendation (spec 12 › Sign in & onboarding 5): one program with a reason. */
+/** One suggested program from onboarding: a program home (never a lesson) with a one-line reason. */
 export interface Recommendation {
   slug: string;
   title: string;
@@ -98,18 +98,70 @@ export interface Recommendation {
   photo: { src: string; position: string; alt: string };
 }
 
-export function recommend(p: TrainingProfile, photo: (slug: string) => { src: string; position: string; alt: string }): Recommendation {
+/** Cookie that keeps onboarding suggestions in local preview (MOCK_DATA), where nothing is written to the database. */
+export const MOCK_SUGGEST_COOKIE = "ms_onb_suggest";
+
+type PhotoFn = (slug: string) => { src: string; position: string; alt: string };
+
+/** Program names, short facts and one-line reasons per goal, used by `suggest`. */
+export const SUGGESTABLE: Record<string, { title: string; facts: (p: TrainingProfile) => string[] }> = {
+  "kettlebell-lifestyle": { title: "Kettlebell Lifestyle", facts: (p) => [`${p.days_per_week ?? 3} days a week`, `${p.session_minutes ?? 30} min`, "Guided days"] },
+  "working-in": { title: "Working In", facts: () => ["10 to 20 min", "No equipment", "Any level"] },
+  "mastering-the-kettlebell": { title: "Mastering the Kettlebell", facts: () => ["Skill by stage", "Self-paced", "All levels"] },
+  "athleticism-4-life": { title: "Athleticism 4 Life", facts: (p) => ["Strength blocks", `${p.days_per_week ?? 3} days a week`, "Some experience"] },
+  "the-path-to-inspired-action": { title: "The Path to Inspired Action", facts: () => ["Self-paced chapters", "No equipment", "Any level"] },
+  "free-6-video-kettlebell-mini-series": { title: "Free Kettlebell Mini Series", facts: () => ["6 short videos", "Free", "Beginner"] },
+};
+
+/**
+ * Onboarding suggestions (spec 12 › Sign in & onboarding 5): two or three programs that fit the answers,
+ * best fit first, each with a one-line reason. Every link is the program's home page, where its own
+ * intake and schedule happen (prefilled from the training profile).
+ */
+export function suggest(p: TrainingProfile, photo: PhotoFn): Recommendation[] {
   const exp = p.kb_experience ?? 0;
   const days = p.days_per_week ?? 3;
   const noBell = !hasBell(p.equipment);
   const goal = p.goal_kind ?? "strength";
-  const mk = (slug: string, title: string, reason: string, facts: string[]): Recommendation => ({ slug, title, reason, facts, href: `/programs/${slug}`, photo: photo(slug) });
-  if (goal === "recovery") return mk("working-in", "Working In", "Because you want to recover and reset, start with Mike's short daily practices.", ["10–20 min", "No equipment", "Any level"]);
-  if (goal === "mindset") return mk("the-path-to-inspired-action", "The Path to Inspired Action", "Because you chose mindset and purpose, The Path is where Mike starts this work.", ["Self-paced chapters", "No equipment", "Any level"]);
-  if (noBell && exp === 0) return mk("free-6-video-kettlebell-mini-series", "Free Kettlebell Mini Series", "You're new and don't have a bell yet: six free videos show you what to buy and how to start.", ["6 short videos", "Free", "Beginner"]);
-  if (goal === "mobility" || goal === "technique") return mk("mastering-the-kettlebell", "Mastering the Kettlebell", goal === "technique" ? "Because you want to master the kettlebell, MTK teaches skill one stage at a time." : "Because you want to move better, MTK builds skill and mobility one stage at a time.", ["Stages", `${days} days a week`, exp >= 2 ? "Intermediate" : "All levels"]);
-  if (exp >= 2 && goal === "strength") return mk("athleticism-4-life", "Athleticism 4 Life", "You already train with bells, so A4L's strength blocks are the right next step.", ["Strength blocks", `${days} days a week`, "Intermediate+"]);
-  return mk("kettlebell-lifestyle", exp >= 2 ? "Kettlebell Lifestyle · Level 2" : "Kettlebell Lifestyle · Level 1", `${exp >= 2 ? "With your experience" : "New or returning to bells"}, KBL ${exp >= 2 ? "Level 2" : "Level 1"} gives you ${days} guided days a week.`, [`${days} days a week`, `${p.session_minutes ?? 30} min`, exp >= 2 ? "Level 2" : "Level 1"]);
+  const picks: [string, string][] = [];
+  const add = (slug: string, reason: string) => {
+    if (!picks.some(([s]) => s === slug)) picks.push([slug, reason]);
+  };
+  const newcomer = noBell && exp === 0;
+  if (goal === "recovery") {
+    add("working-in", "Short daily practices to recover and reset.");
+    add("the-path-to-inspired-action", "Calm, self-paced chapters for the mind side of recovery.");
+    add("kettlebell-lifestyle", `Gentle guided days, ${days} a week, when you want to move more.`);
+  } else if (goal === "mindset") {
+    add("the-path-to-inspired-action", "Where Mike starts the work on mindset and purpose.");
+    add("working-in", "Short daily practices that keep you steady.");
+    add("kettlebell-lifestyle", `Pair the mindset work with ${days} guided training days a week.`);
+  } else {
+    if (newcomer) add("free-6-video-kettlebell-mini-series", "New and no bell yet: six free videos on what to buy and how to start.");
+    if (goal === "technique" || goal === "mobility") {
+      add("mastering-the-kettlebell", goal === "technique" ? "Clean technique, taught one stage at a time." : "Builds skill and mobility one stage at a time.");
+      if (goal === "mobility") add("working-in", "Short daily practices for joints that feel good.");
+      add("kettlebell-lifestyle", `${days} guided days a week, matched to your level.`);
+    } else if (goal === "strength" && exp >= 2) {
+      add("athleticism-4-life", "You already train with bells, so strength blocks are the next step.");
+      add("kettlebell-lifestyle", `${days} guided days a week, matched to your level.`);
+      add("mastering-the-kettlebell", "Sharpen your technique as the weights go up.");
+    } else {
+      add("kettlebell-lifestyle", `${days} guided days a week, matched to your level.`);
+      if (exp >= 2) add("athleticism-4-life", "Strength blocks for when you want more challenge.");
+      add("mastering-the-kettlebell", "Learn clean technique one stage at a time.");
+      if (!newcomer && exp === 0) add("free-6-video-kettlebell-mini-series", "Six free videos to get the basics right first.");
+    }
+  }
+  return picks.slice(0, 3).map(([slug, reason]) => {
+    const meta = SUGGESTABLE[slug]!;
+    return { slug, title: meta.title, reason, facts: meta.facts(p), href: `/programs/${slug}`, photo: photo(slug) };
+  });
+}
+
+/** The best fit only (kept for older callers). */
+export function recommend(p: TrainingProfile, photo: PhotoFn): Recommendation {
+  return suggest(p, photo)[0]!;
 }
 
 export interface SettingsHub {
