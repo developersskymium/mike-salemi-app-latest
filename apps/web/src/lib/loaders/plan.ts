@@ -2,6 +2,7 @@ import "server-only";
 import { myTrainingProfile, type DB, type TrainingProfile } from "@ms/api";
 import { mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
+import { lockedSlugs } from "./locked";
 
 /** Every session of the member's active plans (all dates), for the overview, upcoming list and next session. */
 export interface ScheduleItem {
@@ -16,6 +17,8 @@ export interface ScheduleItem {
   minutes: number | null;
   done: boolean;
   skipped: boolean;
+  /** The member lost access to this program: greyed with an unlock link, never picked or counted as missed. */
+  locked?: boolean;
 }
 
 export interface ScheduleData {
@@ -37,9 +40,11 @@ export interface PlanQueue {
   next: { title: string; lesson_id: string | null; minutes: number | null } | null;
   left: number;
   total: number;
+  /** The member lost access to this program. */
+  locked?: boolean;
 }
 
-export const loadSchedule = mockable("plan-schedule", async (): Promise<ScheduleData> => {
+const loadScheduleRaw = mockable("plan-schedule", async (): Promise<ScheduleData> => {
   const { supabase: sb, user } = await getUser();
   if (!user) throw new Error("Not signed in");
   const { data: plans } = await sb.from("member_plans").select("id, source, inputs").eq("user_id", user.id).eq("status", "active");
@@ -84,6 +89,18 @@ export const loadSchedule = mockable("plan-schedule", async (): Promise<Schedule
   });
   return { rules, days, queues, items: all.filter((i) => !undated.has(i.plan_id)) };
 });
+
+/** The schedule with sessions of programs the member can no longer open marked `locked`. */
+export async function loadSchedule(): Promise<ScheduleData> {
+  const [s, locked] = await Promise.all([loadScheduleRaw(), lockedSlugs()]);
+  if (!locked.size) return s;
+  const lk = (slug: string | null) => !!slug && locked.has(slug);
+  return {
+    ...s,
+    items: s.items.map((i) => (lk(i.program_slug) ? { ...i, locked: true } : i)),
+    queues: s.queues?.map((q) => (lk(q.program_slug) ? { ...q, locked: true } : q)),
+  };
+}
 
 /** The member's one training profile (shared intake answers). Preview fixture: fixtures/training-profile.json. */
 export const loadTrainingProfile = mockable("training-profile", async (): Promise<TrainingProfile> => {

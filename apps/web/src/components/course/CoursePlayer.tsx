@@ -79,6 +79,7 @@ const NO_MEDIA: SeriesMedia = { thumbs: {}, minutes: {} };
  * follow them, bonuses and resources sit in the bottom grid. `preview`: a free taste without access.
  */
 export function CoursePlayer({ data, mode, slim, nextStep, note = null, media = NO_MEDIA, preview = null }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l" | "series"; nextStep?: ReactNode; note?: string | null; media?: SeriesMedia; preview?: { href: string } | null }) {
+  const [previewNote, setPreviewNote] = useState(false);
   const wide = useSyncExternalStore(wideStore.subscribe, wideStore.get, wideStore.server);
   const router = useRouter();
   const toast = useToast();
@@ -179,6 +180,10 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null, media = 
   /* ---------------- complete */
   const markDone = async (via: "button" | "watched") => {
     if (!node || done.has(node.id)) return true;
+    if (preview) {
+      if (via === "button") setPreviewNote(true);
+      return false;
+    }
     setDone((s) => new Set(s).add(node.id));
     const r = await completeLessonAction(data.program.id, node.id, via); announceProgress();
     if (!r.ok && r.code !== "offline") {
@@ -313,6 +318,13 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null, media = 
     if (ok) toast("Marked complete", { tone: "success" });
   };
   const controls = (
+    <>
+    {previewNote && preview && (
+      <p className="crs-preview-note" role="status">
+        <span>This is a free preview, so progress isn&apos;t saved.</span>
+        <Link href={preview.href} className="lq-link">Unlock {data.program.name}</Link>
+      </p>
+    )}
     <div className="jsb-ctl">
       <button type="button" className="jsb-ctl-step" disabled={!prev || isIntro} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
         <Arrow dir="left" />
@@ -336,6 +348,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null, media = 
         </button>
       )}
     </div>
+    </>
   );
 
   const nav = (onPick?: () => void, footer?: ReactNode) => slim ? (

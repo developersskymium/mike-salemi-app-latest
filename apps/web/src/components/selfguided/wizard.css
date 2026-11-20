@@ -112,3 +112,8 @@
 .wz-queue li { display: grid; grid-template-columns: 48px 12px minmax(0, 1fr); align-items: center; gap: 4px 10px; padding: 10px 14px; font: 500 13.5px/1.3 var(--font); }
 .wz-queue li + li { border-top: 1px solid var(--line); }
 .wz-queue li:first-child .wz-d { color: var(--accent-ink); }
+
+/* Starting another level while a plan for the first is active: one quiet question. */
+.wz-replace { display: grid; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.wz-replace p { margin: 0; }
+.wz-replace-note { margin: 4px 0 0; }

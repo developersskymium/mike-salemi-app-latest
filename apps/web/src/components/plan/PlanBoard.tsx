@@ -65,7 +65,7 @@ export function PlanBoard(p: Props) {
   const clash = useMemo(() => {
     const m = new Map<IsoDate, Set<string>>();
     for (const e of entries) {
-      if (e.kind !== "plan" || e.item_kind === "rest" || e.done || e.skipped || e.on_date < p.today) continue;
+      if (e.kind !== "plan" || e.item_kind === "rest" || e.done || e.skipped || e.locked || e.on_date < p.today) continue;
       m.set(e.on_date, (m.get(e.on_date) ?? new Set()).add(e.plan_id ?? "own"));
     }
     return new Set([...m].filter(([, v]) => v.size > 1).map(([d]) => d));
@@ -272,8 +272,8 @@ function EntryRow({ e, today, dragging, onOpen, onDragStart, onDragEnd }: {
 }) {
   const dt = dayTypeOf(null, e.title, e.item_kind);
   const { day, name } = splitDayTitle(e.title);
-  const isMissed = e.kind === "plan" && e.on_date < today && !e.done && !e.skipped;
-  const isNow = e.on_date === today && !e.done;
+  const isMissed = e.kind === "plan" && e.on_date < today && !e.done && !e.skipped && !e.locked;
+  const isNow = e.on_date === today && !e.done && !e.locked;
   return (
     <button
       type="button"
@@ -287,10 +287,13 @@ function EntryRow({ e, today, dragging, onOpen, onDragStart, onDragEnd }: {
       data-missed={isMissed ? "" : undefined}
       data-now={isNow ? "" : undefined}
       data-skipped={e.skipped ? "" : undefined}
-      aria-label={`${e.title}${e.program_name ? `, ${e.program_name}` : ""}${e.done ? ", done" : isMissed ? ", missed" : e.skipped ? ", skipped" : ""}`}
+      data-locked={e.locked ? "" : undefined}
+      aria-label={`${e.title}${e.program_name ? `, ${e.program_name}` : ""}${e.locked ? ", locked" : e.done ? ", done" : isMissed ? ", missed" : e.skipped ? ", skipped" : ""}`}
     >
       <span className="tpy-glyph" data-done={e.done ? "" : undefined} data-now={isNow ? "" : undefined} aria-hidden>
-        {e.done ? (
+        {e.locked ? (
+          <Icon name="lock" size="sm" />
+        ) : e.done ? (
           <Icon name="check" size="sm" />
         ) : e.kind === "coaching" ? (
           <Icon name="people" size="sm" />
@@ -306,7 +309,7 @@ function EntryRow({ e, today, dragging, onOpen, onDragStart, onDragEnd }: {
         <span className="lq-t15 tpy-entry-t" style={{ fontWeight: 600 }}>{day ? `Day ${day} · ${name}` : name}</span>
         <span className="lq-t13 lq-c2 pln-entry-sub">
           {e.kind === "plan" && <i className="pln-dot" style={{ background: programColor(e.program_slug) }} aria-hidden />}
-          {e.skipped ? "Skipped" : isMissed ? "Missed" : e.program_name ?? e.subtitle}
+          {e.locked ? <>Locked · <span className="wk-unlock">Unlock</span></> : e.skipped ? "Skipped" : isMissed ? "Missed" : e.program_name ?? e.subtitle}
         </span>
       </span>
     </button>
@@ -345,7 +348,7 @@ function MonthView({ month, today, byDate, picked, setPicked, onOpen, onAdd }: {
                 <span>{dayNum(d)}</span>
                 <span className="tpy-dots" aria-hidden>
                   {list.slice(0, 3).map((e, i) => (
-                    <i key={i} data-k={e.done ? "done" : e.kind !== "plan" ? "event" : e.on_date < today && !e.skipped ? "missed" : undefined} style={e.kind === "plan" && !e.done && !(e.on_date < today) ? { background: programColor(e.program_slug) } : undefined} />
+                    <i key={i} data-k={e.locked ? "locked" : e.done ? "done" : e.kind !== "plan" ? "event" : e.on_date < today && !e.skipped ? "missed" : undefined} style={e.kind === "plan" && !e.locked && !e.done && !(e.on_date < today) ? { background: programColor(e.program_slug) } : undefined} />
                   ))}
                 </span>
               </button>
@@ -381,6 +384,7 @@ function EntrySheet({ entry, today, planName, onClose, onDone, onSkip, onMove, o
   const [moveTo, setMoveTo] = useState("");
   const e = entry;
   const isPlan = e?.kind === "plan" && !!e.plan_item_id && !e.plan_item_id.startsWith("temp-");
+  const unlock = e?.locked && e.program_slug ? `/programs/${e.program_slug}/unlock` : null;
   const close = () => {
     setMoveTo("");
     onClose();
@@ -392,7 +396,7 @@ function EntrySheet({ entry, today, planName, onClose, onDone, onSkip, onMove, o
       title={e ? splitDayTitle(e.title).name : ""}
       description={e ? [e.program_name, `${fmt(e.on_date, { weekday: "long", day: "numeric", month: "short" })} · ${relDay(e.on_date, today)}`].filter(Boolean).join(" · ") : undefined}
       detents={["medium", "large"]}
-      footer={e && <Button block icon="play" href={entryHref(e)}>{e.done ? "Open again" : "Open lesson"}</Button>}
+      footer={e && (unlock ? <Button block icon="unlock" href={unlock}>Unlock {e.program_name ?? "this program"}</Button> : <Button block icon="play" href={entryHref(e)}>{e.done ? "Open again" : "Open lesson"}</Button>)}
     >
       {e && (
         <div style={{ display: "grid", gap: 14 }}>
@@ -402,12 +406,15 @@ function EntrySheet({ entry, today, planName, onClose, onDone, onSkip, onMove, o
               {e.plan_id && <Link href={`/plan/${e.plan_id}`} className="lq-ink" style={{ marginLeft: "auto" }}>View plan</Link>}
             </div>
           )}
+          {unlock && <p className="lq-t15 lq-c2">Your access to {e.program_name ?? "this program"} has ended. It stays on your plan, paused, until you unlock it again. You can still move or remove it.</p>}
           {isPlan && (
             <Glass radius="panel" className="tpy-list" style={{ padding: 0 }}>
-              <button type="button" className="tpy-row" onClick={() => { onDone(e, !e.done); close(); }}>
-                <span className="tpy-row-icon" aria-hidden><Icon name="check" size="sm" /></span>
-                <span className="tpy-row-main"><span className="lq-t15">{e.done ? "Mark as not done" : "Mark as done"}</span></span>
-              </button>
+              {!e.locked && (
+                <button type="button" className="tpy-row" onClick={() => { onDone(e, !e.done); close(); }}>
+                  <span className="tpy-row-icon" aria-hidden><Icon name="check" size="sm" /></span>
+                  <span className="tpy-row-main"><span className="lq-t15">{e.done ? "Mark as not done" : "Mark as done"}</span></span>
+                </button>
+              )}
               <button type="button" className="tpy-row" onClick={() => { onSkip(e); close(); }}>
                 <span className="tpy-row-icon" aria-hidden><Icon name="next" size="sm" /></span>
                 <span className="tpy-row-main"><span className="lq-t15">{e.skipped ? "Put back on the plan" : "Skip this session"}</span></span>

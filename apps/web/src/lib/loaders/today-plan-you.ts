@@ -22,6 +22,7 @@ import { pickContinue } from "@/lib/continue";
 import { introLessonIds } from "./intro-lessons";
 import { withTrainingDays } from "./day-progress";
 import { getUser } from "@/lib/supabase/server";
+import { markLockedEntries } from "./locked";
 import { startOfWeek } from "@/components/today/dates";
 
 /* ============================================================== shared */
@@ -247,7 +248,8 @@ const loadTodayRaw = mockable("tpy-today", async (): Promise<TodayRaw> => {
 /** Today's data, with day programs counted in training days (one source with the rail and You). */
 export async function loadToday(): Promise<TodayRaw> {
   const raw = await loadTodayRaw();
-  return { ...raw, enrollments: await withTrainingDays(raw.enrollments) };
+  const [enrollments, entries] = await Promise.all([withTrainingDays(raw.enrollments), markLockedEntries(raw.entries)]);
+  return { ...raw, enrollments, entries };
 }
 
 /* ============================================================== Onboarding */
@@ -286,7 +288,7 @@ export interface PlanRaw {
 }
 
 /** Loads a window around `anchor` that covers its week, its month grid and the last two weeks (missed days). */
-export const loadPlan = mockable("tpy-plan", async (anchor?: IsoDate): Promise<PlanRaw> => {
+const loadPlanRaw = mockable("tpy-plan", async (anchor?: IsoDate): Promise<PlanRaw> => {
   const { sb, user } = await session();
   const profile = await loadProfile(sb, user);
   const today = memberToday(profile.timezone);
@@ -303,6 +305,12 @@ export const loadPlan = mockable("tpy-plan", async (anchor?: IsoDate): Promise<P
   ]);
   return { today, from, to, entries: entries ?? [], plans, pausedPlans, planCounts: await planCounts(sb, [...plans, ...pausedPlans].map((p) => p.id)), goals, templates: templates.map(toTemplate) };
 });
+
+/** The plan window, with sessions of programs the member can no longer open marked `locked`. */
+export async function loadPlan(anchor?: IsoDate): Promise<PlanRaw> {
+  const raw = await loadPlanRaw(anchor);
+  return { ...raw, entries: await markLockedEntries(raw.entries) };
+}
 
 export interface PlanDetail {
   today: IsoDate;
@@ -342,6 +350,8 @@ export interface CatalogLesson {
   title: string;
   section: string;
   dayType: string | null;
+  /** Typical length in minutes, when known (plan creator matches it to the member's session length). */
+  minutes?: number | null;
 }
 export interface LessonCatalog {
   programs: { id: string; slug: string; name: string; lessons: CatalogLesson[] }[];
@@ -355,7 +365,7 @@ export const loadLessonCatalog = mockable("tpy-lessons", async (): Promise<Lesso
   if (!open.length) return { programs: [] };
   const { data } = await sb
     .from("lessons")
-    .select("id, title, day_type, program_id, position, sections(title, position)")
+    .select("id, title, day_type, program_id, position, estimated_minutes, sections(title, position)")
     .in("program_id", open.map((p) => p.id))
     .is("page_type", null);
   const rows = (data ?? []).map((l) => {
@@ -371,7 +381,7 @@ export const loadLessonCatalog = mockable("tpy-lessons", async (): Promise<Lesso
         lessons: rows
           .filter((l) => l.program_id === p.id)
           .sort((a, b) => a.spos - b.spos || a.position - b.position)
-          .map((l) => ({ id: l.id, title: l.title, section: l.section, dayType: l.day_type })),
+          .map((l) => ({ id: l.id, title: l.title, section: l.section, dayType: l.day_type, minutes: l.estimated_minutes })),
       }))
       .filter((p) => p.lessons.length),
   };

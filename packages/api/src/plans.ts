@@ -101,6 +101,8 @@ export interface WeekEntry {
   done: boolean;
   skipped: boolean;
   sort_order: number;
+  /** Set by the web app (not the database): the member no longer has access to this program. */
+  locked?: boolean;
 }
 
 /** One calendar feed: plan items, booked live sessions and coaching between two dates (≤ 92 days). */
@@ -176,6 +178,8 @@ export interface DraftLesson {
   dayType?: string | null;
   focus?: string | null;
   tags?: string[];
+  /** Typical length in minutes, when known. */
+  minutes?: number | null;
 }
 
 export interface PlanDraftInput {
@@ -194,6 +198,8 @@ export interface PlanDraftInput {
   startDate: IsoDate;
   /** Insert a recovery session after this many consecutive training sessions (default 2). */
   recoveryEvery?: number;
+  /** The member's usual session length: lessons far longer than this go to the back of the queue. */
+  sessionMinutes?: number | null;
 }
 
 export interface PlanDraftItem {
@@ -206,6 +212,20 @@ export interface PlanDraftItem {
   /** Why this session is here (shown in the plan creator). */
   note?: string;
   programId?: string | null;
+  /** The lesson's own length when known. */
+  minutes?: number | null;
+  /** Against the member's session length: "fits", or "long" when it runs far over. Absent when unknown. */
+  fit?: "fits" | "long";
+}
+
+/**
+ * A lesson "fits" when it is at most 5 minutes over the member's session; it runs "long" (far longer) when it is
+ * half as long again and 15+ minutes over. In between it is neither praised nor flagged.
+ */
+export function lessonFit(minutes: number | null | undefined, sessionMinutes: number | null | undefined): "fits" | "long" | undefined {
+  if (!minutes || !sessionMinutes) return undefined;
+  if (minutes <= sessionMinutes + 5) return "fits";
+  return minutes >= Math.max(sessionMinutes * 1.5, sessionMinutes + 15) ? "long" : undefined;
 }
 
 export interface PlanDraft {
@@ -274,13 +294,20 @@ export function generatePlanDraft(input: PlanDraftInput): PlanDraft {
   const programOrder = [...byProgram.keys()].sort((a, b) =>
     programFilter && input.programIds ? input.programIds.indexOf(a) - input.programIds.indexOf(b) : a.localeCompare(b),
   );
+  // Prefer lessons that fit the member's session length; far longer ones stay available, at the back (order kept otherwise).
+  const fitsFirst = (list: DraftLesson[]) =>
+    input.sessionMinutes ? [...list.filter((l) => lessonFit(l.minutes, input.sessionMinutes) !== "long"), ...list.filter((l) => lessonFit(l.minutes, input.sessionMinutes) === "long")] : list;
   const queues = programOrder.map((p) => {
     const list = [...byProgram.get(p)!].sort((a, b) => a.order - b.order);
     const goalList = ranked(list);
     const hard = goalList.filter((l) => !isRecovery(l));
     // Mobility/mindset goals may consist only of "recovery-like" lessons: then those are the training.
-    return { training: hard.length ? hard : goalList, recovery: list.filter(isRecovery) };
+    return { training: fitsFirst(hard.length ? hard : goalList), recovery: fitsFirst(list.filter(isRecovery)) };
   });
+  const sized = (l: DraftLesson | null) => {
+    const fit = lessonFit(l?.minutes, input.sessionMinutes);
+    return l?.minutes ? { minutes: l.minutes, ...(fit ? { fit } : {}) } : {};
+  };
 
   const takeTraining = (() => {
     let i = 0;
@@ -329,7 +356,7 @@ export function generatePlanDraft(input: PlanDraftInput): PlanDraft {
       if (wantRecovery) {
         const r = takeRecovery();
         items.push({
-          date: cursor, week, session, kind: "recovery", lessonId: r?.id ?? null, programId: r?.programId ?? null,
+          date: cursor, week, session, kind: "recovery", lessonId: r?.id ?? null, programId: r?.programId ?? null, ...sized(r),
           title: r?.title ?? "Recovery: easy walk, breathing and mobility",
           note: `Recovery after ${recoveryEvery} training ${recoveryEvery === 1 ? "day" : "days"}`,
         });
@@ -341,7 +368,7 @@ export function generatePlanDraft(input: PlanDraftInput): PlanDraft {
           streak = 0;
         } else {
           items.push({
-            date: cursor, week, session, kind: "training", lessonId: t.id, title: t.title, programId: t.programId,
+            date: cursor, week, session, kind: "training", lessonId: t.id, title: t.title, programId: t.programId, ...sized(t),
             note: input.goal !== "custom" && score(t, input.goal) > 0 ? `Serves your ${GOAL_LABEL[input.goal]} goal` : "Next in the program's order",
           });
           streak++;
@@ -353,6 +380,6 @@ export function generatePlanDraft(input: PlanDraftInput): PlanDraft {
   return {
     startsOn: input.startDate,
     items,
-    inputs: { goal: input.goal, programIds: input.programIds ?? [], weeks, trainingDays: days, recoveryEvery },
+    inputs: { goal: input.goal, programIds: input.programIds ?? [], weeks, trainingDays: days, recoveryEvery, ...(input.sessionMinutes ? { sessionMinutes: input.sessionMinutes } : {}) },
   };
 }

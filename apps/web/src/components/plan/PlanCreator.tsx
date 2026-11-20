@@ -176,7 +176,10 @@ export function PlanCreator({ catalog, today, saved, profile }: { catalog: Lesso
                         <span className="pln-sess-t">{title(s.title)}</span>
                         <span className="pln-sess-m">{dateLabel(s.date)} · {[s.programName, s.note].filter(Boolean).join(" · ")}</span>
                       </span>
-                      <span className="pln-sess-m">{s.minutes}m</span>
+                      <span className="pln-sess-m pln-sess-fit" data-fit={s.fit}>
+                        {s.minutes}m
+                        {s.fit === "fits" ? <small>fits<span className="pln-fit-x"> your {form.minutes} min</span></small> : s.fit === "long" ? <small>long<span className="pln-fit-x">er than {form.minutes} min</span></small> : null}
+                      </span>
                     </Link>
                   );
                 })}

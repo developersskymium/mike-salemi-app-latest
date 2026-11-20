@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Button, Glass, Icon, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { resolveConflictsAction } from "@/lib/actions/plan";
+import { moveItem as moveItemAction } from "@/lib/actions/today-plan-you";
 import "./pln.css";
 
 const PREVIEW = "Preview mode can't change your plan. It works on the live app.";
@@ -111,5 +112,36 @@ export function SubscribeRow({ url }: { url: string }) {
       </Button>
       <Button size="sm" variant="plain" href={webcal}>Open in Apple Calendar</Button>
     </div>
+  );
+}
+
+/**
+ * A quiet note on a day card when training lands on a booked coaching call or retreat session:
+ * "Coaching call at 10:00 · train after?" with Move (to the next free day). Uses the same single-session move.
+ */
+export function DayClashNote({ text, itemIds, to, toLabel }: { text: string; itemIds: string[]; to: string; toLabel: string }) {
+  const [pending, start] = useTransition();
+  const [gone, setGone] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
+  const move = () =>
+    start(async () => {
+      for (const id of itemIds) {
+        const r = await moveItemAction(id, to);
+        if (!r.ok) return void toast(r.error === "offline" ? PREVIEW : r.error, { icon: "close" });
+      }
+      haptic(8);
+      setGone(true);
+      toast(`Moved to ${toLabel}`, { tone: "success", icon: "check" });
+      router.refresh();
+    });
+  if (gone) return null;
+  return (
+    <p className="wk-note">
+      <span>{text}</span>
+      <button type="button" className="wk-note-btn" onClick={move} disabled={pending} aria-busy={pending || undefined} aria-label={`Move training to ${toLabel}`}>
+        Move to {toLabel}
+      </button>
+    </p>
   );
 }

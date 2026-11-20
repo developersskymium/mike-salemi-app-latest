@@ -59,5 +59,8 @@ export default async function CoursePage({ params, searchParams }: Props) {
   if (data.locked) return <CourseLocked data={data} />;
   const slim = slug === MTK_SLUG ? "mtk" : slug === "athleticism-4-life" ? "a4l" : undefined;
   const note = slim && data.lesson && data.activeId !== "intro" ? await myNote(data.lesson.id) : null;
-  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} slim={slim} note={note} nextStep={slim ? <ChooseNextStep program={slug} /> : undefined} />;
+  // The guard layout only lets members without access reach previews: marking them complete explains instead of failing.
+  const access = await programAccess(slug).catch(() => null);
+  const preview = access && !hasAccess(access) ? { href: unlockHref(slug, `lesson:${token}`) } : null;
+  return <CoursePlayer key={`${data.activeId}:${mode ?? ""}`} data={data} mode={mode} slim={slim} note={note} preview={preview} nextStep={slim ? <ChooseNextStep program={slug} /> : undefined} />;
 }

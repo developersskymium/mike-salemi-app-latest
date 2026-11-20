@@ -3,6 +3,7 @@ import { addDays, isoDate } from "@ms/core";
 import { fixture, MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import type { PlanRaw } from "@/lib/loaders/today-plan-you";
+import { markLockedEntries } from "@/lib/loaders/locked";
 
 const esc = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
 const day = (d: string) => d.replace(/-/g, "");
@@ -18,11 +19,13 @@ export async function GET(req: Request) {
     const today = isoDate(new Date());
     entries = (await myWeek(supabase as unknown as DB, today, addDays(today, 90))) ?? [];
   }
+  // Sessions of programs the member can no longer open stay off the calendar file.
+  entries = await markLockedEntries(entries);
   const origin = new URL(req.url).origin;
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
   const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Mike Salemi//Plan//EN", "CALSCALE:GREGORIAN", "X-WR-CALNAME:Mike Salemi plan"];
   for (const e of entries) {
-    if (e.skipped || e.item_kind === "rest") continue;
+    if (e.skipped || e.locked || e.item_kind === "rest") continue;
     const uid = `${e.plan_item_id ?? e.ref_id ?? `${e.on_date}-${e.title}`}@mikesalemi.app`;
     const url = e.program_slug ? `${origin}/programs/${e.program_slug}${e.lesson_id ? `/learn/${e.lesson_id}` : ""}` : `${origin}/plan`;
     lines.push("BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${stamp}`);

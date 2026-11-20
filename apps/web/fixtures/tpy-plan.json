@@ -686,6 +686,42 @@
    "done": false,
    "skipped": false,
    "sort_order": 20
+  },
+  {
+   "kind": "coaching",
+   "on_date": "2026-11-20",
+   "starts_at": "2026-11-20T10:00:00+00:00",
+   "title": "Coaching with Mike",
+   "subtitle": "45 min call",
+   "plan_id": null,
+   "plan_item_id": null,
+   "item_kind": null,
+   "lesson_id": null,
+   "program_id": null,
+   "program_name": null,
+   "program_slug": null,
+   "done": false,
+   "skipped": false,
+   "sort_order": 0,
+   "ref_id": "mock-coaching-1"
+  },
+  {
+   "kind": "run_session",
+   "on_date": "2026-11-25",
+   "starts_at": "2026-11-25T09:00:00+00:00",
+   "title": "Morning movement",
+   "subtitle": "Men of Movement retreat",
+   "plan_id": null,
+   "plan_item_id": null,
+   "item_kind": null,
+   "lesson_id": null,
+   "program_id": null,
+   "program_name": null,
+   "program_slug": null,
+   "done": false,
+   "skipped": false,
+   "sort_order": 0,
+   "ref_id": "mock-run-1"
   }
  ],
  "plans": [
