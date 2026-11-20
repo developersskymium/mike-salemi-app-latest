@@ -8,7 +8,8 @@ import { Button, Glass, Icon, Segmented, Sheet, useToast } from "@/components/ui
 import type { BoardData } from "@/lib/loaders/selfguided";
 import { customSessionAction, quickSessionAction, repeatSessionAction } from "@/lib/actions/selfguided";
 import { dayTypeShort } from "@/components/training/model";
-import { ContinueCard, IntentTag, dayOf, hm } from "./parts";
+import { ContinueCard, IntentTag, LevelBadge, dayOf, hm } from "./parts";
+import { levelLong, levelOf } from "./level";
 
 const SLOT_LABEL = { warmup: "Warm-up", main: "Main", stretch: "Stretch" } as const;
 const ROLE_LABEL: Record<StepRole, string> = { warmup: "Warm-ups", workout: "Workouts", skill: "Skill work", mobility: "Mobility", recovery: "Recovery" };
@@ -58,7 +59,8 @@ export function SelfGuidedBoard({
             <IntentTag intent={n.intent} />
           </div>
           <p className="lq-t17" style={{ fontWeight: 650 }}>
-            {n.dayNumber != null ? `${lessonWord} ${n.dayNumber}` : n.title}
+            <LevelBadge n={levelOf(n.key)} />{levelOf(n.key) ? " " : null}
+            {n.dayNumber != null ? `${levelOf(n.key) ? `${levelLong(levelOf(n.key)!)} · ` : ""}${lessonWord} ${n.dayNumber}` : n.title}
             {n.dayType && n.dayNumber != null ? <span className="lq-c2"> · {dayTypeShort(n.dayType)}</span> : null}
           </p>
           <p className="lq-t13 lq-c2">{[n.sectionTitle, n.completions ? `done ${n.completions}× before` : null].filter(Boolean).join(" · ")}</p>
@@ -142,7 +144,7 @@ function QuickSession({ board, programId, pathId, slug }: { board: BoardData; pr
             <span>{SLOT_LABEL[it.slot]}</span>
             <span className="sg-ellipsis">
               {it.title}
-              {it.lessonTitle ? <span className="lq-c3"> · {it.lessonTitle.replace(/\s*-\s*.*$/, "")}</span> : null}
+              {it.lessonTitle ? <span className="lq-c3"> · {levelOf(it.lessonKey) ? `${levelLong(levelOf(it.lessonKey)!)} · ` : ""}{it.lessonTitle.replace(/\s*-\s*.*$/, "")}</span> : null}
             </span>
             <span className="lq-c2 sg-num">{it.minutes}′</span>
           </li>
@@ -216,7 +218,7 @@ function BuildSheet({ open, onClose, board, programId, slug }: { open: boolean; 
                     {i >= 0 ? `${i + 1}. ` : ""}
                     {it.title}
                   </span>
-                  <span className="lq-t12 lq-c2 sg-ellipsis">{it.lessonTitle}</span>
+                  <span className="lq-t12 lq-c2 sg-ellipsis">{[levelOf(it.lessonKey) ? levelLong(levelOf(it.lessonKey)!) : null, it.lessonTitle].filter(Boolean).join(" · ")}</span>
                 </span>
                 <span className="lq-t13 lq-c2 sg-num">{it.minutes} min</span>
               </label>
@@ -257,7 +259,8 @@ export function RepeatList({ rows, slug, openHref, lessonWord }: { rows: History
             </span>
             <span className="sg-li-t">
               <span className="lq-t15 sg-ellipsis" style={{ fontWeight: 600 }}>
-                {h.dayNumber != null ? `${lessonWord} ${h.dayNumber}` : h.title}
+                <LevelBadge n={levelOf(h.lessonKey)} />{levelOf(h.lessonKey) ? " " : null}
+                {h.dayNumber != null ? `${levelOf(h.lessonKey) ? `${levelLong(levelOf(h.lessonKey)!)} · ` : ""}${lessonWord} ${h.dayNumber}` : h.title}
               </span>
               <span className="lq-t12 lq-c2 sg-ellipsis">
                 {d.d} {d.m} · {hm(h.minutes)}

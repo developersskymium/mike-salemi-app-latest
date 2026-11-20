@@ -8,7 +8,8 @@ import { SafeImage } from "@/components/discover/library/SafeImage";
 import { Button, Glass, Icon, useToast } from "@/components/ui";
 import { quickSessionAction, repeatSessionAction } from "@/lib/actions/selfguided";
 import type { BoardData } from "@/lib/loaders/selfguided";
-import { continueHref, hm } from "./parts";
+import { continueHref, hm, LevelBadge } from "./parts";
+import { levelDayTitle, levelOf } from "./level";
 import "./selfguided.css";
 import "./hub.css";
 
@@ -75,8 +76,8 @@ export function SelfGuidedHub(p: HubProps) {
           {next && <span className="sgh-intent" style={{ ["--t" as string]: TONE[next.intent] ?? "var(--accent)" }}>{WORD[next.intent] ?? "Day"}</span>}
         </div>
         <div className="sgh-next-b">
-          <p className="lq-eyebrow" data-tone="accent">Up next</p>
-          <h2 id="sgh-next-t" className="lq-d-sm sgh-next-t">{next ? (next.dayNumber != null ? `Day ${next.dayNumber} · ${next.title.replace(/^Day \d+\s*[-–·]\s*/, "")}` : next.title) : c ? c.lessonTitle : `Start ${p.programName}`}</h2>
+          <p className="lq-eyebrow" data-tone="accent">Up next <LevelBadge n={next ? levelOf(next.key) : c ? levelOf(c.lessonKey, c.pathName) : null} /></p>
+          <h2 id="sgh-next-t" className="lq-d-sm sgh-next-t">{next ? levelDayTitle(levelOf(next.key), next.dayNumber, next.title) : c ? levelDayTitle(levelOf(c.lessonKey, c.pathName), c.dayNumber, c.lessonTitle ?? "") : `Start ${p.programName}`}</h2>
           <p className="sgh-reason">{next?.reason ?? (c ? "Pick up exactly where you left off." : "Every day is open — start at Day 1 or anywhere you like.")}</p>
           <div className="sgh-next-acts">
             <Button icon="play" href={upHref}>{next?.completions ? "Do it again" : c && c.lessonId === next?.lessonId ? "Resume" : "Start"}</Button>
@@ -155,7 +156,8 @@ export function SelfGuidedHub(p: HubProps) {
                 })
               }
             >
-              {f.dayNumber != null ? `Day ${f.dayNumber}` : f.title}
+              <LevelBadge n={levelOf(f.lessonKey)} />
+              {f.dayNumber != null ? levelDayTitle(levelOf(f.lessonKey), f.dayNumber, f.title) : f.title}
               {f.minutes ? <small className="lq-num"> · {f.minutes} min</small> : null}
             </button>
           ))}
@@ -224,7 +226,7 @@ function WeekMap({ stats, history, slug }: { stats: NonNullable<BoardData["stats
               rows.map((r, i) => (
                 <span key={r.sessionId}>
                   {i > 0 && ", "}
-                  {r.lessonKey ? <Link href={`/programs/${slug}/guide/${encodeURIComponent(r.lessonKey)}`}>{r.title}</Link> : r.title}
+                  {r.lessonKey ? <Link href={`/programs/${slug}/guide/${encodeURIComponent(r.lessonKey)}`}>{levelDayTitle(levelOf(r.lessonKey), r.dayNumber, r.title)}</Link> : r.title}
                   {r.minutes ? ` (${r.minutes} min)` : ""}
                 </span>
               ))

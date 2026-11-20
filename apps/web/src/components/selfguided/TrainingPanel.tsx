@@ -5,7 +5,8 @@ import { useState, useTransition } from "react";
 import type { HistoryRow, TrainingStatsDTO } from "@ms/api";
 import { Glass, Icon, ProgressBar, useToast } from "@/components/ui";
 import { favouriteAction } from "@/lib/actions/selfguided";
-import { HeatmapGrid, IntentTag, ReadinessSpark, StatTiles, dayOf, hm } from "./parts";
+import { HeatmapGrid, IntentTag, LevelBadge, ReadinessSpark, StatTiles, dayOf, hm } from "./parts";
+import { levelDayTitle, levelOf } from "./level";
 
 const SOURCE: Record<string, string> = { day: "Day", quick: "Quick session", custom: "Your session", library: "Library", repeat: "Repeat" };
 
@@ -119,7 +120,8 @@ export function HistoryList({ rows, slug, lessonWord }: { rows: HistoryRow[]; sl
               <span className="lq-t15 sg-ellipsis" style={{ fontWeight: 650 }}>
                 {href ? (
                   <Link href={href} className="sg-link" prefetch={false}>
-                    {h.dayNumber != null ? `${lessonWord} ${h.dayNumber} · ${h.title.replace(/^day\s*\d+\s*[-–]\s*/i, "")}` : h.title}
+                    <LevelBadge n={levelOf(h.lessonKey)} />{levelOf(h.lessonKey) ? " " : null}
+                    {h.dayNumber != null ? levelDayTitle(levelOf(h.lessonKey), h.dayNumber, h.title, lessonWord) : h.title}
                   </Link>
                 ) : (
                   h.title

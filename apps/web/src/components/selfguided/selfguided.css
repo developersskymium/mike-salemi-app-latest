@@ -445,3 +445,16 @@
   .sg-in, .sg-disc ul { animation: none; }
   .sg-press, .sg-quick-min, .sg-tab, .sg-levelcard-img img { transition: none; }
 }
+
+/* KBL level badge + level switch (Level I and Level II both have Day 1 …) */
+.sg-lv { display: inline-flex; align-items: center; justify-content: center; flex: none; height: 18px; min-width: 24px; padding: 0 5px; border-radius: 5px; font: 700 10.5px/1 var(--font); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; vertical-align: middle; color: var(--lv, var(--accent)); background: color-mix(in srgb, var(--lv, var(--accent)) 14%, transparent); }
+.sg-lv[data-l="1"] { --lv: var(--accent); }
+.sg-lv[data-l="2"] { --lv: var(--warm); }
+.sg-lv[data-l="3"] { --lv: var(--gold); }
+.cv-lvswitch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 var(--s-3); }
+.cv-lvseg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-pill); background: var(--fill); }
+.cv-lvseg a { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 16px; border-radius: var(--r-pill); font: 600 14px/1 var(--font); color: var(--label-2); text-decoration: none; white-space: nowrap; }
+.cv-lvseg a[aria-current="page"] { background: var(--surface); color: var(--label); outline: 1px solid var(--line); }
+.cv-lvseg a small { font: 500 12px/1 var(--font); color: var(--label-3); }
+.cv-lvnote { font: 500 13px/1.35 var(--font); color: var(--label-3); }
+.cv-day-n:has(.sg-lv) { display: inline-flex; align-items: center; gap: 6px; }

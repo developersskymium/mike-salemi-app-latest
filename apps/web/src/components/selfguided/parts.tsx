@@ -8,6 +8,7 @@ import Link from "next/link";
 import { heatmapGrid, INTENT_LABEL, type HeatEntry, type LessonIntent } from "@ms/core";
 import type { ContinuePoint, TrainingStatsDTO } from "@ms/api";
 import { Glass, Icon, type IconName } from "@/components/ui";
+import { levelLong, levelOf } from "./level";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const shortDate = (iso: string) => {
@@ -130,7 +131,10 @@ export function continueHref(c: ContinuePoint) {
 
 export function continueLabel(c: ContinuePoint) {
   if (c.kind === "session") return c.sessionTitle ?? "Your session";
-  if (c.dayNumber != null) return `Day ${c.dayNumber}${c.dayType ? ` · ${c.dayType.replace(/\s+day$/i, "")}` : ""}`;
+  if (c.dayNumber != null) {
+    const n = levelOf(c.lessonKey, c.pathName);
+    return `${n ? `${levelLong(n)} · ` : ""}Day ${c.dayNumber}${c.dayType ? ` · ${c.dayType.replace(/\s+day$/i, "")}` : ""}`;
+  }
   return c.lessonTitle ?? "";
 }
 
@@ -186,5 +190,15 @@ export function ContinueCard({ c, eyebrow = "Continue where you left off" }: { c
         )}
       </div>
     </Glass>
+  );
+}
+
+/** Small level badge ("L1" / "L2") in the level's colour; renders nothing when the level is unknown. */
+export function LevelBadge({ n, className }: { n: 1 | 2 | 3 | null | undefined; className?: string }) {
+  if (!n) return null;
+  return (
+    <span className={["sg-lv", className].filter(Boolean).join(" ")} data-l={n} title={`Level ${["", "I", "II", "III"][n]}`}>
+      L{n}
+    </span>
   );
 }
