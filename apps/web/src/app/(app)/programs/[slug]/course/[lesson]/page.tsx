@@ -4,6 +4,9 @@ import { MTK_SLUG } from "@ms/core";
 import { CourseLocked } from "@/components/course/CourseLocked";
 import { CoursePlayer } from "@/components/course/CoursePlayer";
 import { loadCoursePage } from "@/lib/loaders/course";
+import { SeriesPlayer } from "@/components/series/SeriesPlayer";
+import { loadSeriesLesson } from "@/lib/loaders/series";
+import { isSeries } from "@/lib/series";
 
 type Props = { params: Promise<{ slug: string; lesson: string }>; searchParams: Promise<{ mode?: string }> };
 
@@ -25,6 +28,13 @@ export default async function CoursePage({ params, searchParams }: Props) {
   const [{ slug, lesson }, sp] = await Promise.all([params, searchParams]);
   const mode = sp.mode === "plan" || sp.mode === "full" ? sp.mode : null;
   const token = decodeURIComponent(lesson);
+  // Working-In, The Path, Men of Movement prep and the free series: player + chapter playlist (journeys-b).
+  if (isSeries(slug)) {
+    const home = await loadSeriesLesson(slug, token);
+    if (!home) notFound();
+    if (home.data.locked) return <CourseLocked data={home.data} />;
+    return <SeriesPlayer home={home} />;
+  }
   const data = await loadCoursePage(slug, token);
   if (!data) notFound();
   // MTK with a plan: My Plan is the home unless a lesson or the full curriculum was asked for.
