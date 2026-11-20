@@ -5,6 +5,7 @@ import {
 } from "@ms/api";
 import type { LearningMode, ReadinessForm, Step, WorkoutTable } from "@ms/core";
 import { fixture, MOCK } from "@/lib/mock";
+import { lessonHrefOf, programHref } from "@/lib/hrefs";
 import { createClient, getUser } from "@/lib/supabase/server";
 
 /* ------------------------------------------------------------------ shared shapes */
@@ -267,7 +268,7 @@ export interface LevelChoice {
 async function loadLevels(
   sb: DB,
   userId: string,
-  program: { id: string; slug: string },
+  program: { id: string; slug: string; type?: string | null },
   current: { pathId: string | null; progress: { lesson_id: string; ord: number; complete: boolean }[] },
   enrollRows: { path_id: string | null; recommended_path_id: string | null }[],
 ): Promise<LevelChoice[] | undefined> {
@@ -290,12 +291,12 @@ async function loadLevels(
   return paths.map((p, i) => {
     const prog = [...(progressOf[i] ?? [])].sort((a, b) => a.ord - b.ord);
     const resume = prog.find((r) => !r.complete) ?? null;
-    const programPage = `/programs/${program.slug}?path=${encodeURIComponent(p.key ?? p.id)}`;
+    const programPage = `${programHref(program.slug, program.type)}?path=${encodeURIComponent(p.key ?? p.id)}`;
     return {
       key: p.key ?? p.id,
       label: p.name,
       shortName: p.short_name ?? p.name,
-      href: resume && prog.some((r) => r.complete) ? `/programs/${program.slug}/learn/${resume.lesson_id}` : programPage,
+      href: resume && prog.some((r) => r.complete) ? lessonHrefOf(program.slug, resume.lesson_id, { type: program.type }) : programPage,
       recommended: p.id === recommendedId,
       done: prog.filter((r) => r.complete).length,
       total: prog.length,
@@ -394,9 +395,21 @@ async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: s
   };
 }
 
+/** Preview: links built from enrollments use lesson ids; find the snapshot whose lesson has that id. */
+async function mockLessonById(id: string): Promise<LessonPageData | null> {
+  const { readdir } = await import("node:fs/promises");
+  const path = await import("node:path");
+  const names = (await readdir(path.join(process.cwd(), "fixtures")).catch(() => [] as string[])).filter((n) => n.startsWith("training-lesson-") && !n.includes("-ready"));
+  for (const n of names) {
+    const f = await fixture<LessonPageData>(n.replace(/\.json$/, "")).catch(() => null);
+    if (f?.lesson.id === id) return f;
+  }
+  return null;
+}
+
 /** Day / lesson player data. In preview mode reads `fixtures/training-lesson-<lesson key>.json`. */
 export async function loadLessonPage(slug: string, lessonKey: string): Promise<LessonPageData | null> {
-  if (MOCK) return fixture<LessonPageData>(`training-lesson-${fixtureSlug(lessonKey)}`).catch(() => null);
+  if (MOCK) return fixture<LessonPageData>(`training-lesson-${fixtureSlug(lessonKey)}`).catch(() => mockLessonById(lessonKey));
   const { supabase, user } = await getUser();
   if (!user) return null;
   return realLessonPage(supabase, user.id, slug, lessonKey);

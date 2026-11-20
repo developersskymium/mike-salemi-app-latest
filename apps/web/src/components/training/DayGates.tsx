@@ -278,7 +278,8 @@ export function DayEnd({
 /** Flat daytime scene (mockup 07): the Climb's mountain layers, the swinging figure on the trail, Mike cheering from the corner. */
 function EndScene() {
   const H = 560;
-  const outline = `M0 ${H - 18} C 40 ${H - 22}, 70 ${H - 26}, 96 ${H - 30} C 160 ${H - 40}, 210 ${H - 50}, 262 ${H - 62} C 330 ${H - 80}, 390 ${H - 92}, 436 ${H - 108} C 500 ${H - 128}, 560 ${H - 146}, 612 ${H - 160} C 650 ${H - 170}, 660 ${H - 186}, 676 ${H - 182} C 700 ${H - 176}, 740 ${H - 196}, 800 34 C 850 50, 900 ${H - 160}, 1000 ${H - 128}`;
+  // A broad Shasta cone like The Climb (a thin needle read as a different style, D19): long shoulders, a rounded summit.
+  const outline = `M0 ${H - 18} C 60 ${H - 26}, 140 ${H - 44}, 220 ${H - 70} C 330 ${H - 110}, 440 ${H - 180}, 540 ${H - 260} C 620 ${H - 330}, 680 ${H - 420}, 730 ${H - 470} C 750 ${H - 486}, 764 ${H - 492}, 780 ${H - 492} C 796 ${H - 492}, 812 ${H - 484}, 832 ${H - 462} C 880 ${H - 400}, 930 ${H - 320}, 1000 ${H - 270}`;
   const a = { W: 1000, H, id: "kd-end", outline };
   return (
     <span className="kd-end-art">

@@ -121,7 +121,8 @@ export default async function CoachingPage(props: PageProps<"/coaching">) {
                 <li><b>8 weeks</b><span>60 days, start to finish</span></li>
                 <li><b>3–4</b><span>direct interactions with Mike</span></li>
                 <li><b>5 min</b><span>daily homework: your one thing</span></li>
-                <li><b className="lq-num">{ee.price ? money(ee.price.amountCents, ee.price.currency) : data.executive?.priceLabel ?? "By application"}</b><span>{data.executive?.priceLabel ?? "draft"}</span></li>
+                {/* Members never see "Draft" (D23): the range reads as the investment; Mike confirms it on the call. */}
+                <li><b className="lq-num">{cleanPrice(data.executive?.priceLabel) || (ee.price ? money(ee.price.amountCents, ee.price.currency) : "By application")}</b><span>investment, by application</span></li>
               </ul>
               <p className="ch-ee-note">Built for leaders who want mental focus, energy and antifragility, and a body that keeps up.</p>
               <ExecutiveApply packageId={ee.id} status={data.applications?.[ee.id] ?? null} />
@@ -184,4 +185,9 @@ export default async function CoachingPage(props: PageProps<"/coaching">) {
       </section>
     </div>
   );
+}
+
+/** A price label without its internal "Draft" / "TBC" marker. */
+function cleanPrice(label: string | null | undefined) {
+  return (label ?? "").replace(/\s*\b(draft|tbc|to be confirmed)\b\.?/gi, "").trim();
 }

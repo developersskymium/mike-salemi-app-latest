@@ -546,12 +546,13 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const readinessBlock = showTable && form ? (
     readiness && !retaking ? (
       <div className="kc-ready">
-        <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={String(readiness.score)} size={44} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
+        <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={String(readiness.score)} aria={`Readiness ${bandWord}, fatigue score ${readiness.score}`} size={44} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
         <div className="kc-ready-t">
           <b>
             Readiness {readiness.score} · {bandWord} — {readiness.outcome === "workout" ? (readiness.band === "green" ? "full table" : readiness.name) : "recovery"}
           </b>
           <span>{bandSummary(readiness)}</span>
+          <span className="kc-ready-s lq-num">Fatigue score {readiness.score} · lower is better</span>
         </div>
         <button type="button" className="kc-link" onClick={() => setRetaking(true)}>
           Retake
@@ -777,18 +778,18 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 
-function MiniRing({ percent, label, size = 34, tone }: { percent: number; label?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
+function MiniRing({ percent, label, aria, size = 34, tone }: { percent: number; label?: string; aria?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
   const stroke = size > 40 ? 4 : 3;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.max(0, Math.min(100, percent));
   return (
-    <span className="kd-ring" role="img" aria-label={label ? label : `${p}% of today done`} style={{ width: size, height: size }} data-tone={tone}>
+    <span className="kd-ring" role="img" aria-label={aria ?? (label ? label : `${p}% of today done`)} style={{ width: size, height: size }} data-tone={tone}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-track" strokeWidth={stroke} />
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-arc" strokeWidth={stroke} strokeDasharray={c} strokeDashoffset={c - (p / 100) * c} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
       </svg>
-      <span className="lq-num" data-big={size > 40 ? "" : undefined}>{label ?? ""}</span>
+      <span className="lq-num" data-big={size > 40 ? "" : undefined} data-word={label && /[a-z]/i.test(label) ? "" : undefined}>{label ?? ""}</span>
     </span>
   );
 }

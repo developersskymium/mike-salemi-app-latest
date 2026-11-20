@@ -210,3 +210,4 @@ a.kc-foot-c:hover { background: var(--surface); box-shadow: inset 0 0 0 1px var(
 .kf-feel button { all: unset; cursor: pointer; padding: 7px 12px; border-radius: 99px; font: 600 13px/1 var(--font); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .kf-feel button[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
 .kf-feel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kc-ready-t .kc-ready-s { font-size: 12px; color: var(--text-3); }
