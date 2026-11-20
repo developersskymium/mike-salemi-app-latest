@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LevelEmblem, StreakFlame } from "@/components/graphics";
 import { Avatar, Glass, Icon, ProgressBar, Rings, Ticker } from "@/components/ui";
+import { WeekDots, type WeekDot } from "@/components/signature";
 import type { PassportData } from "@/lib/loaders/you";
 import { fmtMonth, levelShort, mrz, passportNo, splitDay } from "./format";
 
@@ -17,6 +18,9 @@ export function PassportHeader({ d }: { d: PassportData }) {
   const cur = active?.current_lesson_title ? splitDay(active.current_lesson_title) : null;
   const minutes = d.stats.minutes;
   const [l1, l2] = mrz(d.profile.displayName, d.profile.id);
+  const week = thisWeek(d.stats.today, new Set(d.stats.heatmap.map((h) => h.date)));
+  const ready = d.stats.readiness.at(-1) ?? null;
+  const BAND: Record<string, string> = { green: "ok", amber: "warm", red: "warm" };
 
   return (
     <Glass as="section" level="thick" className="yu-passport" aria-label="Training passport">
@@ -81,6 +85,31 @@ export function PassportHeader({ d }: { d: PassportData }) {
         </div>
       </dl>
 
+      <div className="yu-pp-week">
+        <div className="yu-pp-weekdots">
+          <span className="lq-eyebrow" data-tone="warm">This week</span>
+          <WeekDots days={week} size="sm" />
+        </div>
+        <div className="yu-pp-facts">
+          <span className="yu-pp-fact">
+            <small className="lq-t12 lq-c2">Best streak</small>
+            <b className="lq-num">{d.stats.streak.best || r.streak_current} days</b>
+          </span>
+          <span className="yu-pp-fact">
+            <small className="lq-t12 lq-c2">Readiness</small>
+            {ready ? (
+              <b className="yu-pp-ready" data-tone={BAND[ready.band] ?? "ok"}><i aria-hidden />{ready.band_name}</b>
+            ) : (
+              <Link href="/tools/readiness-check" className="lq-t13 yu-pp-link">Check in</Link>
+            )}
+          </span>
+          <span className="yu-pp-fact">
+            <small className="lq-t12 lq-c2">Sessions</small>
+            <b className="lq-num">{d.stats.sessions || d.stats.active_days}</b>
+          </span>
+        </div>
+      </div>
+
       <Link href="/you/rewards" className="yu-xp" aria-label={`Level ${r.level}, ${r.level_name}. ${toNext} points to level ${r.level + 1}.`}>
         <LevelEmblem level={r.level} size={44} />
         <span className="yu-xp-main">
@@ -88,7 +117,7 @@ export function PassportHeader({ d }: { d: PassportData }) {
             <b>Level {r.level} · {r.level_name}</b>
             <span className="lq-t13 lq-c2 lq-num"><Ticker value={r.points_total} /> pts · {toNext.toLocaleString("en-GB")} to Level {r.level + 1}</span>
           </span>
-          <ProgressBar value={(r.points_total - base) / 1000} tone="accent" label="Points to next level" />
+          <ProgressBar value={(r.points_total - base) / 1000} tone="warm" label="Points to next level" />
         </span>
         <Icon name="chevron" size="sm" className="lq-c3" />
       </Link>
@@ -99,4 +128,15 @@ export function PassportHeader({ d }: { d: PassportData }) {
       </div>
     </Glass>
   );
+}
+
+/** Monday-first dots for the current week: done = any training that day. */
+function thisWeek(today: string, trained: Set<string>): WeekDot[] {
+  const t = Date.parse(`${today}T00:00:00Z`);
+  const dow = (new Date(t).getUTCDay() + 6) % 7;
+  return ["M", "T", "W", "T", "F", "S", "S"].map((label, i) => {
+    const date = new Date(t + (i - dow) * 864e5).toISOString().slice(0, 10);
+    const state: WeekDot["state"] = trained.has(date) ? "done" : i === dow ? "today" : i < dow ? "rest" : "ahead";
+    return { label, state, date: Number(date.slice(8)) };
+  });
 }

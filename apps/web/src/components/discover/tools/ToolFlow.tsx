@@ -12,6 +12,10 @@ import { ToolGlyph } from "../ProgramCard";
 import { VideoCard } from "../VideoCard";
 import { toolDef, type Answers, type ToolResultView } from "./defs";
 import { ResultVisual } from "./Results";
+import { ShareResult } from "./ShareCard";
+import { TOOL_META } from "./meta";
+import { MovementCover } from "../library/MovementCover";
+import "../library/library.css";
 
 type Props = {
   tool: { id: string; name: string; tagline: string | null; config: Record<string, unknown> };
@@ -72,7 +76,7 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
       setSave({ state: "saving" });
       const res = await saveToolRun(tool.id, a, { ...r, title: r.headline }); announceProgress();
       setSave(res.ok ? { state: "saved" } : { state: "error", message: res.error });
-      if (res.ok) toast(`${tool.name} complete — saved to your account`, { tone: "success", icon: "check" });
+      if (res.ok) toast(`${TOOL_META[tool.id]?.title ?? tool.name} complete — saved to your account`, { tone: "success", icon: "check" });
     },
     [def, tool.id, tool.name, toast],
   );
@@ -120,6 +124,8 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
   }, [stage, steps, choose, back]);
 
   if (!def) return null;
+  const meta = TOOL_META[tool.id];
+  const title = meta?.title ?? tool.name;
   const total = steps.length;
   const lastTitle = typeof last?.result?.title === "string" ? last.result.title : null;
 
@@ -131,14 +137,24 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
         <div className="dsc-tool-top">
           <IconButton icon="back" label="All tools" href="/tools" />
         </div>
-        <div className="dsc-tool-intro dsc-step-in">
-          <div className="dsc-tool-cover" aria-hidden>
-            <ToolGlyph id={tool.id} size={210} />
+        <div className="w1-ti dsc-step-in">
+          <div className="w1-ti-art" aria-hidden>
+            <MovementCover move={meta?.move ?? "swing"} seed={tool.id} level="phase-1" size={260} animated />
           </div>
-          <div className="dsc-tool-introtext">
-            <p className="lq-t13 lq-c2 dsc-eyebrow">{tool.tagline ?? "Free tool"} · {total || 4} questions · about {def.minutes} min</p>
-            <h1 ref={heading} tabIndex={-1} className="lq-t34">{tool.name}</h1>
-            <p className="lq-t17 lq-c2">{def.description || tool.tagline}</p>
+          <div className="w1-ti-text">
+            <div className="w1-ti-chips">
+              <Chip variant="tint" size="sm">Free tool</Chip>
+              <Chip variant="fill" size="sm" icon="clock">About {meta?.minutes ?? def.minutes} min</Chip>
+              {total > 0 && <Chip variant="fill" size="sm">{total} questions</Chip>}
+            </div>
+            <h1 ref={heading} tabIndex={-1} className="lq-d-xl w1-ti-title">{title}</h1>
+            {meta?.subtitle && (
+              <p className="lq-t15 lq-c2 w1-ti-sub">
+                {meta.subtitle}
+                {meta.draft && <span className="w1-draft lq-t11" title={meta.draft}>Title draft</span>}
+              </p>
+            )}
+            <p className="lq-lede lq-c2">{def.description || tool.tagline}</p>
             <ol className="w1-tool-bullets">
               {copy.bullets.map((b, i) => (
                 <li key={b}>
@@ -147,20 +163,20 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
                 </li>
               ))}
             </ol>
+            <Button block icon={last ? "repeat" : "play"} onClick={() => setStage({ at: "q", i: 0, dir: 1 })} className="dsc-tool-cta">
+              {last ? copy.again : copy.start}
+            </Button>
             {lastTitle && last && (
-              <Glass radius="panel" className="w1-tool-prev">
+              <div className="w1-tool-prev">
                 <Icon name="clock" size="sm" className="lq-c2" />
                 <span className="lq-t13">
                   <span className="lq-c2">Your last result · {new Date(last.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
                   <br />
                   <strong>{lastTitle}</strong>
                 </span>
-                <Link href="/you/saves" className="lq-t13 w1-tool-prevlink">See saves</Link>
-              </Glass>
+                <Link href="/you/saves?kind=tools" className="lq-t13 w1-tool-prevlink">See saves</Link>
+              </div>
             )}
-            <Button block icon={last ? "repeat" : "play"} onClick={() => setStage({ at: "q", i: 0, dir: 1 })} className="dsc-tool-cta">
-              {last ? copy.again : copy.start}
-            </Button>
           </div>
         </div>
       </div>
@@ -173,22 +189,27 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
       <div className="dsc-tool" data-stage="result">
         <div className="dsc-tool-top">
           <IconButton icon="back" label="Change my answers" onClick={back} />
-          <span className="lq-t13 lq-c2">{tool.name}</span>
+          <span className="lq-t13 lq-c2">{title}</span>
           <IconButton icon="close" label="Close" href="/tools" />
         </div>
         {result ? (
           <div className="dsc-result dsc-step-in">
-            <div className="dsc-result-head">
-              <span className="dsc-result-badge" aria-hidden>
-                <Completion size={64} />
-              </span>
-              <p className="lq-t13 lq-c2 dsc-eyebrow">Your result</p>
-              <h1 ref={heading} tabIndex={-1} className="lq-t34">{result.headline}</h1>
-              {result.summary && <p className="lq-t17 lq-c2 dsc-result-sum">{result.summary}</p>}
-            </div>
-            <ResultVisual result={result} />
+            <section className="w1-tr" aria-labelledby="tr-h">
+              <div className="w1-tr-sky" aria-hidden>
+                <span className="w1-tr-badge"><Completion size={56} /></span>
+              </div>
+              <div className="dsc-result-head w1-tr-head">
+                <p className="lq-eyebrow" data-tone="warm">Your result · {title}</p>
+                <h1 id="tr-h" ref={heading} tabIndex={-1} className="lq-d-lg">{result.headline}</h1>
+                {result.summary && <p className="lq-t17 lq-c2 dsc-result-sum">{result.summary}</p>}
+              </div>
+              <div className="w1-tr-visual">
+                <ResultVisual result={result} />
+              </div>
+            </section>
             <div className="dsc-result-actions">
               <SaveState save={save} />
+              <ShareResult result={result} tool={title} slug={tool.id} />
               <Button variant="glass" size="md" icon="repeat" onClick={() => { setAnswers({}); setSave({ state: "idle" }); setStage({ at: "q", i: 0, dir: 1 }); }}>
                 Retake
               </Button>
@@ -225,7 +246,7 @@ export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
         <IconButton icon="back" label={stage.i === 0 ? "Back to intro" : "Previous question"} onClick={back} />
         <div className="w1-tool-head">
           <span className="lq-t13 w1-tool-headname">
-            <span>{tool.name}</span>
+            <span>{title}</span>
             <span className="lq-c2 lq-num">{stage.i + 1}/{total}</span>
           </span>
           <StepSegments total={total} done={stage.i} current={stage.i} currentProgress={0.5} label={`Question ${stage.i + 1} of ${total}`} className="dsc-tool-progress" />

@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import type { ShareChannel } from "@ms/api";
 import { EmptyScene } from "@/components/graphics";
+import { PhotoHero } from "@/components/signature";
 import { Button, Glass, Icon, ProgressBar, Ticker, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { logShare } from "@/lib/actions/you";
@@ -74,6 +75,22 @@ export function ReferralsView({ d }: { d: ReferralsV2 }) {
 
   return (
     <div className="yu-page">
+      <PhotoHero
+        image={{ src: "/media/summit/summit-group.jpg", alt: "Men of Movement together on Mount Shasta", focal: "50% 40%", focalPhone: "45% 40%" }}
+        scrim="left"
+        minHeight={300}
+        className="yu-ref-hero"
+        as="section"
+      >
+        <p className="lq-eyebrow yu-ref-hero-eyebrow">Give 1 month</p>
+        <h2 className="lq-d-lg">Bring someone up the mountain</h2>
+        <p className="lq-lede yu-ref-hero-lede">Share your link. When a friend joins and their first order goes through, a month of Pro is added to your account.</p>
+        <ol className="yu-ref-steps">
+          <li><b className="lq-num">1</b><span>Share your link</span></li>
+          <li><b className="lq-num">2</b><span>{d.firstName ? "Your friend joins" : "A friend joins"}</span></li>
+          <li><b className="lq-num">3</b><span>You get 1 month</span></li>
+        </ol>
+      </PhotoHero>
       <div className="yu-ref-top">
         <Glass as="section" level="thick" className="yu-ref-code" aria-labelledby="yu-code-t">
           <span className="lq-t13 yu-eyebrow" id="yu-code-t">Your code</span>

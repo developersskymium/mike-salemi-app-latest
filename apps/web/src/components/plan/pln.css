@@ -169,3 +169,50 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 .pln-sess-m { font: var(--t-13); color: var(--label-2); font-variant-numeric: tabular-nums; }
 .pln-saved { display: grid; gap: 10px; }
 @media (min-width: 640px) { .pln-saved { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------------------------------------------------------------- P4 Summit: crisp week canvas */
+.pln-page .tpy-dayblock { background: var(--surface); box-shadow: var(--sh-1), inset 0 0 0 1px var(--line); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pln-page .tpy-dayblock[data-past] { background: var(--surface-2); }
+.pln-page .tpy-dayblock[data-rest] { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); }
+.pln-page .tpy-dayblock[data-today] { box-shadow: var(--sh-2), inset 0 0 0 2px var(--warm); }
+.pln-page .tpy-dayhead[data-today] b, .pln-page .tpy-dayhead[data-today] .lq-ink { color: var(--warm-ink); }
+.pln-page .tpy-dayhead b { font-family: var(--font-display); font-weight: 750; }
+.pln-page .tpy-entry { position: relative; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); margin-bottom: 6px; }
+.pln-page .tpy-entry:hover { background: var(--surface); box-shadow: var(--sh-2), inset 0 0 0 1px var(--line-strong); }
+.pln-page .tpy-entry[data-now] { background: var(--warm-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warm) 35%, transparent); }
+.pln-page .tpy-entry[data-done] { background: var(--ok-soft); box-shadow: none; }
+.pln-page .tpy-entry[data-done] .tpy-glyph { background: var(--ok); color: #fff; }
+.pln-page .tpy-entry[data-missed] { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--warm) 55%, transparent); }
+.pln-page .tpy-entry[data-missed] .lq-c2 { color: var(--warm-ink); font-weight: 600; }
+.pln-page .tpy-entry[data-skipped] { opacity: .6; }
+.pln-page .tpy-entry[draggable="true"]::after { content: ""; position: absolute; right: 8px; top: 10px; width: 6px; height: 10px; opacity: 0; background-image: radial-gradient(circle, var(--text-3) 1px, transparent 1.4px); background-size: 3px 3.4px; transition: opacity 140ms ease; }
+.pln-page .tpy-entry[draggable="true"]:hover::after { opacity: 1; }
+.pln-page .tpy-glyph { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.pln-page .tpy-glyph[data-now] { background: var(--warm); color: #fff; box-shadow: none; }
+.pln-page .tpy-drop[data-over] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.pln-page .tpy-empty-day { padding: 6px 10px; }
+.pln-page .tpy-mday[data-today] > span:first-child { background: var(--warm); }
+.pln-page .tpy-dots i[data-k="done"] { background: var(--ok); }
+.pln-page .tpy-dots i[data-k="missed"] { box-shadow: inset 0 0 0 1.5px var(--warm); }
+
+/* cards and controls: white, no glass */
+.pln-plancard, .pln-overview, .pln-behind, .pln-next { background: var(--surface) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: var(--sh-2) !important; }
+.pln-plancard-next { background: var(--surface-sunk); }
+.pln-plancard-ic { background: var(--accent-soft); color: var(--accent-ink); }
+.pln-pill { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pln-pill[aria-current="true"] { background: var(--ink-900, #0E1B2C); color: #fff; }
+.pln-pattern { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.pln-pattern[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: var(--sh-accent, none); }
+.pln-ov-stats > div { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.pln-ov-stats b { font-family: var(--font-display); font-weight: 800; }
+.pln-ov-stats [data-alert] b { color: var(--warm-ink); text-decoration: none; }
+.pln-ring-n { font-family: var(--font-display); font-weight: 800; }
+.pln-behind { box-shadow: var(--sh-2), inset 0 0 0 1.5px color-mix(in srgb, var(--warm) 40%, transparent) !important; }
+.pln-next-head { background: var(--warm-soft); }
+.pln-next-head .pln-eyebrow, .pln-next-head > :first-child { color: var(--warm-ink); }
+.pln-next-glyph { background: var(--warm-soft); color: var(--warm-ink); }
+.pln-rule { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.pln-rule[aria-checked="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.pln-rule[aria-checked="true"] .pln-radio { box-shadow: inset 0 0 0 6px var(--accent); }
+.pln-cr-form { background: var(--surface) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.pln-goal[aria-pressed="true"] { background: var(--accent); color: #fff; }

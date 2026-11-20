@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import type { LibraryVideo } from "@ms/api";
 import { Button, Chip, Glass, Icon, IconButton, Sheet, useToast } from "@/components/ui";
-import { MovementFigure } from "@/components/graphics";
 import { addVideoToCollection, toggleSaveVideo } from "@/lib/actions/discover";
 import { moveFor, phaseOf, topicsOf, VideoCard } from "./VideoCard";
 import { LibraryPlayer } from "./library/LibraryPlayer";
+import { MovementCover } from "./library/MovementCover";
+import { coverOf } from "./library/model";
+import "./library/library.css";
 
 type Props = {
   video: LibraryVideo;
@@ -78,10 +80,10 @@ export function VideoView({ video: v, related, collections, programPhotos }: Pro
             <LibraryPlayer id={v.id} providerId={v.provider_id} hash={v.privacy_hash} title={v.title} />
           ) : (
             <button type="button" className="dsc-player-poster" onClick={() => setPlaying(true)} aria-label={`Play ${v.title}`}>
-              {v.thumbnail_url ? (
-                <Image src={v.thumbnail_url} alt="" fill priority sizes="(min-width: 1024px) 720px, 100vw" />
+              {coverOf(v.thumbnail_url) ? (
+                <Image src={coverOf(v.thumbnail_url)!} alt="" fill priority sizes="(min-width: 1024px) 720px, 100vw" />
               ) : (
-                <span className="dsc-player-art"><MovementFigure move={moveFor(v)} size={180} animated /></span>
+                <MovementCover move={moveFor(v)} seed={v.id} level={v.tags.find((t) => t.namespace === "level")?.slug} size={220} />
               )}
               <span className="dsc-play" aria-hidden>
                 <Icon name="play" size="lg" />

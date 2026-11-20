@@ -182,7 +182,7 @@ export function PlanScreen({
             {/* 4 · Plan overview */}
             {selected && (
               <Glass as="section" radius="card" className="pln-overview" aria-labelledby="pln-ov-t">
-                <Rings rings={[{ value: placed ? done / placed : 0, tone: 1 }]} size={96} stroke={11} label={`${done} of ${placed} sessions done`}>
+                <Rings rings={[{ value: placed ? done / placed : 0, tone: 2 }]} size={96} stroke={11} label={`${done} of ${placed} sessions done`}>
                   <span className="pln-ring-n lq-num">{placed ? Math.round((done / placed) * 100) : 0}%</span>
                 </Rings>
                 <div className="pln-ov-main">
