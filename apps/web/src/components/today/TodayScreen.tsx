@@ -51,7 +51,7 @@ export function TodayScreen({ v }: { v: TodayView }) {
         <div className="tpy-below">
           {v.goal ? <GoalCard goal={v.goal} today={v.today} /> : <NoGoalCard />}
           <Events v={v} />
-          <OfferSlot placement="today" context={{ program: v.primary?.program_slug ?? null }} />
+          <OfferSlot placement="today" />
         </div>
       </div>
     </>
