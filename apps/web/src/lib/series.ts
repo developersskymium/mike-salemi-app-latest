@@ -9,6 +9,9 @@
 import type { CourseData, CourseLessonNode } from "@/lib/loaders/course";
 import { allLessons } from "@/lib/journey";
 import { PHOTO, type PhotoName } from "@/lib/photos";
+import type { IconName } from "@/components/ui";
+import type { Unit, UnitCard } from "@/components/journeys/units";
+import type { ShelfLink } from "@/components/journeys/LessonSidebar";
 
 /** MTK and A4L keep their own journeys (journeys-a). Everything else that opens as a course is ours. */
 const NOT_SERIES = new Set(["mastering-the-kettlebell", "athleticism-4-life", "kettlebell-roadmap"]);
@@ -76,8 +79,9 @@ function kindOf(slug: string, l: CourseLessonNode, sectionTitle: string): ItemKi
   if (/download|ebook|pdf|playlist|book recommendation/i.test(t) || /ebook|pdf/i.test(sectionTitle)) return "resource";
   if (/bonus/i.test(sectionTitle) || /want to learn more/i.test(t)) return "bonus";
   if (/playwork|inventory|letter of recognition|negations|soft talk/i.test(t)) return "reflection";
-  if (/call|presentation|presenter|pre-course/i.test(t)) return "call";
-  if (/breath|chi generator|meditation|squat|prep|energy push|values|drc|designing/i.test(t)) return "practice";
+  // Only call recordings are calls ("Pre-Course Materials" and recorded presentations are not).
+  if (/\bcall\b|guest presenter/i.test(t)) return "call";
+  if (/breath|chi generator|meditation|squat|\bprep\b|energy push|values|drc|designing/i.test(t)) return "practice";
   if (slug === "working-in") return "practice";
   return "lesson";
 }
@@ -178,3 +182,80 @@ export const FINISH_ALT: Record<string, { slug: string; href: string; label: str
   "what-your-kettlebell-swing-is-missing": { slug: "kettlebell-lifestyle", href: "/programs/kettlebell-lifestyle", label: "Kettlebell Lifestyle", reason: "Your swing, programmed: Level I starts with it on day one." },
   "free-6-video-kettlebell-mini-series": { slug: "kettlebell-lifestyle", href: "/programs/kettlebell-lifestyle", label: "Kettlebell Lifestyle", reason: "Train the lifts you just coached, day by day." },
 };
+
+/* ------------------------------------------------------------------ lesson sidebar (shared shell with MTK / A4L) */
+
+/** Small row icon by what the lesson is: video, audio, reading, call recording or download. */
+export function itemIcon(i: Pick<SeriesItem, "kind" | "video" | "title">): IconName {
+  if (i.kind === "resource") return "download";
+  if (i.kind === "call") return "people";
+  if (!i.video) return /meditation|audio/i.test(i.title) ? "speaker" : "file";
+  return "video";
+}
+
+const SHELF_KEYS = new Set(["Bonuses", "Resources"]);
+
+/**
+ * The series' chapters as LessonSidebar units: weeks / modules / pillars become collapsible groups,
+ * a one-chapter series a plain numbered list. Bonuses and resources become shelf units (bottom grid).
+ * The welcome video maps to the course intro (`intro`, opened at `/course/start`).
+ */
+export function seriesUnits(data: CourseData, media: SeriesMedia, href: (id: string) => string, nextId: string | null): Unit[] {
+  const chapters = buildChapters(data, media).filter((c) => c.items.length);
+  const path = chapters.filter((c) => !SHELF_KEYS.has(c.key));
+  const flat = path.length === 1;
+  return chapters.map((c): Unit => {
+    const shelf = SHELF_KEYS.has(c.key);
+    const card = (i: SeriesItem): UnitCard => {
+      const welcome = i.kind === "welcome";
+      return {
+        id: welcome ? "intro" : i.id,
+        href: href(welcome ? "start" : i.id),
+        title: i.title,
+        meta: i.minutes ? `${i.minutes} min` : !i.video && i.kind !== "resource" ? "Reading" : undefined,
+        status: i.done ? "done" : i.id === nextId ? "next" : data.locked ? "locked" : "open",
+        art: {},
+        icon: flat && !shelf && i.kind !== "welcome" ? undefined : itemIcon(i),
+        kind: shelf ? (c.key === "Resources" ? "resource" : "bonus") : "lesson",
+      };
+    };
+    const welcome = c.items.filter((i) => i.kind === "welcome");
+    const rest = c.items.filter((i) => i.kind !== "welcome");
+    const p = chapterProgress(c);
+    return {
+      id: `s:${c.key}`,
+      label: c.label,
+      group: shelf ? "Open any time" : undefined,
+      done: p.done,
+      total: p.total,
+      // Welcome on its own row so a numbered list starts at 1 with the first real lesson.
+      rows: [...(welcome.length ? [{ cards: welcome.map(card) }] : []), { cards: rest.map(card) }],
+    };
+  });
+}
+
+/** Bottom-grid cards for the series' bonuses and resources, plus the library. */
+export function seriesShelf(units: Unit[]): ShelfLink[] {
+  const out: ShelfLink[] = units
+    .filter((u) => u.group === "Open any time")
+    .flatMap((u) => {
+      const cards = u.rows.flatMap((r) => r.cards);
+      const first = cards.find((c) => c.status !== "done") ?? cards[0];
+      if (!first) return [];
+      const res = u.label === "Resources";
+      const n = cards.length;
+      return [{ id: u.id, label: u.label, sub: res ? `${n} ${n === 1 ? "download" : "downloads"}` : `${n} ${n === 1 ? "bonus" : "bonuses"}`, href: first.href, icon: (res ? "download" : "gift") as IconName }];
+    });
+  out.push({ id: "library", label: "Library", sub: "All videos", href: "/library", icon: "library" });
+  return out;
+}
+
+/** The notes prompt for a series lesson. */
+export function seriesQuestion(slug: string, kind: string, title: string): string {
+  const sig = signatureOf(slug, kind);
+  if (/playwork|inventory|letter of recognition|negations/i.test(title)) return "What came up for you in this week's playwork, and what will you do differently?";
+  if (sig === "journey") return "What's one thing from this you'll act on before next week?";
+  if (sig === "pillars") return "What do you want to carry with you to the retreat from this practice?";
+  if (sig === "practice") return "How did your energy feel before and after this practice?";
+  return "What's one thing you'll do differently after this lesson?";
+}

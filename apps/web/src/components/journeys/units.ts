@@ -4,6 +4,7 @@
  * a grid of small cards for the selected unit. Pure module: safe in server and client components.
  */
 import type { DayType, MedalTier, MoveName } from "@/components/graphics";
+import type { IconName } from "@/components/ui";
 import type { CourseData, CourseLessonNode } from "@/lib/loaders/course";
 import { dayGlyph, dayTypeShort, lessonName } from "@/components/training/model";
 import type { LessonLite, ProgressRow, SectionLite } from "@/lib/loaders/training";
@@ -30,6 +31,8 @@ export interface UnitCard {
   /** Bonus / resource cards sit after the day cards and read lighter. */
   kind?: "day" | "lesson" | "bonus" | "resource";
   external?: boolean;
+  /** Small kind icon in place of the row number (series: video, audio, reading, call, download). */
+  icon?: IconName;
 }
 
 export interface UnitRow {
