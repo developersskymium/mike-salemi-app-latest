@@ -2,6 +2,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Disclosure, RecordForm, RowTools } from "@/components/studio/forms";
 import { DataTable, PageHead, Panel, Status, fdate } from "@/components/studio/ui";
+import { ApplicationActions } from "@/components/studio/site";
+import { Answers } from "@/components/studio/Answers";
 import { studioAdmin } from "@/lib/studio/guard";
 import { loadRun } from "@/lib/studio/loaders";
 
@@ -27,7 +29,10 @@ export default async function RunPage({ params }: { params: Promise<{ id: string
         <div style={{ marginTop: 12 }}><Disclosure label="Add itinerary item"><RecordForm table="itinerary_items" fixed={{ run_id: id }} defaults={{ day_index: "1" }} /></Disclosure></div>
       </Panel>
       <Panel title="Applications" meta={`${d.applications.length}`}>
-        <DataTable rows={d.applications} empty="No applications for this run." cols={[{ label: "Who", render: (a) => a.who }, { label: "Applied", render: (a) => fdate(a.created_at) }, { label: "Status", render: (a) => <Status v={a.status} /> }]} />
+        <DataTable rows={d.applications} empty="No applications for this run." cols={[
+          { label: "Who", render: (a) => a.who }, { label: "Applied", render: (a) => fdate(a.created_at) }, { label: "Status", render: (a) => <Status v={a.status} /> },
+          { label: "Review", render: (a) => <details><summary className="st-link" style={{ cursor: "pointer" }}>Open</summary><Answers answers={a.answers} /><ApplicationActions id={a.id} status={a.status} note={a.admin_note} /></details> },
+        ]} />
       </Panel>
     </>
   );

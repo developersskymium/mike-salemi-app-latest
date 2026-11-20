@@ -1,0 +1,79 @@
+{
+ "program": {
+  "id": "2ccf83c2-0e08-4b29-9f04-37eb29e55966",
+  "slug": "the-grounded-king",
+  "name": "The Grounded King",
+  "type": "live",
+  "status": "draft",
+  "tagline": "Strength, presence and nervous-system work",
+  "summary": "Mike's work on rebuilding a grounded, regulated body — breath, movement and mindset for men who want capacity that lasts beyond the gym.",
+  "description": "Mike's work on rebuilding a grounded, regulated body — breath, movement and mindset for men who want capacity that lasts beyond the gym.",
+  "highlights": [
+   "Breath and regulation",
+   "Movement practice",
+   "Mindset work"
+  ],
+  "format_label": "8-week guided program",
+  "duration_label": "4 sessions a week",
+  "draft_note": "Format, dates and price awaiting Mike",
+  "price_label": "$197 Draft",
+  "commitment": "4 sessions a week",
+  "route": null,
+  "route_label": null,
+  "note": null,
+  "sections": [
+   {
+    "heading": "What it is",
+    "body": "Eight weeks of daily practice built around three pillars: breath mechanics, ground-based movement, and the inner work that keeps a man steady under load.",
+    "points": [
+     "Daily breath protocol, 10 minutes",
+     "Ground flow and mobility sessions",
+     "Weekly reflection and journalling prompts",
+     "Strength work that scales to any equipment"
+    ]
+   },
+   {
+    "heading": "What changes",
+    "body": "Better sleep, a slower resting heart rate, and the ability to hold your centre in conversations and situations that used to spike you."
+   }
+  ],
+  "faq": [
+   {
+    "q": "Can I run it alongside Kettlebell Lifestyle?",
+    "a": "Yes. The breath and mobility work stack cleanly on top of your training days."
+   },
+   {
+    "q": "Do I need equipment?",
+    "a": "A single kettlebell and floor space is enough."
+   }
+  ],
+  "hero": {
+   "url": "/media/l5e/4d58243d-0c93-4bb6-8011-a1928d2004d0/tgk.jpg",
+   "alt": "Men seated on the grass in a breath practice"
+  }
+ },
+ "nextRun": null,
+ "others": [
+  {
+   "slug": "men-of-movement-retreats",
+   "name": "Men of Movement Retreats",
+   "tagline": "In-person Men of Movement retreats",
+   "type": "retreat",
+   "image": "/media/retreats/live/breakthrough-circle-room.jpg"
+  },
+  {
+   "slug": "coaching",
+   "name": "1:1 Coaching with Mike",
+   "tagline": "Your program, built around you",
+   "type": "coaching",
+   "image": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg"
+  },
+  {
+   "slug": "executive-edge",
+   "name": "Executive Edge",
+   "tagline": "A high-touch path for focus, energy and resilience",
+   "type": "coaching",
+   "image": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg"
+  }
+ ]
+}

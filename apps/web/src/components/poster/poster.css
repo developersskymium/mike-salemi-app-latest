@@ -1,0 +1,12 @@
+/* Designed poster fallback (prefix pf-). Tokens only; monochrome with the Glacier glow. */
+.pf { position: absolute; inset: 0; display: block; overflow: hidden; color: var(--label); background:
+  radial-gradient(120% 90% at var(--pf-x, 30%) var(--pf-y, 20%), var(--accent-soft), transparent 62%),
+  linear-gradient(165deg, var(--fill-2), var(--fill)); background-color: var(--bg-elev); }
+.pf-ridge { position: absolute; left: 0; right: 0; bottom: 18%; width: 100%; height: 34%; }
+.pf-ridge path { fill: none; stroke: var(--label-3); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.pf-play { position: absolute; left: 50%; top: 42%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; display: grid; place-items: center; background: var(--glass-fill); -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); box-shadow: inset 0 0 0 1px var(--glass-rim); }
+.pf-play svg { width: 18px; height: 18px; fill: var(--label); margin-left: 2px; }
+.pf-title { position: absolute; left: 12px; right: 12px; bottom: 10px; font: var(--t-13); font-weight: 600; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--label); }
+.pf-dur { position: absolute; top: 8px; right: 8px; padding: 2px 7px; border-radius: var(--r-pill); background: var(--glass-fill); font: var(--t-11); font-weight: 600; }
+.pf[data-compact] .pf-play { width: 32px; height: 32px; margin: -16px 0 0 -16px; top: 50%; }
+.pf[data-compact] .pf-play svg { width: 14px; height: 14px; }

@@ -1,0 +1,83 @@
+{
+ "program": {
+  "id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+  "slug": "men-of-movement-retreats",
+  "name": "Men of Movement Retreats",
+  "type": "retreat",
+  "status": "published",
+  "tagline": "In-person Men of Movement retreats",
+  "summary": "Four days of movement, training, breathwork, ceremony and brotherhood with Mike and his team in Mount Shasta, California.",
+  "description": "A live retreat: four days of movement, training, breathwork, ceremony and brotherhood with Mike and his team. The in-person version of everything the programs teach.",
+  "highlights": [
+   "Live, in person",
+   "Small groups",
+   "Movement, ceremony, recovery"
+  ],
+  "format_label": "Four days, in person",
+  "duration_label": "4 days",
+  "draft_note": "Retreat dates, pricing and details awaiting Mike",
+  "price_label": "By application",
+  "commitment": "Capped at 20 men",
+  "route": "/experiences",
+  "route_label": "See the retreats",
+  "note": null,
+  "sections": [
+   {
+    "heading": "What it is",
+    "body": "Two cohorts a year in Mount Shasta, California. Mornings move, afternoons go inward, and evenings are fire, food and circle.",
+    "points": [
+     "Daily Qi Gong and team training",
+     "Somatic breathwork ceremony",
+     "Sweat lodge and rite of passage",
+     "Full-board on private land"
+    ]
+   },
+   {
+    "heading": "After you get home",
+    "body": "You leave with a take-home practice, a private brotherhood group and an integration call one week later."
+   }
+  ],
+  "faq": [
+   {
+    "q": "Do I need to be fit?",
+    "a": "No. Everything is scalable in the moment."
+   },
+   {
+    "q": "Is it a personal-development retreat or a training camp?",
+    "a": "Both: the training is real, and so is the inner work."
+   }
+  ],
+  "hero": {
+   "url": "/media/retreats/live/breakthrough-circle-room.jpg",
+   "alt": "The sacred circle room at The Breakthrough"
+  }
+ },
+ "nextRun": {
+  "id": "b6925b87-238b-6a2a-a0ec-ab2682e21aae",
+  "name": "The Breakthrough",
+  "status": "open"
+ },
+ "others": [
+  {
+   "slug": "coaching",
+   "name": "1:1 Coaching with Mike",
+   "tagline": "Your program, built around you",
+   "type": "coaching",
+   "image": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg"
+  },
+  {
+   "slug": "executive-edge",
+   "name": "Executive Edge",
+   "tagline": "A high-touch path for focus, energy and resilience",
+   "type": "coaching",
+   "image": "/media/l5e/801b743d-da63-4eb5-8408-9d98aa8b88ff/coach.jpg"
+  },
+  {
+   "slug": "zen-savage",
+   "name": "Zen Savage Challenge",
+   "tagline": "A possible next chapter in group coaching",
+   "type": "challenge",
+   "image": "/media/l5e/0f8c0c9c-3d88-4297-b30a-2c19e672fb67/working-in.png"
+  }
+ ]
+}

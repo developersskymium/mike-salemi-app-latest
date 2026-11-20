@@ -1,59 +1,375 @@
 {
-  "packages": [
-    {
-      "id": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
-      "name": "Single session",
-      "description": "One hour with Mike on the thing that is actually holding you back.\n\n- 60-minute video call\n- Technique review on your footage\n- Written notes afterwards",
-      "sessions": 1,
-      "duration_minutes": 60,
-      "requires_application": false,
-      "price": {
-        "amountCents": 18000,
-        "currency": "usd",
-        "label": "Single session",
-        "draftNote": "Legacy price; awaiting Mike"
-      }
-    },
-    {
-      "id": "9b9b7e4b-0fa2-e35a-00cc-ca46e4bcc650",
-      "name": "Deep dive",
-      "description": "A longer session for a full movement screen and a rebuilt training block.\n\n- 90-minute video call\n- Full movement screen\n- Four-week block written for you\n- Follow-up message thread",
-      "sessions": 1,
-      "duration_minutes": 90,
-      "requires_application": false,
-      "price": {
-        "amountCents": 25000,
-        "currency": "usd",
-        "label": "Deep dive (recommended)",
-        "draftNote": "Price awaiting Mike"
-      }
-    },
-    {
-      "id": "adb8cfe4-ee9c-7e99-b197-05bed0c63166",
-      "name": "Four-session block",
-      "description": "A month of weekly calls with programming adjusted between each one.\n\n- 4 × 60-minute calls\n- Programming adjusted weekly\n- Unlimited footage review\n- Priority scheduling",
-      "sessions": 4,
-      "duration_minutes": 60,
-      "requires_application": false,
-      "price": {
-        "amountCents": 64000,
-        "currency": "usd",
-        "label": "Four-session block",
-        "draftNote": "Price awaiting Mike"
-      }
-    },
-    {
-      "id": "bc54154e-efac-d20f-4597-aa1a3ab4c42d",
-      "name": "Executive Edge",
-      "description": "Eight weeks: daily five-minute practices plus three to four direct coaching interactions. By application.",
-      "sessions": 4,
-      "duration_minutes": 60,
-      "requires_application": true,
-      "price": null
-    }
-  ],
-  "credits": 0,
-  "slots": [],
-  "upcoming": [],
-  "past": []
+ "packages": [
+  {
+   "id": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
+   "name": "Single session",
+   "description": "One hour with Mike on the thing that is actually holding you back.\n\n- 60-minute video call\n- Technique review on your footage\n- Written notes afterwards",
+   "sessions": 1,
+   "duration_minutes": 60,
+   "requires_application": false,
+   "price": {
+    "amountCents": 18000,
+    "currency": "usd",
+    "label": "Single session",
+    "draftNote": "Legacy price; awaiting Mike"
+   }
+  },
+  {
+   "id": "9b9b7e4b-0fa2-e35a-00cc-ca46e4bcc650",
+   "name": "Deep dive",
+   "description": "A longer session for a full movement screen and a rebuilt training block.\n\n- 90-minute video call\n- Full movement screen\n- Four-week block written for you\n- Follow-up message thread",
+   "sessions": 1,
+   "duration_minutes": 90,
+   "requires_application": false,
+   "price": {
+    "amountCents": 25000,
+    "currency": "usd",
+    "label": "Deep dive (recommended)",
+    "draftNote": "Price awaiting Mike"
+   }
+  },
+  {
+   "id": "adb8cfe4-ee9c-7e99-b197-05bed0c63166",
+   "name": "Four-session block",
+   "description": "A month of weekly calls with programming adjusted between each one.\n\n- 4 \u00d7 60-minute calls\n- Programming adjusted weekly\n- Unlimited footage review\n- Priority scheduling",
+   "sessions": 4,
+   "duration_minutes": 60,
+   "requires_application": false,
+   "price": {
+    "amountCents": 64000,
+    "currency": "usd",
+    "label": "Four-session block",
+    "draftNote": "Price awaiting Mike"
+   }
+  },
+  {
+   "id": "bc54154e-efac-d20f-4597-aa1a3ab4c42d",
+   "name": "Executive Edge",
+   "description": "Eight weeks: daily five-minute practices plus three to four direct coaching interactions. By application.",
+   "sessions": 4,
+   "duration_minutes": 60,
+   "requires_application": true,
+   "price": null
+  }
+ ],
+ "credits": 0,
+ "slots": [
+  {
+   "id": "9c8568f6-b1e2-4a25-8b92-b30cb305985d",
+   "starts_at": "2026-11-21T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "045c3d90-db86-4e14-a9ef-76edf65718ac",
+   "starts_at": "2026-11-21T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "4e74e053-c4f7-4042-9fc7-0c2d3d1a2aed",
+   "starts_at": "2026-11-21T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "fb5442fb-7b94-44c9-b2d1-2e9f73357f70",
+   "starts_at": "2026-11-21T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "81846818-3c05-48bf-b4ed-d3fe15c430b0",
+   "starts_at": "2026-11-21T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "08a6ac68-eb1d-4ad0-8f8c-2ac3cf59e72e",
+   "starts_at": "2026-11-21T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "300448b0-913d-4f88-a6b6-2c81f3e08a4f",
+   "starts_at": "2026-11-21T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "4455eecf-8629-47d7-b5ea-3d4e3d452716",
+   "starts_at": "2026-11-24T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "19b58baa-ff29-4712-92df-74cdfdff0263",
+   "starts_at": "2026-11-24T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "1124bd1c-4b2a-44da-9d1a-d4cb0704179c",
+   "starts_at": "2026-11-24T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "dbad4f44-1217-4cea-a912-626f371e1853",
+   "starts_at": "2026-11-24T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "86782c72-3307-4486-8f03-6decc9053590",
+   "starts_at": "2026-11-24T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "16d93dcb-10f3-4024-98b9-ee60ad56c381",
+   "starts_at": "2026-11-24T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "62428373-288d-478c-a0e3-2eca764e7313",
+   "starts_at": "2026-11-24T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "f9f52dee-a509-4bc0-9873-9346af5cb4e1",
+   "starts_at": "2026-11-25T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b39f14f7-99a6-436b-bbbe-cae64360b0cf",
+   "starts_at": "2026-11-25T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "7a51afe6-e905-40bf-a1a2-58e30abf5df9",
+   "starts_at": "2026-11-25T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "2d67a21e-528b-4b09-9bb3-e4b7167cdacd",
+   "starts_at": "2026-11-25T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "379b61a8-1c78-4673-9bb9-3c953fc798f5",
+   "starts_at": "2026-11-25T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "81fa4722-3c54-41c3-b7e5-c5a6caa74542",
+   "starts_at": "2026-11-25T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "8d88ddce-fe4b-404c-94cb-98b6027402e8",
+   "starts_at": "2026-11-25T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "f932b7a2-e0e2-4e64-a707-d99a60582c66",
+   "starts_at": "2026-11-26T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "ca486619-0ae1-49b6-a026-f0981c3e4fc1",
+   "starts_at": "2026-11-26T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "2eeeab8e-b93c-4a7e-8abf-7e0f979c3807",
+   "starts_at": "2026-11-26T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "a92b01af-8407-472e-9412-8de23c9c5999",
+   "starts_at": "2026-11-26T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "e12f01a0-5abb-4f70-9276-6c4e0e8e25c9",
+   "starts_at": "2026-11-26T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "ea6048f3-7176-416a-ae1b-d632b4f0c557",
+   "starts_at": "2026-11-26T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "bd90d86a-4df5-4622-9827-431ab4265b89",
+   "starts_at": "2026-11-26T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "fce61e7a-a48b-4719-8863-56d1dd533447",
+   "starts_at": "2026-11-27T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "d88cff1b-d308-4b1b-9d1a-76eec9db0105",
+   "starts_at": "2026-11-27T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b09a5e1a-0b8b-4d94-98bf-9a9b971bb759",
+   "starts_at": "2026-11-27T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "3247d5be-53eb-4632-a03a-6328b751bc94",
+   "starts_at": "2026-11-27T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "79b3d04a-53d0-46da-8722-0a10ce5f7cca",
+   "starts_at": "2026-11-27T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "83908b34-2912-453c-8a54-111911de6ca9",
+   "starts_at": "2026-11-27T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "74a3d5ea-5e60-4f6a-881b-d3505346271f",
+   "starts_at": "2026-11-27T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "5dff4088-8536-43d4-9440-9f0710e96d70",
+   "starts_at": "2026-11-28T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "142b2d68-c748-4b53-aa42-4c110887400e",
+   "starts_at": "2026-11-28T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "15341157-54b4-4ce9-ad56-6a216e415e60",
+   "starts_at": "2026-11-28T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "03ec59d8-16ec-4083-90a6-0d105f424cba",
+   "starts_at": "2026-11-28T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b16e7d10-98e3-406b-8754-b539cc7f135b",
+   "starts_at": "2026-11-28T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "7f057435-7ab2-4e15-8485-07ab7cf9621d",
+   "starts_at": "2026-11-28T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b397f386-423f-4413-9db1-54e69535a894",
+   "starts_at": "2026-11-28T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "2b872032-4a50-43cd-94ae-7d936c72a892",
+   "starts_at": "2026-12-01T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "79a6ced8-3969-4a93-889c-3616469ff45c",
+   "starts_at": "2026-12-01T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "8c2f9a7c-f4df-46f4-830d-79eb1456e1e3",
+   "starts_at": "2026-12-01T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "856d190d-88d4-40b6-8398-bf43cec551fe",
+   "starts_at": "2026-12-01T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "502e2113-b217-4e81-ad53-35ee4a2fbfc7",
+   "starts_at": "2026-12-01T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b57fac2d-cf86-41b9-9e81-dd6d86dd1cf9",
+   "starts_at": "2026-12-01T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "8db47655-5c9f-47d0-9c09-649503c461ad",
+   "starts_at": "2026-12-01T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "4bb97870-e3d8-432b-867e-5f2490be39ba",
+   "starts_at": "2026-12-02T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "b5a8aae8-40d2-406b-9621-38cb5643a7da",
+   "starts_at": "2026-12-02T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "05e37412-3b2c-42db-aac0-1b0b19f5d200",
+   "starts_at": "2026-12-02T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "82edceab-4b10-48b3-8575-385f2924fc71",
+   "starts_at": "2026-12-02T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "7a92d596-bfaf-41f7-b1cf-0cd15c6ae34e",
+   "starts_at": "2026-12-02T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "ad264812-73dd-4f1e-a668-5558e09da6dd",
+   "starts_at": "2026-12-02T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "d44f2a1d-b86e-441d-8962-f66740e3c3c8",
+   "starts_at": "2026-12-02T22:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "2ad2913f-bad4-4f13-9c15-80daa1226f39",
+   "starts_at": "2026-12-03T15:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "74b99980-f2c3-4320-b7c0-20d6082d54be",
+   "starts_at": "2026-12-03T16:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "0ce9bc38-6733-486f-a8d8-ddf1eadfdcbf",
+   "starts_at": "2026-12-03T17:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "d6b09bda-16ce-465d-b4ff-b4cbe6713a79",
+   "starts_at": "2026-12-03T18:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "1c13de65-e4db-4ba2-8249-71cba3325c03",
+   "starts_at": "2026-12-03T19:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "ccc9e0de-067e-4396-ad1c-e5eaeae6007b",
+   "starts_at": "2026-12-03T21:00:00+00:00",
+   "duration_minutes": 60
+  },
+  {
+   "id": "559950f9-5e7e-4ca0-a59f-1c86ef37be55",
+   "starts_at": "2026-12-03T22:00:00+00:00",
+   "duration_minutes": 60
+  }
+ ],
+ "upcoming": [],
+ "past": []
 }

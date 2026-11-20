@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Disclosure, RecordForm, RowTools } from "@/components/studio/forms";
 import { SlotsForm } from "@/components/studio/pieces";
+import { ApplicationActions, OpenWeeks } from "@/components/studio/site";
+import { Answers } from "@/components/studio/Answers";
 import { DataTable, Note, PageHead, Panel, Status, Tabs, fdate, money } from "@/components/studio/ui";
 import { Chip } from "@/components/ui";
 import { studioAdmin } from "@/lib/studio/guard";
@@ -8,13 +10,16 @@ import { loadExperiences } from "@/lib/studio/loaders";
 
 export const metadata = { title: "Experiences" };
 const TABS = [["runs", "Runs"], ["applications", "Applications"], ["packages", "Coaching packages"], ["slots", "Coaching slots"], ["bookings", "Bookings"]] as const;
-const PIPE = ["submitted", "reviewing", "accepted", "waitlist", "declined"] as const;
+const PIPE = ["submitted", "call_booked", "accepted", "waitlist", "declined", "booked"] as const;
+const PIPE_LABEL: Record<string, string> = { submitted: "New", call_booked: "Call booked", accepted: "Accepted", waitlist: "Waitlist", declined: "Declined", booked: "Booked" };
 
 export default async function ExperiencesPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   await studioAdmin();
   const { tab: t } = await searchParams;
   const tab = TABS.find(([k]) => k === t)?.[0] ?? "runs";
   const d = await loadExperiences();
+  const now = new Date().toISOString();
+  const upcoming = d.slots.filter((x) => x.starts_at > now);
   const retreats = d.programs.filter((p) => ["retreat", "live", "challenge"].includes(p.type));
   return (
     <>
@@ -33,14 +38,31 @@ export default async function ExperiencesPage({ searchParams }: { searchParams: 
       )}
       {tab === "applications" && (
         <div style={{ display: "grid", gap: 16 }}>
-          <div className="st-grid st-g4">
-            {PIPE.slice(0, 4).map((s) => <Panel key={s} title={s} meta={`${d.applications.filter((a) => a.status === s).length}`}>{d.applications.filter((a) => a.status === s).map((a) => <div key={a.id} className="st-faint" style={{ padding: "4px 0" }}>{a.who}<br />{a.runName}</div>) }{!d.applications.some((a) => a.status === s) && <div className="st-faint">Empty</div>}</Panel>)}
+          <div className="st-grid st-g3">
+            {PIPE.map((st) => {
+              const list = d.applications.filter((a) => a.status === st);
+              return (
+                <Panel key={st} title={PIPE_LABEL[st]} meta={`${list.length}`}>
+                  {list.map((a) => <div key={a.id} className="st-faint" style={{ padding: "4px 0", fontSize: 13 }}><b style={{ color: "var(--label)", fontWeight: 600 }}>{a.who}</b><br />{a.runName}</div>)}
+                  {!list.length && <div className="st-faint">Empty</div>}
+                </Panel>
+              );
+            })}
           </div>
-          <Panel title="All applications">
-            <DataTable rows={d.applications} empty="No applications yet. Members apply from a run's page." cols={[
-              { label: "Who", render: (a) => a.who }, { label: "Run", render: (a) => a.runName }, { label: "Applied", render: (a) => fdate(a.created_at) }, { label: "Status", render: (a) => <Status v={a.status} /> },
-              { label: "Review", render: (a) => <details><summary className="st-link" style={{ cursor: "pointer" }}>Open</summary><div style={{ minWidth: 320, marginTop: 8 }}><RecordForm table="run_applications" row={a} cols={1} /></div></details> },
-            ]} />
+          <Panel title="Review" meta={`${d.applications.length}`}>
+            {d.applications.length ? d.applications.map((a) => (
+              <div key={a.id} className="st-app-card">
+                <div className="st-row" style={{ justifyContent: "space-between" }}>
+                  <span><b style={{ fontWeight: 600 }}>{a.who}</b> <span className="st-faint">· {a.runName} · applied {fdate(a.created_at)}</span></span>
+                  <Status v={a.status} />
+                </div>
+                <details>
+                  <summary className="st-link" style={{ cursor: "pointer", fontSize: 13 }}>Answers and actions</summary>
+                  <Answers answers={a.answers} />
+                  <ApplicationActions id={a.id} status={a.status} note={a.admin_note} />
+                </details>
+              </div>
+            )) : <div className="st-empty">No applications yet. Members apply from a retreat&rsquo;s page; they land here as “New”.</div>}
           </Panel>
         </div>
       )}
@@ -59,10 +81,11 @@ export default async function ExperiencesPage({ searchParams }: { searchParams: 
       )}
       {tab === "slots" && (
         <>
-          <Panel title="Add slots in bulk"><SlotsForm /></Panel>
-          <Panel title="Open and booked slots" meta={`${d.slots.length}`}>
-            <DataTable rows={d.slots} empty="No slots yet. Add some above and members can book them." cols={[
-              { label: "Starts (UTC)", render: (s) => fdate(s.starts_at, true) }, { label: "Minutes", num: true, render: (s) => s.duration_minutes }, { label: "State", render: (s) => (s.is_open ? "Open" : "Taken") },
+          <Panel title="Open from the schedule" meta="members book these"><OpenWeeks schedule={d.schedule} openAhead={d.openAhead} /></Panel>
+          <Disclosure label="Add custom slots"><Panel title="Add slots in bulk"><SlotsForm /></Panel></Disclosure>
+          <Panel title="Upcoming slots" meta={`${upcoming.length}${upcoming.length > 60 ? " · first 60 shown" : ""}`}>
+            <DataTable rows={upcoming.slice(0, 60)} empty="No upcoming slots. Open the next weeks above and members can book them." cols={[
+              { label: "Starts (Pacific)", render: (s) => new Date(s.starts_at).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: d.schedule?.timezone ?? "America/Los_Angeles" }) }, { label: "Minutes", num: true, render: (s) => s.duration_minutes }, { label: "State", render: (s) => (s.is_open ? "Open" : "Taken") },
               { label: "", render: (s) => <RowTools table="coaching_slots" pk={{ id: s.id }} orderable={false} label={fdate(s.starts_at, true)} /> },
             ]} />
           </Panel>

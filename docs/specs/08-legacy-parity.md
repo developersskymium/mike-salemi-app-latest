@@ -736,6 +736,32 @@ Whole table (748 videos): 07:05Z → duration 0, thumbnail 99, hash 261, `needs_
 9. KBL hero video: expose `program_paths.meta.hero_video` ("398409642/f4e1f0e247") as "Watch intro" (program page belongs to training — note for `ui/selfguided`/lead).
 10. Coaching: generate `coaching_slots` from `programs.meta.schedule` for the next 4 weeks (Studio action + weekly cron).
 
+### Re-check after W5 (Nov 20, 13:30Z, migration `0015_content_quality`)
+
+Same two queries as above (published programs unless noted; `the-training-room` stays archived and is left as is).
+
+| Check | Before W5 (12:45Z) | After W5 | Notes |
+|---|---|---|---|
+| Published programs without tagline | 8 | **0** | A4L, Path, MoM prep, Roadmap, MTK, Working-In, 6-video, Swing from lesson text / legacy `programs.ts` / old project summaries (`meta.copy_source` on each). |
+| Published programs without summary / description / highlights | 4 / 4 / 4 | **0 / 0 / 0** | Only `essential-kettlebell-training-strength` (draft) has none — no source anywhere; `draft_note` says so. |
+| Programs without any image | 5 (coaching, executive-edge, the-grounded-king, zen-savage, EKTS) | **1** (EKTS, draft) | `coach.jpg`, `tgk.jpg` copied from legacy to `public/media/l5e/<asset>/`; zen-savage reuses `working-in.png` as legacy did. hero + card rows. |
+| Kettlebell Lifestyle `hero` | missing | **Vimeo poster of the intro video** (398409642) | Level art is 360px wide (too small for a hero). |
+| Lessons with `estimated_minutes` | 0 / 803 | **386 / 803** | KBL 134/134 (authored step labels), A4L 122/135, Roadmap 4/6, EKTS 3/11, Path 1/47. MTK, Working-In, Swing, 6-video, MoM prep wait for durations (Vimeo API). 245 course steps got a `"N min"` label from Vimeo. `refresh_estimated_minutes()` re-runs after every backfill call. |
+| Intro ("Home") sections flagged | 0 / 8 | **8 / 8** | `sections.meta.intro = true`, `label = "Start here"`; `my_enrollments` counts and program completion (`after_lesson_complete`) skip them. |
+| Path to Inspired Action shows "Draft" | yes (`draft_note`) | **no** | moved to `meta.note`. |
+| Kettlebell Roadmap `program_modes` | 0 | **2** (self_guided default, library) | |
+| Concept pages (L3) data: `meta.price_label`, `meta.sections`, `meta.faq` | 1 / 0 / 0 programs | **6 / 5 / 4** | coaching, TGK, MoM retreats, executive-edge, zen-savage (price), MTK — copy from legacy `programs.ts`. |
+| Catalog vertical (`meta.vertical`) | 0 | **14** | legacy `VERTICAL_OF` mapping. |
+| Open coaching slots | 0 | **140** (next 4 weeks, Tue–Sat 07:00–14:00 Pacific) | from `programs.meta.schedule`; Studio › Experiences › Coaching slots "Open next N weeks". |
+| `site_settings` `home`, `programs_page` | missing | **ported** from the old project | edited in Studio › Site copy. |
+| Videos without duration / poster | 478 / 478 | 478 / 478 | Needs `VIMEO_ACCESS_TOKEN` (docs/specs/ENV.md); the route now uses the official API for these. Designed poster fallback: `components/poster/PosterFallback`. |
+| oEmbed 404 (unlisted, no hash) | 28 | **27** | "Thruster" 97940376 was a typo for 897940376/8ea774c873 (old `program_sublessons`): clips and library link repointed. The other 27 (Path calls ×22, MoM prep ×5) have no hash in the old project or legacy code → API (`meta.needs_api`). |
+| Domain-restricted (`meta.no_thumb`) | 450 | 450 | API pass; we do not spoof the Referer. |
+
+Video metadata per program (after): KBL 2 of 128 missing · MTK 419/419 · A4L 10/117 · Path 22/23 · Working-In 19/19 · Swing 11/11 · 6-video 7/7 · MoM prep 5/5 · Roadmap 0/10 · EKTS 0/26.
+
+**Lead follow-ups (files W5 does not own):** route `/programs/<slug>` for `coaching | live | challenge | retreat` types to `/experiences/programs/<slug>` (L3, `ConceptView`); catalog/program-page counts should skip `sections.meta.intro` (`curriculum_progress` still returns intro lessons so their state shows); use `PosterFallback` in `ClipRow`, `VideoCard`, `SavesView`, `VideoView` where `thumbnail_url` is null; merch keys in `programs.meta`: `badge`, `offer`, `cta_label`, `featured`, `vertical`; notices placements `banner | today | program_page | you` (Studio › Notices explains each).
+
 ---
 
 ## 21. Prioritised build list and workstreams

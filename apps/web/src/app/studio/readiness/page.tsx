@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Disclosure, RecordForm } from "@/components/studio/forms";
-import { DataTable, PageHead, Panel, fdate } from "@/components/studio/ui";
+import { DataTable, PageHead, Panel, Tabs, fdate } from "@/components/studio/ui";
 import { studioAdmin } from "@/lib/studio/guard";
 import { loadReadiness } from "@/lib/studio/loaders";
 
@@ -12,6 +12,7 @@ export default async function ReadinessPage() {
   return (
     <>
       <PageHead title="Readiness" sub="The daily check-in a member answers, the score bands it maps to, and the workout tables each band prescribes." />
+      <Tabs items={[{ href: "/studio/readiness", label: "Forms & tables", active: true }, { href: "/studio/readiness/entries", label: "Entries", active: false }]} />
       <Panel title="Forms" meta={`${d.forms.length}`}>
         <DataTable rows={d.forms} empty="No readiness forms yet." cols={[
           { label: "Form", render: (f) => <Link className="st-link" href={`/studio/readiness/forms/${f.id}`}>{f.title}</Link> },

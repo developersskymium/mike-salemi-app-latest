@@ -19,10 +19,12 @@ export function RunHero({ hub, mode, pane }: { hub: RunHub; mode: "sales" | "hub
           <Image src={cover} alt="" fill priority sizes="100vw" />
         </div>
       )}
-      <div className="exp-hero-top">
-        <IconButton icon="back" label="Back to programs" href="/programs" variant="clear" />
-        <DraftChip note={run.draft_note} onPhoto />
-      </div>
+      {mode === "sales" ? (
+        <div className="exp-hero-top">
+          <IconButton icon="back" label="All retreats" href="/experiences" variant="clear" />
+          <DraftChip note={run.draft_note} onPhoto />
+        </div>
+      ) : null}
       <div className="exp-hero-inner">
         <div className="exp-hero-copy">
           <div className="exp-eyebrow">
