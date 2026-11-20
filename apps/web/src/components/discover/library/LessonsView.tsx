@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import type { CatalogProgram } from "@ms/api";
-import { Button, EmptyState, Icon, IconButton } from "@/components/ui";
+import { Button, EmptyState, Icon } from "@/components/ui";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { lessonHrefOf } from "@/lib/hrefs";
 import { canOpen, programPhoto } from "../access";
-import { ProgramChips, SelectPill } from "./chips";
+import { ActiveChip, LibraryHeader, ProgramChips, SearchField, SelectPill } from "./chips";
 import { SafeImage } from "./SafeImage";
 import { useUrlState } from "./useUrlState";
 import { cleanTitle } from "./model";
@@ -72,44 +72,37 @@ export function LessonsView({ data, catalog, initial }: { data: LibraryPage; cat
   const filtered = s.q.trim() !== "" || s.program !== "all" || level !== "all" || section !== "all";
 
   return (
-    <div className="w1-lib">
-      <header className="w1-lib-head">
-        <div className="w1-lib-headcopy">
-          <Link href="/library" className="w1-lib-alllink lq-t13 w1-lib-back"><Icon name="back" size="xs" /> Library</Link>
-          <h1 className="lq-d-sm w1-lib-h1">All lessons</h1>
-        </div>
-      </header>
+    <div className="w1-lib l2">
+      <LibraryHeader tab="lessons">
+        <SearchField value={s.q} onChange={(q) => set({ q })} inputRef={search} placeholder="Search lessons" label="Search lessons" />
+      </LibraryHeader>
 
-      <ProgramChips options={withLessons.map((p) => ({ key: p.slug, label: p.name }))} value={s.program} onChange={(program) => set({ program, level: "all", section: "all" })} />
+      <ProgramChips
+        options={withLessons.map((p) => ({ key: p.slug, label: p.name, n: lessons.filter((l) => l.pr === p.id).length }))}
+        total={lessons.length}
+        value={s.program}
+        onChange={(program) => set({ program, level: "all", section: "all" })}
+      />
 
-      <div className="w1-lib-tools">
-        <div className="w1-lib-searchwrap">
-          <label className="w1-lib-search">
-            <Icon name="search" size="sm" className="lq-c2" />
-            <input ref={search} type="search" value={s.q} onChange={(e) => set({ q: e.target.value })} placeholder="Search lessons" aria-label="Search lessons" enterKeyHint="search" className="lq-t15" />
-            {s.q && <IconButton icon="close" label="Clear search" variant="plain" size="sm" iconSize="xs" onClick={() => set({ q: "" })} />}
-          </label>
-        </div>
-        {(levelOpts.length > 0 || sectionOpts.length > 1) && (
-          <div className="w1-lib-filters" role="group" aria-label="Filters">
-            {levelOpts.length > 0 && <SelectPill label="Level" value={level} onChange={(v) => set({ level: v, section: "all" })} all="Any level" options={levelOpts} />}
-            {sectionOpts.length > 1 && <SelectPill label="Section" value={section} onChange={(v) => set({ section: v })} all="Any section" options={sectionOpts} />}
-          </div>
-        )}
-      </div>
-
-      <div className="w1-lib-results">
-        <p className="lq-t13 lq-c2 w1-clamp1" aria-live="polite">
-          <strong className="lq-num w1-lib-n">{rows.length}</strong> {rows.length === 1 ? "lesson" : "lessons"}
+      <div className="l2-toolbar">
+        <p className="l2-count lq-t13 lq-c2 w1-clamp1" aria-live="polite">
+          <strong className="lq-num">{rows.length}</strong> {rows.length === 1 ? "lesson" : "lessons"}
           {program ? ` in ${program.name}` : ""}
-          {q ? ` matching “${s.q.trim()}”` : ""}
         </p>
-        {filtered && (
-          <button type="button" className="w1-lib-clear lq-t13" onClick={() => set({ q: "", program: "all", level: "all", section: "all" })}>
-            <Icon name="close" size="xs" /> Clear
-          </button>
-        )}
+        <div className="l2-filters" role="group" aria-label="Filters">
+          {levelOpts.length > 0 && <SelectPill label="Level" value={level} onChange={(v) => set({ level: v, section: "all" })} all="Level" options={levelOpts} />}
+          {sectionOpts.length > 1 && <SelectPill label="Section" value={section} onChange={(v) => set({ section: v })} all="Section" options={sectionOpts} />}
+        </div>
       </div>
+      {filtered && (
+        <div className="l2-activerow" role="group" aria-label="Active filters">
+          {program && <ActiveChip onRemove={() => set({ program: "all", level: "all", section: "all" })}>{program.name}</ActiveChip>}
+          {level !== "all" && <ActiveChip onRemove={() => set({ level: "all", section: "all" })}>{levelOpts.find((o) => o.value === level)?.label ?? "Level"}</ActiveChip>}
+          {section !== "all" && <ActiveChip onRemove={() => set({ section: "all" })}>{section}</ActiveChip>}
+          {q && <ActiveChip onRemove={() => set({ q: "" })}>{`“${s.q.trim()}”`}</ActiveChip>}
+          <button type="button" className="l2-clearall lq-t13" onClick={() => set({ q: "", program: "all", level: "all", section: "all" })}>Clear all</button>
+        </div>
+      )}
 
       {rows.length === 0 ? (
         <EmptyState title="No lessons match" body="Try another program, or clear the filters." icon="search" action={<Button variant="glass" size="md" onClick={() => set({ q: "", program: "all", level: "all", section: "all" })}>Clear filters</Button>} />
@@ -136,8 +129,6 @@ export function LessonsView({ data, catalog, initial }: { data: LibraryPage; cat
                     </span>
                     {locked ? (
                       <span className="w1-lib-lock lq-t11"><Icon name="lock" size="xs" /> Buy</span>
-                    ) : c?.access === "included" ? (
-                      <span className="w1-lib-lock lq-t11">Included</span>
                     ) : null}
                   </Link>
                 </li>

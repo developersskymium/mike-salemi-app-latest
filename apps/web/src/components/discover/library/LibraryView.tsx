@@ -9,14 +9,14 @@ import { Rail } from "@/components/today/Rail";
 import { lessonHrefOf } from "@/lib/hrefs";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { toggleSaveVideo } from "@/lib/actions/discover";
-import { ChipBtn, ProgramChips, SelectPill } from "./chips";
+import { ActiveChip, ChipBtn, LibraryHeader, ProgramChips, SearchField, SelectPill } from "./chips";
 import { LibraryPlayer } from "./LibraryPlayer";
 import { SearchSuggest, type Suggestion } from "./SearchSuggest";
 import { useUrlState } from "./useUrlState";
 import { VideoPoster } from "./VideoPoster";
 import {
-  EMPTY, LENGTHS, MOVE_INDEX, TYPES, activeFilters, catsOf, cleanTitle, clock, figureFor, filterVideos, fromParams, levelsOf, movesOf, posterOf, primaryMove,
-  terms, toQuery, topicsOf, type LibState, type MoveKey,
+  EMPTY, LENGTHS, MOVE_INDEX, TYPES, activeFilters, cleanTitle, clock, figureFor, filterVideos, fromParams, levelsOf, movesOf, posterOf, primaryMove,
+  terms, toQuery, topicsOf, typeOf, type LibState, type MoveKey,
 } from "./model";
 import "./library.css";
 
@@ -94,16 +94,6 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
   }
 
   const name = (ns: string, slug: string) => names.get(`${ns}:${slug}`) ?? slug;
-  // Searching across all programs: results grouped under the program they belong to.
-  const groups = useMemo(() => {
-    if (!s.q.trim() || program) return null;
-    const by = new Map<string, LibraryIndexVideo[]>();
-    for (const v of results) {
-      const id = v.pr[0] ?? "none";
-      by.set(id, [...(by.get(id) ?? []), v]);
-    }
-    return [...by].map(([id, items]) => ({ id, name: data.index.programs.find((p) => p.id === id)?.name ?? "Technique library", items: items.slice(0, 12) }));
-  }, [s.q, program, results, data.index.programs]);
   const nFilters = activeFilters(s);
   const filtered = nFilters > 0 || s.q.trim() !== "" || s.program !== "all";
   const clearAll = () => set({ ...EMPTY });
@@ -112,113 +102,96 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
     return data.index.programs.find((p) => p.id === id)?.name ?? "Library";
   };
 
+  const typeLabel = (k: string) => TYPES.find((x) => x.value === k)?.label;
+  const moveOpts = MOVE_INDEX.filter((m) => moveCounts.get(m.key)).map((m) => ({ value: m.key, label: m.label }));
+  const levelOpts = t.levels.map((l) => ({ value: l.slug, label: l.name }));
+  const actives: { key: string; label: string; clear: () => void }[] = [
+    ...(s.type !== "all" ? [{ key: "type", label: typeLabel(s.type) ?? s.type, clear: () => set({ type: "all" }) }] : []),
+    ...(s.move !== "all" ? [{ key: "move", label: moveOpts.find((o) => o.value === s.move)?.label ?? s.move, clear: () => set({ move: "all" }) }] : []),
+    ...(s.len !== "all" ? [{ key: "len", label: LENGTHS.find((o) => o.value === s.len)?.label ?? s.len, clear: () => set({ len: "all" }) }] : []),
+    ...(s.level !== "all" ? [{ key: "level", label: levelOpts.find((o) => o.value === s.level)?.label ?? s.level, clear: () => set({ level: "all" }) }] : []),
+    ...(s.saved ? [{ key: "saved", label: "Saved", clear: () => set({ saved: false }) }] : []),
+    ...(s.q.trim() ? [{ key: "q", label: `“${s.q.trim()}”`, clear: () => set({ q: "" }) }] : []),
+  ];
+  const meta = (v: LibraryIndexVideo) => `${programName(v)} · ${TYPE_ONE[typeOf(v)]}`;
+  const card = (v: LibraryIndexVideo, priority = false) => (
+    <VideoCard v={v} meta={meta(v)} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={priority} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
+  );
+  // Before any filter or search: shelves (continue, picks, one per program). After: one uniform grid.
+  const shelves = useMemo(
+    () => programs.map((p) => ({ ...p, items: videos.filter((v) => v.pr.includes(p.id)).slice(0, 12) })),
+    [programs, videos],
+  );
+
   return (
-    <div className="w1-lib">
-      <header className="w1-lib-head">
-        <h1 className="lq-d-sm w1-lib-h1">Library</h1>
-        <nav className="w1-lib-headlinks" aria-label="More library views">
-          <Link href="/library/exercises" className="w1-lib-alllink lq-t15">Exercises A–Z</Link>
-          <Link href="/library/lessons" className="w1-lib-alllink lq-t15">
-            All lessons <Icon name="chevron" size="xs" />
-          </Link>
-        </nav>
-      </header>
+    <div className="w1-lib l2">
+      <LibraryHeader tab="videos">
+        <SearchField
+          value={s.q}
+          onChange={(q) => set({ q })}
+          inputRef={search}
+          placeholder="Search moves, workouts or try “tgu”"
+          label="Search the library"
+          extra={{
+            onFocus: () => setFocus(true),
+            onBlur: () => window.setTimeout(() => setFocus(false), 120),
+            "aria-autocomplete": "list",
+            "aria-controls": "lib-suggest",
+            "aria-expanded": focus,
+          }}
+          after={
+            focus ? (
+              <SearchSuggest
+                id="lib-suggest"
+                query={s.q}
+                input={search}
+                videos={videos}
+                index={data.index}
+                moveCounts={moveCounts}
+                onPick={(x: Suggestion) => {
+                  if (x.kind === "move") set({ move: x.key, q: "" });
+                  else if (x.kind === "level") set({ level: x.key, q: "" });
+                  else if (x.kind === "category" || x.kind === "tag") set({ q: x.label });
+                  else if (x.kind === "query") set({ q: x.key });
+                  else play(x.key);
+                  setFocus(false);
+                  search.current?.blur();
+                }}
+                onClose={() => {
+                  setFocus(false);
+                  search.current?.blur();
+                }}
+              />
+            ) : null
+          }
+        />
+      </LibraryHeader>
 
-      <ProgramChips options={programs.map((p) => ({ key: p.slug, label: p.name }))} value={s.program} onChange={(program) => set({ program })} />
+      <ProgramChips options={programs.map((p) => ({ key: p.slug, label: p.name, n: p.n }))} total={videos.length} value={s.program} onChange={(program) => set({ program })} />
 
-      <div className="w1-lib-tools">
-        <div className="w1-lib-searchwrap">
-          <label className="w1-lib-search">
-            <Icon name="search" size="sm" className="lq-c2" />
-            <input
-              ref={search}
-              type="search"
-              value={s.q}
-              onChange={(e) => set({ q: e.target.value })}
-              onFocus={() => setFocus(true)}
-              onBlur={() => window.setTimeout(() => setFocus(false), 120)}
-              placeholder="Search moves or try “tgu”"
-              aria-label="Search the library"
-              aria-autocomplete="list"
-              aria-controls="lib-suggest"
-              aria-expanded={focus}
-              enterKeyHint="search"
-              className="lq-t15"
-            />
-            {s.q && <IconButton icon="close" label="Clear search" variant="plain" size="sm" iconSize="xs" onClick={() => set({ q: "" })} />}
-          </label>
-          {focus && (
-            <SearchSuggest
-              id="lib-suggest"
-              query={s.q}
-              input={search}
-              videos={videos}
-              index={data.index}
-              moveCounts={moveCounts}
-              onPick={(x: Suggestion) => {
-                if (x.kind === "move") set({ move: x.key, q: "" });
-                else if (x.kind === "level") set({ level: x.key, q: "" });
-                else if (x.kind === "category" || x.kind === "tag") set({ q: x.label });
-                else if (x.kind === "query") set({ q: x.key });
-                else play(x.key);
-                setFocus(false);
-                search.current?.blur();
-              }}
-              onClose={() => {
-                setFocus(false);
-                search.current?.blur();
-              }}
-            />
-          )}
-        </div>
-        <div className="w1-lib-filters" role="group" aria-label="Filters">
-          <SelectPill label="Type" value={s.type} onChange={(type) => set({ type })} all="Any type" options={TYPES} />
-          <SelectPill label="Movement or body area" value={s.move} onChange={(move) => set({ move })} all="Any movement" options={MOVE_INDEX.filter((m) => moveCounts.get(m.key)).map((m) => ({ value: m.key, label: m.label }))} />
-          <SelectPill label="Length" value={s.len} onChange={(len) => set({ len })} all="Any length" options={LENGTHS} />
-          {t.levels.length > 0 && <SelectPill label="Level" value={s.level} onChange={(level) => set({ level })} all="Any level" options={t.levels.map((l) => ({ value: l.slug, label: l.name }))} />}
+      <div className="l2-toolbar">
+        <p className="l2-count lq-t13 lq-c2 w1-clamp1" aria-live="polite">
+          <strong className="lq-num">{results.length}</strong> {results.length === 1 ? "video" : "videos"}
+          {program ? ` in ${program.name}` : ""}
+        </p>
+        <div className="l2-filters" role="group" aria-label="Filters">
+          <SelectPill label="Type" value={s.type} onChange={(type) => set({ type })} all="Type" options={TYPES} />
+          <SelectPill label="Movement or body area" value={s.move} onChange={(move) => set({ move })} all="Movement" options={moveOpts} />
+          <SelectPill label="Length" value={s.len} onChange={(len) => set({ len })} all="Length" options={LENGTHS} />
+          {levelOpts.length > 0 && <SelectPill label="Level" value={s.level} onChange={(level) => set({ level })} all="Level" options={levelOpts} />}
           <ChipBtn on={s.saved} icon="bookmark" onClick={() => set({ saved: !s.saved })}>
-            Saved{savedCount ? ` (${savedCount})` : ""}
+            Saved{savedCount ? <span className="lq-num l2-drop-n"> {savedCount}</span> : null}
           </ChipBtn>
         </div>
       </div>
-
-      {/* continue watching */}
-      {!filtered && data.continue.length > 0 && !playing && (
-        <section aria-labelledby="cw-t" className="w1-lib-cw">
-          <div className="w1-lib-sech">
-            <h2 id="cw-t" className="lq-t20">Continue watching</h2>
-          </div>
-          <Rail label="Continue watching" item="16rem">
-            {data.continue.map((c) => (
-              <ContinueCard key={`${c.video_id}-${c.lesson_id ?? ""}`} c={c} inLibrary={byId.has(c.video_id)} onPlay={() => play(c.video_id, c.seconds)} />
-            ))}
-          </Rail>
-        </section>
-      )}
-
-      {/* Mike's picks: set monthly by the admin (site_settings.library_picks) */}
-      {!filtered && !playing && pickVideos.length > 0 && (
-        <section aria-labelledby="picks-t" className="w1-lib-cw">
-          <div className="w1-lib-sech">
-            <h2 id="picks-t" className="lq-t20">Mike&apos;s picks this month</h2>
-          </div>
-          <Rail label="Mike's picks" item="16rem">
-            {pickVideos.map((v) => (
-              <button key={v.id} type="button" className="w1-cardlink w1-cw-btn" onClick={() => play(v.id)} aria-label={`Play ${cleanTitle(v.t)}`}>
-                <Glass radius="card" interactive className="w1-cw-card lq-lift">
-                  <span className="w1-cw-poster">
-                    <VideoPoster {...posterOf(v)} move={figureFor(primaryMove(v))} seed={v.id} figure={84} sizes="256px" />
-                    <span className="w1-cw-play" aria-hidden><Icon name="play" size="sm" /></span>
-                  </span>
-                  <span className="w1-cw-text">
-                    <span className="lq-t15 w1-clamp1">{cleanTitle(v.t)}</span>
-                    <span className="lq-t12 lq-c2 w1-clamp1">{programName(v)}{v.d ? ` · ${clock(v.d)}` : ""}</span>
-                  </span>
-                </Glass>
-              </button>
-            ))}
-          </Rail>
-        </section>
+      {(actives.length > 0 || program) && (
+        <div className="l2-activerow" role="group" aria-label="Active filters">
+          {program && <ActiveChip onRemove={() => set({ program: "all" })}>{program.name}</ActiveChip>}
+          {actives.map((a) => (
+            <ActiveChip key={a.key} onRemove={a.clear}>{a.label}</ActiveChip>
+          ))}
+          <button type="button" className="l2-clearall lq-t13" onClick={clearAll}>Clear all</button>
+        </div>
       )}
 
       {/* inline player */}
@@ -245,8 +218,8 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
                 {current.d ? <Chip variant="fill"><span className="lq-num">{clock(current.d)}</span></Chip> : null}
               </div>
               <h2 className="lq-t22">{cleanTitle(current.t)}</h2>
-              {topicsOf(current).length > 0 && catsOf(current).length >= 0 && (
-                <p className="lq-t13 lq-c2">{topicsOf(current).map((g) => name("topic", g)).join(" · ")}</p>
+              {topicsOf(current).length > 0 && (
+                <p className="lq-t13 lq-c2">{topicsOf(current).map((g) => name("topic", g)).join(", ")}</p>
               )}
               <div className="w1-lib-actions">
                 <Button variant="fill" size="md" href={`/library/${current.id}`} iconAfter="chevron">Details</Button>
@@ -264,20 +237,27 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
         </section>
       )}
 
-      <div className="w1-lib-results">
-        <p className="lq-t13 lq-c2 w1-clamp1" aria-live="polite">
-          <strong className="lq-num w1-lib-n">{results.length}</strong> {results.length === 1 ? "video" : "videos"}
-          {program ? ` in ${program.name}` : ""}
-          {s.q.trim() ? ` matching “${s.q.trim()}”` : ""}
-        </p>
-        {filtered && (
-          <button type="button" className="w1-lib-clear lq-t13" onClick={clearAll}>
-            <Icon name="close" size="xs" /> Clear
-          </button>
-        )}
-      </div>
-
-      {results.length === 0 ? (
+      {!filtered ? (
+        <div className="l2-shelves">
+          {data.continue.length > 0 && (
+            <Shelf id="cw" title="Continue watching">
+              {data.continue.map((c) => (
+                <ContinueCard key={`${c.video_id}-${c.lesson_id ?? ""}`} c={c} inLibrary={byId.has(c.video_id)} onPlay={() => play(c.video_id, c.seconds)} />
+              ))}
+            </Shelf>
+          )}
+          {pickVideos.length > 0 && (
+            <Shelf id="picks" title="Mike’s picks this month">
+              {pickVideos.map((v) => <div key={v.id}>{card(v)}</div>)}
+            </Shelf>
+          )}
+          {shelves.map((p, i) => (
+            <Shelf key={p.id} id={`p-${p.slug}`} title={p.name} count={p.n} onSeeAll={() => set({ program: p.slug })}>
+              {p.items.map((v, j) => <div key={v.id}>{card(v, i === 0 && j < 4 && pickVideos.length === 0)}</div>)}
+            </Shelf>
+          ))}
+        </div>
+      ) : results.length === 0 ? (
         s.saved && savedCount === 0 ? (
           <EmptyState
             title="Nothing saved yet"
@@ -290,37 +270,20 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
             title={s.q.trim() ? `No videos match “${s.q.trim()}”` : "No videos match those filters"}
             body="Try another program, drop a filter, or clear everything."
             icon="search"
-            action={<Button variant="glass" size="md" onClick={clearAll}>Clear filters</Button>}
+            action={<Button variant="glass" size="md" onClick={clearAll}>Clear all</Button>}
           />
         )
       ) : (
         <>
-          {groups ? (
-            groups.map((g) => (
-              <section key={g.id} aria-label={g.name} className="w1-lib-group">
-                <h2 className="lq-t17 w1-lib-grouph">{g.name} <span className="lq-t13 lq-c2 lq-num">{g.items.length}</span></h2>
-                <ul className="w1-lib-grid" aria-label={g.name}>
-                  {g.items.map((v) => (
-                    <li key={v.id}>
-                      <PortraitCard v={v} eyebrow={g.name} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={false} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ))
-          ) : (
-            <ul className="w1-lib-grid" aria-label="Videos">
-              {results.slice(0, shown).map((v, i) => (
-                <li key={v.id}>
-                  <PortraitCard v={v} eyebrow={programName(v)} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={i < 4} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
-                </li>
-              ))}
-            </ul>
-          )}
-          {!groups && results.length > shown && (
+          <ul className="l2-grid" aria-label="Videos">
+            {results.slice(0, shown).map((v, i) => (
+              <li key={v.id}>{card(v, i < 4)}</li>
+            ))}
+          </ul>
+          {results.length > shown && (
             <div className="w1-lib-more">
               <Button variant="glass" size="md" onClick={() => setShown((n) => n + PAGE)}>
-                Show more · <span className="lq-num">{results.length - shown}</span> left
+                Show <span className="lq-num">{Math.min(PAGE, results.length - shown)}</span> more
               </Button>
             </div>
           )}
@@ -330,50 +293,61 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
   );
 }
 
-function PortraitCard({
-  v, eyebrow, saved, active, priority, onPlay, onSave,
+const TYPE_ONE: Record<string, string> = { technique: "Technique", workout: "Workout", warmup: "Warm-up", mobility: "Mobility" };
+
+function Shelf({ id, title, count, onSeeAll, children }: { id: string; title: string; count?: number; onSeeAll?: () => void; children: React.ReactNode }) {
+  return (
+    <section aria-labelledby={`sh-${id}`} className="l2-shelf">
+      <div className="l2-shelf-head">
+        <h2 id={`sh-${id}`} className="lq-t20 l2-shelf-title">
+          {title}
+          {count !== undefined && <span className="lq-t13 lq-c2 lq-num l2-shelf-n">{count}</span>}
+        </h2>
+        {onSeeAll && (
+          <button type="button" className="l2-seeall lq-t13" onClick={onSeeAll} aria-label={`See all ${title}`}>
+            See all <Icon name="chevron" size="xs" />
+          </button>
+        )}
+      </div>
+      <Rail label={title} item="17rem">{children}</Rail>
+    </section>
+  );
+}
+
+/** One card for every video: 16:9 thumbnail with duration, two-line title, program + type, save. Fixed heights, no empty space. */
+function VideoCard({
+  v, meta, saved, active, priority, onPlay, onSave,
 }: {
   v: LibraryIndexVideo;
-  eyebrow: string;
+  meta: string;
   saved: boolean;
   active: boolean;
   priority: boolean;
   onPlay: () => void;
   onSave: () => void;
 }) {
-  const level = levelsOf(v)[0];
   const title = cleanTitle(v.t);
   return (
-    <article className="w1-lib-card" data-active={active ? "" : undefined}>
-      <button type="button" className="w1-lib-cardbtn lq-press" onClick={onPlay} aria-label={`Play ${title}`}>
-        <span className="w1-lib-poster">
-          <VideoPoster
-            {...posterOf(v)}
-            move={figureFor(primaryMove(v))}
-            seed={v.id}
-            level={level}
-            sizes="(min-width: 1280px) 22vw, (min-width: 760px) 30vw, 46vw"
-            priority={priority}
-          />
-          {v.d ? <span className="w1-lib-dur lq-t11 lq-num">{clock(v.d)}</span> : null}
-          <span className="w1-lib-playglyph" aria-hidden><Icon name="play" size="sm" /></span>
+    <article className="l2-card" data-active={active ? "" : undefined}>
+      <button type="button" className="l2-card-btn" onClick={onPlay} aria-label={`Play ${title}`}>
+        <span className="l2-thumb">
+          <VideoPoster {...posterOf(v)} move={figureFor(primaryMove(v))} seed={v.id} level={levelsOf(v)[0]} figure={84} sizes="(min-width: 1280px) 20vw, (min-width: 760px) 30vw, 70vw" priority={priority} />
+          {v.d ? <span className="l2-dur lq-t11 lq-num">{clock(v.d)}</span> : null}
+          <span className="l2-playglyph" aria-hidden><Icon name="play" size="sm" /></span>
         </span>
-        <span className="w1-lib-text">
-          <span className="w1-lib-eyebrow w1-clamp1">{eyebrow}</span>
-          <span className="lq-t15 w1-clamp2 w1-lib-title">{title}</span>
-        </span>
+        <span className="l2-card-title lq-t15 w1-clamp2">{title}</span>
+        <span className="l2-card-meta lq-t12 lq-c2 w1-clamp1">{meta}</span>
       </button>
-      <IconButton
-        icon="bookmark"
-        label={saved ? `Remove ${title} from saves` : `Save ${title}`}
-        variant="clear"
-        size="sm"
-        iconSize="sm"
-        className="w1-lib-save"
+      <button
+        type="button"
+        className="l2-save"
         data-on={saved ? "" : undefined}
         aria-pressed={saved}
+        aria-label={saved ? `Remove ${title} from saves` : `Save ${title}`}
         onClick={onSave}
-      />
+      >
+        <Icon name="bookmark" size="xs" />
+      </button>
     </article>
   );
 }
@@ -383,49 +357,35 @@ function ContinueCard({ c, inLibrary, onPlay }: { c: ContinueWatching; inLibrary
   const pct = c.duration_seconds ? Math.min(1, c.seconds / c.duration_seconds) : null;
   const title = cleanTitle(c.title);
   const body = (
-    <Glass radius="card" interactive className="w1-cw-card lq-lift">
-      <span className="w1-cw-poster">
+    <>
+      <span className="l2-thumb">
         <VideoPoster
           {...posterOf({ th: c.thumbnail_url, ct: c.cover_has_text, g: [], t: c.title, id: c.video_id })}
           move={figureFor(primaryMove({ g: [], t: c.title }))}
           seed={c.video_id}
           figure={84}
-          sizes="256px"
+          sizes="272px"
         />
-        <span className="w1-cw-play" aria-hidden><Icon name="play" size="sm" /></span>
+        <span className="l2-playglyph" data-show aria-hidden><Icon name="play" size="sm" /></span>
         {pct !== null && (
-          <span className="w1-cw-bar" aria-hidden>
+          <span className="l2-bar" aria-hidden>
             <span style={{ width: `${pct * 100}%` }} />
           </span>
         )}
       </span>
-      <span className="w1-cw-text">
-        <span className="lq-t15 w1-clamp1">{title}</span>
-        <span className="lq-t12 lq-c2 w1-clamp1">
-          {c.program_name ? `${c.program_name} · ` : ""}
-          {left !== null ? `${clock(left)} left` : `Stopped at ${clock(c.seconds)}`}
-        </span>
+      <span className="l2-card-title lq-t15 w1-clamp2">{title}</span>
+      <span className="l2-card-meta lq-t12 lq-c2 w1-clamp1">
+        {c.program_name ? `${c.program_name} · ` : ""}
+        {left !== null ? `${clock(left)} left` : `Stopped at ${clock(c.seconds)}`}
       </span>
-    </Glass>
+    </>
   );
-  if (c.lesson_id && c.program_slug) {
-    return (
-      <Link href={lessonHrefOf(c.program_slug, c.lesson_id)} className="w1-cardlink" aria-label={`Resume ${title} in ${c.program_name}`}>
-        {body}
-      </Link>
-    );
-  }
-  if (!inLibrary) {
-    return (
-      <Link href={`/library/${c.video_id}`} className="w1-cardlink" aria-label={`Resume ${title}`}>
-        {body}
-      </Link>
-    );
-  }
-  return (
-    <button type="button" className="w1-cardlink w1-cw-btn" onClick={onPlay} aria-label={`Resume ${title}`}>
-      {body}
-    </button>
+  const inner = c.lesson_id && c.program_slug ? (
+    <Link href={lessonHrefOf(c.program_slug, c.lesson_id)} className="l2-card-btn" aria-label={`Resume ${title} in ${c.program_name}`}>{body}</Link>
+  ) : !inLibrary ? (
+    <Link href={`/library/${c.video_id}`} className="l2-card-btn" aria-label={`Resume ${title}`}>{body}</Link>
+  ) : (
+    <button type="button" className="l2-card-btn" onClick={onPlay} aria-label={`Resume ${title}`}>{body}</button>
   );
+  return <article className="l2-card">{inner}</article>;
 }
-

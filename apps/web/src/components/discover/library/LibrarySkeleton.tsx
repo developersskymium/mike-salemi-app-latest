@@ -2,43 +2,60 @@ import { Skeleton } from "@/components/ui";
 import "./library.css";
 
 /**
- * Loading frame for /library and /library/lessons. Same wrapper, chip row, tool row and grid
- * classes as the real page, same card geometry (16:9 poster + fixed text block): nothing moves when content lands.
+ * Loading frame for /library, /library/lessons and /library/exercises. Same header, tabs, search, program row,
+ * toolbar and card geometry as the real pages (16:9 thumbnail + title + meta): nothing moves when content lands.
  */
-export function LibrarySkeleton({ kind = "videos" }: { kind?: "videos" | "lessons" }) {
+export function LibrarySkeleton({ kind = "videos" }: { kind?: "videos" | "lessons" | "exercises" }) {
   return (
-    <div className="w1-lib" aria-busy="true" aria-label={kind === "videos" ? "Loading library" : "Loading lessons"} role="status">
-      <header className="w1-lib-head">
-        <Skeleton shape="title" width={kind === "videos" ? 140 : 180} height={34} />
+    <div className="w1-lib l2" aria-busy="true" aria-label="Loading library" role="status">
+      <header className="l2-head" aria-hidden>
+        <div className="l2-head-top">
+          <div className="l2-head-copy">
+            <Skeleton shape="title" width={120} height={34} />
+            <Skeleton shape="text" width={300} />
+          </div>
+          <Skeleton className="l2-skel-tabs" style={{ borderRadius: 999 }} />
+        </div>
+        <div className="l2-searchwrap"><Skeleton height={48} style={{ borderRadius: 999, width: "100%" }} /></div>
       </header>
-      <div className="w1-lib-programs" aria-hidden>
-        {[56, 150, 170, 130, 150, 120].map((w, i) => (
-          <Skeleton key={i} width={w} height={32} style={{ borderRadius: 999, flex: "none" }} />
-        ))}
-      </div>
-      <div className="w1-lib-tools" aria-hidden>
-        <Skeleton height={44} style={{ borderRadius: 999 }} />
-        <div className="w1-lib-filters">
-          {[104, 128, 112, 96].map((w, i) => (
+      {kind !== "exercises" && (
+        <div className="l2-programs" aria-hidden>
+          <div className="l2-programs-track">
+            {[64, 170, 190, 150, 290, 170].map((w, i) => (
+              <Skeleton key={i} width={w} height={36} style={{ borderRadius: 999, flex: "none" }} />
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="l2-toolbar" aria-hidden>
+        <Skeleton shape="text" width={90} />
+        <div className="l2-filters">
+          {(kind === "videos" ? [72, 104, 84, 72, 84] : kind === "lessons" ? [72, 88] : []).map((w, i) => (
             <Skeleton key={i} width={w} height={36} style={{ borderRadius: 999, flex: "none" }} />
           ))}
         </div>
       </div>
-      <div className="w1-lib-results"><Skeleton shape="text" width={110} /></div>
       {kind === "videos" ? (
-        <ul className="w1-lib-grid" aria-hidden>
-          {Array.from({ length: 12 }, (_, i) => (
-            <li key={i}>
-              <div className="w1-lib-cardbtn" data-skel>
-                <Skeleton className="w1-lib-poster" style={{ borderRadius: "calc(var(--r-card) - 5px)" }} />
-                <span className="w1-lib-text">
-                  <Skeleton shape="text" width="40%" />
-                  <Skeleton shape="text" width="86%" />
-                </span>
+        <div className="l2-shelves" aria-hidden>
+          {[0, 1].map((s) => (
+            <section key={s} className="l2-shelf">
+              <div className="l2-shelf-head"><Skeleton shape="text" width={200} height={22} /></div>
+              <div className="w1-rail" data-start="">
+                <div className="w1-rail-track" style={{ overflow: "hidden" }}>
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <div key={i} className="w1-rail-item" style={{ ["--w1-item" as string]: "17rem" }}>
+                      <div className="l2-card-btn">
+                        <Skeleton className="l2-thumb" style={{ borderRadius: 14 }} />
+                        <Skeleton shape="text" width="80%" style={{ marginTop: 10 }} />
+                        <Skeleton shape="text" width="50%" style={{ marginTop: 6 }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </li>
+            </section>
           ))}
-        </ul>
+        </div>
       ) : (
         <ul className="w1-lib-lessongrid" aria-hidden>
           {Array.from({ length: 12 }, (_, i) => (

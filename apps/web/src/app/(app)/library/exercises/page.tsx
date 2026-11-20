@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Exercises A–Z", description: "Ever
 
 export default function ExercisesPage() {
   return (
-    <Suspense fallback={<LibrarySkeleton kind="lessons" />}>
+    <Suspense fallback={<LibrarySkeleton kind="exercises" />}>
       <Content />
     </Suspense>
   );
