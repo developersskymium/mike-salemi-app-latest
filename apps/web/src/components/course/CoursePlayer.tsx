@@ -334,7 +334,7 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
       </Glass>
 
       <div className="crs-body">
-        <aside className="crs-side" aria-label={slim ? "Lessons" : "Curriculum"} inert={focus || undefined}>{nav(undefined, slim && lesson ? controls : undefined)}</aside>
+        <aside className="crs-side" aria-label={slim ? "Lessons" : "Curriculum"} inert={focus || undefined}>{slim ? nav(undefined, lesson ? controls : undefined) : <>{nav()}{lesson && <div className="jsb-foot">{controls}</div>}</>}</aside>
 
         <main className="crs-main" ref={main} id="main">
           <div className="crs-stage">
@@ -441,36 +441,12 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                 {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
                 {slim && !isIntro && <LessonNotes key={lesson.id} lessonId={lesson.id} />}
 
-                {slim && lesson && (
+                {lesson && (
                   <div className="jsb-dock" aria-label="Lesson controls">
                     <button type="button" className="jsb-dock-list" aria-label="All lessons" onClick={() => setDrawer("open")}><ListTree /></button>
                     {controls}
                   </div>
                 )}
-                {!slim && <Glass level="thick" float className="crs-next">
-                  {prev && !isIntro ? (
-                    <>
-                      <button type="button" className="crs-prev" onClick={() => go(prev.id)} aria-label={`Previous: ${prev.title}`}>
-                        <Arrow dir="left" />
-                      </button>
-                      <button type="button" className="crs-prev-card" onClick={() => go(prev.id)}>
-                        <Arrow dir="left" />
-                        <span className="crs-go-main"><small>Previous</small><b>{prev.title}</b></span>
-                      </button>
-                    </>
-                  ) : (
-                    <span className="crs-prev-card" hidden />
-                  )}
-                  <button type="button" className="crs-go" data-state={isDone && !next && !nextGroupFirst && !planCtx ? "done" : undefined} onClick={() => void primary()} aria-busy={busy || undefined}>
-                    <span className="crs-go-main">
-                      <small>{primaryLabel.small}</small>
-                      <b>{primaryLabel.main}</b>
-                    </span>
-                    <span className="crs-phone-label">{primaryLabel.phone}</span>
-                    {next || isIntro || nextGroupFirst ? <Arrow /> : <Check />}
-                  </button>
-                </Glass>}
-                {!slim && isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
                 {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
                 {slim && isDone && !isIntro && !next && !planCtx && nextStep}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>

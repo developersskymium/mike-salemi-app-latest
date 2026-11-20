@@ -310,3 +310,9 @@
 @media (min-width: 1024px) { .jsb-dock { display: none; } }
 @media (max-width: 1023px) { .crs[data-slim] .crs-stage { padding-bottom: calc(120px + env(safe-area-inset-bottom)); } }
 @media (min-width: 1024px) { .crs[data-focus] .jsb-dock { display: flex; left: 50%; right: auto; transform: translateX(-50%); width: min(560px, 90vw); bottom: 16px; border: 1px solid var(--line); border-radius: 99px; padding: 8px; } .crs[data-focus] .jsb-dock-list { display: none; } }
+/* Course programs without the slim sidebar (Kettlebell Roadmap): same controls at the curriculum's foot */
+@media (min-width: 1024px) {
+  .crs:not([data-slim]) .crs-side { display: flex; flex-direction: column; }
+  .crs:not([data-slim]) .crs-side > :first-child { flex: 1; min-height: 0; }
+}
+@media (max-width: 1023px) { .crs:not([data-slim]) .crs-stage { padding-bottom: calc(120px + env(safe-area-inset-bottom)); } }

@@ -125,7 +125,9 @@
 .srp-acts { display: flex; align-items: center; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
 .srp-undo { background: none; border: 0; padding: 0; color: var(--text-3); font-size: 13px; text-decoration: underline; cursor: pointer; }
 
-.srp-list { grid-area: list; position: sticky; top: 76px; display: flex; flex-direction: column; gap: 18px; max-height: calc(100dvh - 96px); overflow-y: auto; padding: 16px; border: 1px solid var(--sr-line); border-radius: var(--sr-r); background: var(--surface); scrollbar-width: thin; }
+/* The column runs the full height of the lesson: the list sticks under the top bar, the controls stick to the bottom of the screen. */
+.srp-list { grid-area: list; align-self: stretch; display: flex; flex-direction: column; border: 1px solid var(--sr-line); border-radius: var(--sr-r) var(--sr-r) 0 0; border-bottom: 0; background: var(--surface); }
+.srp-list-in { position: sticky; top: 76px; max-height: calc(100dvh - 76px - 81px); overflow-y: auto; display: flex; flex-direction: column; gap: 18px; padding: 16px; scrollbar-width: thin; }
 .srp-sec { display: flex; flex-direction: column; gap: 10px; }
 .srp-sec-h { margin: 0; font: 650 11.5px/1.3 var(--font); letter-spacing: .09em; text-transform: uppercase; color: var(--text-3); }
 .srp-clips { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -279,3 +281,42 @@
 .sr-about-medals[data-v2]:empty { display: none; }
 .sr-about:has(.sr-about-medals[data-v2]:empty) { grid-template-columns: 1fr; }
 .srp-preview { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; padding: 12px 16px; border-radius: 14px; background: var(--warm-soft); color: var(--text); font-size: 14px; }
+
+/* ---------------- lesson controls: prev · complete / next, always in the same place */
+.srp-ctl { display: flex; align-items: center; gap: 10px; min-width: 0; }
+:where(.srp-ctl) :where(button, a) { all: unset; box-sizing: border-box; cursor: pointer; height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 650 15.5px/1 var(--font); text-decoration: none; white-space: nowrap; transition: background-color .15s, box-shadow .15s, opacity .15s, filter .15s; }
+.srp-ctl :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.srp-ctl :disabled { opacity: .35; cursor: default; }
+.srp-ctl-step { flex: none; width: 52px; border-radius: 50%; background: var(--surface); color: var(--text); box-shadow: inset 0 0 0 1.5px var(--line-strong, var(--line)); }
+.srp-ctl-step[data-dir="next"] { background: var(--accent-soft); color: var(--accent-ink); box-shadow: none; }
+.srp-ctl-step:not(:disabled):hover { filter: brightness(.97); }
+.srp-ctl-main { flex: 1; min-width: 0; padding: 0 18px; border-radius: 99px; background: var(--surface); color: var(--text); box-shadow: inset 0 0 0 1.5px var(--line-strong, var(--line)); }
+.srp-ctl-main span { overflow: hidden; text-overflow: ellipsis; }
+.srp-ctl-main svg { color: var(--ok); flex: none; }
+.srp-ctl-main:not(:disabled):hover { box-shadow: inset 0 0 0 1.5px var(--ok); }
+.srp-ctl-main[data-tone="go"] { background: var(--accent); color: #fff; box-shadow: none; }
+.srp-ctl-main[data-tone="go"] svg { color: inherit; }
+.srp-ctl-main[data-tone="go"]:hover { filter: brightness(1.06); box-shadow: none; }
+.srp-ctl-main[data-done] { background: color-mix(in srgb, var(--ok) 14%, transparent); box-shadow: inset 0 0 0 1.5px var(--ok); }
+/* desktop: pinned to the foot of the playlist column */
+.srp-foot { position: sticky; bottom: 0; z-index: 2; margin-top: auto; flex: none; padding: 14px 16px max(14px, env(safe-area-inset-bottom)); border-top: 1px solid var(--sr-line); background: var(--surface); }
+@media (min-width: 1024px) {
+  .srp { padding-bottom: 0; }
+  html:has(.srp) .sm-main { padding-bottom: 0; }
+  .srp-grid { min-height: calc(100dvh - 140px); }
+}
+/* phone (and desktop focus mode): fixed bottom bar; the page keeps room for it */
+.srp-dock { display: none; }
+@media (max-width: 1023px) {
+  .srp-list { align-self: auto; border: 0; }
+  .srp-list-in { position: static; max-height: none; overflow: visible; padding: 0; }
+  .srp-foot { display: none; }
+  .srp-dock { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px max(14px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); background: color-mix(in srgb, var(--bg) 90%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border-top: 1px solid var(--line); }
+  .srp { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  /* the lesson bar owns the bottom of the screen: the app tab bar steps aside */
+  html:has(.srp) .sm-tabbar { display: none; }
+}
+@media (min-width: 1024px) {
+  .srp[data-focus] .srp-dock { display: block; position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 30; width: min(520px, 90vw); padding: 8px; border-radius: 99px; background: color-mix(in srgb, var(--bg) 90%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--line); }
+  .srp[data-focus] { padding-bottom: 110px; }
+}
