@@ -43,7 +43,7 @@ function ToolBody({ t }: { t: SavedTool }) {
     <div className="yu-sd">
       <Glass radius="inner" className="yu-sd-result">
         <span className="lq-t13 yu-eyebrow">Your result</span>
-        <p className="lq-t22" style={{ fontWeight: 700 }}>{t.title}</p>
+        <p className="lq-t22" style={{ fontWeight: 600 }}>{t.title}</p>
         {t.summary && <p className="lq-t15 lq-c2">{t.summary}</p>}
         {(t.score || t.chips.length > 0) && (
           <div className="yu-sd-chips">
@@ -77,7 +77,7 @@ function PlanBody({ p }: { p: SessionPlan }) {
         <ReadinessDial score={Math.max(0, 60 - p.score)} band={p.band as "green" | "amber" | "red"} size={96} bare animated={false} />
         <div style={{ minWidth: 0 }}>
           <span className="lq-t13 yu-eyebrow">Readiness check</span>
-          <p className="lq-t20" style={{ fontWeight: 700 }}>{p.band_name}</p>
+          <p className="lq-t20" style={{ fontWeight: 600 }}>{p.band_name}</p>
           <p className="lq-t15 lq-c2">
             Score {p.score} · {[p.section_title, day.day ? `Day ${day.day}` : null].filter(Boolean).join(", ")}
           </p>

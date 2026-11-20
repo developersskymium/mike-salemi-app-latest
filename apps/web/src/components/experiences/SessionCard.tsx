@@ -97,7 +97,7 @@ export function SessionCard({ s, slots, primary }: { s: CoachingSessionView; slo
           <div className="ch-prep-head">
             <div>
               <div className="lq-eyebrow" data-tone="warm">Prepare · 5 minutes</div>
-              <div className="lq-t17" style={{ fontWeight: 700 }}>Help Mike get straight to it</div>
+              <div className="lq-t17" style={{ fontWeight: 600 }}>Help Mike get straight to it</div>
             </div>
             {savedAt && <Chip variant="ok" size="sm" icon="check">Shared with Mike</Chip>}
           </div>

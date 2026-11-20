@@ -4,8 +4,8 @@
 @import "../components/signature/signature.css";
 @import "../components/shell/shell.css";
 
-/* Summit type: Archivo + Inter, self-hosted with next/font/local in app/layout.tsx
-   (sets --ff-archivo and --ff-inter on <html>; tokens.css builds --font-display / --font on them). */
+/* Summit v4 type: Instrument Sans (+ Instrument Serif italic for Mike), self-hosted with next/font/local in app/layout.tsx
+   (sets --ff-sans and --ff-serif on <html>; tokens.css builds --font / --font-display / --font-serif on them). */
 
 /* Tailwind theme → Summit tokens (Liquid and Trace names kept). Utilities resolve to the live CSS variables, so
    they follow the theme and any token edit. Never add raw values here. */

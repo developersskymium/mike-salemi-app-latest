@@ -34,7 +34,7 @@ function Help({ hub, live }: { hub: RunHub; live?: boolean }) {
   return (
     <div className="rt-help">
       <Glass radius="card" className="rt-help-card">
-        <div className="lq-t15" style={{ fontWeight: 700 }}>{live ? "On the land" : "Questions before you come"}</div>
+        <div className="lq-t15" style={{ fontWeight: 600 }}>{live ? "On the land" : "Questions before you come"}</div>
         <p className="lq-t13 lq-c2">{h.note ?? (live ? "Find any facilitator, any time. Nobody does this alone." : "Mike’s team answers every question about travel, health and what to bring.")}</p>
         <div className="rt-help-acts">
           {h.phone && <Button size="sm" variant="filled" icon="phone" href={`tel:${h.phone.replace(/\s/g, "")}`}>Call the team</Button>}
@@ -50,7 +50,7 @@ function Help({ hub, live }: { hub: RunHub; live?: boolean }) {
         )}
       </Glass>
       <Glass radius="card" className="rt-help-card" data-tone="sos">
-        <div className="lq-t15 rt-ic-title" style={{ fontWeight: 700 }}><Icon name="info" size="sm" /> In an emergency</div>
+        <div className="lq-t15 rt-ic-title" style={{ fontWeight: 600 }}><Icon name="info" size="sm" /> In an emergency</div>
         <p className="lq-t13 lq-c2">Call 911 first, then tell the nearest facilitator. The team carries everyone&rsquo;s emergency contact from the application.</p>
         <Button size="sm" variant="glass" icon="phone" href="tel:911">Call 911</Button>
       </Glass>

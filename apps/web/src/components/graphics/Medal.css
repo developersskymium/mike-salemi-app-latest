@@ -49,7 +49,7 @@
 .gfx-medal-band { fill: var(--g-enamel-lo); }
 .gfx-medal-legend {
   fill: var(--g-metal-hi);
-  font: 700 6.4px/1 var(--font-sans, Inter, system-ui, sans-serif);
+  font: 600 6.4px/1 var(--font-sans, "Instrument Sans", system-ui, sans-serif);
   letter-spacing: .5px;
 }
 .gfx-medal-mtn { fill: var(--g-enamel-lo); opacity: .9; }
@@ -79,14 +79,14 @@
 .gfx-medal-crestHill { fill: #17304F; }
 .gfx-medal-innerLine { fill: none; stroke: var(--g-metal-lo); stroke-width: .8; opacity: .7; }
 .gfx-medal-num {
-  font: 800 34px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  font: 600 34px/1 var(--font-display, "Instrument Sans", system-ui, sans-serif);
   letter-spacing: -.02em;
   stroke: var(--g-metal-deep);
   stroke-width: .7;
   paint-order: stroke;
 }
 .gfx-medal-numShadow {
-  font: 800 34px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  font: 600 34px/1 var(--font-display, "Instrument Sans", system-ui, sans-serif);
   letter-spacing: -.02em;
   fill: #0C1A2E; opacity: .45;
 }
@@ -95,7 +95,7 @@
 .gfx-medal-ribbonEdge { fill: none; stroke: #FFB98E; stroke-width: .8; opacity: .8; }
 .gfx-medal-ribbonText {
   fill: #FFFFFF;
-  font: 800 7.6px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  font: 600 7.6px/1 var(--font-display, "Instrument Sans", system-ui, sans-serif);
   letter-spacing: .14em;
 }
 

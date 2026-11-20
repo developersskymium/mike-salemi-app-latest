@@ -11,7 +11,7 @@ type Props = {
   duration?: number;
   /** ms */
   delay?: number;
-  /** thin and solid are both Archivo 800 now (numerals are heroes). */
+  /** thin and solid are both Instrument Sans 600 now (numerals carry the card). */
   variant?: "thin" | "solid";
   /** CSS font-size. */
   size?: number | string;
@@ -23,7 +23,7 @@ type Props = {
   style?: CSSProperties;
 };
 
-/** A hero number (Archivo 800, tabular) that counts up to its value. Reduced motion shows the value. */
+/** A hero number (Instrument Sans 600, tabular) that counts up to its value. Reduced motion shows the value. */
 export function StretchNumber({ value, from = 0, duration, delay, variant = "thin", size, decimals = 0, format, label, className, style }: Props) {
   const [n] = useStretchCount(value, { from, duration, delay, decimals });
   const text = format ? format(n) : n.toFixed(decimals);

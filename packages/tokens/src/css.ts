@@ -17,7 +17,7 @@ function stretchKeyword(p: number) {
 
 /** All theme-independent tokens as CSS variables. */
 export function globalVars(): Record<string, string | number> {
-  const v: Record<string, string | number> = { font: font.stack, "font-text": font.stack, "font-display": font.display, "font-code": font.mono };
+  const v: Record<string, string | number> = { font: font.stack, "font-text": font.stack, "font-display": font.display, "font-serif": font.serif, "font-code": font.mono };
   for (const [k, t] of Object.entries(type) as [string, TypeStep][]) {
     const n = k.replace(/^t/, "");
     const fam = t.family === "display" ? "var(--font-display)" : "var(--font)";
@@ -70,7 +70,7 @@ export function globalVars(): Record<string, string | number> {
 }
 
 export function toCss(): string {
-  const head = `/* SUMMIT tokens. GENERATED from tokens.ts by \`pnpm --filter @ms/tokens build:css\`. Do not edit by hand. */\n\n`;
+  const head = `/* SUMMIT v4 tokens. GENERATED from tokens.ts by \`pnpm --filter @ms/tokens build:css\`. Do not edit by hand. */\n\n`;
   const scheme = (s: string) => `  color-scheme: ${s};\n`;
   return (
     head +

@@ -1,14 +1,20 @@
 /* Self-Guided planning wizard (prefix wz-). */
 .wz { display: grid; gap: 18px; }
+/* v4: steps are 3px bars with a quiet "1 · Level" label under each */
 .wz-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.wz-steps button { width: 100%; display: grid; justify-items: center; gap: 6px; background: none; border: 0; padding: 4px 0; color: var(--label-3); font: 650 12px/1 var(--font); cursor: pointer; }
+.wz-steps button { width: 100%; display: flex; align-items: center; gap: 4px; background: none; border: 0; padding: 11px 0 0; color: var(--text-4); font: 600 12px/1 var(--font); cursor: pointer; position: relative; text-align: left; }
+.wz-steps button::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; border-radius: 9px; background: var(--track); }
+.wz-steps [data-state="now"] button::before { background: var(--accent); }
+.wz-steps [data-state="done"] button::before { background: var(--text-4); }
 .wz-steps button:disabled { cursor: default; }
 .wz-steps li { position: relative; }
-.wz-steps li + li::before { content: ""; position: absolute; top: 18px; right: calc(50% + 18px); width: calc(100% - 36px); height: 2px; border-radius: 2px; background: var(--line); }
-.wz-steps li[data-state="done"] + li::before, .wz-steps li[data-state="done"] + li[data-state="now"]::before { background: var(--warm); }
-.wz-n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 800 13px/1 var(--font-display); color: var(--label-3); }
-.wz-steps [data-state="done"] .wz-n { background: var(--warm); color: #fff; box-shadow: none; }
-.wz-steps [data-state="now"] .wz-n { background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent); color: var(--accent-ink); }
+
+
+.wz-n { font: 600 12px/1 var(--font); color: inherit; display: inline-flex; align-items: center; }
+.wz-n::after { content: "·"; margin-left: 4px; }
+.wz-n .lq-icon { width: 12px; height: 12px; stroke-width: 2.4; color: var(--label-2); }
+.wz-steps [data-state="done"] .wz-n { color: var(--label-2); }
+
 .wz-steps [data-state="now"] button { color: var(--text); }
 .wz-steps [data-state="done"] button { color: var(--label-2); }
 
@@ -18,32 +24,43 @@
 @media (prefers-reduced-motion: no-preference) { .wz-body { animation: lq-rise var(--dur-rise) var(--curve-out) both; } }
 
 .wz-opts { display: grid; gap: 10px; margin-top: 4px; }
-.wz-opt { position: relative; text-align: left; display: grid; gap: 4px; padding: 16px 52px 16px 18px; border-radius: 16px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--text); cursor: pointer; }
-.wz-opt b { font: 700 16px/1.2 var(--font-display); }
-.wz-opt span { font: 500 13px/1.4 var(--font); color: var(--label-3); }
-.wz-opt i { position: absolute; right: 16px; top: 50%; translate: 0 -50%; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: #fff; }
-.wz-opt[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-soft); }
-.wz-opt[aria-pressed="true"] i { background: var(--accent); box-shadow: none; }
+/* v4 choice rows: a hairline row (a small photo where there is one), a radio on the right;
+   selected = 1.5px glacier ring with a soft halo, never a filled box */
+.wz-opt { position: relative; text-align: left; display: grid; gap: 3px; align-content: center; padding: 14px 52px 14px 16px; border-radius: 16px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--text); cursor: pointer; transition: box-shadow .15s var(--curve-out); }
+.wz-opt:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.wz-opt[data-thumb] { grid-template-columns: 56px minmax(0, 1fr); column-gap: 14px; padding: 12px 52px 12px 12px; }
+.wz-opt[data-thumb] > b, .wz-opt[data-thumb] > span:not(.wz-th) { grid-column: 2; }
+.wz-th { grid-row: 1 / span 2; position: relative; width: 56px; height: 56px; border-radius: 12px; overflow: hidden; background: #1A1D22; }
+.wz-th img { object-fit: cover; }
+.wz-opt b { font: 600 15.5px/1.25 var(--font); letter-spacing: -.008em; align-self: end; }
+.wz-opt span { font: 450 13px/1.4 var(--font); color: var(--label-3); }
+.wz-opt i { position: absolute; right: 16px; top: 50%; translate: 0 -50%; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: transparent; transition: box-shadow .15s var(--curve-out); }
+.wz-opt i .lq-icon { display: none; }
+.wz-opt[aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--accent), 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent); background: var(--surface); }
+.wz-opt[aria-pressed="true"] i { box-shadow: inset 0 0 0 6px var(--accent); }
 
 .wz-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.wz-chip { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 99px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 650 13.5px/1 var(--font); color: var(--text); cursor: pointer; }
+/* segmented chips: a sunk track, the chosen option a white pill */
+.wz-row[role="radiogroup"] { display: inline-flex; flex-wrap: wrap; padding: 4px; gap: 2px; border-radius: 999px; background: var(--surface-sunk); justify-self: start; }
+.wz-chip { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px; border-radius: 99px; border: 0; background: transparent; box-shadow: none; font: 600 13px/1 var(--font); color: var(--label-3); cursor: pointer; }
 .wz-chip small { font: 500 12px/1 var(--font); color: var(--label-3); }
-.wz-chip[aria-checked="true"] { background: var(--text); color: var(--bg); box-shadow: none; }
-.wz-chip[aria-checked="true"] small { color: inherit; opacity: .7; }
+.wz-chip[aria-checked="true"] { background: var(--surface); color: var(--text); box-shadow: 0 0 0 1px var(--line), 0 1px 3px rgba(14, 27, 44, .08); }
+.wz-chip[aria-checked="true"] small { color: var(--label-3); }
 
 .wz-count { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
-.wz-num { display: grid; justify-items: center; gap: 2px; padding: 12px 0 10px; border-radius: 16px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--text); cursor: pointer; }
-.wz-num b { font: 800 24px/1 var(--font-display); }
+.wz-num { display: grid; justify-items: center; gap: 2px; padding: 12px 0 10px; border-radius: 12px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--text); cursor: pointer; }
+.wz-num b { font: 600 24px/1 var(--font-display); }
 .wz-num span { font: 500 11.5px/1 var(--font); color: var(--label-3); }
-.wz-num[aria-checked="true"] { background: var(--accent); color: #fff; box-shadow: var(--sh-accent); }
+.wz-num[aria-checked="true"] { background: var(--accent); color: #fff; box-shadow: none; }
 .wz-num[aria-checked="true"] span { color: rgba(255, 255, 255, .8); }
 .wz-sub { margin-top: 6px !important; }
 .wz-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; max-width: 420px; }
-.wz-wd { aspect-ratio: 1; border-radius: 50%; border: 0; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 700 14px/1 var(--font); color: var(--label-2); cursor: pointer; }
+.wz-wd { aspect-ratio: 1; border-radius: 12px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 13.5px/1 var(--font); color: var(--label-2); cursor: pointer; }
 .wz-wd[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
 
 .wz-date { display: grid; gap: 6px; max-width: 260px; }
-.wz-date input { height: 44px; padding: 0 12px; border-radius: 12px; border: 0; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 600 15px/1 var(--font); color: var(--text); color-scheme: light dark; }
+.wz-date input { height: 48px; padding: 0 14px; border-radius: 12px; border: 0; background: var(--surface); box-shadow: var(--sh-control); font: 450 15px/1 var(--font); color: var(--text); color-scheme: light dark; outline: 0; }
+.wz-date input:focus { box-shadow: var(--sh-focus); }
 
 .wz-mix { display: flex; gap: 3px; flex-wrap: wrap; }
 .wz-mix i, .wz-dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); flex: none; }
@@ -56,7 +73,7 @@
 .wz-wk li + li { border-top: 1px solid var(--line); }
 .wz-d { color: var(--label-3); font-weight: 600; white-space: nowrap; }
 .wz-dot { border-radius: 50%; }
-.wz-t b { font-weight: 700; }
+.wz-t b { font-weight: 600; }
 .wz-t em { font-style: normal; color: var(--label-3); }
 .wz-why { grid-column: 3; font: 500 12px/1.3 var(--font); color: var(--label-3); }
 
@@ -64,6 +81,11 @@
 .wz-sum { text-align: center; flex: 1; }
 @media (max-width: 559px) {
   .wz-l { display: none; }
+  .wz-n::after { content: none; }
+  .wz-steps [data-state="now"] .wz-l { display: inline; }
+  .wz-steps [data-state="now"] .wz-n::after { content: "·"; }
+  .wz-row[role="radiogroup"] { display: grid; grid-template-columns: 1fr 1fr; border-radius: 16px; justify-self: stretch; }
+  .wz-row[role="radiogroup"] .wz-chip { justify-content: center; text-align: center; white-space: normal; height: auto; min-height: 40px; padding: 6px 10px; border-radius: 12px; font-size: 12.5px; line-height: 1.2; }
   .wz-count { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .wz-sum { display: none; }
 }

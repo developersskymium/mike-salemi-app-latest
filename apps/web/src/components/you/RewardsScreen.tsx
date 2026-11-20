@@ -49,7 +49,7 @@ export function RewardsScreen({ d }: { d: RewardsV2 }) {
               <LevelEmblem level={r.level} size={96} />
               <div style={{ minWidth: 0, display: "grid", gap: 2 }}>
                 <span className="lq-t13 yu-eyebrow">Level {r.level}</span>
-                <span className="lq-t28" style={{ fontWeight: 700 }}>{r.level_name}</span>
+                <span className="lq-t28" style={{ fontWeight: 600 }}>{r.level_name}</span>
                 <ProgressBar value={(r.points_total - base) / 1000} tone="accent" label="Points to next level" style={{ marginTop: 8 }} />
                 <span className="lq-t13 lq-c2 lq-num" style={{ marginTop: 4 }}>{(r.next_level_at - r.points_total).toLocaleString("en-GB")} points to Level {r.level + 1}</span>
               </div>

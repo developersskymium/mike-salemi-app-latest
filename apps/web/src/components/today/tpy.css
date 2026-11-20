@@ -65,7 +65,7 @@
 .tpy-day[data-state="rest"] { color: var(--label-3); }
 .tpy-day[data-state="planned"] { color: var(--label-2); }
 .tpy-day[data-state="missed"] { color: var(--label-2); }
-[data-today] > .tpy-day { color: var(--accent-ink); font-weight: 750; }
+[data-today] > .tpy-day { color: var(--accent-ink); font-weight: 600; }
 .tpy-day > svg { position: absolute; inset: 0; }
 .tpy-day .tpy-missdot { position: absolute; bottom: -3px; width: 5px; height: 5px; border-radius: 50%; background: var(--label-3); }
 .tpy-weekfoot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 4px 0; border-top: 1px solid var(--sep); }
@@ -116,7 +116,10 @@ body:has(.tpy-ob) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !imp
 .tpy-ob-num .tpy-ob-opt { justify-content: center; min-height: 96px; font: var(--t-34); letter-spacing: var(--t-34-track); flex-direction: column; gap: 2px; }
 .tpy-ob-num .tpy-ob-opt small { font: var(--t-13); color: var(--label-2); }
 .tpy-ob-input { width: 100%; min-height: 56px; padding: 14px 16px; border-radius: var(--r-panel); font: var(--t-17); color: var(--label); border: 0; background: var(--fill); }
-.tpy-ob-input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* v4 input: white, 48px, radius 12, 14% ink ring; focus = 1.5px glacier + halo */
+.tpy-ob-input { background: var(--surface); border: 0; border-radius: var(--r-control); box-shadow: var(--sh-control); min-height: 48px; outline: 0; transition: box-shadow .15s var(--curve-out); }
+.tpy-ob-input:focus-visible { outline: 0; box-shadow: var(--sh-focus); background: var(--surface); }
+.tpy-ob-input:focus-visible { outline: 0; box-shadow: var(--sh-focus); }
 textarea.tpy-ob-input { min-height: 120px; resize: vertical; }
 .tpy-ob-foot { display: grid; gap: 8px; }
 .tpy-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
@@ -210,13 +213,16 @@ textarea.tpy-ob-input { min-height: 120px; resize: vertical; }
 .tpy-medal:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .tpy-medal span { font: var(--t-13); font-weight: 600; }
 .tpy-medal small { font: var(--t-11); color: var(--label-2); }
-.tpy-code { font: var(--t-34); letter-spacing: .14em; font-variant-numeric: tabular-nums; font-family: var(--font-code, var(--font)); }
+.tpy-code { font: var(--t-34); letter-spacing: .08em; font-variant-numeric: tabular-nums; font-family: var(--font-code, var(--font)); }
 .tpy-steps3 { display: grid; gap: 12px; counter-reset: s; }
 .tpy-steps3 > li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; list-style: none; }
 .tpy-steps3 > li::before { counter-increment: s; content: counter(s); width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); font: var(--t-15); font-weight: 600; }
 .tpy-field { display: grid; gap: 6px; }
 .tpy-field input { min-height: 44px; padding: 10px 14px; border-radius: var(--r-control); border: 0; background: var(--fill); color: var(--label); font: var(--t-17); }
-.tpy-field input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* v4 input: white, 48px, radius 12, 14% ink ring; focus = 1.5px glacier + halo */
+.tpy-field input { background: var(--surface); border: 0; border-radius: var(--r-control); box-shadow: var(--sh-control); min-height: 48px; outline: 0; transition: box-shadow .15s var(--curve-out); }
+.tpy-field input:focus-visible { outline: 0; box-shadow: var(--sh-focus); background: var(--surface); }
+.tpy-field input:focus-visible { outline: 0; box-shadow: var(--sh-focus); }
 @media (min-width: 1024px) {
   .tpy-you-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
   .tpy-you-grid > [data-wide] { grid-column: 1 / -1; }

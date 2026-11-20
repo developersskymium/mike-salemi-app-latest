@@ -14,6 +14,7 @@ export { Avatar, initials } from "./Avatar";
 export { Skeleton, SkeletonText } from "./Skeleton";
 export { EmptyState } from "./EmptyState";
 export { LargeTitle } from "./LargeTitle";
+export { CardHead } from "./CardHead";
 export { StatTile } from "./StatTile";
 export { Ticker } from "./Ticker";
 export { WorkoutTable, ExerciseRow, RestRow } from "./Table";

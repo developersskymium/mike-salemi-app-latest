@@ -111,7 +111,7 @@
 .exp-highlights { display: grid; gap: var(--s-3); }
 @media (min-width: 900px) { .exp-highlights { grid-template-columns: 1fr 1fr; } }
 .exp-highlight { display: flex; gap: var(--s-3); padding: var(--s-4); align-items: flex-start; }
-.exp-highlight-i { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--label); font: var(--t-13); font-weight: 700; font-variant-numeric: tabular-nums; }
+.exp-highlight-i { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--label); font: var(--t-13); font-weight: 600; font-variant-numeric: tabular-nums; }
 .exp-faq details { border-top: 1px solid var(--sep); }
 .exp-faq details:first-child { border-top: 0; }
 .exp-faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: var(--s-3); align-items: center; min-height: var(--target); padding: var(--s-3) 0; font: var(--t-15); font-weight: 600; }
@@ -251,7 +251,7 @@
 .exp-aside-steps { padding: var(--s-4) var(--s-5); }
 .exp-aside-steps ol { list-style: none; margin: var(--s-3) 0 0; padding: 0; display: grid; gap: 10px; }
 .exp-aside-steps li { display: flex; gap: 10px; align-items: flex-start; font: var(--t-13); color: var(--label-2); }
-.exp-aside-steps li span { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--fill-2); color: var(--label); font: var(--t-11); font-weight: 700; }
+.exp-aside-steps li span { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--fill-2); color: var(--label); font: var(--t-11); font-weight: 600; }
 @media (max-width: 1023px) { .exp-aside-steps { display: none; } }
 .exp-aside .exp-status { margin-top: var(--s-4); padding: var(--s-3) 0 0; border-top: 1px solid var(--sep); }
 
@@ -261,7 +261,7 @@
 .exp-fact:nth-child(-n + 2) { border-top: 0; }
 .exp-fact:nth-child(even) { border-left: 1px solid var(--sep); }
 a.exp-fact:hover { background: var(--fill); }
-.exp-fact dt { display: flex; gap: 6px; align-items: center; font: var(--t-11); font-weight: 650; text-transform: uppercase; letter-spacing: .1em; color: var(--label-2); }
+.exp-fact dt { display: flex; gap: 6px; align-items: center; font: var(--t-11); font-weight: 650; text-transform: uppercase; letter-spacing: .08em; color: var(--label-2); }
 .exp-fact dd { margin: 0; font: var(--t-15); font-weight: 560; line-height: 1.3; }
 @media (min-width: 640px) {
   .exp-factgrid[data-n="4"] { grid-template-columns: repeat(4, 1fr); }
@@ -281,7 +281,7 @@ a.exp-fact:hover { background: var(--fill); }
 /* Day list (How the four days unfold) */
 .exp-daylist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
 .exp-daylist > li { position: relative; display: grid; grid-template-columns: 36px 1fr; gap: var(--s-3); padding: var(--s-4) var(--s-5) var(--s-4) var(--s-4); border-radius: var(--r-card); background: var(--fill); }
-.exp-daylist-n { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-elev); font: var(--t-13); font-weight: 700; }
+.exp-daylist-n { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-elev); font: var(--t-13); font-weight: 600; }
 .exp-daylist h3 { margin: 2px 0 6px; }
 .exp-daylist ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .exp-daylist ul li { position: relative; padding-left: 14px; font: var(--t-13); color: var(--label-2); }
@@ -318,7 +318,7 @@ a.exp-fact:hover { background: var(--fill); }
 .exp-rcard:hover .exp-rcard-photo img { transform: scale(1.03); }
 .exp-rcard-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,8,8,.72) 0%, rgba(8,8,8,0) 55%); }
 .exp-rcard-cap { position: absolute; left: var(--s-5); right: var(--s-5); bottom: var(--s-4); z-index: 1; }
-.exp-rcard-cap .exp-kicker { color: rgba(255,255,255,.78); text-transform: uppercase; letter-spacing: .12em; font-size: 11px; }
+.exp-rcard-cap .exp-kicker { color: rgba(255,255,255,.78); text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
 .exp-rcard-cap h2 { margin: 2px 0 0; }
 .exp-rcard-body { padding: var(--s-5); display: grid; gap: var(--s-3); }
 .exp-rcard-meta { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font: var(--t-13); color: var(--label-2); }
@@ -332,14 +332,14 @@ a.exp-fact:hover { background: var(--fill); }
 .exp-hero[data-mode="hub"] .exp-hero-photo { -webkit-mask: none; mask: none; }
 .exp-hero[data-mode="hub"] .exp-hero-photo::after { background: linear-gradient(180deg, rgba(8,8,8,.2) 0%, rgba(8,8,8,.15) 35%, rgba(8,8,8,.7) 100%); }
 @media (min-width: 1024px) { .exp-hero[data-mode="hub"] { margin: 0; padding: var(--s-12) var(--s-8) var(--s-8); min-height: 460px; } }
-.exp-phase { font: var(--t-11); font-weight: 700; text-transform: uppercase; letter-spacing: .14em; opacity: .8; }
+.exp-phase { font: var(--t-11); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
 .exp-prep { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid rgba(255,255,255,.22); }
 @media (min-width: 640px) { .exp-docs[data-cols="3"] { grid-template-columns: repeat(3, 1fr); } }
 /* Coaching (L28) */
 .coa-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); }
 .coa-tile { padding: var(--s-4) var(--s-4); display: grid; gap: 4px; }
 .coa-tile-n { font: var(--t-34); letter-spacing: -.02em; }
-.coa-tile-l { font: var(--t-11); font-weight: 650; text-transform: uppercase; letter-spacing: .1em; color: var(--label-2); }
+.coa-tile-l { font: var(--t-11); font-weight: 650; text-transform: uppercase; letter-spacing: .08em; color: var(--label-2); }
 .coa-pkgs { display: grid; gap: var(--s-3); }
 @media (min-width: 900px) { .coa-pkgs { grid-template-columns: repeat(3, 1fr); } }
 .coa-pkg2 { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; padding: var(--s-5); border-radius: var(--r-card); border: 1px solid var(--sep); background: var(--glass-fill, var(--bg-elev)); color: inherit; cursor: pointer; font: inherit; -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); transition: border-color var(--dur-press) var(--curve-out), box-shadow var(--dur-press) var(--curve-out); }

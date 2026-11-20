@@ -71,8 +71,11 @@
   font: var(--t-15); color: var(--label); background: var(--fill); border: 1px solid transparent; border-radius: var(--r-control);
   padding: 12px 14px; min-height: var(--target); width: 100%; transition: border-color var(--dur-press) var(--curve-out), background var(--dur-press) var(--curve-out);
 }
+/* v4 input: white, 48px, radius 12, 14% ink ring; focus = 1.5px glacier + halo */
+.com-input { background: var(--surface); border: 0; border-radius: var(--r-control); box-shadow: var(--sh-control); min-height: 48px; outline: 0; transition: box-shadow .15s var(--curve-out); }
+.com-input:focus-visible, .com-input:focus { outline: 0; box-shadow: var(--sh-focus); background: var(--surface); }
 .com-input::placeholder { color: var(--label-3); }
-.com-input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; background: var(--fill-2); }
+.com-input:focus-visible { outline: 0; box-shadow: var(--sh-focus); }
 textarea.com-input { min-height: 112px; resize: vertical; }
 .com-error { color: var(--label); font: var(--t-13); display: flex; gap: 6px; align-items: center; }
 

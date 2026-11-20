@@ -11,12 +11,12 @@
   width: 100%;
   container-type: inline-size;
   border-radius: inherit;
-  font-family: var(--font-sans, Inter, system-ui, sans-serif);
+  font-family: var(--font-sans, "Instrument Sans", system-ui, sans-serif);
 }
 :where([data-theme="dark"]) .gfx-climb-climb,
 .gfx-climb-climb[data-time="dusk"],
 .gfx-climb-climb[data-time="night"] {
-  --c-ink: var(--gfx-climb-ink-dark, #F6F1E9);
+  --c-ink: var(--gfx-climb-ink-dark, #EEF2F6);
   --c-muted: var(--gfx-climb-muted-dark, #B7AFA6);
   --c-card: var(--gfx-climb-card-dark, #1E2330);
   --c-line: var(--gfx-climb-line-dark, #5A5866);
@@ -24,7 +24,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :where([data-theme="system"]) .gfx-climb-climb {
-    --c-ink: var(--gfx-climb-ink-dark, #F6F1E9);
+    --c-ink: var(--gfx-climb-ink-dark, #EEF2F6);
     --c-muted: var(--gfx-climb-muted-dark, #B7AFA6);
     --c-card: var(--gfx-climb-card-dark, #1E2330);
     --c-line: var(--gfx-climb-line-dark, #5A5866);
@@ -100,7 +100,7 @@
   text-shadow: 0 0 3px var(--c-halo), 0 0 8px var(--c-halo), 0 0 1px var(--c-halo);
   pointer-events: none;
 }
-.gfx-climb-label b { font: 700 13px/1.2 var(--font-display, var(--font-sans, Inter, system-ui)); color: var(--c-ink); letter-spacing: -.01em; }
+.gfx-climb-label b { font: 600 13px/1.2 var(--font-display, var(--font-sans, "Instrument Sans", system-ui)); color: var(--c-ink); letter-spacing: -.01em; }
 .gfx-climb-label small { font-size: 11.5px; color: var(--c-muted); font-weight: 500; }
 .gfx-climb-campNow .gfx-climb-label b { color: var(--c-ember); }
 .gfx-climb-camp:not(.gfx-climb-campDone):not(.gfx-climb-summit) .gfx-climb-label b { color: var(--c-muted); }
@@ -135,7 +135,7 @@
   border: 3px solid var(--c-card);
   box-shadow: 0 0 0 2px var(--c-ember), 0 6px 14px rgba(10, 18, 30, .3);
   display: grid; place-items: center;
-  color: #fff; font: 700 15px/1 var(--font-display, var(--font-sans, Inter, system-ui));
+  color: #fff; font: 600 15px/1 var(--font-display, var(--font-sans, "Instrument Sans", system-ui));
 }
 .gfx-climb-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .gfx-climb-avatar svg { width: 22px; height: 22px; fill: #fff; stroke: #fff; stroke-width: 0; }
@@ -147,7 +147,7 @@
   border-radius: 999px;
   background: var(--c-ink);
   color: var(--c-card);
-  font: 700 12.5px/1.2 var(--font-display, var(--font-sans, Inter, system-ui));
+  font: 600 12.5px/1.2 var(--font-display, var(--font-sans, "Instrument Sans", system-ui));
   letter-spacing: -.005em;
   box-shadow: 0 4px 12px rgba(10, 18, 30, .22);
 }

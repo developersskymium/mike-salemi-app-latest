@@ -27,7 +27,7 @@ const PHASES = [
 const PRINCIPLES: [string, string][] = [
   ["Mike leads", "Full-colour, warm photography of Mike on every key surface. Never tinted, never desaturated."],
   ["Daylight surfaces", "Warm chalk ground, crisp white cards, three levels of depth, generous space."],
-  ["Bold, legible type", "Archivo 800 for confident headlines and numbers, Inter for everything you read."],
+  ["Calm, premium type", "Instrument Sans for everything — 600 with tight tracking for headlines and numbers — and Instrument Serif italic for Mike's notes."],
   ["Glacier + Ember", "Glacier blue means act. Ember means progress, streaks and achievement. Ink for text."],
   ["The Climb", "Progress is a route up Mount Shasta: phases are camps, levels are summits."],
   ["One next step", "Every screen has one obvious primary action — usually “start” or “resume”."],
@@ -126,9 +126,9 @@ export default function Gallery() {
           </div>
         </Sec>
 
-        <Sec title="Type" note="Archivo 800 at normal width for headlines and numbers (−3% tracking); Inter 400–700 for text. Captions and labels 12–13px; eyebrows are 11.5px caps.">
+        <Sec title="Type" note="Instrument Sans 600 for headlines and numbers (−4% tracking on big headlines, tabular numerals); Instrument Sans 420–600 for text; Instrument Serif italic only for Mike's words. Captions and labels 12–13px; eyebrows are 11.5px caps.">
           <Tile>
-            <div className="lq-eyebrow">Display · Archivo 800</div>
+            <div className="lq-eyebrow">Display · Instrument Sans 600</div>
             <div className="lq-d-xl" style={{ marginTop: 10 }}>Recovery Day</div>
             <div className="lq-d-lg" style={{ marginTop: 6 }}>You&apos;re 38% of the way up.</div>
             <div className="lq-d-md" style={{ marginTop: 6 }}>Phase 2 · Adding Complexity</div>

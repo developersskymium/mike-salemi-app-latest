@@ -20,7 +20,7 @@
 .shp-hero-lede { color: rgba(255, 255, 255, .86); margin: 0; max-width: 44ch; }
 .shp-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 @media (max-width: 767px) { .shp-hero { min-height: 500px; } .shp-hero-lede { display: none; } .shp-hero h1 { font-size: 36px; line-height: 1.04; } }
-.shp-cartbtn-n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--warm); color: #fff; font: 700 12px/1 var(--font); }
+.shp-cartbtn-n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--warm); color: #fff; font: 600 12px/1 var(--font); }
 
 /* category chips */
 .shp-toolbar { position: sticky; top: calc(var(--topbar-h, 60px) + 8px); z-index: 4; margin: -6px 0; }
@@ -40,14 +40,14 @@
 @media (min-width: 640px) { .shp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1180px) { .shp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
 .shp-card { position: relative; display: grid; border-radius: var(--r-card); background: var(--surface); box-shadow: var(--sh-2); overflow: hidden; transition: transform var(--dur-lift, 220ms) var(--curve-spring), box-shadow var(--dur-lift, 220ms) ease; }
-.shp-card:hover { transform: translateY(-3px); box-shadow: var(--sh-3); }
+.shp-card:hover { transform: translateY(-3px); box-shadow: var(--sh-hover); }
 .shp-card-link { display: grid; grid-template-rows: auto 1fr; color: inherit; text-decoration: none; height: 100%; }
 .shp-card-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; border-radius: var(--r-card); }
 .shp-card-img { position: relative; aspect-ratio: 4 / 3; background: var(--surface-sunk); overflow: hidden; }
 .shp-card-img img { transition: transform 900ms cubic-bezier(.2, .8, .2, 1); }
 .shp-card:hover .shp-card-img img { transform: scale(1.035); }
 .shp-card-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); }
-.shp-pill { position: absolute; left: 12px; top: 12px; padding: 5px 10px; border-radius: 999px; font: 700 11.5px/1 var(--font); letter-spacing: .04em; text-transform: uppercase; color: #fff; background: var(--clear-fill, rgba(10, 18, 30, .45)); -webkit-backdrop-filter: var(--clear-filter, blur(12px)); backdrop-filter: var(--clear-filter, blur(12px)); }
+.shp-pill { position: absolute; left: 12px; top: 12px; padding: 5px 10px; border-radius: 999px; font: 600 11.5px/1 var(--font); letter-spacing: .04em; text-transform: uppercase; color: #fff; background: var(--clear-fill, rgba(10, 18, 30, .45)); -webkit-backdrop-filter: var(--clear-filter, blur(12px)); backdrop-filter: var(--clear-filter, blur(12px)); }
 .shp-card-body { display: grid; gap: 4px; padding: 16px 18px 16px; align-content: start; }
 .shp-card-name { color: var(--text); }
 .shp-card-line { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

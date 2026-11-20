@@ -117,7 +117,7 @@ export function BookingBar({ hub, stage }: { hub: RunHub; stage: RetreatStage })
   return (
     <div className="rt-bar">
       <div className="com-grow">
-        {price ? <div className="lq-t17 lq-num" style={{ fontWeight: 750 }}>{price.label} {price.compare && <s className="lq-t13 lq-c3">{price.compare}</s>}</div> : <div className="lq-t15">{hub.run.price_note}</div>}
+        {price ? <div className="lq-t17 lq-num" style={{ fontWeight: 600 }}>{price.label} {price.compare && <s className="lq-t13 lq-c3">{price.compare}</s>}</div> : <div className="lq-t15">{hub.run.price_note}</div>}
         <div className="lq-t12 lq-c2 lq-num">{new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: hub.run.timezone }).format(new Date(hub.run.starts_at))} – {hub.run.ends_at ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: hub.run.timezone }).format(new Date(hub.run.ends_at)) : ""}{price?.draft ? " · Draft" : ""}</div>
       </div>
       {href && label ? <Button href={href} variant="filled" size="md">{label}</Button> : null}

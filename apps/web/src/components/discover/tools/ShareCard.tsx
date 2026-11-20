@@ -9,14 +9,14 @@ const H = 1350;
 
 /** Summit palette for the exported card (fixed: an image is the same in light and dark). */
 const C = {
-  chalk: "#F5F2EC", ink: "#0E1B2C", ink2: "#4A5566", ink3: "#6C7787", glacier: "#1A85D6", glacierInk: "#135690", ember: "#F2632A",
-  sky1: "#E3F0FB", sky2: "#FBF3EA", sun: "#FF7F3F", mtn: "#9CC6EA", mtnFar: "#C6DDF2", snow: "#FFFFFF", ground: "#F3E5D3", line: "#E6E0D6", ok: "#1F9D6A", amber: "#E8A53C", red: "#D9483B",
+  chalk: "#F6F7F9", ink: "#0E1B2C", ink2: "#435063", ink3: "#717C8B", glacier: "#1A85D6", glacierInk: "#135690", ember: "#F2632A",
+  sky1: "#E3F0FB", sky2: "#F1F6FB", sun: "#FF7F3F", mtn: "#9CC6EA", mtnFar: "#C6DDF2", snow: "#FFFFFF", ground: "#EEF3F8", line: "#E6E9ED", ok: "#1F9D6A", amber: "#E8A53C", red: "#D9483B",
 };
 
 function fonts() {
   const probe = document.querySelector("h1") ?? document.body;
-  const display = getComputedStyle(probe).fontFamily || "Archivo, Arial, sans-serif";
-  const text = getComputedStyle(document.body).fontFamily || "Inter, Arial, sans-serif";
+  const display = getComputedStyle(probe).fontFamily || "'Instrument Sans', Arial, sans-serif";
+  const text = getComputedStyle(document.body).fontFamily || "'Instrument Sans', Arial, sans-serif";
   return { display, text };
 }
 
@@ -63,7 +63,7 @@ function bell(ctx: CanvasRenderingContext2D, cx: number, base: number, size: num
   ctx.fill();
   ctx.fillStyle = "#fff";
   ctx.textAlign = "center";
-  ctx.font = `800 ${Math.round(size * 0.34)}px ${f}`;
+  ctx.font = `600 ${Math.round(size * 0.34)}px ${f}`;
   ctx.fillText(label, cx, cy + size * 0.12);
 }
 
@@ -134,7 +134,7 @@ export async function drawResultCard(r: ToolResultView, tool: string, name?: str
   ctx.stroke();
   ctx.textAlign = "left";
   ctx.fillStyle = C.ink;
-  ctx.font = `800 30px ${display}`;
+  ctx.font = `600 30px ${display}`;
   ctx.fillText("MIKE SALEMI", 156, 102);
   ctx.fillStyle = C.ink2;
   ctx.font = `600 20px ${text}`;
@@ -161,7 +161,7 @@ export async function drawResultCard(r: ToolResultView, tool: string, name?: str
   ctx.fillText(`${tool.toUpperCase()} · MY RESULT`, px, y);
   y += 30;
   ctx.fillStyle = C.ink;
-  ctx.font = `800 76px ${display}`;
+  ctx.font = `600 76px ${display}`;
   for (const l of wrap(ctx, r.headline, cw - 128, 2)) {
     y += 82;
     ctx.fillText(l, px, y);
@@ -197,17 +197,17 @@ export async function drawResultCard(r: ToolResultView, tool: string, name?: str
   } else if (r.kind === "stretch" || r.kind === "readiness") {
     const pct = r.max ? r.score / r.max : 0;
     ctx.fillStyle = C.ink;
-    ctx.font = `800 120px ${display}`;
+    ctx.font = `600 120px ${display}`;
     ctx.fillText(String(r.score), px, bottom - 20);
     const wNum = ctx.measureText(String(r.score)).width;
     ctx.fillStyle = C.ink3;
-    ctx.font = `700 44px ${display}`;
+    ctx.font = `600 44px ${display}`;
     ctx.fillText(`/${r.max}`, px + wNum + 8, bottom - 20);
     ctx.font = `600 22px ${text}`;
     ctx.fillText(r.kind === "stretch" ? "MOBILITY SCORE" : "READINESS SCORE · LOWER IS FRESHER", px, bottom + 22);
     const bx = px + 360;
     const bw = cw - 128 - 360;
-    ctx.fillStyle = "#F1EDE6";
+    ctx.fillStyle = "#F0F2F5";
     rr(ctx, bx, bottom - 64, bw, 26, 13);
     ctx.fill();
     const tone = r.kind === "readiness" ? (r.band === "green" ? C.ok : r.band === "amber" ? C.amber : C.red) : C.ember;
