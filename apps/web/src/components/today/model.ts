@@ -3,6 +3,7 @@ import { daysBetween, type IsoDate } from "@ms/core";
 import type { DayType } from "@/components/graphics";
 import type { IconName } from "@/components/ui";
 import type { PhotoKey } from "./photos";
+import { lessonHrefOf } from "@/lib/hrefs";
 
 /** Day type from a lesson's day_type or title ("Day 24 - Recovery Day"). */
 export function dayTypeOf(dayType?: string | null, title?: string | null, itemKind?: string | null): DayType | null {
@@ -67,15 +68,17 @@ export const GOAL_ICON: Record<string, IconName> = {
   custom: "sparkle",
 };
 
-export function lessonHref(programSlug: string | null | undefined, lessonId: string | null | undefined) {
+/** A lesson's final URL (course player for courses, day player for day programs; no redirect hop). */
+export function lessonHref(programSlug: string | null | undefined, lessonId: string | null | undefined, opts?: { type?: string | null; mode?: string | null }) {
   if (!programSlug) return "/programs";
-  return lessonId ? `/programs/${programSlug}/learn/${lessonId}` : `/programs/${programSlug}`;
+  return lessonHrefOf(programSlug, lessonId, opts);
 }
 
-export function entryHref(e: WeekEntry) {
+/** A schedule entry's final URL. `typeOf` maps a program slug to its type (course lessons open the course player). */
+export function entryHref(e: WeekEntry, typeOf?: (slug: string) => string | null | undefined) {
   if (e.kind === "coaching") return "/coaching";
   if (e.kind === "run_session") return e.program_slug ? `/programs/${e.program_slug}` : "/programs";
-  return lessonHref(e.program_slug, e.lesson_id);
+  return lessonHref(e.program_slug, e.lesson_id, { type: e.program_slug ? typeOf?.(e.program_slug) : null });
 }
 
 /** Plan items before today that were neither done nor skipped (rest days don't count). */

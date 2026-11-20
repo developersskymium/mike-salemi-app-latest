@@ -168,8 +168,10 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
     );
   }
 
+  // Phases count training days, like the hero, the rail, Today and You (lessons only when a phase has no days).
   const phaseStats = sections.map((s) => {
-    const ls = lessons.filter((l) => l.sectionId === s.id);
+    const days = dayLessons.filter((l) => l.sectionId === s.id);
+    const ls = days.length ? days : lessons.filter((l) => l.sectionId === s.id);
     return { title: s.title, done: ls.filter((l) => doneIds.has(l.id)).length, total: ls.length };
   });
   const ex = board?.extras;

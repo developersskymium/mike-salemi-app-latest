@@ -47,15 +47,27 @@ const ToggleRow = ({ id, label, hint, checked, onChange, disabled }: { id: strin
   </NtfRow>
 );
 
+/**
+ * Preset times as chips, plus "Custom". The time field only appears for a custom time, so the chosen
+ * value is never shown twice in two formats (D25).
+ */
 export function TimeChips({ value, onChange, options, label }: { value: string; onChange: (v: string) => void; options: string[]; label: string }) {
+  const preset = options.includes(value);
+  const [customOpen, setCustomOpen] = useState(false);
+  const custom = customOpen || !preset;
   return (
     <div className="ntf-times" role="group" aria-label={label}>
       {options.map((t) => (
-        <button key={t} type="button" className="ntf-chip lq-num" aria-pressed={value === t} onClick={() => { haptic(6); onChange(t); }}>
+        <button key={t} type="button" className="ntf-chip lq-num" aria-pressed={!custom && value === t} onClick={() => { haptic(6); setCustomOpen(false); onChange(t); }}>
           {time12(t)}
         </button>
       ))}
-      <input type="time" className="ntf-time lq-num" value={value} aria-label={`${label}, custom`} onChange={(e) => e.target.value && onChange(e.target.value)} />
+      <button type="button" className="ntf-chip" aria-pressed={custom} onClick={() => { haptic(6); setCustomOpen(true); }}>
+        Custom
+      </button>
+      {custom && (
+        <input type="time" className="ntf-time lq-num" value={value} aria-label={`${label}, custom`} onChange={(e) => e.target.value && onChange(e.target.value)} />
+      )}
     </div>
   );
 }

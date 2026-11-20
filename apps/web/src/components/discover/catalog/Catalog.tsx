@@ -9,6 +9,7 @@ import { coverFor, MIKE_FACE } from "@/lib/covers";
 import type { Enrollment, ProgramsCopy } from "@/lib/loaders/discover";
 import { recommend } from "./recommend";
 import "./catalog.css";
+import { lessonHrefOf, programHref as finalProgramHref } from "@/lib/hrefs";
 
 /* Programs catalog (approved Summit mockup 05, legacy layout L2): PageHead + search + filters with
    "Your path with Mike" → Flagship (Kettlebell Lifestyle) → verticals of image-led cards with
@@ -53,12 +54,9 @@ const isOpen = (p: CatalogProgram) => ["owned", "free", "included", "org"].inclu
 const isDraft = (p: CatalogProgram) => Boolean(p.draftNote && /await|concept|draft|tbc/i.test(p.draftNote)) || /draft|to be confirmed/i.test(p.priceLabel ?? "");
 
 /** Where a program opens: courses go straight to their journey home. */
+/** The program's final URL (lib/hrefs): courses → journey home, experiences → their own page, no redirect hop. */
 export function programHref(p: Pick<CatalogProgram, "slug" | "type">) {
-  if (p.type === "course") return `/programs/${p.slug}/course`;
-  if (p.type === "tool") return `/programs/${p.slug}/course`;
-  // Retreats open the retreats index (every run with its dates), never a generic concept page.
-  if (p.type === "retreat") return "/experiences";
-  return `/programs/${p.slug}`;
+  return finalProgramHref(p.slug, p.type);
 }
 
 function cardCover(p: CatalogProgram) {
@@ -259,7 +257,7 @@ function PathCard({ catalog, enrollments, kblE }: { catalog: CatalogProgram[]; e
   const recent = [...enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""))[0];
   const rp = recent ? catalog.find((p) => p.id === recent.program_id) : undefined;
   const rc = recent ? coverFor(recent.program_slug, null) : null;
-  const href = recent && rp ? (rp.type === "course" ? `/programs/${rp.slug}/course/resume` : recent.current_lesson_id ? `/programs/${rp.slug}/learn/${recent.current_lesson_id}` : `/programs/${rp.slug}`) : null;
+  const href = recent && rp ? (rp.type === "course" ? `/programs/${rp.slug}/course/resume` : lessonHrefOf(rp.slug, recent.current_lesson_id, { type: rp.type, mode: recent.mode })) : null;
   return (
     <aside className="pc-path" aria-label="Your path with Mike">
       <div className="pc-path-top">
