@@ -1,0 +1,155 @@
+/* ==========================================================================
+   QuestionShell — one question per screen (intakes + onboarding). Prefix `qs-`, art `ia-`.
+   ========================================================================== */
+html:has(.qs) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !important; }
+.qs {
+  position: fixed; inset: 0; z-index: calc(var(--z-navbar, 50) + 12); isolation: isolate; overflow: hidden;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; color: var(--text);
+  background:
+    radial-gradient(120% 60% at 50% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+    radial-gradient(80% 40% at 100% 110%, color-mix(in srgb, var(--warm) 7%, transparent), transparent 60%),
+    var(--bg);
+}
+.qs :is(a, button, textarea, input):focus-visible { outline: 2px solid var(--focus, var(--accent)); outline-offset: 2px; }
+.qs-col { width: 100%; max-width: 560px; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+
+/* top: back · rail · skip */
+.qs-top { padding: env(safe-area-inset-top) 0 0; }
+.qs-top-row { width: 100%; max-width: 640px; margin: 0 auto; padding: 10px 14px 0; box-sizing: border-box; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 56px; }
+.qs-icon {
+  all: unset; box-sizing: border-box; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--text-2); background: color-mix(in srgb, var(--surface) 70%, transparent); box-shadow: inset 0 0 0 1px var(--line);
+  transition: background-color .2s, color .2s, transform .15s;
+}
+.qs-icon:hover { color: var(--text); background: var(--surface); }
+.qs-icon:active { transform: scale(.94); }
+.qs-icon:disabled { opacity: .35; cursor: default; }
+.qs-icon svg { width: 18px; height: 18px; }
+.qs-skip { all: unset; cursor: pointer; padding: 10px 6px; font: 600 14.5px/1 var(--font); color: var(--text-2); }
+.qs-skip:hover { color: var(--text); }
+.qs-rail { display: flex; gap: 4px; }
+.qs-rail i { flex: 1; height: 4px; border-radius: 4px; background: var(--line); position: relative; overflow: hidden; }
+.qs-rail i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.qs-rail i[data-s="done"]::after, .qs-rail i[data-s="now"]::after { transform: scaleX(1); }
+.qs-rail i[data-s="now"]::after { background: color-mix(in srgb, var(--accent) 55%, transparent); }
+.qs-context { margin: 2px 0 0; text-align: center; font: 600 12.5px/16px var(--font); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 70px; }
+
+/* body */
+.qs-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid; }
+.qs-scene { width: 100%; max-width: 560px; margin: 0 auto; padding: 8px 20px 40px; box-sizing: border-box; align-self: safe center; display: grid; justify-items: center; text-align: center; }
+.qs-art { width: min(100%, 300px); }
+.qs-eyebrow { margin-top: 10px; font: 600 13px/17px var(--font); color: var(--accent-ink); display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.qs-title { margin: 8px 0 0; font: 650 clamp(26px, 6.4vw, 34px)/1.12 var(--font-display); letter-spacing: -.025em; text-wrap: balance; outline: none; max-width: 30ch; }
+.qs-help { margin-top: 10px; font: 450 16px/24px var(--font); color: var(--text-2); max-width: 42ch; text-wrap: pretty; }
+.qs-help p { margin: 0; }
+.qs-answers { width: 100%; margin-top: 28px; text-align: left; display: grid; gap: 12px; }
+.qs-answers:empty { display: none; }
+
+/* scene entrance */
+.qs-scene > * { animation: qs-in .48s cubic-bezier(.2, .8, .2, 1) both; }
+.qs-scene > .qs-title { animation-delay: 50ms; }
+.qs-scene > .qs-help { animation-delay: 80ms; }
+.qs-scene > .qs-answers { animation-delay: 110ms; }
+.qs-scene > .qs-art { animation-name: qs-art; animation-duration: .6s; }
+.qs-scene[data-dir="back"] > * { animation-name: qs-in-back; }
+.qs-scene[data-dir="back"] > .qs-art { animation-name: qs-art; }
+@keyframes qs-in { from { opacity: 0; transform: translateX(28px); } }
+@keyframes qs-in-back { from { opacity: 0; transform: translateX(-28px); } }
+@keyframes qs-art { from { opacity: 0; transform: scale(.9); } }
+
+/* choice cards */
+.qs-cards { display: grid; gap: 10px; }
+.qs-card {
+  all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 40px minmax(0, 1fr) 24px; align-items: center; gap: 14px;
+  min-height: 64px; padding: 12px 16px 12px 12px; border-radius: 20px; background: var(--surface); box-shadow: var(--sh-1), inset 0 0 0 1px var(--line);
+  transition: box-shadow .2s, background-color .2s, transform .15s; animation: qs-rise .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes qs-rise { from { opacity: 0; transform: translateY(10px); } }
+.qs-card:hover { box-shadow: var(--sh-1), inset 0 0 0 1px var(--line-strong); }
+.qs-card:active { transform: scale(.985); }
+.qs-card[aria-checked="true"] { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); box-shadow: var(--sh-1), inset 0 0 0 2px var(--accent); }
+.qs-card-ic { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; background: var(--surface-sunk); color: var(--accent-ink); }
+.qs-card[aria-checked="true"] .qs-card-ic { background: var(--accent); color: #fff; }
+.qs-card-ic svg { width: 22px; height: 22px; }
+.qs-dot { font: 700 14px/1 var(--font); }
+.qs-card-t b { display: block; font: 600 16px/21px var(--font); }
+.qs-card-t small { display: block; margin-top: 3px; font: 450 13.5px/19px var(--font); color: var(--text-2); }
+.qs-from { display: inline-block; margin-top: 6px; padding: 3px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); font: 600 11.5px/14px var(--font); font-style: normal; }
+.qs-mark { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: #fff; transition: background-color .2s, box-shadow .2s, transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.qs-mark[data-multi] { border-radius: 8px; }
+.qs-card[aria-checked="true"] .qs-mark, .qs-chip[aria-checked="true"] .qs-mark { background: var(--accent); box-shadow: none; transform: scale(1.06); }
+.qs-mark svg { width: 13px; height: 13px; opacity: 0; transition: opacity .15s; }
+[aria-checked="true"] > .qs-mark svg { opacity: 1; }
+
+/* multi-select chips */
+.qs-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.qs-chip {
+  all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 14px 10px 16px; border-radius: 99px;
+  background: var(--surface); box-shadow: var(--sh-1), inset 0 0 0 1px var(--line); transition: box-shadow .2s, background-color .2s, transform .15s; animation: qs-rise .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+.qs-chip b { font: 600 15px/19px var(--font); }
+.qs-chip .qs-card-t small { display: none; }
+.qs-chip .qs-mark { width: 20px; height: 20px; }
+.qs-chip[aria-checked="true"] { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); box-shadow: var(--sh-1), inset 0 0 0 2px var(--accent); }
+.qs-chip:active { transform: scale(.97); }
+
+/* stepper / text / date */
+.qs-stepper { justify-self: center; display: inline-grid; grid-template-columns: 56px minmax(150px, auto) 56px; align-items: center; gap: 10px; padding: 8px; border-radius: 28px; background: var(--surface); box-shadow: var(--sh-1), inset 0 0 0 1px var(--line); }
+.qs-stepper button { all: unset; cursor: pointer; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-sunk); font: 500 26px/1 var(--font); color: var(--text); transition: transform .15s; }
+.qs-stepper button:active { transform: scale(.92); }
+.qs-stepper button:disabled { opacity: .35; cursor: default; }
+.qs-stepper output { text-align: center; font: 700 30px/1 var(--font-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.qs-text, .qs-input {
+  display: block; width: 100%; box-sizing: border-box; padding: 16px 18px; border: 0; border-radius: 20px; background: var(--surface); box-shadow: var(--sh-1), inset 0 0 0 1px var(--line);
+  color: var(--text); font: 450 16px/24px var(--font);
+}
+.qs-text { min-height: 160px; resize: vertical; }
+.qs-text:focus, .qs-input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+.qs-count { margin: 0; text-align: right; font: 500 12px/1 var(--font); color: var(--text-3); font-variant-numeric: tabular-nums; }
+.qs-sub { margin: 10px 0 0; font: 600 13px/17px var(--font); color: var(--text-2); text-align: center; }
+.qs-note { margin-top: 4px; padding: 14px 16px; border-radius: 18px; background: var(--surface-sunk); font: 450 14px/20px var(--font); color: var(--text-2); }
+.qs-note b { display: block; color: var(--text); font-weight: 650; margin-bottom: 4px; }
+.qs-note ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.qs-err { margin: 0; text-align: center; font: 600 13.5px/18px var(--font); color: var(--warm-ink); }
+.qs-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); font: 600 12px/14px var(--font); }
+.qs-link { all: unset; cursor: pointer; font: 600 13px/17px var(--font); color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.qs-profile { padding: 12px 16px; border-radius: 18px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); text-align: left; }
+.qs-profile dl { margin: 0; display: grid; }
+.qs-profile dl > div { display: grid; grid-template-columns: minmax(100px, 40%) 1fr; gap: 12px; padding: 6px 0; border-top: 1px solid var(--line); }
+.qs-profile dl > div:first-child { border-top: 0; }
+.qs-profile dt { font: 500 13px/18px var(--font); color: var(--text-3); }
+.qs-profile dd { margin: 0; font: 600 13px/18px var(--font); }
+
+/* footer */
+.qs-foot { padding: 12px 0 max(16px, env(safe-area-inset-bottom)); background: linear-gradient(180deg, transparent, var(--bg) 30%); }
+.qs-foot .qs-col { display: grid; gap: 6px; }
+
+/* ---------------- illustrations */
+.ia { position: relative; width: 100%; aspect-ratio: 240 / 176; }
+.ia-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ia-bells { position: absolute; inset: 0 0 24% 0; display: flex; align-items: flex-end; justify-content: center; gap: 6px; }
+@media (max-width: 420px) { .ia-bells { transform: scale(.8); transform-origin: 50% 76%; } }
+.ia-fig { position: absolute; inset: 0; display: grid; place-items: center; }
+.ia-pop { animation: ia-pop .6s cubic-bezier(.3, 1.5, .5, 1) both; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes ia-pop { from { opacity: 0; transform: scale(.4); } }
+g.ia-pop { animation-name: ia-pop-g; }
+@keyframes ia-pop-g { from { opacity: 0; } }
+.ia-arc { animation: ia-arc 1.1s .15s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes ia-arc { from { stroke-dasharray: 0 100; } }
+.ia-flag { animation: ia-flag 1s .25s cubic-bezier(.3, 1.4, .5, 1) both; transform-box: fill-box; transform-origin: 0 100%; }
+@keyframes ia-flag { from { transform: scaleY(0); } }
+.ia-sun { animation: ia-sun 1s .1s ease-out both; }
+@keyframes ia-sun { from { opacity: 0; transform: translateY(10px); } }
+.ia-needle { animation: ia-needle 1.2s .2s cubic-bezier(.3, 1.4, .5, 1) both; transform-origin: 120px 120px; }
+@keyframes ia-needle { from { transform: rotate(-90deg); } }
+.ia-pulse { animation: ia-pulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ia-pulse { 50% { transform: scale(1.25); opacity: .1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .qs *, .qs *::after { animation: none !important; transition: none !important; }
+}
+@media (max-width: 420px) {
+  .qs-art { width: min(78%, 240px); }
+  .qs-answers { margin-top: 22px; }
+}
+@media (max-height: 760px) and (min-width: 640px) { .qs-art { width: 240px; } }
