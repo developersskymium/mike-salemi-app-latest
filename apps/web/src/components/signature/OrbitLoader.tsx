@@ -1,12 +1,16 @@
 import type { CSSProperties } from "react";
-import { TraceLine } from "./TraceLine";
 
-/** Orbit: the loader is a halo, a short trace circling (the same shape as the halo move). */
+/** A small glacier spinner: a round-capped arc turning on a warm hairline track. */
 export function OrbitLoader({ size = 40, label = "Loading", className, style }: { size?: number; label?: string; className?: string; style?: CSSProperties }) {
-  const w = Math.max(2.6, (2.4 * 120) / size);
+  const w = Math.max(2.5, size / 11);
+  const r = (size - w) / 2;
+  const c = 2 * Math.PI * r;
   return (
     <span role="status" aria-label={label} className={className ? `tr-orbit ${className}` : "tr-orbit"} style={{ width: size, height: size, ...style }}>
-      <TraceLine d="M60 14 A46 46 0 1 1 59.9 14" viewBox="0 0 120 120" width={w} progress={0.35} ahead={false} segments={20} floor={0} />
+      <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} aria-hidden>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={w} className="tr-orbit-track" />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={w} strokeLinecap="round" strokeDasharray={`${(c * 0.28).toFixed(1)} ${c.toFixed(1)}`} className="tr-orbit-arc" />
+      </svg>
     </span>
   );
 }

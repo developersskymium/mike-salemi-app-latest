@@ -1,4 +1,4 @@
-import { clearGlass, font, gfxGlobal, layout, motion, night, numerals, radius, space, themes, trace, type, width, z } from "./tokens";
+import { clearGlass, font, gfxGlobal, layout, motion, night, numerals, palette, radius, space, summitType, themes, trace, type, width, z, type TypeStep } from "./tokens";
 
 const block = (selector: string, vars: Record<string, string | number>, extra = "") =>
   `${selector} {\n${extra}${Object.entries(vars)
@@ -18,16 +18,21 @@ function stretchKeyword(p: number) {
 /** All theme-independent tokens as CSS variables. */
 export function globalVars(): Record<string, string | number> {
   const v: Record<string, string | number> = { font: font.stack, "font-text": font.stack, "font-display": font.display, "font-code": font.mono };
-  for (const [k, t] of Object.entries(type)) {
+  for (const [k, t] of Object.entries(type) as [string, TypeStep][]) {
     const n = k.replace(/^t/, "");
     const fam = t.family === "display" ? "var(--font-display)" : "var(--font)";
-    const st = "stretch" in t && t.stretch ? stretchKeyword(t.stretch) : "";
+    const st = t.stretch ? stretchKeyword(t.stretch) : "";
     v[`t-${n}`] = `${t.weight}${st ? " " + st : ""} ${t.size}px/${t.line}px ${fam}`;
     v[`t-${n}-track`] = `${t.tracking}em`;
     v[`t-${n}-size`] = `${t.size}px`;
     v[`t-${n}-line`] = `${t.line}px`;
     v[`t-${n}-weight`] = t.weight;
-    v[`t-${n}-stretch`] = `${"stretch" in t && t.stretch ? t.stretch : 100}%`;
+    v[`t-${n}-stretch`] = `${t.stretch ?? 100}%`;
+  }
+  for (const [k, t] of Object.entries(summitType)) {
+    const fam = t.family === "display" ? "var(--font-display)" : "var(--font)";
+    v[k] = `${t.weight} ${t.size}px/${t.line}px ${fam}`;
+    v[`${k}-track`] = `${t.tracking}em`;
   }
   for (const [k, w] of Object.entries(width)) v[`w-${k}`] = `${w}%`;
   for (const [k, n] of Object.entries(numerals)) {
@@ -47,6 +52,10 @@ export function globalVars(): Record<string, string | number> {
   v["trace-floor"] = trace.floor;
   v["trace-ahead-dash"] = `"${trace.aheadDash}"`;
   for (const [k, n] of Object.entries(z)) v[`z-${k}`] = n;
+  for (const [k, c] of Object.entries(palette)) if (/^[a-z]+(-\d+)?$/.test(k)) v[k] = c;
+  v["font-features"] = font.features;
+  v["topbar-h"] = `${layout.topbarHeight}px`;
+  v["announce-h"] = `${layout.announceHeight}px`;
   v["content-max"] = `${layout.contentMax}px`;
   v["sidebar-w"] = `${layout.sidebarWidth}px`;
   v["sidebar-inset"] = `${layout.sidebarInset}px`;
@@ -61,7 +70,7 @@ export function globalVars(): Record<string, string | number> {
 }
 
 export function toCss(): string {
-  const head = `/* GENERATED from tokens.ts by \`pnpm --filter @ms/tokens build:css\`. Do not edit by hand. */\n\n`;
+  const head = `/* SUMMIT tokens. GENERATED from tokens.ts by \`pnpm --filter @ms/tokens build:css\`. Do not edit by hand. */\n\n`;
   const scheme = (s: string) => `  color-scheme: ${s};\n`;
   return (
     head +
@@ -76,7 +85,7 @@ export function toCss(): string {
       .map((l) => (l ? "  " + l : l))
       .join("\n") +
     "}\n" +
-    "\n/* Night panel: stays a night exposure in both themes (heroes, video, completion). */\n" +
+    "\n/* Ink panel: stays dark in both themes (resume card, video, completion). */\n" +
     block(".lq-night", themes.dark, scheme("dark"))
   );
 }

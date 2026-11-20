@@ -28,7 +28,7 @@ export function Avatar({ name, src, size = "lg", variant = "fill", className }: 
       role="img"
       aria-label={name}
     >
-      {src ? <Image src={src} alt="" fill sizes={`${PX[size]}px`} /> : <span aria-hidden>{initials(name).slice(0, size === "sm" ? 1 : 2)}</span>}
+      {src ? <Image src={src} alt="" fill sizes={`${PX[size]}px`} /> : <span aria-hidden>{initials(name).slice(0, size === "sm" || size === "md" ? 1 : 2)}</span>}
     </span>
   );
 }

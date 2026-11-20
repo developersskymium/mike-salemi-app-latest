@@ -1,0 +1,64 @@
+/* Summit design-system gallery (public, no auth). */
+.g { max-width: 1240px; margin: 0 auto; padding: 56px 24px 96px; }
+.g-top { display: grid; gap: 32px; align-items: start; }
+.g-top-r { display: grid; gap: 16px; justify-items: end; }
+.g-top-photos { display: grid; grid-template-columns: 1.1fr 1fr; grid-template-rows: 150px 150px; gap: 12px; width: min(100%, 460px); }
+.g-top-photos .lq-poster { border-radius: 22px; box-shadow: var(--sh-2); }
+.g-ph1 { grid-row: 1 / 3; }
+@media (min-width: 900px) { .g-top { grid-template-columns: minmax(0, 1fr) 460px; } }
+
+.g-sec { margin-top: 64px; display: grid; gap: 18px; }
+.g-sec-h { display: grid; gap: 6px; max-width: 720px; }
+.g-tile { padding: 22px; }
+.g-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.g-between { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.g-grid2 { display: grid; gap: 18px; }
+@media (min-width: 900px) { .g-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.g-principles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.g-principle { padding: 16px; display: grid; gap: 6px; align-content: start; box-shadow: var(--sh-1); }
+
+.g-colour { display: grid; gap: 18px; }
+.g-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 8px; }
+.g-sw { display: grid; gap: 3px; font: 500 11px/1.2 var(--font); color: var(--label-3); }
+.g-sw i { height: 56px; border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(14, 27, 44, .06); }
+.g-sw b { font: 650 12px/1.2 var(--font); color: var(--label); text-transform: capitalize; }
+.g-share { display: flex; gap: 6px; height: 34px; }
+.g-share span { display: grid; place-items: center; border-radius: 10px; color: #fff; font: 650 12px/1 var(--font); white-space: nowrap; overflow: hidden; }
+
+.g-nums { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; }
+.g-nums > span { display: grid; gap: 6px; }
+.g-stretch { background: none; border: 0; padding: 0; color: inherit; }
+
+.g-depth { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); padding: 18px; border-radius: var(--r-xl); background: var(--surface-sunk); }
+.g-dp { min-height: 120px; padding: 18px; display: grid; align-content: start; gap: 6px; }
+.g-dp b { font: 700 15px/1.2 var(--font-display); }
+.g-dp span { font: 500 12.5px/1.4 var(--font); color: var(--label-3); }
+.g-dp-photo { padding: 0; display: block; }
+.g-glass-demo { position: absolute; left: 12px; right: 12px; bottom: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+.g-glass-demo span { color: rgba(255, 255, 255, .8); }
+
+.g-onphoto { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 18px; }
+.g-onphoto-ph { flex: 1 1 420px; height: 110px; border-radius: 18px; }
+.g-onphoto-ph .lq-over { display: flex; align-items: center; }
+
+.g-flame { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: linear-gradient(160deg, var(--ember-300), var(--ember-500)); box-shadow: var(--sh-warm); color: #fff; }
+.g-flame .lq-icon { width: 28px; height: 28px; stroke-width: 2.2; }
+.g-steps { width: 160px; }
+
+.g-climb { padding: 24px 0 22px; overflow: hidden; }
+.g-cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); align-items: start; }
+.g-quote { position: absolute; right: 24px; bottom: 24px; z-index: 3; width: 320px; padding: 16px 18px; display: grid; grid-template-columns: 44px 1fr; gap: 12px; }
+.g-quote p { margin: 0; color: #fff; }
+.g-quote small { display: block; margin-top: 6px; font: 650 11.5px/1 var(--font); color: rgba(255, 255, 255, .7); letter-spacing: .02em; }
+.g-hero-steps { margin-top: 22px; max-width: 420px; }
+@media (max-width: 899px) { .g-quote { display: none; } }
+
+.g-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.g-icons span { display: grid; justify-items: center; gap: 6px; padding: 12px 4px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); color: var(--label); }
+.g-icons small { font: 500 10.5px/1.2 var(--font); color: var(--label-3); }
+.g-motion { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.g-mo { padding: 16px 18px; }
+
+.g-replay { position: relative; }
+.g-replay-btn { position: absolute; right: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; border: 0; display: grid; place-items: center; background: var(--surface-sunk); color: var(--label-2); }

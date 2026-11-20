@@ -1,12 +1,10 @@
 import type { CSSProperties, ElementType, ReactNode } from "react";
-import { TraceLine } from "./TraceLine";
 
+/** Retired Trace grades. Every value now renders the photo as shot (Summit: full colour, never tinted). */
 export type Grade = "night" | "day" | "warm" | "auto" | "none";
 
 export type GradeTrace = {
-  /** The bell's real path over the photo, in the photo's own pixel space. */
   d: string;
-  /** The photo's pixel box, e.g. "0 0 1600 1213" (the overlay is sliced like object-fit: cover). */
   viewBox: string;
   width?: number;
   progress?: number;
@@ -15,43 +13,23 @@ export type GradeTrace = {
 };
 
 type Props = {
-  /** night: monochrome under night blue, highlights lifted. day: high-key and cool. warm: real fire stays warm. auto: night in dark, day in light. */
+  /** Accepted for compatibility; photos are never graded. */
   grade?: Grade;
-  /** Draw a trace along the bell path. */
+  /** Retired (Trace bell path over the photo). Ignored. */
   trace?: GradeTrace;
-  /** Bottom vignette for white captions. */
+  /** A bottom ink scrim for white captions (default on). */
   vignette?: boolean;
   as?: ElementType;
   className?: string;
   style?: CSSProperties;
-  /** The photo (next/image with fill, or an <img>) and any captions. */
   children?: ReactNode;
 };
 
-/**
- * Exposure grade for Mike's photography: a CSS grade (no image processing) and an optional
- * trace drawn along the real path of the bell.
- */
-export function PhotoGrade({ grade = "night", trace, vignette = true, as: Tag = "div", className, style, children }: Props) {
+/** A full-colour photo frame with an optional bottom scrim for legible white captions. */
+export function PhotoGrade({ grade = "none", vignette = true, as: Tag = "div", className, style, children }: Props) {
   return (
     <Tag className={className ? `tr-grade ${className}` : "tr-grade"} data-grade={grade} data-vignette={vignette ? "" : undefined} style={style}>
       {children}
-      {trace && (
-        <TraceLine
-          className="tr-grade-trace"
-          d={trace.d}
-          viewBox={trace.viewBox}
-          width={trace.width ?? 8}
-          progress={trace.progress ?? 1}
-          ahead={false}
-          floor={0}
-          animate={trace.animate ?? true}
-          delay={trace.delay ?? 400}
-          duration={1600}
-          preserveAspectRatio="xMidYMid slice"
-          tone={grade === "day" ? "trace" : "white"}
-        />
-      )}
     </Tag>
   );
 }

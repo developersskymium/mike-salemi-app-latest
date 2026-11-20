@@ -47,16 +47,15 @@ type CardProps = Omit<HTMLAttributes<HTMLElement>, "children"> & {
   radius?: "card" | "hero" | "panel";
   interactive?: boolean;
   as?: "section" | "article" | "div";
-  /** Exposure grade (default night: monochrome under night blue). "none" keeps the photo as shot. */
+  /** Retired Trace grade. Default "none": photos run in full colour (Summit never tints or grades). */
   grade?: Grade;
 };
 
-/** Media card: graded photo + night film footer; the rim catches light under the cursor. */
-export function Card({ image, footer, footerLevel = "clear-deep", children, height, radius = "card", interactive = true, as: Tag = "section", grade = "night", className, style, ...rest }: CardProps) {
+/** Media card: a full-colour photo with an ink scrim at the bottom and white footer content; lifts on hover. */
+export function Card({ image, footer, footerLevel = "clear-deep", children, height, radius = "card", interactive = true, as: Tag = "section", grade = "none", className, style, ...rest }: CardProps) {
   return (
     <Tag
-      className={cx("lq-card", interactive && "lq-fx lq-lift", className)}
-      data-fx={interactive ? "" : undefined}
+      className={cx("lq-card", interactive && "lq-lift", className)}
       style={{ height, borderRadius: `var(--r-${radius})`, ...style }}
       {...rest}
     >
@@ -85,11 +84,11 @@ type PosterProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   height?: number | string;
   /** Hero photos drift at a fraction of scroll speed. */
   parallax?: boolean;
-  /** Exposure grade (default night). */
+  /** Retired Trace grade. Default "none" (full colour). */
   grade?: Grade;
 };
 
-export function Poster({ image, glyph, children, aspect, height, parallax, grade = "night", className, style, ...rest }: PosterProps) {
+export function Poster({ image, glyph, children, aspect, height, parallax, grade = "none", className, style, ...rest }: PosterProps) {
   return (
     <div className={cx("lq-poster", parallax && "lq-parallax", className)} style={{ aspectRatio: aspect, height, ...style }} {...rest}>
       <div className="lq-media tr-grade" data-grade={grade} data-vignette="">
@@ -115,22 +114,15 @@ type AmbientProps = {
 };
 
 /**
- * Blurred, desaturated copy of a photo as the page's tonal field (exposure grade, no colour cast). Loads a tiny rendition
- * (it's blurred by 70px), so it costs a few KB.
+ * Retired: Summit pages sit on the plain warm chalk ground (dark: warm ink), never a blurred photo
+ * field. Kept so old call sites compile; renders nothing (and costs nothing).
  */
-export function AmbientBackdrop({ src, position = "50% 30%", fixed, wash, className, style }: AmbientProps) {
-  return (
-    <div className={cx("lq-ambient", className)} data-fixed={fixed ? "" : undefined} aria-hidden style={style}>
-      <div className="lq-ambient-img">
-        <Image src={src} alt="" fill sizes="96px" style={{ objectPosition: position }} />
-      </div>
-      <div className="lq-wash" style={wash ? { background: wash } : undefined} />
-    </div>
-  );
+export function AmbientBackdrop(_props: AmbientProps) {
+  return null;
 }
 
-/** A full-bleed graded hero photo that fades into the page, with an optional top scrim for white text. */
-export function HeroPhoto({ image, height = 600, fade = "74%", scrim = true, parallax = true, grade = "auto" }: { image: Photo; height?: number | string; fade?: string; scrim?: boolean; parallax?: boolean; grade?: Grade }) {
+/** A full-bleed, full-colour hero photo that fades into the page, with an optional top scrim for white text. */
+export function HeroPhoto({ image, height = 600, fade = "74%", scrim = true, parallax = false, grade = "none" }: { image: Photo; height?: number | string; fade?: string; scrim?: boolean; parallax?: boolean; grade?: Grade }) {
   const mask = `linear-gradient(#000 ${fade}, transparent)`;
   return (
     <div className={cx("tr-grade", parallax && "lq-parallax")} data-grade={grade} style={{ position: "absolute", inset: "0 0 auto", height, overflow: "hidden", WebkitMask: mask, mask }} aria-hidden={image.alt === "" || undefined}>
