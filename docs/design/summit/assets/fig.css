@@ -1,0 +1,6 @@
+.fig{display:block;overflow:visible}
+.fig .f-ink path{fill:var(--fig-ink,#13233A);stroke:var(--fig-gap,#fff);stroke-width:1.6;paint-order:stroke;stroke-linejoin:round}
+.fig .f-far path{fill:var(--fig-far,#5B7391)}
+.fig .f-bell path{fill:var(--fig-bell,#1F86D8);stroke:var(--fig-gap,#fff);stroke-width:1.4;paint-order:stroke}
+.fig .f-bell .f-bell-hi{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.6;stroke-linecap:round}
+.fig .f-shadow{fill:var(--fig-shadow,rgba(19,35,58,.12))}
