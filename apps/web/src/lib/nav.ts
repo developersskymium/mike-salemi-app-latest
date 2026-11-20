@@ -10,16 +10,17 @@ export type NavItem = { href: string; label: string; icon: IconName; badge?: str
 export const NAV: readonly NavItem[] = [
   { href: "/today", label: "Home", icon: "home", match: ["/onboarding"] },
   { href: "/programs", label: "Programs", icon: "programs", match: ["/mtk", "/intake"] },
-  { href: "/experiences", label: "Retreats", icon: "retreats", badge: "Apply" },
   { href: "/library", label: "Library", icon: "library" },
   { href: "/plan", label: "Schedule", icon: "plan" },
-  { href: "/you", label: "Account", icon: "account" },
 ] as const;
 
+/** The quieter second group ("More" on the rail and in the phone sheet). Account lives on the member
+ *  row at the bottom of the rail (and the Profile tab on phones), so it is not repeated here. */
 export const ADDITIONAL: readonly NavItem[] = [
-  { href: "/tools", label: "Tools", icon: "tools" },
+  { href: "/experiences", label: "Retreats", icon: "retreats" },
   { href: "/coaching", label: "Coaching", icon: "coaching" },
-  { href: "/you/referrals", label: "Referrals", icon: "gift", meta: "Earn a free month" },
+  { href: "/tools", label: "Tools", icon: "tools" },
+  { href: "/you/referrals", label: "Referrals", icon: "gift" },
 ] as const;
 
 /** Shown in "Additional" when the shop is enabled (site_settings.shop.enabled), and always to admins. */
