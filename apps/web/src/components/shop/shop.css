@@ -405,3 +405,10 @@ span.shp-guide-row { grid-template-columns: 1fr auto; }
 #shp-sizes .shp-chiprow { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
 #shp-sizes .shp-opt { min-width: 0; padding: 10px 4px; }
 @media (max-width: 520px) { #shp-sizes .shp-chiprow { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Calm shop index (client, Nov 20): no hero, no repeated photos — a header and a product grid. */
+.shp-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin: 8px 0 20px; }
+.shp-head h1 { margin: 0 0 4px; }
+.shp-grid.shp-grid-calm { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.shp-grid-calm .shp-card-img { aspect-ratio: 1 / 1; }
+@media (max-width: 640px) { .shp-grid.shp-grid-calm { grid-template-columns: 1fr 1fr; gap: 12px; } }

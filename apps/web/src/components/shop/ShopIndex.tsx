@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { PhotoHero } from "@/components/signature";
 import { Button, Icon, useToast, type IconName } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import type { ShopCategory, ShopData, ShopProduct } from "@/lib/loaders/shop";
@@ -131,7 +130,7 @@ export function TrustStrip() {
   );
 }
 
-/** Shop: a real photo of Mike with the bag, the trust strip, the product grid. Cart in a side sheet. No order history here (that lives in You › Orders). */
+/** Shop: a calm header and the product grid (product photography only). Cart in a side sheet. No order history here (that lives in You › Orders). */
 export function ShopIndex({ d, selector }: { d: ShopData; selector: Record<string, unknown> | null }) {
   const [cartOpen, setCartOpen] = useState(false);
   const toast = useToast();
@@ -144,55 +143,24 @@ export function ShopIndex({ d, selector }: { d: ShopData; selector: Record<strin
     cart.add(p.id, v.id, 1);
     toast(`${p.name} added to your cart`, { tone: "success", icon: "check" });
   };
-  const hero = list[0];
 
   return (
     <div className="shp-page">
       {!d.enabled && <PreviewBanner payments={d.payments} />}
 
-      <PhotoHero
-        image={{ src: "/media/shop/mike-bulgarian-bag.png", alt: "Mike Salemi swinging the Suples Bulgarian Bag overhead", focal: "30% 30%", focalPhone: "28% 22%" }}
-        scrim="left"
-        minHeight={420}
-        priority
-        className="shp-hero"
-        as="header"
-      >
-        <p className="lq-eyebrow shp-hero-eyebrow">The Mike Salemi Shop</p>
-        <h1 className="lq-d-xl">Train with what Mike trains with.</h1>
-        <p className="lq-lede shp-hero-lede">The original leather Suples Bulgarian Bag®, made in Bulgaria. &ldquo;The one I train with. It&apos;s my favorite bag.&rdquo;</p>
-        <div className="shp-hero-actions">
-          {hero && <Button href={`/shop/${hero.slug}`} variant="white" iconAfter="arrowRight">Shop the bag · {priceLabel(hero, d.member)}</Button>}
-          <CartButton onOpen={() => setCartOpen(true)} variant="onphoto" />
+      <header className="shp-head">
+        <div>
+          <h1 className="lq-d-lg">Shop</h1>
+          <p className="lq-t15 lq-c2">Gear Mike trains with. Shipping included · USA only.</p>
         </div>
-      </PhotoHero>
+        <CartButton onOpen={() => setCartOpen(true)} variant="secondary" />
+      </header>
 
-      <TrustStrip />
-
-      <section aria-labelledby="shp-pick" className="shp-block">
-        <div className="shp-sech">
-          <div>
-            <p className="lq-eyebrow" data-tone="accent">Equipment</p>
-            <h2 id="shp-pick" className="lq-d-md">Only what Mike actually uses</h2>
-          </div>
-        </div>
-        <div className="shp-grid" data-cols={list.length < 3 ? "2" : undefined}>
+      <section aria-label="Products" className="shp-block">
+        <div className="shp-grid shp-grid-calm">
           {list.map((p) => (
             <ProductCard key={p.id} p={p} d={d} onAdd={add} />
           ))}
-          {list.length === 1 && (
-            <Link href="/programs/athleticism-4-life" className="shp-learn lq-press">
-              <span className="shp-learn-img">
-                <Image src="/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png" alt="" fill sizes="(min-width: 640px) 50vw, 100vw" style={{ objectFit: "cover", objectPosition: "30% 30%" }} />
-              </span>
-              <span className="shp-card-body">
-                <span className="lq-eyebrow" data-tone="warm">Learn to use it</span>
-                <span className="lq-d-xs">Athleticism 4 Life</span>
-                <span className="lq-t13 lq-c2">Mike&apos;s 30-day Bulgarian Bag program. Swings, spins and throws, coached step by step.</span>
-                <span className="shp-card-go lq-t13">See the program <Icon name="chevron" size="xs" /></span>
-              </span>
-            </Link>
-          )}
         </div>
       </section>
 
