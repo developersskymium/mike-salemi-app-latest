@@ -152,14 +152,63 @@ export async function billingIntent(kind: "change" | "pause" | "cancel", detail:
 
 /* ------------------------------------------------------------------ privacy */
 
+/**
+ * Delete request. Before Mike's team deletes anything: any card-billed plan is set to end at its period end
+ * (no more charges; it stays open until then) and upcoming coaching sessions are cancelled (credit returned
+ * under the usual 24-hour rule). Retreat places are left to Mike's team. What was done is saved on the request.
+ */
 export async function requestDeletion(reason: string) {
   return run(async (sb, uid) => {
     const { data: open } = await sb.from("account_requests").select("id").eq("user_id", uid).eq("kind", "delete").eq("status", "open").maybeSingle();
-    if (open) return { already: true };
-    const { error } = await sb.from("account_requests").insert({ user_id: uid, kind: "delete", message: reason.slice(0, 2000) || null });
+    if (open) return { already: true, plansStopped: 0, sessionsCancelled: 0, problems: [] as string[] };
+
+    const problems: string[] = [];
+    const plansStopped = await stopRenewals(uid, problems);
+
+    let sessionsCancelled = 0;
+    const { data: bookings } = await sb.from("coaching_bookings").select("id").eq("user_id", uid).eq("status", "booked").gt("starts_at", new Date().toISOString());
+    for (const b of (bookings ?? []) as { id: string }[]) {
+      const { error } = await sb.rpc("cancel_coaching", { p_booking: b.id });
+      if (error) problems.push(`coaching ${b.id}: ${error.message}`);
+      else sessionsCancelled++;
+    }
+
+    const { error } = await sb.from("account_requests").insert({
+      user_id: uid, kind: "delete", message: reason.slice(0, 2000) || null,
+      payload: { plans_set_to_end: plansStopped, coaching_cancelled: sessionsCancelled, problems: problems.slice(0, 10) },
+    });
     if (error) throw new Error(error.message);
-    return { already: false };
-  }, { already: false });
+    return { already: false, plansStopped, sessionsCancelled, problems };
+  }, { already: false, plansStopped: 0, sessionsCancelled: 0, problems: [] as string[] }, ["/you/settings", "/you/billing", "/coaching"]);
+}
+
+/** Sets every live card-billed Stripe subscription of the member to end at period end. No-op without Stripe keys. */
+async function stopRenewals(uid: string, problems: string[]): Promise<number> {
+  const { stripeConfigured, getStripe } = await import("@/lib/stripe");
+  if (!stripeConfigured() || !process.env.SUPABASE_SERVICE_ROLE_KEY) return 0;
+  const { createServiceClient } = await import("@/lib/supabase/admin");
+  const { syncSubscription } = await import("@/lib/commerce/subscriptions");
+  const admin = createServiceClient();
+  const { data } = await admin
+    .from("subscriptions")
+    .select("provider_ref")
+    .eq("user_id", uid)
+    .eq("provider", "stripe")
+    .like("provider_ref", "sub_%")
+    .in("status", ["trialing", "active", "past_due"])
+    .gt("current_period_end", new Date().toISOString());
+  const stripe = getStripe();
+  let n = 0;
+  for (const row of data ?? []) {
+    try {
+      const sub = await stripe.subscriptions.update(row.provider_ref as string, { cancel_at_period_end: true });
+      await syncSubscription(admin, sub, false, stripe);
+      n++;
+    } catch (e) {
+      problems.push(`plan ${row.provider_ref}: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+  return n;
 }
 
 export async function requestExport() {

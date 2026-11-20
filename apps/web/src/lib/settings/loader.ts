@@ -19,7 +19,7 @@ export async function session() {
 export async function loadSettingsHub(): Promise<SettingsHub> {
   if (MOCK) return { ...(await fixture<SettingsHub>("settings-hub")), billing: { ...(await fixture<SettingsHub>("settings-hub")).billing, paymentsLive: stripeConfigured() } };
   const { sb, user } = await session();
-  const [profile, tp, ms, np, sub, orders, plans, prices, reqs] = await Promise.all([
+  const [profile, tp, ms, np, sub, orders, plans, prices, reqs, bookings, retreats] = await Promise.all([
     sb.from("profiles").select("display_name, first_name, avatar_url, timezone, preferences, created_at").eq("id", user.id).maybeSingle(),
     sb.from("training_profiles").select("data, sources").eq("user_id", user.id).maybeSingle(),
     sb.from("member_settings").select("*").eq("user_id", user.id).maybeSingle(),
@@ -29,6 +29,8 @@ export async function loadSettingsHub(): Promise<SettingsHub> {
     sb.from("plans").select("id, name, rank").eq("is_active", true).order("rank"),
     sb.from("prices").select("ref_id, amount_cents, currency, interval").eq("kind", "plan").eq("is_active", true),
     sb.from("account_requests").select("id, kind, status, created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(10),
+    sb.from("coaching_bookings").select("id, starts_at").eq("user_id", user.id).eq("status", "booked").gt("starts_at", new Date().toISOString()).order("starts_at").limit(20),
+    sb.from("run_applications").select("program_runs(name)").eq("user_id", user.id).eq("status", "booked"),
   ]);
   const p = profile.data ?? {};
   const name = p.display_name || p.first_name || user.email?.split("@")[0] || "Member";
@@ -66,6 +68,12 @@ export async function loadSettingsHub(): Promise<SettingsHub> {
       paymentsLive: stripeConfigured(),
       plans: ((plans.data ?? []) as { id: string; name: string; rank: number }[]).map((pl) => ({ ...pl, monthCents: price(pl.id, "month")?.amount_cents ?? null, yearCents: price(pl.id, "year")?.amount_cents ?? null })),
       invoices: orders.map((o) => ({ id: o.id, reference: o.reference, date: o.created_at, totalCents: o.total_cents, currency: o.currency, status: o.status, label: o.items.map((i) => i.name).join(", ") || "Order" })),
+    },
+    deletion: {
+      coachingSessions: ((bookings.data ?? []) as { id: string; starts_at: string }[]).map((b) => ({ id: b.id, startsAt: b.starts_at })),
+      retreats: ((retreats.data ?? []) as { program_runs: { name: string } | { name: string }[] | null }[])
+        .map((r) => (Array.isArray(r.program_runs) ? r.program_runs[0]?.name : r.program_runs?.name))
+        .filter((n): n is string => Boolean(n)),
     },
     requests: ((reqs.data ?? []) as { id: string; kind: string; status: string; created_at: string }[]).map((r) => ({ id: r.id, kind: r.kind, status: r.status, createdAt: r.created_at })),
   };
