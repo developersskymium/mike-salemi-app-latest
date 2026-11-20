@@ -16,7 +16,7 @@ const GOAL_LABEL: Record<string, string> = {
 };
 
 /** Mike's plan templates as photo cards; choosing one opens the days sheet that starts it. */
-export function TemplateGallery({ templates, goalKind, today }: { templates: Template[]; goalKind: string | null; today: IsoDate }) {
+export function TemplateGallery({ templates, goalKind, today, preferredDays }: { templates: Template[]; goalKind: string | null; today: IsoDate; preferredDays?: number[] }) {
   const [open, setOpen] = useState<Template | null>(null);
   const sorted = [...templates].sort((a, b) => Number(b.goal_kind === goalKind) - Number(a.goal_kind === goalKind));
   return (
@@ -59,7 +59,7 @@ export function TemplateGallery({ templates, goalKind, today }: { templates: Tem
         {open && (
           <div style={{ display: "grid", gap: 20 }}>
             {open.description && <p className="lq-t15">{open.description}</p>}
-            <StartPlanForm templateId={open.id} initialDays={defaultDays(open.days_per_week)} today={today} />
+            <StartPlanForm templateId={open.id} initialDays={preferredDays?.length ? preferredDays : defaultDays(open.days_per_week)} today={today} />
           </div>
         )}
       </Sheet>

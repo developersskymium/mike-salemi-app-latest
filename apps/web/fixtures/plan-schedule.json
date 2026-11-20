@@ -510,5 +510,20 @@
    3,
    5
   ]
- }
+ },
+ "queues": [
+  {
+   "plan_id": "00000000-0000-4000-8000-0000000000aa",
+   "name": "Kettlebell Lifestyle \u00b7 Level II",
+   "program_slug": "kettlebell-lifestyle",
+   "program_name": "Kettlebell Lifestyle",
+   "next": {
+    "title": "Day 12 - Workout Day",
+    "lesson_id": null,
+    "minutes": 30
+   },
+   "left": 49,
+   "total": 60
+  }
+ ]
 }

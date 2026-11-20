@@ -11,6 +11,7 @@ import type { LessonCatalog } from "@/lib/loaders/today-plan-you";
 import { defaultDays } from "@/components/today/dates";
 import { dayTypeOf, lessonHref, splitDayTitle } from "@/components/today/model";
 import { DayPicker } from "./StartPlan";
+import type { TrainingProfile } from "@ms/api";
 import "@/components/today/tpy.css";
 import "./pln.css";
 
@@ -44,16 +45,18 @@ function Num({ label, value, min, max, step = 1, onChange }: { label: string; va
  * recovery, constraints, start date) → result (overview + Save and schedule, week accordions with the
  * real lessons and why each is there) → saved plans.
  */
-export function PlanCreator({ catalog, today, saved }: { catalog: LessonCatalog; today: string; saved: { id: string; name: string; sessions: number }[] }) {
+export function PlanCreator({ catalog, today, saved, profile }: { catalog: LessonCatalog; today: string; saved: { id: string; name: string; sessions: number }[]; profile?: TrainingProfile | null }) {
+  // Defaults come from the training profile: preferred weekdays, days a week and session length.
+  const prefDays = profile?.training_days?.length ? profile.training_days : profile?.days_per_week ? defaultDays(Math.min(6, Math.max(2, profile.days_per_week))) : defaultDays(3);
   const [form, setForm] = useState<CreatorInput>({
     goal: "strength",
     title: GOALS[0]!.title,
     weeks: 4,
-    daysPerWeek: 3,
-    minutes: 35,
+    daysPerWeek: Math.min(6, Math.max(2, prefDays.length)),
+    minutes: Math.min(120, Math.max(10, profile?.session_minutes ?? 35)),
     experience: "intermediate",
     programIds: catalog.programs.slice(0, 2).map((p) => p.id),
-    trainingDays: defaultDays(3),
+    trainingDays: prefDays,
     equipment: "One kettlebell",
     recovery: "",
     constraints: "",

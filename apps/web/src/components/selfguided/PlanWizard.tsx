@@ -20,7 +20,9 @@ const LEVEL_PHOTOS = [
   { src: "/media/summit/mike-press.jpg", position: "50% 25%" },
 ];
 
-const STEPS = ["Level", "Days", "Start", "Focus", "Preview"] as const;
+const DATED = ["How", "Level", "Days", "Start", "Focus", "Preview"] as const;
+const UNDATED = ["How", "Level", "Preview"] as const;
+type StepName = (typeof DATED)[number];
 const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const ORDER = [1, 2, 3, 4, 5, 6, 0];
 const INTENT_WORD: Record<string, string> = { workout: "Workout", recovery: "Recovery", skill: "Skill", mobility: "Mobility" };
@@ -64,8 +66,12 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
   const [pathKey, setPathKey] = useState<string | null>(data.path?.key ?? null);
   const [levelDays, setLevelDays] = useState<Record<string, WizardDay[]>>(() => ({ [data.path?.key ?? ""]: daysOf(data, board) }));
   const [loading, startLoad] = useTransition();
-  const [perWeek, setPerWeek] = useState(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays.length : profDays?.length ?? 3));
-  const [weekdays, setWeekdays] = useState<number[]>(() => (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : profDays ?? defaultWeekdays(3)));
+  // Preferred days come first (client: "take preferences into account"); the enrollment's days only fill in when there's no profile.
+  const [perWeek, setPerWeek] = useState(() => profDays?.length ?? (data.enrollment?.trainingDays.length || 3));
+  const [weekdays, setWeekdays] = useState<number[]>(() => profDays ?? (data.enrollment?.trainingDays.length ? data.enrollment.trainingDays : defaultWeekdays(3)));
+  /** "On a schedule" (dated, on your days) or "No dates — just the order". */
+  const [mode, setMode] = useState<"dated" | "undated">("dated");
+  const STEPS: readonly StepName[] = mode === "dated" ? DATED : UNDATED;
   const [start, setStart] = useState(() => plus(1));
   const [from, setFrom] = useState<"next" | "first">("next");
   const [focus, setFocus] = useState<WizardFocus>("balanced");
@@ -78,6 +84,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
   const firstOpen = days.find((d) => !d.done) ?? null;
   const fromDays = from === "next" && firstOpen ? days.filter((d) => d.dayNumber >= firstOpen.dayNumber) : days;
   const plan = useMemo(() => buildWizardPlan({ days: fromDays, weekdays, start, focus }), [fromDays, weekdays, start, focus]);
+  const ordered = useMemo(() => fromDays.map((d, i) => ({ date: plus(i), day: d, kind: d.intent === "recovery" ? ("recovery" as const) : ("training" as const) })), [fromDays]);
   const level = data.paths.find((p) => p.key === pathKey) ?? data.path;
   const levelName = level?.shortName ?? data.program.name;
   const weeks = plan.items.length ? plan.items[plan.items.length - 1]!.week : 0;
@@ -108,6 +115,21 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
   }
 
   function save() {
+    if (mode === "undated") {
+      if (!ordered.length) return;
+      const name = `${data.program.name} · ${levelName} · in order`;
+      startSave(async () => {
+        const r = await savePlanAction(
+          name,
+          { kind: "self_guided", source: "wizard", undated: true, program: data.program.slug, path: pathKey, from, overview: `${ordered.length} sessions in Mike's order, no dates. Do the next one whenever you're ready.` },
+          ordered.map((i) => ({ date: i.date, lessonId: i.day.id, kind: i.kind, note: "Next in Mike's order." })),
+        );
+        if (!r.ok) return void toast(r.message);
+        toast(`Saved — ${ordered.length} sessions in order, no dates.`, { tone: "success" });
+        setSaved({ planHref: "/plan", count: ordered.length });
+      });
+      return;
+    }
     if (!plan.items.length) return;
     const name = `${data.program.name} · ${levelName} · ${perWeek}×/week`;
     const overview = `${plan.items.length} sessions over ${weeks} week${weeks === 1 ? "" : "s"}, ${perWeek} a week (${ORDER.filter((d) => weekdays.includes(d)).map((d) => WD[d]).join(", ")}), from ${nice(start, { month: "short", day: "numeric" })}. ${FOCUS_COPY[focus].line}`;
@@ -132,7 +154,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
     router.push(href);
   }
 
-  const first = plan.items[0] ?? null;
+  const first = mode === "undated" ? (ordered[0] ? { date: plus(0), day: ordered[0].day } : null) : plan.items[0] ?? null;
   const firstHref = first ? `/programs/${data.program.slug}/session/open?lesson=${first.day.id}&key=${encodeURIComponent(first.day.id)}` : null;
   const firstIsToday = first?.date === plus(0);
   // The preview shows whole weeks: the first three, then "show all" (no box cutting a row in half).
@@ -148,10 +170,10 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
             <Icon name="check" />
           </span>
           <h3 id="wz-done-h" className="lq-d-sm">
-            Your plan is on your schedule
+            {mode === "undated" ? "Your order is ready" : "Your plan is on your schedule"}
           </h3>
           <p className="lq-t15 lq-c2">
-            <b className="lq-num">{saved.count}</b> sessions, {perWeek} a week, {levelName}.
+            <b className="lq-num">{saved.count}</b> sessions, {mode === "undated" ? "in order, no dates" : `${perWeek} a week`}, {levelName}.
             {first ? ` First up: Day ${first.day.dayNumber}, ${firstIsToday ? "today" : nice(first.date)}.` : ""}
           </p>
           <div className="wz-done-a">
@@ -185,7 +207,8 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
     );
   }
 
-  const canNext = step === 1 ? weekdays.length > 0 : step === 0 ? days.length > 0 && !loading : true;
+  const cur = STEPS[step] ?? "How";
+  const canNext = cur === "Days" ? weekdays.length > 0 : cur === "Level" ? days.length > 0 && !loading : true;
 
   return (
     <div className="wz">
@@ -201,7 +224,55 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
       </ol>
 
       <div className="wz-body" key={step}>
-        {step === 0 && (
+        {cur === "How" && (
+          <section aria-labelledby="wz-hh">
+            <h3 id="wz-hh" className="lq-d-sm">
+              How do you want to follow it?
+            </h3>
+            <p className="lq-t13 lq-c2">Self-Guided can sit on your calendar, or just keep Mike&apos;s order for you. You can change this later.</p>
+            <div className="wz-opts">
+              <button type="button" className="wz-opt lq-press" aria-pressed={mode === "dated"} onClick={() => setMode("dated")}>
+                <b>On a schedule</b>
+                <span>Pick your days. Sessions land on {profDays?.length ? `your training days (${ORDER.filter((d) => weekdays.includes(d)).map((d) => WD[d]).join(", ")})` : "the days you choose"}, one a day.</span>
+                <i aria-hidden>{mode === "dated" && <Icon name="check" size="xs" />}</i>
+              </button>
+              <button type="button" className="wz-opt lq-press" aria-pressed={mode === "undated"} onClick={() => setMode("undated")}>
+                <b>No dates, just the order</b>
+                <span>We keep Mike&apos;s day-by-day order. Do the next one whenever you&apos;re ready, nothing to fall behind on.</span>
+                <i aria-hidden>{mode === "undated" && <Icon name="check" size="xs" />}</i>
+              </button>
+            </div>
+          </section>
+        )}
+
+        {cur === "Preview" && mode === "undated" && (
+          <section aria-labelledby="wz-hu">
+            <h3 id="wz-hu" className="lq-d-sm">
+              Your order
+            </h3>
+            <p className="lq-t13 lq-c2">
+              <b className="lq-num">{ordered.length}</b> sessions, {levelName}. No dates: your week shows what&apos;s next, and you do it whenever you&apos;re ready.
+            </p>
+            <ol className="wz-queue">
+              {ordered.slice(0, allWeeks ? undefined : 8).map((i, n) => (
+                <li key={i.day.id}>
+                  <span className="wz-d lq-num">{n === 0 ? "Next" : `${n + 1}`}</span>
+                  <span className="wz-dot" data-i={i.day.intent} aria-hidden />
+                  <span className="wz-t">
+                    <b>Day {i.day.dayNumber}</b> · {(i.day.dayType ?? "").replace(/\s+day$/i, "") || INTENT_WORD[i.day.intent]}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            {!allWeeks && ordered.length > 8 && (
+              <button type="button" className="wz-more lq-press" onClick={() => setAllWeeks(true)}>
+                Show all {ordered.length} sessions
+              </button>
+            )}
+          </section>
+        )}
+
+        {cur === "Level" && (
           <section aria-labelledby="wz-h0">
             <h3 id="wz-h0" className="lq-d-sm">
               Which level are you training?
@@ -233,7 +304,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           </section>
         )}
 
-        {step === 1 && (
+        {cur === "Days" && (
           <section aria-labelledby="wz-h1">
             <h3 id="wz-h1" className="lq-d-sm">
               How many days a week?
@@ -259,7 +330,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           </section>
         )}
 
-        {step === 2 && (
+        {cur === "Start" && (
           <section aria-labelledby="wz-h2">
             <h3 id="wz-h2" className="lq-d-sm">
               When do you start?
@@ -284,7 +355,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           </section>
         )}
 
-        {step === 3 && (
+        {cur === "Focus" && (
           <section aria-labelledby="wz-h3">
             <h3 id="wz-h3" className="lq-d-sm">
               What&apos;s the focus?
@@ -302,7 +373,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           </section>
         )}
 
-        {step === 4 && (
+        {cur === "Preview" && mode === "dated" && (
           <section aria-labelledby="wz-h4">
             <h3 id="wz-h4" className="lq-d-sm">
               Your schedule
@@ -357,15 +428,15 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           <span />
         )}
         <span className="lq-t12 lq-c3 wz-sum lq-num">
-          {plan.items.length ? `${plan.items.length} sessions · ${perWeek}/week · from ${nice(start, { month: "short", day: "numeric" })}` : "Pick your days"}
+          {mode === "undated" ? `${ordered.length} sessions · in order, no dates` : plan.items.length ? `${plan.items.length} sessions · ${perWeek}/week · from ${nice(start, { month: "short", day: "numeric" })}` : "Pick your days"}
         </span>
         {step < STEPS.length - 1 ? (
           <Button size="md" iconAfter="chevron" disabled={!canNext} onClick={() => setStep((s) => s + 1)}>
             {step === STEPS.length - 2 ? "Preview" : "Next"}
           </Button>
         ) : (
-          <Button size="md" icon="calendar" disabled={!plan.items.length} aria-busy={saving || undefined} onClick={save}>
-            {saving ? "Saving…" : "Save to my plan"}
+          <Button size="md" icon="calendar" disabled={mode === "undated" ? !ordered.length : !plan.items.length} aria-busy={saving || undefined} onClick={save}>
+            {saving ? "Saving…" : mode === "undated" ? "Save my order" : "Save to my plan"}
           </Button>
         )}
       </div>
