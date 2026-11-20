@@ -1,0 +1,28 @@
+/* Heatmap cells. Levels read --gfx-heat-0…4; today's ring --gfx-heat-ring. */
+.gfx-heat-cell {
+  /* Glacier light by intensity; the brightest days glow (shadows exist only as glow). */
+  --h0: var(--gfx-heat-0, var(--g-trace-dim, rgba(20, 110, 170, .14)));
+  --h1: var(--gfx-heat-1, color-mix(in srgb, var(--g-trace, #1490D6) 30%, transparent));
+  --h2: var(--gfx-heat-2, color-mix(in srgb, var(--g-trace, #1490D6) 55%, transparent));
+  --h3: var(--gfx-heat-3, color-mix(in srgb, var(--g-trace, #1490D6) 80%, transparent));
+  --h4: var(--gfx-heat-4, var(--g-trace, #1490D6));
+  display: inline-block;
+  inline-size: var(--heat-size, 14px);
+  block-size: var(--heat-size, 14px);
+  border-radius: calc(var(--heat-size, 14px) * .3);
+  background: var(--h0);
+  
+  vertical-align: middle;
+}
+.gfx-heat-cell[data-level="1"] { background: var(--h1); }
+.gfx-heat-cell[data-level="2"] { background: var(--h2); }
+.gfx-heat-cell[data-level="3"] {
+  background: var(--h3);
+}
+.gfx-heat-cell[data-level="4"] {
+  background: radial-gradient(circle at 50% 45%, var(--g-trace-hot, #E6F8FF) 0 18%, transparent 60%), var(--h4);
+  box-shadow: 0 0 calc(var(--heat-size, 14px) * .55) color-mix(in srgb, var(--h4) 70%, transparent);
+}
+.gfx-heat-future { background: transparent; box-shadow: inset 0 0 0 1px var(--h0); }
+.gfx-heat-today { outline: 1.5px solid var(--gfx-heat-ring, var(--g-trace, #1490D6)); outline-offset: 1.5px; }
+.gfx-heat-grid { display: inline-grid; grid-auto-flow: column; grid-auto-columns: max-content; }

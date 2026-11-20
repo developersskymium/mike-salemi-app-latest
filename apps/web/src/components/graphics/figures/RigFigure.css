@@ -1,0 +1,40 @@
+/* Movement figures on the rig: ink silhouette with a rim light, far limbs a step
+   back, shoe soles, a soft contact shadow, the kettlebell the one accent. */
+.gfx-rig-fig { color: var(--g-figure); }
+.gfx-rig-ink { fill: currentColor; }
+.gfx-rig-far { fill: currentColor; opacity: var(--g-figure-far); }
+.gfx-rig-farSole { opacity: .5; }
+.gfx-rig-sole { fill: var(--g-sole); }
+.gfx-rig-rim { fill: var(--g-figure-rim); }
+.gfx-rig-rimShift { transform: translate(var(--g-rim-dx), var(--g-rim-dy)); }
+
+.gfx-rig-bellHi { stop-color: var(--g-bell-hi); }
+.gfx-rig-bellMid { stop-color: var(--g-bell); }
+.gfx-rig-bellLo { stop-color: var(--g-bell-lo); }
+.gfx-rig-bellSpec {
+  fill: none;
+  stroke: var(--g-specular);
+  stroke-opacity: var(--g-bell-spec);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.gfx-rig-bellSheen {
+  fill: none;
+  stroke: var(--g-specular);
+  stroke-opacity: .35;
+  stroke-width: .9;
+  stroke-linecap: round;
+}
+
+/* No grey shadows: the floor only catches a little of the bell's light. */
+.gfx-rig-floorA { stop-color: var(--g-trace); stop-opacity: .12; }
+.gfx-rig-floorB { stop-color: var(--g-trace); stop-opacity: 0; }
+.gfx-rig-contact { fill: var(--g-figure); fill-opacity: .14; }
+.gfx-rig-contactFar { fill: var(--g-figure); fill-opacity: .07; }
+.gfx-rig-traceTail { fill: none; stroke: var(--g-trace); }
+.gfx-rig-traceGlow { fill: none; stroke: var(--g-trace); stroke-linecap: round; opacity: var(--g-trace-glow); }
+.gfx-rig-traceHalo { fill: var(--g-trace); opacity: .45; }
+.gfx-rig-breathOuter { fill: none; stroke: var(--g-trace); stroke-width: 1.2; opacity: .35; }
+.gfx-rig-breathInner { fill: none; stroke: var(--g-trace); stroke-width: 1.6; stroke-opacity: .8; }
+.gfx-rig-debug circle { fill: #e33; }
+.gfx-rig-debug path { stroke: #e33; stroke-width: .5; fill: none; }

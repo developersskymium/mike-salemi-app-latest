@@ -1,114 +1,28 @@
-.gfx-phase-landscape-wrap {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 1000 / 440;
-  color: var(--g-fg);
-  font-family: var(--font, system-ui);
-  container-type: inline-size;
+/* Phase ridge (Trace). Ground from the exposure helpers; route from --g-trace*; tag --gfx-tag / --gfx-on-tag. */
+.gfx-phase-landscape-ridge { display: block; width: 100%; height: auto; overflow: hidden;
+  --pl-mtn: var(--g-snow-ground); --pl-line: var(--g-lines); --pl-hills: color-mix(in srgb, var(--g-lines) 18%, var(--g-snow-ground)); }
+:where([data-theme="dark"]) .gfx-phase-landscape-ridge { --pl-mtn: #03060B; --pl-line: rgba(160, 210, 240, .25); --pl-hills: #060B14; }
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-phase-landscape-ridge { --pl-mtn: #03060B; --pl-line: rgba(160, 210, 240, .25); --pl-hills: #060B14; }
 }
-.gfx-phase-landscape-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-
-/* Sky: clear above, a cold glacier light at the horizon. */
-.gfx-phase-landscape-skyTop { stop-color: var(--g-accent-hi); stop-opacity: 0; }
-.gfx-phase-landscape-skyLow { stop-color: var(--g-accent-hi); stop-opacity: .14; }
-.gfx-phase-landscape-sunCore { stop-color: #fff; stop-opacity: .95; }
-.gfx-phase-landscape-sunMid { stop-color: var(--g-accent-hi); stop-opacity: .32; }
-.gfx-phase-landscape-sunEdge { stop-color: var(--g-accent-hi); stop-opacity: 0; }
-
-.gfx-phase-landscape-farTop { stop-color: var(--g-accent-hi); stop-opacity: .26; }
-.gfx-phase-landscape-farLow { stop-color: var(--g-accent-hi); stop-opacity: .04; }
-.gfx-phase-landscape-snowFar { fill: #fff; opacity: .7; }
-.gfx-phase-landscape-mid { fill: color-mix(in srgb, var(--g-fg) 7%, color-mix(in srgb, var(--g-accent) 8%, transparent)); }
-
-.gfx-phase-landscape-mainA { stop-color: color-mix(in srgb, var(--g-accent) 7%, color-mix(in srgb, var(--g-fg) 15%, var(--g-bg))); stop-opacity: 1; }
-.gfx-phase-landscape-mainB { stop-color: color-mix(in srgb, var(--g-fg) 7%, var(--g-bg)); stop-opacity: 1; }
-.gfx-phase-landscape-strata path { fill: none; stroke: var(--g-fg); stroke-opacity: .07; stroke-width: 1.5; stroke-linecap: round; }
-.gfx-phase-landscape-snow { fill: #fff; stroke: color-mix(in srgb, var(--g-fg) 14%, transparent); stroke-width: 1; stroke-linejoin: round; }
-.gfx-phase-landscape-rim { fill: none; stroke: #fff; stroke-opacity: .55; stroke-width: 1.5; stroke-linejoin: round; }
-
-/* Trail */
-.gfx-phase-landscape-ahead {
-  fill: none;
-  stroke: var(--g-fg);
-  stroke-opacity: .32;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: .5 9;
+.gfx-phase-landscape-mtn { fill: var(--pl-mtn); }
+.gfx-phase-landscape-hills { fill: var(--pl-hills); }
+.gfx-phase-landscape-mtnLine { fill: none; stroke: var(--pl-line); stroke-width: 1.2; stroke-linejoin: round; }
+.gfx-phase-landscape-node { fill: var(--pl-mtn); stroke: var(--g-trace-dim); stroke-width: 1.8; }
+.gfx-phase-landscape-nodeLit { fill: var(--g-trace-hot); stroke: var(--g-trace); stroke-width: 1.8; }
+.gfx-phase-landscape-label { font: 600 14px/1 var(--gfx-text, var(--font, system-ui)); fill: var(--g-figure); }
+.gfx-phase-landscape-name { font: 500 12.5px/1 var(--gfx-text, var(--font, system-ui)); fill: var(--g-figure); opacity: .6; }
+.gfx-phase-landscape-phase .gfx-phase-landscape-label { opacity: .6; }
+.gfx-phase-landscape-tagBg { fill: var(--gfx-tag, var(--g-trace)); }
+.gfx-phase-landscape-tagText {
+  font-family: var(--gfx-display, "Anybody", var(--font, system-ui), sans-serif);
+  font-weight: 600; font-stretch: 125%; font-size: 13px; fill: var(--gfx-on-tag, var(--on-accent, #fff));
 }
-.gfx-phase-landscape-walked, .gfx-phase-landscape-walkGlow {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: var(--walked) 2;
-  stroke-dashoffset: 0;
-}
-.gfx-phase-landscape-walked { stroke-width: 4.5; }
-.gfx-phase-landscape-walkGlow { stroke: var(--g-accent-hi); stroke-width: 14; opacity: .16; filter: blur(4px); }
-.gfx-phase-landscape-walkA { stop-color: var(--g-accent-deep); }
-.gfx-phase-landscape-walkB { stop-color: var(--g-accent-hi); }
-
-.gfx-phase-landscape-day { fill: var(--g-fg); opacity: .28; }
-.gfx-phase-landscape-dayDone { fill: #fff; opacity: .9; }
-
-.gfx-phase-landscape-tent path { fill: var(--g-bg-elev); stroke: var(--g-fg); stroke-opacity: .55; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
-.gfx-phase-landscape-tent .gfx-phase-landscape-tentDoor { fill: none; }
-.gfx-phase-landscape-tent .gfx-phase-landscape-tentGround { fill: none; stroke-opacity: .3; }
-.gfx-phase-landscape-tentReached path:first-child { fill: var(--g-accent-soft); stroke: var(--g-accent); stroke-opacity: 1; }
-.gfx-phase-landscape-tentReached .gfx-phase-landscape-tentDoor { stroke: var(--g-accent); stroke-opacity: 1; }
-
-.gfx-phase-landscape-flag path { stroke: var(--g-fg); stroke-width: 1.75; stroke-linecap: round; fill: none; }
-.gfx-phase-landscape-flag .gfx-phase-landscape-flagCloth { fill: var(--g-fg); stroke: none; opacity: .75; }
-
-.gfx-phase-landscape-here { fill: var(--g-accent); stroke: #fff; stroke-width: 3; }
-.gfx-phase-landscape-hereCore { fill: #fff; }
-.gfx-phase-landscape-pulse { fill: var(--g-accent); opacity: 0; transform-box: fill-box; transform-origin: center; }
-
-/* Labels (HTML, so they stay crisp at every width) */
-.gfx-phase-landscape-label {
-  position: absolute;
-  transform: translate(-50%, 0);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  white-space: nowrap;
-  pointer-events: none;
-  line-height: 1.15;
-}
-.gfx-phase-landscape-labelTitle { font-size: clamp(10px, 1.25cqi, 13px); font-weight: 600; color: var(--g-fg2); }
-.gfx-phase-landscape-labelName { font-size: clamp(9px, 1.1cqi, 12px); color: var(--g-fg3); }
-.gfx-phase-landscape-labelHere { transform: translate(-50%, -100%); }
-.gfx-phase-landscape-chip {
-  font-size: clamp(10px, 1.25cqi, 13px);
-  font-weight: 650;
-  color: var(--g-on-accent);
-  background: var(--g-accent);
-  padding: 3px 9px;
-  border-radius: 999px;
-  box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--g-accent) 70%, transparent);
-  font-variant-numeric: tabular-nums;
-}
-
-@container (max-width: 560px) {
-  .gfx-phase-landscape-labelName, .gfx-phase-landscape-tight { display: none; }
-}
-
+:where([data-theme="dark"]) .gfx-phase-landscape-tagText { fill: var(--gfx-on-tag-dark, #04182A); }
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-phase-landscape-animated .gfx-phase-landscape-walked, .gfx-phase-landscape-animated .gfx-phase-landscape-walkGlow { animation: gfx-phase-landscape-walk 1.8s var(--g-ease) .2s both; }
-  .gfx-phase-landscape-pulse { animation: gfx-phase-landscape-pulse 2.8s cubic-bezier(.2, .6, .3, 1) infinite; }
-  .gfx-phase-landscape-pulseLate { animation-delay: 1.4s; }
-  .gfx-phase-landscape-sun { animation: gfx-phase-landscape-sunrise 9s ease-in-out infinite alternate; }
-  .gfx-phase-landscape-animated .gfx-phase-landscape-chip { animation: gfx-phase-landscape-chipIn .6s var(--g-spring) 1.6s both; }
+  .gfx-phase-landscape-animated .gfx-phase-landscape-expose { animation: gfx-phase-landscape-expose 1.4s cubic-bezier(.16, 1, .3, 1) both; }
+  .gfx-phase-landscape-animated .gfx-phase-landscape-tag { animation: gfx-phase-landscape-tag .8s var(--g-spring) 1s both; }
 }
-
-@keyframes gfx-phase-landscape-walk { from { stroke-dashoffset: var(--walked); } to { stroke-dashoffset: 0; } }
-@keyframes gfx-phase-landscape-pulse {
-  0% { transform: scale(.4); opacity: .35; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-@keyframes gfx-phase-landscape-sunrise { from { opacity: .85; } to { opacity: 1; } }
-@keyframes gfx-phase-landscape-chipIn { from { opacity: 0; transform: translateY(6px) scale(.9); } to { opacity: 1; transform: none; } }
-
-.gfx-phase-landscape-shadeA { stop-color: var(--g-fg); stop-opacity: 0; }
-.gfx-phase-landscape-shadeB { stop-color: var(--g-fg); stop-opacity: .07; }
+@keyframes gfx-phase-landscape-expose { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes gfx-phase-landscape-tag { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.gfx-phase-landscape-leader { stroke: var(--pl-line); stroke-width: 1; stroke-dasharray: 1 3; }

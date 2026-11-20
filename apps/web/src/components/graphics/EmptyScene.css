@@ -1,33 +1,49 @@
-.gfx-empty-scene-scene { color: var(--g-fg); stroke: var(--g-fg); overflow: visible; }
-.gfx-empty-scene-scene path, .gfx-empty-scene-scene circle, .gfx-empty-scene-scene ellipse, .gfx-empty-scene-scene rect { vector-effect: non-scaling-stroke; stroke-width: 1.5px; }
-.gfx-empty-scene-soft { stroke: var(--g-fg); opacity: .35; }
-.gfx-empty-scene-soft2 { opacity: .55; }
-.gfx-empty-scene-trail { stroke: var(--g-fg); opacity: .4; stroke-dasharray: 1px 5px; }
-.gfx-empty-scene-accentFill { fill: var(--g-accent); stroke: none; }
-.gfx-empty-scene-accentLine { stroke: var(--g-accent); fill: var(--g-accent-soft); }
-.gfx-empty-scene-shadow { fill: var(--g-fg); stroke: none; opacity: .07; }
-.gfx-empty-scene-card { fill: var(--g-bg-elev); }
-.gfx-empty-scene-dot { fill: var(--g-fg); stroke: none; opacity: .28; }
-.gfx-empty-scene-todayHalo { fill: var(--g-accent-soft); stroke: none; transform-box: fill-box; transform-origin: center; }
-.gfx-empty-scene-stone { fill: var(--g-bg-elev); }
-.gfx-empty-scene-emberGlow { fill: var(--g-accent); stroke: none; opacity: .18; filter: blur(2px); transform-box: fill-box; transform-origin: center; }
-.gfx-empty-scene-sun { fill: var(--g-accent-soft); stroke: var(--g-accent); }
-.gfx-empty-scene-sunHalo { fill: none; stroke: var(--g-accent); opacity: .18; }
-.gfx-empty-scene-flag, .gfx-empty-scene-bob, .gfx-empty-scene-smoke, .gfx-empty-scene-smoke2, .gfx-empty-scene-ember { transform-box: fill-box; }
-.gfx-empty-scene-flag { transform-origin: 0% 100%; }
+/* Empty-state worlds (Trace). Night exposure in dark, snow contours in light; objects are matte
+   (night: near-black with a rim of light; snow: film-white drawn in ink). Hooks: --gfx-night*,
+   --gfx-snow-ground, --gfx-lines, --gfx-trace*, --gfx-ember, --gfx-object, --gfx-object-line. */
+.gfx-empty-scene-scene {
+  --es-obj: var(--gfx-object, var(--g-film));
+  --es-line: var(--gfx-object-line, color-mix(in srgb, var(--g-figure) 70%, transparent));
+  --es-mtn: var(--g-snow-ground);
+  --es-mtn-line: var(--g-lines);
+  --es-port: var(--g-lines);
+}
+:where([data-theme="dark"]) .gfx-empty-scene-scene {
+  --es-obj: var(--gfx-object-dark, #03060B);
+  --es-line: var(--gfx-object-line-dark, rgba(160, 210, 240, .45));
+  --es-mtn: var(--g-night-lo);
+  --es-mtn-line: rgba(160, 210, 240, .25);
+  --es-port: rgba(150, 200, 235, .14);
+}
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-empty-scene-scene {
+    --es-obj: var(--gfx-object-dark, #03060B);
+    --es-line: var(--gfx-object-line-dark, rgba(160, 210, 240, .45));
+    --es-mtn: var(--g-night-lo);
+    --es-mtn-line: rgba(160, 210, 240, .25);
+    --es-port: rgba(150, 200, 235, .14);
+  }
+}
+.gfx-empty-scene-mtn { fill: var(--es-mtn); }
+.gfx-empty-scene-mtnLine { fill: none; stroke: var(--es-mtn-line); stroke-width: 1; stroke-linejoin: round; }
+.gfx-empty-scene-ground { fill: var(--es-mtn); }
+.gfx-empty-scene-portRim { fill: none; stroke: var(--es-port); stroke-width: 1; }
+.gfx-empty-scene-obj { fill: var(--es-obj); stroke: var(--es-line); stroke-width: 1.1; stroke-linejoin: round; }
+.gfx-empty-scene-mat { fill: var(--es-obj); stroke: var(--es-line); stroke-width: 1; stroke-linejoin: round; }
+.gfx-empty-scene-chalk { fill: var(--gfx-chalk, #F4F7F9); stroke: var(--es-line); stroke-width: .8; }
+.gfx-empty-scene-lake { fill: var(--g-trace); opacity: .14; }
+.gfx-empty-scene-reflection { opacity: .45; }
+.gfx-empty-scene-smoke { fill: none; stroke: var(--es-line); stroke-width: 1.6; stroke-linecap: round; }
+.gfx-empty-scene-log { fill: none; stroke: var(--es-line); stroke-width: 5; stroke-linecap: round; }
+.gfx-empty-scene-emberA { stop-color: var(--g-ember); stop-opacity: .55; }
+.gfx-empty-scene-emberB { stop-color: var(--g-ember); stop-opacity: 0; }
+.gfx-empty-scene-ember { fill: var(--g-ember); }
+.gfx-empty-scene-emberHot { fill: var(--gfx-ember-hot, #FFE9C7); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-empty-scene-animated .gfx-empty-scene-flag { animation: gfx-empty-scene-flutter 3.2s ease-in-out infinite; }
-  .gfx-empty-scene-animated .gfx-empty-scene-bob { animation: gfx-empty-scene-bob 5s ease-in-out infinite; }
-  .gfx-empty-scene-animated .gfx-empty-scene-smoke { animation: gfx-empty-scene-drift 7s ease-in-out infinite; transform-origin: 50% 100%; }
-  .gfx-empty-scene-animated .gfx-empty-scene-smoke2 { animation: gfx-empty-scene-fade 4.5s ease-in-out infinite; }
-  .gfx-empty-scene-animated .gfx-empty-scene-emberGlow { animation: gfx-empty-scene-glow 3.4s ease-in-out infinite; }
-  .gfx-empty-scene-animated .gfx-empty-scene-todayHalo { animation: gfx-empty-scene-halo 3s ease-in-out infinite; }
-  .gfx-empty-scene-animated .gfx-empty-scene-sunHalo { animation: gfx-empty-scene-fade 6s ease-in-out infinite; }
+  .gfx-empty-scene-animated .gfx-empty-scene-world { animation: gfx-empty-scene-expose 900ms var(--g-ease) both; }
+  .gfx-empty-scene-animated .gfx-empty-scene-layer2 { animation: gfx-empty-scene-rise 900ms var(--g-ease) 120ms both; }
+  .gfx-empty-scene-animated .gfx-empty-scene-layer3 { animation: gfx-empty-scene-rise 900ms var(--g-spring) 240ms both; }
 }
-@keyframes gfx-empty-scene-flutter { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(-6deg) scaleX(.94); } }
-@keyframes gfx-empty-scene-bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(-2deg); } }
-@keyframes gfx-empty-scene-drift { 0%, 100% { transform: skewX(0deg); opacity: 1; } 50% { transform: skewX(-8deg) translateX(2px); opacity: .6; } }
-@keyframes gfx-empty-scene-fade { 0%, 100% { opacity: .1; } 50% { opacity: .4; } }
-@keyframes gfx-empty-scene-glow { 0%, 100% { transform: scale(1); opacity: .14; } 50% { transform: scale(1.5); opacity: .3; } }
-@keyframes gfx-empty-scene-halo { 0%, 100% { transform: scale(.9); opacity: .8; } 50% { transform: scale(1.25); opacity: .35; } }
+@keyframes gfx-empty-scene-expose { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gfx-empty-scene-rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }

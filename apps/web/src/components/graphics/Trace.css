@@ -1,0 +1,9 @@
+/* The Trace: body --g-trace, head --g-trace-hot, path ahead --g-trace-dim, glow strength --g-trace-glow. */
+.gfx-trace-trace { pointer-events: none; }
+.gfx-trace-tail { fill: none; stroke: var(--g-trace); }
+.gfx-trace-glow { fill: none; stroke: var(--g-trace); stroke-linecap: round; opacity: var(--g-trace-glow); }
+.gfx-trace-ahead { fill: none; stroke: var(--g-trace-dim); stroke-linecap: round; }
+.gfx-trace-halo { fill: var(--g-trace); opacity: .4; }
+.gfx-trace-head { fill: var(--g-trace-hot); }
+.gfx-trace-node { fill: var(--gfx-trace-node-fill, transparent); stroke: var(--g-trace-dim); }
+.gfx-trace-nodeLit { fill: var(--g-trace-hot); stroke: var(--g-trace); }

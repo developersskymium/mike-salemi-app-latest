@@ -15,6 +15,55 @@
   --g-spring: var(--curve-spring, cubic-bezier(.34, 1.56, .64, 1));
   --g-spring-soft: var(--curve-spring-soft, cubic-bezier(.3, 1.3, .6, 1));
   --g-ease: var(--curve-out, cubic-bezier(.22, .8, .2, 1));
+
+  /* Materials. Re-skin any graphic by setting the public --gfx-* hooks on an
+     ancestor; graphics only ever read the resolved --g-* values below.
+     Defaults follow the Trace identity: training drawn as glacier light with a
+     hot head and a fading tail; dark is a night exposure, light is snow with
+     glacier contour lines; shadows exist only as glow. */
+  --g-specular: var(--gfx-specular, #FFFFFF);
+  --g-shade: var(--gfx-shade, #000000);
+  --g-glacier: var(--gfx-glacier, #5CC8F5);
+  --g-glacier-hot: var(--gfx-glacier-hot, #E6F8FF);
+  --g-glacier-deep: var(--gfx-glacier-deep, #1478BC);
+  --g-glacier-ink: var(--gfx-glacier-ink, #0E7DC2);
+  /* The trace: its body, its hot head, and the dim dotted path still ahead. */
+  --g-trace: var(--gfx-trace, var(--trace, #1490D6));
+  --g-trace-hot: var(--gfx-trace-hot, var(--trace-hot, #0A5E99));
+  --g-trace-dim: var(--gfx-trace-dim, var(--trace-dim, rgba(20, 110, 170, .2)));
+  --g-trace-glow: var(--gfx-trace-glow-opacity, .22);
+  --g-lines: var(--gfx-lines, var(--lines, rgba(20, 110, 170, .45)));
+  --g-night: var(--gfx-night, #070C17);
+  --g-night-hi: var(--gfx-night-hi, #0E1A30);
+  --g-night-lo: var(--gfx-night-lo, #04070D);
+  --g-night-ink: var(--gfx-night-ink, #EEF4F8);
+  --g-star: var(--gfx-star, #C9D6E6);
+  --g-snow-ground: var(--gfx-snow-ground, var(--ground, #EEF3F6));
+  --g-film: var(--gfx-film, var(--film, #FBFDFE));
+  --g-ember: var(--gfx-ember, #F2A65A);
+  --g-figure: var(--gfx-figure, var(--ink, var(--g-fg)));
+  --g-figure-far: var(--gfx-figure-far-opacity, .3);
+  /* Rim light on the figure's leading edge: lit by the bell's own light. */
+  --g-figure-rim: var(--gfx-figure-rim, color-mix(in srgb, var(--g-trace) 60%, transparent));
+  --g-rim-dx: var(--gfx-rim-dx, -.75px);
+  --g-rim-dy: var(--gfx-rim-dy, .8px);
+  --g-sole: var(--gfx-sole, rgba(255, 255, 255, .34));
+  --g-bell-hi: var(--gfx-bell-hi, color-mix(in srgb, var(--g-trace) 45%, var(--g-glacier-hot)));
+  --g-bell: var(--gfx-bell, var(--g-trace));
+  --g-bell-lo: var(--gfx-bell-lo, var(--g-glacier-deep));
+  --g-bell-spec: var(--gfx-bell-spec-opacity, .5);
+  --g-glass: var(--gfx-glass, #FFFFFF);
+  --g-glass-opacity: var(--gfx-glass-opacity, .34);
+  --g-glass-sheen: var(--gfx-glass-sheen, .6);
+  --g-glass-edge: var(--gfx-glass-edge, var(--g-fg));
+  --g-glass-edge-opacity: var(--gfx-glass-edge-opacity, .1);
+  --g-snow: var(--gfx-snow, #FFFFFF);
+  --g-snow-opacity: var(--gfx-snow-opacity, .92);
+  --g-terrain: var(--gfx-terrain, var(--g-figure));
+  --g-enamel-hi: var(--gfx-enamel-hi, var(--g-night-hi));
+  --g-enamel: var(--gfx-enamel, var(--g-night));
+  --g-enamel-lo: var(--gfx-enamel-lo, var(--g-night-lo));
+  --g-relief-shadow: var(--gfx-relief-shadow, #000000);
   display: inline-block;
   flex: none;
   vertical-align: middle;
@@ -33,3 +82,40 @@
   .gfx-animated .gfx-loop { display: inline; }
   .gfx-animated .gfx-still { display: none; }
 }
+
+/* Night exposure: glacier light at full strength, figures in snow-white ink. */
+:where([data-theme="dark"]) .gfx-root {
+  --g-trace: var(--gfx-trace-dark, var(--trace, #5CC8F5));
+  --g-trace-hot: var(--gfx-trace-hot-dark, var(--trace-hot, #E6F8FF));
+  --g-trace-dim: var(--gfx-trace-dim-dark, var(--trace-dim, rgba(120, 180, 220, .22)));
+  --g-trace-glow: var(--gfx-trace-glow-opacity-dark, .4);
+  --g-lines: var(--gfx-lines-dark, var(--lines, rgba(170, 210, 240, .5)));
+  --g-film: var(--gfx-film-dark, var(--film, #0C1322));
+  --g-figure-far: var(--gfx-figure-far-opacity-dark, .34);
+  --g-rim-dx: var(--gfx-rim-dx-dark, -.75px);
+  --g-rim-dy: var(--gfx-rim-dy-dark, .8px);
+  --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
+  --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
+  --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
+  --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
+  --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+}
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-root {
+    --g-trace: var(--gfx-trace-dark, var(--trace, #5CC8F5));
+    --g-trace-hot: var(--gfx-trace-hot-dark, var(--trace-hot, #E6F8FF));
+    --g-trace-dim: var(--gfx-trace-dim-dark, var(--trace-dim, rgba(120, 180, 220, .22)));
+    --g-trace-glow: var(--gfx-trace-glow-opacity-dark, .4);
+    --g-lines: var(--gfx-lines-dark, var(--lines, rgba(170, 210, 240, .5)));
+    --g-film: var(--gfx-film-dark, var(--film, #0C1322));
+    --g-figure-far: var(--gfx-figure-far-opacity-dark, .34);
+    --g-rim-dx: var(--gfx-rim-dx-dark, -.75px);
+    --g-rim-dy: var(--gfx-rim-dy-dark, .8px);
+    --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
+    --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
+    --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
+    --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
+    --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+  }
+}
+

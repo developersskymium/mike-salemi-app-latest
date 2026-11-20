@@ -1,0 +1,70 @@
+.gfx-sp-page { font-family: var(--font, -apple-system, system-ui, sans-serif); -webkit-font-smoothing: antialiased; background: #F3F3F3; min-height: 100vh; }
+.gfx-sp-header { padding: 56px 56px 28px; color: #0A0A0A; max-width: 1100px; }
+.gfx-sp-header h1 { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -.026em; margin: 0; }
+.gfx-sp-header p { margin: 8px 0 0; max-width: 76ch; color: #545454; font-size: 15px; line-height: 21px; }
+.gfx-sp-header a { color: #1667D9; }
+.gfx-sp-header code { font: 13px ui-monospace, "SF Mono", monospace; }
+
+.gfx-sp-band {
+  background: var(--bg); color: var(--label); padding: 24px 56px 64px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start;
+}
+.gfx-sp-bandTag { grid-column: 1 / -1; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--label-2); }
+.gfx-sp-block { background: var(--bg-elev); border-radius: 30px; box-shadow: 0 0 0 .5px var(--sep); padding: 26px 28px 30px; min-width: 0; }
+.gfx-sp-wide { grid-column: 1 / -1; }
+.gfx-sp-blockHead h2 { font-size: 22px; line-height: 28px; font-weight: 650; letter-spacing: -.017em; margin: 0; }
+.gfx-sp-blockHead p { font-size: 13px; line-height: 18px; color: var(--label-2); margin: 3px 0 18px; }
+
+.gfx-sp-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px 22px; }
+.gfx-sp-row + .gfx-sp-row { margin-top: 22px; }
+figure { margin: 0; }
+figcaption { font-size: 12px; line-height: 16px; color: var(--label-2); text-align: center; }
+
+.gfx-sp-skies { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.gfx-sp-sky { position: relative; border-radius: 22px; overflow: hidden; height: 150px; }
+.gfx-sp-sky figcaption { position: absolute; left: 16px; top: 14px; text-align: left; display: grid; gap: 1px; }
+.gfx-sp-sky strong { font-size: 17px; font-weight: 650; color: #0A0A0A; letter-spacing: -.012em; }
+.gfx-sp-sky span { font-size: 12px; color: rgba(10, 10, 10, .6); }
+.gfx-sp-sky:nth-child(3) strong, .gfx-sp-sky:nth-child(4) strong { color: #fff; }
+.gfx-sp-sky:nth-child(3) span, .gfx-sp-sky:nth-child(4) span { color: rgba(255, 255, 255, .7); }
+
+.gfx-sp-figs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.gfx-sp-fig { display: grid; justify-items: center; border-radius: 22px; padding: 0 0 12px; background: var(--bg); min-width: 0; }
+.gfx-sp-fig svg { width: 100%; height: auto; max-width: 176px; }
+.gfx-sp-ramp { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px; margin-top: 18px; }
+.gfx-sp-rampCell { display: grid; justify-items: center; gap: 2px; }
+
+.gfx-sp-glyphs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; margin-bottom: 20px; }
+.gfx-sp-glyphCell { display: grid; justify-items: center; gap: 8px; }
+.gfx-sp-chip { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--fill); }
+
+.gfx-sp-scenes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.gfx-sp-scene { display: grid; justify-items: center; gap: 4px; text-align: center; }
+.gfx-sp-scene svg { width: 100%; height: auto; }
+.gfx-sp-scene strong { display: block; font-size: 15px; font-weight: 650; color: var(--label); }
+.gfx-sp-scene span { display: block; font-size: 12px; color: var(--label-2); }
+
+.gfx-sp-streak { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; color: var(--label-2); }
+.gfx-sp-streak b { color: var(--label); font-variant-numeric: tabular-nums; }
+
+.gfx-sp-heroGrid { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 20px; align-items: start; }
+.gfx-sp-card { background: var(--bg); border-radius: 26px; padding: 18px 6px 6px; overflow: hidden; }
+.gfx-sp-cardHead { padding: 0 16px 6px; }
+.gfx-sp-cardHead small { font-size: 13px; color: var(--label-2); display: block; }
+.gfx-sp-cardHead strong { font-size: 22px; line-height: 28px; font-weight: 650; letter-spacing: -.017em; }
+
+.gfx-sp-ambient { position: relative; overflow: hidden; height: 300px; border-radius: 26px; background: var(--bg); display: grid; place-items: center; text-align: center; }
+.gfx-sp-ambientText { position: relative; display: grid; gap: 6px; justify-items: center; }
+.gfx-sp-ambientText strong { font-size: 20px; font-weight: 650; letter-spacing: -.02em; }
+.gfx-sp-ambientText span { font-size: 13px; color: var(--label-2); }
+
+@media (max-width: 900px) {
+  .gfx-sp-band { grid-template-columns: 1fr; padding: 20px 16px 40px; }
+  .gfx-sp-header { padding: 32px 20px 20px; }
+  .gfx-sp-figs { grid-template-columns: repeat(2, 1fr); }
+  .gfx-sp-skies, .gfx-sp-scenes { grid-template-columns: repeat(2, 1fr); }
+  .gfx-sp-heroGrid { grid-template-columns: 1fr; }
+  .gfx-sp-block { padding: 20px 16px 24px; }
+  .gfx-sp-glyphs { grid-template-columns: repeat(2, 1fr); }
+  .gfx-sp-row > svg, .gfx-sp-row > div { max-width: 100%; }
+}

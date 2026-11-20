@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import "./gfx.css";
 import "./DayGlyph.css";
-import { cx, cls } from "./util";
+import { cls, cx } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-day-glyph");
@@ -16,16 +16,7 @@ export type DayType =
   | "on-ramp"
   | "overview";
 
-export const DAY_TYPES: DayType[] = [
-  "workout-1",
-  "workout-2",
-  "workout-3",
-  "recovery",
-  "skill",
-  "challenge",
-  "on-ramp",
-  "overview",
-];
+export const DAY_TYPES: DayType[] = ["workout-1", "workout-2", "workout-3", "recovery", "skill", "challenge", "on-ramp", "overview"];
 
 export const DAY_TYPE_LABEL: Record<DayType, string> = {
   "workout-1": "Workout I",
@@ -38,93 +29,72 @@ export const DAY_TYPE_LABEL: Record<DayType, string> = {
   overview: "Overview",
 };
 
-/** Kettlebell outline on the 24 grid, shared with the medal and kettlebell marks. */
-export const BELL_24 = {
-  handle: "M7.75 9.7 7.4 6.3C7.25 4.45 8.55 3.2 10.4 3.2h3.2c1.85 0 3.15 1.25 3 3.1l-.35 3.4",
-  body: "M8.85 20.6a6.6 6.6 0 1 1 6.3 0Z",
+/** The shared kettlebell on the 24 grid (filled, with its window), for other marks. */
+export const BELL_24 = "M7.9 22.38A8.06 6.91 0 0 1 5.86 11.95C5.22 8.43 5.34 4.97 7.14 3.44C8.42 2.28 10.08 1.9 12 1.9S15.58 2.28 16.86 3.44C18.66 4.97 18.78 8.43 18.14 11.95A8.06 6.91 0 0 1 16.1 22.38ZM7.78 10.54C7.39 7.79 7.65 5.87 8.93 4.97C9.95 4.4 10.98 4.27 12 4.27S14.05 4.4 15.07 4.97C16.35 5.87 16.61 7.79 16.22 10.54A8.06 6.91 0 0 0 7.78 10.54Z";
+
+/**
+ * Trace icon art: open strokes in ink (base), the stretch already exposed in
+ * glacier light (lit), and the light point where it ends (dot).
+ */
+interface Art {
+  base: string;
+  lit: string;
+  dot: readonly [number, number];
+  /** Quiet marks along the path (unlit nodes). */
+  nodes?: ReadonlyArray<readonly [number, number]>;
+}
+
+/* The swing's pendulum arc, lit a third, two thirds or all the way: Workout I, II, III. */
+const ARC = "M3.39 10.01A9.5 9.5 0 0 0 20.61 10.01";
+const ARC_NODES = [
+  [8.49, 14.83],
+  [15.51, 14.83],
+] as const;
+
+const ART: Record<DayType, Art> = {
+  "workout-1": { base: ARC, lit: "M3.39 10.01A9.5 9.5 0 0 0 8.49 14.83", dot: [8.49, 14.83], nodes: [ARC_NODES[1]] },
+  "workout-2": { base: ARC, lit: "M3.39 10.01A9.5 9.5 0 0 0 15.51 14.83", dot: [15.51, 14.83], nodes: [ARC_NODES[0]] },
+  "workout-3": { base: ARC, lit: ARC, dot: [20.61, 10.01], nodes: ARC_NODES },
+  recovery: { base: "M3 9c3-3 6-3 9 0s6 3 9 0M3 15c3-3 6-3 9 0s6 3 9 0", lit: "M12 15c3 3 6 3 9 0", dot: [21, 15] },
+  skill: { base: "M3 20h4.5v-4.5H12V11h4.5V6.5H21", lit: "M16.5 6.5H21", dot: [21, 6.5] },
+  challenge: { base: "M2 20 9 8l4 6 3-4 6 10z", lit: "M4.9 15 9 8", dot: [9, 8] },
+  "on-ramp": { base: "M3 20.5h18M4 18c5 0 8-2 11-6s4.5-5 6-5.5", lit: "M15 12c2.2-3.1 4.5-5 6-5.5", dot: [21, 6.5] },
+  overview: { base: "M3 20h18M5 17l5-5 4 3 6-7", lit: "M14 15l6-7", dot: [20, 8] },
 };
 
-/* Each glyph: neutral line work plus exactly one accent detail (class s.a). */
-const ART: Record<DayType, ReactNode> = {
-  "workout-1": (
-    <>
-      <path d={BELL_24.handle} />
-      <path d={BELL_24.body} />
-      <path className={s.a} d="M12 12.6v4.4" />
-    </>
-  ),
-  "workout-2": (
-    <>
-      <path d={BELL_24.handle} />
-      <path d={BELL_24.body} />
-      <path className={s.a} d="M10.75 12.6v4.4M13.25 12.6v4.4" />
-    </>
-  ),
-  "workout-3": (
-    <>
-      <path d={BELL_24.handle} />
-      <path d={BELL_24.body} />
-      <path className={s.a} d="M9.6 12.6v4.4M12 12.6v4.4M14.4 12.6v4.4" />
-    </>
-  ),
-  recovery: (
-    <>
-      <path d="M3 16.6c1.5-1.3 3-1.3 4.5 0s3 1.3 4.5 0 3-1.3 4.5 0 3 1.3 4.5 0" />
-      <path d="M6 20.4c1.5-1.1 3-1.1 4.5 0s3 1.1 4.5 0" />
-      <path className={cx(s.a, s.fill)} d="M14.6 3.4a4.6 4.6 0 1 0 5.1 6.6 3.7 3.7 0 0 1-5.1-6.6Z" />
-    </>
-  ),
-  skill: (
-    <>
-      <path d="M3.2 20.6h5v-4.6h5v-4.6h5V6.8" />
-      <path d="M3.2 20.6h17.6" className={s.soft} />
-      <circle className={cx(s.a, s.fill)} cx="18.2" cy="3.7" r="1.55" />
-    </>
-  ),
-  challenge: (
-    <>
-      <path d="M2.6 20.6 9.6 9.2l3.1 4.7 2.4-3.3 6.3 10Z" />
-      <path d="m7.5 12.6 2.1 1.4 1.4-1.1" className={s.soft} />
-      <path d="M9.6 9.2V3.2" />
-      <path className={cx(s.a, s.fill)} d="M9.6 3.2 14.2 4.8 9.6 6.5Z" />
-    </>
-  ),
-  "on-ramp": (
-    <>
-      <path d="M2.8 19.6h5c4.6 0 6.2-9.8 11.6-11.4" />
-      <path d="M2.8 19.6h18.4" className={s.soft} />
-      <circle className={cx(s.a, s.fill)} cx="19.7" cy="7.9" r="1.75" />
-    </>
-  ),
-  overview: (
-    <>
-      <path d="m2.6 19.2 4.6-5.6 3 2.6 4.6-7.1 2.9 3 3.7-5.4" />
-      <path d="M2.6 21h18.8" className={s.soft} />
-      <circle cx="7.2" cy="13.6" r="1.3" className={s.dot} />
-      <circle cx="14.8" cy="9.1" r="1.3" className={s.dot} />
-      <circle className={cx(s.a, s.fill)} cx="21.4" cy="6.7" r="1.5" />
-    </>
-  ),
-};
-
-/** The raw glyph art on the 24 grid, for embedding in other marks (medals). */
+/** The glyph art on the 24 grid (classes base / lit / dot), for engraving into other marks. */
 export function dayGlyphArt(type: DayType): ReactNode {
-  return ART[type];
+  const a = ART[type];
+  return (
+    <>
+      <path d={a.base} className={s.base} />
+      <path d={a.lit} className={s.lit} />
+      <circle cx={a.dot[0]} cy={a.dot[1]} r={1.7} className={s.dot} />
+    </>
+  );
 }
 
 export interface DayGlyphProps {
   type: DayType;
   size?: number;
-  /** "accent" draws the one accent detail in --accent; "mono" keeps it in the text colour. */
+  /** "accent": the lit stretch and point in glacier light; "mono": all ink. */
   tone?: "accent" | "mono";
+  /** Stroke width at 24 px (Trace icons are 1.6). */
   strokeWidth?: number;
   className?: string;
   style?: CSSProperties;
   title?: string;
 }
 
-/** 24px day-type marks: one family, one stroke, one accent detail each. */
+/**
+ * Day-type marks in the Trace icon style: 1.6 strokes, open shapes, the
+ * exposed stretch in glacier light ending in a light point. Re-skin with
+ * --gfx-glyph (ink), --gfx-glyph-accent (lit) and --gfx-glyph-point (dot).
+ */
 export function DayGlyph({ type, size = 24, tone = "accent", strokeWidth = 1.6, className, style, title }: DayGlyphProps) {
+  const a = ART[type];
+  // Hold the stroke at about 1.6 px at icon sizes, a touch lighter when drawn large.
+  const sw = size > 32 ? Math.max(1.1, (strokeWidth * 24) / size * 1.35) : strokeWidth;
   return (
     <svg
       viewBox="0 0 24 24"
@@ -132,11 +102,14 @@ export function DayGlyph({ type, size = 24, tone = "accent", strokeWidth = 1.6, 
       height={size}
       role="img"
       aria-label={title ?? DAY_TYPE_LABEL[type]}
-      className={cx(g.root, g.line, s.glyph, tone === "mono" && s.mono, className)}
+      className={cx(g.root, s.glyph, tone === "mono" && s.mono, className)}
       style={style}
-      strokeWidth={strokeWidth}
+      strokeWidth={sw}
     >
-      {ART[type]}
+      <path d={a.base} className={s.base} />
+      {a.nodes?.map(([x, y]) => <circle key={`${x}`} cx={x} cy={y} r={0.9} className={s.node} />)}
+      <path d={a.lit} className={s.lit} />
+      <circle cx={a.dot[0]} cy={a.dot[1]} r={1.7} className={s.dot} />
     </svg>
   );
 }

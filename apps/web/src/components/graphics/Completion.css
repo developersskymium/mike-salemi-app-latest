@@ -1,60 +1,20 @@
-.gfx-completion-done { color: var(--g-accent); overflow: visible; }
-.gfx-completion-done * { transform-box: fill-box; transform-origin: center; }
-
-.gfx-completion-ring { fill: none; stroke: var(--g-accent); stroke-width: 2.5; opacity: .35; }
-.gfx-completion-disc { fill: var(--g-accent); }
-.gfx-completion-check { fill: none; stroke: var(--g-on-accent); stroke-linecap: round; stroke-linejoin: round; }
-.gfx-completion-medallion { filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--g-accent) 38%, transparent)); }
-
-.gfx-completion-wave { fill: none; stroke: var(--g-accent); stroke-width: 1.5; opacity: 0; }
-.gfx-completion-ray { stroke: var(--g-accent); stroke-width: 2.2; stroke-linecap: round; opacity: 0; }
-.gfx-completion-spark { fill: var(--g-accent-hi); stroke: none; opacity: 0; }
-.gfx-completion-spark.gfx-completion-star { fill: none; stroke: var(--g-accent-hi); stroke-width: 1.3; stroke-linecap: round; }
-
-/* Milestone */
-.gfx-completion-glowCore { stop-color: var(--g-accent-hi); stop-opacity: .3; }
-.gfx-completion-glowEdge { stop-color: var(--g-accent-hi); stop-opacity: 0; }
-.gfx-completion-ridgeTop { stop-color: color-mix(in srgb, var(--g-fg) 16%, var(--g-bg)); }
-.gfx-completion-ridgeLow { stop-color: var(--g-bg); stop-opacity: 0; }
-.gfx-completion-ridgeLine { fill: none; stroke: var(--g-fg); stroke-opacity: .55; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
-.gfx-completion-snowcap { fill: #fff; stroke: none; opacity: .95; }
-.gfx-completion-mist { fill: none; stroke: var(--g-fg); stroke-opacity: .12; stroke-width: 1.5; stroke-linecap: round; }
-
+/* Completion: the trace (--g-trace*) ending in a Flare; the milestone is a night panel in both themes. */
+.gfx-completion-done { overflow: visible; }
+.gfx-completion-ring { fill: none; stroke: var(--g-trace-dim); stroke-width: 1.5; stroke-dasharray: .1 6; stroke-linecap: round; }
+.gfx-completion-milestone {
+  --g-trace: var(--gfx-trace-dark, #5CC8F5);
+  --g-trace-hot: var(--gfx-trace-hot-dark, #E6F8FF);
+  --g-trace-dim: var(--gfx-trace-dim-dark, rgba(120, 180, 220, .22));
+  --g-trace-glow: .4;
+}
+.gfx-completion-mtn { fill: var(--g-night-lo); }
+.gfx-completion-mtnRim { fill: none; stroke: var(--gfx-ridge-rim, rgba(160, 210, 240, .25)); stroke-width: 1; }
+.gfx-completion-expose { clip-path: inset(0 0 0 0); }
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-completion-animated .gfx-completion-ring { animation: gfx-completion-ringDraw .5s var(--g-ease) both; stroke-dasharray: 1 1; }
-  .gfx-completion-animated .gfx-completion-disc { animation: gfx-completion-pop .62s var(--g-spring) .28s both; }
-  .gfx-completion-animated .gfx-completion-check { stroke-dasharray: 1 1; animation: gfx-completion-draw .38s cubic-bezier(.6, 0, .2, 1) .52s both; }
-  .gfx-completion-animated .gfx-completion-wave { animation: gfx-completion-wave .9s var(--g-ease) .5s both; }
-  .gfx-completion-animated .gfx-completion-ray { stroke-dasharray: 1 1; animation: gfx-completion-ray .7s var(--g-ease) .5s both; }
-  .gfx-completion-animated .gfx-completion-spark { animation: gfx-completion-spark 1.3s var(--g-ease) var(--delay) both; }
-
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-rise { animation: gfx-completion-rise 1.3s var(--g-spring-soft) both; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-glow { animation: gfx-completion-glow 1.8s var(--g-ease) .1s both; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-disc { animation-delay: .6s; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-ring { animation-delay: .3s; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-check { animation-delay: .9s; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-wave { animation-delay: .85s; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-ray { animation-delay: .85s; }
-  .gfx-completion-milestone.gfx-completion-animated .gfx-completion-spark { animation-delay: calc(var(--delay) + .35s); }
+  /* Expose: the path draws from its start, the Flare fires as it lands. */
+  .gfx-completion-animated .gfx-completion-expose { animation: gfx-completion-expose 1s var(--g-ease) both; }
+  .gfx-completion-animated .gfx-completion-flare .gfx-flare-rays,
+  .gfx-completion-animated .gfx-completion-flare .gfx-flare-halo,
+  .gfx-completion-animated .gfx-completion-flare .gfx-flare-core { animation-delay: .75s; }
 }
-
-/* Settled state when not playing: burst hidden, medal shown. */
-@keyframes gfx-completion-ringDraw { from { stroke-dashoffset: 1; opacity: 1; } to { stroke-dashoffset: 0; opacity: .35; } }
-@keyframes gfx-completion-pop { from { transform: scale(.2); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); } }
-@keyframes gfx-completion-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes gfx-completion-wave {
-  0% { transform: scale(.85); opacity: .6; stroke-width: 3; }
-  100% { transform: scale(1.65); opacity: 0; stroke-width: .5; }
-}
-@keyframes gfx-completion-ray {
-  0% { stroke-dashoffset: 1; opacity: 1; }
-  55% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: -1; opacity: 0; }
-}
-@keyframes gfx-completion-spark {
-  0% { opacity: 0; transform: translate(0, 0) scale(.2); }
-  30% { opacity: 1; transform: translate(calc(var(--dx) * .5), calc(var(--dy) * .5)) scale(1.15); }
-  100% { opacity: 0; transform: translate(var(--dx), calc(var(--dy) - 4px)) scale(.6); }
-}
-@keyframes gfx-completion-rise { from { transform: translateY(70px); } to { transform: none; } }
-@keyframes gfx-completion-glow { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes gfx-completion-expose { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }

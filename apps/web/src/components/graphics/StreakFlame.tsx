@@ -1,67 +1,67 @@
 import type { CSSProperties } from "react";
 import "./gfx.css";
 import "./StreakFlame.css";
-import { cx, useGfxId, cls } from "./util";
+import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-streak-flame");
 
 export interface StreakFlameProps {
-  /** Height in px; width follows the 24:30 mark. */
+  /** Height in px; the pill is 1.7× as wide. */
   size?: number;
-  /** An unlit flame (streak paused) draws as a quiet outline. */
+  /** Paused streaks show the unlit pill. */
   lit?: boolean;
-  /** Gentle flicker loop (off under reduced motion). */
+  /** A streak of light passes across once when it appears. */
   animated?: boolean;
   className?: string;
   style?: CSSProperties;
   title?: string;
 }
 
-const OUTER =
-  "M12 1.6c1.3 4.2 6.9 7.5 6.9 15.7 0 5.6-3 10.3-6.9 10.3s-6.9-4.4-6.9-9.6c0-3.4 1.6-5.7 3.4-7.4.1 2.4 1 3.8 2.2 4.4-.6-4.6.4-10.2 1.3-13.4Z";
-const INNER =
-  "M12.1 13.6c1.4 2.9 3.4 4.7 3.4 8.1 0 2.8-1.5 4.6-3.5 4.6s-3.4-1.7-3.4-4.2c0-2.4 1.8-3.6 2.3-5.4.7 1 1.2-1 1.2-3.1Z";
-
-/** A small living flame for streaks: glacier-blue fire with a white-hot core. */
+/**
+ * Streak, as a pill of light: a glacier capsule glowing from within, a flame
+ * drawn in one open stroke ending in its light point, and a streak of light
+ * that passes across once. Unlit when the streak is paused.
+ */
 export function StreakFlame({ size = 28, lit = true, animated = true, className, style, title }: StreakFlameProps) {
-  const id = useGfxId("flame");
+  const id = useGfxId("streak");
   return (
     <svg
-      viewBox="0 0 24 30"
-      width={(size * 24) / 30}
+      viewBox="0 0 34 20"
+      width={(size * 34) / 20}
       height={size}
       role="img"
       aria-label={title ?? (lit ? "Streak" : "Streak paused")}
-      className={cx(g.root, s.flame, !lit && s.unlit, lit && animated && s.animated, className)}
+      className={cx(g.root, s.pill, !lit && s.unlit, lit && animated && s.animated, className)}
       style={style}
     >
       <defs>
-        <linearGradient id={`${id}-o`} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0" className={s.o0} />
-          <stop offset=".55" className={s.o1} />
-          <stop offset="1" className={s.o2} />
+        <linearGradient id={`${id}-p`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" className={s.p0} />
+          <stop offset="1" className={s.p1} />
         </linearGradient>
-        <linearGradient id={`${id}-i`} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0" className={s.i0} />
-          <stop offset="1" className={s.i1} />
+        <linearGradient id={`${id}-sweep`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" className={s.sw0} />
+          <stop offset=".5" className={s.sw1} />
+          <stop offset="1" className={s.sw0} />
         </linearGradient>
+        <filter id={`${id}-glow`} x="-40%" y="-80%" width="180%" height="260%">
+          <feGaussianBlur stdDeviation="2.2" />
+        </filter>
+        <clipPath id={`${id}-clip`}>
+          <rect x={1} y={1} width={32} height={18} rx={9} />
+        </clipPath>
       </defs>
+      {lit ? <rect x={2} y={3} width={30} height={16} rx={8} className={s.glow} filter={`url(#${id}-glow)`} /> : null}
+      <rect x={1} y={1} width={32} height={18} rx={9} fill={lit ? `url(#${id}-p)` : undefined} className={s.body} />
+      {/* Flame: one open stroke ending in its light point. */}
+      <path d="M17 15.6c-2.6 0-4.2-1.6-4.2-3.7 0-2 1.5-3.2 2.2-4.5.4 1.3 1 1.9 1.7 2.2-.3-1.9.4-3.8 1.9-5.5 0 2.5 2.6 3.8 2.6 7.5 0 2.2-1.6 4-4.2 4" className={s.flame} />
+      <circle cx={17} cy={12.6} r={1.25} className={s.point} />
       {lit ? (
-        <>
-          <ellipse cx={12} cy={27.6} rx={7} ry={1.6} className={s.glow} />
-          <g className={s.outer}>
-            <path d={OUTER} fill={`url(#${id}-o)`} />
-          </g>
-          <g className={s.inner}>
-            <path d={INNER} fill={`url(#${id}-i)`} />
-          </g>
-          <circle cx={15.6} cy={9} r={0.8} className={s.ember} />
-          <circle cx={8.4} cy={12} r={0.6} className={cx(s.ember, s.ember2)} />
-        </>
-      ) : (
-        <path d={OUTER} className={s.outline} />
-      )}
+        <g clipPath={`url(#${id}-clip)`}>
+          <rect x={-14} y={0} width={12} height={20} fill={`url(#${id}-sweep)`} className={s.streak} />
+        </g>
+      ) : null}
     </svg>
   );
 }

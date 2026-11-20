@@ -1,9 +1,13 @@
 import type { CSSProperties, ReactNode } from "react";
-import { BELL_24 } from "./DayGlyph";
+import { Exposure, shastaPath } from "./exposure";
+import { BELL_BASE, BELL_OUTLINE, BELL_WINDOW } from "./figures/bell";
 import "./gfx.css";
-import { MovementFigure } from "./MovementFigure";
 import "./EmptyScene.css";
-import { cx, cls } from "./util";
+import { Flare } from "./Flare";
+import { MovementFigure } from "./MovementFigure";
+import { Line, arcPts, smooth, traceGeo, type Pt } from "./trace";
+import { TraceMarks } from "./Trace";
+import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-empty-scene");
@@ -15,6 +19,7 @@ export interface EmptySceneProps {
   scene: EmptySceneName;
   /** Width in px; height follows 3:2. */
   size?: number;
+  /** One-shot entrance: the world exposes, then the foreground settles (off under reduced motion). */
   animated?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -22,107 +27,169 @@ export interface EmptySceneProps {
 }
 
 const LABEL: Record<EmptySceneName, string> = {
-  "no-programs": "A trail up an empty mountain",
-  "nothing-saved": "An empty bookmark among the pines",
-  "plan-empty": "An empty calendar at dawn",
-  offline: "A fire circle down to its last ember",
-  "caught-up": "Someone resting on a ridge at sunrise",
+  "no-programs": "Kettlebells resting on a mat under Mount Shasta, their path not yet traced",
+  "nothing-saved": "A chalk bowl, one chalked swipe of light above it",
+  "plan-empty": "A ridge at first light, the route ahead still dotted",
+  offline: "A campfire still warm under star trails",
+  "caught-up": "A finished trace over a still glacier lake, someone resting on the shore",
 };
 
-/** Line pine: a trunk and three soft chevrons. */
-const Pine = ({ x, y, h }: { x: number; y: number; h: number }) => {
-  const w = h * 0.3;
-  const tiers = [0.2, 0.46, 0.72].map((t, i) => {
-    const ty = y - h + h * t;
-    const tw = w * (0.45 + i * 0.28);
-    return `M${x - tw} ${ty + h * 0.2}Q${x - tw * 0.3} ${ty + h * 0.12} ${x} ${ty}Q${x + tw * 0.3} ${ty + h * 0.12} ${x + tw} ${ty + h * 0.2}`;
-  });
-  return <path d={`M${x} ${y}V${y - h}${tiers.join("")}`} />;
+/* The world sits in a round porthole; foreground pieces break out of it. */
+const PC = { x: 120, y: 76, r: 62 };
+
+function Bell({ x, y, k }: { x: number; y: number; k: number }) {
+  return (
+    <g transform={`translate(${x} ${y - BELL_BASE * k}) scale(${k})`}>
+      <path d={BELL_OUTLINE + BELL_WINDOW} fillRule="evenodd" className={s.obj} strokeWidth={1.1 / k} />
+    </g>
+  );
+}
+
+/** The porthole: the ground (night exposure or snow contours), Shasta, and its rim. */
+function Porthole({ id, seed, peak = 1, children }: { id: string; seed: number; peak?: number; children?: ReactNode }) {
+  const mtn = shastaPath(58, 124, 124, 54 * peak);
+  return (
+    <>
+      <defs>
+        <clipPath id={`${id}-port`}>
+          <circle cx={PC.x} cy={PC.y} r={PC.r} />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${id}-port)`} className={s.world}>
+        <g transform={`translate(${PC.x - PC.r} ${PC.y - PC.r})`}>
+          <Exposure w={PC.r * 2} h={PC.r * 2} pole={[PC.r * 1.35, -6]} seed={seed} scale={0.85} />
+        </g>
+        <path d={mtn} className={s.mtn} />
+        <path d={mtn} className={s.mtnLine} />
+        <rect x={PC.x - PC.r} y={124} width={PC.r * 2} height={20} className={s.ground} />
+        {children}
+      </g>
+      <circle cx={PC.x} cy={PC.y} r={PC.r - 0.4} className={s.portRim} />
+    </>
+  );
+}
+
+const SCENES: Record<EmptySceneName, (id: string) => ReactNode> = {
+  /* Gear laid out, nothing traced yet: the swing's arc is still dotted, the light waiting at its start. */
+  "no-programs": (id) => {
+    const arc = new Line(arcPts(124, 60, 44, 200, 340, 40).reverse());
+    return (
+      <>
+        <Porthole id={id} seed={3} />
+        <g className={s.layer2}>
+          <TraceMarks geo={traceGeo(arc, 0.04, { width: 2.4, segments: 4 })} />
+          <path d="M58 141 80 121.4Q81.6 120 83.8 120H164.2Q166.4 120 168 121.4L190 141Z" className={s.mat} />
+        </g>
+        <g className={s.layer3}>
+          <Bell x={98} y={129} k={0.6} />
+          <Bell x={150} y={129.4} k={0.52} />
+          <Bell x={124} y={137.4} k={0.78} />
+        </g>
+      </>
+    );
+  },
+
+  /* Nothing kept yet: an untouched chalk bowl, one chalked swipe of light over it. */
+  "nothing-saved": (id) => {
+    const swipe = new Line(smooth([[86, 96], [104, 82], [126, 78], [148, 84], [160, 74]], 12));
+    return (
+      <>
+        <Porthole id={id} seed={9} peak={0.85} />
+        <g className={s.layer2}>
+          <path d="M84 108Q84 140 120 140T156 108Z" className={s.obj} />
+          <ellipse cx={120} cy={108} rx={36} ry={9} className={s.obj} />
+          <path d="M92 110.6Q104 104.6 120 105.6T148 110.6Q134 115 120 115T92 110.6Z" className={s.chalk} />
+          <path d="M108 101.6 121.6 98.4Q124 97.9 125.6 99.6L129 103.4Q130.2 105 128 105.6L114.6 108.6Q112.4 109.1 111 107.4L107.2 103.4Q106 102 108 101.6Z" className={s.chalk} />
+        </g>
+        <g className={s.layer3}>
+          <TraceMarks geo={traceGeo(swipe, 1, { width: 2.4, segments: 16, floor: 0.02, ahead: false })} />
+        </g>
+      </>
+    );
+  },
+
+  /* A clear day ahead: the route up the ridge is dotted, its stops unlit; first light at the trailhead. */
+  "plan-empty": (id) => {
+    const route = new Line(smooth([[60, 132], [84, 124], [100, 112], [114, 98], [124, 88], [132, 76]], 12));
+    const nodes = [0.3, 0.55, 0.8].map((f) => [...route.at(route.total * f), false] as [number, number, boolean]);
+    return (
+      <>
+        <Porthole id={id} seed={21} peak={1.08} />
+        <g className={s.layer2}>
+          <TraceMarks geo={traceGeo(route, 0.05, { width: 2.2, segments: 4 })} nodes={nodes} />
+        </g>
+      </>
+    );
+  },
+
+  /* Offline: the fire is still warm under the star trails. Fire keeps its real colour. */
+  offline: (id) => (
+    <>
+      <Porthole id={id} seed={33} peak={0.9} />
+      <g className={s.layer2}>
+        <defs>
+          <radialGradient id={`${id}-ember`} cx=".5" cy=".5" r=".5">
+            <stop offset="0" className={s.emberA} />
+            <stop offset="1" className={s.emberB} />
+          </radialGradient>
+        </defs>
+        <circle cx={120} cy={127} r={26} fill={`url(#${id}-ember)`} />
+        <path d="M121 116C116 108 126 104 120 96S124 86 121 80" className={s.smoke} />
+        <path d="M100 133 138 124M102 124 140 133" className={s.log} />
+        {[
+          [88, 134, 7, 4],
+          [99, 138.6, 7.4, 4],
+          [113, 140.6, 7.4, 3.8],
+          [127, 140.6, 7.4, 3.8],
+          [141, 138.6, 7.4, 4],
+          [152, 134, 7, 4],
+        ].map(([x, y, rx, ry]) => (
+          <ellipse key={`${x}`} cx={x} cy={y} rx={rx} ry={ry} className={s.obj} />
+        ))}
+      </g>
+      <g className={s.layer3}>
+        <ellipse cx={120} cy={130.2} rx={8} ry={3} className={s.ember} />
+        <circle cx={116} cy={129.6} r={1.4} className={s.emberHot} />
+        <circle cx={124} cy={130.4} r={1.1} className={s.emberHot} />
+      </g>
+    </>
+  ),
+
+  /* All caught up: the day's trace finished over a still glacier lake, mirrored in it; someone resting on the shore. */
+  "caught-up": (id) => {
+    const arc = new Line(smooth([[62, 70], [86, 100], [118, 108], [150, 96], [170, 64]], 12));
+    const mirror = new Line(arc.pts.map(([x, y]) => [x, 216 - y] as Pt));
+    return (
+      <>
+        <Porthole id={id} seed={47} />
+        <g clipPath={`url(#${id}-port)`}>
+          <rect x={58} y={110} width={124} height={30} className={s.lake} />
+          <g className={s.reflection}>
+            <TraceMarks geo={traceGeo(mirror, 1, { width: 2, segments: 12, floor: 0.02, ahead: false, head: false })} />
+          </g>
+        </g>
+        <g className={s.layer2}>
+          <TraceMarks geo={traceGeo(arc, 1, { width: 2.4, segments: 18, floor: 0.03, ahead: false, head: false })} />
+          <Flare x={170} y={64} size={44} animated={false} />
+          <path d="M54 141Q60 128 76 128Q86 126 92 132Q100 130 104 136Q108 141 104 141Z" className={s.obj} />
+        </g>
+        <g className={s.layer3}>
+          <g transform="translate(58 85) scale(.2)">
+            <MovementFigure move="breathing" size={240} bare title="Resting" />
+          </g>
+        </g>
+      </>
+    );
+  },
 };
 
-const ART: Record<EmptySceneName, ReactNode> = {
-  "no-programs": (
-    <>
-      <path className={s.soft} d="M14 132H226" />
-      <path d="M34 132 80 74l16 18 28-44 26 34 14-12 38 62" />
-      <path className={s.soft} d="m116 60 5 4 5-4 4 3" />
-      <path className={s.trail} d="M118 156c-8-10 18-14 10-24s-22-10-12-22 18-10 10-22-12-8-4-18c4-5 2-11 2-14" />
-      <g transform="translate(58 112) scale(.86)">
-        <path d={BELL_24.handle} />
-        <path d={BELL_24.body} />
-      </g>
-      <g className={s.flag}>
-        <path d="M124 48V30" />
-        <path className={s.accentFill} d="M124 30l11 4-11 4Z" />
-      </g>
-    </>
-  ),
-  "nothing-saved": (
-    <>
-      <path className={s.soft} d="M14 132H226" />
-      <g className={s.soft2}>
-        <Pine x={44} y={132} h={52} />
-        <Pine x={66} y={132} h={36} />
-        <Pine x={190} y={132} h={44} />
-      </g>
-      <ellipse className={s.shadow} cx={120} cy={134} rx={18} ry={2.5} />
-      <g className={s.bob}>
-        <path className={s.accentLine} d="M106 46a6 6 0 0 1 6-6h16a6 6 0 0 1 6 6v64l-14-10-14 10Z" />
-      </g>
-      <path className={s.soft} d="M150 128c2-4 3-8 3-12M156 128c0-3 2-6 4-8M84 128c-1-3-3-6-6-8" />
-    </>
-  ),
-  "plan-empty": (
-    <>
-      <path className={s.soft} d="M14 132H226" />
-      <path className={s.soft} d="M24 132l30-22 18 10 22-16M146 104l20 12 18-10 32 26" />
-      <rect x={72} y={36} width={96} height={88} rx={14} className={s.card} />
-      <path d="M72 58h96" className={s.soft} />
-      <path d="M98 30v12M142 30v12" />
-      {[0, 1, 2].map((r) =>
-        [0, 1, 2, 3, 4, 5, 6].map((c) =>
-          r === 1 && c === 3 ? null : <circle key={`${r}-${c}`} cx={87 + c * 11} cy={74 + r * 15} r={1.6} className={s.dot} />,
-        ),
-      )}
-      <circle cx={120} cy={89} r={9} className={s.todayHalo} />
-      <circle cx={120} cy={89} r={4} className={s.accentFill} />
-    </>
-  ),
-  offline: (
-    <>
-      <path className={s.soft} d="M14 132H226" />
-      <g className={s.smoke}>
-        <path className={s.soft} d="M120 92c-7-9 7-14 0-23s5-14 0-23 3-10 1-15" />
-        <path className={cx(s.soft, s.smoke2)} d="M126 88c5-7-4-12 2-19s-2-11 2-16" />
-      </g>
-      <path d="M102 126 118 92M138 126 122 92M120 128V90" />
-      {[
-        [80, 126, 8, 4.5],
-        [94, 131, 9, 5],
-        [111, 134, 9, 4.5],
-        [129, 134, 9, 4.5],
-        [146, 131, 9, 5],
-        [160, 126, 8, 4.5],
-      ].map(([x, y, rx, ry]) => (
-        <ellipse key={`${x}-${y}`} cx={x} cy={y} rx={rx} ry={ry} className={s.stone} />
-      ))}
-      <circle cx={120} cy={118} r={9} className={s.emberGlow} />
-      <circle cx={120} cy={119} r={3} className={cx(s.accentFill, s.ember)} />
-    </>
-  ),
-  "caught-up": (
-    <>
-      <circle cx={178} cy={60} r={14} className={s.sun} />
-      <circle cx={178} cy={60} r={22} className={s.sunHalo} />
-      <path className={s.soft} d="M14 132H226" />
-      <path d="M40 132c22-20 46-26 72-26s52 8 76 26" />
-      <path className={s.soft} d="M196 46h12M200 40h6M30 64h10M34 58h4" />
-    </>
-  ),
-};
-
-/** Calm line illustrations for empty and edge states, one accent detail each. */
+/**
+ * Empty and edge states as small worlds in the Trace language: a porthole of
+ * night exposure (dark) or snow contours (light) with Mount Shasta, matte
+ * objects from Mike's world, and one mark of light.
+ */
 export function EmptyScene({ scene, size = 240, animated = true, className, style, title }: EmptySceneProps) {
+  const id = useGfxId("es");
   return (
     <svg
       viewBox="0 0 240 160"
@@ -130,15 +197,10 @@ export function EmptyScene({ scene, size = 240, animated = true, className, styl
       height={(size * 160) / 240}
       role="img"
       aria-label={title ?? LABEL[scene]}
-      className={cx(g.root, g.line, s.scene, animated && s.animated, className)}
+      className={cx(g.root, s.scene, animated && s.animated, className)}
       style={style}
     >
-      {ART[scene]}
-      {scene === "caught-up" ? (
-        <g transform="translate(74 14)">
-          <MovementFigure move="breathing" size={100} bare animated={animated} stroke={1.5} title="Resting" />
-        </g>
-      ) : null}
+      {SCENES[scene](id)}
     </svg>
   );
 }

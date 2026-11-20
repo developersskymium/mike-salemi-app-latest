@@ -3,8 +3,8 @@
   --r1-hi: var(--ring-1-hi, var(--g-accent-hi));
   --r2: var(--ring-2, var(--g-fg));
   --r2-hi: var(--ring-2-hi, var(--g-fg3));
-  --r3: var(--ring-3, color-mix(in srgb, var(--g-accent) 50%, #fff));
-  --r3-hi: var(--ring-3-hi, color-mix(in srgb, var(--g-accent) 22%, #fff));
+  --r3: var(--ring-3, color-mix(in srgb, var(--g-accent) 50%, var(--g-specular)));
+  --r3-hi: var(--ring-3-hi, color-mix(in srgb, var(--g-accent) 22%, var(--g-specular)));
 }
 .gfx-rings-ring1 { --hue: var(--r1); --hue-hi: var(--r1-hi); }
 .gfx-rings-ring2 { --hue: var(--r2); --hue-hi: var(--r2-hi); }
@@ -23,7 +23,7 @@
 .gfx-rings-capDot {
   fill: var(--hue);
   filter: drop-shadow(0 0 2.5px color-mix(in srgb, var(--hue-hi) 70%, transparent))
-          drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, .22));
+          drop-shadow(0 1.5px 1.5px color-mix(in srgb, var(--g-shade) 22%, transparent));
 }
 .gfx-rings-capShine { fill: var(--hue-hi); opacity: .55; }
 

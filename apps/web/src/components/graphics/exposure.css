@@ -1,0 +1,16 @@
+/* Night exposure (dark) and snow contours (light). Hooks: --gfx-night*, --gfx-star, --gfx-snow-ground, --gfx-lines. */
+.gfx-exp-nightBg { fill: var(--g-night); }
+.gfx-exp-starA { fill: none; stroke: var(--gfx-star-a, #9FD7F5); stroke-linecap: round; }
+.gfx-exp-starB { fill: none; stroke: var(--g-star); stroke-linecap: round; }
+.gfx-exp-starBig { fill: none; stroke: var(--gfx-star-big, #DDF4FF); stroke-linecap: round; }
+.gfx-exp-snowBg { fill: var(--g-snow-ground); }
+.gfx-exp-line { fill: none; stroke: var(--g-lines); stroke-width: .55; stroke-opacity: .3; }
+.gfx-exp-indexLine { fill: none; stroke: var(--g-lines); stroke-width: 1; stroke-opacity: .55; }
+/* Light theme shows snow, dark shows the night exposure. */
+.gfx-exp-night { display: none; }
+:where([data-theme="dark"]) .gfx-exp-night { display: inline; }
+:where([data-theme="dark"]) .gfx-exp-snow { display: none; }
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-exp-night { display: inline; }
+  :where([data-theme="system"]) .gfx-exp-snow { display: none; }
+}

@@ -1,7 +1,8 @@
 import type { CSSProperties } from "react";
 import "./gfx.css";
 import "./Kettlebell.css";
-import { cx, useGfxId, cls } from "./util";
+import { BELL_OUTLINE, BELL_SHEEN, BELL_SPEC, BELL_WINDOW } from "./figures/bell";
+import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-kettlebell");
@@ -21,10 +22,7 @@ export interface KettlebellProps {
   title?: string;
 }
 
-const HANDLE = "M15.3 20.2 14.5 12.2C14.25 7.7 16.9 5 21.2 5h5.6c4.3 0 6.95 2.7 6.7 7.2l-.8 8";
-const BODY = "M17.7 44.6a15 15 0 1 1 12.6 0Z";
-
-/** Competition kettlebell colours by kg. */
+/** Competition kettlebell colours by kg (real-world standard; used as --kb-body / --kb-ink defaults). */
 export const COMPETITION_COLOURS: Record<number, { body: string; ink: string }> = {
   8: { body: "#F29BC0", ink: "#3A0F22" },
   12: { body: "#3E7FE0", ink: "#FFFFFF" },
@@ -39,13 +37,16 @@ export const COMPETITION_COLOURS: Record<number, { body: string; ink: string }> 
   48: { body: "#D9B24C", ink: "#2A1F00" },
 };
 
-/** The kettlebell mark: a refined glyph, or a cast bell carrying its weight. */
+/* The shared bell (x ±12.6, y -1.8..30.6) placed in the 48×52 box. */
+const PLACE = "translate(24 6.6) scale(1.4)";
+
+/** The kettlebell mark: a refined line glyph, or a cast bell carrying its weight. */
 export function Kettlebell({ size = 48, variant, weight, unit = "kg", colorCoded = false, className, style, title }: KettlebellProps) {
   const id = useGfxId("kb");
   const solid = variant === "solid" || (variant === undefined && weight !== undefined);
   const comp = colorCoded && weight !== undefined ? COMPETITION_COLOURS[weight] : undefined;
   const label = title ?? (weight !== undefined ? `${weight} ${unit} kettlebell` : "Kettlebell");
-  const vars = comp ? { ["--kb-body" as string]: comp.body, ["--kb-ink" as string]: comp.ink } : {};
+  const vars = comp ? { ["--kb-body" as string]: `var(--gfx-kb-${weight}, ${comp.body})`, ["--kb-ink" as string]: comp.ink } : {};
 
   return (
     <svg
@@ -60,35 +61,35 @@ export function Kettlebell({ size = 48, variant, weight, unit = "kg", colorCoded
       {solid ? (
         <>
           <defs>
-            <radialGradient id={`${id}-b`} cx=".36" cy=".3" r=".8">
+            <radialGradient id={`${id}-b`} cx=".34" cy=".58" r=".78">
               <stop offset="0" className={s.b0} />
               <stop offset=".55" className={s.b1} />
               <stop offset="1" className={s.b2} />
             </radialGradient>
-            <linearGradient id={`${id}-h`} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" className={s.h0} />
-              <stop offset=".5" className={s.h1} />
-              <stop offset="1" className={s.h0} />
-            </linearGradient>
+            <radialGradient id={`${id}-sh`} cx=".5" cy=".5" r=".5">
+              <stop offset="0" className={s.sh0} />
+              <stop offset="1" className={s.sh1} />
+            </radialGradient>
           </defs>
-          <ellipse cx={24} cy={46.6} rx={13} ry={1.8} className={s.shadow} />
-          <path d={HANDLE} stroke={`url(#${id}-h)`} className={s.handle} />
-          <path d={BODY} fill={`url(#${id}-b)`} className={s.body} />
-          <path d="M13.2 27.4a11.6 11.6 0 0 1 6.6-8" className={s.spec} />
+          <ellipse cx={24} cy={49.4} rx={17} ry={2.4} fill={`url(#${id}-sh)`} />
+          <g transform={PLACE}>
+            <path d={BELL_OUTLINE + BELL_WINDOW} fillRule="evenodd" fill={`url(#${id}-b)`} />
+            <path d={BELL_SPEC} className={s.spec} />
+            <path d={BELL_SHEEN} className={s.sheen} />
+          </g>
           {weight !== undefined ? (
-            <text x={24} y={34.6} textAnchor="middle" className={s.weight}>
+            <text x={24} y={40.4} textAnchor="middle" className={s.weight}>
               <tspan className={s.num}>{weight}</tspan>
-              <tspan dx={1.6} className={s.unit}>
+              <tspan dx={1.2} className={s.unit}>
                 {unit}
               </tspan>
             </text>
           ) : null}
         </>
       ) : (
-        <>
-          <path d={HANDLE} />
-          <path d={BODY} />
-        </>
+        <g transform={PLACE}>
+          <path d={BELL_OUTLINE + BELL_WINDOW} className={s.outline} />
+        </g>
       )}
     </svg>
   );
