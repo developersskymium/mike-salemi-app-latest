@@ -100,13 +100,13 @@ export function JourneyHome({ data }: { data: JourneyData }) {
         </div>
         <figure className="jy-hero-photo" style={{ "--focal": program.cover.focal, "--focal-phone": program.cover.focalPhone } as CSSProperties}>
           <Image src={program.cover.src} alt={program.cover.alt} fill priority sizes="(min-width: 1024px) 480px, 100vw" />
+          {cfg.artwork && (
+            <span className="jy-brand">
+              <Image src={cfg.artwork.src} alt={cfg.artwork.alt} width={cfg.artwork.width} height={cfg.artwork.height} sizes="240px" />
+            </span>
+          )}
         </figure>
       </header>
-      {cfg.artwork && (
-        <div className="jy-brand">
-          <Image src={cfg.artwork.src} alt={cfg.artwork.alt} width={cfg.artwork.width} height={cfg.artwork.height} sizes="(min-width: 1024px) 760px, 100vw" />
-        </div>
-      )}
 
       <div className="jy-cols">
         <div className="jy-main">

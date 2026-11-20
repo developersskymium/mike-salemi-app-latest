@@ -3,6 +3,7 @@ import { myOrders, type DB, type Order } from "@ms/api";
 import { fixture, MOCK } from "@/lib/mock";
 import { stripeConfigured } from "@/lib/stripe";
 import { getUser } from "@/lib/supabase/server";
+import { isUnfitCover } from "@/lib/covers";
 
 export interface ShopVariant {
   id: string;
@@ -77,11 +78,34 @@ export function categoryOf(p: { category?: string | null; type: string; file_url
 const galleryOf = (g: unknown): ShopImage[] =>
   Array.isArray(g) ? (g as ShopImage[]).filter((x) => x && typeof x.src === "string").map((x) => ({ src: x.src, alt: x.alt ?? "", fit: x.fit === "contain" ? "contain" : "cover", focal: x.focal })) : [];
 
+/** Photos of Mike for categories that sell time with him, when a product's own image is unfit. */
+const MIKE_BY_CATEGORY: Partial<Record<ShopCategory, ShopImage[]>> = {
+  coaching: [
+    { src: "/media/summit/mike-coaching.jpg", alt: "Mike Salemi coaching a member through a kettlebell drill", fit: "cover", focal: "26% 20%" },
+    { src: "/media/summit/working-in.jpg", alt: "Mike Salemi teaching a Working In session", fit: "cover", focal: "28% 30%" },
+    { src: "/media/summit/mike-press.jpg", alt: "Mike Salemi pressing a kettlebell overhead", fit: "cover", focal: "60% 14%" },
+  ],
+  retreats: [{ src: "/media/summit/summit-group.jpg", alt: "Men of Movement on Mount Shasta", fit: "cover", focal: "50% 55%" }],
+};
+
+/**
+ * Summit photo rule for the shop: no stock strangers, no lettering, no black-and-white. An unfit cover
+ * or gallery image is dropped; coaching and retreat products fall back to real photos of Mike.
+ */
+function withPhotos<T extends { category: ShopCategory; image: string | null; gallery: ShopImage[] }>(p: T): T {
+  const fit = (src: string | null | undefined) => Boolean(src) && (!src!.startsWith("/media/") || !isUnfitCover(src));
+  const gallery = p.gallery.filter((g) => fit(g.src));
+  const mike = MIKE_BY_CATEGORY[p.category] ?? [];
+  const image = fit(p.image) ? p.image : gallery[0]?.src ?? mike[0]?.src ?? p.image;
+  const extra = mike.filter((m) => m.src !== image && !gallery.some((g) => g.src === m.src));
+  return { ...p, image, gallery: [...gallery, ...(gallery.length < 3 ? extra.slice(0, 3 - gallery.length) : [])] };
+}
+
 /** Shop catalog (shop_products + shop_variants), access to included downloads, shop order history. */
 export async function loadShop(): Promise<ShopData> {
   if (MOCK) {
     const d = await fixture<ShopData>("shop");
-    return { ...d, products: d.products.map((p) => ({ ...p, category: categoryOf(p), gallery: galleryOf(p.gallery) })) };
+    return { ...d, products: d.products.map((p) => withPhotos({ ...p, category: categoryOf(p), gallery: galleryOf(p.gallery) })) };
   }
   const { supabase, user } = await getUser();
   if (!user) throw new Error("Not signed in");
@@ -106,7 +130,7 @@ export async function loadShop(): Promise<ShopData> {
     enabled: !!setting.enabled,
     isAdmin: admin,
     payments: stripeConfigured(),
-    products: products.map(({ shop_variants, ...p }) => ({
+    products: products.map(({ shop_variants, ...p }) => withPhotos({
       ...p,
       category: categoryOf(p),
       gallery: galleryOf(p.gallery),

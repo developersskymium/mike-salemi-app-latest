@@ -5,6 +5,7 @@ import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { BeyondTheSummit, Climb, PhotoHero, WeekDots, type ClimbPhase, type Peak, type WeekDot } from "@/components/signature";
 import { Avatar, Button, CardHead, Chip, Glass, Icon, ProgressBar, Rings, StepSegments, Tag } from "@/components/ui";
 import { MIKE_FACE, programPhoto } from "@/lib/program-photos";
+import { focalOf } from "@/lib/covers";
 import type { ActivityTile, HomeItem, HomeView, RetreatCardModel } from "./buildHome";
 import { money } from "./buildHome";
 import type { TodayView } from "./buildToday";
@@ -52,6 +53,9 @@ function weekDots(v: TodayView): WeekDot[] {
   });
 }
 
+/** Beyond-the-summit thumbs are thin strips (≈2.4:1): use the photo's face focal point so heads stay in frame. */
+const faceFocal = (src: unknown, fallback: string) => (typeof src === "string" ? focalOf(src, fallback) : fallback);
+
 /** Progress-tied next programs: the next level, Mastering the Kettlebell, an open retreat. */
 function peaksOf(h: HomeView, climb: ReturnType<typeof climbOf>, phaseLabel: string | null): Peak[] {
   const all = [...h.enrolled, ...h.joinable, ...h.locked];
@@ -67,7 +71,7 @@ function peaksOf(h: HomeView, climb: ReturnType<typeof climbOf>, phaseLabel: str
         sub: cur.complete ? "You reached the summit. The next level is open." : climb ? `Unlocks when you reach the Day ${climb.total} summit.` : "Your next level.",
         href: `${next.pageHref}?path=${next.pathKey}`,
         cta: next.enrolled ? "Resume" : `Preview ${name}`,
-        image: { src: next.image?.src ?? programPhoto(next.slug).src, alt: "", position: next.image?.position ?? "50% 25%" },
+        image: { src: next.image?.src ?? programPhoto(next.slug).src, alt: "", position: faceFocal(next.image?.src ?? programPhoto(next.slug).src, next.image?.position ?? programPhoto(next.slug).position) },
         badge: { label: included ? "Included" : "Next level", kind: "badge" },
         locked: !cur.complete && !next.enrolled,
       });
@@ -94,7 +98,7 @@ function peaksOf(h: HomeView, climb: ReturnType<typeof climbOf>, phaseLabel: str
       sub: `Train with Mike in person · ${run.line.split(" · ")[0]}`,
       href: run.href,
       cta: run.status === "open" ? "Apply" : "Join the waitlist",
-      image: { src: run.image?.src ?? "/media/summit/summit-group.jpg", alt: "", position: "50% 40%" },
+      image: { src: run.image?.src ?? "/media/summit/summit-group.jpg", alt: "", position: faceFocal(run.image?.src ?? "/media/summit/summit-group.jpg", "50% 45%") },
       badge: { label: run.statusLabel, kind: "badge" },
     });
   }

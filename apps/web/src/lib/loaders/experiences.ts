@@ -2,6 +2,7 @@ import "server-only";
 import { unstable_rethrow } from "next/navigation";
 import { MOCK, fixture } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
+import { safePhoto } from "@/lib/covers";
 
 /* ================================================================ Retreats index (legacy L24) */
 
@@ -95,7 +96,7 @@ export interface ConceptProgram {
     highlights: string[]; format_label: string | null; duration_label: string | null; draft_note: string | null;
     price_label: string | null; commitment: string | null; route: string | null; route_label: string | null; note: string | null;
     sections: ConceptSection[]; faq: { q: string; a: string }[];
-    hero: { url: string; alt: string } | null;
+    hero: { url: string; alt: string; focal?: string; focalPhone?: string } | null;
   };
   /** Open runs of this program (live, challenge, retreat): the CTA goes to the soonest. */
   nextRun: { id: string; name: string; status: string } | null;
@@ -149,8 +150,21 @@ async function realConcept(slug: string): Promise<ConceptProgram | null> {
 /** Program detail for coaching / live / challenge / retreat programs. Local preview: `fixtures/commerce-concept-<slug>.json`. */
 export async function loadConceptProgram(slug: string): Promise<ConceptProgram | null> {
   if (!/^[a-z0-9-]{2,80}$/.test(slug)) return null;
-  if (MOCK) return fixture<ConceptProgram>(`commerce-concept-${slug}`).catch(() => null);
-  return realConcept(slug);
+  const data = MOCK ? await fixture<ConceptProgram>(`commerce-concept-${slug}`).catch(() => null) : await realConcept(slug);
+  return data ? withPhotos(data) : null;
+}
+
+/**
+ * Summit photo rule for concept pages: the hero and the "Keep looking" cards never show a title card,
+ * a black-and-white/graded photo or a stock stranger; those fall back to the program's photo of Mike.
+ */
+function withPhotos(d: ConceptProgram): ConceptProgram {
+  const hero = safePhoto(d.program.hero?.url, d.program.slug, d.program.hero?.alt);
+  return {
+    ...d,
+    program: { ...d.program, hero: { url: hero.src, alt: hero.alt || d.program.name, focal: hero.focal, focalPhone: hero.focalPhone } },
+    others: d.others.map((o) => ({ ...o, image: safePhoto(o.image, o.slug).src })),
+  };
 }
 
 /* ================================================================ Home: the member's retreat journey */

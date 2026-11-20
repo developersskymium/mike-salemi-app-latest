@@ -8,6 +8,7 @@ import {
 } from "@ms/api";
 import { createClient, getUser } from "@/lib/supabase/server";
 import { MOCK, fixture } from "@/lib/mock";
+import { coverFor, isUnfitCover, focalOf } from "@/lib/covers";
 
 /* ================================================================== Offers */
 
@@ -18,7 +19,7 @@ export interface OfferView {
   offer: Offer;
   href: string;
   external: boolean;
-  image: { url: string; alt: string } | null;
+  image: { url: string; alt: string; focal?: string } | null;
   /** Short line above the headline (the target's name). */
   eyebrow: string | null;
 }
@@ -73,13 +74,26 @@ async function realOffer(placement: OfferSlotPlacement, context: OfferContext): 
 }
 
 /**
+ * Summit photo rule for offers: a poster with lettering (or a graded/stock image) is never shown; the
+ * target program's text-free photo of Mike stands in, with a focal point that keeps his face in frame.
+ */
+function withPhoto(view: OfferView): OfferView {
+  const img = view.image;
+  const slug = view.offer.target_kind === "program" ? view.offer.target?.slug ?? null : null;
+  if (img && !(img.url.startsWith("/media/") && isUnfitCover(img.url))) return { ...view, image: { ...img, focal: img.focal ?? focalOf(img.url, "50% 35%") } };
+  if (!img && !slug) return view;
+  const c = coverFor(slug ?? "kettlebell-lifestyle");
+  return { ...view, image: { url: c.src, alt: c.alt, focal: c.focal } };
+}
+
+/**
  * The best offer for a placement. In local preview it reads `fixtures/commerce-offer-<placement>.json`
  * (no file = no offer). Never throws: a failing offer simply renders nothing.
  */
 export async function loadOffer(placement: OfferSlotPlacement, context: OfferContext = {}): Promise<OfferView | null> {
   try {
-    if (MOCK) return await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null);
-    return await realOffer(placement, context);
+    const view = MOCK ? await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null) : await realOffer(placement, context);
+    return view ? withPhoto(view) : null;
   } catch (e) {
     unstable_rethrow(e); // let Next's dynamic-rendering and navigation signals through
     console.error("loadOffer", placement, e);

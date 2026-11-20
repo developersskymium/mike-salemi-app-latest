@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/ui";
 import { PageHead, Panel } from "@/components/studio/ui";
@@ -5,10 +6,11 @@ import { studioAdmin } from "@/lib/studio/guard";
 
 export const metadata = { title: "Design system" };
 
-const REFS: { href: string; title: string; line: string; icon: IconName }[] = [
-  { href: "/gallery", title: "Summit design system", line: "Colour, type, surfaces, buttons, chips, progress, the Climb and every primitive, with a light/dark switch.", icon: "grid" },
-  { href: "/gallery/shell", title: "App shell", line: "The rail, top bar, phone tab bar and the approved Home composition.", icon: "display" },
-  { href: "/graphics-preview", title: "Graphics specimen", line: "Movement figures, day glyphs, phase landscapes, medals, empty scenes and skies.", icon: "sparkle" },
+/** Static screenshot thumbnails (live iframes never painted: they block on remote fonts). */
+const REFS: { href: string; title: string; line: string; icon: IconName; shot: string }[] = [
+  { href: "/gallery", title: "Summit design system", line: "Colour, type, surfaces, buttons, chips, progress, the Climb and every primitive, with a light/dark switch.", icon: "grid", shot: "/media/studio/ref-system.jpg" },
+  { href: "/gallery/shell", title: "App shell", line: "The rail, top bar, phone tab bar and the approved Home composition.", icon: "display", shot: "/media/studio/ref-shell.jpg" },
+  { href: "/graphics-preview", title: "Graphics specimen", line: "Movement figures, day glyphs, phase landscapes, medals, empty scenes and skies.", icon: "sparkle", shot: "/media/studio/ref-graphics.jpg" },
 ];
 
 const SWATCHES = [
@@ -35,7 +37,7 @@ export default async function DesignPage() {
         {REFS.map((r) => (
           <Link key={r.href} href={r.href} className="st-ref" target="_blank">
             <span className="st-ref-frame" aria-hidden>
-              <iframe src={r.href} title="" tabIndex={-1} loading="lazy" />
+              <Image src={r.shot} alt="" fill sizes="(min-width: 1024px) 400px, 100vw" style={{ objectFit: "cover", objectPosition: "50% 0%" }} />
             </span>
             <span className="st-ref-body">
               <span className="st-ref-ic"><Icon name={r.icon} size="sm" /></span>

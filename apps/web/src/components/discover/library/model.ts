@@ -237,6 +237,52 @@ export function coverOf(th: string | null | undefined, hasText = false): string 
   return th;
 }
 
+/**
+ * Text-free, full-colour photos of Mike per movement (Summit principle 1: Mike leads). Used as the
+ * cover of a video that has no photographic Vimeo frame, so the Library is never illustration-only.
+ * `focal` keeps his face in the 16:9 frame. Movements with no matching photo keep the designed cover.
+ */
+export type MikePhoto = { src: string; focal: string };
+const L5E = "/media/l5e";
+const MOVE_PHOTOS: Partial<Record<MoveKey, MikePhoto[]>> = {
+  swing: [
+    { src: `${L5E}/d44b5ed0-8c18-4ebc-8f7d-1113a79eee1d/free-6-video-kettlebell-mini-series.png`, focal: "52% 30%" },
+    { src: `${L5E}/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png`, focal: "50% 34%" },
+  ],
+  clean: [{ src: "/media/summit/mike-standing.jpg", focal: "52% 26%" }],
+  press: [{ src: "/media/summit/mike-press.jpg", focal: "60% 14%" }],
+  getup: [{ src: "/media/summit/mike-getup.jpg", focal: "35% 30%" }, { src: "/media/summit/mike-windmill.jpg", focal: "70% 38%" }],
+  squat: [{ src: "/media/summit/mike-squat.jpg", focal: "40% 8%" }, { src: "/media/summit/mike-goblet.jpg", focal: "52% 12%" }],
+  lunge: [{ src: `${L5E}/096aef51-f111-494d-8704-b233b6929a34/beginner.png`, focal: "50% 40%" }],
+  deadlift: [{ src: "/media/summit/mike-deadlift.jpg", focal: "45% 6%" }],
+  row: [{ src: `${L5E}/56d44c1a-3caf-4646-83a3-2e4169771e25/kettlebell-roadmap.png`, focal: "50% 34%" }],
+  halo: [{ src: "/media/summit/mike-goblet.jpg", focal: "52% 12%" }],
+  mobility: [{ src: "/media/summit/working-in.jpg", focal: "30% 30%" }],
+  warmup: [{ src: "/media/summit/mike-standing.jpg", focal: "52% 26%" }],
+};
+
+function seedHash(s: string) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+/** A photo of Mike doing the video's movement (varied by video so a row doesn't repeat one shot), or null. */
+export function mikePhotoFor(move: MoveKey | null, seed: string): MikePhoto | null {
+  const list = move ? MOVE_PHOTOS[move] : undefined;
+  return list?.length ? list[seedHash(seed) % list.length]! : null;
+}
+
+/**
+ * The poster for a video, in order: its real photographic Vimeo frame; else a photo of Mike doing the
+ * movement; else null (the designed movement cover). A frame flagged as a title card
+ * (`videos.meta.cover_has_text`) skips straight to the designed cover, never a photo with words on it.
+ */
+export function posterOf(v: { th: string | null | undefined; ct?: boolean; g: string[]; t: string; id: string }): { video: string | null; mike: MikePhoto | null } {
+  if (v.ct) return { video: null, mike: null };
+  return { video: coverOf(v.th), mike: mikePhotoFor(primaryMove(v), v.id) };
+}
+
 const TOPIC_MOVE: Record<string, MoveName> = {
   swing: "swing", clean: "clean", press: "press", "push-press": "press", "turkish-get-up": "getup", squat: "squat", lunge: "lunge",
   row: "row", deadlift: "deadlift", halo: "halo", windmill: "getup", stretching: "breathing", "working-in": "breathing", "bodyweight-warm-ups": "walking",

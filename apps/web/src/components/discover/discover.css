@@ -77,6 +77,7 @@
 .dsc-vc-poster { border-radius: calc(var(--r-card) - 6px); }
 .dsc-vc-art { position: relative; aspect-ratio: 16 / 9; display: grid; place-items: center; background: var(--fill); color: var(--label); overflow: hidden; }
 .dsc-vc-art > .lq-over { position: absolute; inset: 0; }
+.dsc-vc-art > img { object-fit: cover; }
 .dsc-vc-dur { position: absolute; left: 10px; bottom: 10px; z-index: 2; }
 .dsc-vc-save { position: absolute; top: 8px; right: 8px; z-index: 4; color: #fff; }
 .dsc-vc-save[data-on] svg { fill: currentColor; }

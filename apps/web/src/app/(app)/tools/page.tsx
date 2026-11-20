@@ -5,7 +5,7 @@ import { Button, Chip, EmptyState, Glass, Icon } from "@/components/ui";
 import { EmptyScene } from "@/components/graphics";
 import { ToolGlyph } from "@/components/discover/ProgramCard";
 import { MovementCover } from "@/components/discover/library/MovementCover";
-import { TOOL_META } from "@/components/discover/tools/meta";
+import { TOOL_META, TOOL_PHOTO } from "@/components/discover/tools/meta";
 import "@/components/discover/library/library.css";
 import { loadToolsIndex } from "@/lib/loaders/discover";
 import { getUser } from "@/lib/supabase/server";
@@ -62,9 +62,18 @@ export default async function ToolsPage() {
             <li key={t.id}>
               <Link href={`/tools/${t.id}`} className="w1-cardlink">
                 <Glass radius="card" interactive className="w1-toolcard lq-lift">
-                  <span className="w1-toolcard-art" aria-hidden>
-                    <MovementCover move={TOOL_META[t.id]?.move ?? "swing"} seed={t.id} level={t.id === "readiness-check" ? "on-ramp" : t.id === "stretch-test" ? "phase-3" : "phase-1"} size={150} />
-                  </span>
+                  {TOOL_PHOTO[t.id] ? (
+                    <span className="w1-toolcard-photo">
+                      <Image src={TOOL_PHOTO[t.id]!.src} alt={TOOL_PHOTO[t.id]!.alt} fill sizes="(min-width: 1024px) 360px, 100vw" style={{ objectPosition: TOOL_PHOTO[t.id]!.focal }} />
+                      <span className="w1-toolcard-glyph" aria-hidden>
+                        <MovementCover move={TOOL_META[t.id]?.move ?? "swing"} seed={t.id} level={t.id === "readiness-check" ? "on-ramp" : t.id === "stretch-test" ? "phase-3" : "phase-1"} size={52} />
+                      </span>
+                    </span>
+                  ) : (
+                    <span className="w1-toolcard-art" aria-hidden>
+                      <MovementCover move={TOOL_META[t.id]?.move ?? "swing"} seed={t.id} level={t.id === "readiness-check" ? "on-ramp" : t.id === "stretch-test" ? "phase-3" : "phase-1"} size={150} />
+                    </span>
+                  )}
                   <span className="w1-toolcard-body">
                     <span className="lq-d-sm">{TOOL_META[t.id]?.title ?? t.name}</span>
                     {t.tagline && <span className="lq-t15 lq-c2">{t.tagline}</span>}
@@ -95,7 +104,7 @@ export default async function ToolsPage() {
             <div className="w1-tools-free">
               <Link href={`/tools/${roadmap.id}`} className="w1-cardlink">
                 <Glass radius="card" interactive className="w1-tools-row lq-lift">
-                  <span className="w1-tools-rowart" aria-hidden><ToolGlyph id={roadmap.id} size={60} animated={false} /></span>
+                  <span className="w1-tools-rowphoto" aria-hidden><Image src={TOOL_PHOTO["kettlebell-roadmap"]!.src} alt="" fill sizes="60px" style={{ objectPosition: TOOL_PHOTO["kettlebell-roadmap"]!.focal }} /></span>
                   <span className="w1-tools-rowtext">
                     <span className="lq-t17">Take the 2-minute phase check</span>
                     <span className="lq-t13 lq-c2">{roadmap.tagline ?? "The four fundamental lifts, and your next step"}</span>
@@ -105,7 +114,7 @@ export default async function ToolsPage() {
               </Link>
               <Link href="/programs/kettlebell-roadmap" className="w1-cardlink">
                 <Glass radius="card" interactive className="w1-tools-row lq-lift">
-                  <span className="w1-tools-rowart" aria-hidden><Icon name="play" /></span>
+                  <span className="w1-tools-rowphoto" aria-hidden><Image src="/media/summit/mike-press.jpg" alt="" fill sizes="60px" style={{ objectPosition: "60% 14%" }} /></span>
                   <span className="w1-tools-rowtext">
                     <span className="lq-t17">Kettlebell Roadmap</span>
                     <span className="lq-t13 lq-c2">Four training phases with skills and video demonstrations</span>

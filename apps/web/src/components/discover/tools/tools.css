@@ -119,3 +119,26 @@
 .w1-tools-hero2-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .w1-tools-hero2-photo { position: relative; min-height: 260px; order: -1; }
 @media (min-width: 900px) { .w1-tools-hero2-photo { order: 0; } }
+
+/* intro: Mike leads (photo), the movement motif as a small inset, sized to the content */
+.w1-ti { align-items: stretch; }
+.w1-ti-art { background: #121418; }
+@media (min-width: 960px) { .w1-ti-art { aspect-ratio: auto; min-height: 460px; max-height: 620px; } }
+.w1-ti-motif { position: absolute; left: 14px; top: 14px; width: 92px; height: 92px; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 18px rgba(0, 0, 0, .28), 0 0 0 3px rgba(255, 255, 255, .9); }
+.w1-ti-by { position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border-radius: 999px; color: #fff; font: 500 13px/1.2 var(--font); background: rgba(12, 14, 18, .58); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.w1-ti-by b { font-weight: 650; }
+.w1-ti-face { position: relative; width: 30px; height: 30px; border-radius: 999px; overflow: hidden; flex: none; background: var(--surface-sunk); }
+.w1-ti-face img { object-fit: cover; }
+.w1-ti-demos { margin: 4px 0 2px; display: grid; gap: 10px; }
+.w1-ti-demos ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+.w1-ti-demos li { display: grid; justify-items: center; gap: 6px; color: var(--text-2); }
+.w1-ti-demo { position: relative; width: 64px; height: 64px; border-radius: 999px; overflow: hidden; background: var(--surface-sunk); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--line); }
+.w1-ti-demo img { object-fit: cover; transform: scale(1.04); }
+
+/* tool cards: photo of Mike with the movement glyph as a badge */
+.w1-toolcard-photo { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: calc(var(--r-card) - 6px); overflow: hidden; background: #121418; }
+.w1-toolcard-photo img { object-fit: cover; transition: transform var(--dur-lift, .3s) var(--curve-out, ease); }
+.w1-cardlink:hover .w1-toolcard-photo img { transform: scale(1.03); }
+.w1-toolcard-glyph { position: absolute; right: 12px; bottom: 12px; width: 64px; height: 64px; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 16px rgba(0, 0, 0, .3), 0 0 0 3px rgba(255, 255, 255, .9); }
+.w1-tools-rowphoto { position: relative; flex: none; width: 60px; height: 60px; border-radius: 14px; overflow: hidden; background: #121418; }
+.w1-tools-rowphoto img { object-fit: cover; }

@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Clip } from "@ms/core";
 import { Icon } from "@/components/ui";
 import { clock } from "./model";
+import { mikePhotoFor, primaryMove } from "@/components/discover/library/model";
+
+/** No poster (or it failed): a full-colour photo of Mike doing the clip's movement, never a black tile. */
+function fallbackPoster(title: string, seed: string) {
+  return mikePhotoFor(primaryMove({ g: [], t: title }), seed) ?? { src: "/media/summit/mike-standing.jpg", focal: "52% 26%" };
+}
 
 /**
  * A step's clips as poster cards in a horizontal row (original "In this lesson · N clips"):
@@ -25,17 +31,28 @@ export function ClipCards({ clips, playingId, onPlay }: { clips: Clip[]; playing
 
 function ClipCard({ clip, index, active, onPlay }: { clip: Clip; index: number; active: boolean; onPlay: () => void }) {
   const ref = useRef<HTMLButtonElement>(null);
+  const [failed, setFailed] = useState(false);
+  const fb = fallbackPoster(clip.title, clip.providerId);
   useEffect(() => {
     if (active) ref.current?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [active]);
   return (
     <button ref={ref} type="button" className="kd-clip lq-press" aria-current={active || undefined} onClick={onPlay}>
       <span className="kd-clip-th">
-        {clip.thumbnailUrl ? (
+        {clip.thumbnailUrl && !failed ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={clip.thumbnailUrl} alt="" loading="lazy" />
+          <img
+            src={clip.thumbnailUrl}
+            alt=""
+            loading="lazy"
+            ref={(el) => {
+              if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+            }}
+            onError={() => setFailed(true)}
+          />
         ) : (
-          <span className="kd-clip-blank" aria-hidden />
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={fb.src} alt="" loading="lazy" style={{ objectPosition: fb.focal }} />
         )}
         <span className="kd-clip-n lq-num">{index + 1}</span>
         {clip.durationSeconds ? <span className="kd-clip-d lq-num">{clock(clip.durationSeconds)}</span> : null}

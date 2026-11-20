@@ -5,6 +5,7 @@ import { DraftChip } from "@/components/commerce/DraftChip";
 import { dateRange } from "@/components/commerce/format";
 import type { GalleryPhoto, RunHub } from "@/lib/loaders/commerce";
 import { MIKE_FACE } from "@/lib/program-photos";
+import { focalOf } from "@/lib/covers";
 import type { RetreatStage } from "@/lib/retreat-stage";
 import { BookingBar, BookingCard } from "./BookingCard";
 import { Faq } from "./RunParts";
@@ -32,12 +33,59 @@ export function byDay(items: RunHub["itinerary"]) {
 
 const DAY_WORDS: string[][] = [["shared meals"], ["breathwork ceremony"], ["sweat lodge"], ["facing"]];
 
+/** Real retreat photos outside a run's gallery, so the sections below the tour never repeat a photo. */
+const EXTRA: GalleryPhoto[] = [
+  { url: "/media/retreats/ridge-circle.jpg", caption: "The circle on the ridge" },
+  { url: "/media/summit/mike-press.jpg", caption: "Mike leading the team training" },
+  { url: "/media/summit/tgk.jpg", caption: "Breathing together on the land" },
+  { url: "/media/retreats/sunrise-lodge.jpg", caption: "Sunrise over Mount Shasta from the lodge" },
+  { url: "/media/retreats/trail-walk.jpg", caption: "Sharing stories in the afternoon sun" },
+  { url: "/media/retreats/summit-group.jpg", caption: "The group in front of Mount Shasta" },
+];
+
+/** The same photo saved under two names: treated as one, so it is never shown twice. */
+const SAME: Record<string, string> = {
+  "/media/retreats/sound-rest.jpg": "/media/retreats/live/breathwork.jpg",
+  "/media/retreats/yurt-ceremony.jpg": "/media/retreats/live/maloca.jpg",
+  "/media/retreats/cold-plunge.jpg": "/media/retreats/live/after-sweat-lodge.jpg",
+  "/media/summit/summit-group.jpg": "/media/retreats/summit-group.jpg",
+  "/media/retreats/fire-circle.jpg": "/media/retreats/live/fire.jpg",
+  "/media/summit/fire.jpg": "/media/retreats/live/fire.jpg",
+  "/media/retreats/mom-cover.jpg": "/media/retreats/ridge-circle.jpg",
+  "/media/summit/ridge-circle.jpg": "/media/retreats/ridge-circle.jpg",
+  "/media/summit/shasta-ridge.jpg": "/media/retreats/live/qi-gong.png",
+  "/media/summit/breathwork.jpg": "/media/summit/tgk.jpg",
+};
+const same = (url: string) => SAME[url] ?? url;
+
+/**
+ * Hands out photos for the sections below the photo tour: caption matches first, never a photo the
+ * tour already shows up top (its first five) while others are left, never the same photo twice below it.
+ */
+export function photoPicker(gallery: GalleryPhoto[], tourShows = 5) {
+  const top = gallery.slice(0, tourShows);
+  const inTour = new Set<string>(top.map((p) => same(p.url)));
+  const used = new Set<string>();
+  const below = [...gallery.slice(tourShows), ...EXTRA].filter((p) => !inTour.has(same(p.url)));
+  const match = (list: GalleryPhoto[], words: string[]) => list.find((p) => words.some((w) => p.caption.toLowerCase().includes(w))) ?? list[0] ?? null;
+  return (words: string[]): GalleryPhoto | null => {
+    // Photos the tour does not show come first; only when they run out does a tour photo appear again.
+    const hit = match(below.filter((p) => !used.has(same(p.url))), words) ?? match(top.filter((p) => !used.has(same(p.url))), words);
+    if (hit) used.add(same(hit.url));
+    return hit;
+  };
+}
+
+/** Words for the day cards when a page-wide picker is in use (the obvious matches are taken by then). */
+const DAY_PICK_WORDS: string[][] = [["group on", "group"], ["walking"], ["stories"], ["front of mount shasta"]];
+
 const PILLARS: Record<string, { line: string; words: string[]; icon: IconName }> = {
-  rotation: { line: "Pillar name from Mike’s notes; the full description is on its way.", words: ["circle", "group"], icon: "repeat" },
-  movement: { line: "Daily Qi Gong and team training, scaled to every body.", words: ["qi gong"], icon: "kettlebell" },
-  breathwork: { line: "The somatic breathwork ceremony: the largest release of the retreat.", words: ["breathwork"], icon: "wind" },
+  // "Rotation" is a pillar name from Mike's notes awaiting confirmation: no description is shown until it is written.
+  rotation: { line: "", words: ["circle on the ridge", "circle"], icon: "repeat" },
+  movement: { line: "Daily Qi Gong and team training, scaled to every body.", words: ["qi gong", "team training"], icon: "kettlebell" },
+  breathwork: { line: "The somatic breathwork ceremony: the largest release of the retreat.", words: ["breathwork", "breathing"], icon: "wind" },
   nature: { line: "Mount Shasta, the creek plunge and days on the land.", words: ["facing", "walking"], icon: "mountain" },
-  storywork: { line: "Fire, circle and the stories men carry, said out loud.", words: ["fire"], icon: "flame" },
+  storywork: { line: "Fire, circle and the stories men carry, said out loud.", words: ["fire", "brotherhood after"], icon: "flame" },
 };
 
 function Section({ id, eyebrow, title, aside, children }: { id: string; eyebrow?: string; title: string; aside?: React.ReactNode; children: React.ReactNode }) {
@@ -72,9 +120,10 @@ export function Facilitators({ people }: { people: NonNullable<RunHub["run"]["de
 }
 
 /** "How the four days unfold": photo day cards (scroll on phones). */
-export function DayCards({ hub, photos, today }: { hub: RunHub; photos: GalleryPhoto[]; today?: number | null }) {
+export function DayCards({ hub, photos, today, picker }: { hub: RunHub; photos: GalleryPhoto[]; today?: number | null; /** Shared page allocator (no repeats across sections). */ picker?: (words: string[]) => GalleryPhoto | null }) {
   const used = new Set<string>();
   const pick = (n: number) => {
+    if (picker) return picker(DAY_PICK_WORDS[n] ?? []);
     const hit = photoFor(photos.filter((p) => !used.has(p.url)), DAY_WORDS[n] ?? [], n);
     if (hit) used.add(hit.url);
     return hit;
@@ -109,6 +158,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
   const dates = dateRange(run.starts_at, run.ends_at, run.timezone);
   const place = run.location.city ? `${run.location.city}, ${run.location.region === "California" ? "California" : run.location.region ?? ""}` : run.location.label ?? "";
   const venue = photoFor(photos, ["venue", "golden"], 1);
+  const pick = photoPicker(photos);
   const rhythm = about.rhythm;
   const fac = d.facilitators ?? [];
   const mike = fac.find((f) => /mike/i.test(f.name));
@@ -172,11 +222,11 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
               <ul className="rt-pillars" role="list">
                 {about.pillars.map((p, i) => {
                   const meta = PILLARS[p.toLowerCase()] ?? { line: "", words: [], icon: "sparkle" as IconName };
-                  const ph = photoFor(photos, meta.words, i);
+                  const ph = pick(meta.words);
                   return (
                     <li key={p} className="rt-pillar">
-                      <div className="rt-pillar-photo">{ph && <Image src={ph.url} alt="" fill sizes="(min-width: 1024px) 200px, 45vw" />}<span className="rt-pillar-n lq-num">{String(i + 1).padStart(2, "0")}</span></div>
-                      <div className="rt-pillar-body"><b className="lq-d-xs">{p}</b><span className="lq-t13 lq-c2">{meta.line}</span></div>
+                      <div className="rt-pillar-photo">{ph && <Image src={ph.url} alt={ph.caption} fill sizes="(min-width: 1024px) 200px, 45vw" style={{ objectPosition: focalOf(ph.url, "50% 50%") }} />}<span className="rt-pillar-n lq-num">{String(i + 1).padStart(2, "0")}</span></div>
+                      <div className="rt-pillar-body"><b className="lq-d-xs">{p}</b>{meta.line && <span className="lq-t13 lq-c2">{meta.line}</span>}</div>
                     </li>
                   );
                 })}
@@ -188,11 +238,11 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
             <Section id="rhythm" eyebrow="Every day" title="The daily rhythm">
               <ol className="rt-rhythm" role="list">
                 {[
-                  { k: "Morning", t: "Move", w: ["qi gong"], s: "Qi Gong and team training to wake the body." },
-                  { k: "Afternoon", t: "Go inward", w: ["breathwork", "circle room"], s: "Breathwork, ceremony and the deeper work." },
-                  { k: "Evening", t: "Fire, food and circle", w: ["fire", "meal"], s: "Shared meals and the fire, every night." },
-                ].map((r, i) => {
-                  const ph = photoFor(photos, r.w, i + 3);
+                  { k: "Morning", t: "Move", w: ["qi gong", "sunrise"], s: "Qi Gong and team training to wake the body." },
+                  { k: "Afternoon", t: "Go inward", w: ["breathwork", "maloca", "circle room"], s: "Breathwork, ceremony and the deeper work." },
+                  { k: "Evening", t: "Fire, food and circle", w: ["fire", "meals"], s: "Shared meals and the fire, every night." },
+                ].map((r) => {
+                  const ph = pick(r.w);
                   return (
                     <li key={r.k} className="rt-rhythm-item">
                       <div className="rt-rhythm-photo">{ph && <Image src={ph.url} alt={ph.caption} fill sizes="(min-width: 1024px) 240px, 80vw" />}</div>
@@ -208,7 +258,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
 
           {hub.itinerary.length > 0 && (
             <Section id="days" eyebrow="Day by day" title={`How the ${byDay(hub.itinerary).length === 4 ? "four " : ""}days unfold`}>
-              <DayCards hub={hub} photos={photos} />
+              <DayCards hub={hub} photos={photos} picker={pick} />
             </Section>
           )}
 
@@ -282,7 +332,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
 
           {mike && stage === "sales" && (
             <Glass radius="card" className="rt-closing">
-              <Image src={photoFor(photos, ["group"], 0)?.url ?? photos[0]!.url} alt="" fill sizes="(min-width: 1024px) 720px, 100vw" className="rt-closing-img" />
+              <Image src={pick(["front of mount shasta", "group"])?.url ?? photos[0]!.url} alt="" fill sizes="(min-width: 1024px) 720px, 100vw" className="rt-closing-img" />
               <div className="rt-closing-body">
                 <h2 className="lq-d-md">{run.capacity ? `${run.capacity} places. That’s it.` : "Limited places."}</h2>
                 <p>Apply in five minutes. Nothing is charged until Mike says yes.</p>

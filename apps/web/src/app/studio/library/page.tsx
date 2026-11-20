@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SafeImage } from "@/components/discover/library/SafeImage";
 import { Disclosure, RecordForm, RowTools } from "@/components/studio/forms";
 import { CoverTextToggle, KeyField } from "@/components/studio/pieces";
 import { PosterFallback } from "@/components/poster/PosterFallback";
@@ -31,7 +31,7 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
           {(sp.q || sp.missing) && <Button href="/studio/library" variant="plain" size="md">Clear</Button>}
         </form>
         <DataTable rows={d.videos} empty="No videos match." cols={[
-          { label: "Video", render: (v) => <span className="st-row" style={{ flexWrap: "nowrap" }}>{v.thumbnail_url ? <Image src={v.thumbnail_url} alt="" width={64} height={40} className="st-thumb" unoptimized /> : <span className="st-thumb" style={{ position: "relative", overflow: "hidden", display: "block" }}><PosterFallback seed={v.provider_id} compact /></span>}<span>{v.title}{v.duration_seconds ? <span className="st-faint"> · {Math.floor(v.duration_seconds / 60)}:{String(v.duration_seconds % 60).padStart(2, "0")}</span> : null}</span></span> },
+          { label: "Video", render: (v) => <span className="st-row" style={{ flexWrap: "nowrap" }}>{v.thumbnail_url ? <SafeImage src={v.thumbnail_url} alt="" width={64} height={40} className="st-thumb" unoptimized fallback={<span className="st-thumb" style={{ position: "relative", overflow: "hidden", display: "block" }}><PosterFallback seed={v.provider_id} compact /></span>} /> : <span className="st-thumb" style={{ position: "relative", overflow: "hidden", display: "block" }}><PosterFallback seed={v.provider_id} compact /></span>}<span>{v.title}{v.duration_seconds ? <span className="st-faint"> · {Math.floor(v.duration_seconds / 60)}:{String(v.duration_seconds % 60).padStart(2, "0")}</span> : null}</span></span> },
           { label: "Poster", render: (v) => (v.thumbnail_url ? <span className="st-faint">Vimeo</span> : v.meta?.api_error ? <Chip variant="outline">API {String(v.meta.api_error).replace("api ", "")}</Chip> : v.meta?.oembed_error ? <Chip variant="outline">needs API (unlisted)</Chip> : v.meta?.no_thumb ? <Chip variant="outline">needs API (restricted)</Chip> : <span className="st-faint">pending</span>) },
           { label: "Cover", render: (v) => (v.thumbnail_url && !String(v.thumbnail_url).startsWith("/media/library/") ? <CoverTextToggle videoId={v.id} title={v.title} hasText={v.meta?.cover_has_text === true} /> : <span className="st-faint">designed</span>) },
           { label: "Vimeo", render: (v) => <span className="st-faint">{v.provider_id}</span> },

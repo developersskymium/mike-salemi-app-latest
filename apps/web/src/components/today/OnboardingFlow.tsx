@@ -74,8 +74,15 @@ export function OnboardingFlow({ data }: { data: OnboardingData }) {
   const canGo = !cur || !cur.q.required || (answers[cur.q.id] !== undefined && answers[cur.q.id] !== "" && !(Array.isArray(answers[cur.q.id]) && !(answers[cur.q.id] as string[]).length));
 
   return (
-    <div className="tpy-ob" role="dialog" aria-modal="true" aria-label="Set your goal">
+    <div className="tpy-ob" role="dialog" aria-modal="true" aria-label="Set your goal" data-shell-focus="">
       <AmbientBackdrop src={photo.src} position={photo.position} />
+      <aside className="tpy-ob-photo" aria-hidden>
+        <Image src={photo.src} alt="" fill priority sizes="42vw" style={{ objectFit: "cover", objectPosition: photo.src === PHOTOS.coaching.src ? "24% 20%" : photo.position }} placeholder="blur" />
+        <span className="tpy-ob-photo-cap">
+          <b>Mike Salemi</b>
+          <span>A few questions, then a plan built around your week.</span>
+        </span>
+      </aside>
       <div className="tpy-ob-scrim" />
       <div className="tpy-ob-frame">
         <div className="tpy-ob-top">

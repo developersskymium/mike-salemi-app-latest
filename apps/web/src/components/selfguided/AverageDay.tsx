@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { SafeImage } from "@/components/discover/library/SafeImage";
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { isFormComplete, resolveOutcome, scoreForm, type VideoRef } from "@ms/core";
@@ -259,7 +260,18 @@ function Block({ step, clips, notes, recommendation }: { step: AverageDayData["d
           <div className="sg-assoc-list">
             {clips.map((c) => (
               <button key={c.providerId} type="button" className="sg-assoc-item" aria-pressed={playing === c.providerId} onClick={() => setPlaying(c.providerId)}>
-                <span className="sg-assoc-th">{c.thumbnailUrl && <Image src={c.thumbnailUrl} alt="" fill sizes="96px" unoptimized={c.thumbnailUrl.startsWith("http")} />}</span>
+                <span className="sg-assoc-th">
+                  {c.thumbnailUrl && (
+                    <SafeImage
+                      src={c.thumbnailUrl}
+                      alt=""
+                      fill
+                      sizes="96px"
+                      unoptimized={c.thumbnailUrl.startsWith("http")}
+                      fallback={<Image src="/media/summit/mike-standing.jpg" alt="" fill sizes="96px" style={{ objectFit: "cover", objectPosition: "52% 26%" }} />}
+                    />
+                  )}
+                </span>
                 <span className="sg-assoc-t">
                   <span className="lq-t13 sg-ellipsis" style={{ fontWeight: 600 }}>
                     {c.title.trim()}
