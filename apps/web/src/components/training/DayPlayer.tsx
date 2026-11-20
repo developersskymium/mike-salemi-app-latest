@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { isStepOpen, openThrough, recommendNext, stagePlaylist, type NextAction, type ReadinessOutcome, type WorkoutTable as Table } from "@ms/core";
 import { Button, CompleteButton, Icon, Sheet, Toggle, haptic, useToast } from "@/components/ui";
-import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { completeStepAction, savePositionAction, setAutoplayAction, submitReadinessAction, uncompleteStepAction } from "@/lib/actions/training";
 import { lessonLabel, lessonName, minutesOf } from "./model";
@@ -20,6 +19,7 @@ import { circuitsOf, circuitWord, estimateMinutes } from "./workout";
 import { MIKE_FACE } from "@/lib/program-photos";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
+import { CompletionMoment } from "./CompletionMoment";
 import { hasNotes, NotesBody } from "./NotesBody";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
@@ -413,6 +413,11 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
         </section>
       )
     ) : null;
+  // Readiness / completion: only the step's own copy (the day's focus line is workout copy, not theirs).
+  const metaDesc =
+    step.special === "readiness" || step.special === "completion" ? (step.description && step.description !== lesson.focus ? step.description : null) : step.description || lesson.focus;
+  // The readiness step shows the check-in itself; no second "Today's readiness" card beside it.
+  const sideReady = step.special === "readiness" ? null : readinessCard;
   const nextLocked = Boolean(nextLesson && !nextOpen);
   const afterToday = nextLesson ? (
     <Link href={nextOpen ? lessonHref(program.slug, nextLesson.key, nextLesson.id) : programHref} className="kd-after lq-press" aria-disabled={nextLocked || undefined}>
@@ -519,6 +524,19 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       <Button block={block} size={block ? "lg" : "md"} href={programHref} iconAfter="chevron">
         Get full access
       </Button>
+    ) : dayDone && nextLesson && nextOpen ? (
+      // Day finished: the forward action takes the Completed button's place (same spot, every surface).
+      <Button block={block} size={block ? "lg" : "md"} href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} iconAfter="chevron">
+        Start {lessonLabel(nextLesson, word)}
+      </Button>
+    ) : dayDone && nextLesson ? (
+      <Button block={block} size={block ? "lg" : "md"} variant="secondary" icon="lock" disabled>
+        {lessonLabel(nextLesson, word)} unlocks next
+      </Button>
+    ) : dayDone ? (
+      <Button block={block} size={block ? "lg" : "md"} href={programHref} iconAfter="chevron">
+        {endKind === "level" ? "Certificate and next steps" : "Back to the program"}
+      </Button>
     ) : step.special === "readiness" && !isDone ? (
       // The questions are inline below: one way in, the button just scrolls there (D18).
       <Button block={block} size={block ? "lg" : "md"} variant="secondary" icon="down" onClick={toReadiness}>
@@ -547,15 +565,9 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
         <Icon name="back" size="sm" />
       </button>
       <div className="kd-bar-main">{primary(true)}</div>
-      {dayDone && nextLesson && active >= steps.length - 1 ? (
-        <Link href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} className="kd-stepbtn kd-stepbtn-next lq-press" aria-label={`Start ${lessonLabel(nextLesson, word)}`} title={`Start ${lessonLabel(nextLesson, word)}`}>
-          <Icon name="chevron" size="sm" />
-        </Link>
-      ) : (
-        <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
-          <Icon name="chevron" size="sm" />
-        </button>
-      )}
+      <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
+        <Icon name="chevron" size="sm" />
+      </button>
     </>
   );
 
@@ -704,7 +716,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
               <h2 key={step.id} className="kd-meta-title">
                 {step.title}
               </h2>
-              {(step.description || lesson.focus) && <p className="kd-meta-d">{step.description || lesson.focus}</p>}
+              {metaDesc && <p className="kd-meta-d">{metaDesc}</p>}
               {phoneChips.length > 0 && (
                 <div className="kd-meta-chips">
                   {phoneChips.map((c) => (
@@ -721,21 +733,22 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             </span>
           </section>
 
-          {(notes.has || notes.atts.length > 0 || readinessCard) && (
-            <div className="kd-duo" data-single={!readinessCard || !(notes.has || notes.atts.length) ? "" : undefined}>
+          {(notes.has || notes.atts.length > 0 || sideReady) && (
+            <div className="kd-duo" data-single={!sideReady || !(notes.has || notes.atts.length) ? "" : undefined}>
               {(notes.has || notes.atts.length > 0) && <MikeNotes body={notes.has ? notes.body : null} title={step.title} attachments={notes.atts} dayLabel={lesson.pageType ? null : dayLabel} />}
-              {readinessCard}
+              {sideReady}
             </div>
           )}
 
           {step.special === "readiness" && form && (
             <section className="kd-sec kd-card kd-in" ref={readyRef} aria-labelledby="kd-ready-h">
               <div className="kd-sec-in">
-                <p id="kd-ready-h" className="kd-eyebrow kd-eyebrow-now">
-                  Training Readiness Assessment
+                <p id="kd-ready-h" className="krq-h">
+                  <b>Readiness check</b>
+                  <span>How you woke up today sets today&apos;s table.</span>
                 </p>
-                <p className="lq-t13 lq-c2 kd-sec-sub">Five honest questions about how you woke up today. Your answers set the workout table for this session.</p>
                 <ReadinessAssessment
+                  compact
                   form={form}
                   saved={readiness}
                   initial={data.position?.draftAnswers ?? {}}
@@ -755,11 +768,20 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
               }} />}
 
           {step.special === "completion" && (
-            <section className="kd-sec kd-card kd-done kd-in">
-              <Completion key={isDone ? "d" : "t"} variant="step" size={88} animated={isDone} />
-              <p className="lq-t17">{step.body || "You've Crushed Another Day"}</p>
-              <p className="lq-t13 lq-c2">Mark this step finished to complete today.</p>
-            </section>
+            <CompletionMoment
+              key={step.id}
+              dayNumber={lesson.dayNumber ?? null}
+              dayLabel={dayLabel}
+              title={step.body && step.body.length < 80 ? step.body.replace(/<[^>]+>/g, "") : "You've Crushed Another Day"}
+              minutes={minutes}
+              stepsDone={doneCount}
+              stepsTotal={steps.length}
+              readiness={bandWord}
+              done={isDone}
+              canAuto={!preview && openNow(active)}
+              firstName={data.firstName}
+              onComplete={() => void complete(active, "button")}
+            />
           )}
 
           {step.special === "workout" && (form || table) && (
@@ -1075,13 +1097,7 @@ function DayFooter({
               Certificate and next steps
             </Button>
           )}
-          {next ? (
-            <Button size="md" block variant={levelDone ? "fill" : "filled"} href={lessonHref(slug, next.key, next.id)} iconAfter="chevron">
-              Start {lessonLabel(next, word)}
-            </Button>
-          ) : (
-            <p className="lq-t13 lq-c2">That&apos;s the end of the program. Outstanding.</p>
-          )}
+          {!next && <p className="lq-t13 lq-c2">That&apos;s the end of the program. Outstanding.</p>}
         </div>
       ) : next && nextOpen ? (
         <Link href={lessonHref(slug, next.key, next.id)} className="kd-foot-next">
