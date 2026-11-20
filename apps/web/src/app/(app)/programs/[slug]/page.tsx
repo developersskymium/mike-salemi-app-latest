@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { ProgramView } from "@/components/training/ProgramView";
 import { loadProgramPage } from "@/lib/loaders/training";
@@ -27,6 +27,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const sp = await searchParams;
   const data = await loadProgramPage(slug, param(sp.path));
   if (!data) notFound();
+  // Courses open in the course player (legacy Template 2), not the day-program page.
+  if (data.program.type === "course") redirect(`/programs/${slug}/course/resume`);
   const board = data.program.access === "locked" ? null : await loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null);
   return <ProgramView data={data} board={board} initialMode={modeParam(param(sp.mode))} offer={<OfferSlot placement="program_page" />} />;
 }
