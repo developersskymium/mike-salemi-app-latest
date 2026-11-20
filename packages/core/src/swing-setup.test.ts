@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+// Vite inlines the source plan as text (the whole quote check runs on the real document).
+import sourcePlan from "../../../docs/specs/13-swing-setup-coach-source-plan.md?raw";
 import { describe, expect, it } from "vitest";
 import {
   assessSetup,
@@ -213,7 +214,7 @@ describe("steadiest frames", () => {
 });
 
 describe("Mike's words", () => {
-  const source = readFileSync(new URL("../../../docs/specs/13-swing-setup-coach-source-plan.md", import.meta.url), "utf8").toLowerCase();
+  const source = sourcePlan.toLowerCase();
   it("every cue is an exact quote from the source material", () => {
     const cues = [
       ...Object.keys(SWING_FIXES).flatMap((f) => [fixFor(f as FaultId, false).cue, fixFor(f as FaultId, true).cue]),

@@ -161,7 +161,7 @@ export interface Framing {
   hint: string | null;
 }
 
-const NEED = (s: Side) => [LM.nose, LM.ear[s], LM.shoulder[s], LM.hip[s], LM.knee[s], LM.ankle[s]];
+const NEED = (s: Side): number[] => [LM.nose, LM.ear[s], LM.shoulder[s], LM.hip[s], LM.knee[s], LM.ankle[s]];
 
 /** Placement guide: is the whole body in frame, seen clearly and side-on? */
 export function framing(pose: Pose | null | undefined, aspect: number): Framing {
