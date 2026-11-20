@@ -144,6 +144,8 @@ export function resolveActive(d: CourseData, token: string): string {
   const all = d.groups.flatMap((g) => g.sections.flatMap((s) => s.lessons));
   const valid = (id: string | null | undefined) => Boolean(id) && all.some((l) => l.id === id || l.key === id);
   if (token === "start" || token === INTRO) return d.intro ? INTRO : all[0]?.id ?? INTRO;
+  // A link to the intro lesson itself (the "Home" / "Start here" lesson, e.g. from a day-player URL) opens the introduction.
+  if (d.intro && token === d.intro.lessonId) return INTRO;
   if (token !== "resume" && valid(token)) return all.find((l) => l.id === token || l.key === token)!.id;
   const anyDone = all.some((l) => l.done);
   if (!anyDone && !d.lastLessonId && d.intro) return INTRO;

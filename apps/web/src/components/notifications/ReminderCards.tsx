@@ -205,7 +205,7 @@ export function ChannelsCard({ p, today, now, email, emailReady, pushKey, isAdmi
         <PushRow pushKey={pushKey} enabled={prefs.push_enabled} onDisable={() => save({ push_enabled: false }, "Notifications off on this device")} />
       </div>
       {!emailReady && (
-        <p className="ntf-note" role="note"><Icon name="clock" size="xs" /> Email delivery is being set up. Reminders are logged in your history until it's switched on.</p>
+        <p className="ntf-note" role="note"><Icon name="clock" size="xs" /> Email delivery is being set up. Reminders are logged in your history until it&apos;s switched on.</p>
       )}
       <p className="ntf-foot lq-num">Next reminder: <b>{nextOf(prefs, today, now)}</b></p>
       <div className="ntf-actions">

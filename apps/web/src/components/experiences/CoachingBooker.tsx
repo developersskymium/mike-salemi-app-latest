@@ -133,6 +133,7 @@ export function ExecutiveApply({ packageId, status }: { packageId: string; statu
   return (
     <>
       <Button variant="white" size="lg" iconAfter="arrowRight" onClick={() => setOpen(true)}>Apply for Executive Edge</Button>
+      <p className="ch-ee-note ch-ic"><Icon name="lock" size="xs" />Apply first — Mike reviews every application before anyone can pay.</p>
       <Sheet
         open={open}
         onClose={() => setOpen(false)}

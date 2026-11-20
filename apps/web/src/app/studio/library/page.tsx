@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Disclosure, RecordForm, RowTools } from "@/components/studio/forms";
-import { KeyField } from "@/components/studio/pieces";
+import { CoverTextToggle, KeyField } from "@/components/studio/pieces";
 import { PosterFallback } from "@/components/poster/PosterFallback";
 import { DataTable, Note, PageHead, Panel } from "@/components/studio/ui";
 import { Button, Chip } from "@/components/ui";
@@ -15,7 +15,7 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
   const d = await loadLibrary(sp.q?.trim() ?? "", sp.missing === "1");
   return (
     <>
-      <PageHead title="Library" sub={`${d.total} videos. Private Vimeo videos need their key (the short code after the id in the link) before members can play them. Posters and durations come from Vimeo; restricted and unlisted ones fill in once VIMEO_ACCESS_TOKEN is set (docs/specs/ENV.md).`} />
+      <PageHead title="Library" sub={`${d.total} videos. Private Vimeo videos need their key (the short code after the id in the link) before members can play them. Posters and durations come from Vimeo; restricted and unlisted ones fill in once VIMEO_ACCESS_TOKEN is set (docs/specs/ENV.md). Library cards use the Vimeo thumbnail; tick “Has text” when it is a title card, and the card draws the designed movement cover instead.`} />
       <Panel title="Missing Vimeo key" meta={`${d.missing.length}`}>
         {d.missing.length ? (
           <DataTable rows={d.missing} cols={[
@@ -33,6 +33,7 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
         <DataTable rows={d.videos} empty="No videos match." cols={[
           { label: "Video", render: (v) => <span className="st-row" style={{ flexWrap: "nowrap" }}>{v.thumbnail_url ? <Image src={v.thumbnail_url} alt="" width={64} height={40} className="st-thumb" unoptimized /> : <span className="st-thumb" style={{ position: "relative", overflow: "hidden", display: "block" }}><PosterFallback seed={v.provider_id} compact /></span>}<span>{v.title}{v.duration_seconds ? <span className="st-faint"> · {Math.floor(v.duration_seconds / 60)}:{String(v.duration_seconds % 60).padStart(2, "0")}</span> : null}</span></span> },
           { label: "Poster", render: (v) => (v.thumbnail_url ? <span className="st-faint">Vimeo</span> : v.meta?.api_error ? <Chip variant="outline">API {String(v.meta.api_error).replace("api ", "")}</Chip> : v.meta?.oembed_error ? <Chip variant="outline">needs API (unlisted)</Chip> : v.meta?.no_thumb ? <Chip variant="outline">needs API (restricted)</Chip> : <span className="st-faint">pending</span>) },
+          { label: "Cover", render: (v) => (v.thumbnail_url && !String(v.thumbnail_url).startsWith("/media/library/") ? <CoverTextToggle videoId={v.id} title={v.title} hasText={v.meta?.cover_has_text === true} /> : <span className="st-faint">designed</span>) },
           { label: "Vimeo", render: (v) => <span className="st-faint">{v.provider_id}</span> },
           { label: "Category", render: (v) => v.category ?? "" }, { label: "Level", render: (v) => v.level ?? "" },
           { label: "Key", render: (v) => (v.needs_key ? <Chip variant="outline">missing</Chip> : v.privacy_hash ? <Chip variant="fill">set</Chip> : <span className="st-faint">public</span>) },

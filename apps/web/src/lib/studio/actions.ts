@@ -201,6 +201,20 @@ export async function setVideoKey(videoId: string, hash: string): Promise<Result
   });
 }
 
+/** Marks a video's Vimeo thumbnail as a title card with words on it, so the Library draws the designed cover instead. */
+export async function setVideoCoverHasText(videoId: string, hasText: boolean): Promise<Result> {
+  await studioAdmin();
+  return write("update", "videos", async (db) => {
+    const { data: row, error: readError } = await db.from("videos").select("meta").eq("id", videoId).maybeSingle();
+    if (readError || !row) return { id: videoId, error: readError?.message ?? "Video not found" };
+    const meta = { ...((row as { meta: Record<string, unknown> | null }).meta ?? {}) };
+    if (hasText) meta.cover_has_text = true;
+    else delete meta.cover_has_text;
+    const { error } = await db.from("videos").update({ meta }).eq("id", videoId);
+    return { id: videoId, detail: { cover_has_text: hasText }, error: error?.message };
+  });
+}
+
 export async function setVideoTags(videoId: string, tagIds: string[]): Promise<Result> {
   await studioAdmin();
   return write("update", "video_tags", async (db) => {

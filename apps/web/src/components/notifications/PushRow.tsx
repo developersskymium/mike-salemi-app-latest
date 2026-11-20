@@ -1,20 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useBrowserValue } from "@/lib/hooks/clock";
 import { Button, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { permissionState, subscribePush, type PermissionState } from "./push-client";
 
 /** "This device" row: asks the browser for permission, registers the service worker and subscribes. */
 export function PushRow({ pushKey, enabled, onDisable }: { pushKey: string | null; enabled: boolean; onDisable: () => void }) {
-  const [state, setState] = useState<PermissionState>("default");
+  // The browser's permission, read after hydration; a request answered here overrides it.
+  const live = useBrowserValue<PermissionState>(permissionState, "default");
+  const [asked, setState] = useState<PermissionState | null>(null);
+  const state = asked ?? live;
   const [busy, setBusy] = useState(false);
   const toast = useToast();
-  useEffect(() => setState(permissionState()), []);
   if (state === "unsupported") {
     return (
       <div className="ntf-row">
-        <div className="ntf-row-main"><span className="ntf-row-label">This device</span><span className="ntf-row-hint">This browser can't show notifications. Install the app or use Chrome, Edge, Firefox or Safari.</span></div>
+        <div className="ntf-row-main"><span className="ntf-row-label">This device</span><span className="ntf-row-hint">This browser can&apos;t show notifications. Install the app or use Chrome, Edge, Firefox or Safari.</span></div>
       </div>
     );
   }

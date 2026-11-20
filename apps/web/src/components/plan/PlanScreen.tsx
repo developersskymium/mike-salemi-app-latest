@@ -154,7 +154,7 @@ export function PlanScreen({
               action={
                 <div className="pln-empty-actions">
                   <Button icon="sparkle" href="/plan/create">Create my plan</Button>
-                  <Button variant="fill" href="/plan/new">Choose Mike's plan</Button>
+                  <Button variant="fill" href="/plan/new">Choose Mike&apos;s plan</Button>
                   <Button variant="plain" href="/plan?build=1">Build my own</Button>
                 </div>
               }

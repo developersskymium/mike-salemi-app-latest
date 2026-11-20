@@ -29,6 +29,7 @@ type Props = {
   /** Fixed aspect ratio instead of a min height, e.g. "16/10". */
   aspect?: string;
   radius?: number | string;
+  /** The page's LCP image: preloaded from the <head> (Next 16 `preload`). Heroes without it still load eagerly. */
   priority?: boolean;
   sizes?: string;
   /** Overlay content (eyebrow, headline, actions), white on the scrim. */
@@ -62,7 +63,7 @@ export function PhotoHero({ image, scrim = "left", scrimPhone, minHeight = 420, 
       } as CSSProperties}
     >
       <div className="sm-hero-photo" data-fit={image.fit ?? "cover"}>
-        <Image src={image.src} alt={image.alt} fill priority={priority} sizes={sizes} placeholder={typeof image.src !== "string" || image.blurDataURL ? "blur" : "empty"} blurDataURL={image.blurDataURL} />
+        <Image src={image.src} alt={image.alt} fill {...(priority ? { preload: true } : { loading: "eager" as const })} sizes={sizes} placeholder={typeof image.src !== "string" || image.blurDataURL ? "blur" : "empty"} blurDataURL={image.blurDataURL} />
       </div>
       {children !== undefined && <div className="sm-hero-content">{children}</div>}
       {overlay}

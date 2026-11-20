@@ -58,7 +58,7 @@ export function AppShell({
         <RouteProgress />
         <ThemeSync preference={themePreference} />
         <div className="lq-shell sm-app">
-          <Sidebar resume={sidebarResume ? null : shell?.resume} access={shell?.access} shop={shell?.shop} extra={sidebarExtra} more={sidebarMore} active={activeTab} />
+          <Sidebar resume={sidebarResume ? null : shell?.resume} access={shell?.access} shop={shell?.shop} shopAdmin={shell?.shopAdmin} extra={sidebarExtra} more={sidebarMore} active={activeTab} />
           {sidebarResume && <div className="sm-rail-slot">{sidebarResume}</div>}
           <main id="main" className="lq-main sm-main">
             {announcement && <div className="lq-announce sm-announce">{announcement}</div>}
@@ -81,7 +81,7 @@ export function AppShell({
               <div className="lq-page sm-page">{children}</div>
             </PageTransition>
           </main>
-          <TabBar active={activeTab} more={tabBarMore} shop={shell?.shop} />
+          <TabBar active={activeTab} more={tabBarMore} shop={shell?.shop} shopAdmin={shell?.shopAdmin} />
           {overlays}
         </div>
       </ToastProvider>

@@ -3,6 +3,7 @@ import { daysBetween, type IsoDate } from "@ms/core";
 import type { DayType } from "@/components/graphics";
 import type { IconName } from "@/components/ui";
 import type { Enrollment, TodayRaw } from "@/lib/loaders/today-plan-you";
+import { pickContinue } from "@/lib/continue";
 import { startOfWeek, weekDates } from "./dates";
 import { dayTypeOf, entryHref, lessonHref, missedByPlan, photoFor, plural, splitDayTitle } from "./model";
 import type { PhotoKey } from "./photos";
@@ -46,8 +47,8 @@ export function buildToday(raw: TodayRaw) {
   const ws = startOfWeek(today);
   const todays = raw.entries.filter((e) => e.on_date === today);
   const todaysOpen = todays.filter((e) => !e.done && !e.skipped && e.item_kind !== "rest");
-  const active = raw.enrollments.filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""));
-  const primary: Enrollment | undefined = active[0];
+  // "Continue" is the main training program (KBL first), never a tool or a course's intro lesson.
+  const primary: Enrollment | undefined = pickContinue(raw.enrollments, raw.introLessonIds);
 
   /* ---------------------------------------------------------------- next action */
   let next: NextAction | null = null;

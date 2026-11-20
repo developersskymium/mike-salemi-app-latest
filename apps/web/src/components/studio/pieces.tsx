@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui";
-import { addSlots, addStepClip, createInvite, grantAccess, revokeAccess, saveRecord, saveSetting, setBenefit, setProgramModes, setStepVideo, setVideoKey } from "@/lib/studio/actions";
+import { addSlots, addStepClip, createInvite, grantAccess, revokeAccess, saveRecord, saveSetting, setBenefit, setProgramModes, setStepVideo, setVideoCoverHasText, setVideoKey } from "@/lib/studio/actions";
 import { MODES, parseVimeo, type TableName } from "@/lib/studio/tables";
 import { useRun } from "./forms";
 
@@ -81,6 +81,28 @@ export function KeyField({ videoId, providerId }: { videoId: string; providerId:
       <input className="st-in" style={{ minHeight: 34, padding: "6px 10px", width: 200 }} value={v} onChange={(e) => setV(e.target.value)} placeholder="Paste key or full link" aria-label={`Vimeo key for ${providerId}`} />
       <Button type="submit" variant="filled" size="sm" disabled={pending || !v.trim()}>Save</Button>
     </form>
+  );
+}
+
+/** Library cover: a Vimeo thumbnail that is a title card (words on it) gets the designed movement cover instead. */
+export function CoverTextToggle({ videoId, title, hasText }: { videoId: string; title: string; hasText: boolean }) {
+  const [on, setOn] = useState(hasText);
+  const { run, pending } = useRun();
+  return (
+    <label className="st-row" style={{ flexWrap: "nowrap", gap: 8 }}>
+      <input
+        type="checkbox"
+        checked={on}
+        disabled={pending}
+        aria-label={`Thumbnail of ${title} has text on it`}
+        onChange={(e) => {
+          const next = e.target.checked;
+          setOn(next);
+          run(() => setVideoCoverHasText(videoId, next), next ? "Designed cover from now on" : "Vimeo thumbnail is the cover again");
+        }}
+      />
+      <span className="st-faint">Has text</span>
+    </label>
   );
 }
 

@@ -2,6 +2,8 @@ import "server-only";
 import { getCatalog, myEnrollments, programOutlineStats, quote, type CatalogProgram, type DB, type OutlineStat } from "@ms/api";
 import { fixture, MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
+import { pickContinue } from "@/lib/continue";
+import { introLessonIds } from "./intro-lessons";
 
 /* Home dashboard data (legacy /home): every program with the member's state, retreats, featured hero, journey. */
 
@@ -44,6 +46,8 @@ export interface HomeRaw {
   catalog: CatalogProgram[];
   enrollments: Enrollment[];
   outline: OutlineStat[];
+  /** Lessons in intro sections (0015), so "Continue" skips them; absent in older preview fixtures. */
+  introLessonIds?: string[] | null;
   /** Server-quoted price (cents) for locked programs that can be bought. */
   prices: Record<string, number>;
   runs: HomeRun[];
@@ -142,7 +146,7 @@ async function realHome(): Promise<HomeRaw> {
   const { supabase, user } = await getUser();
   if (!user) throw new Error("Not signed in");
   const sb = supabase as unknown as DB;
-  const [catalog, enrollments, outline, home, runList, rr, np, intake, tools] = await Promise.all([
+  const [catalog, enrollments, outline, home, runList, rr, np, intake, tools, intro] = await Promise.all([
     getCatalog(sb, { listedOnly: true }),
     myEnrollments(sb),
     programOutlineStats(sb),
@@ -152,14 +156,15 @@ async function realHome(): Promise<HomeRaw> {
     sb.from("notification_prefs").select("reminders_enabled").eq("user_id", user.id).maybeSingle(),
     sb.from("intake_responses").select("id", { count: "exact", head: true }).eq("user_id", user.id),
     sb.from("tool_results").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+    introLessonIds(sb),
   ]);
-  const active = [...enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""));
-  const [priceMap, path] = await Promise.all([prices(sb, catalog), journey(sb, active[0])]);
+  const [priceMap, path] = await Promise.all([prices(sb, catalog), journey(sb, pickContinue(enrollments, intro))]);
   return {
     settings: home,
     catalog,
     enrollments,
     outline,
+    introLessonIds: intro,
     prices: priceMap,
     runs: runList,
     journey: path,
@@ -172,8 +177,8 @@ async function realHome(): Promise<HomeRaw> {
   };
 }
 
-/** Home data. In preview mode `variant` "new" shows a member without programs (featured hero). */
+/** Home data. In preview mode `variant` "new" shows a member without programs (featured hero), "live" a real member's enrollments. */
 export async function loadHome(variant?: string): Promise<HomeRaw> {
-  if (MOCK) return fixture<HomeRaw>(variant === "new" ? "today-home-new" : "today-home");
+  if (MOCK) return fixture<HomeRaw>(variant === "new" ? "today-home-new" : variant === "live" ? "today-home-live" : "today-home");
   return realHome();
 }

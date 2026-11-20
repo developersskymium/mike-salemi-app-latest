@@ -4,7 +4,8 @@ import type { WeekEntry } from "@ms/api";
 import { addDays, type IsoDate } from "@ms/core";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useTransition, type DragEvent } from "react";
+import { useMemo, useState, useTransition, type DragEvent } from "react";
+import { useBrowserValue } from "@/lib/hooks/clock";
 import { DayGlyph } from "@/components/graphics";
 import { Button, Glass, Icon, IconButton, Segmented, Sheet, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
@@ -123,9 +124,13 @@ export function PlanBoard(p: Props) {
   });
 
   // "Build my own" on a phone: open the lesson sheet for today straight away.
-  useEffect(() => {
-    if (p.build && !window.matchMedia("(min-width: 1024px)").matches) setAddTo(p.today);
-  }, [p.build, p.today]);
+  const phone = useBrowserValue(() => !window.matchMedia("(min-width: 1024px)").matches, false);
+  const buildKey = p.build && phone ? p.today : null;
+  const [builtFor, setBuiltFor] = useState<string | null>(null);
+  if (buildKey !== builtFor) {
+    setBuiltFor(buildKey);
+    if (buildKey) setAddTo(buildKey);
+  }
 
   const days = weekDates(week);
   const defaultProgram = entries.find((e) => e.on_date >= p.today && e.program_id)?.program_id ?? undefined;

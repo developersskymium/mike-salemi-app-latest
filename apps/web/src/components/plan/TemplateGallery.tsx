@@ -1,6 +1,7 @@
 "use client";
 
 import type { IsoDate } from "@ms/core";
+import Link from "next/link";
 import { useState } from "react";
 import { Card, Chip, Glass, Icon, Sheet } from "@/components/ui";
 import type { Template } from "@/lib/loaders/today-plan-you";
@@ -44,7 +45,7 @@ export function TemplateGallery({ templates, goalKind, today }: { templates: Tem
             </button>
           );
         })}
-        <a className="tpy-tplbtn" href="/plan?build=1">
+        <Link className="tpy-tplbtn" href="/plan?build=1">
           <Glass radius="card" interactive className="tpy-buildown">
             <span className="tpy-goal-icon" aria-hidden><Icon name="plus" /></span>
             <div>
@@ -52,7 +53,7 @@ export function TemplateGallery({ templates, goalKind, today }: { templates: Tem
               <div className="lq-t13 lq-c2">Pick lessons from any program you can open and place them on your days.</div>
             </div>
           </Glass>
-        </a>
+        </Link>
       </div>
       <Sheet open={!!open} onClose={() => setOpen(null)} title={open?.name ?? ""} description={open ? `${open.weeks} weeks · ${open.sessions} sessions` : undefined} detents={["large"]}>
         {open && (

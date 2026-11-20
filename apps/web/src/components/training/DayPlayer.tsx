@@ -19,10 +19,10 @@ import { circuitsOf, circuitWord, estimateMinutes } from "./workout";
 import { MIKE_FACE } from "@/lib/program-photos";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
+import { hasNotes, NotesBody } from "./NotesBody";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
-import "./day.css";
-import "./day-summit.css";
+import "./day-styles";
 
 const ROMAN: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4 };
 const CHEERS = ["Nice work.", "Logged. Keep moving.", "That's one down.", "Strong. Next up.", "Locked in."];
@@ -284,7 +284,18 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   /* ---------------------------------------------------------------- view */
   const dayLabel = lessonLabel(lesson, word);
   const dayName = lesson.pageType ? lesson.title : lessonName(lesson);
-  const context = [path?.shortName, section.title, dayLabel].filter(Boolean).join(" · ");
+  // Top-bar eyebrow: level · section · day label, each once and never repeating the title below it
+  // (a lesson called "Home" in a section called "Home" read "HOME · HOME / Home"); the program name when nothing is left.
+  const context = (() => {
+    const seen = new Set([dayName.trim().toLowerCase()]);
+    const parts = [path?.shortName, section.title, dayLabel].filter((x): x is string => {
+      const k = (x ?? "").trim().toLowerCase();
+      if (!k || seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+    return (parts.length ? parts : [program.name]).join(" · ");
+  })();
   const minutes = minutesOf(steps.map((s) => s.durationLabel));
   const levelNumber = ROMAN[(path?.shortName ?? "").replace(/^level\s*/i, "")] ?? undefined;
   const isDone = completed.has(step.id);
@@ -297,16 +308,8 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const stageChips = step.special === "workout" && table ? [`${step.title} · ${circuitWord(circuits)}`, ...(readiness ? [`Readiness ${readiness.score} · ${readiness.name}`] : [])] : [];
   const phoneChips: { t: string; tone?: "ok" }[] = step.special === "workout" ? [...(readiness ? [{ t: `Readiness: ${bandWord}`, tone: "ok" as const }] : []), ...(table ? [{ t: circuitWord(circuits) }, { t: `~${estimateMinutes(table)} min` }] : [])] : [];
   const notes = useMemo(() => {
-    const title = step.title.trim().toLowerCase();
-    const lines =
-      step.special === "completion"
-        ? []
-        : (step.body ?? "")
-            .replace(/^NOTES:\s*/i, "")
-            .split(/\n+/)
-            .map((l) => l.trim())
-            .filter((l) => l && l.toLowerCase() !== title);
-    return { lines, atts: step.attachments };
+    const body = step.special === "completion" ? null : step.body;
+    return { body, has: hasNotes(body, step.title), atts: step.attachments };
   }, [step]);
   const readinessCard =
     workoutDay && form ? (
@@ -611,9 +614,9 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
             </div>
           </section>
 
-          {(notes.lines.length > 0 || notes.atts.length > 0 || readinessCard) && (
-            <div className="kd-duo" data-single={!readinessCard || !(notes.lines.length || notes.atts.length) ? "" : undefined}>
-              {(notes.lines.length > 0 || notes.atts.length > 0) && <MikeNotes lines={notes.lines} attachments={notes.atts} dayLabel={lesson.pageType ? null : dayLabel} />}
+          {(notes.has || notes.atts.length > 0 || readinessCard) && (
+            <div className="kd-duo" data-single={!readinessCard || !(notes.has || notes.atts.length) ? "" : undefined}>
+              {(notes.has || notes.atts.length > 0) && <MikeNotes body={notes.has ? notes.body : null} title={step.title} attachments={notes.atts} dayLabel={lesson.pageType ? null : dayLabel} />}
               {readinessCard}
             </div>
           )}
@@ -921,7 +924,7 @@ function DayFooter({
 }
 
 /** Mike's written notes for the step (and its attachments), as the mockup's notes card. */
-function MikeNotes({ lines, attachments, dayLabel }: { lines: string[]; attachments: PlayerStep["attachments"]; dayLabel: string | null }) {
+function MikeNotes({ body, title, attachments, dayLabel }: { body: string | null; title: string; attachments: PlayerStep["attachments"]; dayLabel: string | null }) {
   return (
     <section className="kd-card kd-notes-card kd-in" aria-label="Mike's notes">
       <span className="kd-notes-av" aria-hidden>
@@ -932,15 +935,7 @@ function MikeNotes({ lines, attachments, dayLabel }: { lines: string[]; attachme
           <b>Mike&apos;s notes</b>
           {dayLabel && <span>{dayLabel}</span>}
         </p>
-        {lines.length > 0 && (
-          <div className="kd-notes">
-            {lines.map((l, i) => (
-              <p key={i} className="lq-t15">
-                {l}
-              </p>
-            ))}
-          </div>
-        )}
+        <NotesBody body={body} title={title} />
         {attachments.length > 0 && (
           <div className="kd-atts">
             {attachments.map((a) => (

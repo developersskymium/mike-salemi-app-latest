@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useNow } from "@/lib/hooks/clock";
 import { EmptyScene, ReadinessDial } from "@/components/graphics";
 import { Button, EmptyState, Glass, Icon, Segmented, type IconName } from "@/components/ui";
 import type { SavesV2 } from "@/lib/loaders/you";
@@ -75,8 +76,7 @@ export function SavesView({ d, initialKind = "all", initialOpen }: { d: SavesV2;
   const [tool, setTool] = useState("all");
   const [range, setRange] = useState<Range>("all");
   const [open, setOpen] = useState<SaveItem | null>(() => all.find((i) => i.id === initialOpen) ?? null);
-  const [now, setNow] = useState<number | null>(null);
-  useEffect(() => setNow(Date.now()), []);
+  const now = useNow(60_000);
 
   const toolNames = useMemo(() => [...new Map(d.tools.map((t) => [t.tool_id, t.tool_name])).entries()], [d.tools]);
   const counts = { all: all.length, tools: d.tools.length, plans: d.plans.length, videos: d.videos.length };

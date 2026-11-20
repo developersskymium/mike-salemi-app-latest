@@ -1,33 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useSyncExternalStore, type CSSProperties } from "react";
 import "../gfx.css";
 import "./RigFigure.css";
 import { cls, cx, useGfxId } from "../util";
 import { BELL_OUTLINE, BELL_SHEEN, BELL_SPEC, BELL_WINDOW } from "./bell";
 import { MOVES, type MoveName } from "./library";
 import { Line, type Pt } from "../trace";
-import { duration, geoAt, GROUND, sampleMove, solve, type Geo, type MoveDef, type Order } from "./rig";
+import { duration, geoAt, GROUND, sampleMove, solve, type Geo, type MoveDef } from "./rig";
+import { cutters, FlipBook, ORDERS, readPaints, type LayerName } from "./player";
 
 const g = cls("gfx");
 const s = cls("gfx-rig");
-
-type LayerName = "far" | "torso" | "legN" | "bell" | "armN" | "hand";
-
-const ORDERS: Record<Order, LayerName[]> = {
-  out: ["far", "torso", "legN", "bell", "armN", "hand"],
-  over: ["far", "torso", "legN", "armN", "bell", "hand"],
-  between: ["far", "torso", "bell", "armN", "hand", "legN"],
-  behind: ["far", "bell", "torso", "legN", "armN", "hand"],
-};
-
-/** Which shapes cut a hairline gap into a layer when they sit above it. */
-function cutters(layer: LayerName, order: Order): LayerName[] {
-  const list = ORDERS[order];
-  const above = list.slice(list.indexOf(layer) + 1);
-  // The hand grows out of the forearm and wraps the handle: never part them.
-  return above.filter((l) => !(layer === "armN" && l === "hand") && !(layer === "bell" && l === "hand"));
-}
 
 export interface RigFigureProps {
   move: MoveDef | MoveName;
@@ -96,7 +80,15 @@ function dOf(geo: Geo): Record<PathName, string> {
   };
 }
 
-type Live = PathName | "bellA" | "bellS" | "shadow" | "footN" | "footF" | "breath";
+/* Reduced motion as an external store: the server (and hydration) render the still. */
+const RM = "(prefers-reduced-motion: reduce)";
+const subscribeRM = (cb: () => void) => {
+  const mq = window.matchMedia(RM);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const reducedNow = () => window.matchMedia(RM).matches;
+const reducedServer = () => true;
 
 /* The bell's path through the loop, sampled once per move (the Trace follows it). */
 const pathCache = new WeakMap<MoveDef, Array<Pt | null>>();
@@ -162,9 +154,10 @@ export function RigFigure({
   const move = typeof moveProp === "string" ? MOVES[moveProp] : moveProp;
   const phase0 = at ?? move.still;
   const geo0 = useMemo(() => geoAt(move, phase0, weight), [move, phase0, weight]);
-  const [order, setOrder] = useState<Order>(geo0.order);
-  const refs = useRef<Partial<Record<Live, SVGElement | null>>>({});
+  const order = geo0.order;
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const bodyRef = useRef<SVGGElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // The bell's path in ember dashes: on when asked, or by default on a moving figure.
   const showTrace = (trace ?? animated) && !bare && size >= 64 && move.cfg.grip !== "none";
   const traceW = Math.max(1.4, (vsOf(move) / size) * 1.7);
@@ -173,89 +166,96 @@ export function RigFigure({
   // A hairline gap of about 1 px at any size.
   const gap = Math.max(1.3, Math.min(6, vs / size));
   const fine = size >= 64;
+  const reduced = useSyncExternalStore(subscribeRM, reducedNow, reducedServer);
+  // Moving figures play on a canvas over the SVG still (see ./player): no per-frame DOM or mask work.
+  const live = animated && at === undefined && !reduced;
 
   useEffect(() => {
-    setOrder(geo0.order);
-  }, [geo0.order]);
-
-  useEffect(() => {
-    if (!animated || at !== undefined) return;
+    if (!live) return;
     const svg = svgRef.current;
-    if (!svg) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let raf = 0;
-    let visible = true;
+    const canvas = canvasRef.current;
+    const body = bodyRef.current;
+    if (!svg || !canvas || !body || typeof Path2D === "undefined") return;
+    const opts = {
+      move,
+      weight,
+      bare,
+      fine,
+      gap,
+      motion: motionD ? { d: motionD, width: traceW * 0.62, dash: [traceW * 1.6, traceW * 2.2] as [number, number] } : null,
+      breath: !bare && move.extra === "breath",
+    };
+    let paints = readPaints(svg, id);
+    let px = 0;
+    let book: FlipBook | null = null;
     const T = (duration(move) * 1000) / speed;
-    let start = performance.now() - phase0 * T;
-    let last = geo0.order;
-
-    const apply = (geo: Geo) => {
-      const d = dOf(geo);
-      for (const name of PATHS) refs.current[name]?.setAttribute("d", d[name]);
-      if (geo.bell) {
-        refs.current.bellA?.setAttribute("transform", geo.bell);
-        refs.current.bellS?.setAttribute("transform", geo.bell);
-      }
-      const sh = refs.current.shadow;
-      if (sh) {
-        sh.setAttribute("cx", geo.shadow.cx.toFixed(1));
-        sh.setAttribute("rx", geo.shadow.rx.toFixed(1));
-      }
-      (["footN", "footF"] as const).forEach((k, i) => {
-        const el = refs.current[k];
-        if (el) {
-          el.setAttribute("cx", geo.feet[i][0].toFixed(1));
-          el.setAttribute("opacity", geo.feet[i][1].toFixed(2));
-        }
-      });
-      refs.current.breath?.setAttribute("transform", breathT(geo));
-      if (geo.order !== last) {
-        last = geo.order;
-        setOrder(geo.order);
+    const start = performance.now() - phase0 * T;
+    let raf = 0;
+    let visible = false;
+    let shown = -1;
+    const rebuild = () => {
+      book?.release();
+      book = new FlipBook(opts, paints, px);
+      shown = -1;
+    };
+    const fit = () => {
+      const r = svg.getBoundingClientRect();
+      const next = Math.round(Math.min(Math.min(r.width, r.height) || size, 1200) * Math.min(window.devicePixelRatio || 1, 2));
+      if (next !== px) {
+        px = next;
+        rebuild();
       }
     };
     const tick = (now: number) => {
       raf = 0;
-      if (!visible || mq.matches) return;
-      const t = ((now - start) % T) / T;
-      apply(geoAt(move, t, weight));
+      if (!visible || !book) return;
+      const i = Math.floor((((now - start) % T) / T) * book.length) % book.length;
+      if (i !== shown) {
+        shown = i;
+        book.show(canvas, i);
+        body.style.visibility = "hidden";
+      }
       raf = requestAnimationFrame(tick);
     };
     const play = () => {
-      if (!raf && visible && !mq.matches) raf = requestAnimationFrame(tick);
+      if (!raf && visible) raf = requestAnimationFrame(tick);
     };
+    fit();
     const io = new IntersectionObserver((entries) => {
-      const was = visible;
       visible = entries.some((e) => e.isIntersecting);
-      if (visible && !was) play();
+      play();
     });
     io.observe(svg);
-    const onMq = () => {
-      if (mq.matches) {
-        apply(geo0);
-      }
-      else {
-        start = performance.now();
-        play();
-      }
+    const ro = new ResizeObserver(fit);
+    ro.observe(svg);
+    // Theme switches (data-theme / class on <html>, OS dark mode) re-read the colours.
+    const repaint = () => {
+      const next = readPaints(svg, id);
+      if (JSON.stringify(next) === JSON.stringify(paints)) return;
+      paints = next;
+      rebuild();
     };
-    mq.addEventListener("change", onMq);
-    play();
+    const mo = new MutationObserver(repaint);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class", "style"] });
+    const dark = window.matchMedia("(prefers-color-scheme: dark)");
+    dark.addEventListener("change", repaint);
     return () => {
       if (raf) cancelAnimationFrame(raf);
       io.disconnect();
-      mq.removeEventListener("change", onMq);
+      ro.disconnect();
+      mo.disconnect();
+      dark.removeEventListener("change", repaint);
+      body.style.visibility = "";
+      book?.release();
     };
-  }, [animated, at, move, phase0, speed, weight, geo0]);
+  }, [live, move, weight, bare, fine, gap, motionD, traceW, speed, phase0, size, id]);
 
   const d0 = dOf(geo0);
   const P = (name: PathName, className?: string) => (
     <path
       id={`${id}-${name}`}
-      ref={(el) => void (refs.current[name] = el)}
       d={d0[name]}
       className={className}
-      suppressHydrationWarning
     />
   );
   const use = (name: PathName) => <use href={`#${id}-${name}`} />;
@@ -283,7 +283,7 @@ export function RigFigure({
       if (!hasBell) return null;
       return (
         <g key="bell" mask={`url(#${id}-m-bell)`}>
-          <g ref={(el) => void (refs.current.bellA = el)} transform={geo0.bell ?? undefined} suppressHydrationWarning>
+          <g transform={geo0.bell ?? undefined}>
             <path d={BELL_OUTLINE + BELL_WINDOW} fillRule="evenodd" fill={`url(#${id}-bell)`} />
             {fine ? (
               <>
@@ -362,7 +362,7 @@ export function RigFigure({
         <g id={`${id}-g-hand`}>{P("nHand")}</g>
         <g id={`${id}-g-bellS`}>
           {hasBell ? (
-            <g ref={(el) => void (refs.current.bellS = el)} transform={geo0.bell ?? undefined} suppressHydrationWarning>
+            <g transform={geo0.bell ?? undefined}>
               <path d={BELL_OUTLINE} />
             </g>
           ) : null}
@@ -411,35 +411,32 @@ export function RigFigure({
         </linearGradient>
       </defs>
 
+      <g ref={bodyRef}>
       {!bare ? (
         <g>
           <ellipse
-            ref={(el) => void (refs.current.shadow = el)}
             cx={geo0.shadow.cx}
             cy={GROUND + 0.6}
             rx={geo0.shadow.rx}
             ry={5}
             fill={`url(#${id}-floor)`}
-            suppressHydrationWarning
           />
           {geo0.feet.map((f, i) => (
             <ellipse
               key={i}
-              ref={(el) => void (refs.current[i ? "footF" : "footN"] = el)}
               cx={f[0]}
               cy={GROUND + 0.3}
               rx={12.5}
               ry={1.6}
               opacity={f[1]}
               className={i ? s.contactFar : s.contact}
-              suppressHydrationWarning
             />
           ))}
         </g>
       ) : null}
       {motionD ? <path d={motionD} className={s.motion} strokeWidth={traceW * 0.62} strokeDasharray={`${(traceW * 1.6).toFixed(2)} ${(traceW * 2.2).toFixed(2)}`} /> : null}
       {!bare && move.extra === "breath" ? (
-        <g ref={(el) => void (refs.current.breath = el)} transform={breathT(geo0)} className={s.breath} suppressHydrationWarning>
+        <g transform={breathT(geo0)} className={s.breath}>
           <circle r={14} className={s.breathOuter} />
           <circle r={8.5} className={s.breathInner} />
         </g>
@@ -461,7 +458,12 @@ export function RigFigure({
           ))}
         </g>
       ) : null}
-
+      </g>
+      {live ? (
+        <foreignObject x={vx} y={vy} width={vs} height={vs} aria-hidden>
+          <canvas ref={canvasRef} className={s.canvas} />
+        </foreignObject>
+      ) : null}
 
       {debug ? (
         <g className={s.debug}>

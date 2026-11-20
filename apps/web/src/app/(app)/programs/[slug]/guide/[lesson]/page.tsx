@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { LockedDay } from "@/components/training/LockedDay";
 import { SelfGuidedDay } from "@/components/training/SelfGuidedDay";
 import { loadLessonPage } from "@/lib/loaders/training";
+import { opensAsCourse } from "@/lib/course-types";
 
 type Props = { params: Promise<{ slug: string; lesson: string }> };
 
@@ -17,7 +18,7 @@ export default async function GuidePage({ params }: Props) {
   const { slug, lesson } = await params;
   const data = await loadLessonPage(slug, decodeURIComponent(lesson));
   if (!data) notFound();
-  if (data.program.type === "course") redirect(`/programs/${slug}/course/${data.lesson.id}`);
+  if (opensAsCourse(data.program.type)) redirect(`/programs/${slug}/course/${data.lesson.id}`);
   if (!data.state.access) return <LockedDay data={data} reason="access" />;
   return <SelfGuidedDay key={data.lesson.id} data={data} />;
 }

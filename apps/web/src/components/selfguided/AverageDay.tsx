@@ -10,7 +10,7 @@ import type { AverageDayData } from "@/lib/loaders/selfguided";
 import { VideoStage } from "@/components/training/VideoStage";
 import { CircuitTable } from "@/components/training/CircuitTable";
 import { AVERAGE_BLOCKS, BAND_COPY } from "./averageDay";
-import "@/components/training/day.css";
+import "@/components/training/day-styles";
 import "./selfguided.css";
 
 type Clip = VideoRef & { title: string };

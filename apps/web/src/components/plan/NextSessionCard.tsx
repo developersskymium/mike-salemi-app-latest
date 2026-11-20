@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
+import { useNow } from "@/lib/hooks/clock";
 import { DayGlyph } from "@/components/graphics";
 import { Button, Glass, Icon, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
@@ -52,15 +53,16 @@ function countdown(date: string, hhmm: string, today: string, now: string) {
  * snooze or skip today mute the nudge without touching the schedule; resume brings it back.
  */
 export function NextSessionCard({ s, today, now, snoozedUntil, skipDate }: { s: NextSession; today: string; now: string; snoozedUntil: string | null; skipDate: string | null }) {
-  const [snooze, setSnooze] = useState<number | null>(null);
+  // The saved snooze counts while it lies ahead (checked in the browser); snoozing or resuming here overrides it.
+  const clientNow = useNow(60_000);
+  const savedUntil = snoozedUntil ? Date.parse(snoozedUntil) : 0;
+  const saved = clientNow !== null && savedUntil > clientNow ? savedUntil : null;
+  const [override, setSnooze] = useState<{ for: string | null; until: number | null } | null>(null);
+  const snooze = override && override.for === snoozedUntil ? override.until : saved;
   const [skipped, setSkipped] = useState(skipDate === today);
   const [pending, start] = useTransition();
   const toast = useToast();
 
-  useEffect(() => {
-    const t = snoozedUntil ? Date.parse(snoozedUntil) : 0;
-    setSnooze(t > Date.now() ? t : null);
-  }, [snoozedUntil]);
 
   const muted = skipped || snooze !== null;
   const { day, name } = splitDayTitle(s.title);
@@ -72,7 +74,7 @@ export function NextSessionCard({ s, today, now, snoozedUntil, skipDate }: { s: 
       const r = await reminderControl("snooze", minutes);
       if (!r.ok) return fail(r.error);
       const until = r.data.snoozed_until ? Date.parse(r.data.snoozed_until) : Date.now() + minutes * 60_000;
-      setSnooze(until);
+      setSnooze({ for: snoozedUntil, until });
       haptic(8);
       toast(`Snoozed ${label} — back at ${new Date(until).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`, { tone: "success", icon: "moon" });
     });
@@ -88,7 +90,7 @@ export function NextSessionCard({ s, today, now, snoozedUntil, skipDate }: { s: 
     start(async () => {
       const r = await reminderControl("resume");
       if (!r.ok) return fail(r.error);
-      setSnooze(null);
+      setSnooze({ for: snoozedUntil, until: null });
       setSkipped(false);
       toast("Reminders back on", { tone: "success", icon: "bell" });
     });

@@ -469,7 +469,7 @@ function PortraitCard({
       <button type="button" className="w1-lib-cardbtn lq-press" onClick={onPlay} aria-label={`Play ${title}`}>
         <span className="w1-lib-poster">
           <SafeImage
-            src={coverOf(v.th) ?? ""}
+            src={coverOf(v.th, v.ct) ?? ""}
             alt=""
             fill
             sizes="(min-width: 1536px) 18vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
@@ -509,7 +509,7 @@ function ContinueCard({ c, inLibrary, onPlay }: { c: ContinueWatching; inLibrary
     <Glass radius="card" interactive className="w1-cw-card lq-lift">
       <span className="w1-cw-poster">
         <SafeImage
-          src={coverOf(c.thumbnail_url) ?? ""}
+          src={coverOf(c.thumbnail_url, c.cover_has_text) ?? ""}
           alt=""
           fill
           sizes="256px"

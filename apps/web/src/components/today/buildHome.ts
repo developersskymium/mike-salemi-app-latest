@@ -7,6 +7,7 @@ import type { TodayView } from "./buildToday";
 import { fmt, shortDate } from "./dates";
 import { lessonHref, plural, relDay, splitDayTitle } from "./model";
 import { PROGRAM_PHOTOS } from "@/lib/program-photos";
+import { continueOrder } from "@/lib/continue";
 
 /* Pure: turns Home + Today data into the dashboard model (legacy /home, src/hooks/use-home-programs.ts). */
 
@@ -223,7 +224,13 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
   const locked = [...lockedPrograms.filter((i) => !i.draft), ...experiences.filter((i) => !i.draft), ...lockedPrograms.filter((i) => i.draft), ...experiences.filter((i) => i.draft)];
 
   /* ------------------------------------------------------------ hero */
-  const continuing = enrolled.find((i) => !i.complete) ?? enrolled[0] ?? null;
+  // The same pick as Today's next action: the main training program, never a tool or an intro lesson.
+  const order = continueOrder(raw.enrollments, raw.introLessonIds);
+  const continuing =
+    order.map((e) => enrolled.find((i) => i.programId === e.program_id && (i.pathId === e.path_id || !i.pathId) && !i.complete)).find(Boolean) ??
+    enrolled.find((i) => !i.complete && i.type !== "tool") ??
+    enrolled.find((i) => i.type !== "tool") ??
+    null;
   const featured =
     joinable.find((i) => i.slug === raw.settings.featuredSlug) ??
     joinable.find((i) => raw.catalog.find((p) => p.id === i.programId)?.featured) ??

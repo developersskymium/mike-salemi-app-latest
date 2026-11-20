@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type CSSProperties, type ReactNode } from "react";
-import { ADDITIONAL, activeHref, NAV, SHOP, type NavItem } from "@/lib/nav";
+import { ADDITIONAL, activeHref, NAV, SHOP, SHOP_ADMIN, type NavItem } from "@/lib/nav";
 import type { ShellAccess, ShellResume } from "@/lib/loaders/shell";
 import { Avatar } from "../ui/Avatar";
 import { Icon } from "../ui/Icon";
@@ -86,9 +86,9 @@ function NavLink({ it, on }: { it: NavItem; on: boolean }) {
  * Retreats, Library, Schedule, Account → "Your access" (program thumbnails) → "Additional"
  * (Tools, Coaching, Referrals, Shop when enabled; collapsible) → the member with the theme toggle.
  */
-export function Sidebar({ resume, access = [], shop, extra, more, active: activeProp }: { resume?: ShellResume | null; access?: ShellAccess[]; shop?: boolean; extra?: ReactNode; more?: ReactNode; active?: number }) {
+export function Sidebar({ resume, access = [], shop, shopAdmin, extra, more, active: activeProp }: { resume?: ShellResume | null; access?: ShellAccess[]; shop?: boolean; shopAdmin?: boolean; extra?: ReactNode; more?: ReactNode; active?: number }) {
   const pathname = usePathname();
-  const additional = shop ? [...ADDITIONAL, SHOP] : ADDITIONAL;
+  const additional = shop ? [...ADDITIONAL, shopAdmin ? SHOP_ADMIN : SHOP] : ADDITIONAL;
   const forced = activeProp !== undefined && activeProp >= 0 ? NAV[activeProp]?.href ?? null : null;
   const on = forced ?? activeHref([...NAV, ...additional], pathname);
   const user = useShellUser();

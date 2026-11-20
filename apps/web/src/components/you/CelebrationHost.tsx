@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Completion, LevelEmblem, Medal, type MedalTier } from "@/components/graphics";
 import { Button, Glass, Icon } from "@/components/ui";
@@ -115,7 +115,26 @@ const SAMPLES: Record<string, () => void> = {
 
 /* ================================================================ host */
 
-let hosts = 0;
+/* The first mounted host is the live one; any other stays inert (read as an external store). */
+const hostOrder: symbol[] = [];
+const hostListeners = new Set<() => void>();
+function useIsLiveHost(): boolean {
+  const [id] = useState(() => Symbol("celebration-host"));
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      hostListeners.add(cb);
+      if (!hostOrder.includes(id)) hostOrder.push(id);
+      return () => {
+        hostListeners.delete(cb);
+        const i = hostOrder.indexOf(id);
+        if (i >= 0) hostOrder.splice(i, 1);
+        hostListeners.forEach((l) => l());
+      };
+    },
+    [id],
+  );
+  return useSyncExternalStore(subscribe, () => hostOrder[0] === id, () => false);
+}
 
 /**
  * Mounted once in the member shell. Shows "Badge unlocked" toasts and the full-screen celebration
@@ -125,7 +144,7 @@ let hosts = 0;
  * Safe to mount twice: the second instance stays inert.
  */
 export function CelebrationHost() {
-  const [active, setActive] = useState(false);
+  const active = useIsLiveHost();
   const [queue, setQueue] = useState<Celebration[]>([]);
   const [toasts, setToasts] = useState<(BadgeToast & { leaving?: boolean })[]>([]);
   const pathname = usePathname();
@@ -135,13 +154,6 @@ export function CelebrationHost() {
   const fx = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const current = queue[0] ?? null;
-
-  useEffect(() => {
-    if (hosts++ === 0) setActive(true);
-    return () => {
-      hosts--;
-    };
-  }, []);
 
   useEffect(() => {
     if (!active) return;

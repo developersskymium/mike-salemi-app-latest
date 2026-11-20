@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon, IconButton } from "@/components/ui";
 
 export interface TourPhoto { url: string; caption: string }
@@ -28,7 +28,7 @@ export function PhotoTour({ photos, name, priority = true }: { photos: TourPhoto
     if (view !== null) setView(null);
     else tour.current?.close();
   };
-  const step = useCallback((d: number) => setView((v) => (v === null ? v : (v + d + n) % n)), [n]);
+  const step = (d: number) => setView((v) => (v === null ? v : (v + d + n) % n));
 
   useEffect(() => {
     const el = tour.current;

@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "@ms/tokens";
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
+
+const noopSubscribe = () => () => {};
 
 export const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -105,17 +107,18 @@ export function useStretchCount(
   const [shown, setShown] = useState(from);
   const [moving, setMoving] = useState(false);
   const last = useRef<number | null>(null);
+  // Reduced motion shows the value at once (read after hydration, like the old mount check).
+  const reduced = useSyncExternalStore(noopSubscribe, prefersReducedMotion, () => false);
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      setShown(value);
+    if (reduced) {
       last.current = value;
       return;
     }
     const a = last.current ?? from;
     if (a === value) return;
     let raf = 0;
-    setShown(a);
     const t0 = window.setTimeout(() => {
+      setShown(a);
       setMoving(true);
       const start = performance.now();
       const step = (t: number) => {
@@ -134,7 +137,11 @@ export function useStretchCount(
       window.clearTimeout(t0);
       cancelAnimationFrame(raf);
     };
-  }, [value, from, duration, delay]);
+  }, [value, from, duration, delay, reduced]);
+  if (reduced) {
+    const f = Math.pow(10, decimals);
+    return [Math.round(value * f) / f, false];
+  }
   const f = Math.pow(10, decimals);
   return [Math.round(shown * f) / f, moving];
 }

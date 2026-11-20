@@ -19,11 +19,13 @@ export const NAV: readonly NavItem[] = [
 export const ADDITIONAL: readonly NavItem[] = [
   { href: "/tools", label: "Tools", icon: "tools" },
   { href: "/coaching", label: "Coaching", icon: "coaching" },
-  { href: "/you/referrals", label: "Referrals", icon: "gift", meta: "Give 1 month" },
+  { href: "/you/referrals", label: "Referrals", icon: "gift", meta: "Earn a free month" },
 ] as const;
 
-/** Shown in "Additional" only when the shop is enabled (site_settings.shop.enabled). */
+/** Shown in "Additional" when the shop is enabled (site_settings.shop.enabled), and always to admins. */
 export const SHOP: NavItem = { href: "/shop", label: "Shop", icon: "shop" };
+/** The Shop link as admins see it while the shop is still off for members. */
+export const SHOP_ADMIN: NavItem = { ...SHOP, badge: "Admin" };
 
 /** Phone tab bar (More is a button that opens the sheet). */
 export const PHONE_TABS: readonly NavItem[] = [
