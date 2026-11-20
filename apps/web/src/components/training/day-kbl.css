@@ -1,0 +1,97 @@
+/* KBL day view: the original design, with the client's fixes on top —
+   flat surfaces (hairlines, no resting shadows), today's videos beside / under the player,
+   and the compact workout table. Scoped to .kd-day so other day surfaces keep their look. */
+
+/* ---------------------------------------------------------------- flat: hairlines, no shadows */
+.kd-day .kd-stage-wrap { box-shadow: none; }
+.kd-day .kd-meta { box-shadow: inset 0 0 0 1px var(--line); }
+.kd-day .kd-card { box-shadow: inset 0 0 0 1px var(--line); }
+.kd-day .kd-help:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.kd-day .kd-bar { box-shadow: inset 0 1px 0 var(--line); }
+.kd-day .kd-ctx { box-shadow: inset 0 0 0 1px var(--line); }
+.kd-day .wk, .kd-day .wk-c, .kd-day .wk-table[data-view="table"] { box-shadow: inset 0 0 0 1px var(--line); }
+@media (max-width: 1023px) {
+  .kd-day .kd-meta { box-shadow: none; }
+  .kd-day .wk { box-shadow: none; }
+}
+.kd-end-scene, .kd-end-stats, .kd-end-card, .kd-end-next { box-shadow: inset 0 0 0 1px var(--line) !important; }
+.kd-end-bar { box-shadow: inset 0 1px 0 var(--line) !important; }
+
+/* ---------------------------------------------------------------- free preview */
+.kd-preview { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 12px 16px; border-radius: 14px; background: var(--accent-soft); color: var(--accent-ink); font: 500 13.5px/19px var(--font); }
+.kd-preview b { font-weight: 700; }
+@media (max-width: 1023px) { .kd-preview { margin-top: 12px; } }
+
+/* ---------------------------------------------------------------- player + today's videos */
+.kd-hero { display: grid; gap: 12px; min-width: 0; }
+.kd-hero > * { min-width: 0; }
+.kd-hero .kd-stage-wrap { scroll-margin-top: 12px; }
+.kd-hero .kd-stage { aspect-ratio: 16 / 9; }
+
+.kd-pl { display: flex; flex-direction: column; min-width: 0; }
+.kd-pl-h { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 2px; }
+.kd-pl-h > div:first-child { display: grid; gap: 1px; min-width: 0; }
+.kd-pl-h b { font: 650 14px/18px var(--font); color: var(--text); }
+.kd-pl-h span { font: 500 12px/16px var(--font); color: var(--text-3); }
+.kd-pl-a { display: flex; gap: 6px; }
+.kd-pl-btn { all: unset; box-sizing: border-box; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.kd-pl-btn:disabled { opacity: .35; cursor: default; }
+.kd-pl-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* phone + narrow: a horizontal strip right under the player */
+.kd-pl-list { list-style: none; margin: 0; display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; padding: 8px 2px 4px; scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain; }
+.kd-pl-list::-webkit-scrollbar { display: none; }
+.kd-pl-list > li { flex: none; width: 148px; scroll-snap-align: start; }
+.kd-pl-item { all: unset; box-sizing: border-box; cursor: pointer; position: relative; width: 100%; display: grid; grid-template-columns: 1fr; gap: 6px; border-radius: 10px; }
+.kd-pl-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kd-pl-item[data-locked] { opacity: .5; }
+.kd-pl-th { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: var(--surface-sunk); display: grid; place-items: center; color: var(--text-3); }
+.kd-pl-th img { object-fit: cover; }
+.kd-pl-item[aria-current] .kd-pl-th { box-shadow: 0 0 0 2px var(--accent); }
+.kd-pl-dur { position: absolute; right: 4px; bottom: 4px; padding: 2px 5px; border-radius: 5px; font: 600 10.5px/1 var(--font); color: #fff; background: rgba(16, 18, 21, .72); }
+.kd-pl-eq { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 3px; background: rgba(16, 18, 21, .45); }
+.kd-pl-eq i { width: 3px; height: 12px; border-radius: 2px; background: #fff; animation: kd-pl-eq 1s ease-in-out infinite; }
+.kd-pl-eq i:nth-child(2) { animation-delay: -.3s; }
+.kd-pl-eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes kd-pl-eq { 0%, 100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .kd-pl-eq i { animation: none; } }
+.kd-pl-t { display: grid; gap: 1px; min-width: 0; }
+.kd-pl-k { font: 600 10.5px/14px var(--font); letter-spacing: .05em; text-transform: uppercase; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kd-pl-item[aria-current] .kd-pl-k { color: var(--accent-ink); }
+.kd-pl-n { font: 600 13px/17px var(--font); color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+li[data-demo] .kd-pl-n { font-weight: 500; }
+.kd-pl-s { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); color: var(--ok); display: grid; place-items: center; }
+.kd-pl-s:empty { display: none; }
+.kd-pl-item[data-locked] .kd-pl-s { color: var(--text-3); }
+
+/* wide desktop: a column beside the player, as tall as the player */
+@media (min-width: 1200px) {
+  .kd-hero[data-list] { grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: stretch; }
+  .kd-hero[data-list] .kd-pl { position: relative; }
+  .kd-hero[data-list] .kd-pl > * { position: relative; }
+  .kd-hero[data-list] .kd-pl { border-radius: 20px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+  .kd-hero[data-list] .kd-pl-h { padding: 12px 12px 10px 16px; border-bottom: 1px solid var(--line); }
+  .kd-hero[data-list] .kd-pl-list { position: absolute; top: 61px; left: 0; right: 0; bottom: 0; display: grid; align-content: start; gap: 2px; padding: 6px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; scroll-snap-type: none; }
+  .kd-hero[data-list] .kd-pl-list > li { width: auto; }
+  .kd-hero[data-list] .kd-pl-item { grid-template-columns: 88px minmax(0, 1fr) 18px; align-items: center; gap: 10px; padding: 6px; }
+  .kd-hero[data-list] li[data-demo] .kd-pl-item { grid-template-columns: 64px minmax(0, 1fr) 18px; padding-left: 30px; }
+  .kd-hero[data-list] .kd-pl-item:hover { background: var(--surface-2, var(--surface-sunk)); }
+  .kd-hero[data-list] .kd-pl-item[aria-current] { background: var(--accent-soft); }
+  .kd-hero[data-list] .kd-pl-item[aria-current] .kd-pl-th { box-shadow: none; }
+  .kd-hero[data-list] .kd-pl-th { border-radius: 8px; }
+  .kd-hero[data-list] .kd-pl-s { position: static; width: auto; height: auto; background: none; }
+  .kd-hero[data-list] .kd-pl-s:empty { display: grid; }
+}
+
+/* phone: the stage runs edge to edge, the strip sits inside the page gutter */
+@media (max-width: 1023px) {
+  .kd-hero { gap: 6px; }
+}
+
+/* phone: the workout header wraps instead of pushing "Workout mode" off screen */
+@media (max-width: 719px) {
+  .kd-day .wk-head { flex-wrap: wrap; row-gap: 10px; }
+  .kd-day .wk-head-a { flex: 1 1 auto; justify-content: space-between; }
+  .kd-day .wk-table[data-view="table"] { box-shadow: inset 0 0 0 1px var(--line); }
+  .kd-day .wk-table[data-view="table"] .kd-ct { box-shadow: none; }
+}
