@@ -19,6 +19,9 @@ function dayName(dayId: string) {
   return location ? `${location.course.title} · ${location.phase.label} · ${dayLabel(location.day)}` : dayId;
 }
 
+/** "source-16" → "16": the WordPress TablePress number. */
+const tableNumber = (id: string | null) => (id ? id.replace(/^source-/, "") : "");
+
 function toCsv(entries: KblFormEntry[]) {
   const head = ["submitted", "member", "day", "form", "score", "result", "table", "answers"];
   const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -36,7 +39,7 @@ function toCsv(entries: KblFormEntry[]) {
       form ? `${form.id} — ${form.title}` : e.form_id,
       e.score,
       e.band_name,
-      e.table_id,
+      tableNumber(e.table_id),
       answers,
     ]
       .map(esc)
@@ -149,7 +152,7 @@ export function KblFormEntriesPanel() {
                           )}
                         >
                           {e.band_name ?? e.outcome ?? "—"}
-                          {e.table_id ? ` · Table ${e.table_id}` : ""}
+                          {e.table_id ? ` · Table ${tableNumber(e.table_id)}` : ""}
                         </span>
                       </td>
                     </tr>
