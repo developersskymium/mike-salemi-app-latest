@@ -320,3 +320,29 @@
   .srp[data-focus] .srp-dock { display: block; position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 30; width: min(520px, 90vw); padding: 8px; border-radius: 99px; background: color-mix(in srgb, var(--bg) 90%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--line); }
   .srp[data-focus] { padding-bottom: 110px; }
 }
+
+/* ---------------- lesson layout (client: navigation left, notes right) */
+.srp-home { display: none; }
+.srp-side { grid-area: side; min-width: 0; }
+.srp-side .lb-mine { padding: 16px; border: 1px solid var(--sr-line); border-radius: var(--sr-r); background: var(--surface); }
+@media (max-width: 1023px) {
+  .srp-grid { grid-template-areas: "stage" "list" "notes" "side"; }
+}
+@media (min-width: 1024px) {
+  /* the lesson takes the whole width: the app rail steps aside, the playlist is the navigation */
+  html:has(.srp) .sm-rail { display: none; }
+  html:has(.srp) .lq-main { margin-left: 0; }
+  .srp-back { display: none; }
+  .srp-home { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; color: var(--text); font-size: 14px; font-weight: 650; }
+  .srp-home:hover { color: var(--accent-ink); }
+  .srp-grid { grid-template-columns: 344px minmax(0, 1fr); grid-template-areas: "list stage" "list notes" "list side"; }
+  .srp-side { max-width: 760px; }
+}
+@media (min-width: 1200px) {
+  .srp-grid { grid-template-columns: 344px minmax(0, 1fr) 300px; grid-template-areas: "list stage side" "list notes side"; }
+  .srp-side { position: sticky; top: 76px; align-self: start; max-width: none; }
+  .srp-notes { max-width: none; }
+}
+.srp[data-focus] .srp-grid { grid-template-areas: "stage" "notes" "side"; }
+.srp[data-focus] .srp-side { position: static; max-width: none; }
+@media (min-width: 1024px) { .srp-list .srp-ctl-main { padding: 0 12px; font-size: 15px; } }

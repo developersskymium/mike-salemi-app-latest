@@ -15,7 +15,8 @@ import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelO
 import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
 import { LessonSidebar, shelfLinks, type ShelfLink } from "@/components/journeys/LessonSidebar";
 import { a4lUnits, mtkUnits, unitOf } from "@/components/journeys/units";
-import { AudioOnlyToggle, DownloadChips, KeyPoints, LessonNotes, NextCountdown, Reflection, ResumedPill, keyPointsOf, reflectionFor } from "@/components/lesson/LessonExtras";
+import { AudioOnlyToggle, DownloadChips, KeyPoints, NextCountdown, ResumedPill, keyPointsOf, reflectionFor } from "@/components/lesson/LessonExtras";
+import { YourNotes } from "@/components/lesson-b/NotesB";
 import "./course.css";
 import "../journey/accent.css";
 
@@ -57,7 +58,20 @@ let memoryFocus = false;
  * week's lessons in a compact list under the lesson, plus the shared lesson extras (key points,
  * notes, reflection, audio-only, "Next in 5s").
  */
-export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode }) {
+/* Wide desktop (≥1200px): "Your notes" sit in their own right column; narrower, under the lesson. */
+const WIDE = "(min-width: 1200px)";
+const wideStore = {
+  subscribe(cb: () => void) {
+    const m = window.matchMedia(WIDE);
+    m.addEventListener("change", cb);
+    return () => m.removeEventListener("change", cb);
+  },
+  get: () => window.matchMedia(WIDE).matches,
+  server: () => false,
+};
+
+export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode; note?: string | null }) {
+  const wide = useSyncExternalStore(wideStore.subscribe, wideStore.get, wideStore.server);
   const router = useRouter();
   const toast = useToast();
   const slug = data.program.slug;
@@ -439,7 +453,7 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                 {parsed.body && <Markdown source={parsed.body} hide={hideLeads} />}
                 <Clips clips={clips} fallbackImage={data.program.cover?.src ?? data.program.image} />
                 {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
-                {slim && !isIntro && <LessonNotes key={lesson.id} lessonId={lesson.id} />}
+                {slim && !isIntro && !(wide && !focus) && <div className="crs-notes-inline"><YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={reflectionFor(data.program.name, lesson.title)} /></div>}
 
                 {lesson && (
                   <div className="jsb-dock" aria-label="Lesson controls">
@@ -447,7 +461,6 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                     {controls}
                   </div>
                 )}
-                {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
                 {slim && isDone && !isIntro && !next && !planCtx && nextStep}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>
               </article>
@@ -455,6 +468,11 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
             {!lesson && !data.locked && <p className="crs-empty">This lesson isn’t available.</p>}
           </div>
         </main>
+        {slim && lesson && !isIntro && wide && !focus && (
+          <aside className="crs-notes" aria-label="Your notes">
+            <YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={reflectionFor(data.program.name, lesson.title)} />
+          </aside>
+        )}
       </div>
 
       {drawer && (

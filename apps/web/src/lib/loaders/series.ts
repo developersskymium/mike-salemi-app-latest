@@ -32,7 +32,7 @@ async function lessonMedia(programId: string): Promise<SeriesMedia> {
 }
 
 /** The member's private note on a lesson (day_notes; notes + reflection), or null. */
-async function myNote(lessonId: string): Promise<string | null> {
+export async function myNote(lessonId: string): Promise<string | null> {
   if (MOCK) return null;
   try {
     const { supabase: sb, user } = await getUser();
