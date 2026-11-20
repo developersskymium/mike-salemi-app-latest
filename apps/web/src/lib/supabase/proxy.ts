@@ -12,6 +12,8 @@ function isPublic(pathname: string) {
 
 /** Refreshes the Supabase session cookie on every request and gates member routes. */
 export async function updateSession(request: NextRequest) {
+  // Local preview mode (no network to Supabase in the build sandbox): skip auth entirely.
+  if (process.env.NODE_ENV === "development" && process.env.MOCK_DATA === "1") return NextResponse.next({ request });
   let response = NextResponse.next({ request });
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_KEY, {
     cookies: {

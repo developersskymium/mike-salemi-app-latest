@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/env";
+import { MOCK, MOCK_USER } from "@/lib/mock";
 
 /** Supabase client for Server Components, Server Actions and Route Handlers (acts as the signed-in member). */
 export async function createClient() {
@@ -23,6 +24,7 @@ export async function createClient() {
 /** The signed-in user, verified with Supabase Auth (never trust the cookie alone). */
 export async function getUser() {
   const supabase = await createClient();
+  if (MOCK) return { supabase, user: MOCK_USER as unknown as import("@supabase/supabase-js").User };
   const { data } = await supabase.auth.getUser();
   return { supabase, user: data.user ?? null };
 }
