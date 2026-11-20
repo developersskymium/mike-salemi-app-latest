@@ -92,3 +92,49 @@ export function useTicker(value: number, decimals = 0, duration: number = motion
   const f = Math.pow(10, decimals);
   return Math.round(shown * f) / f;
 }
+
+/**
+ * Stretch: counts from `from` to `value` (ease-out cubic) and reports whether it is moving, so
+ * the number can squeeze narrow while counting and spring back wide when it lands.
+ */
+export function useStretchCount(
+  value: number,
+  { from = 0, duration = motion.duration.ticker, delay = 300, decimals = 0 }: { from?: number; duration?: number; delay?: number; decimals?: number } = {},
+): [number, boolean] {
+  // Starts at `from` (as the concept does) so the count never flashes the final value first.
+  const [shown, setShown] = useState(from);
+  const [moving, setMoving] = useState(false);
+  const last = useRef<number | null>(null);
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setShown(value);
+      last.current = value;
+      return;
+    }
+    const a = last.current ?? from;
+    if (a === value) return;
+    let raf = 0;
+    setShown(a);
+    const t0 = window.setTimeout(() => {
+      setMoving(true);
+      const start = performance.now();
+      const step = (t: number) => {
+        const p = Math.min(1, (t - start) / duration);
+        const e = 1 - Math.pow(1 - p, 3);
+        setShown(a + (value - a) * e);
+        if (p < 1) raf = requestAnimationFrame(step);
+        else {
+          last.current = value;
+          setMoving(false);
+        }
+      };
+      raf = requestAnimationFrame(step);
+    }, last.current === null ? delay : 0);
+    return () => {
+      window.clearTimeout(t0);
+      cancelAnimationFrame(raf);
+    };
+  }, [value, from, duration, delay]);
+  const f = Math.pow(10, decimals);
+  return [Math.round(shown * f) / f, moving];
+}

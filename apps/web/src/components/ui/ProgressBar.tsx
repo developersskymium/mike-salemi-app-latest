@@ -4,14 +4,20 @@ import { cx } from "./cx";
 type Props = {
   /** 0–1 */
   value: number;
-  /** label (neutral, default), accent ("now"), white (over video/photo). */
+  /** label (glacier trace, default), accent (same, brighter head), white (over video/photo). */
   tone?: "label" | "accent" | "white";
   label?: string;
   className?: string;
   style?: CSSProperties;
+  /** Expose on first paint (default on). */
+  animate?: boolean;
 };
 
-export function ProgressBar({ value, tone = "label", label, className, style }: Props) {
+/**
+ * A straight trace: the travelled part is a tapered tail of glacier light ending in a hot head,
+ * the rest a dotted path. Draws on first paint.
+ */
+export function ProgressBar({ value, tone = "label", label, className, style, animate = true }: Props) {
   const p = Math.max(0, Math.min(1, value));
   return (
     <div
@@ -22,19 +28,31 @@ export function ProgressBar({ value, tone = "label", label, className, style }: 
       aria-valuenow={Math.round(p * 100)}
       className={cx("lq-progress", className)}
       data-tone={tone === "label" ? undefined : tone}
-      style={style}
+      data-anim={animate ? "" : undefined}
+      data-empty={p === 0 ? "" : undefined}
+      style={{ "--p": `${p * 100}%`, ...style } as CSSProperties}
     >
-      <i style={{ "--p": `${p * 100}%` } as CSSProperties} />
+      <i />
     </div>
   );
 }
 
-/** Step segments: done steps solid, the current step fills with the accent. */
+/** Steps strung on one trace: done steps lit, the current step is the head, the rest dotted. */
 export function StepSegments({ total, done, current = done, currentProgress = 0.34, label, className }: { total: number; done: number; current?: number; currentProgress?: number; label?: string; className?: string }) {
+  const lit = total > 1 ? Math.min(1, (Math.min(current, total - 1) + (current < total ? currentProgress : 0)) / (total - 1)) : 1;
   return (
-    <div className={cx("lq-segs", className)} role="progressbar" aria-label={label ?? `Step ${current + 1} of ${total}`} aria-valuemin={0} aria-valuemax={total} aria-valuenow={done}>
+    <div
+      className={cx("lq-segs", className)}
+      role="progressbar"
+      aria-label={label ?? `Step ${current + 1} of ${total}`}
+      aria-valuemin={0}
+      aria-valuemax={total}
+      aria-valuenow={done}
+      style={{ "--p": `${lit * 100}%`, "--n": total } as CSSProperties}
+    >
+      <b aria-hidden />
       {Array.from({ length: total }, (_, i) => (
-        <i key={i} data-s={i < done ? "done" : i === current ? "now" : undefined} style={i === current ? ({ "--p": `${currentProgress * 100}%` } as CSSProperties) : undefined} />
+        <i key={i} data-s={i < done ? "done" : i === current ? "now" : undefined} />
       ))}
     </div>
   );

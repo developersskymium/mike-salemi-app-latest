@@ -3,19 +3,21 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cx } from "./cx";
 import { Icon, type IconName } from "./Icon";
 
-export type ButtonVariant = "filled" | "glass" | "white" | "tint" | "fill" | "plain";
+export type ButtonVariant = "filled" | "glass" | "ghost" | "white" | "tint" | "fill" | "plain";
 export type ButtonSize = "sm" | "md" | "lg";
 
 type Common = {
-  /** filled = the one primary action (accent). glass/fill = secondary. white = over photos. tint/plain = tertiary. */
+  /** filled = the light pill, the one primary action (glacier). ghost/glass = secondary on film. glass/fill = secondary. white = over photos. tint/plain = tertiary. */
   variant?: ButtonVariant;
   size?: ButtonSize;
   icon?: IconName;
   iconAfter?: IconName;
   /** Full width. */
   block?: boolean;
-  /** success: draws a check and pulses (see CompleteButton). */
+  /** success: draws a check and flares (see CompleteButton). */
   state?: "idle" | "success";
+  /** Filled only: a streak of light passes across the pill every few seconds (default on). */
+  streak?: boolean;
   children?: ReactNode;
   className?: string;
 };
@@ -24,7 +26,7 @@ export type ButtonProps = Common &
   (({ href: string; prefetch?: boolean; target?: string } & Omit<ButtonHTMLAttributes<HTMLAnchorElement>, "type">) | ({ href?: undefined } & ButtonHTMLAttributes<HTMLButtonElement>));
 
 export function Button(props: ButtonProps) {
-  const { variant = "filled", size = "lg", icon, iconAfter, block, state = "idle", children, className, ...rest } = props;
+  const { variant = "filled", size = "lg", icon, iconAfter, block, state = "idle", streak = true, children, className, ...rest } = props;
   const iconSize = size === "sm" ? "xs" : "sm";
   const cls = cx("lq-btn lq-fx lq-press", className);
   const data = {
@@ -32,13 +34,16 @@ export function Button(props: ButtonProps) {
     "data-size": size === "lg" ? undefined : size,
     "data-block": block ? "" : undefined,
     "data-state": state === "idle" ? undefined : state,
+    "data-streak": variant === "filled" && streak && state === "idle" ? "" : undefined,
     "data-fx": "",
   };
   const inner = (
     <>
       {state === "success" ? (
         <>
-          <span className="lq-pulse" aria-hidden />
+          <span className="lq-pulse" aria-hidden>
+            <i />
+          </span>
           <svg viewBox="0 0 24 24" className="lq-icon lq-check" data-size={iconSize} data-draw="" aria-hidden>
             <path d="M5.5 12.5 10 17l8.5-9.5" />
           </svg>

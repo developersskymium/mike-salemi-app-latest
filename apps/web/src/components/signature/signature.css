@@ -1,0 +1,196 @@
+/* ==========================================================================
+   TRACE signature: light drawn along paths, night and snow exposures.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- the trace */
+.tr-svg {
+  display: block;
+  overflow: visible;
+  --tr-c: var(--trace);
+  --tr-hot: var(--trace-hot);
+  --tr-dim: var(--trace-dim);
+}
+.tr-tail { fill: none; stroke: var(--tr-c); stroke-linejoin: round; }
+.tr-glow { fill: none; stroke: var(--tr-c); stroke-linecap: round; stroke-linejoin: round; opacity: var(--tr-glow-o, var(--trace-glow)); filter: blur(6px); }
+.tr-ahead { fill: none; stroke: var(--tr-dim); stroke-linecap: round; stroke-dasharray: 1 7; }
+.tr-hot { fill: var(--tr-hot); }
+.tr-halo { fill: var(--tr-c); opacity: .35; filter: blur(5px); }
+.tr-node { fill: var(--tr-node-bg, var(--bg)); stroke: var(--tr-dim); stroke-width: 1.5; }
+.tr-node[data-lit] { fill: var(--tr-hot); stroke: var(--tr-c); }
+.tr-head-anim { display: none; }
+@media (prefers-reduced-motion: reduce) { .tr-reveal { stroke-dashoffset: var(--tr-end) !important; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tr-svg[data-anim] .tr-head-anim { display: inline; }
+  .tr-svg[data-anim] .tr-head-still { display: none; }
+  .tr-svg[data-anim] .tr-node[data-lit] { animation: tr-node-lit .35s var(--curve-out) var(--lit-at, 0ms) backwards; }
+}
+@keyframes tr-node-lit { from { fill: var(--tr-node-bg, var(--bg)); stroke: var(--tr-dim); } }
+
+/* ---------------------------------------------------------------- swing ribbon */
+.tr-ribbon { position: relative; width: 100%; }
+.tr-ribbon-wide, .tr-ribbon-compact { width: 100%; }
+.tr-ribbon[data-size="responsive"] .tr-ribbon-wide { display: none; }
+@media (min-width: 720px) {
+  .tr-ribbon[data-size="responsive"] .tr-ribbon-wide { display: block; }
+  .tr-ribbon[data-size="responsive"] .tr-ribbon-compact { display: none; }
+}
+.tr-ribbon-labels { position: relative; height: 20px; margin-top: 10px; }
+.tr-ribbon-labels > span { position: absolute; top: 0; font: 400 12px/1 var(--font); color: var(--label-3); white-space: nowrap; }
+.tr-ribbon-labels b { font: 600 12.5px/1 var(--font-display); font-stretch: var(--w-headline); color: var(--label); letter-spacing: -.01em; }
+.tr-ribbon-labels [data-current] b { color: var(--accent-ink); }
+/* compact: only the current phase is named */
+.tr-ribbon[data-size="compact"] .tr-ribbon-labels > span:not([data-current]) { display: none; }
+@media (max-width: 719px) {
+  .tr-ribbon[data-size="responsive"] .tr-ribbon-labels > span:not([data-current]) { display: none; }
+}
+
+/* ---------------------------------------------------------------- skies */
+.tr-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; contain: strict; }
+.tr-sky[data-fixed] { position: fixed; }
+.tr-sky-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tr-stars .tr-sky-trails { opacity: calc(.78 * var(--tr-int, 1)); }
+.tr-snow .tr-sky-contours { stroke: var(--lines); opacity: calc(.75 * var(--tr-int, 1)); }
+.tr-sky-mtn { fill: var(--night-mountain); }
+.tr-sky-ridge { stroke: var(--night-ridge); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.tr-snow .tr-sky-ridge { stroke: color-mix(in srgb, var(--trace) 45%, transparent); }
+
+/* living: the exposure opens on first paint, then holds still */
+@media (prefers-reduced-motion: no-preference) {
+  .tr-sky-svg { animation: tr-expose-sky 2.4s var(--curve-out) backwards; }
+  .tr-meteor {
+    position: absolute; top: 14%; left: 62%; width: 140px; height: 1.5px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(159, 215, 245, .2) 30%, #E6F8FF);
+    box-shadow: 0 0 8px rgba(92, 200, 245, .6);
+    transform: rotate(158deg) translateX(0); transform-origin: 100% 50%; opacity: 0;
+    animation: tr-meteor 16s var(--curve-out) 4s infinite;
+    will-change: transform, opacity;
+  }
+  .tr-glint {
+    position: absolute; top: -20%; bottom: -20%; left: 0; width: 38%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55) 50%, transparent);
+    opacity: 0; transform: translateX(-120%) skewX(-12deg);
+    animation: tr-glint 22s var(--curve-in-out) 3s infinite;
+    will-change: transform, opacity;
+  }
+}
+@keyframes tr-expose-sky { from { opacity: 0; transform: scale(1.04) rotate(-1.2deg); } }
+@keyframes tr-meteor {
+  0% { opacity: 0; transform: rotate(158deg) translateX(0) scaleX(.2); }
+  2% { opacity: 1; }
+  7% { opacity: 0; transform: rotate(158deg) translateX(-420px) scaleX(1); }
+  100% { opacity: 0; transform: rotate(158deg) translateX(-420px); }
+}
+@keyframes tr-glint {
+  0% { opacity: 0; transform: translateX(-120%) skewX(-12deg); }
+  6% { opacity: .6; }
+  22% { opacity: 0; transform: translateX(320%) skewX(-12deg); }
+  100% { opacity: 0; transform: translateX(320%) skewX(-12deg); }
+}
+
+/* the living backdrop behind the app: star trails at night, contours on snow */
+.tr-living { position: absolute; inset: 0; z-index: var(--z-backdrop); pointer-events: none; }
+.tr-living[data-fixed] { position: fixed; }
+.tr-living::after {
+  /* keep the reading area calm: the exposure is strongest at the top */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg) 35%, transparent) 55%, color-mix(in srgb, var(--bg) 75%, transparent) 100%);
+}
+.tr-living .tr-living-dark { display: var(--living-stars); }
+.tr-living .tr-living-light { display: var(--living-snow); }
+.tr-living .tr-sky { background: var(--exposure); }
+
+/* ---------------------------------------------------------------- orbit */
+.tr-orbit { display: inline-block; position: relative; flex: none; }
+.tr-orbit > .tr-svg { width: 100%; height: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .tr-orbit > .tr-svg { animation: tr-orbit var(--dur-orbit) linear infinite; }
+}
+@keyframes tr-orbit { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------------- flare */
+.tr-flare { position: absolute; transform: translate(-50%, -50%); pointer-events: none; display: block; }
+.tr-flare::before, .tr-flare::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.tr-flare::before { width: 70%; height: 1.5px; background: linear-gradient(90deg, transparent, var(--trace-hot), transparent); }
+.tr-flare::after { width: 1.5px; height: 75%; background: linear-gradient(180deg, transparent, var(--trace-hot), transparent); }
+.tr-flare[data-rays] .tr-flare-core::before, .tr-flare[data-rays] .tr-flare-core::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 260%; height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--trace-hot) 70%, transparent), transparent);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.tr-flare[data-rays] .tr-flare-core::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.tr-flare-core {
+  position: absolute; left: 50%; top: 50%; width: 13%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%);
+  background: var(--trace-hot);
+  box-shadow: 0 0 20px 8px color-mix(in srgb, var(--trace) 60%, transparent), 0 0 60px 20px color-mix(in srgb, var(--trace) 25%, transparent);
+}
+.tr-flare-shutter { position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--trace) 70%, transparent); opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .tr-flare { animation: tr-flare-pop var(--dur-flare) var(--curve-spring) var(--flare-delay, 0ms) backwards; }
+  .tr-flare-shutter { animation: tr-shutter .9s var(--curve-out) var(--flare-delay, 0ms) both; }
+}
+@keyframes tr-flare-pop { from { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(-30deg); } }
+@keyframes tr-shutter { 0% { opacity: .9; transform: scale(2.6); } 100% { opacity: 0; transform: scale(.25); } }
+
+/* ---------------------------------------------------------------- stretch numerals */
+.tr-num {
+  display: inline-block; font-family: var(--font-display); font-variant-numeric: tabular-nums;
+  transition: font-stretch var(--dur-stretch) var(--curve-spring);
+}
+.tr-num[data-variant="thin"] { font-weight: var(--num-thin-weight); font-stretch: var(--num-thin-stretch); letter-spacing: var(--num-thin-track); line-height: var(--num-thin-line); }
+.tr-num[data-variant="solid"] { font-weight: var(--num-solid-weight); font-stretch: var(--num-solid-stretch); letter-spacing: var(--num-solid-track); line-height: 1; }
+.tr-num[data-moving] { font-stretch: var(--w-squeeze); transition-duration: 160ms; transition-timing-function: var(--curve-out); }
+[data-theme="dark"] .tr-num[data-glow], .lq-night .tr-num[data-glow] { text-shadow: 0 0 40px rgba(92, 200, 245, .25); }
+
+/* ---------------------------------------------------------------- photo grade */
+.tr-grade { position: relative; overflow: hidden; isolation: isolate; background: #071022; }
+.tr-grade::before { content: ""; position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, #0B2340, #050B16); }
+.tr-grade img { position: relative; z-index: 1; }
+.tr-grade[data-grade="night"] img { filter: grayscale(1) contrast(1.15) brightness(.95); mix-blend-mode: screen; opacity: .95; }
+.tr-grade[data-grade="warm"] img { filter: grayscale(.35) contrast(1.1) brightness(.95); }
+.tr-grade[data-grade="none"]::before { display: none; }
+.tr-grade[data-grade="day"] { background: #DCE8F0; }
+.tr-grade[data-grade="day"]::before { background: linear-gradient(180deg, #CFE3F1, #EAF2F7); }
+.tr-grade[data-grade="day"] img { filter: grayscale(.85) contrast(1.05) brightness(1.08); mix-blend-mode: multiply; }
+/* auto follows the theme: night exposure in dark, daylight grade on snow */
+.tr-grade[data-grade="auto"] { background: var(--grade-bg); }
+.tr-grade[data-grade="auto"]::before { background: var(--grade-base); }
+.tr-grade[data-grade="auto"] img { filter: var(--grade-filter); mix-blend-mode: var(--grade-blend); opacity: 1; }
+.tr-grade[data-vignette]::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, rgba(4, 8, 16, 0) 40%, rgba(4, 8, 16, .78));
+}
+.tr-grade[data-grade="day"][data-vignette]::after { background: linear-gradient(180deg, rgba(4, 8, 16, 0) 50%, rgba(4, 8, 16, .5)); }
+.tr-grade[data-grade="auto"][data-vignette]::after { background: var(--grade-vignette); }
+.tr-grade > :where(:not(img):not(.tr-grade-trace)) { position: relative; z-index: 3; }
+.tr-grade > .tr-grade-trace { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+/* next/image with fill wraps nothing; but a direct <span> wrapper keeps the image absolute */
+.lq-media.tr-grade > img, .tr-grade > img[data-nimg="fill"] { position: absolute; }
+
+/* ---------------------------------------------------------------- week */
+.tr-week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); }
+.tr-week > li { position: relative; display: grid; justify-items: center; gap: 4px; font: 500 11.5px/1.2 var(--font); color: var(--label-3); padding: 6px 0; }
+.tr-week .tr-week-dn { font: 600 15px/1 var(--font-display); font-stretch: 120%; color: var(--label); letter-spacing: -.01em; }
+.tr-week .tr-week-mv { font-size: 10px; letter-spacing: -.01em; }
+.tr-week > li[data-state="today"] .tr-week-dn { color: var(--accent-ink); }
+.tr-week > li[data-state="today"]::after {
+  content: ""; position: absolute; inset: -4px 1px; border-radius: 14px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.tr-week > li[data-state="ahead"] .tr-week-dn { color: var(--label-2); }
+.tr-week-rest { width: 36px; height: 36px; display: grid; place-items: center; }
+.tr-week-rest::before { content: ""; width: 3px; height: 3px; border-radius: 50%; background: var(--label-3); }
+
+/* ---------------------------------------------------------------- dividers, dashes */
+.tr-rule { border: 0; height: 1px; margin: 0; background: linear-gradient(90deg, var(--rule), var(--rule)); position: relative; overflow: visible; }
+.tr-rule[data-align="end"] { background: linear-gradient(90deg, var(--rule) 0%, var(--rule) 55%, color-mix(in srgb, var(--trace) 70%, transparent) 100%); }
+.tr-rule[data-align="end"]::after { content: ""; position: absolute; right: -2px; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--trace-hot); box-shadow: var(--glow-head); }
+.tr-rule[data-align="start"] { background: linear-gradient(270deg, var(--rule) 0%, var(--rule) 55%, color-mix(in srgb, var(--trace) 70%, transparent) 100%); }
+.tr-rule[data-align="center"] { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--trace) 60%, transparent), transparent); }
+.tr-dash { display: inline-block; width: 14px; height: 2px; border-radius: 2px; vertical-align: middle; background: linear-gradient(90deg, transparent, var(--trace)); box-shadow: 4px 0 8px color-mix(in srgb, var(--trace) 60%, transparent); }
+
+/* staged entrance for a page's blocks: rise out of a soft blur */
+@media (prefers-reduced-motion: no-preference) {
+  [data-rise] { animation: tr-rise var(--dur-rise) var(--curve-out) backwards; animation-delay: calc(var(--i, 0) * var(--dur-rise-stagger) + 120ms); }
+}
+@keyframes tr-rise { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Button, CompleteButton, Rings, Segmented, Sheet, Toggle, useToast } from "@/components/ui";
+import { StretchNumber } from "@/components/signature";
 
 const QUESTIONS: [string, string[], number][] = [
   ["How did you sleep?", ["Poorly", "Okay", "Well", "Great"], 2],
@@ -15,8 +16,8 @@ export function SheetDemo({ startOpen = false }: { startOpen?: boolean }) {
   const [open, setOpen] = useState(startOpen);
   return (
     <>
-      <Button variant="glass" size="md" icon="sparkle" onClick={() => setOpen(true)}>
-        Open readiness sheet
+      <Button variant="ghost" size="md" icon="sparkle" onClick={() => setOpen(true)}>
+        Readiness sheet
       </Button>
       <Sheet
         open={open}
@@ -24,25 +25,25 @@ export function SheetDemo({ startOpen = false }: { startOpen?: boolean }) {
         title="Training readiness"
         description="Five questions pick today’s workout."
         detents={["large", "medium"]}
-        footer={<Button block onClick={() => setOpen(false)}>Start Workout II</Button>}
+        footer={<Button block onClick={() => setOpen(false)}>Start Workout III</Button>}
       >
-        <div style={{ display: "grid", gap: 12 }}>
+        <div style={{ display: "grid", gap: 14 }}>
           {QUESTIONS.map(([q, opts, s], i) => (
             <div key={q}>
               <div className="lq-t13" style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                <span style={{ fontWeight: 650 }}>{q}</span>
-                <span className="lq-c2 lq-num">{i + 1}/5</span>
+                <span style={{ fontWeight: 600 }}>{q}</span>
+                <span className="lq-c3 lq-num">{i + 1}/5</span>
               </div>
-              <Segmented label={q} size="sm" variant="fill" defaultValue={opts[s]!} options={opts.map((o) => ({ value: o, label: o }))} />
+              <Segmented label={q} size="sm" defaultValue={opts[s]!} options={opts.map((o) => ({ value: o, label: o }))} />
             </div>
           ))}
-          <div style={{ marginTop: 6, padding: 16, borderRadius: "var(--r-panel)", background: "var(--accent-soft)", display: "flex", gap: 16, alignItems: "center" }}>
-            <Rings size={72} stroke={8} rings={[{ value: 14 / 20, tone: 1 }]} label="Score 14 of 20">
-              <span className="lq-t22 lq-num" style={{ fontWeight: 750 }}>14</span>
+          <div className="lq-glass" data-leak="" style={{ marginTop: 6, padding: 16, borderRadius: "var(--r-panel)", display: "flex", gap: 16, alignItems: "center" }}>
+            <Rings size={76} stroke={8} rings={[{ value: 14 / 20, tone: 1 }]} label="Score 14 of 20">
+              <span className="lq-dnum" style={{ fontSize: 22 }}>14</span>
             </Rings>
             <div>
               <div className="lq-t17">Chart 2 modification</div>
-              <div className="lq-t13 lq-c2" style={{ marginTop: 2 }}>Moderate bells, full volume. Keep two reps in reserve.</div>
+              <div className="lq-t13 lq-c2" style={{ marginTop: 4 }}>Moderate bells, full volume. Keep two reps in reserve.</div>
             </div>
           </div>
         </div>
@@ -63,17 +64,42 @@ export function ToastDemo() {
 export function ControlsDemo() {
   return (
     <div style={{ display: "grid", gap: 14 }}>
-      <Segmented label="Level" options={[{ value: "1", label: "Level I · Beginner" }, { value: "2", label: "Level II · Intermediate" }]} />
-      <Segmented label="Explore" variant="fill" size="sm" options={[{ value: "t", label: "Training" }, { value: "e", label: "Experiences" }, { value: "f", label: "Free tools" }]} />
-      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-        <label style={{ display: "flex", gap: 12, alignItems: "center" }} className="lq-t15">
-          <Toggle defaultChecked label="Autoplay next clip" /> Autoplay next clip
+      <Segmented label="Level" options={[{ value: "1", label: "Level 1 · Beginner" }, { value: "2", label: "Level 2 · Intermediate" }]} />
+      <Segmented label="Path" size="sm" options={[{ value: "i", label: "Immersion" }, { value: "s", label: "Self-Guided" }]} />
+      <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
+        <label style={{ display: "flex", gap: 12, alignItems: "center" }} className="lq-t13 lq-c2">
+          <Toggle defaultChecked label="Auto-advance" /> Auto-advance
         </label>
-        <Toggle label="Reminders" />
+        <label style={{ display: "flex", gap: 12, alignItems: "center" }} className="lq-t13 lq-c2">
+          <Toggle label="Reminders" /> Reminders
+        </label>
       </div>
       <CompleteButton block onComplete={() => new Promise((r) => setTimeout(r, 250))} doneLabel="Step complete">
         Complete step
       </CompleteButton>
     </div>
+  );
+}
+
+/** Remounts its children so an entrance animation can be watched again. */
+export function Replay({ children, label = "Replay" }: { children: ReactNode; label?: string }) {
+  const [k, setK] = useState(0);
+  return (
+    <div className="g-replay">
+      <div key={k} className="g-replay-stage">{children}</div>
+      <button type="button" className="g-replay-btn" onClick={() => setK((n) => n + 1)} aria-label={label}>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" /></svg>
+      </button>
+    </div>
+  );
+}
+
+/** Stretch demo: re-counts on click. */
+export function StretchDemo() {
+  const [v, setV] = useState(24);
+  return (
+    <button type="button" className="g-stretch" onClick={() => setV((x) => (x === 24 ? 61 : 24))} aria-label="Count again">
+      <StretchNumber value={v} from={v === 24 ? 0 : 24} size={64} variant="thin" />
+    </button>
   );
 }

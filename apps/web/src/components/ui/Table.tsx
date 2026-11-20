@@ -18,12 +18,8 @@ export function WorkoutTable({ children, className, label = "Workout" }: { child
 }
 
 type Load = "heavy" | "moderate" | "light" | "bodyweight";
-const LOAD_COLOR: Record<Load, string> = {
-  heavy: "var(--label)",
-  moderate: "var(--accent)",
-  light: "var(--ring-3)",
-  bodyweight: "var(--label-3)",
-};
+/** Intensity drawn as a short trace: heavier bells travel further. */
+const LOAD_LEVEL: Record<Load, number> = { heavy: 0.9, moderate: 0.6, light: 0.4, bodyweight: 0.2 };
 
 export function ExerciseRow({ name, load, loadLabel, reps, repsNote, sets, tempo }: { name: string; load?: Load; loadLabel?: string; reps: ReactNode; repsNote?: string; sets: ReactNode; tempo?: ReactNode }) {
   return (
@@ -31,7 +27,7 @@ export function ExerciseRow({ name, load, loadLabel, reps, repsNote, sets, tempo
       <div role="cell">
         <div className="lq-wt-nm">{name}</div>
         {loadLabel && (
-          <div className="lq-wt-ld" style={{ "--load": load ? LOAD_COLOR[load] : undefined } as CSSProperties}>
+          <div className="lq-wt-ld" style={{ "--lv": load ? LOAD_LEVEL[load] : 0.5 } as CSSProperties}>
             <i aria-hidden />
             <span>{loadLabel}</span>
           </div>

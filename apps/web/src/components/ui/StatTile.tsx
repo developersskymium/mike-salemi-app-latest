@@ -13,12 +13,12 @@ type Props = {
   className?: string;
 };
 
-/** A stat: ticking number, unit, caption. Used in ring legends and stat rows. */
+/** A stat: a display numeral that counts with Stretch, unit, caption. Used in arc legends and stat rows. */
 export function StatTile({ value, unit, label, swatch, size = "md", className }: Props) {
   const sw =
-    typeof swatch === "number" ? <i className="lq-sw" style={{ background: `var(--ring-${swatch})` }} aria-hidden /> : swatch ?? null;
+    typeof swatch === "number" ? <i className="lq-sw" style={{ ["--sw" as string]: `var(--ring-${swatch})` }} aria-hidden /> : swatch ?? null;
   return (
-    <div className={cx("lq-stat", className)} data-size={size === "lg" ? "lg" : undefined} style={sw ? { gridTemplateColumns: "10px 1fr", columnGap: 10, alignItems: "baseline" } : undefined}>
+    <div className={cx("lq-stat", className)} data-size={size === "lg" ? "lg" : undefined} style={sw ? { gridTemplateColumns: "12px 1fr", columnGap: 10, alignItems: "baseline" } : undefined}>
       {sw}
       <b className="lq-statv">
         <Ticker value={value} />

@@ -10,8 +10,27 @@ import { useLens } from "../ui/motion";
 import { activeTab } from "./nav-state";
 import { useShellUser } from "./ShellUser";
 
-/** Desktop: floating glass sidebar with the five tabs, an optional "Coming up" group and the member. */
-export function Sidebar({ extra, active: activeProp }: { extra?: ReactNode; active?: number }) {
+/** The wordmark: a swing arc ending in a light point, and the name set wide. */
+export function Wordmark({ sub }: { sub?: string }) {
+  return (
+    <Link href="/today" className="lq-brand">
+      <svg className="lq-brand-mark" viewBox="0 0 26 26" aria-hidden>
+        <path d="M3 8A10 10 0 0 0 23 8" />
+        <circle cx="23" cy="8" r="2.4" />
+      </svg>
+      <span>
+        <span className="lq-brand-name">Mike Salemi</span>
+        {sub && <span className="lq-brand-sub">{sub}</span>}
+      </span>
+    </Link>
+  );
+}
+
+/**
+ * Desktop rail (legacy L0 order): wordmark → resume card → primary nav → extra groups
+ * (Unlocked) → more destinations → the member. The active item is lit by a light dash.
+ */
+export function Sidebar({ resume, extra, more, active: activeProp }: { resume?: ReactNode; extra?: ReactNode; more?: ReactNode; active?: number }) {
   const pathname = usePathname();
   const active = activeProp ?? activeTab(pathname);
   const box = useRef<HTMLElement>(null);
@@ -20,22 +39,11 @@ export function Sidebar({ extra, active: activeProp }: { extra?: ReactNode; acti
   const user = useShellUser();
 
   return (
-    <aside className="lq-sidebar lq-glass" aria-label="Sidebar">
-      <Link href="/today" className="lq-brand">
-        <span className="lq-brand-mark" aria-hidden>
-          <Icon name="kettlebell" size="sm" />
-        </span>
-        <span>
-          <span className="lq-t15" style={{ fontWeight: 700, display: "block" }}>
-            Mike Salemi
-          </span>
-          <span className="lq-t11 lq-c2" style={{ fontWeight: 500 }}>
-            Kettlebell Lifestyle
-          </span>
-        </span>
-      </Link>
+    <aside className="lq-sidebar" aria-label="Sidebar">
+      <Wordmark sub="Kettlebell Lifestyle" />
+      {resume && <div className="lq-rail-resume">{resume}</div>}
       <nav ref={box} className="lq-nav" aria-label="Main">
-        <i ref={lens} className="lq-lens" aria-hidden style={{ top: `calc(${Math.max(0, active)} * 42px)`, opacity: active < 0 ? 0 : 1 } as CSSProperties} />
+        <i ref={lens} className="lq-lens" aria-hidden style={{ top: `calc(${Math.max(0, active)} * 44px)`, opacity: active < 0 ? 0 : 1 } as CSSProperties} />
         {TABS.map((t, i) => (
           <Link key={t.href} href={t.href} data-lens-item="" aria-current={i === active ? "page" : undefined}>
             <Icon name={t.icon} />
@@ -44,30 +52,33 @@ export function Sidebar({ extra, active: activeProp }: { extra?: ReactNode; acti
         ))}
       </nav>
       {extra}
+      {more}
       {user && (
         <Link href="/you" className="lq-me lq-press">
-          <Avatar name={user.name} src={user.avatarUrl} size="md" variant="solid" />
+          <Avatar name={user.name} src={user.avatarUrl} size="md" />
           <span style={{ minWidth: 0 }}>
-            <span className="lq-t15" style={{ fontWeight: 620, display: "block" }}>
-              {user.name}
-            </span>
-            {user.subtitle && <span className="lq-t13 lq-c2">{user.subtitle}</span>}
+            <span className="lq-me-name">{user.name}</span>
+            {user.subtitle && <span className="lq-t12 lq-c3" style={{ display: "block", fontWeight: 500 }}>{user.subtitle}</span>}
           </span>
+          <Icon name="chevron" size="xs" />
         </Link>
       )}
     </aside>
   );
 }
 
-/** A sidebar group ("Coming up") with plain links. */
-export function SidebarGroup({ title, items }: { title: string; items: { href: string; label: string; icon: Parameters<typeof Icon>[0]["name"] }[] }) {
+/** A rail group ("Unlocked", "Coming up") with plain links and an optional meta line per item. */
+export function SidebarGroup({ title, items }: { title: string; items: { href: string; label: string; icon: Parameters<typeof Icon>[0]["name"]; meta?: string }[] }) {
   return (
     <div className="lq-nav">
       <div className="lq-nav-grp">{title}</div>
       {items.map((it) => (
-        <Link key={it.href + it.label} href={it.href}>
+        <Link key={it.href + it.label} href={it.href} data-meta={it.meta ? "" : undefined}>
           <Icon name={it.icon} />
-          {it.label}
+          <span className="lq-nav-lbl">
+            {it.label}
+            {it.meta && <small>{it.meta}</small>}
+          </span>
         </Link>
       ))}
     </div>

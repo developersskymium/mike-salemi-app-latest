@@ -1,22 +1,42 @@
 @import "tailwindcss";
 @import "../../../../packages/tokens/src/tokens.css";
 @import "../components/ui/ui.css";
+@import "../components/signature/signature.css";
 @import "../components/shell/shell.css";
 
-/* Self-hosted Inter (optical sizes) — used after the Apple system stack. */
+/* TRACE type, self-hosted. Anybody: variable display face, width 50–150 (font-stretch) and
+   weight 100–900. Hanken Grotesk: text, 400–700. Preloaded in app/layout.tsx. */
 @font-face {
-  font-family: "Inter Liquid";
-  src: url("/fonts/inter-opsz.woff2") format("woff2-variations"), url("/fonts/inter-opsz.woff2") format("woff2");
+  font-family: "Anybody";
+  src: url("/fonts/anybody-var.woff2") format("woff2-variations"), url("/fonts/anybody-var.woff2") format("woff2");
   font-weight: 100 900;
+  font-stretch: 50% 150%;
   font-style: normal;
   font-display: swap;
 }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-700.woff2") format("woff2"); font-weight: 700 900; font-style: normal; font-display: swap; }
 
-/* Tailwind theme → Liquid tokens. Utilities resolve to the live CSS variables, so
+/* Tailwind theme → Trace tokens (Liquid names kept). Utilities resolve to the live CSS variables, so
    they follow the theme and any token edit. Never add raw values here. */
 @theme inline {
   --font-sans: var(--font);
+  --font-wide: var(--font-display);
   --font-mono: var(--font-code);
+
+  --color-ground: var(--ground);
+  --color-film: var(--film);
+  --color-film-2: var(--film-2);
+  --color-edge: var(--edge);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-trace: var(--trace);
+  --color-trace-hot: var(--trace-hot);
+  --color-trace-dim: var(--trace-dim);
 
   --color-bg: var(--bg);
   --color-bg-elev: var(--bg-elev);
@@ -85,9 +105,13 @@
   --radius-control: var(--r-control);
 
   --shadow-float: var(--float-shadow);
+  --shadow-glow: var(--glow);
+  --shadow-glow-soft: var(--glow-soft);
+  --shadow-lift: var(--lift-shadow);
   --ease-spring: var(--curve-spring);
   --ease-spring-soft: var(--curve-spring-soft);
   --ease-liquid: var(--curve-out);
+  --ease-expose: var(--curve-expose);
 }
 
 /* ---------------------------------------------------------------- base */
@@ -105,14 +129,14 @@
     font-family: var(--font);
     font: var(--t-15);
     letter-spacing: var(--t-15-track);
-    font-feature-settings: "cv11", "ss01", "ss03";
-    font-optical-sizing: auto;
   }
+  h1, h2, h3 { text-wrap: balance; }
   :focus-visible {
     outline: 2px solid var(--focus);
-    outline-offset: 2px;
+    outline-offset: 3px;
+    border-radius: 10px;
   }
   ::selection {
-    background: var(--accent-soft);
+    background: color-mix(in srgb, var(--trace) 30%, transparent);
   }
 }
