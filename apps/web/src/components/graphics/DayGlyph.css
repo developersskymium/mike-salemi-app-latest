@@ -1,10 +1,17 @@
-/* Day glyphs (Trace icons): --gfx-glyph ink, --gfx-glyph-accent lit stretch, --gfx-glyph-point the light point. */
-.gfx-day-glyph-glyph { color: var(--gfx-glyph, var(--g-figure)); overflow: visible; }
+/* Day glyphs (Summit icons): --gfx-glyph ink, --gfx-glyph-accent the accent shape and point. */
+.gfx-day-glyph-glyph {
+  color: var(--gfx-glyph, var(--g-ink));
+  --dg-accent: var(--gfx-day-accent, #1A85D6);
+  overflow: visible;
+}
+:where([data-theme="dark"]) .gfx-day-glyph-glyph { --dg-accent: var(--gfx-day-accent-dark, #5FB2F0); }
+@media (prefers-color-scheme: dark) { :where([data-theme="system"]) .gfx-day-glyph-glyph { --dg-accent: var(--gfx-day-accent-dark, #5FB2F0); } }
 .gfx-day-glyph-base, .gfx-day-glyph-lit { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .gfx-day-glyph-base { stroke: currentColor; }
-.gfx-day-glyph-lit { stroke: var(--gfx-glyph-accent, var(--g-trace)); }
-.gfx-day-glyph-dot { fill: var(--gfx-glyph-point, var(--g-trace-hot)); }
-.gfx-day-glyph-node { fill: currentColor; opacity: .55; }
+.gfx-day-glyph-lit { stroke: var(--dg-accent); }
+.gfx-day-glyph-tint { fill: var(--dg-accent); opacity: var(--gfx-glyph-tint, .2); stroke: none; }
+.gfx-day-glyph-dot { fill: var(--g-ember); }
+.gfx-day-glyph-marks { fill: currentColor; }
 .gfx-day-glyph-mono .gfx-day-glyph-lit { stroke: currentColor; }
 .gfx-day-glyph-mono .gfx-day-glyph-dot { fill: currentColor; }
-:where([data-theme="dark"]) .gfx-day-glyph-dot { filter: drop-shadow(0 0 1.5px var(--g-trace)); }
+.gfx-day-glyph-mono .gfx-day-glyph-tint { fill: currentColor; opacity: .12; }

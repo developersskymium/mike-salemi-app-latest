@@ -1,206 +1,185 @@
 import type { CSSProperties, ReactNode } from "react";
-import { Exposure, shastaPath } from "./exposure";
-import { BELL_BASE, BELL_OUTLINE, BELL_WINDOW } from "./figures/bell";
 import "./gfx.css";
 import "./EmptyScene.css";
-import { Flare } from "./Flare";
-import { MovementFigure } from "./MovementFigure";
-import { Line, arcPts, smooth, traceGeo, type Pt } from "./trace";
-import { TraceMarks } from "./Trace";
+import { Backpack, Binoculars, Lantern, Mug, Rock, Shadow, Signpost, Tent, TrailMap, At } from "./objects";
 import { cls, cx, useGfxId } from "./util";
+import { Grain, Shasta, Vista, WORLD, w, type VistaProps, type WorldTime } from "./world";
 
 const g = cls("gfx");
 const s = cls("gfx-empty-scene");
 
-export type EmptySceneName = "no-programs" | "nothing-saved" | "plan-empty" | "offline" | "caught-up";
-export const EMPTY_SCENES: EmptySceneName[] = ["no-programs", "nothing-saved", "plan-empty", "offline", "caught-up"];
+export type EmptySceneName = "no-programs" | "nothing-saved" | "plan-empty" | "offline" | "caught-up" | "no-results";
+export const EMPTY_SCENES: EmptySceneName[] = ["no-programs", "nothing-saved", "plan-empty", "offline", "caught-up", "no-results"];
 
 export interface EmptySceneProps {
   scene: EmptySceneName;
   /** Width in px; height follows 3:2. */
   size?: number;
-  /** One-shot entrance: the world exposes, then the foreground settles (off under reduced motion). */
+  /** One-shot entrance, then the small things move (flame, steam, clouds). Off under reduced motion. */
   animated?: boolean;
+  /** "auto" follows the theme (day in light, dusk in dark). */
+  time?: WorldTime | "auto";
   className?: string;
   style?: CSSProperties;
   title?: string;
 }
 
 const LABEL: Record<EmptySceneName, string> = {
-  "no-programs": "Kettlebells resting on a mat under Mount Shasta, their path not yet traced",
-  "nothing-saved": "A chalk bowl, one chalked swipe of light above it",
-  "plan-empty": "A ridge at first light, the route ahead still dotted",
-  offline: "A campfire still warm under star trails",
-  "caught-up": "A finished trace over a still glacier lake, someone resting on the shore",
+  "no-programs": "A trailhead sign under Mount Shasta, the trail not yet walked",
+  "nothing-saved": "A day pack resting against a boulder, an empty bookmark ribbon",
+  "plan-empty": "A trail map laid open on the ground, no route drawn yet",
+  offline: "A tent pitched below the mountain, a lantern burning outside",
+  "caught-up": "A still alpine lake reflecting Shasta, a mug on the dock",
+  "no-results": "Binoculars resting on a rock, the ridges empty",
 };
 
-/* The world sits in a round porthole; foreground pieces break out of it. */
-const PC = { x: 120, y: 76, r: 62 };
+const W = 240;
+const H = 160;
+/* An arched window onto the world; foreground pieces stand in front of its sill. */
+const ARCH = "M46 128V82A74 74 0 0 1 194 82V128Z";
 
-function Bell({ x, y, k }: { x: number; y: number; k: number }) {
-  return (
-    <g transform={`translate(${x} ${y - BELL_BASE * k}) scale(${k})`}>
-      <path d={BELL_OUTLINE + BELL_WINDOW} fillRule="evenodd" className={s.obj} strokeWidth={1.1 / k} />
-    </g>
-  );
-}
+type Scene = { vista: Omit<VistaProps, "id" | "w" | "h">; inside?: (id: string) => ReactNode; front: (id: string) => ReactNode };
 
-/** The porthole: the ground (night exposure or snow contours), Shasta, and its rim. */
-function Porthole({ id, seed, peak = 1, children }: { id: string; seed: number; peak?: number; children?: ReactNode }) {
-  const mtn = shastaPath(58, 124, 124, 54 * peak);
-  return (
-    <>
-      <defs>
-        <clipPath id={`${id}-port`}>
-          <circle cx={PC.x} cy={PC.y} r={PC.r} />
-        </clipPath>
-      </defs>
-      <g clipPath={`url(#${id}-port)`} className={s.world}>
-        <g transform={`translate(${PC.x - PC.r} ${PC.y - PC.r})`}>
-          <Exposure w={PC.r * 2} h={PC.r * 2} pole={[PC.r * 1.35, -6]} seed={seed} scale={0.85} />
-        </g>
-        <path d={mtn} className={s.mtn} />
-        <path d={mtn} className={s.mtnLine} />
-        <rect x={PC.x - PC.r} y={124} width={PC.r * 2} height={20} className={s.ground} />
-        {children}
-      </g>
-      <circle cx={PC.x} cy={PC.y} r={PC.r - 0.4} className={s.portRim} />
-    </>
-  );
-}
+const forestBands = (seed: number, y = 104): VistaProps["layers"] => [
+  { y, amp: 4, seed, depth: 2, trees: { gap: 6, hMin: 4, hMax: 9, clump: 1, mix: { pine: 0.2, snag: 0 } } },
+  { y: y + 12, amp: 3, seed: seed + 4, depth: 3, trees: { gap: 7, hMin: 7, hMax: 15, clump: 1, mix: { pine: 0.4, snag: 0.1 } } },
+];
 
-const SCENES: Record<EmptySceneName, (id: string) => ReactNode> = {
-  /* Gear laid out, nothing traced yet: the swing's arc is still dotted, the light waiting at its start. */
-  "no-programs": (id) => {
-    const arc = new Line(arcPts(124, 60, 44, 200, 340, 40).reverse());
-    return (
+const SCENES: Record<EmptySceneName, Scene> = {
+  /* Nothing started: the trailhead, the trail dotted off into the trees. */
+  "no-programs": {
+    vista: { mountain: { x: 30, base: 108, width: 200, lift: 0.72 }, moon: [170, 40, 6], clouds: [[56, 56, 40, 3]], layers: forestBands(5) },
+    inside: () => (
       <>
-        <Porthole id={id} seed={3} />
-        <g className={s.layer2}>
-          <TraceMarks geo={traceGeo(arc, 0.04, { width: 2.4, segments: 4 })} />
-          <path d="M58 141 80 121.4Q81.6 120 83.8 120H164.2Q166.4 120 168 121.4L190 141Z" className={s.mat} />
-        </g>
-        <g className={s.layer3}>
-          <Bell x={98} y={129} k={0.6} />
-          <Bell x={150} y={129.4} k={0.52} />
-          <Bell x={124} y={137.4} k={0.78} />
-        </g>
+        <path d="M100 132C118 128 134 126 128 120C122 114 112 114 120 110C126 107 134 106 140 103" fill="none" className={w.trail} strokeWidth={7} style={{ stroke: "var(--w-ground-lo)" }} />
+        <path d="M100 132C118 128 134 126 128 120C122 114 112 114 120 110C126 107 134 106 140 103" className={w.dash} strokeWidth={2} />
       </>
-    );
-  },
-
-  /* Nothing kept yet: an untouched chalk bowl, one chalked swipe of light over it. */
-  "nothing-saved": (id) => {
-    const swipe = new Line(smooth([[86, 96], [104, 82], [126, 78], [148, 84], [160, 74]], 12));
-    return (
+    ),
+    front: () => (
       <>
-        <Porthole id={id} seed={9} peak={0.85} />
-        <g className={s.layer2}>
-          <path d="M84 108Q84 140 120 140T156 108Z" className={s.obj} />
-          <ellipse cx={120} cy={108} rx={36} ry={9} className={s.obj} />
-          <path d="M92 110.6Q104 104.6 120 105.6T148 110.6Q134 115 120 115T92 110.6Z" className={s.chalk} />
-          <path d="M108 101.6 121.6 98.4Q124 97.9 125.6 99.6L129 103.4Q130.2 105 128 105.6L114.6 108.6Q112.4 109.1 111 107.4L107.2 103.4Q106 102 108 101.6Z" className={s.chalk} />
-        </g>
-        <g className={s.layer3}>
-          <TraceMarks geo={traceGeo(swipe, 1, { width: 2.4, segments: 16, floor: 0.02, ahead: false })} />
-        </g>
+        <Shadow x={150} y={140} rx={20} />
+        <Shadow x={92} y={140} rx={16} />
+        <Rock x={92} y={140} k={0.75} />
+        <Signpost x={150} y={140} k={1.1} />
       </>
-    );
+    ),
   },
-
-  /* A clear day ahead: the route up the ridge is dotted, its stops unlit; first light at the trailhead. */
-  "plan-empty": (id) => {
-    const route = new Line(smooth([[60, 132], [84, 124], [100, 112], [114, 98], [124, 88], [132, 76]], 12));
-    const nodes = [0.3, 0.55, 0.8].map((f) => [...route.at(route.total * f), false] as [number, number, boolean]);
-    return (
+  /* Nothing saved yet: a pack set down, its bookmark ribbon still empty. */
+  "nothing-saved": {
+    vista: { mountain: { x: 60, base: 110, width: 190, lift: 0.75 }, moon: [86, 40, 6], clouds: [[150, 62, 36, 8]], layers: forestBands(9) },
+    front: () => (
       <>
-        <Porthole id={id} seed={21} peak={1.08} />
-        <g className={s.layer2}>
-          <TraceMarks geo={traceGeo(route, 0.05, { width: 2.2, segments: 4 })} nodes={nodes} />
-        </g>
+        <Shadow x={124} y={141} rx={34} />
+        <Rock x={136} y={141} k={1.25} />
+        <Backpack x={108} y={141} k={1.1} />
       </>
-    );
+    ),
   },
-
-  /* Offline: the fire is still warm under the star trails. Fire keeps its real colour. */
-  offline: (id) => (
-    <>
-      <Porthole id={id} seed={33} peak={0.9} />
-      <g className={s.layer2}>
+  /* A clear plan: the map is open, no route on it yet, a pin waiting. */
+  "plan-empty": {
+    vista: { mountain: { x: 24, base: 110, width: 196, lift: 0.7 }, moon: [172, 38, 6], clouds: [[66, 60, 34, 12]], layers: forestBands(13) },
+    front: () => (
+      <>
+        <Shadow x={120} y={142} rx={40} />
+        <TrailMap x={118} y={142} k={1.2} />
+        <Rock x={172} y={141} k={0.5} />
+      </>
+    ),
+  },
+  /* Offline: camp below the mountain, the lantern still burning. */
+  offline: {
+    vista: { mountain: { x: 50, base: 108, width: 180, lift: 0.75 }, moon: [84, 36, 6], stars: 30, layers: forestBands(17, 106) },
+    inside: () => (
+      <>
+        <Shadow x={140} y={126} rx={22} />
+        <Tent x={140} y={126} k={0.9} />
+      </>
+    ),
+    front: (id) => (
+      <>
+        <Shadow x={92} y={141} rx={12} />
+        <Lantern x={92} y={141} k={1.25} id={id} />
+      </>
+    ),
+  },
+  /* All caught up: a still lake, Shasta upside down in it, a mug on the dock. */
+  "caught-up": {
+    vista: { mountain: { x: 40, base: 100, width: 190, lift: 0.7 }, moon: [168, 34, 6], clouds: [[60, 50, 40, 6]], layers: [{ y: 98, amp: 2.5, seed: 21, depth: 2, trees: { gap: 6, hMin: 4, hMax: 9, clump: 1, x1: 92, mix: { pine: 0.2, snag: 0 } } }] },
+    inside: (id) => (
+      <>
         <defs>
-          <radialGradient id={`${id}-ember`} cx=".5" cy=".5" r=".5">
-            <stop offset="0" className={s.emberA} />
-            <stop offset="1" className={s.emberB} />
-          </radialGradient>
+          <linearGradient id={`${id}-water`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" className={w.water1} />
+            <stop offset="1" className={w.water0} />
+          </linearGradient>
         </defs>
-        <circle cx={120} cy={127} r={26} fill={`url(#${id}-ember)`} />
-        <path d="M121 116C116 108 126 104 120 96S124 86 121 80" className={s.smoke} />
-        <path d="M100 133 138 124M102 124 140 133" className={s.log} />
-        {[
-          [88, 134, 7, 4],
-          [99, 138.6, 7.4, 4],
-          [113, 140.6, 7.4, 3.8],
-          [127, 140.6, 7.4, 3.8],
-          [141, 138.6, 7.4, 4],
-          [152, 134, 7, 4],
-        ].map(([x, y, rx, ry]) => (
-          <ellipse key={`${x}`} cx={x} cy={y} rx={rx} ry={ry} className={s.obj} />
-        ))}
-      </g>
-      <g className={s.layer3}>
-        <ellipse cx={120} cy={130.2} rx={8} ry={3} className={s.ember} />
-        <circle cx={116} cy={129.6} r={1.4} className={s.emberHot} />
-        <circle cx={124} cy={130.4} r={1.1} className={s.emberHot} />
-      </g>
-    </>
-  ),
-
-  /* All caught up: the day's trace finished over a still glacier lake, mirrored in it; someone resting on the shore. */
-  "caught-up": (id) => {
-    const arc = new Line(smooth([[62, 70], [86, 100], [118, 108], [150, 96], [170, 64]], 12));
-    const mirror = new Line(arc.pts.map(([x, y]) => [x, 216 - y] as Pt));
-    return (
-      <>
-        <Porthole id={id} seed={47} />
-        <g clipPath={`url(#${id}-port)`}>
-          <rect x={58} y={110} width={124} height={30} className={s.lake} />
-          <g className={s.reflection}>
-            <TraceMarks geo={traceGeo(mirror, 1, { width: 2, segments: 12, floor: 0.02, ahead: false, head: false })} />
-          </g>
+        <rect x={40} y={101} width={160} height={30} fill={`url(#${id}-water)`} />
+        <g transform="translate(0 201) scale(1 -1)" opacity={0.32}>
+          <Shasta id={`${id}-r`} x={40} base={100} width={190} lift={0.7} haze={false} />
         </g>
-        <g className={s.layer2}>
-          <TraceMarks geo={traceGeo(arc, 1, { width: 2.4, segments: 18, floor: 0.03, ahead: false, head: false })} />
-          <Flare x={170} y={64} size={44} animated={false} />
-          <path d="M54 141Q60 128 76 128Q86 126 92 132Q100 130 104 136Q108 141 104 141Z" className={s.obj} />
-        </g>
-        <g className={s.layer3}>
-          <g transform="translate(58 85) scale(.2)">
-            <MovementFigure move="breathing" size={240} bare title="Resting" />
-          </g>
-        </g>
+        <path d="M70 108H96M120 113H160M84 120H104M140 122H172" fill="none" stroke="#fff" strokeOpacity={0.45} strokeWidth={0.9} strokeLinecap="round" />
       </>
-    );
+    ),
+    front: () => (
+      <>
+        <Shadow x={120} y={142} rx={40} />
+        <At x={120} y={142}>
+          <path d="M-34 0L-12-26H12L34 0Z" className={w.woodC} />
+          <path d="M-34 0L-12-26H-7L-24 0ZM-10 0L-3-26H3L10 0ZM24 0L7-26H12L34 0Z" className={w.woodHiC} opacity={0.55} />
+          <path d="M-34 0H34V3H-34Z" className={w.woodLoC} />
+          <path d="M-30 3V9M30 3V9" style={{ stroke: "var(--w-wood-lo)" }} strokeWidth={2.4} />
+        </At>
+        <Mug x={130} y={128} k={0.95} />
+      </>
+    ),
+  },
+  /* No results: binoculars down on a rock, nothing on the ridges. */
+  "no-results": {
+    vista: { mountain: { x: 46, base: 112, width: 180, lift: 0.7 }, moon: [80, 38, 6], clouds: [[96, 98, 70, 14], [150, 92, 44, 5]], layers: forestBands(25, 106) },
+    front: () => (
+      <>
+        <Shadow x={122} y={141} rx={30} />
+        <Rock x={130} y={141} k={1.2} />
+        <Binoculars x={104} y={141} k={1.1} />
+      </>
+    ),
   },
 };
 
 /**
- * Empty and edge states as small worlds in the Trace language: a porthole of
- * night exposure (dark) or snow contours (light) with Mount Shasta, matte
- * objects from Mike's world, and one mark of light.
+ * Empty states as small vignettes in the Summit world: an arched window onto
+ * Mount Shasta and one object from the trail standing at its sill, with a
+ * single warm accent. Daylight in light mode, dusk in dark.
  */
-export function EmptyScene({ scene, size = 240, animated = true, className, style, title }: EmptySceneProps) {
-  const id = useGfxId("es");
+export function EmptyScene({ scene, size = 240, animated = false, time = "auto", className, style, title }: EmptySceneProps) {
+  const id = useGfxId("empty");
+  const sc = SCENES[scene] ?? SCENES["no-programs"];
   return (
     <svg
-      viewBox="0 0 240 160"
+      viewBox={`0 0 ${W} ${H}`}
       width={size}
-      height={(size * 160) / 240}
+      height={(size * H) / W}
       role="img"
       aria-label={title ?? LABEL[scene]}
-      className={cx(g.root, s.scene, animated && s.animated, className)}
+      data-time={time === "auto" ? undefined : time}
+      className={cx(g.root, WORLD, s.scene, animated && s.animated, animated && w.animated, className)}
       style={style}
     >
-      {SCENES[scene](id)}
+      <defs>
+        <clipPath id={`${id}-arch`}>
+          <path d={ARCH} />
+        </clipPath>
+      </defs>
+      <ellipse cx={120} cy={134} rx={96} ry={9} className={s.sill} />
+      <g clipPath={`url(#${id}-arch)`} className={s.world}>
+        <Vista id={id} w={W} h={H} horizon={112} far={100} {...sc.vista} />
+        <path d="M30 124C80 118 160 118 210 122V140H30Z" className={w.ground} />
+        <path d="M30 129C90 125 150 126 210 128V140H30Z" className={w.groundLo} />
+        {sc.inside?.(id)}
+        <Grain id={id} w={W} h={H} freq={1.2} />
+      </g>
+      <path d="M46 128V82A74 74 0 0 1 194 82V128" className={s.rim} />
+      <g className={s.front}>{sc.front(id)}</g>
     </svg>
   );
 }

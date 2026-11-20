@@ -6,7 +6,7 @@ import "./RigFigure.css";
 import { cls, cx, useGfxId } from "../util";
 import { BELL_OUTLINE, BELL_SHEEN, BELL_SPEC, BELL_WINDOW } from "./bell";
 import { MOVES, type MoveName } from "./library";
-import { Line, traceGeo, type Pt, type TraceGeo } from "../trace";
+import { Line, type Pt } from "../trace";
 import { duration, geoAt, GROUND, sampleMove, solve, type Geo, type MoveDef, type Order } from "./rig";
 
 const g = cls("gfx");
@@ -96,7 +96,7 @@ function dOf(geo: Geo): Record<PathName, string> {
   };
 }
 
-type Live = PathName | "bellA" | "bellS" | "shadow" | "footN" | "footF" | "breath" | "glow" | "halo" | "head";
+type Live = PathName | "bellA" | "bellS" | "shadow" | "footN" | "footF" | "breath";
 
 /* The bell's path through the loop, sampled once per move (the Trace follows it). */
 const pathCache = new WeakMap<MoveDef, Array<Pt | null>>();
@@ -112,23 +112,25 @@ function bellPath(m: MoveDef): Array<Pt | null> {
   }
   return p;
 }
-const TAIL_N = 18;
-/** The exposure at phase t: the bell's last stretch of path, hot at the bell, cooling behind it. */
-function traceAt(m: MoveDef, t: number, width: number): TraceGeo | null {
-  const path = bellPath(m);
-  const K = path.length;
-  const steps = Math.round((m.traceTail ?? 0.5) * K);
-  const i0 = Math.round((((t % 1) + 1) % 1) * K);
-  const pts: Pt[] = [];
-  for (let k = steps; k >= 0; k--) {
-    const q = path[(((i0 - k) % K) + K) % K];
-    if (!q) continue;
-    const last = pts[pts.length - 1];
-    if (!last || Math.hypot(q[0] - last[0], q[1] - last[1]) > 0.35) pts.push(q);
+/** The bell's whole path through the loop, as one open path (the motion path drawn in ember dashes). */
+const motionCache = new WeakMap<MoveDef, string>();
+function motionPath(m: MoveDef): string {
+  let d = motionCache.get(m);
+  if (d === undefined) {
+    const pts = bellPath(m).filter((p): p is Pt => !!p);
+    const keep: Pt[] = [];
+    for (const q of pts) {
+      const last = keep[keep.length - 1];
+      if (!last || Math.hypot(q[0] - last[0], q[1] - last[1]) > 1.2) keep.push(q);
+    }
+    d = keep.length > 3 ? new Line(keep).d(0, new Line(keep).total) : "";
+    motionCache.set(m, d);
   }
-  if (pts.length < 3) return null;
-  return traceGeo(new Line(pts), 1, { width, segments: TAIL_N, tail: 1, ahead: false, floor: 0.03 });
+  return d;
 }
+
+const MASK_BLACK = { ["--rig-shoe" as string]: "#000" } as CSSProperties;
+const MASK_WHITE = { ["--rig-shoe" as string]: "#fff" } as CSSProperties;
 
 const breathT = (geo: Geo) => {
   const c = geo.joints.belly ?? geo.joints.waist;
@@ -163,12 +165,11 @@ export function RigFigure({
   const [order, setOrder] = useState<Order>(geo0.order);
   const refs = useRef<Partial<Record<Live, SVGElement | null>>>({});
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const showTrace = (trace ?? true) && !bare && size >= 64 && move.cfg.grip !== "none";
-  const traceW = Math.max(1.8, (vsOf(move) / size) * 2.2);
-  const trace0 = useMemo(() => (showTrace ? traceAt(move, phase0, traceW) : null), [move, phase0, showTrace, traceW]);
-  const tailRefs = useRef<Array<SVGPathElement | null>>([]);
+  // The bell's path in ember dashes: on when asked, or by default on a moving figure.
+  const showTrace = (trace ?? animated) && !bare && size >= 64 && move.cfg.grip !== "none";
+  const traceW = Math.max(1.4, (vsOf(move) / size) * 1.7);
+  const motionD = useMemo(() => (showTrace ? motionPath(move) : ""), [move, showTrace]);
   const [vx, vy, vs] = move.view ?? [0, 0, 240];
-  const filt = `${id}-glow`;
   // A hairline gap of about 1 px at any size.
   const gap = Math.max(1.3, Math.min(6, vs / size));
   const fine = size >= 64;
@@ -187,7 +188,6 @@ export function RigFigure({
     const T = (duration(move) * 1000) / speed;
     let start = performance.now() - phase0 * T;
     let last = geo0.order;
-    let tNow = phase0;
 
     const apply = (geo: Geo) => {
       const d = dOf(geo);
@@ -209,19 +209,6 @@ export function RigFigure({
         }
       });
       refs.current.breath?.setAttribute("transform", breathT(geo));
-      if (showTrace) {
-        const tr = traceAt(move, tNow, traceW);
-        tailRefs.current.forEach((el, i) => el?.setAttribute("d", tr?.tail[i]?.d ?? ""));
-        refs.current.glow?.setAttribute("d", tr?.glow ?? "");
-        const h = tr?.head;
-        for (const k of ["halo", "head"] as const) {
-          const el = refs.current[k];
-          if (el && h) {
-            el.setAttribute("cx", h[0].toFixed(1));
-            el.setAttribute("cy", h[1].toFixed(1));
-          }
-        }
-      }
       if (geo.order !== last) {
         last = geo.order;
         setOrder(geo.order);
@@ -231,7 +218,6 @@ export function RigFigure({
       raf = 0;
       if (!visible || mq.matches) return;
       const t = ((now - start) % T) / T;
-      tNow = t;
       apply(geoAt(move, t, weight));
       raf = requestAnimationFrame(tick);
     };
@@ -246,7 +232,6 @@ export function RigFigure({
     io.observe(svg);
     const onMq = () => {
       if (mq.matches) {
-        tNow = phase0;
         apply(geo0);
       }
       else {
@@ -261,7 +246,7 @@ export function RigFigure({
       io.disconnect();
       mq.removeEventListener("change", onMq);
     };
-  }, [animated, at, move, phase0, speed, weight, geo0, showTrace, traceW]);
+  }, [animated, at, move, phase0, speed, weight, geo0]);
 
   const d0 = dOf(geo0);
   const P = (name: PathName, className?: string) => (
@@ -311,7 +296,7 @@ export function RigFigure({
       );
     }
     const main = (
-      <use key={name} href={layerHref[name]} mask={`url(#${id}-m-${name})`} className={name === "far" ? s.far : s.ink} />
+      <use key={name} href={layerHref[name]} mask={`url(#${id}-m-${name})`} className={name === "far" ? s.far : s.ink} fill={name === "far" ? undefined : `url(#${id}-ink)`} />
     );
     if (name === "legN" && fine) {
       return [main, <use key="sole" href={`#${id}-nSole`} mask={`url(#${id}-m-legN)`} className={s.sole} />];
@@ -336,9 +321,6 @@ export function RigFigure({
           <stop offset=".55" className={s.bellMid} />
           <stop offset="1" className={s.bellLo} />
         </radialGradient>
-        <filter id={filt} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation={(traceW * 1.5).toFixed(2)} />
-        </filter>
         <radialGradient id={`${id}-floor`} cx=".5" cy=".5" r=".5">
           <stop offset="0" className={s.floorA} />
           <stop offset="1" className={s.floorB} />
@@ -346,7 +328,7 @@ export function RigFigure({
         <g id={`${id}-g-far`}>
           {P("farThigh")}
           {P("farShin")}
-          {P("farFoot")}
+          {P("farFoot", s.shoe)}
           {P("farSole", s.farSole)}
           {P("farUpper")}
           {P("farFore")}
@@ -360,8 +342,8 @@ export function RigFigure({
         <g id={`${id}-g-legN`}>
           {P("nThigh")}
           {P("nShin")}
-          {P("nFoot")}
-          {P("nSole")}
+          {P("nFoot", s.shoe)}
+          {P("nSole", s.shoe)}
         </g>
         <g id={`${id}-g-legNc`}>
           {P("nThighCut")}
@@ -390,7 +372,7 @@ export function RigFigure({
           return (
             <mask key={m} id={`${id}-m-${m}`} maskUnits="userSpaceOnUse" x={g0} y={g1} width={gs} height={gs}>
               <rect x={g0} y={g1} width={gs} height={gs} fill="#fff" />
-              <g fill="#000" stroke="#000" strokeWidth={gap * 2} strokeLinejoin="round">
+              <g fill="#000" stroke="#000" strokeWidth={gap * 2} strokeLinejoin="round" style={MASK_BLACK}>
                 {on.map((c) => (c === "bell" && !hasBell ? null : <use key={c} href={cutHref(c, m)} />))}
               </g>
             </mask>
@@ -398,17 +380,35 @@ export function RigFigure({
         })}
         {/* Rim light: each ink shape minus itself shifted, leaving a sliver on the lit edge. */}
         <mask id={`${id}-m-rim`} maskUnits="userSpaceOnUse" x={g0} y={g1} width={gs} height={gs}>
-          <g fill="#fff">
+          <g fill="#fff" style={MASK_WHITE}>
             {INK.map((l) => (
               <use key={l} href={layerHref[l]} />
             ))}
           </g>
-          <g fill="#000" className={s.rimShift}>
+          <g fill="#000" className={s.rimShift} style={MASK_BLACK}>
             {INK.map((l) => (
               <use key={l} href={layerHref[l]} />
             ))}
           </g>
         </mask>
+        {/* Core shadow: the same trick from the other side, a soft band on the edge turned from the light. */}
+        <mask id={`${id}-m-core`} maskUnits="userSpaceOnUse" x={g0} y={g1} width={gs} height={gs}>
+          <g fill="#fff" style={MASK_WHITE}>
+            {INK.map((l) => (
+              <use key={l} href={layerHref[l]} />
+            ))}
+          </g>
+          <g fill="#000" transform={`translate(${(vs / 110).toFixed(2)} ${(-vs / 150).toFixed(2)})`} style={MASK_BLACK}>
+            {INK.map((l) => (
+              <use key={l} href={layerHref[l]} />
+            ))}
+          </g>
+        </mask>
+        <linearGradient id={`${id}-ink`} gradientUnits="userSpaceOnUse" x1={vx + vs * 0.7} y1={vy} x2={vx + vs * 0.35} y2={vy + vs}>
+          <stop offset="0" className={s.inkLit} />
+          <stop offset=".5" className={s.inkMid} />
+          <stop offset="1" className={s.inkCore} />
+        </linearGradient>
       </defs>
 
       {!bare ? (
@@ -437,26 +437,7 @@ export function RigFigure({
           ))}
         </g>
       ) : null}
-      {trace0 ? (
-        <g className={s.trace}>
-          <path ref={(el) => void (refs.current.glow = el)} d={trace0.glow} className={s.traceGlow} strokeWidth={trace0.glowWidth} filter={`url(#${filt})`} suppressHydrationWarning />
-          {trace0.tail.map((t, i) => (
-            <path
-              key={i}
-              ref={(el) => void (tailRefs.current[i] = el)}
-              d={t.d}
-              className={s.traceTail}
-              strokeWidth={t.w.toFixed(2)}
-              strokeOpacity={t.o.toFixed(3)}
-              strokeLinecap={i === TAIL_N - 1 ? "round" : "butt"}
-              suppressHydrationWarning
-            />
-          ))}
-          {trace0.head ? (
-            <circle ref={(el) => void (refs.current.halo = el)} cx={trace0.head[0]} cy={trace0.head[1]} r={traceW * 5} className={s.traceHalo} filter={`url(#${filt})`} suppressHydrationWarning />
-          ) : null}
-        </g>
-      ) : null}
+      {motionD ? <path d={motionD} className={s.motion} strokeWidth={traceW * 0.62} strokeDasharray={`${(traceW * 1.6).toFixed(2)} ${(traceW * 2.2).toFixed(2)}`} /> : null}
       {!bare && move.extra === "breath" ? (
         <g ref={(el) => void (refs.current.breath = el)} transform={breathT(geo0)} className={s.breath} suppressHydrationWarning>
           <circle r={14} className={s.breathOuter} />
@@ -466,6 +447,13 @@ export function RigFigure({
 
       {ORDERS[order].map(layer)}
 
+      {fine ? (
+        <g mask={`url(#${id}-m-core)`} className={s.core}>
+          {INK.map((l) => (
+            <use key={l} href={layerHref[l]} mask={`url(#${id}-m-${l})`} />
+          ))}
+        </g>
+      ) : null}
       {fine ? (
         <g mask={`url(#${id}-m-rim)`} className={s.rim}>
           {INK.map((l) => (

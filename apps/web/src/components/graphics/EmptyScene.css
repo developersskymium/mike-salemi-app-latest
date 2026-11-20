@@ -1,49 +1,13 @@
-/* Empty-state worlds (Trace). Night exposure in dark, snow contours in light; objects are matte
-   (night: near-black with a rim of light; snow: film-white drawn in ink). Hooks: --gfx-night*,
-   --gfx-snow-ground, --gfx-lines, --gfx-trace*, --gfx-ember, --gfx-object, --gfx-object-line. */
-.gfx-empty-scene-scene {
-  --es-obj: var(--gfx-object, var(--g-film));
-  --es-line: var(--gfx-object-line, color-mix(in srgb, var(--g-figure) 70%, transparent));
-  --es-mtn: var(--g-snow-ground);
-  --es-mtn-line: var(--g-lines);
-  --es-port: var(--g-lines);
-}
-:where([data-theme="dark"]) .gfx-empty-scene-scene {
-  --es-obj: var(--gfx-object-dark, #03060B);
-  --es-line: var(--gfx-object-line-dark, rgba(160, 210, 240, .45));
-  --es-mtn: var(--g-night-lo);
-  --es-mtn-line: rgba(160, 210, 240, .25);
-  --es-port: rgba(150, 200, 235, .14);
-}
-@media (prefers-color-scheme: dark) {
-  :where([data-theme="system"]) .gfx-empty-scene-scene {
-    --es-obj: var(--gfx-object-dark, #03060B);
-    --es-line: var(--gfx-object-line-dark, rgba(160, 210, 240, .45));
-    --es-mtn: var(--g-night-lo);
-    --es-mtn-line: rgba(160, 210, 240, .25);
-    --es-port: rgba(150, 200, 235, .14);
-  }
-}
-.gfx-empty-scene-mtn { fill: var(--es-mtn); }
-.gfx-empty-scene-mtnLine { fill: none; stroke: var(--es-mtn-line); stroke-width: 1; stroke-linejoin: round; }
-.gfx-empty-scene-ground { fill: var(--es-mtn); }
-.gfx-empty-scene-portRim { fill: none; stroke: var(--es-port); stroke-width: 1; }
-.gfx-empty-scene-obj { fill: var(--es-obj); stroke: var(--es-line); stroke-width: 1.1; stroke-linejoin: round; }
-.gfx-empty-scene-mat { fill: var(--es-obj); stroke: var(--es-line); stroke-width: 1; stroke-linejoin: round; }
-.gfx-empty-scene-chalk { fill: var(--gfx-chalk, #F4F7F9); stroke: var(--es-line); stroke-width: .8; }
-.gfx-empty-scene-lake { fill: var(--g-trace); opacity: .14; }
-.gfx-empty-scene-reflection { opacity: .45; }
-.gfx-empty-scene-smoke { fill: none; stroke: var(--es-line); stroke-width: 1.6; stroke-linecap: round; }
-.gfx-empty-scene-log { fill: none; stroke: var(--es-line); stroke-width: 5; stroke-linecap: round; }
-.gfx-empty-scene-emberA { stop-color: var(--g-ember); stop-opacity: .55; }
-.gfx-empty-scene-emberB { stop-color: var(--g-ember); stop-opacity: 0; }
-.gfx-empty-scene-ember { fill: var(--g-ember); }
-.gfx-empty-scene-emberHot { fill: var(--gfx-ember-hot, #FFE9C7); }
+/* Empty-state vignettes: an arched window onto the world, one object at its sill. */
+.gfx-empty-scene-scene { overflow: visible; }
+.gfx-empty-scene-sill { fill: var(--w-ground-lo); opacity: .55; }
+.gfx-empty-scene-rim { fill: none; stroke: var(--w-paper); stroke-width: 3; stroke-opacity: .9; }
+:where([data-theme="dark"]) .gfx-empty-scene-rim { stroke-opacity: .12; }
+@media (prefers-color-scheme: dark) { :where([data-theme="system"]) .gfx-empty-scene-rim { stroke-opacity: .12; } }
 
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-empty-scene-animated .gfx-empty-scene-world { animation: gfx-empty-scene-expose 900ms var(--g-ease) both; }
-  .gfx-empty-scene-animated .gfx-empty-scene-layer2 { animation: gfx-empty-scene-rise 900ms var(--g-ease) 120ms both; }
-  .gfx-empty-scene-animated .gfx-empty-scene-layer3 { animation: gfx-empty-scene-rise 900ms var(--g-spring) 240ms both; }
+  .gfx-empty-scene-animated .gfx-empty-scene-world { animation: gfx-empty-rise .7s cubic-bezier(.22, .8, .2, 1) both; }
+  .gfx-empty-scene-animated .gfx-empty-scene-front { animation: gfx-empty-settle .6s cubic-bezier(.34, 1.56, .64, 1) .25s both; transform-origin: 120px 140px; }
 }
-@keyframes gfx-empty-scene-expose { from { opacity: 0; } to { opacity: 1; } }
-@keyframes gfx-empty-scene-rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes gfx-empty-rise { from { opacity: 0; transform: translateY(6px); } }
+@keyframes gfx-empty-settle { from { opacity: 0; transform: translateY(8px) scale(.96); } }

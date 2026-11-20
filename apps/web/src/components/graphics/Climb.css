@@ -1,0 +1,218 @@
+/* The Climb. Art in SVG (scales), markers and labels in HTML (stay crisp). */
+.gfx-climb-climb {
+  --c-ember: var(--g-ember);
+  --c-ink: var(--gfx-climb-ink, #14202F);
+  --c-muted: var(--gfx-climb-muted, #5C6A7C);
+  --c-card: var(--gfx-climb-card, #FFFFFF);
+  --c-line: var(--gfx-climb-line, #C9C2B6);
+  --c-halo: var(--w-label-halo);
+  --c-trail: rgba(255, 250, 242, .55);
+  display: block;
+  width: 100%;
+  container-type: inline-size;
+  border-radius: inherit;
+  font-family: var(--font-sans, Inter, system-ui, sans-serif);
+}
+:where([data-theme="dark"]) .gfx-climb-climb,
+.gfx-climb-climb[data-time="dusk"],
+.gfx-climb-climb[data-time="night"] {
+  --c-ink: var(--gfx-climb-ink-dark, #F6F1E9);
+  --c-muted: var(--gfx-climb-muted-dark, #B7AFA6);
+  --c-card: var(--gfx-climb-card-dark, #1E2330);
+  --c-line: var(--gfx-climb-line-dark, #5A5866);
+  --c-trail: rgba(255, 220, 190, .22);
+}
+@media (prefers-color-scheme: dark) {
+  :where([data-theme="system"]) .gfx-climb-climb {
+    --c-ink: var(--gfx-climb-ink-dark, #F6F1E9);
+    --c-muted: var(--gfx-climb-muted-dark, #B7AFA6);
+    --c-card: var(--gfx-climb-card-dark, #1E2330);
+    --c-line: var(--gfx-climb-line-dark, #5A5866);
+    --c-trail: rgba(255, 220, 190, .22);
+  }
+}
+.gfx-climb-climb[data-time="day"], .gfx-climb-climb[data-time="dawn"] {
+  --c-ink: #14202F; --c-muted: #5C6A7C; --c-card: #FFFFFF; --c-line: #C9C2B6; --c-trail: rgba(255, 250, 242, .55);
+}
+.gfx-climb-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--climb-ar);
+  overflow: hidden;
+  border-radius: inherit;
+  isolation: isolate;
+}
+.gfx-climb-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.gfx-climb-camp, .gfx-climb-you { top: var(--tc); }
+
+/* Trail strokes keep their screen width at any size. */
+.gfx-climb-bed, .gfx-climb-ahead, .gfx-climb-done, .gfx-climb-casing, .gfx-climb-shadow {
+  fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+}
+.gfx-climb-bed { stroke: var(--c-trail); stroke-width: 7px; }
+.gfx-climb-ahead { stroke: var(--c-ember); stroke-width: 3.2px; stroke-dasharray: 0 8.5px; opacity: .85; }
+.gfx-climb-casing { stroke: var(--c-card); stroke-width: 8.5px; }
+.gfx-climb-done { stroke: var(--c-ember); stroke-width: 4.6px; }
+.gfx-climb-shadow { stroke: #000; stroke-opacity: .22; stroke-width: 8px; transform: translateY(2px); }
+
+.gfx-climb-tentBody { fill: var(--g-canvas); }
+.gfx-climb-tentShade { fill: var(--g-canvas-lo); }
+.gfx-climb-tentDoor { fill: var(--w-r4); }
+.gfx-climb-tentLit .gfx-climb-tentBody { fill: #FFB27A; }
+.gfx-climb-tentLit .gfx-climb-tentShade { fill: var(--g-ember); }
+.gfx-climb-tentLit .gfx-climb-tentDoor { fill: #FFE7B8; }
+
+/* Camps. */
+.gfx-climb-camp {
+  position: absolute;
+  width: 0; height: 0;
+  z-index: 2;
+}
+.gfx-climb-dot {
+  position: absolute;
+  left: -11px; top: -11px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: var(--c-card);
+  border: 2.5px solid var(--c-line);
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 6px rgba(10, 18, 30, .22);
+  display: grid; place-items: center;
+}
+.gfx-climb-dot::after {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c-line);
+}
+.gfx-climb-campDone .gfx-climb-dot {
+  background: radial-gradient(circle at 35% 30%, var(--g-ember-hi), var(--c-ember) 60%, var(--g-ember-lo));
+  border: 2.5px solid var(--c-card);
+}
+.gfx-climb-campDone .gfx-climb-dot::after { display: none; }
+.gfx-climb-dot svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.gfx-climb-label {
+  position: absolute;
+  left: 0; top: 16px;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  white-space: nowrap;
+  line-height: 1.2;
+  text-shadow: 0 0 3px var(--c-halo), 0 0 8px var(--c-halo), 0 0 1px var(--c-halo);
+  pointer-events: none;
+}
+.gfx-climb-label b { font: 700 13px/1.2 var(--font-display, var(--font-sans, Inter, system-ui)); color: var(--c-ink); letter-spacing: -.01em; }
+.gfx-climb-label small { font-size: 11.5px; color: var(--c-muted); font-weight: 500; }
+.gfx-climb-campNow .gfx-climb-label b { color: var(--c-ember); }
+.gfx-climb-camp:not(.gfx-climb-campDone):not(.gfx-climb-summit) .gfx-climb-label b { color: var(--c-muted); }
+.gfx-climb-above .gfx-climb-label { top: auto; bottom: 15px; }
+.gfx-climb-first .gfx-climb-label { transform: translateX(-28%); }
+.gfx-climb-first.gfx-climb-nearYou .gfx-climb-label { display: none; }
+
+/* Summit: ring, flag, label to the right. */
+.gfx-climb-summit .gfx-climb-dot { left: -7px; top: -7px; width: 14px; height: 14px; border-width: 2.5px; border-color: var(--c-ink); }
+.gfx-climb-summit .gfx-climb-dot::after { display: none; }
+.gfx-climb-summit.gfx-climb-campDone .gfx-climb-dot { border-color: var(--c-card); }
+.gfx-climb-summit .gfx-climb-label { left: 14px; top: -30px; transform: none; justify-items: start; }
+.gfx-climb-flag { position: absolute; left: -5px; top: -36px; width: 28px; height: 34px; overflow: visible; }
+.gfx-climb-pole { stroke: var(--c-ink); stroke-width: 2.2; stroke-linecap: round; fill: none; }
+.gfx-climb-cloth { fill: var(--c-ember); }
+.gfx-climb-clothShade { fill: var(--g-ember-lo); opacity: .35; }
+
+/* You. */
+.gfx-climb-you { position: absolute; width: 0; height: 0; z-index: 3; }
+.gfx-climb-stem {
+  position: absolute; left: -1px; top: -16px; width: 2px; height: 16px;
+  background: linear-gradient(var(--c-ember), color-mix(in srgb, var(--c-ember) 30%, transparent));
+}
+.gfx-climb-stem::after {
+  content: ""; position: absolute; left: -3px; bottom: -4px; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-ember); box-shadow: 0 0 0 2.5px var(--c-card);
+}
+.gfx-climb-avatar {
+  position: absolute; left: -19px; top: -54px; width: 38px; height: 38px; border-radius: 50%;
+  box-sizing: border-box; overflow: hidden;
+  background: linear-gradient(160deg, var(--g-ember-hi), var(--c-ember) 55%, var(--g-ember-lo));
+  border: 3px solid var(--c-card);
+  box-shadow: 0 0 0 2px var(--c-ember), 0 6px 14px rgba(10, 18, 30, .3);
+  display: grid; place-items: center;
+  color: #fff; font: 700 15px/1 var(--font-display, var(--font-sans, Inter, system-ui));
+}
+.gfx-climb-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.gfx-climb-avatar svg { width: 22px; height: 22px; fill: #fff; stroke: #fff; stroke-width: 0; }
+.gfx-climb-avatar svg path { fill: #fff; }
+.gfx-climb-pill {
+  position: absolute; left: 0; top: -84px; transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 4px 10px 5px;
+  border-radius: 999px;
+  background: var(--c-ink);
+  color: var(--c-card);
+  font: 700 12.5px/1.2 var(--font-display, var(--font-sans, Inter, system-ui));
+  letter-spacing: -.005em;
+  box-shadow: 0 4px 12px rgba(10, 18, 30, .22);
+}
+.gfx-climb-pill::after {
+  content: ""; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; margin-left: -4px;
+  background: inherit; transform: rotate(45deg); border-radius: 1.5px;
+}
+
+.gfx-climb-youLeft .gfx-climb-pill { transform: translateX(-22%); }
+.gfx-climb-youLeft .gfx-climb-pill::after { left: 22%; }
+.gfx-climb-youRight .gfx-climb-pill { transform: translateX(-78%); }
+.gfx-climb-youRight .gfx-climb-pill::after { left: 78%; }
+/* On the summit: the avatar stands beside the flag, no pill. */
+.gfx-climb-youSummit .gfx-climb-pill, .gfx-climb-youSummit .gfx-climb-stem { display: none; }
+.gfx-climb-youSummit .gfx-climb-avatar { left: -58px; top: -10px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-climb-animated .gfx-climb-done,
+  .gfx-climb-animated .gfx-climb-casing,
+  .gfx-climb-animated .gfx-climb-shadow {
+    stroke-dasharray: 3000px;
+    stroke-dashoffset: 3000px;
+    animation: gfx-climb-draw 1.6s cubic-bezier(.22, .8, .2, 1) .15s forwards;
+  }
+  .gfx-climb-animated .gfx-climb-you { animation: gfx-climb-pop .6s cubic-bezier(.34, 1.56, .64, 1) 1.1s both; }
+  .gfx-climb-animated .gfx-climb-avatar::after {
+    content: ""; position: absolute; inset: -3px; border-radius: 50%;
+    border: 2px solid var(--c-ember);
+    animation: gfx-climb-breathe 4s ease-in-out 1.8s infinite;
+  }
+  .gfx-climb-animated .gfx-climb-avatar { overflow: visible; }
+  .gfx-climb-animated .gfx-climb-avatar img { border-radius: 50%; }
+  .gfx-climb-animated .gfx-climb-cloth { transform-origin: 6px 9px; animation: gfx-climb-wave 3.2s ease-in-out infinite alternate; }
+}
+@keyframes gfx-climb-draw { to { stroke-dashoffset: 0; } }
+@keyframes gfx-climb-pop { from { opacity: 0; transform: translateY(8px) scale(.85); } }
+@keyframes gfx-climb-breathe { 0%, 100% { transform: scale(1); opacity: .7; } 50% { transform: scale(1.32); opacity: 0; } }
+@keyframes gfx-climb-wave { from { transform: skewY(0deg) scaleX(1); } to { transform: skewY(-4deg) scaleX(.94); } }
+
+/* Phone widths: compact grows back to the full sky so the marker has room; names only, smaller marks. */
+@container (max-width: 560px) {
+  .gfx-climb-frame { aspect-ratio: var(--climb-ar-full); }
+  .gfx-climb-camp, .gfx-climb-you { top: var(--tf); }
+  .gfx-climb-label small { display: none; }
+  .gfx-climb-label b { font-size: 11px; }
+  .gfx-climb-label, .gfx-climb-above .gfx-climb-label { top: auto; bottom: 11px; }
+  .gfx-climb-dot { left: -8px; top: -8px; width: 16px; height: 16px; border-width: 2px; }
+  .gfx-climb-dot svg { width: 11px; height: 11px; }
+  .gfx-climb-dot::after { width: 4px; height: 4px; }
+  .gfx-climb-summit .gfx-climb-label { top: -9px; left: 12px; }
+  .gfx-climb-avatar { left: -14px; top: -42px; width: 28px; height: 28px; border-width: 2px; font-size: 12px; }
+  .gfx-climb-avatar svg { width: 16px; height: 16px; }
+  .gfx-climb-stem { top: -14px; height: 14px; }
+  .gfx-climb-pill { top: -66px; font-size: 11px; padding: 3px 8px 4px; }
+  .gfx-climb-youSummit .gfx-climb-avatar { left: -42px; top: -6px; }
+  .gfx-climb-flag { transform: scale(.8); transform-origin: 5px 34px; }
+}
+@container (max-width: 560px) {
+  .gfx-climb-nearYou .gfx-climb-label { display: none; }
+  .gfx-climb-camp:not(.gfx-climb-campNow):not(.gfx-climb-summit):not(.gfx-climb-first) .gfx-climb-label { display: none; }
+}
+/* Very narrow: the pill sits beside the avatar instead of above it. */
+@container (max-width: 320px) {
+  .gfx-climb-pill { top: -40px; left: 16px; transform: none; }
+  .gfx-climb-pill::after { display: none; }
+  .gfx-climb-youRight .gfx-climb-pill, .gfx-climb-youLeft .gfx-climb-pill { transform: none; }
+  .gfx-climb-youRight .gfx-climb-pill { left: auto; right: 16px; }
+}
