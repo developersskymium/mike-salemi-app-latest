@@ -119,7 +119,21 @@
     }
    ],
    "access": "locked",
-   "position": 0
+   "position": 0,
+   "highlights": [
+    "Live, in person",
+    "Small groups",
+    "Movement, ceremony, recovery"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": null,
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 0,
+   "lessonCount": 0
   },
   {
    "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
@@ -129,7 +143,7 @@
    "tagline": "Nine weeks to a kettlebell you can trust, at two levels",
    "audience": null,
    "summary": "A 9-week personalised, multi-level kettlebell and wellness program: morning routines, bodyweight warm-ups, follow-along workouts and personalised stretching.",
-   "formatLabel": "61 days · 4 phases per level",
+   "formatLabel": "61 days \u00b7 4 phases per level",
    "durationLabel": "9 weeks per level",
    "level": "all",
    "catalogGroup": "training",
@@ -144,7 +158,7 @@
     {
      "id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
      "key": "beginner",
-     "name": "Level I · Beginner",
+     "name": "Level I \u00b7 Beginner",
      "shortName": "Level I",
      "kind": "level",
      "position": 1
@@ -152,7 +166,7 @@
     {
      "id": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
      "key": "intermediate",
-     "name": "Level II · Intermediate",
+     "name": "Level II \u00b7 Intermediate",
      "shortName": "Level II",
      "kind": "level",
      "position": 2
@@ -171,7 +185,21 @@
     }
    ],
    "access": "included",
-   "position": 0
+   "position": 0,
+   "highlights": [
+    "Two nine-week levels: Beginner and Intermediate",
+    "Follow-along workouts with a daily readiness check",
+    "Morning routine, warm-up and personalised stretching every day"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": null,
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 8,
+   "lessonCount": 134
   },
   {
    "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
@@ -233,7 +261,21 @@
     }
    ],
    "access": "included",
-   "position": 1
+   "position": 1,
+   "highlights": [
+    "Movement-by-movement instruction",
+    "Pre-checks and common errors",
+    "Expert talks and program design"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 52,
+   "lessonCount": 303
   },
   {
    "id": "5944a03d-94be-5595-b9da-b212edfdc892",
@@ -262,7 +304,17 @@
     }
    ],
    "access": "included",
-   "position": 3
+   "position": 3,
+   "highlights": [],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 28,
+   "lessonCount": 135
   },
   {
    "id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
@@ -291,7 +343,17 @@
     }
    ],
    "access": "locked",
-   "position": 4
+   "position": 4,
+   "highlights": [],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 10,
+   "lessonCount": 47
   },
   {
    "id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
@@ -320,7 +382,21 @@
     }
    ],
    "access": "included",
-   "position": 5
+   "position": 5,
+   "highlights": [
+    "Working-in foundations",
+    "Athletic performance discussions",
+    "Energy Push demonstration"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 4,
+   "lessonCount": 4
   },
   {
    "id": "414b4325-9841-525f-960d-e8438e5ee94b",
@@ -349,7 +425,17 @@
     }
    ],
    "access": "locked",
-   "position": 6
+   "position": 6,
+   "highlights": [],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 2,
+   "lessonCount": 8
   },
   {
    "id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
@@ -375,7 +461,17 @@
     }
    ],
    "access": "free",
-   "position": 7
+   "position": 7,
+   "highlights": [],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 6,
+   "lessonCount": 6
   },
   {
    "id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
@@ -404,7 +500,21 @@
     }
    ],
    "access": "free",
-   "position": 8
+   "position": 8,
+   "highlights": [
+    "Seven setup videos",
+    "Downloadable ebook",
+    "Checklist and two-week program"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 6,
+   "lessonCount": 12
   },
   {
    "id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
@@ -433,7 +543,21 @@
     }
    ],
    "access": "free",
-   "position": 9
+   "position": 9,
+   "highlights": [
+    "Six instructional lessons",
+    "Written key points for each video",
+    "Swing, snatch, press and get-up techniques"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": "Mike Salemi",
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 2,
+   "lessonCount": 8
   },
   {
    "id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
@@ -442,7 +566,7 @@
    "type": "coaching",
    "tagline": "Your program, built around you",
    "audience": null,
-   "summary": "Direct coaching for people who want the program adapted to their body, schedule and goals — with feedback on technique and accountability week to week.",
+   "summary": "Direct coaching for people who want the program adapted to their body, schedule and goals \u2014 with feedback on technique and accountability week to week.",
    "formatLabel": "Live video sessions",
    "durationLabel": "Weekly or fortnightly",
    "level": null,
@@ -453,7 +577,21 @@
    "paths": [],
    "media": [],
    "access": "locked",
-   "position": 41
+   "position": 41,
+   "highlights": [
+    "Personal programming",
+    "Technique review",
+    "Weekly accountability"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": null,
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 0,
+   "lessonCount": 0
   },
   {
    "id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
@@ -468,12 +606,26 @@
    "level": null,
    "catalogGroup": "experiences",
    "isFree": false,
-   "draftNote": "Concept preview — format and price ($4,500–$5,000) awaiting Mike",
+   "draftNote": "Concept preview \u2014 format and price ($4,500\u2013$5,000) awaiting Mike",
    "modes": [],
    "paths": [],
    "media": [],
    "access": "locked",
-   "position": 42
+   "position": 42,
+   "highlights": [
+    "Mental focus and energy",
+    "Antifragility under pressure",
+    "Personalized direct support"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": null,
+   "vertical": null,
+   "featured": false,
+   "priceLabel": "$4,500\u2013$5,000 Draft",
+   "sectionCount": 0,
+   "lessonCount": 0
   },
   {
    "id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
@@ -484,16 +636,30 @@
    "audience": null,
    "summary": "A stakeholder concept for balancing grounded awareness with decisive action.",
    "formatLabel": "Four-week group challenge",
-   "durationLabel": "Jan 11 – Feb 7, 2027 (draft)",
+   "durationLabel": "Jan 11 \u2013 Feb 7, 2027 (draft)",
    "level": null,
    "catalogGroup": "experiences",
    "isFree": false,
-   "draftNote": "Concept — format, dates and pricing awaiting Mike",
+   "draftNote": "Concept \u2014 format, dates and pricing awaiting Mike",
    "modes": [],
    "paths": [],
    "media": [],
    "access": "locked",
-   "position": 44
+   "position": 44,
+   "highlights": [
+    "Strength and stillness",
+    "Guided group rhythm",
+    "Identity-based practice"
+   ],
+   "badge": null,
+   "offer": null,
+   "ctaLabel": null,
+   "instructor": null,
+   "vertical": null,
+   "featured": false,
+   "priceLabel": null,
+   "sectionCount": 0,
+   "lessonCount": 0
   }
  ],
  "enrollments": [
@@ -504,9 +670,9 @@
    "program_name": "Kettlebell Lifestyle",
    "program_type": "day_program",
    "path_id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
-   "path_name": "Level I · Beginner",
+   "path_name": "Level I \u00b7 Beginner",
    "mode": "immersion",
-   "pace": "free",
+   "pace": "scheduled",
    "run_number": 1,
    "lessons_total": 67,
    "lessons_done": 27,
@@ -517,6 +683,69 @@
    "current_section_title": "Phase 2",
    "last_active_at": "2026-11-20T04:45:29.354933+00:00",
    "completed_at": null
+  },
+  {
+   "enrollment_id": "d174bba4-a486-42a6-ad15-c8cb2ab519b2",
+   "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "program_type": "course",
+   "path_id": null,
+   "path_name": null,
+   "mode": "self_guided",
+   "pace": "free",
+   "run_number": 1,
+   "lessons_total": 303,
+   "lessons_done": 36,
+   "steps_total": 303,
+   "steps_done": 36,
+   "current_lesson_id": "55109ea6-ef80-4af8-923a-51ca2e536f34",
+   "current_lesson_title": "Introduction",
+   "current_section_title": "Variations",
+   "last_active_at": "2026-11-18T18:12:00+00:00",
+   "completed_at": null
+  },
+  {
+   "enrollment_id": "08b91bcf-1937-4dd3-be26-d437b89d07aa",
+   "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "program_type": "course",
+   "path_id": null,
+   "path_name": null,
+   "mode": "self_guided",
+   "pace": "free",
+   "run_number": 1,
+   "lessons_total": 135,
+   "lessons_done": 1,
+   "steps_total": 135,
+   "steps_done": 1,
+   "current_lesson_id": "66c41991-4d37-51d9-ba76-aa699712d451",
+   "current_lesson_title": "Philosophy & Fundamentals",
+   "current_section_title": "Getting Started",
+   "last_active_at": "2026-11-15T07:48:37+00:00",
+   "completed_at": null
+  },
+  {
+   "enrollment_id": "08cd5429-3f30-4868-82d2-3c16a3e76248",
+   "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+   "program_slug": "working-in",
+   "program_name": "Working-In with Paul Chek & Mike Salemi",
+   "program_type": "course",
+   "path_id": null,
+   "path_name": null,
+   "mode": "self_guided",
+   "pace": "free",
+   "run_number": 1,
+   "lessons_total": 4,
+   "lessons_done": 4,
+   "steps_total": 4,
+   "steps_done": 4,
+   "current_lesson_id": null,
+   "current_lesson_title": null,
+   "current_section_title": null,
+   "last_active_at": "2026-11-11T07:48:37+00:00",
+   "completed_at": "2026-11-11T07:48:37+00:00"
   }
  ],
  "tools": [
@@ -540,5 +769,10 @@
    "name": "Kettlebell Roadmap",
    "tagline": "The four fundamental lifts, and your next step"
   }
- ]
+ ],
+ "copy": {
+  "title": null,
+  "intro": null,
+  "kblCopy": null
+ }
 }

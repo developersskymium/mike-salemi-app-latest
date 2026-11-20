@@ -1,7 +1,7 @@
 import "server-only";
 import {
-  getCatalog, getForm, getProgram, libraryTags, libraryVideos, listCollections, listPlans, listTools, myEnrollments, myToolResults, quote,
-  type CatalogProgram, type DB, type LibraryVideo, type PricingPlan, type Quote,
+  continueWatching, getCatalog, getForm, getProgram, libraryIndex, libraryTags, libraryVideos, listCollections, listPlans, listTools, myEnrollments, myToolResults, quote,
+  type CatalogProgram, type ContinueWatching, type DB, type LibraryIndex, type LibraryVideo, type PricingPlan, type Quote,
 } from "@ms/api";
 import type { ReadinessForm } from "@ms/core";
 import { fixture, MOCK, mockable } from "@/lib/mock";
@@ -15,7 +15,9 @@ export type Enrollment = Awaited<ReturnType<typeof myEnrollments>>[number];
 export type ToolCard = { id: string; name: string; tagline: string | null };
 export type Facet = { slug: string; name: string };
 
-export type ProgramsTab = { catalog: CatalogProgram[]; enrollments: Enrollment[]; tools: ToolCard[] };
+/** Admin-editable catalog copy (site_settings.programs_page); null fields fall back to the legacy defaults. */
+export type ProgramsCopy = { title: string | null; intro: string | null; kblCopy: string | null };
+export type ProgramsTab = { catalog: CatalogProgram[]; enrollments: Enrollment[]; tools: ToolCard[]; copy?: ProgramsCopy };
 
 export type LibraryData = {
   videos: LibraryVideo[];
@@ -31,7 +33,12 @@ export type ToolPage = {
   tool: { id: string; name: string; tagline: string | null; position: number; status: string; config: Record<string, unknown> };
   form: ReadinessForm | null;
   last: { created_at: string; result: Record<string, unknown> } | null;
+  /** Follow-along library videos for the result (by topic). */
+  followAlong?: LibraryVideo[];
 };
+
+export type RecentResult = { id: string; tool_id: string; created_at: string; title: string | null; summary: string | null };
+export type ToolsIndex = { tools: ToolCard[]; recent: RecentResult[] };
 
 export type OutlineSection = { id: string; title: string; subtitle: string | null; lessonCount: number; lessons: string[] };
 export type SalesProgram = NonNullable<Awaited<ReturnType<typeof getProgram>>>;
@@ -40,9 +47,22 @@ export type Explore = { catalog: CatalogProgram[]; plans: PricingPlan[] };
 
 /* --------------------------------------------------------------- programs */
 
+const txt = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : null);
+
 export const loadProgramsTab = mockable("discover-programs", async (sb: DB): Promise<ProgramsTab> => {
-  const [catalog, enrollments, tools] = await Promise.all([getCatalog(sb, { listedOnly: true }), myEnrollments(sb), listTools(sb)]);
-  return { catalog, enrollments, tools: tools.map((t) => ({ id: t.id, name: t.name, tagline: t.tagline })) };
+  const [catalog, enrollments, tools, settings] = await Promise.all([
+    getCatalog(sb, { listedOnly: true }),
+    myEnrollments(sb),
+    listTools(sb),
+    sb.from("site_settings").select("value").eq("key", "programs_page").maybeSingle(),
+  ]);
+  const v = (settings.data?.value ?? {}) as Record<string, unknown>;
+  return {
+    catalog,
+    enrollments,
+    tools: tools.map((t) => ({ id: t.id, name: t.name, tagline: t.tagline })),
+    copy: { title: txt(v.title), intro: txt(v.intro), kblCopy: txt(v.kblCopy) },
+  };
 });
 
 /* ---------------------------------------------------------------- library */
@@ -75,6 +95,32 @@ export async function loadLibrary(sb: DB, userId: string, q: LibraryQueryInput):
   return { ...data, videos, total: q.q || q.tags?.length || q.program || q.saved ? videos.length : data.total };
 }
 
+/* Library page (legacy layout): the whole index once, filtered, cascaded and sorted on the client. */
+export type LibraryPage = {
+  index: LibraryIndex;
+  total: number;
+  /** Level path short names (KBL lessons are labelled "Level I · Day 3"). */
+  paths: Record<string, string>;
+  continue: ContinueWatching[];
+  collections: { id: string; name: string; count: number }[];
+};
+
+export const loadLibraryPage = mockable("discover-library-index", async (sb: DB, userId: string): Promise<LibraryPage> => {
+  const [index, cont, collections, paths] = await Promise.all([
+    libraryIndex(sb),
+    continueWatching(sb, 12).catch(() => [] as ContinueWatching[]),
+    listCollections(sb, userId),
+    sb.from("program_paths").select("id, name, short_name").eq("kind", "level"),
+  ]);
+  return {
+    index,
+    total: index.videos.length,
+    paths: Object.fromEntries((paths.data ?? []).map((p) => [p.id, p.short_name ?? p.name])),
+    continue: cont,
+    collections,
+  };
+});
+
 const realVideo = async (sb: DB, userId: string, id: string): Promise<VideoPage> => {
   const { data: row } = await sb.from("videos").select("id, title").eq("id", id).maybeSingle();
   const collections = await listCollections(sb, userId);
@@ -90,10 +136,30 @@ export const loadVideo = mockable("discover-video", realVideo);
 
 /* ------------------------------------------------------------------ tools */
 
-export const loadToolsIndex = mockable("discover-programs", async (sb: DB): Promise<Pick<ProgramsTab, "tools">> => {
-  const tools = await listTools(sb);
-  return { tools: tools.map((t) => ({ id: t.id, name: t.name, tagline: t.tagline })) };
+export const loadToolsIndex = mockable("discover-tools", async (sb: DB, userId: string): Promise<ToolsIndex> => {
+  const [tools, results] = await Promise.all([listTools(sb), myToolResults(sb, userId, undefined, 6)]);
+  return {
+    tools: tools.map((t) => ({ id: t.id, name: t.name, tagline: t.tagline })),
+    recent: results.map((r) => {
+      const res = (r.result ?? {}) as Record<string, unknown>;
+      return {
+        id: r.id,
+        tool_id: r.tool_id,
+        created_at: r.created_at,
+        title: typeof res.title === "string" ? res.title : typeof res.headline === "string" ? res.headline : null,
+        summary: typeof res.summary === "string" ? res.summary : null,
+      };
+    }),
+  };
 });
+
+/** Topic of the follow-along videos shown under each tool's result. */
+const FOLLOW: Record<string, string> = {
+  "stretch-test": "topic:stretching",
+  "readiness-check": "topic:bodyweight-warm-ups",
+  "kettlebell-selector": "topic:swing",
+  "kettlebell-roadmap": "topic:overviews",
+};
 
 export const TOOL_IDS = ["kettlebell-selector", "stretch-test", "readiness-check", "kettlebell-roadmap"] as const;
 
@@ -102,9 +168,13 @@ async function realTool(sb: DB, userId: string, id: string): Promise<ToolPage | 
   if (!tool) return null;
   const config = (tool.config ?? {}) as Record<string, unknown>;
   const formId = typeof config.form_id === "string" ? config.form_id : null;
-  const [form, results] = await Promise.all([formId ? getForm(sb, formId) : Promise.resolve(null), myToolResults(sb, userId, id, 1)]);
+  const [form, results, follow] = await Promise.all([
+    formId ? getForm(sb, formId) : Promise.resolve(null),
+    myToolResults(sb, userId, id, 1),
+    FOLLOW[id] ? libraryVideos(sb, { tags: [FOLLOW[id]!], limit: 4 }).catch(() => ({ videos: [] as LibraryVideo[] })) : Promise.resolve({ videos: [] as LibraryVideo[] }),
+  ]);
   const last = results[0] ? { created_at: results[0].created_at, result: (results[0].result ?? {}) as Record<string, unknown> } : null;
-  return { tool: { ...tool, config }, form, last };
+  return { tool: { ...tool, config }, form, last, followAlong: follow.videos };
 }
 
 export async function loadTool(sb: DB, userId: string, id: string): Promise<ToolPage | null> {

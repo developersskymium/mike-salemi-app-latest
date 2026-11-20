@@ -7,6 +7,7 @@ import { EmptyScene } from "@/components/graphics";
 import { loadTool } from "@/lib/loaders/discover";
 import { getUser } from "@/lib/supabase/server";
 import "@/components/discover/discover.css";
+import "@/components/discover/tools/tools.css";
 
 const NAMES: Record<string, string> = {
   "kettlebell-selector": "Kettlebell Selector",
@@ -43,6 +44,7 @@ export default async function ToolPage({ params }: { params: Promise<{ tool: str
       tool={page.tool}
       form={page.form}
       last={page.last}
+      followAlong={page.followAlong}
       offer={<OfferSlot placement="tool_result" context={{ tool_id: id }} />}
     />
   );

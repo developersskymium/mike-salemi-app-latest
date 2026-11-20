@@ -1,0 +1,21 @@
+/* W1 horizontal rail (legacy Carousel). Tokens only. */
+.w1-rail { position: relative; }
+.w1-rail-track {
+  display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
+  margin: 0 -16px; padding: 4px 16px 12px; scrollbar-width: none; overscroll-behavior-x: contain;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+}
+.w1-rail-track::-webkit-scrollbar { display: none; }
+.w1-rail-track:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--r-card); }
+.w1-rail[data-end] .w1-rail-track { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px); mask-image: linear-gradient(90deg, transparent 0, #000 16px); }
+.w1-rail-item { flex: none; width: min(var(--w1-item), 80vw); scroll-snap-align: start; }
+.w1-rail-btn { position: absolute; top: calc(50% - 22px); z-index: 2; display: none; }
+.w1-rail-btn[data-side="left"] { left: -18px; }
+.w1-rail-btn[data-side="right"] { right: -18px; }
+.w1-rail-btn[hidden] { display: none !important; }
+@media (min-width: 640px) {
+  .w1-rail-btn { display: block; }
+  .w1-rail-track { margin: 0 -4px; padding: 4px 4px 12px; scroll-padding-inline: 4px; }
+}
+

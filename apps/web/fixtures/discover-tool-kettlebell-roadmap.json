@@ -11,7 +11,7 @@
      "id": "phase-1",
      "title": "Phase 1 - The Foundation",
      "intro": "In this phase, you develop what I call body integrity. Body integrity is the ability to feel where your body is in space and maintain safe positions throughout the exercise. In other words, it's the foundation.",
-     "movements": "- Goblet Squat\n- Deadlift\n- Half Kneeling Overhead Press OR Halo (if mobility doesn’t allow for quality overhead movements)\n- Single Arm Row",
+     "movements": "- Goblet Squat\n- Deadlift\n- Half Kneeling Overhead Press OR Halo (if mobility doesn\u2019t allow for quality overhead movements)\n- Single Arm Row",
      "benchmarks": "- 20 spinal roll ups\n- Glute bridges 30 without feeling it in your back\n- 30 bodyweight squats\n- For the 4 KB movements: 15 reps with a light KB hitting the standards of quality, *reuse the material from KBL + add in quantity, be able to stay nasal breathing during 15-20 min walk/30 squats/easy workout",
      "skills": "- Postural awareness\n- Breathing Bodyweight control\n- Grips Positions Warmups/cool downs\n- Training barefoot",
      "image": "/media/ext/d11n7da8rpqbjy/mikesalemi/29554765_1658532062MwiEbook_Sample_Cover_and_Body_Designs.png",
@@ -29,8 +29,8 @@
     {
      "id": "phase-2",
      "title": "Phase 2 - Adding Complexity",
-     "intro": "In this phase you’ll practice movements that require more precision, coordination, and explosiveness. You’ll set yourself up to safely take advantage of the huge variety of movements that can be performed with a kettlebell.",
-     "movements": "- 2-Hand Swing\n- Standing Overhead Press\n- Single Arm Farmer’s Carry\n- Reverse Lunge in Rack Position",
+     "intro": "In this phase you\u2019ll practice movements that require more precision, coordination, and explosiveness. You\u2019ll set yourself up to safely take advantage of the huge variety of movements that can be performed with a kettlebell.",
+     "movements": "- 2-Hand Swing\n- Standing Overhead Press\n- Single Arm Farmer\u2019s Carry\n- Reverse Lunge in Rack Position",
      "benchmarks": "- 5 sets of 10 swings with 60 sec rest between\n- Overhead press-7-10 reps each arm with moderate weight (for you) 2 sets\n- Farmers carry with proper posture for 30 yards each arm with low to medium (for you) weight, Lunge do it with the quality standards",
      "skills": "- Preparing for repetitive higher speed movements\n- Integrated movement through multiple planes of movement with speed\n- Nasal breathing during loaded movement",
      "image": "/media/ext/d11n7da8rpqbjy/mikesalemi/29566353_1658606192BHeEbook_Sample_Cover_and_Body_Designs_2.png",
@@ -48,7 +48,7 @@
     {
      "id": "phase-3",
      "title": "Phase 3 - Ready for Performance",
-     "intro": "You’re ready to turn up the speed, add more load, and combine movements. The skills and movements in this phase have the components that will transfer to virtually any movement you’d like to learn with the kettlebell.",
+     "intro": "You\u2019re ready to turn up the speed, add more load, and combine movements. The skills and movements in this phase have the components that will transfer to virtually any movement you\u2019d like to learn with the kettlebell.",
      "movements": "- Clean\n- Push Press\n- Loaded Half Turkish Getup\n- Single Arm Swing\n- Walking Overhead Lunge/Overhead Reverse Lunge\n- Row With Reciprocity (or staggered stance)",
      "benchmarks": "- *Nasal breathing should be the standard at this stage\n- 4 sets of 8 reps each arm with 30 sec. rest with moderate weight\n- Clean + push press (or strict press) with moderate weight and quality 3 sets of 5 reps each side, loaded half getup 3-5 reps each side with moderate weight\n- lunges - 10 reps each side",
      "skills": "- Integrating upper and lower body\n- Combining planes and patterns of movement\n- Higher speed\n- Heavier weight\n- Coordination",
@@ -79,7 +79,7 @@
     {
      "id": "phase-4",
      "title": "Phase 4 - Mastery",
-     "intro": "The sky's the limit. Not only are you prepared to push the load and intensity in your workouts, you’ll find that you are able to get a tremendous workout with lighter loads. Athleticism is essentially multiplying the positions your body can safely be in so you can solve movement problems in an instant.",
+     "intro": "The sky's the limit. Not only are you prepared to push the load and intensity in your workouts, you\u2019ll find that you are able to get a tremendous workout with lighter loads. Athleticism is essentially multiplying the positions your body can safely be in so you can solve movement problems in an instant.",
      "movements": "- Snatch (half and full)\n- Loaded Full Turkish Getup\n- Double Bell Work\n- Overhead Squat\n- RMT (rotational movement) exercises",
      "benchmarks": "At this phase, you have developed the skills to use these movements (and many many others) for whatever goal you are working on. You can vary the weight, the rest periods, the repetitions, and more to suit yourself. Once you have this level of mastery, I hope that you have fallen in love with the process. There will always be goals you can set and new movements to learn or combine. Enjoy the process!",
      "skills": "the combo of safely increasing weight + getting more from lighter weights with speed, timing, coordination, balance etc.",
@@ -89,5 +89,279 @@
   }
  },
  "form": null,
- "last": null
+ "last": null,
+ "followAlong": [
+  {
+   "id": "123f168e-cbe6-4671-b7d4-2b62c7c9b00f",
+   "provider": "vimeo",
+   "provider_id": "399522521",
+   "privacy_hash": "022ad2e95b",
+   "title": "90/90 Hip Stretches",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/90_90-Hip-Stretches.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "99cdfe2f-c4fb-43dd-a2b0-a2d1cb694c06",
+   "provider": "vimeo",
+   "provider_id": "398407376",
+   "privacy_hash": "b27ced03e8",
+   "title": "Bicep Stretch",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Bicep-Stretch.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "a5bebc26-6b5b-4b5a-8bf8-4fb73d939474",
+   "provider": "vimeo",
+   "provider_id": "398408872",
+   "privacy_hash": "491a44b21d",
+   "title": "Calf & Soleus Stretches",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Calf-Soleus-Stretches.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "b77e7d57-8b31-4538-91af-ec40e3e04edd",
+   "provider": "vimeo",
+   "provider_id": "398409165",
+   "privacy_hash": "91a1ebfd6d",
+   "title": "Chest Stretch",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Chest-Stretch.png",
+   "level": null,
+   "category": "on-ramp",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "on-ramp",
+     "name": "On Ramp"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "stretching",
+     "name": "Stretching"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  }
+ ]
 }

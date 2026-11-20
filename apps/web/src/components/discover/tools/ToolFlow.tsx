@@ -2,10 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { ReadinessForm } from "@ms/core";
-import { Button, Chip, Glass, Icon, IconButton, StepSegments, haptic } from "@/components/ui";
+import Link from "next/link";
+import type { LibraryVideo } from "@ms/api";
+import { Button, Chip, Glass, Icon, IconButton, StepSegments, haptic, useToast } from "@/components/ui";
 import { Completion } from "@/components/graphics";
 import { saveToolRun } from "@/lib/actions/discover";
 import { ToolGlyph } from "../ProgramCard";
+import { VideoCard } from "../VideoCard";
 import { toolDef, type Answers, type ToolResultView } from "./defs";
 import { ResultVisual } from "./Results";
 
@@ -15,13 +18,35 @@ type Props = {
   last: { created_at: string; result: Record<string, unknown> } | null;
   /** Server-rendered OfferSlot for placement "tool_result". */
   offer?: ReactNode;
+  /** Follow-along videos for the result (from the library, by topic). */
+  followAlong?: LibraryVideo[];
+};
+
+/** Legacy intro copy: three "how it works" bullets and the start label (aware of a previous result). */
+const INTRO: Record<string, { bullets: string[]; start: string; again: string }> = {
+  "kettlebell-selector": {
+    bullets: ["Four questions about your size, background and goal.", "You get three bells — where to start, your working bell, and heavy work.", "Save it and the full set list stays in your account."],
+    start: "Find my bells",
+    again: "Run it again",
+  },
+  "kettlebell-roadmap": {
+    bullets: ["A few questions about the lifts you already own.", "You get your phase, the lifts to own next and the skills you'll build.", "It saves to your account so you can track the next phase."],
+    start: "Find my phase",
+    again: "Run it again",
+  },
+};
+const ASSESS = {
+  bullets: ["One question at a time — you can go back and change any answer.", "You get a scored result with the specific things to work on next.", "It saves to your account, with follow-along videos for what comes next."],
+  start: "Start the assessment",
+  again: "Take it again",
 };
 
 type Stage = { at: "intro" } | { at: "q"; i: number; dir: 1 | -1 } | { at: "result" };
 type Save = { state: "idle" | "saving" | "saved" } | { state: "error"; message: string };
 
 /** One question per screen, Apple-onboarding style, ending in a visual result that saves to You → Saves. */
-export function ToolFlow({ tool, form, last, offer }: Props) {
+export function ToolFlow({ tool, form, last, offer, followAlong = [] }: Props) {
+  const toast = useToast();
   const def = useMemo(() => toolDef(tool.id, tool.config, form), [tool.id, tool.config, form]);
   const [stage, setStage] = useState<Stage>({ at: "intro" });
   const [answers, setAnswers] = useState<Answers>({});
@@ -46,8 +71,9 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
       setSave({ state: "saving" });
       const res = await saveToolRun(tool.id, a, { ...r, title: r.headline });
       setSave(res.ok ? { state: "saved" } : { state: "error", message: res.error });
+      if (res.ok) toast(`${tool.name} complete — saved to your account`, { tone: "success", icon: "check" });
     },
-    [def, tool.id],
+    [def, tool.id, tool.name, toast],
   );
 
   const choose = useCallback(
@@ -97,6 +123,7 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
   const lastTitle = typeof last?.result?.title === "string" ? last.result.title : null;
 
   /* ------------------------------------------------------------ intro */
+  const copy = INTRO[tool.id] ?? ASSESS;
   if (stage.at === "intro") {
     return (
       <div className="dsc-tool" data-stage="intro">
@@ -108,17 +135,31 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
             <ToolGlyph id={tool.id} size={210} />
           </div>
           <div className="dsc-tool-introtext">
-            <p className="lq-t13 lq-c2 dsc-eyebrow">Free tool · {total || 4} questions · about {def.minutes} min</p>
+            <p className="lq-t13 lq-c2 dsc-eyebrow">{tool.tagline ?? "Free tool"} · {total || 4} questions · about {def.minutes} min</p>
             <h1 ref={heading} tabIndex={-1} className="lq-t34">{tool.name}</h1>
             <p className="lq-t17 lq-c2">{def.description || tool.tagline}</p>
-            <Button block icon="play" onClick={() => setStage({ at: "q", i: 0, dir: 1 })} className="dsc-tool-cta">
-              Start
-            </Button>
+            <ol className="w1-tool-bullets">
+              {copy.bullets.map((b, i) => (
+                <li key={b}>
+                  <span className="w1-tool-n lq-num" aria-hidden>{i + 1}</span>
+                  <span className="lq-t15">{b}</span>
+                </li>
+              ))}
+            </ol>
             {lastTitle && last && (
-              <p className="lq-t13 lq-c2 dsc-tool-last">
-                <Icon name="clock" size="xs" /> Last time ({new Date(last.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}): {lastTitle}
-              </p>
+              <Glass radius="panel" className="w1-tool-prev">
+                <Icon name="clock" size="sm" className="lq-c2" />
+                <span className="lq-t13">
+                  <span className="lq-c2">Your last result · {new Date(last.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
+                  <br />
+                  <strong>{lastTitle}</strong>
+                </span>
+                <Link href="/you/saves" className="lq-t13 w1-tool-prevlink">See saves</Link>
+              </Glass>
             )}
+            <Button block icon={last ? "repeat" : "play"} onClick={() => setStage({ at: "q", i: 0, dir: 1 })} className="dsc-tool-cta">
+              {last ? copy.again : copy.start}
+            </Button>
           </div>
         </div>
       </div>
@@ -152,6 +193,17 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
               </Button>
               <Button variant="glass" size="md" href="/tools">All tools</Button>
             </div>
+            <AnswerRecap steps={steps} answers={answers} onChange={(i) => setStage({ at: "q", i, dir: -1 })} />
+            {followAlong.length > 0 && (
+              <section className="w1-tool-follow" aria-labelledby="follow-t">
+                <h2 id="follow-t" className="lq-t20">Follow along</h2>
+                <div className="w1-tool-videos">
+                  {followAlong.slice(0, 4).map((v) => (
+                    <VideoCard key={v.id} video={v} compact />
+                  ))}
+                </div>
+              </section>
+            )}
             {offer && <div className="dsc-offer">{offer}</div>}
           </div>
         ) : (
@@ -170,7 +222,13 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
     <div className="dsc-tool" data-stage="q">
       <div className="dsc-tool-top">
         <IconButton icon="back" label={stage.i === 0 ? "Back to intro" : "Previous question"} onClick={back} />
-        <StepSegments total={total} done={stage.i} current={stage.i} currentProgress={0.5} label={`Question ${stage.i + 1} of ${total}`} className="dsc-tool-progress" />
+        <div className="w1-tool-head">
+          <span className="lq-t13 w1-tool-headname">
+            <span>{tool.name}</span>
+            <span className="lq-c2 lq-num">{stage.i + 1}/{total}</span>
+          </span>
+          <StepSegments total={total} done={stage.i} current={stage.i} currentProgress={0.5} label={`Question ${stage.i + 1} of ${total}`} className="dsc-tool-progress" />
+        </div>
         <IconButton icon="close" label="Close" href="/tools" />
       </div>
       <div key={step.id} className="dsc-q dsc-step-in" data-dir={stage.dir}>
@@ -216,8 +274,31 @@ export function ToolFlow({ tool, form, last, offer }: Props) {
             );
           })}
         </div>
+        {stage.i > 0 && <AnswerRecap steps={steps.slice(0, stage.i)} answers={answers} onChange={(i) => setStage({ at: "q", i, dir: -1 })} compact />}
       </div>
     </div>
+  );
+}
+
+/** Answered questions with a way back to change any of them (legacy AnswerRecap). */
+function AnswerRecap({ steps, answers, onChange, compact }: { steps: { id: string; question: string; options: { value: string; label: string }[] }[]; answers: Answers; onChange: (i: number) => void; compact?: boolean }) {
+  const rows = steps.map((st, i) => ({ i, q: st.question, a: st.options.find((o) => o.value === answers[st.id])?.label })).filter((r) => r.a);
+  if (!rows.length) return null;
+  return (
+    <section className="w1-tool-recap" data-compact={compact ? "" : undefined} aria-label="Your answers">
+      {!compact && <h2 className="lq-t17">Your answers</h2>}
+      <ol>
+        {rows.map((r) => (
+          <li key={r.i}>
+            <button type="button" className="w1-tool-recaprow" onClick={() => onChange(r.i)} aria-label={`Change your answer to: ${r.q}`}>
+              <span className="lq-t12 lq-c2 w1-tool-recapq">{r.q}</span>
+              <span className="lq-t15">{r.a}</span>
+              <span className="lq-t12 w1-tool-change">Change</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 

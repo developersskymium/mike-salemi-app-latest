@@ -1,9 +1,12 @@
 import { DayGlyph, StreakFlame } from "@/components/graphics";
 import { UserButton } from "@/components/shell/ShellUser";
-import { AmbientBackdrop, Button, Card, Glass, HeroPhoto, Icon, IconButton, LargeTitle, ProgressBar, Rings, StatTile } from "@/components/ui";
+import { AmbientBackdrop, Button, Card, Glass, Icon, IconButton, LargeTitle, ProgressBar, Rings, StatTile } from "@/components/ui";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
+import type { HomeView } from "./buildHome";
 import type { TodayView } from "./buildToday";
 import { fmt, shortDate } from "./dates";
+import { ActivityTiles, AlsoToday, Checklist, EmptyEnrolled, EnrolledCard, HomeHero, JoinCard, RetreatCard, RowHead } from "./HomeParts";
+import { Rail } from "./Rail";
 import { entryHref, GOAL_ICON, greeting, plural, relDay, splitDayTitle } from "./model";
 import { PHOTOS } from "./photos";
 import { WeekStrip } from "./WeekStrip";
@@ -17,42 +20,115 @@ function hourIn(tz: string) {
   }
 }
 
-export function TodayScreen({ v }: { v: TodayView }) {
+export function TodayScreen({ v, home, homeError }: { v: TodayView; home: HomeView | null; homeError?: boolean }) {
+  const hour = hourIn(v.timezone);
+  const hello = `${greeting(hour)}, ${v.firstName}`;
+  const art = home?.continuing?.image ?? home?.featured?.image;
   const photo = PHOTOS[v.next?.photo ?? "coaching"];
-  const hello = `${greeting(hourIn(v.timezone))}, ${v.firstName}`;
   return (
     <>
-      <AmbientBackdrop src={photo.src} position={photo.position} fixed />
-      <div className="tpy-hero">
-        <HeroPhoto image={{ src: photo.src, alt: "", position: photo.position }} height={560} />
-      </div>
-      <div className="tpy-title" data-photo="">
+      <AmbientBackdrop src={art?.src ?? photo.src} position={art ? "50% 30%" : photo.position} fixed />
+      <div className="tpy-title w1-title">
         <LargeTitle
           title="Today"
-          eyebrow={`${fmt(v.today, { weekday: "short", day: "numeric", month: "short" })} · ${hello}`}
-          onPhoto
+          eyebrow={fmt(v.today, { weekday: "long", day: "numeric", month: "long" })}
           trailing={
             <>
               <span className="tpy-desk"><IconButton icon="plan" label="Open your plan" href="/plan" /></span>
-              <span className="tpy-phone"><UserButton variant="clear" /></span>
+              <span className="tpy-phone"><UserButton /></span>
             </>
           }
         />
       </div>
 
-      <div className="tpy-today">
-        <NowCard v={v} />
+      <div className="w1-home">
+        {/* (1) Hero: continue training, or the featured program for members without one */}
+        {home && (home.continuing || home.featured) ? (
+          <HomeHero h={home} hour={hour} streak={v.rings.streak.days} greeting={hello} />
+        ) : (
+          <NowCard v={v} />
+        )}
+        {home?.alsoToday && <AlsoToday a={home.alsoToday} />}
 
-        <div className="tpy-today-side">
+        {/* (2) Error banner: the rails failed but Today still works */}
+        {homeError && (
+          <Glass radius="card" className="w1-error" role="alert">
+            <Icon name="close" size="sm" />
+            <span className="lq-t15">Your programs couldn&apos;t load right now. Refresh to try again.</span>
+          </Glass>
+        )}
+
+        {/* v2 extras, compact: progress rings, this week, goal */}
+        <div className="w1-pulse">
           <ProgressCard v={v} />
           <WeekCard v={v} />
-        </div>
-
-        <div className="tpy-below">
           {v.goal ? <GoalCard goal={v.goal} today={v.today} /> : <NoGoalCard />}
-          <Events v={v} />
-          <OfferSlot placement="today" />
         </div>
+        {home && home.checklistDone < home.checklist.length && home.enrolled.length <= 2 && <Checklist items={home.checklist} done={home.checklistDone} />}
+
+        {home && (
+          <>
+            {/* (3) Your programs */}
+            <section aria-labelledby="mine-t">
+              <RowHead id="mine-t" title={home.settings.enrolledTitle || "Your programs"} seeAll="/programs" />
+              {home.enrolled.length ? (
+                <Rail label="Your programs" item="17rem">
+                  {home.enrolled.map((i, n) => (
+                    <EnrolledCard key={i.key} item={i} first={n === 0} />
+                  ))}
+                </Rail>
+              ) : (
+                <EmptyEnrolled />
+              )}
+            </section>
+
+            {/* (4) Upcoming activity */}
+            <section aria-labelledby="up-t">
+              <RowHead id="up-t" title="Upcoming activity" seeAll="/plan" seeAllLabel="Plan" />
+              <ActivityTiles tiles={home.tiles} />
+            </section>
+
+            {/* (5) Start something new: programs you can join */}
+            {home.joinable.length > 0 && (
+              <section aria-labelledby="join-t">
+                <RowHead id="join-t" eyebrow="Programs you can join" title="Start something new" seeAll="/programs" />
+                <Rail label="Programs you can join" item="15rem">
+                  {home.joinable.map((i) => (
+                    <JoinCard key={i.key} item={i} />
+                  ))}
+                </Rail>
+              </section>
+            )}
+            <div className="w1-offer">
+              <OfferSlot placement="today" />
+            </div>
+
+            {/* (6) Retreats & gatherings */}
+            {home.retreats.length > 0 && (
+              <section aria-labelledby="ret-t">
+                <RowHead id="ret-t" title="Retreats & gatherings" seeAll={home.retreatsHref} />
+                <Rail label="Retreats" item="17rem">
+                  {home.retreats.map((r) => (
+                    <RetreatCard key={r.id} r={r} />
+                  ))}
+                </Rail>
+              </section>
+            )}
+
+            {/* (7) Explore next: locked programs */}
+            {home.locked.length > 0 && (
+              <section aria-labelledby="next-t">
+                <RowHead id="next-t" title="Explore next" seeAll="/programs" />
+                <Rail label="Programs to unlock" item="15rem">
+                  {home.locked.map((i) => (
+                    <JoinCard key={i.key} item={i} />
+                  ))}
+                </Rail>
+              </section>
+            )}
+          </>
+        )}
+        {!home && <OfferSlot placement="today" />}
       </div>
     </>
   );
@@ -209,53 +285,3 @@ function NoGoalCard() {
   );
 }
 
-function Events({ v }: { v: TodayView }) {
-  const inv = v.invitation;
-  return (
-    <>
-      {v.upcoming.length > 0 && (
-        <Glass as="section" radius="card" aria-labelledby="up-t" style={{ padding: "14px 0 4px" }}>
-          <div className="tpy-sech" style={{ padding: "0 18px", marginBottom: 4 }}><h3 id="up-t">Coming up</h3></div>
-          <div className="tpy-list">
-            {v.upcoming.slice(0, 3).map((e) => (
-              <a key={e.id} className="tpy-row" href={e.href}>
-                <span className="tpy-row-icon" aria-hidden><Icon name={e.kind === "coaching" ? "people" : e.kind === "run" ? "mountain" : "calendar"} size="sm" /></span>
-                <span className="tpy-row-main">
-                  <span className="lq-t15" style={{ fontWeight: 600 }}>{e.title}</span>
-                  <span className="lq-t13 lq-c2">{e.subtitle}</span>
-                </span>
-                <span className="lq-t13 lq-c2 lq-num">{/^\d{4}-\d{2}-\d{2}/.test(e.when) ? shortDate(e.when.slice(0, 10)) : e.when}</span>
-              </a>
-            ))}
-          </div>
-        </Glass>
-      )}
-      {inv && inv.image && (
-        <Card
-          className="tpy-invite"
-          height={250}
-          image={{ src: inv.image.url, alt: inv.image.alt, position: "50% 55%" }}
-          footer={
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <div style={{ minWidth: 0 }}>
-                <div className="lq-t13" style={{ opacity: 0.85, fontWeight: 600 }}>Retreat invitation</div>
-                <div className="lq-t22">{inv.name}</div>
-                <div className="lq-t13" style={{ opacity: 0.92 }}>
-                  {[inv.place, dateSpan(inv.starts_at, inv.ends_at)].filter(Boolean).join(", ")}
-                </div>
-              </div>
-              <Button variant="white" size="sm" href={`/programs/${inv.program_slug}`}>See dates</Button>
-            </div>
-          }
-        />
-      )}
-    </>
-  );
-}
-
-function dateSpan(a: string, b: string | null) {
-  const s = a.slice(0, 10);
-  if (!b) return shortDate(s);
-  const e = b.slice(0, 10);
-  return s.slice(0, 7) === e.slice(0, 7) ? `${fmt(s, { month: "long" })} ${Number(s.slice(8))}–${Number(e.slice(8))}` : `${shortDate(s)} – ${shortDate(e)}`;
-}

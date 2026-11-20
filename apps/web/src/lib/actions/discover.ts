@@ -1,6 +1,6 @@
 "use server";
 
-import { addToCollection, createCollection, saveToolResult, toggleSave } from "@ms/api";
+import { addToCollection, createCollection, saveToolResult, saveVideoPosition, toggleSave } from "@ms/api";
 import { z } from "zod";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
@@ -52,4 +52,14 @@ export async function saveToolRun(
     .safeParse({ toolId, answers });
   if (!ok.success || JSON.stringify(result).length > 8000) return { ok: false, error: "That result couldn't be saved." };
   return run(async ({ supabase, userId }) => ({ id: (await saveToolResult(supabase, userId, toolId, answers, result)).id }));
+}
+
+/** Remembers where the member stopped in a library video (Continue watching). Fire-and-forget from the player. */
+export async function saveVideoPositionAction(videoId: string, seconds: number, duration: number | null): Promise<ActionResult<true>> {
+  const ok = z.object({ videoId: uuid, seconds: z.number().min(0).max(86400), duration: z.number().min(0).max(86400).nullable() }).safeParse({ videoId, seconds, duration });
+  if (!ok.success) return { ok: false, error: "Bad position." };
+  return run(async ({ supabase, userId }) => {
+    await saveVideoPosition(supabase, userId, videoId, seconds, duration);
+    return true as const;
+  });
 }
