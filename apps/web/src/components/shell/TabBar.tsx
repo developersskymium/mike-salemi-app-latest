@@ -2,20 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { TABS } from "@/lib/nav";
 import { Icon } from "../ui/Icon";
 import { haptic, useLens } from "../ui/motion";
 import { activeTab } from "./nav-state";
 
-/** Phone tab bar: floating glass capsule, lens morphs between tabs, compacts while scrolling down. */
-export function TabBar({ active: activeProp }: { active?: number }) {
+/**
+ * Phone tab bar: a floating film capsule. The active tab is lit (icon stroke and a light dash
+ * that slides and stretches between tabs); compacts while scrolling down.
+ * `more`: an optional trailing item (legacy "More" sheet trigger).
+ */
+export function TabBar({ active: activeProp, more }: { active?: number; more?: ReactNode }) {
   const pathname = usePathname();
   const active = activeProp ?? activeTab(pathname);
   const box = useRef<HTMLElement>(null);
   const lens = useRef<HTMLElement>(null);
   useLens(box, lens, Math.max(0, active));
   const [compact, setCompact] = useState(false);
+  const n = TABS.length + (more ? 1 : 0);
 
   useEffect(() => {
     let last = window.scrollY;
@@ -34,12 +39,12 @@ export function TabBar({ active: activeProp }: { active?: number }) {
   }, []);
 
   return (
-    <nav ref={box} aria-label="Main" className="lq-tabbar lq-glass" data-float="" data-compact={compact ? "" : undefined}>
+    <nav ref={box} aria-label="Main" className="lq-tabbar lq-glass" data-level="thick" data-float="" data-compact={compact ? "" : undefined} style={{ "--tabs": n } as CSSProperties}>
       <i
         ref={lens}
-        className="lq-lens"
+        className="lq-lens lq-tablight"
         aria-hidden
-        style={{ left: `calc(4px + ${Math.max(0, active)} * (100% - 8px) / ${TABS.length})`, opacity: active < 0 ? 0 : 1 } as CSSProperties}
+        style={{ left: `calc(4px + (${Math.max(0, active)} + .5) * (100% - 8px) / ${n} - 11px)`, opacity: active < 0 ? 0 : 1 } as CSSProperties}
       />
       {TABS.map((t, i) => (
         <Link
@@ -54,6 +59,7 @@ export function TabBar({ active: activeProp }: { active?: number }) {
           <span>{t.label}</span>
         </Link>
       ))}
+      {more}
     </nav>
   );
 }

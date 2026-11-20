@@ -1,12 +1,18 @@
 import type { SVGProps } from "react";
 
-/** SF-Symbols-like set from the Liquid mockup: 24px grid, 1.6px strokes, round caps. */
+/** Trace icon set: 24px grid, 1.6px open strokes with round caps, ending in a light point. */
 const PATHS = {
   today: (
     <>
-      <path d="M3.5 18.5h17" />
-      <path d="M7 18.5a5 5 0 0 1 10 0" />
-      <path d="M12 5.5v2.2M5.3 9.3l1.6 1.5M18.7 9.3l-1.6 1.5M2.8 14.5h1.8M19.4 14.5h1.8" />
+      <path d="M3 18A9 9 0 0 1 21 18" />
+      <path className="lq-icon-lit" d="M3 18A9 9 0 0 1 14 9.3" />
+    </>
+  ),
+  programs: (
+    <>
+      <path d="M4.5 4.5A10 10 0 0 0 19.5 4.5" />
+      <path className="lq-icon-lit" d="M4.5 4.5A10 10 0 0 0 12 9.6" />
+      <path d="M12 13.5v7" />
     </>
   ),
   kettlebell: (
@@ -24,9 +30,8 @@ const PATHS = {
   ),
   plan: (
     <>
-      <rect x="3.5" y="5" width="17" height="15.5" rx="3.6" />
-      <path d="M3.5 9.6h17M8 3v3.6M16 3v3.6" />
-      <path d="M8 13.2h.01M12 13.2h.01M16 13.2h.01M8 16.6h.01M12 16.6h.01" strokeWidth="2.4" />
+      <rect x="3" y="5" width="18" height="15" rx="4" />
+      <path d="M8 3v4M16 3v4" />
     </>
   ),
   calendar: (
@@ -205,8 +210,30 @@ const PATHS = {
   ),
 } as const;
 
-export type IconName = keyof typeof PATHS | "programs";
-export const ICON_NAMES = [...Object.keys(PATHS), "programs"] as IconName[];
+export type IconName = keyof typeof PATHS;
+export const ICON_NAMES = Object.keys(PATHS) as IconName[];
+
+/**
+ * Trace iconography: open shapes ending in a light point. The point is the only coloured part
+ * (and a lit stroke on active tabs).
+ */
+const POINTS: Partial<Record<IconName, [number, number]>> = {
+  today: [14, 9.3],
+  programs: [12, 9.6],
+  library: [20.5, 15],
+  plan: [12, 13.5],
+  calendar: [12, 15],
+  check: [18.5, 7.5],
+  flame: [12, 17],
+  clock: [15, 13.8],
+  timer: [14.6, 15],
+  mountain: [9.5, 8.5],
+  search: [20.2, 20.2],
+  ring: [20.2, 13.8],
+  bell: [12, 5.5],
+  leaf: [13, 11],
+  compass: [15.5, 8.5],
+};
 
 export type IconSize = "xs" | "sm" | "md" | "tab" | "lg";
 
@@ -215,10 +242,13 @@ export type IconProps = Omit<SVGProps<SVGSVGElement>, "name"> & {
   size?: IconSize;
   /** Accessible name; omit for decorative icons. */
   label?: string;
+  /** The light point at the end of the stroke (default on, off at xs). */
+  point?: boolean;
 };
 
-export function Icon({ name, size = "md", label, className, ...rest }: IconProps) {
-  const key = name === "programs" ? "kettlebell" : name;
+export function Icon({ name, size = "md", label, point, className, ...rest }: IconProps) {
+  const key = name;
+  const pt = (point ?? size !== "xs") ? POINTS[key] : undefined;
   return (
     <svg
       viewBox="0 0 24 24"
@@ -231,6 +261,7 @@ export function Icon({ name, size = "md", label, className, ...rest }: IconProps
       {...rest}
     >
       {PATHS[key]}
+      {pt && <circle className="lq-icon-pt" cx={pt[0]} cy={pt[1]} r={1.7} />}
     </svg>
   );
 }

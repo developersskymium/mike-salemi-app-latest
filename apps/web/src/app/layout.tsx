@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { font } from "@ms/tokens";
 import { THEME_SCRIPT } from "@/components/shell/theme";
 import "./globals.css";
 
@@ -13,8 +14,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3f3f3" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#EEF3F6" },
+    { media: "(prefers-color-scheme: dark)", color: "#070C17" },
   ],
 };
 
@@ -24,7 +25,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         {/* Applies the saved theme before first paint (no flash). */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-        <link rel="preload" href="/fonts/inter-opsz.woff2" as="font" type="font/woff2" crossOrigin="" />
+        {/* Trace type: Anybody (display, variable width) and Hanken Grotesk (text). */}
+        {font.preload.map((href) => (
+          <link key={href} rel="preload" href={href} as="font" type="font/woff2" crossOrigin="" />
+        ))}
       </head>
       <body>{children}</body>
     </html>
