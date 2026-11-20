@@ -365,3 +365,5 @@
   .pk-up-when2[data-today] { color: var(--accent-ink, var(--accent)); }
   .pk-up-chev { display: block; flex: none; color: var(--text-3, var(--text-2)); }
 }
+/* A single compact card spans the row: keep its week and count together. */
+.pk-pc-row[data-n="1"] .pk-pc-foot { justify-content: flex-start; gap: 20px; }
