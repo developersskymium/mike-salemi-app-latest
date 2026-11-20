@@ -6,6 +6,7 @@ import type { ContinueWatching, LibraryIndexVideo } from "@ms/api";
 import { Button, Chip, EmptyState, Glass, Icon, IconButton, useToast } from "@/components/ui";
 import { EmptyScene } from "@/components/graphics";
 import { Rail } from "@/components/today/Rail";
+import { lessonHrefOf } from "@/lib/hrefs";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { toggleSaveVideo } from "@/lib/actions/discover";
 import { ChipBtn, ProgramChips, SelectPill } from "./chips";
@@ -25,7 +26,7 @@ const PAGE = 48;
  * Library: program names on top, filters that work across every program, then one grid of videos.
  * Everything is client-side over the loaded index (instant, no reload) and mirrored in the URL.
  */
-export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPage; initial: LibState; initialPlaying: string | null }) {
+export function LibraryView({ data, initial, initialPlaying, picks = [] }: { data: LibraryPage; initial: LibState; initialPlaying: string | null; picks?: string[] }) {
   const toast = useToast();
   const [s, setS] = useState<LibState>(initial);
   const [playing, setPlaying] = useState<string | null>(initialPlaying);
@@ -57,6 +58,7 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
     for (const v of videos) for (const k of movesOf(v)) c.set(k, (c.get(k) ?? 0) + 1);
     return c;
   }, [videos]);
+  const pickVideos = useMemo(() => picks.map((id) => byId.get(id)).filter((v): v is LibraryIndexVideo => !!v), [picks, byId]);
   const savedCount = videos.filter((v) => saved[v.id] ?? v.s).length;
 
   const set = useCallback((patch: Partial<LibState>) => {
@@ -92,6 +94,16 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
   }
 
   const name = (ns: string, slug: string) => names.get(`${ns}:${slug}`) ?? slug;
+  // Searching across all programs: results grouped under the program they belong to.
+  const groups = useMemo(() => {
+    if (!s.q.trim() || program) return null;
+    const by = new Map<string, LibraryIndexVideo[]>();
+    for (const v of results) {
+      const id = v.pr[0] ?? "none";
+      by.set(id, [...(by.get(id) ?? []), v]);
+    }
+    return [...by].map(([id, items]) => ({ id, name: data.index.programs.find((p) => p.id === id)?.name ?? "Technique library", items: items.slice(0, 12) }));
+  }, [s.q, program, results, data.index.programs]);
   const nFilters = activeFilters(s);
   const filtered = nFilters > 0 || s.q.trim() !== "" || s.program !== "all";
   const clearAll = () => set({ ...EMPTY });
@@ -104,9 +116,12 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
     <div className="w1-lib">
       <header className="w1-lib-head">
         <h1 className="lq-d-sm w1-lib-h1">Library</h1>
-        <Link href="/library/lessons" className="w1-lib-alllink lq-t15">
-          All lessons <Icon name="chevron" size="xs" />
-        </Link>
+        <nav className="w1-lib-headlinks" aria-label="More library views">
+          <Link href="/library/exercises" className="w1-lib-alllink lq-t15">Exercises A–Z</Link>
+          <Link href="/library/lessons" className="w1-lib-alllink lq-t15">
+            All lessons <Icon name="chevron" size="xs" />
+          </Link>
+        </nav>
       </header>
 
       <ProgramChips options={programs.map((p) => ({ key: p.slug, label: p.name }))} value={s.program} onChange={(program) => set({ program })} />
@@ -176,6 +191,31 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
           <Rail label="Continue watching" item="16rem">
             {data.continue.map((c) => (
               <ContinueCard key={`${c.video_id}-${c.lesson_id ?? ""}`} c={c} inLibrary={byId.has(c.video_id)} onPlay={() => play(c.video_id, c.seconds)} />
+            ))}
+          </Rail>
+        </section>
+      )}
+
+      {/* Mike's picks: set monthly by the admin (site_settings.library_picks) */}
+      {!filtered && !playing && pickVideos.length > 0 && (
+        <section aria-labelledby="picks-t" className="w1-lib-cw">
+          <div className="w1-lib-sech">
+            <h2 id="picks-t" className="lq-t20">Mike&apos;s picks this month</h2>
+          </div>
+          <Rail label="Mike's picks" item="16rem">
+            {pickVideos.map((v) => (
+              <button key={v.id} type="button" className="w1-cardlink w1-cw-btn" onClick={() => play(v.id)} aria-label={`Play ${cleanTitle(v.t)}`}>
+                <Glass radius="card" interactive className="w1-cw-card lq-lift">
+                  <span className="w1-cw-poster">
+                    <VideoPoster {...posterOf(v)} move={figureFor(primaryMove(v))} seed={v.id} figure={84} sizes="256px" />
+                    <span className="w1-cw-play" aria-hidden><Icon name="play" size="sm" /></span>
+                  </span>
+                  <span className="w1-cw-text">
+                    <span className="lq-t15 w1-clamp1">{cleanTitle(v.t)}</span>
+                    <span className="lq-t12 lq-c2 w1-clamp1">{programName(v)}{v.d ? ` · ${clock(v.d)}` : ""}</span>
+                  </span>
+                </Glass>
+              </button>
             ))}
           </Rail>
         </section>
@@ -255,14 +295,29 @@ export function LibraryView({ data, initial, initialPlaying }: { data: LibraryPa
         )
       ) : (
         <>
-          <ul className="w1-lib-grid" aria-label="Videos">
-            {results.slice(0, shown).map((v, i) => (
-              <li key={v.id}>
-                <PortraitCard v={v} eyebrow={programName(v)} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={i < 4} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
-              </li>
-            ))}
-          </ul>
-          {results.length > shown && (
+          {groups ? (
+            groups.map((g) => (
+              <section key={g.id} aria-label={g.name} className="w1-lib-group">
+                <h2 className="lq-t17 w1-lib-grouph">{g.name} <span className="lq-t13 lq-c2 lq-num">{g.items.length}</span></h2>
+                <ul className="w1-lib-grid" aria-label={g.name}>
+                  {g.items.map((v) => (
+                    <li key={v.id}>
+                      <PortraitCard v={v} eyebrow={g.name} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={false} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          ) : (
+            <ul className="w1-lib-grid" aria-label="Videos">
+              {results.slice(0, shown).map((v, i) => (
+                <li key={v.id}>
+                  <PortraitCard v={v} eyebrow={programName(v)} saved={saved[v.id] ?? v.s} active={playing === v.id} priority={i < 4} onPlay={() => play(v.id)} onSave={() => toggleSave(v)} />
+                </li>
+              ))}
+            </ul>
+          )}
+          {!groups && results.length > shown && (
             <div className="w1-lib-more">
               <Button variant="glass" size="md" onClick={() => setShown((n) => n + PAGE)}>
                 Show more · <span className="lq-num">{results.length - shown}</span> left
@@ -355,7 +410,7 @@ function ContinueCard({ c, inLibrary, onPlay }: { c: ContinueWatching; inLibrary
   );
   if (c.lesson_id && c.program_slug) {
     return (
-      <Link href={`/programs/${c.program_slug}/learn/${c.lesson_id}`} className="w1-cardlink" aria-label={`Resume ${title} in ${c.program_name}`}>
+      <Link href={lessonHrefOf(c.program_slug, c.lesson_id)} className="w1-cardlink" aria-label={`Resume ${title} in ${c.program_name}`}>
         {body}
       </Link>
     );

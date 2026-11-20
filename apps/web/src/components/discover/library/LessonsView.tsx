@@ -5,6 +5,7 @@ import { useMemo, useRef, useState } from "react";
 import type { CatalogProgram } from "@ms/api";
 import { Button, EmptyState, Icon, IconButton } from "@/components/ui";
 import type { LibraryPage } from "@/lib/loaders/discover";
+import { lessonHrefOf } from "@/lib/hrefs";
 import { canOpen, programPhoto } from "../access";
 import { ProgramChips, SelectPill } from "./chips";
 import { SafeImage } from "./SafeImage";
@@ -123,7 +124,7 @@ export function LessonsView({ data, catalog, initial }: { data: LibraryPage; cat
               const path = l.path ? data.paths[l.path] : null;
               return (
                 <li key={l.id}>
-                  <Link href={p ? `/programs/${p.slug}/learn/${l.id}` : "/programs"} className="w1-lib-lesson lq-press" data-locked={locked ? "" : undefined}>
+                  <Link href={p ? lessonHrefOf(p.slug, l.id, { type: c?.type }) : "/programs"} className="w1-lib-lesson lq-press" data-locked={locked ? "" : undefined}>
                     <span className="w1-lib-lthumb">
                       {photo && <SafeImage src={photo.src} alt="" fill sizes="(min-width: 640px) 160px, 112px" priority={i < 6} style={{ objectPosition: photo.position }} fallback={null} />}
                       <span className="w1-lib-lglyph" aria-hidden><Icon name={locked ? "lock" : "play"} size="xs" /></span>
@@ -133,7 +134,11 @@ export function LessonsView({ data, catalog, initial }: { data: LibraryPage; cat
                       <span className="lq-t15 w1-clamp2 w1-lib-title">{cleanTitle(l.t)}</span>
                       <span className="lq-t12 lq-c2 w1-clamp1">{[path, l.sec].filter(Boolean).join(" · ")}</span>
                     </span>
-                    {locked && <span className="w1-lib-lock lq-t11"><Icon name="lock" size="xs" /> Locked</span>}
+                    {locked ? (
+                      <span className="w1-lib-lock lq-t11"><Icon name="lock" size="xs" /> Buy</span>
+                    ) : c?.access === "included" ? (
+                      <span className="w1-lib-lock lq-t11">Included</span>
+                    ) : null}
                   </Link>
                 </li>
               );

@@ -5,7 +5,7 @@ import { EmptyScene } from "@/components/graphics";
 import { LibrarySkeleton } from "@/components/discover/library/LibrarySkeleton";
 import { LibraryView } from "@/components/discover/library/LibraryView";
 import { fromParams, type LibState } from "@/components/discover/library/model";
-import { loadLibraryPage } from "@/lib/loaders/discover";
+import { loadLibraryPage, loadLibraryPicks } from "@/lib/loaders/discover";
 import { getUser } from "@/lib/supabase/server";
 import "@/components/discover/discover.css";
 import "@/components/discover/library/library.css";
@@ -33,7 +33,10 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
 async function LibraryContent({ state, playing }: { state: LibState; playing: string | null }) {
   const { supabase, user } = await getUser();
   const data = await loadLibraryPage(supabase, user!.id).catch(() => null);
-  if (data) return <LibraryView data={data} initial={state} initialPlaying={playing} />;
+  if (data) {
+    const picks = await loadLibraryPicks(supabase, data.index.videos.map((v) => v.id)).catch(() => []);
+    return <LibraryView data={data} initial={state} initialPlaying={playing} picks={picks} />;
+  }
   return (
     <div className="w1-lib">
       <EmptyState
