@@ -7,7 +7,8 @@ import { Glass, Icon, type IconName } from "@/components/ui";
 import type { LessonLite, ProgressRow, ResourceInfo, SectionLite } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
 import { lessonName } from "@/components/training/model";
-import { IntentTag } from "./parts";
+import { IntentTag, LevelBadge } from "./parts";
+import { levelLong, levelOf, type LevelN } from "./level";
 import { DaySheet } from "./DaySheet";
 
 type Status = "all" | "progress" | "todo" | "done";
@@ -34,6 +35,8 @@ export interface CurriculumProps {
   /** Immersion order lock applies (enrolled in Immersion). */
   orderLocked: boolean;
   dayHref: (l: LessonLite) => string;
+  /** Level programs (KBL): the level shown, and the Level I / Level II switch for the Self-Guided day browser. */
+  levels?: { id: string; n: LevelN | null; label: string; href: string; current: boolean }[];
 }
 
 /**
@@ -56,6 +59,7 @@ export function Curriculum(p: CurriculumProps) {
     Object.fromEntries(Object.entries(board?.stats?.completionsByLesson ?? {}).map(([k, v]) => [k, v.count])),
   );
 
+  const lv: LevelN | null = levelOf(lessons.find((l) => l.key)?.key, p.levels?.find((x) => x.current)?.label);
   const q = query.trim().toLowerCase();
   const filtering = q.length > 0 || status !== "all" || intent !== "all";
   const extra = board?.lessons ?? {};
@@ -101,9 +105,25 @@ export function Curriculum(p: CurriculumProps) {
       <div className="cv-head">
         <h2 id="sg-cur-h" className="lq-d-sm">
           {mode === "self_guided" ? "Start anywhere" : "Curriculum"}
+          {lv && (p.levels?.length ?? 0) > 1 && <span className="lq-c3"> · {levelLong(lv)}</span>}
         </h2>
         <span className="lq-t13 lq-c3">{mode === "self_guided" ? "Every day is open. Pick by phase, type or search." : `One ${p.sectionWord.toLowerCase()} at a time · tap a ${p.lessonWord.toLowerCase()} to open it`}</span>
       </div>
+
+      {mode === "self_guided" && (p.levels?.length ?? 0) > 1 && (
+        <div className="cv-lvswitch">
+          <nav className="cv-lvseg" aria-label="Level">
+            {p.levels!.map((x) => (
+              <Link key={x.id} href={x.href} scroll={false} replace aria-current={x.current ? "page" : undefined} className="lq-press">
+                <LevelBadge n={x.n} />
+                {x.n ? levelLong(x.n) : x.label}
+                <small>{x.label.split("·")[1]?.trim()}</small>
+              </Link>
+            ))}
+          </nav>
+          <span className="cv-lvnote">Each level has its own Day 1 onward. You&apos;re browsing {lv ? levelLong(lv) : "this level"}.</span>
+        </div>
+      )}
 
       <div className="cv-bar">
         <div className="cv-tabs" role="toolbar" aria-label={`${p.sectionWord}s`}>
@@ -291,6 +311,7 @@ function DayRow({ l, p, pr, count, hasNote, onMore }: { l: LessonLite; p: Curric
   const ex = p.board?.lessons[l.id];
   const isDay = l.dayNumber != null && !l.pageType;
   const label = isDay ? `${p.lessonWord} ${l.dayNumber}` : l.pageType === "transition" ? "Next" : "Guide";
+  const lv = isDay && (p.levels?.length ?? 0) > 1 ? levelOf(l.key, p.levels?.find((x) => x.current)?.label) : null;
   const title = isDay ? lessonName(l) + (/day$/i.test(l.dayType ?? "") && !/day$/i.test(lessonName(l)) ? " Day" : "") : l.title;
   const intent = ex?.intent ?? (isDay ? "workout" : "overview");
   const intentWord = isDay ? (intent === "workout" ? "Strength" : INTENT_LABEL[intent]) : "Overview";
@@ -320,7 +341,10 @@ function DayRow({ l, p, pr, count, hasNote, onMore }: { l: LessonLite; p: Curric
       <span className="cv-dot" data-state={state} aria-hidden>
         {done ? <Icon name="check" size="xs" /> : now ? <Icon name="play" size="xs" /> : !isDay ? <Icon name="info" size="xs" /> : null}
       </span>
-      <span className="cv-day-n lq-num">{label}</span>
+      <span className="cv-day-n lq-num">
+        <LevelBadge n={lv} />
+        {label}
+      </span>
       <span className="cv-day-t">
         <b>
           <span>{title}</span>
@@ -339,7 +363,7 @@ function DayRow({ l, p, pr, count, hasNote, onMore }: { l: LessonLite; p: Curric
       <span className="cv-day-r">{right}</span>
     </>
   );
-  const aria = `${isDay ? `${label}, ` : ""}${title}${done ? ", done" : part ? ", in progress" : ""}${count > 1 ? `, completed ${count} times` : ""}${locked ? ", locked" : ""}`;
+  const aria = `${lv ? `${levelLong(lv)}, ` : ""}${isDay ? `${label}, ` : ""}${title}${done ? ", done" : part ? ", in progress" : ""}${count > 1 ? `, completed ${count} times` : ""}${locked ? ", locked" : ""}`;
   return (
     <div role="listitem" className="cv-day" data-state={state} data-locked={locked ? "" : undefined}>
       {p.lockedProgram ? (

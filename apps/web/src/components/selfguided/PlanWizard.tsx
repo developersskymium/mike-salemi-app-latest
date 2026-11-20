@@ -10,6 +10,7 @@ import type { TrainingProfile } from "@ms/api";
 import { savePlanAction } from "@/lib/actions/selfguided";
 import { wizardLevelAction } from "@/lib/actions/wizard";
 import { buildWizardPlan, defaultWeekdays, FOCUS_COPY, intentOf, type WizardDay, type WizardFocus } from "./wizardPlan";
+import { levelLong, levelOf } from "./level";
 import "./wizard.css";
 
 /** A small photo per level on the level choice rows (v4 forms: choices carry a photo, not a box). */
@@ -75,6 +76,10 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
   const [allWeeks, setAllWeeks] = useState(false);
 
   const days = levelDays[pathKey ?? ""] ?? [];
+  // Level I and Level II both start at Day 1: name the level wherever a day is named.
+  const lvPath = data.paths.length > 1 ? data.paths.find((x) => (x.key ?? null) === pathKey) : null;
+  const lvN = lvPath ? levelOf(null, lvPath.name) : null;
+  const lvWord = lvN ? `${levelLong(lvN)} · ` : "";
   const firstOpen = days.find((d) => !d.done) ?? null;
   const fromDays = from === "next" && firstOpen ? days.filter((d) => d.dayNumber >= firstOpen.dayNumber) : days;
   const plan = useMemo(() => buildWizardPlan({ days: fromDays, weekdays, start, focus }), [fromDays, weekdays, start, focus]);
@@ -152,13 +157,13 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           </h3>
           <p className="lq-t15 lq-c2">
             <b className="lq-num">{saved.count}</b> sessions, {perWeek} a week, {levelName}.
-            {first ? ` First up: Day ${first.day.dayNumber}, ${firstIsToday ? "today" : nice(first.date)}.` : ""}
+            {first ? ` First up: ${lvWord}Day ${first.day.dayNumber}, ${firstIsToday ? "today" : nice(first.date)}.` : ""}
           </p>
           <div className="wz-done-a">
             {firstHref && first && firstIsToday ? (
               <>
                 <Button size="md" icon="play" onClick={() => go(firstHref)}>
-                  Start Day {first.day.dayNumber}
+                  Start {lvWord}Day {first.day.dayNumber}
                 </Button>
                 <Button variant="secondary" size="md" icon="calendar" onClick={() => go(saved.planHref)}>
                   Go to your Schedule
@@ -171,7 +176,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
                 </Button>
                 {firstHref && first && (
                   <Button variant="secondary" size="md" icon="play" onClick={() => go(firstHref)}>
-                    Start Day {first.day.dayNumber} now
+                    Start {lvWord}Day {first.day.dayNumber} now
                   </Button>
                 )}
               </>
@@ -222,7 +227,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
             {firstOpen && firstOpen.dayNumber > 1 && (
               <div className="wz-row" role="radiogroup" aria-label="Where to start">
                 <button type="button" role="radio" aria-checked={from === "next"} className="wz-chip lq-press" onClick={() => setFrom("next")}>
-                  Continue from Day {firstOpen.dayNumber}
+                  Continue from {lvWord}Day {firstOpen.dayNumber}
                 </button>
                 <button type="button" role="radio" aria-checked={from === "first"} className="wz-chip lq-press" onClick={() => setFrom("first")}>
                   Start again at Day 1
@@ -329,7 +334,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
                           <span className="wz-d">{nice(i.date)}</span>
                           <span className="wz-dot" data-i={i.day.intent} aria-hidden />
                           <span className="wz-t">
-                            <b>Day {i.day.dayNumber}</b> · {(i.day.dayType ?? "").replace(/\s+day$/i, "") || INTENT_WORD[i.day.intent]}
+                            <b>{lvWord}Day {i.day.dayNumber}</b> · {(i.day.dayType ?? "").replace(/\s+day$/i, "") || INTENT_WORD[i.day.intent]}
                             {i.day.done && <em> · repeat</em>}
                           </span>
                           {i.note !== "Next in Mike's order." && <span className="wz-why">{i.note}</span>}

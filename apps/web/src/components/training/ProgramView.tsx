@@ -12,6 +12,7 @@ import type { BoardData } from "@/lib/loaders/selfguided";
 import { enrollAction } from "@/lib/actions/training";
 import { programPhoto } from "@/lib/program-photos";
 import { Curriculum } from "@/components/selfguided/Curriculum";
+import { levelOf } from "@/components/selfguided/level";
 import { RepeatList, SelfGuidedBoard } from "@/components/selfguided/Board";
 import { TrainingPanel } from "@/components/selfguided/TrainingPanel";
 import { PlanWizard } from "@/components/selfguided/PlanWizard";
@@ -254,7 +255,7 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
       )}
 
       {/* ---------------------------------------------------------- level switch */}
-      {levelPaths && (
+      {levelPaths && !sg && (
         <div className="pv-levels">
           <nav className="pv-levels-seg" aria-label="Level">
             {paths.map((p, i) => {
@@ -339,6 +340,7 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
           <Curriculum
             slug={program.slug}
             mode={sg ? "self_guided" : "immersion"}
+            levels={levelPaths ? paths.map((x) => ({ id: x.id, n: levelOf(null, x.name), label: x.name, href: levelHref(x.key, x.id), current: x.id === path?.id })) : undefined}
             sections={sections}
             lessons={lessons}
             progress={progress}

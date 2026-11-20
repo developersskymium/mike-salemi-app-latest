@@ -7,6 +7,7 @@ import type { LessonExtra } from "@/lib/loaders/selfguided";
 import { logCompletionAction, saveDayNoteAction } from "@/lib/actions/selfguided";
 import { dayTypeShort, lessonLabel, lessonName } from "@/components/training/model";
 import { IntentTag } from "./parts";
+import { levelLong, levelOf } from "./level";
 
 /** One day's notes, completion count and "did it again" (repeats count each time). */
 export function DaySheet({
@@ -36,7 +37,7 @@ export function DaySheet({
   }
   if (!lesson) return <Sheet open={false} onClose={onClose} title="Day" />;
   const done = Boolean(progress?.complete);
-  const title = lesson.pageType || lesson.dayNumber == null ? lesson.title : `${lessonLabel(lesson, lessonWord)} · ${lessonName(lesson)}`;
+  const title = lesson.pageType || lesson.dayNumber == null ? lesson.title : `${levelOf(lesson.key) ? `${levelLong(levelOf(lesson.key)!)} · ` : ""}${lessonLabel(lesson, lessonWord)} · ${lessonName(lesson)}`;
 
   const save = () =>
     start(async () => {
