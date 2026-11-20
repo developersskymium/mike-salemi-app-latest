@@ -24,9 +24,7 @@ export function ManagePlanActions({ planId, name, status }: { planId: string; na
       <Button size="sm" variant="secondary" href={`/plan/${planId}`}>Edit</Button>
       {status === "paused" ? (
         <Button size="sm" variant="plain" disabled={pending} onClick={() => run(() => updatePlanStatus(planId, "active"), "Plan resumed")}>Resume</Button>
-      ) : (
-        <Button size="sm" variant="plain" icon="pause" disabled={pending} onClick={() => run(() => updatePlanStatus(planId, "paused"), "Plan paused")}>Pause</Button>
-      )}
+      ) : null /* Pause hidden until paused plans are listed here (they'd vanish with no way back). */}
       <Button size="sm" variant="plain" disabled={pending} onClick={() => setConfirm(true)}>Remove</Button>
       <Sheet
         open={confirm}
