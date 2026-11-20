@@ -2,6 +2,8 @@
 
 Client direction (Nov 20): "Finish first, without missing anything. Richer pages, each page having a signature something — design, functionality, usefulness. Self-Guided much more advanced and automatic: more ways to continue, start, track progress." Earlier: the app felt lifeless, plain glass, non-signature; the KBL day view and tables must follow the ORIGINAL layout (restored on `ui/day`), in the new design.
 
+**Layout rule (client, Nov 20):** "For the most part I was okay with the layouts in the previous version; just the design, form, function and technology needed to be peak and high end." Every page follows the ORIGINAL app's layout (/home/claude/legacy, documented page by page in docs/specs/08-legacy-parity.md): same section order, grouping, columns, rails and how content is structured. The new visual identity, signature elements and features are layered on top of that structure — never a new layout.
+
 Every page must have (1) real content density — no thin pages, (2) one signature element that is ownable and memorable, (3) at least one genuinely useful function beyond display, (4) crafted micro-interactions, (5) light + dark, phone + desktop.
 
 ## Signature per page
