@@ -17,7 +17,7 @@ import "../journey/accent.css";
  * (spec 11, feedback 2 + 13): one big cover, title, promise, progress and ONE primary action;
  * one signature band; then the navigator (chapters strip + small thumbnail cards).
  */
-export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: ReactNode }) {
+export function SeriesHome({ home, offer, badges, finish }: { home: SeriesHomeData; offer?: ReactNode; badges?: ReactNode; finish?: ReactNode }) {
   const { data, media, retreat } = home;
   const { program } = data;
   const cfg = program.journey;
@@ -35,10 +35,9 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
   const initialChapter = Math.max(0, chapters.findIndex((c) => c.items.some((i) => i.id === next?.id)));
   const locked = data.locked;
 
-  const cta = locked ? (
-    <Button href={`/explore/${slug}`} variant="filled" size="lg" icon="lock">See access options</Button>
-  ) : !data.enrolled && !started ? (
-    <JoinButton programId={program.id} pathId={null} name={program.name} variant="filled" size="lg" label={program.isFree ? "Start free" : "Start"} />
+  // Not started or no access: the access-aware Start / Buy / Upgrade (components/access via JoinButton).
+  const cta = locked || (!data.enrolled && !started) ? (
+    <JoinButton programId={program.id} pathId={null} slug={slug} name={program.name} variant="filled" size="lg" label={locked ? undefined : "Start"} />
   ) : pct >= 1 ? (
     <Button href={href("start")} variant="filled" size="lg" icon="repeat">Watch again</Button>
   ) : (
@@ -85,14 +84,14 @@ export function SeriesHome({ home, offer }: { home: SeriesHomeData; offer?: Reac
       </header>
 
       {data.intro && !started && !locked && <IntroOnce slug={slug} href={href("start")} name={program.name} photo={chapters[0]?.items[0]?.photo ?? { src: program.cover.src, position: program.cover.focal }} />}
-      {pct >= 1 && !locked && <FinishLine slug={slug} name={program.name} next={cfg.next ?? null} />}
+      {pct >= 1 && !locked && <FinishLine slug={slug} name={program.name} next={cfg.next ?? null} choose={finish} />}
       {sig === "practice" && next && !locked && pct < 1 && <TodayPractice item={next} href={href(next.id)} started={started} />}
       {sig === "pillars" && <Countdown retreat={retreat} chapters={chapters} />}
       {sig === "journey" && !locked && <ThisWeek chapters={chapters} at={initialChapter} href={href} />}
 
       <SeriesNavigator slug={slug} chapters={chapters} initial={initialChapter} nextId={next?.id ?? null} locked={locked} sig={sig} />
 
-      <About highlights={program.highlights} description={program.description ?? program.summary} done={done} total={items.length} started={started} />
+      <About highlights={program.highlights} description={program.description ?? program.summary} done={done} total={items.length} started={started} badges={badges} />
 
       {pct < 1 && (cfg.next || offer) && (
         <section className="sr-next" aria-labelledby="sr-next-h" data-offer-slot="series_end">
@@ -195,7 +194,7 @@ function ThisWeek({ chapters, at, href }: { chapters: SeriesChapter[]; at: numbe
 }
 
 /** "What you'll get" in three lines (full copy behind Read more) and the program's badges, greyed until earned. */
-function About({ highlights, description, done, total, started }: { highlights: string[]; description: string | null; done: number; total: number; started: boolean }) {
+function About({ highlights, description, done, total, started, badges }: { highlights: string[]; description: string | null; done: number; total: number; started: boolean; badges?: ReactNode }) {
   const medals = [
     { key: "start", label: "Started", earned: started || done > 0 },
     { key: "half", label: "Halfway", earned: total > 0 && done / total >= 0.5 },
@@ -217,7 +216,7 @@ function About({ highlights, description, done, total, started }: { highlights: 
           </details>
         )}
       </div>
-      <div className="sr-about-medals">
+      {badges ? <div className="sr-about-medals" data-v2="">{badges}</div> : <div className="sr-about-medals">
         <p className="sr-eyebrow">Program badges</p>
         <ul className="sr-medals">
           {medals.map((m) => (
@@ -228,13 +227,13 @@ function About({ highlights, description, done, total, started }: { highlights: 
             </li>
           ))}
         </ul>
-      </div>
+      </div>}
     </section>
   );
 }
 
 /** Finish line: the certificate and a choice of two next steps (spec 12 program idea 10). */
-function FinishLine({ slug, name, next }: { slug: string; name: string; next: { slug: string; href: string; label: string; reason: string } | null }) {
+function FinishLine({ slug, name, next, choose }: { slug: string; name: string; next: { slug: string; href: string; label: string; reason: string } | null; choose?: ReactNode }) {
   const alt = FINISH_ALT[slug];
   const picks = [next, alt].filter(Boolean) as { slug: string; href: string; label: string; reason: string }[];
   return (
@@ -247,7 +246,7 @@ function FinishLine({ slug, name, next }: { slug: string; name: string; next: { 
           <Link href="/you/certificates" className="sr-link">View your certificate</Link>
         </div>
       </div>
-      {picks.length > 0 && (
+      {choose ?? (picks.length > 0 && (
         <div className="sr-finish-next">
           <p className="sr-eyebrow">Choose what's next</p>
           <div className="sr-finish-grid">
@@ -262,7 +261,7 @@ function FinishLine({ slug, name, next }: { slug: string; name: string; next: { 
             })}
           </div>
         </div>
-      )}
+      ))}
     </section>
   );
 }

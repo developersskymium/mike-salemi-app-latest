@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JourneyHome } from "@/components/journey/JourneyHome";
 import { CourseHome, A4L_SLUG } from "@/components/journeys/CourseHome";
-import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { MTK_SLUG } from "@ms/core";
 import { loadCourseOutline } from "@/lib/loaders/course";
 import { SeriesHome } from "@/components/series/SeriesHome";
+import { ChooseNextStep } from "@/components/access/ChooseNextStep";
+import { PairsWellWith } from "@/components/access/PairsWellWith";
+import { ProgramBadges } from "@/components/badges/ProgramBadges";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { loadSeriesHome } from "@/lib/loaders/series";
 import { isSeries } from "@/lib/series";
@@ -30,7 +32,14 @@ export default async function JourneyPage({ params }: Props) {
   if (isSeries(slug)) {
     const home = await loadSeriesHome(slug);
     if (!home) notFound();
-    return <SeriesHome home={home} offer={home.data.program.journey.next ? undefined : <OfferSlot placement="program_page" />} />;
+    return (
+      <SeriesHome
+        home={home}
+        offer={home.data.program.journey.next ? undefined : <PairsWellWith program={slug} />}
+        badges={<ProgramBadges slug={slug} />}
+        finish={<ChooseNextStep program={slug} />}
+      />
+    );
   }
   const data = await loadCourseOutline(slug);
   if (!data) notFound();

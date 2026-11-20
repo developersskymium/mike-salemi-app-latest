@@ -24,7 +24,7 @@ type Clip = VideoRef & { title: string };
  * main player; other lessons open in place and the player scrolls into view. Notes below, then
  * previous / next. Stays mounted between lessons (no flash): only the content changes.
  */
-export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
+export function SeriesPlayer({ home, preview = null }: { home: SeriesLessonData; preview?: { href: string } | null }) {
   const { data, media, note } = home;
   const router = useRouter();
   const toast = useToast();
@@ -152,7 +152,7 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
   };
   // Auto-complete at 90% of the lesson's main video (or of its last clip).
   const onNinety = async () => {
-    if (!item || item.done || (clipIdx !== 0 && clipIdx !== videos.length - 1)) return;
+    if (preview || !item || item.done || (clipIdx !== 0 && clipIdx !== videos.length - 1)) return;
     if (await complete("watched")) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
   };
 
@@ -175,7 +175,7 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
       return;
     }
     if (next) {
-      void complete("watched");
+      if (!preview) void complete("watched");
       setCount(5);
     }
   };
@@ -248,6 +248,12 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
         </span>
       </header>
 
+      {preview && (
+        <div className="srp-preview" role="note">
+          <span><b>Free preview</b> · a taste of {data.program.name}. Your progress isn't tracked yet.</span>
+          <Link href={preview.href} className="sr-link">Unlock the program</Link>
+        </div>
+      )}
       <div className="srp-grid">
         <div className="srp-stage" ref={stage}>
           <div className="srp-player">
@@ -302,15 +308,15 @@ export function SeriesPlayer({ home }: { home: SeriesLessonData }) {
             <h1 className="srp-title">{title}</h1>
             {clipIdx > 0 && clip && <p className="sr-muted">Now playing: {clip.title}</p>}
             <div className="srp-acts">
-              <Button variant={isDone && !next ? "secondary" : "filled"} size="md" iconAfter={next || isIntro ? "arrowRight" : "check"} onClick={() => void primary()} disabled={busy || (isDone && !next)} aria-busy={busy || undefined}>
+              {!preview && <Button variant={isDone && !next ? "secondary" : "filled"} size="md" iconAfter={next || isIntro ? "arrowRight" : "check"} onClick={() => void primary()} disabled={busy || (isDone && !next)} aria-busy={busy || undefined}>
                 {primaryLabel}
-              </Button>
+              </Button>}
               {talk && (clip || parsed.directVideo) && (
                 <button type="button" className="lb-toggle" aria-pressed={audio} onClick={() => setAudio((a) => !a)}>
                   <Icon name="speaker" size="xs" />{audio ? "Show video" : "Audio only"}
                 </button>
               )}
-              {isDone && !isIntro && (
+              {isDone && !isIntro && !preview && (
                 <button type="button" className="srp-undo" onClick={() => void undo()}>Mark as not done</button>
               )}
             </div>

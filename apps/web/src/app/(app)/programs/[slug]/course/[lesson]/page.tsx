@@ -7,6 +7,8 @@ import { loadCoursePage } from "@/lib/loaders/course";
 import { SeriesPlayer } from "@/components/series/SeriesPlayer";
 import { loadSeriesLesson } from "@/lib/loaders/series";
 import { isSeries } from "@/lib/series";
+import { hasAccess } from "@ms/api";
+import { programAccess, unlockHref } from "@/lib/access";
 
 type Props = { params: Promise<{ slug: string; lesson: string }>; searchParams: Promise<{ mode?: string }> };
 
@@ -33,7 +35,10 @@ export default async function CoursePage({ params, searchParams }: Props) {
     const home = await loadSeriesLesson(slug, token);
     if (!home) notFound();
     if (home.data.locked) return <CourseLocked data={home.data} />;
-    return <SeriesPlayer home={home} />;
+    // The guard layout only lets members without access reach previews (intro, first lesson, flagged).
+    const access = await programAccess(slug).catch(() => null);
+    const preview = Boolean(access && !hasAccess(access));
+    return <SeriesPlayer home={home} preview={preview ? { href: unlockHref(slug, `lesson:${token}`) } : null} />;
   }
   const data = await loadCoursePage(slug, token);
   if (!data) notFound();
