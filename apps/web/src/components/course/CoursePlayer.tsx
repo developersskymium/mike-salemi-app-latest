@@ -13,8 +13,9 @@ import { CourseNav } from "./CourseNav";
 import { CourseVideo } from "./CourseVideo";
 import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelOpen, Spark, X } from "./glyphs";
 import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
-import { LessonSidebar, shelfLinks, type ShelfLink } from "@/components/journeys/LessonSidebar";
+import { LessonSidebar, isShelf, shelfLinks, type ShelfLink } from "@/components/journeys/LessonSidebar";
 import { a4lUnits, mtkUnits, unitOf } from "@/components/journeys/units";
+import { seriesQuestion, seriesShelf, seriesUnits, type SeriesMedia } from "@/lib/series";
 import { AudioOnlyToggle, DownloadChips, KeyPoints, NextCountdown, ResumedPill, keyPointsOf, reflectionFor } from "@/components/lesson/LessonExtras";
 import { YourNotes } from "@/components/lesson-b/NotesB";
 import "./course.css";
@@ -70,7 +71,14 @@ const wideStore = {
   server: () => false,
 };
 
-export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode; note?: string | null }) {
+const NO_MEDIA: SeriesMedia = { thumbs: {}, minutes: {} };
+
+/**
+ * `slim="series"`: every other course (The Path, Working-In, Men of Movement, free series…) in the
+ * same shell as MTK / A4L; the sidebar groups come from the series' chapters (lib/series), prev/next
+ * follow them, bonuses and resources sit in the bottom grid. `preview`: a free taste without access.
+ */
+export function CoursePlayer({ data, mode, slim, nextStep, note = null, media = NO_MEDIA, preview = null }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l" | "series"; nextStep?: ReactNode; note?: string | null; media?: SeriesMedia; preview?: { href: string } | null }) {
   const wide = useSyncExternalStore(wideStore.subscribe, wideStore.get, wideStore.server);
   const router = useRouter();
   const toast = useToast();
@@ -87,7 +95,8 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
   const isIntro = data.activeId === "intro";
   const lesson = data.lesson;
   const firstVisit = done.size === 0 && !data.lastLessonId;
-  const [overview, setOverview] = useState(firstVisit);
+  // Series programs show their overview on the program home, not again on the first lesson.
+  const [overview, setOverview] = useState(firstVisit && slim !== "series");
 
   const planMode = mode === "plan" && Boolean(data.mtk?.plan);
   const planOrder = useMemo(
@@ -107,23 +116,35 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
   const planIdx = planMode && node ? planOrder.findIndex((p) => p.id === node.id) : -1;
   const planCtx = planIdx >= 0 ? planOrder[planIdx] : undefined;
   const byId = (id?: string) => (id ? all.find((l) => l.id === id) : undefined);
-  const prev = planCtx ? byId(planOrder[planIdx - 1]?.id) : index > 0 ? groupLessons[index - 1] : undefined;
-  const next = planCtx ? byId(planOrder[planIdx + 1]?.id) : index >= 0 ? groupLessons[index + 1] : undefined;
-  const nextGroup = !planCtx && !next && groupIdx >= 0 ? groups[groupIdx + 1] : undefined;
+  const series = slim === "series";
+  const units = useMemo(() => {
+    if (!slim) return [];
+    const live = { ...data, groups: groups.map((g) => ({ ...g, sections: g.sections.map((s) => ({ ...s, lessons: s.lessons.map((l) => ({ ...l, done: done.has(l.id) })) })) })) };
+    const nextOpen = all.find((l) => !done.has(l.id))?.id ?? null;
+    if (slim === "series") return seriesUnits(live, media, href, nextOpen);
+    return slim === "mtk" ? mtkUnits(live, href, nextOpen, new Set(data.mtk?.plan?.lessonIds ?? [])) : a4lUnits(live, href, nextOpen);
+  }, [slim, data, groups, done, all, href, media]);
+  const unit = slim ? unitOf(units, data.activeId) : null;
+  /* Series: prev/next walk the sidebar order (lessons, or bonuses/resources when one is open). */
+  const seq = useMemo(() => {
+    if (!series) return [];
+    const inShelf = unit ? isShelf(unit) : false;
+    return units.filter((u) => isShelf(u) === inShelf).flatMap((u) => u.rows.flatMap((r) => r.cards)).filter((c) => !c.external && c.id !== "intro").map((c) => c.id);
+  }, [series, units, unit]);
+  const seqIdx = series && node ? seq.indexOf(node.id) : -1;
+  const unitCards = unit ? unit.rows.flatMap((r) => r.cards).filter((c) => c.id !== "intro") : [];
+  const unitPos = node ? unitCards.findIndex((c) => c.id === node.id) : -1;
+  const prev = series ? byId(seq[seqIdx - 1]) : planCtx ? byId(planOrder[planIdx - 1]?.id) : index > 0 ? groupLessons[index - 1] : undefined;
+  const next = series ? (seqIdx >= 0 ? byId(seq[seqIdx + 1]) : undefined) : planCtx ? byId(planOrder[planIdx + 1]?.id) : index >= 0 ? groupLessons[index + 1] : undefined;
+  const nextGroup = !series && !planCtx && !next && groupIdx >= 0 ? groups[groupIdx + 1] : undefined;
   const nextGroupFirst = nextGroup?.sections.flatMap((s) => s.lessons).find((l) => !done.has(l.id)) ?? nextGroup?.sections[0]?.lessons[0];
   const firstOpen = all.find((l) => !done.has(l.id)) ?? all[0];
   const isDone = node ? done.has(node.id) : false;
   const [countdown, setCountdown] = useState(false);
   const [audioOnly, setAudioOnly] = useState(false);
-  const units = useMemo(() => {
-    if (!slim) return [];
-    const live = { ...data, groups: groups.map((g) => ({ ...g, sections: g.sections.map((s) => ({ ...s, lessons: s.lessons.map((l) => ({ ...l, done: done.has(l.id) })) })) })) };
-    const nextOpen = all.find((l) => !done.has(l.id))?.id ?? null;
-    return slim === "mtk" ? mtkUnits(live, href, nextOpen, new Set(data.mtk?.plan?.lessonIds ?? [])) : a4lUnits(live, href, nextOpen);
-  }, [slim, data, groups, done, all, href]);
-  const unit = slim ? unitOf(units, data.activeId) : null;
   const shelf = useMemo<ShelfLink[]>(() => {
     if (!slim) return [];
+    if (slim === "series") return seriesShelf(units);
     const out = shelfLinks(units);
     if (slim === "mtk" && data.mtk?.plan) out.unshift({ id: "plan", label: "My Plan", sub: "Your days", href: "/mtk", icon: "calendarCheck" });
     if (slim === "mtk" && data.intake) out.push({ id: "results", label: "Assessment", sub: data.intake.done ? "Your results" : "2 minutes", href: data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`, icon: "clipboard" });
@@ -212,7 +233,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
   };
 
   const onWatched = async () => {
-    if (!node || done.has(node.id) || (lesson?.steps.length ?? 0) > 1) return;
+    if (preview || !node || done.has(node.id) || (lesson?.steps.length ?? 0) > 1) return;
     const ok = await markDone("watched");
     if (ok && slim && next) setCountdown(true);
     else if (ok) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
@@ -296,7 +317,9 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
       <button type="button" className="jsb-ctl-step" disabled={!prev || isIntro} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
         <Arrow dir="left" />
       </button>
-      {isIntro ? (
+      {preview && !isIntro ? (
+        <Link href={preview.href} className="jsb-ctl-main" data-tone="go"><Lock /><span>Get full access</span></Link>
+      ) : isIntro ? (
         <button type="button" className="jsb-ctl-main" data-tone="go" onClick={() => void primary()}>
           <span>{done.size ? "Resume" : "Begin"}</span><Arrow />
         </button>
@@ -316,11 +339,12 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
   );
 
   const nav = (onPick?: () => void, footer?: ReactNode) => slim ? (
-    <LessonSidebar units={units} activeId={data.activeId} program={data.program.name} backHref={planMode ? "/mtk" : `/programs/${slug}/course`} backLabel={planMode ? "My Plan" : `${data.program.name} home`} pct={pct} shelf={shelf} onPick={onPick} footer={footer} />
+    <LessonSidebar units={units} activeId={data.activeId} program={data.program.name} backHref={planMode ? "/mtk" : `/programs/${slug}/course`} backLabel={planMode ? "My Plan" : data.program.name.length > 26 ? "Program home" : `${data.program.name} home`} pct={pct} shelf={shelf} onPick={onPick} footer={footer} />
   ) : (
     <CourseNav data={data} groups={groups} done={done} href={(id) => (id === "start" ? `/programs/${slug}/course/start${qs}` : href(id))} planMode={planMode} onPick={onPick} searchRef={searchRef} />
   );
 
+  const question = lesson ? (series ? seriesQuestion(slug, data.program.journey.kind, lesson.title) : reflectionFor(data.program.name, lesson.title)) : null;
   const byline = data.program.tagline && /^with /i.test(data.program.tagline) ? data.program.tagline : null;
   const intakeHref = data.intake ? (data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`) : null;
 
@@ -359,6 +383,13 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
                 <span className="lq-num">{unit ? `${unit.done} of ${unit.total} done` : ""}</span>
                 <span style={{ flex: "none", color: "var(--accent)", fontWeight: 650 }}>All lessons</span>
               </button>
+            )}
+            {preview && (
+              <div className="crs-banner">
+                <b>Free preview</b>
+                <span className="crs-ellipsis">Your progress isn&rsquo;t tracked yet.</span>
+                <Link href={preview.href}>Unlock the program</Link>
+              </div>
             )}
             {planCtx && (
               <div className="crs-banner">
@@ -412,6 +443,12 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
                 <div className="crs-crumb">
                   {isIntro ? (
                     <b>Start here</b>
+                  ) : series ? (
+                    <>
+                      {unit && <b>{unit.label}</b>}
+                      {unitPos >= 0 && unitCards.length > 1 && <span className="crs-crumb-n">{unitPos + 1} of {unitCards.length}</span>}
+                      {isDone && <span className="crs-crumb-done"><Check />Done</span>}
+                    </>
                   ) : (
                     <>
                       {multi && group && <b>{group.name}</b>}
@@ -421,7 +458,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
                     </>
                   )}
                 </div>
-                <h2 id="crs-title" className="crs-title">{isIntro ? data.intro?.title === "Home" ? `Welcome to ${data.program.name}` : data.intro?.title : lesson.title}</h2>
+                <h2 id="crs-title" className="crs-title">{isIntro ? data.intro?.title === "Home" ? `Welcome to ${data.program.name}` : data.intro?.title : series ? unitCards[unitPos]?.title ?? lesson.title : lesson.title}</h2>
 
                 {slim && main0?.video && !isIntro && (
                   <div className="crs-tools"><AudioOnlyToggle on={audioOnly} onChange={setAudioOnly} /></div>
@@ -436,7 +473,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
                     poster={main0?.poster ?? null}
                     title={isIntro ? data.program.name : lesson.title}
                     fallbackImage={data.program.cover?.src ?? data.program.image}
-                    kicker={isIntro ? "Start here" : group ? `${group.name} · ${index + 1}` : undefined}
+                    kicker={isIntro ? "Start here" : series ? unit?.label : group ? `${group.name} · ${index + 1}` : undefined}
                     resumeAt={main0?.video ? lesson.videoSeconds[main0.video.providerId] ?? 0 : 0}
                     onProgress={(s) => {
                       if (main0?.video) seconds.current[main0.video.providerId] = Math.floor(s);
@@ -453,7 +490,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
                 {parsed.body && <Markdown source={parsed.body} hide={hideLeads} />}
                 <Clips clips={clips} fallbackImage={data.program.cover?.src ?? data.program.image} />
                 {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
-                {slim && !isIntro && !(wide && !focus) && <div className="crs-notes-inline"><YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={reflectionFor(data.program.name, lesson.title)} /></div>}
+                {slim && !isIntro && !(wide && !focus) && <div className="crs-notes-inline"><YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={question} /></div>}
 
                 {lesson && (
                   <div className="jsb-dock" aria-label="Lesson controls">
@@ -470,7 +507,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
         </main>
         {slim && lesson && !isIntro && wide && !focus && (
           <aside className="crs-notes" aria-label="Your notes">
-            <YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={reflectionFor(data.program.name, lesson.title)} />
+            <YourNotes key={lesson.id} lessonId={lesson.id} initial={note} question={question} />
           </aside>
         )}
       </div>

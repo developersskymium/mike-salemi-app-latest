@@ -65,6 +65,8 @@ export function LessonSidebar({
   const activeUnit = units.find((u) => u.rows.some((r) => r.cards.some((c) => c.id === activeId)));
   // A lesson opened from a shelf (e.g. a workout) still shows its list, on top.
   const list = activeUnit && isShelf(activeUnit) ? [activeUnit, ...path] : path;
+  // One chapter and no grouping (a short series): a plain numbered list, no collapsible header.
+  const flat = list.length === 1 && !list[0]!.group;
   const [open, setOpen] = useState<Set<string>>(() => new Set(activeUnit ? [activeUnit.id] : path[0] ? [path[0].id] : []));
   const scroller = useRef<HTMLDivElement>(null);
 
@@ -111,18 +113,20 @@ export function LessonSidebar({
           return (
             <section key={u.id} className="jsb-unit" data-here={here ? "" : undefined}>
               {showGroup && <p className="jsb-group">{u.group}</p>}
+              {!flat && (
               <button type="button" className="jsb-unit-h" aria-expanded={isOpen} onClick={() => toggle(u.id)}>
                 <span className="jsb-unit-ic" data-done={complete ? "" : undefined} aria-hidden>
                   {complete ? <Icon name="check" size="xs" /> : <Ring done={u.done} total={u.total} />}
                 </span>
                 <span className="jsb-unit-t">
                   <b>{u.label}</b>
-                  <small className="lq-num">{u.sub && !/^\d+\/\d+$/.test(u.sub) ? `${u.sub} · ` : ""}{u.done}/{u.total}</small>
+                  {(u.total > 0 || u.sub) && <small className="lq-num">{u.sub && !/^\d+\/\d+$/.test(u.sub) ? `${u.sub}${u.total > 0 ? " · " : ""}` : ""}{u.total > 0 ? `${u.done}/${u.total}` : ""}</small>}
                 </span>
                 <Icon name="chevronDown" size="xs" className="jsb-chev" />
               </button>
-              {isOpen && (
-                <div className="jsb-rows">
+              )}
+              {(isOpen || flat) && (
+                <div className="jsb-rows" data-flat={flat ? "" : undefined}>
                   {u.rows.map((r, ri) =>
                     r.cards.length ? (
                       <div key={ri}>
@@ -170,8 +174,8 @@ export function LessonSidebar({
 function LessonRow({ card: c, n, active, onPick }: { card: UnitCard; n: number; active: boolean; onPick?: () => void }) {
   const body = (
     <>
-      <span className="jsb-ic lq-num" data-s={active ? "current" : c.status} aria-hidden>
-        {c.status === "done" ? <Icon name="check" size="xs" /> : c.status === "locked" ? <Icon name="lock" size="xs" /> : active ? <Icon name="play" size="xs" /> : n}
+      <span className="jsb-ic lq-num" data-s={active ? "current" : c.status} data-kind={c.icon && c.status !== "done" && !active ? "" : undefined} aria-hidden>
+        {c.status === "done" ? <Icon name="check" size="xs" /> : c.status === "locked" ? <Icon name="lock" size="xs" /> : active ? <Icon name="play" size="xs" /> : c.icon ? <Icon name={c.icon} size="xs" /> : n}
       </span>
       <span className="jsb-t">
         {c.eyebrow && c.eyebrow !== "In your plan" && <small>{c.eyebrow}</small>}

@@ -264,6 +264,9 @@
 .jsb-ic[data-s="current"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .jsb-ic[data-s="locked"] { border-style: dashed; }
 .jsb-ic svg { width: 12px; height: 12px; }
+/* Series rows: a small kind icon (video, audio, reading, call, download) instead of a number. */
+.jsb-ic[data-kind] { border-color: transparent; background: var(--surface-2, var(--fill)); color: var(--text-2); }
+.jsb-rows[data-flat] { padding-top: 6px; }
 .jsb-t { flex: 1; min-width: 0; display: grid; }
 .jsb-t > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .jsb-t > small { font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
