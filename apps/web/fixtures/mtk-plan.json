@@ -1,0 +1,2100 @@
+{
+ "program": {
+  "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+  "slug": "mastering-the-kettlebell",
+  "name": "Mastering the Kettlebell",
+  "image": "/media/l5e/2c8245bf-d2f2-4483-8be4-dccd5af4dbef/mastering-the-kettlebell.png"
+ },
+ "plan": {
+  "id": "1f8c2711-2309-4fd3-8622-ead16bc99f24",
+  "version": 2,
+  "status": "active",
+  "responseId": "5cb80e16-a466-4f55-916f-8d684523a79c",
+  "createdAt": "2026-11-20T09:14:00Z",
+  "schedule": {
+   "weeks": 8,
+   "daysPerWeek": 3,
+   "minutes": 20,
+   "weeksNeeded": 10
+  },
+  "result": {
+   "level": "Proficient",
+   "coach": false,
+   "strengths": [
+    "Deadlift",
+    "Swing"
+   ],
+   "gaps": [
+    "Clean",
+    "Single-Leg Deadlift",
+    "Snatch"
+   ],
+   "focusAreas": [
+    {
+     "movement": "general",
+     "label": "Foundations",
+     "count": 7,
+     "why": "Set-up, grips and orientation"
+    },
+    {
+     "movement": "deadlift",
+     "label": "Deadlift",
+     "count": 25,
+     "depth": "refine",
+     "why": "You're confident here — error corrections and variations to refine it"
+    },
+    {
+     "movement": "single-leg-deadlift",
+     "label": "Single-Leg Deadlift",
+     "count": 6,
+     "depth": "learn",
+     "why": "Part of your chosen focus — full technique progression"
+    },
+    {
+     "movement": "swing",
+     "label": "Swing",
+     "count": 21,
+     "depth": "refine",
+     "why": "You're confident here — error corrections and variations to refine it"
+    },
+    {
+     "movement": "clean",
+     "label": "Clean",
+     "count": 29,
+     "depth": "fix",
+     "why": "You said you struggle with this — pre-checks, technique and error corrections"
+    },
+    {
+     "movement": "snatch",
+     "label": "Snatch",
+     "count": 29,
+     "depth": "learn",
+     "why": "Part of your chosen focus — full technique progression"
+    },
+    {
+     "movement": "expert",
+     "label": "Expert & programming",
+     "count": 1,
+     "why": "Programming and expert material"
+    }
+   ],
+   "recommended": 118,
+   "total": 302,
+   "minutes": 530,
+   "summary": "You reported confidence in the Deadlift, Swing and identified the Clean as areas you struggle with. Your plan concentrates on Deadlift, Single-Leg Deadlift, Swing, Clean, Snatch. That is 118 of 302 lessons; the rest of MTK stays open in Full Curriculum."
+  },
+  "lessonIds": [
+   "a7b32fef-c769-4d30-95d3-d0c7482260d7",
+   "934df761-da4b-45b2-9b31-a36a91c562f3",
+   "c7a55dc2-0e6d-438d-a7d0-91383f23b0f6",
+   "b38b3778-ec31-4780-84ba-408466ae22dd",
+   "a7cfb8c8-6143-4bf5-968e-d0c46f7b5ef0",
+   "044e2c83-d523-4d09-b4c6-aef4e0ef1a39",
+   "ed7745dc-3dfa-4c2b-8edf-cbdb137a66ad",
+   "81eacc0a-8daa-41e8-b682-1220907a8dd3",
+   "2162137c-afc1-4056-96df-669692135564",
+   "f46a60f0-2386-4694-b418-8295a9c9652a",
+   "c4ae4a31-ae38-40ea-ae9d-8c103c460692",
+   "71452c19-bf81-4d38-8952-0d32c1dcf188",
+   "6b03c333-64e6-41fa-88ad-1c2bc0c91347",
+   "229f1e86-7c26-4f94-8ed9-c4f6f24d7896",
+   "c2ab89c5-dfb1-4a11-a261-7d139dcda2c2",
+   "11fe78af-1a06-4686-885f-a3812fefb008",
+   "61f7573e-e6be-4f82-9770-1a53831a0c59",
+   "460ed84f-208d-46d6-aad6-edba3db2fd0a",
+   "0ee82845-e96a-447a-ac63-d734b4fef106",
+   "55109ea6-ef80-4af8-923a-51ca2e536f34",
+   "9026071a-c697-4d48-952f-2e4d48525a5e",
+   "3e622868-643e-47f0-97bc-4f95554ba984",
+   "a80012b1-403f-4cf5-919e-c577168130e8",
+   "3a0209af-4b08-4dcf-a2cd-79e8826dbb92",
+   "33295a2f-0f99-4a36-b340-5f22d03557ab",
+   "87fed45a-f072-4aff-adc6-6c1fccb72ec4",
+   "39cb5f14-e872-4d5f-9392-a8ab7d3a02ba",
+   "9a81af1b-9c22-484d-b224-2593c7fdb3e2",
+   "e0cc379c-21a0-4a2b-98e4-14a503c3b74e",
+   "cfc0b5c5-c345-4de1-bce8-daf1450012fd",
+   "329fdb43-e088-46e3-b5fe-3e1573a3c8f3",
+   "eba5dee6-0e65-428e-8065-4aab850ac9fd",
+   "a3fd3e7d-9193-4599-aac1-b874732bfe1c",
+   "3844733c-c037-4fc1-8148-3019d10f9045",
+   "6aa1afbd-4eee-40de-9495-4bbfd67669bb",
+   "44208129-19b3-4588-9855-d1450a2867ba",
+   "37c176d7-ebef-4c8c-8dc0-9a4e90d29626",
+   "9a28ccc7-4d45-473d-9770-6a8cb28fdf17",
+   "f6e5bd6d-788f-4efb-998a-2dfb04eb5fc3",
+   "cdc7eafb-5b05-45c8-b44c-8d71d946eb27",
+   "b447705f-921b-4282-a248-f4aedcd67b6f",
+   "248a38e3-7024-4f45-8fe6-f68001ec26d5",
+   "c539097f-2521-4537-875c-8be272784e80",
+   "b4f029b8-181e-44ee-af20-c65ac1906bcb",
+   "61eafce3-e594-4b57-809b-cd1bdebcbe8e",
+   "5f33ecef-4cdb-4633-8144-15bb37ca7545",
+   "a2ed4cbc-4925-4760-9072-aa3ee1ba2d4e",
+   "34fb8faa-b44d-4d35-8b0c-11b9db70b1b5",
+   "1259bfe8-f83a-486d-a63c-a838ec765114",
+   "109b3fe0-4e1c-4c4a-871b-572863defdb9",
+   "ebbceb3f-70d3-4e8e-a1ae-c62519e21e5b",
+   "6dd8d816-8a1b-4798-9205-2b9a759a537f",
+   "92faa7d3-716b-4b27-8113-73431c7f22de",
+   "cce07802-354b-45cf-ab42-44b7ae851b3a",
+   "680d5d6e-ab4b-4d40-8daa-c6b47e4a1c83",
+   "c13bcea5-daae-46cf-8cc4-df8692cb138e",
+   "d7b8d4a3-f816-44b7-ab4c-8e16aceebb24",
+   "07621dca-cf69-432d-a6fa-1d9e7dd56dab",
+   "ac24ba92-ba3e-4e52-8a81-3ab663324fcf",
+   "40c2a9ed-6da7-4a26-9d17-8ba81b8a5297",
+   "bdb50054-4675-4e35-b38d-ca0806daef96",
+   "d022c2e9-b676-4cea-b1ee-d1cbcf07775f",
+   "33d93cdd-cd79-453e-97e3-a5f432b9eeae",
+   "2ffc5cd6-cad2-4184-ab2d-745cbc0a8858",
+   "dcd2cc54-0108-495e-b05f-763f57cb6cee",
+   "477e725e-7f35-402d-b639-f4c8bf13623a",
+   "72ebeea8-5404-4255-80ce-51b35d16ea59",
+   "df2d303d-b251-4122-9f4d-df9471deb28d",
+   "5a3298fb-701d-4fdf-8fbc-f0103dadc8b2",
+   "7dc907fc-a365-43e5-ae74-0cf8dff83bad",
+   "23cc1256-bdc1-4198-a5ec-4febec460dbb",
+   "3ad1f3a8-3326-43ae-9146-56ca91940718",
+   "295552ef-14bd-4b24-85e8-942b6a05a8a5",
+   "af29b599-f4d0-4966-8acf-7b6c7481266e",
+   "8d8e8c64-9d13-4aa4-8170-a4a5609888a6",
+   "e2d2c963-c060-43ac-b3bf-a505eefa33ca",
+   "5fe78185-58c5-49f7-a150-f36415fa32dd",
+   "5efecc29-1e68-4f92-b413-1f68fc70a5b4",
+   "95d74c5b-1134-4ff3-8208-48acef8d535e",
+   "e8728117-04ce-44fd-b9ae-d651e5d9bb81",
+   "8ac60ae5-a4f6-425c-9a14-1006dfd82bfb",
+   "29c2efca-45e3-4b9b-9fcd-1a6684c83ec3",
+   "cbeca289-1249-4914-8160-6a3493c3f731",
+   "efc2639c-fd4c-4516-805b-e24ad5948947",
+   "5310ab84-4b70-4dd7-b461-38817d9a7fa3",
+   "a7bcb282-5c6f-492d-85ea-e574395d3e5e",
+   "3d34dd5e-9a73-49ed-b63c-a9d4c4eeb0b1",
+   "0bb7a38c-bcbc-4c6b-a540-67d867063076",
+   "59b9c5d9-28b9-4acf-9cad-d846a22d29ea",
+   "19c8f364-7465-48a7-b772-e4347816265a",
+   "f3d85075-9651-4dde-a2b5-8eafbf8b9865",
+   "59ec4756-ea7a-4d0c-8c5a-f64d3e214fa2",
+   "e53288c1-a6d2-4004-aaa9-bec558d145b8",
+   "16c893c1-6ca2-450a-a06a-6f27f4013302",
+   "0b6ce34b-7b1c-4ac1-b1ed-1397d3f50e02",
+   "4980ff0c-1db8-42a9-a1b8-3b2e6200506d",
+   "0de1c58e-f3f6-414e-9ebb-9ed2726e0083",
+   "b0224267-156a-4d29-9018-3484622869d1",
+   "117d7201-45e0-4fdd-ab2a-a7ed55a997cc",
+   "bf9043e1-9260-43fe-9b3b-f3bb8bff1e53",
+   "48d304e8-bf6d-418c-9a61-d3fe05eb62ef",
+   "9c553767-b0ab-4f72-a939-c3983d4ad22a",
+   "f5507705-35aa-4e1d-97cc-b57e1eb32117",
+   "a1c02f61-c616-4ab4-b391-5c0b1e3a7f64",
+   "06ca07a1-74ba-4933-84b0-04016ea0d2c7",
+   "8f1815e4-a08c-45a5-bc17-43a1335ada73",
+   "c66d0cee-dbe7-460c-aa80-5a78d04a79f4",
+   "42158eba-efa3-49d3-b389-35616900f30b",
+   "67625de4-8bed-44e5-851c-9b4ecfe16fef",
+   "afc7a4a0-e055-4b54-b504-84dad2ca958d",
+   "2379cee2-2989-4201-905f-cb000c6c2130",
+   "2bbde16f-d33f-4173-9903-5ff4198e6bcd",
+   "cc23d67f-a9fd-4f79-91ab-b911abe37a28",
+   "ad542678-4fc6-4860-a902-eccd4958bcb7",
+   "2440f92c-3646-47f7-afe6-9a64588be425",
+   "e690a788-5eaa-42f6-b3b3-c87216fd2aa5",
+   "5872cfa4-9b44-40ce-822e-c2af46505424",
+   "40bfa71a-56e6-431a-ae37-2c50f79d5cf5"
+  ],
+  "days": [
+   {
+    "day": 1,
+    "week": 1,
+    "title": "Foundations",
+    "lessonIds": [
+     "a7b32fef-c769-4d30-95d3-d0c7482260d7",
+     "934df761-da4b-45b2-9b31-a36a91c562f3",
+     "c7a55dc2-0e6d-438d-a7d0-91383f23b0f6",
+     "b38b3778-ec31-4780-84ba-408466ae22dd"
+    ],
+    "minutes": 19
+   },
+   {
+    "day": 2,
+    "week": 1,
+    "title": "Foundations",
+    "lessonIds": [
+     "a7cfb8c8-6143-4bf5-968e-d0c46f7b5ef0",
+     "044e2c83-d523-4d09-b4c6-aef4e0ef1a39",
+     "ed7745dc-3dfa-4c2b-8edf-cbdb137a66ad"
+    ],
+    "minutes": 12
+   },
+   {
+    "day": 3,
+    "week": 1,
+    "title": "Deadlift",
+    "lessonIds": [
+     "81eacc0a-8daa-41e8-b682-1220907a8dd3",
+     "2162137c-afc1-4056-96df-669692135564",
+     "f46a60f0-2386-4694-b418-8295a9c9652a",
+     "c4ae4a31-ae38-40ea-ae9d-8c103c460692"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 4,
+    "week": 2,
+    "title": "Deadlift",
+    "lessonIds": [
+     "71452c19-bf81-4d38-8952-0d32c1dcf188",
+     "6b03c333-64e6-41fa-88ad-1c2bc0c91347",
+     "229f1e86-7c26-4f94-8ed9-c4f6f24d7896",
+     "c2ab89c5-dfb1-4a11-a261-7d139dcda2c2",
+     "11fe78af-1a06-4686-885f-a3812fefb008"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 5,
+    "week": 2,
+    "title": "Deadlift",
+    "lessonIds": [
+     "61f7573e-e6be-4f82-9770-1a53831a0c59",
+     "460ed84f-208d-46d6-aad6-edba3db2fd0a",
+     "0ee82845-e96a-447a-ac63-d734b4fef106",
+     "55109ea6-ef80-4af8-923a-51ca2e536f34",
+     "9026071a-c697-4d48-952f-2e4d48525a5e"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 6,
+    "week": 2,
+    "title": "Deadlift",
+    "lessonIds": [
+     "3e622868-643e-47f0-97bc-4f95554ba984",
+     "a80012b1-403f-4cf5-919e-c577168130e8",
+     "3a0209af-4b08-4dcf-a2cd-79e8826dbb92",
+     "33295a2f-0f99-4a36-b340-5f22d03557ab",
+     "87fed45a-f072-4aff-adc6-6c1fccb72ec4"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 7,
+    "week": 3,
+    "title": "Deadlift",
+    "lessonIds": [
+     "39cb5f14-e872-4d5f-9392-a8ab7d3a02ba",
+     "9a81af1b-9c22-484d-b224-2593c7fdb3e2",
+     "e0cc379c-21a0-4a2b-98e4-14a503c3b74e",
+     "cfc0b5c5-c345-4de1-bce8-daf1450012fd",
+     "329fdb43-e088-46e3-b5fe-3e1573a3c8f3"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 8,
+    "week": 3,
+    "title": "Deadlift + Single-Leg Deadlift",
+    "lessonIds": [
+     "eba5dee6-0e65-428e-8065-4aab850ac9fd",
+     "a3fd3e7d-9193-4599-aac1-b874732bfe1c",
+     "3844733c-c037-4fc1-8148-3019d10f9045",
+     "6aa1afbd-4eee-40de-9495-4bbfd67669bb"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 9,
+    "week": 3,
+    "title": "Single-Leg Deadlift",
+    "lessonIds": [
+     "44208129-19b3-4588-9855-d1450a2867ba",
+     "37c176d7-ebef-4c8c-8dc0-9a4e90d29626",
+     "9a28ccc7-4d45-473d-9770-6a8cb28fdf17"
+    ],
+    "minutes": 14
+   },
+   {
+    "day": 10,
+    "week": 4,
+    "title": "Swing",
+    "lessonIds": [
+     "f6e5bd6d-788f-4efb-998a-2dfb04eb5fc3",
+     "cdc7eafb-5b05-45c8-b44c-8d71d946eb27",
+     "b447705f-921b-4282-a248-f4aedcd67b6f",
+     "248a38e3-7024-4f45-8fe6-f68001ec26d5"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 11,
+    "week": 4,
+    "title": "Swing",
+    "lessonIds": [
+     "c539097f-2521-4537-875c-8be272784e80",
+     "b4f029b8-181e-44ee-af20-c65ac1906bcb",
+     "61eafce3-e594-4b57-809b-cd1bdebcbe8e",
+     "5f33ecef-4cdb-4633-8144-15bb37ca7545"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 12,
+    "week": 4,
+    "title": "Swing",
+    "lessonIds": [
+     "a2ed4cbc-4925-4760-9072-aa3ee1ba2d4e",
+     "34fb8faa-b44d-4d35-8b0c-11b9db70b1b5",
+     "1259bfe8-f83a-486d-a63c-a838ec765114",
+     "109b3fe0-4e1c-4c4a-871b-572863defdb9",
+     "ebbceb3f-70d3-4e8e-a1ae-c62519e21e5b"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 13,
+    "week": 5,
+    "title": "Swing",
+    "lessonIds": [
+     "6dd8d816-8a1b-4798-9205-2b9a759a537f",
+     "92faa7d3-716b-4b27-8113-73431c7f22de",
+     "cce07802-354b-45cf-ab42-44b7ae851b3a",
+     "680d5d6e-ab4b-4d40-8daa-c6b47e4a1c83",
+     "c13bcea5-daae-46cf-8cc4-df8692cb138e"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 14,
+    "week": 5,
+    "title": "Swing",
+    "lessonIds": [
+     "d7b8d4a3-f816-44b7-ab4c-8e16aceebb24",
+     "07621dca-cf69-432d-a6fa-1d9e7dd56dab",
+     "ac24ba92-ba3e-4e52-8a81-3ab663324fcf"
+    ],
+    "minutes": 12
+   },
+   {
+    "day": 15,
+    "week": 5,
+    "title": "Clean",
+    "lessonIds": [
+     "40c2a9ed-6da7-4a26-9d17-8ba81b8a5297",
+     "bdb50054-4675-4e35-b38d-ca0806daef96",
+     "d022c2e9-b676-4cea-b1ee-d1cbcf07775f",
+     "33d93cdd-cd79-453e-97e3-a5f432b9eeae",
+     "2ffc5cd6-cad2-4184-ab2d-745cbc0a8858"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 16,
+    "week": 6,
+    "title": "Clean",
+    "lessonIds": [
+     "dcd2cc54-0108-495e-b05f-763f57cb6cee",
+     "477e725e-7f35-402d-b639-f4c8bf13623a",
+     "72ebeea8-5404-4255-80ce-51b35d16ea59",
+     "df2d303d-b251-4122-9f4d-df9471deb28d",
+     "5a3298fb-701d-4fdf-8fbc-f0103dadc8b2"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 17,
+    "week": 6,
+    "title": "Clean",
+    "lessonIds": [
+     "7dc907fc-a365-43e5-ae74-0cf8dff83bad",
+     "23cc1256-bdc1-4198-a5ec-4febec460dbb",
+     "3ad1f3a8-3326-43ae-9146-56ca91940718"
+    ],
+    "minutes": 16
+   },
+   {
+    "day": 18,
+    "week": 6,
+    "title": "Clean",
+    "lessonIds": [
+     "295552ef-14bd-4b24-85e8-942b6a05a8a5",
+     "af29b599-f4d0-4966-8acf-7b6c7481266e",
+     "8d8e8c64-9d13-4aa4-8170-a4a5609888a6"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 19,
+    "week": 7,
+    "title": "Clean",
+    "lessonIds": [
+     "e2d2c963-c060-43ac-b3bf-a505eefa33ca",
+     "5fe78185-58c5-49f7-a150-f36415fa32dd",
+     "5efecc29-1e68-4f92-b413-1f68fc70a5b4"
+    ],
+    "minutes": 16
+   },
+   {
+    "day": 20,
+    "week": 7,
+    "title": "Clean",
+    "lessonIds": [
+     "95d74c5b-1134-4ff3-8208-48acef8d535e",
+     "e8728117-04ce-44fd-b9ae-d651e5d9bb81",
+     "8ac60ae5-a4f6-425c-9a14-1006dfd82bfb",
+     "29c2efca-45e3-4b9b-9fcd-1a6684c83ec3"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 21,
+    "week": 7,
+    "title": "Clean",
+    "lessonIds": [
+     "cbeca289-1249-4914-8160-6a3493c3f731",
+     "efc2639c-fd4c-4516-805b-e24ad5948947",
+     "5310ab84-4b70-4dd7-b461-38817d9a7fa3",
+     "a7bcb282-5c6f-492d-85ea-e574395d3e5e",
+     "3d34dd5e-9a73-49ed-b63c-a9d4c4eeb0b1"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 22,
+    "week": 8,
+    "title": "Clean + Snatch",
+    "lessonIds": [
+     "0bb7a38c-bcbc-4c6b-a540-67d867063076",
+     "59b9c5d9-28b9-4acf-9cad-d846a22d29ea",
+     "19c8f364-7465-48a7-b772-e4347816265a",
+     "f3d85075-9651-4dde-a2b5-8eafbf8b9865",
+     "59ec4756-ea7a-4d0c-8c5a-f64d3e214fa2"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 23,
+    "week": 8,
+    "title": "Snatch",
+    "lessonIds": [
+     "e53288c1-a6d2-4004-aaa9-bec558d145b8",
+     "16c893c1-6ca2-450a-a06a-6f27f4013302",
+     "0b6ce34b-7b1c-4ac1-b1ed-1397d3f50e02",
+     "4980ff0c-1db8-42a9-a1b8-3b2e6200506d",
+     "0de1c58e-f3f6-414e-9ebb-9ed2726e0083"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 24,
+    "week": 8,
+    "title": "Snatch",
+    "lessonIds": [
+     "b0224267-156a-4d29-9018-3484622869d1",
+     "117d7201-45e0-4fdd-ab2a-a7ed55a997cc",
+     "bf9043e1-9260-43fe-9b3b-f3bb8bff1e53"
+    ],
+    "minutes": 16
+   },
+   {
+    "day": 25,
+    "week": 9,
+    "title": "Snatch",
+    "lessonIds": [
+     "48d304e8-bf6d-418c-9a61-d3fe05eb62ef",
+     "9c553767-b0ab-4f72-a939-c3983d4ad22a",
+     "f5507705-35aa-4e1d-97cc-b57e1eb32117"
+    ],
+    "minutes": 18
+   },
+   {
+    "day": 26,
+    "week": 9,
+    "title": "Snatch",
+    "lessonIds": [
+     "a1c02f61-c616-4ab4-b391-5c0b1e3a7f64",
+     "06ca07a1-74ba-4933-84b0-04016ea0d2c7",
+     "8f1815e4-a08c-45a5-bc17-43a1335ada73"
+    ],
+    "minutes": 16
+   },
+   {
+    "day": 27,
+    "week": 9,
+    "title": "Snatch",
+    "lessonIds": [
+     "c66d0cee-dbe7-460c-aa80-5a78d04a79f4",
+     "42158eba-efa3-49d3-b389-35616900f30b",
+     "67625de4-8bed-44e5-851c-9b4ecfe16fef",
+     "afc7a4a0-e055-4b54-b504-84dad2ca958d"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 28,
+    "week": 10,
+    "title": "Snatch",
+    "lessonIds": [
+     "2379cee2-2989-4201-905f-cb000c6c2130",
+     "2bbde16f-d33f-4173-9903-5ff4198e6bcd",
+     "cc23d67f-a9fd-4f79-91ab-b911abe37a28",
+     "ad542678-4fc6-4860-a902-eccd4958bcb7",
+     "2440f92c-3646-47f7-afe6-9a64588be425"
+    ],
+    "minutes": 20
+   },
+   {
+    "day": 29,
+    "week": 10,
+    "title": "Snatch",
+    "lessonIds": [
+     "e690a788-5eaa-42f6-b3b3-c87216fd2aa5",
+     "5872cfa4-9b44-40ce-822e-c2af46505424"
+    ],
+    "minutes": 8
+   },
+   {
+    "day": 30,
+    "week": 10,
+    "title": "Expert & programming",
+    "lessonIds": [
+     "40bfa71a-56e6-431a-ae37-2c50f79d5cf5"
+    ],
+    "minutes": 15
+   }
+  ]
+ },
+ "assessmentDone": true,
+ "newerAssessment": false,
+ "archivedVersions": 1,
+ "completed": [
+  "a7b32fef-c769-4d30-95d3-d0c7482260d7",
+  "934df761-da4b-45b2-9b31-a36a91c562f3",
+  "c7a55dc2-0e6d-438d-a7d0-91383f23b0f6",
+  "b38b3778-ec31-4780-84ba-408466ae22dd",
+  "a7cfb8c8-6143-4bf5-968e-d0c46f7b5ef0",
+  "044e2c83-d523-4d09-b4c6-aef4e0ef1a39",
+  "ed7745dc-3dfa-4c2b-8edf-cbdb137a66ad",
+  "81eacc0a-8daa-41e8-b682-1220907a8dd3",
+  "2162137c-afc1-4056-96df-669692135564",
+  "f46a60f0-2386-4694-b418-8295a9c9652a",
+  "c4ae4a31-ae38-40ea-ae9d-8c103c460692",
+  "71452c19-bf81-4d38-8952-0d32c1dcf188",
+  "6b03c333-64e6-41fa-88ad-1c2bc0c91347",
+  "229f1e86-7c26-4f94-8ed9-c4f6f24d7896",
+  "c2ab89c5-dfb1-4a11-a261-7d139dcda2c2",
+  "11fe78af-1a06-4686-885f-a3812fefb008"
+ ],
+ "lessons": {
+  "a7b32fef-c769-4d30-95d3-d0c7482260d7": {
+   "title": "Weights to Choose",
+   "section": "Starting Up",
+   "group": "Getting Started"
+  },
+  "2c2fbeb4-075e-42c1-9471-409c7b2518d2": {
+   "title": "Kettlebell Types",
+   "section": "Starting Up",
+   "group": "Getting Started"
+  },
+  "934df761-da4b-45b2-9b31-a36a91c562f3": {
+   "title": "Safety, Clothing, and Chalking",
+   "section": "Starting Up",
+   "group": "Getting Started"
+  },
+  "bab1e330-e441-46ac-abef-58a23419b021": {
+   "title": "Kettlebell History and Benefits",
+   "section": "Starting Up",
+   "group": "Getting Started"
+  },
+  "c7a55dc2-0e6d-438d-a7d0-91383f23b0f6": {
+   "title": "Pre-Training Warm Up",
+   "section": "Starting Up",
+   "group": "Getting Started"
+  },
+  "b38b3778-ec31-4780-84ba-408466ae22dd": {
+   "title": "Hook Grip",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "a7cfb8c8-6143-4bf5-968e-d0c46f7b5ef0": {
+   "title": "Goblet Grip",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "36ea694e-d3e9-49b2-a5f3-513cf816f238": {
+   "title": "Crush Grip",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "044e2c83-d523-4d09-b4c6-aef4e0ef1a39": {
+   "title": "Rack Position",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "ed7745dc-3dfa-4c2b-8edf-cbdb137a66ad": {
+   "title": "Overhead Lockout Position",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "96b828e8-db97-4e01-b7e3-cfb5b25ff6e1": {
+   "title": "Bottoms Up",
+   "section": "Grips and Positions",
+   "group": "Getting Started"
+  },
+  "b841aef0-da51-4c8c-92a5-83b8a871a2fa": {
+   "title": "Introduction",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "0c9cf4af-a62d-40f8-82a3-b15ec0fe45b9": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "f41df83b-85a9-4a1e-8e68-0c05ea2b79fc": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "81eacc0a-8daa-41e8-b682-1220907a8dd3": {
+   "title": "Step 3 - Common Faults",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "2162137c-afc1-4056-96df-669692135564": {
+   "title": "Step 4 - Self Correct",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "ba4d6b97-56ac-4b6f-9cda-dcb4e35b0d82": {
+   "title": "Step 5 - Next Steps",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "f78ca1a4-a9a3-4527-a904-2d168c2985b0": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "e3950f0d-2447-423c-8f12-6ebbfe2267fe": {
+   "title": "Step 7 - Flexibility",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "abe1320b-b4a1-49e2-984e-adf5bef7b194": {
+   "title": "Additional Resources",
+   "section": "Deadlift Pre-Check",
+   "group": "Deadlift"
+  },
+  "20dcc05b-b81d-422e-a93e-6bee0bc3dbb1": {
+   "title": "Introduction",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "49cb8a0b-3f05-4a5b-a340-92401a74b99a": {
+   "title": "Progressing into the Movement",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "1e51db06-9d01-4671-a364-160c7eed32fe": {
+   "title": "Practice - Set Up",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "bb501a2a-44d0-4401-9d8e-44cd33b71769": {
+   "title": "Two Hand Deadlift",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "5d724391-9be7-49fc-bc15-ce972482982f": {
+   "title": "Practice",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "f46a60f0-2386-4694-b418-8295a9c9652a": {
+   "title": "Breathing and Stabilization",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "c4ae4a31-ae38-40ea-ae9d-8c103c460692": {
+   "title": "Tips for Training",
+   "section": "Two Hand Deadlift",
+   "group": "Deadlift"
+  },
+  "71452c19-bf81-4d38-8952-0d32c1dcf188": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "6b03c333-64e6-41fa-88ad-1c2bc0c91347": {
+   "title": "Rounding the Shoulders",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "229f1e86-7c26-4f94-8ed9-c4f6f24d7896": {
+   "title": "Rounding the Back",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "c2ab89c5-dfb1-4a11-a261-7d139dcda2c2": {
+   "title": "Head and Neck Alignment",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "11fe78af-1a06-4686-885f-a3812fefb008": {
+   "title": "Sequencing",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "61f7573e-e6be-4f82-9770-1a53831a0c59": {
+   "title": "Incomplete Extension",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "460ed84f-208d-46d6-aad6-edba3db2fd0a": {
+   "title": "Over Extension",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "0ee82845-e96a-447a-ac63-d734b4fef106": {
+   "title": "Squatting and Shifting Forward",
+   "section": "Common Errors",
+   "group": "Deadlift"
+  },
+  "55109ea6-ef80-4af8-923a-51ca2e536f34": {
+   "title": "Introduction",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "9026071a-c697-4d48-952f-2e4d48525a5e": {
+   "title": "Two Hand Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "3e622868-643e-47f0-97bc-4f95554ba984": {
+   "title": "Tall Kneeling Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "a80012b1-403f-4cf5-919e-c577168130e8": {
+   "title": "Sumo Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "3a0209af-4b08-4dcf-a2cd-79e8826dbb92": {
+   "title": "Romanian Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "33295a2f-0f99-4a36-b340-5f22d03557ab": {
+   "title": "Elevated Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "87fed45a-f072-4aff-adc6-6c1fccb72ec4": {
+   "title": "Toes Elevated Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "39cb5f14-e872-4d5f-9392-a8ab7d3a02ba": {
+   "title": "Staggered Stance Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "9a81af1b-9c22-484d-b224-2593c7fdb3e2": {
+   "title": "Deficit Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "e0cc379c-21a0-4a2b-98e4-14a503c3b74e": {
+   "title": "Single Arm Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "cfc0b5c5-c345-4de1-bce8-daf1450012fd": {
+   "title": "Single Arm Suitcase Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "329fdb43-e088-46e3-b5fe-3e1573a3c8f3": {
+   "title": "Two Hand Single Leg Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "eba5dee6-0e65-428e-8065-4aab850ac9fd": {
+   "title": "Single Arm Single Leg Deadlift",
+   "section": "Variations",
+   "group": "Deadlift"
+  },
+  "a3fd3e7d-9193-4599-aac1-b874732bfe1c": {
+   "title": "Introduction",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "3844733c-c037-4fc1-8148-3019d10f9045": {
+   "title": "Progressing into the Movement",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "6aa1afbd-4eee-40de-9495-4bbfd67669bb": {
+   "title": "Single-Arm Single-Leg Deadlift",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "44208129-19b3-4588-9855-d1450a2867ba": {
+   "title": "Practice",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "37c176d7-ebef-4c8c-8dc0-9a4e90d29626": {
+   "title": "Common Errors",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "9a28ccc7-4d45-473d-9770-6a8cb28fdf17": {
+   "title": "Variations",
+   "section": "SINGLE-LEG DEADLIFT",
+   "group": "Deadlift"
+  },
+  "f6e5bd6d-788f-4efb-998a-2dfb04eb5fc3": {
+   "title": "Russian vs. Pendulum Swing Technique",
+   "section": "Choosing Your Swing Technique",
+   "group": "Swing"
+  },
+  "88d99995-0f0e-49c5-b991-857733c7f579": {
+   "title": "Introduction",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "1f62a424-155a-4419-b140-cd5fa6884f78": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "717d28bd-5356-42a5-9a3f-27150a564e40": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "cdc7eafb-5b05-45c8-b44c-8d71d946eb27": {
+   "title": "Step 3 - Common Faults",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "b447705f-921b-4282-a248-f4aedcd67b6f": {
+   "title": "Step 4 - Self Correct",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "b7d39380-8b66-4992-ad95-9bba78b76951": {
+   "title": "Step 5 - Next Steps",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "82a3204a-d56c-402e-aa35-ad614a46030e": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "f0d1d754-a5b3-4752-be0f-609609a0fbb3": {
+   "title": "Step 7 - Flexibility",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "b9d488ea-77a1-4417-a0dc-a83eb646ffee": {
+   "title": "Additional Resources",
+   "section": "Swing Pre-Check",
+   "group": "Swing"
+  },
+  "f3a9ede5-ea8d-4cb9-a1cd-d36eac2a025b": {
+   "title": "Introduction",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "3305e9da-f975-4a2a-85ee-4fc6b0e4da2b": {
+   "title": "Progressing into the Movement",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "248a38e3-7024-4f45-8fe6-f68001ec26d5": {
+   "title": "Breathing",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "05502da2-33f8-4fa3-b153-c388d3af085b": {
+   "title": "Two Hand Russian Swing",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "06c24ea7-916f-4ae6-8e2e-e23b056122bc": {
+   "title": "Practice",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "c539097f-2521-4537-875c-8be272784e80": {
+   "title": "Tips for Training",
+   "section": "Russian Swing",
+   "group": "Swing"
+  },
+  "4fad986e-cd67-4b50-a62d-9a88af918132": {
+   "title": "Introduction",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "8b68465b-b923-418a-a327-393cf74092db": {
+   "title": "Progressing into the Movement",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "b4f029b8-181e-44ee-af20-c65ac1906bcb": {
+   "title": "Breathing",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "80db51dc-d04a-4ca6-b25e-7b2101d92e47": {
+   "title": "Two Hand Pendulum Swing",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "3a8b0888-e737-4853-adea-22bd209525a2": {
+   "title": "Practice",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "61eafce3-e594-4b57-809b-cd1bdebcbe8e": {
+   "title": "Tips for Training",
+   "section": "Pendulum Swing",
+   "group": "Swing"
+  },
+  "5f33ecef-4cdb-4633-8144-15bb37ca7545": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "a2ed4cbc-4925-4760-9072-aa3ee1ba2d4e": {
+   "title": "The Tail",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "34fb8faa-b44d-4d35-8b0c-11b9db70b1b5": {
+   "title": "Pulling with the Arms",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "1259bfe8-f83a-486d-a63c-a838ec765114": {
+   "title": "Swinging Too Low",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "109b3fe0-4e1c-4c4a-871b-572863defdb9": {
+   "title": "Distance at Set Up",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "ebbceb3f-70d3-4e8e-a1ae-c62519e21e5b": {
+   "title": "Disconnection",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "6dd8d816-8a1b-4798-9205-2b9a759a537f": {
+   "title": "9 and 3 - Spine Position",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "92faa7d3-716b-4b27-8113-73431c7f22de": {
+   "title": "Poor Spine Alignment",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "cce07802-354b-45cf-ab42-44b7ae851b3a": {
+   "title": "Incomplete Extension",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "680d5d6e-ab4b-4d40-8daa-c6b47e4a1c83": {
+   "title": "Over Extension",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "c13bcea5-daae-46cf-8cc4-df8692cb138e": {
+   "title": "Poor Set Up and Finish",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "d7b8d4a3-f816-44b7-ab4c-8e16aceebb24": {
+   "title": "Squatting the Kettlebell",
+   "section": "Common Errors",
+   "group": "Swing"
+  },
+  "07621dca-cf69-432d-a6fa-1d9e7dd56dab": {
+   "title": "Russian Swing",
+   "section": "Variations",
+   "group": "Swing"
+  },
+  "ac24ba92-ba3e-4e52-8a81-3ab663324fcf": {
+   "title": "Pendulum Swing",
+   "section": "Variations",
+   "group": "Swing"
+  },
+  "40c2a9ed-6da7-4a26-9d17-8ba81b8a5297": {
+   "title": "Russian vs. Pendulum Clean Technique",
+   "section": "Choosing Your Clean Technique",
+   "group": "Clean"
+  },
+  "bdb50054-4675-4e35-b38d-ca0806daef96": {
+   "title": "Introduction",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "d022c2e9-b676-4cea-b1ee-d1cbcf07775f": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "33d93cdd-cd79-453e-97e3-a5f432b9eeae": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "2ffc5cd6-cad2-4184-ab2d-745cbc0a8858": {
+   "title": "Step 3 - Common Faults",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "dcd2cc54-0108-495e-b05f-763f57cb6cee": {
+   "title": "Step 4 - Self Correct",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "477e725e-7f35-402d-b639-f4c8bf13623a": {
+   "title": "Step 5 - Next Steps",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "72ebeea8-5404-4255-80ce-51b35d16ea59": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "df2d303d-b251-4122-9f4d-df9471deb28d": {
+   "title": "Step 7 - Flexibility",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "5a3298fb-701d-4fdf-8fbc-f0103dadc8b2": {
+   "title": "Additional Resources",
+   "section": "Clean Pre-Check",
+   "group": "Clean"
+  },
+  "7dc907fc-a365-43e5-ae74-0cf8dff83bad": {
+   "title": "Introduction",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "23cc1256-bdc1-4198-a5ec-4febec460dbb": {
+   "title": "Progressing into the Movement",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "3ad1f3a8-3326-43ae-9146-56ca91940718": {
+   "title": "Breathing",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "295552ef-14bd-4b24-85e8-942b6a05a8a5": {
+   "title": "Single Arm Russian Clean",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "af29b599-f4d0-4966-8acf-7b6c7481266e": {
+   "title": "Practice",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "8d8e8c64-9d13-4aa4-8170-a4a5609888a6": {
+   "title": "Tips for Training",
+   "section": "Russian Clean",
+   "group": "Clean"
+  },
+  "e2d2c963-c060-43ac-b3bf-a505eefa33ca": {
+   "title": "Introduction",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "5fe78185-58c5-49f7-a150-f36415fa32dd": {
+   "title": "Progressing into the Movement",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "5efecc29-1e68-4f92-b413-1f68fc70a5b4": {
+   "title": "Breathing",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "95d74c5b-1134-4ff3-8208-48acef8d535e": {
+   "title": "Single Arm Pendulum Clean",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "e8728117-04ce-44fd-b9ae-d651e5d9bb81": {
+   "title": "Practice",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "8ac60ae5-a4f6-425c-9a14-1006dfd82bfb": {
+   "title": "Tips for Training",
+   "section": "Pendulum Clean",
+   "group": "Clean"
+  },
+  "29c2efca-45e3-4b9b-9fcd-1a6684c83ec3": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "cbeca289-1249-4914-8160-6a3493c3f731": {
+   "title": "Forearm Impact",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "efc2639c-fd4c-4516-805b-e24ad5948947": {
+   "title": "Cleaning Out to the Side",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "5310ab84-4b70-4dd7-b461-38817d9a7fa3": {
+   "title": "Casting and Disconnection",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "a7bcb282-5c6f-492d-85ea-e574395d3e5e": {
+   "title": "Shoulder Disengagement",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "3d34dd5e-9a73-49ed-b63c-a9d4c4eeb0b1": {
+   "title": "Curling the Kettlebell",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "0bb7a38c-bcbc-4c6b-a540-67d867063076": {
+   "title": "Failing to Load the Backswing",
+   "section": "Common Errors",
+   "group": "Clean"
+  },
+  "386aae80-ab0d-4150-8d15-db0ed2e5a4b5": {
+   "title": "Russian Clean",
+   "section": "Variations",
+   "group": "Clean"
+  },
+  "d3099d58-d8cd-4a5a-b0c5-a5d77277b933": {
+   "title": "Pendulum Clean",
+   "section": "Variations",
+   "group": "Clean"
+  },
+  "59b9c5d9-28b9-4acf-9cad-d846a22d29ea": {
+   "title": "Russian vs. Pendulum Snatch Technique",
+   "section": "Choosing  Your Snatch Technique",
+   "group": "Snatch"
+  },
+  "19c8f364-7465-48a7-b772-e4347816265a": {
+   "title": "Introduction",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "f3d85075-9651-4dde-a2b5-8eafbf8b9865": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "59ec4756-ea7a-4d0c-8c5a-f64d3e214fa2": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "e53288c1-a6d2-4004-aaa9-bec558d145b8": {
+   "title": "Step 3 - Common Faults",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "16c893c1-6ca2-450a-a06a-6f27f4013302": {
+   "title": "Step 4 - Self Correct",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "0b6ce34b-7b1c-4ac1-b1ed-1397d3f50e02": {
+   "title": "Step 5 - Next Steps",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "4980ff0c-1db8-42a9-a1b8-3b2e6200506d": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "e8f31842-ada5-4e7a-b5ec-1f2159ddd1f4": {
+   "title": "Step 7 - Flexibility",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "0de1c58e-f3f6-414e-9ebb-9ed2726e0083": {
+   "title": "Additional Resources",
+   "section": "Snatch Pre-Check",
+   "group": "Snatch"
+  },
+  "b0224267-156a-4d29-9018-3484622869d1": {
+   "title": "Introduction",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "117d7201-45e0-4fdd-ab2a-a7ed55a997cc": {
+   "title": "Progressing into the Movement",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "bf9043e1-9260-43fe-9b3b-f3bb8bff1e53": {
+   "title": "Breathing",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "48d304e8-bf6d-418c-9a61-d3fe05eb62ef": {
+   "title": "Single Arm Russian Snatch",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "9c553767-b0ab-4f72-a939-c3983d4ad22a": {
+   "title": "Practice",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "f5507705-35aa-4e1d-97cc-b57e1eb32117": {
+   "title": "Tips on Training",
+   "section": "Russian Snatch",
+   "group": "Snatch"
+  },
+  "a1c02f61-c616-4ab4-b391-5c0b1e3a7f64": {
+   "title": "Introduction",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "06ca07a1-74ba-4933-84b0-04016ea0d2c7": {
+   "title": "Progressing into the Movement",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "8f1815e4-a08c-45a5-bc17-43a1335ada73": {
+   "title": "Breathing",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "c66d0cee-dbe7-460c-aa80-5a78d04a79f4": {
+   "title": "Single Arm Pendulum Snatch",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "42158eba-efa3-49d3-b389-35616900f30b": {
+   "title": "Practice",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "67625de4-8bed-44e5-851c-9b4ecfe16fef": {
+   "title": "Tips on Training",
+   "section": "Pendulum Snatch",
+   "group": "Snatch"
+  },
+  "afc7a4a0-e055-4b54-b504-84dad2ca958d": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "2379cee2-2989-4201-905f-cb000c6c2130": {
+   "title": "Forearm Impact",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "2bbde16f-d33f-4173-9903-5ff4198e6bcd": {
+   "title": "Snatching Out to the Side",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "cc23d67f-a9fd-4f79-91ab-b911abe37a28": {
+   "title": "Casting and Disconnection",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "ad542678-4fc6-4860-a902-eccd4958bcb7": {
+   "title": "Curl and Press",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "2440f92c-3646-47f7-afe6-9a64588be425": {
+   "title": "Lockout Position Errors",
+   "section": "Common Errors",
+   "group": "Snatch"
+  },
+  "e690a788-5eaa-42f6-b3b3-c87216fd2aa5": {
+   "title": "Russian Snatch",
+   "section": "Variations",
+   "group": "Snatch"
+  },
+  "5872cfa4-9b44-40ce-822e-c2af46505424": {
+   "title": "Pendulum Snatch",
+   "section": "Variations",
+   "group": "Snatch"
+  },
+  "24cc345b-b59b-4426-a888-71fb05d4b479": {
+   "title": "Introduction",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "9758b7d9-7b13-4c23-9b59-4fa2a548d511": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "5c32f867-130e-4cd7-ad7e-e23be23eb0ce": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "78e01797-5f22-406e-aaff-976dc767334e": {
+   "title": "Step 3 - Common Faults",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "6acd69cb-9efa-4719-a0e7-76e77a4ab063": {
+   "title": "Step 4 - Self Correct",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "0dc2f78f-61b3-419e-8a58-5d796f38d6c7": {
+   "title": "Step 5 - Next Steps",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "2125412b-b6c3-411b-aae8-6b295b9c4fff": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "e051165f-e109-4f27-8d90-610ee06b4a5f": {
+   "title": "Step 7 - Flexibility",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "338c623c-3236-4cd2-b815-4bef26fec9c9": {
+   "title": "Additional Resources",
+   "section": "Press and Jerk Pre-Check",
+   "group": "Presses and Jerks"
+  },
+  "24cd7123-bdf8-47af-901c-9807a7c18549": {
+   "title": "Introduction",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "15c5410f-c1b4-43d6-92b7-6d2067c20648": {
+   "title": "Progressing into the Movement",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "5d08b8ce-2bb0-4ce5-945f-716715efff73": {
+   "title": "Single Arm Overhead Press",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "3aaa308e-9ed8-464b-b11a-8b603c74aa42": {
+   "title": "Breathing and Tension Tips",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "6d829272-daae-4c59-aff4-46b8f2ee3eac": {
+   "title": "Practice",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "021692bb-fb0d-4b75-bc5e-bf79b1d34861": {
+   "title": "Tips on Training",
+   "section": "Overhead Press",
+   "group": "Presses and Jerks"
+  },
+  "cc1403d1-2560-4798-bbf7-cba068dea34c": {
+   "title": "Introduction",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "f14c768c-40b0-4e84-8a7c-e9973ffda26e": {
+   "title": "Progressing into the Movement",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "ad0299c1-3aa2-49ee-bb26-62c4bd7cd9d8": {
+   "title": "Breathing",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "4dd7bfd4-2b6d-482e-945d-decdb326c54b": {
+   "title": "Single Arm Jerk",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "843d573b-6530-460d-91e3-e42993d88da8": {
+   "title": "Practice",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "2210c35a-d654-4cbf-9763-ced6629cd897": {
+   "title": "Tips for Training",
+   "section": "Jerk",
+   "group": "Presses and Jerks"
+  },
+  "6f400f35-d9fe-4390-945f-ac5db3955f6c": {
+   "title": "Overhead Press Common Errors",
+   "section": "Common Errors",
+   "group": "Presses and Jerks"
+  },
+  "aadf30f2-7ad1-475e-8511-3cd3536e4551": {
+   "title": "Jerk Common Errors",
+   "section": "Common Errors",
+   "group": "Presses and Jerks"
+  },
+  "4607705a-5ada-44c4-8ec5-c4e084a30625": {
+   "title": "Overhead Press Variations",
+   "section": "Variations",
+   "group": "Presses and Jerks"
+  },
+  "f1151c96-3e90-450c-91e9-5bcd8a25e782": {
+   "title": "Jerk Variations",
+   "section": "Variations",
+   "group": "Presses and Jerks"
+  },
+  "00f1f43b-b456-4b07-8501-4b5cde7e2412": {
+   "title": "Introduction",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "d92244d1-b29d-467a-b6ba-e786de27386f": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "7f7a5d84-0b78-4fcc-b980-ad1864822da3": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "0e7a76e1-b143-4070-8d01-59ee46b84720": {
+   "title": "Step 3 - Common Faults",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "f8e03d0f-ac29-45e6-ae49-298776d092f5": {
+   "title": "Step 4 - Self Correct",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "81ddec07-553b-4811-a025-109c29cdaba9": {
+   "title": "Step 5 - Next Steps",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "a212cf40-bbde-40f1-86c1-e3bfb4268250": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "84b04581-bc4a-4244-b8c2-ffc006d13b90": {
+   "title": "Step 7 - Flexibility",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "dd6240fa-d27b-4d89-88e0-a10cf4bd92ff": {
+   "title": "Additional Resources",
+   "section": "Turkish Get Up Pre-Check",
+   "group": "Get Up"
+  },
+  "feb45e09-432e-4ccc-b4ef-6d61447a5d4a": {
+   "title": "Introduction",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "059b499b-e9ff-451e-8bca-eea683bf84b0": {
+   "title": "Progressing Into the Movement",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "894af360-f20d-4b7d-b167-011c64e09bf0": {
+   "title": "Breathing",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "27ecef6e-c1e6-4641-8fb8-79bbb6bae598": {
+   "title": "Turkish Get Up",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "9800e6ad-ab13-4fdc-9ad7-9d7f4945abf2": {
+   "title": "Practice",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "56734ed5-8413-4fa8-87e2-0b75239088a0": {
+   "title": "Additional Safety Information",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "764c92e9-76b2-4bec-87f4-ec74a2519255": {
+   "title": "Challenge Yourself",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "bb6e7d10-0102-4ea1-8c24-754c08bd6d99": {
+   "title": "Tips for Training",
+   "section": "Turkish Get Up",
+   "group": "Get Up"
+  },
+  "c75d2d90-6194-4f42-b3b3-ae65d5cb95d2": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Get Up"
+  },
+  "d668c191-0c38-40f7-ab07-633f4dfc5a9e": {
+   "title": "Starting Position Errors",
+   "section": "Common Errors",
+   "group": "Get Up"
+  },
+  "27209651-86ae-4acc-b619-2efcf1e1c7d3": {
+   "title": "Transition to the Elbow Post",
+   "section": "Common Errors",
+   "group": "Get Up"
+  },
+  "2e29aa90-a7e3-4a34-82c7-f9a4be5ef9c6": {
+   "title": "Transition to the Half Windmill",
+   "section": "Common Errors",
+   "group": "Get Up"
+  },
+  "11c10b24-2a01-4605-8509-617693babe12": {
+   "title": "Lacking Tension",
+   "section": "Common Errors",
+   "group": "Get Up"
+  },
+  "463d7e1a-ab3e-42f2-9db6-4677db7a7b04": {
+   "title": "Introduction",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "8a0047a5-e376-4997-9020-394511de559b": {
+   "title": "High Hip Lunge Style",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "2f7f86ec-f912-4cde-96e7-bd9c15a14d94": {
+   "title": "Low Hip Lunge Style",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "c76544bf-c013-4b77-a10a-3fd6d4e4dfd8": {
+   "title": "Combat Position",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "e2f3088f-6c0c-47fb-a8ae-53620ff2986a": {
+   "title": "Omaplata",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "3f60a11d-b21a-47e1-85a5-75caca826c17": {
+   "title": "Squat",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "4ebc92ce-dfe4-440e-932d-65510a81c8b4": {
+   "title": "Unassisted",
+   "section": "Variations",
+   "group": "Get Up"
+  },
+  "28cd0453-8346-4047-a759-38cdfe11a42d": {
+   "title": "Introduction",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "ce557337-3f55-4d60-b57e-b5dc9daba291": {
+   "title": "Progressing into the Movement",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "09771153-e5f8-4e92-87bc-639927612963": {
+   "title": "Windmill",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "4657eb1b-edc5-4274-9b32-1e2cf2a2cc64": {
+   "title": "Practice",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "97c011f8-f53c-4736-8d81-61d2fc789a51": {
+   "title": "Common Errors",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "f4f0b37d-553e-4bf8-9eca-b49b28fd361c": {
+   "title": "Variations",
+   "section": "WINDMILL",
+   "group": "Get Up"
+  },
+  "7d66918a-2c2c-47c8-85d3-ca534908b676": {
+   "title": "Introduction",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "b98553ff-5f23-4a7f-989f-80189c6de6df": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "a0dbb2a5-3d4d-4bdc-8bdd-137d2cc62745": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "ba813ae4-dec6-4bfd-8007-f713679dc4b7": {
+   "title": "Step 3 - Common Faults",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "b89b7a97-0e1b-4b33-bdaa-b6f111cd1048": {
+   "title": "Step 4 - Self Correct",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "d4298ef5-34e0-438d-83b1-dddd7b03c414": {
+   "title": "Step 5 - Next Steps",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "2fe111ef-35d4-4c4e-ac28-4fe8a2ed8578": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "9a37bf19-f86c-4d15-9d79-634c36c9adfe": {
+   "title": "Step 7 - Flexibility",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "5cefce19-8281-471e-ae63-c6743b2072dd": {
+   "title": "Additional Resources",
+   "section": "Squat Pre-Check",
+   "group": "Squat"
+  },
+  "aecd62a2-e25e-487c-ab09-ae167cd3e108": {
+   "title": "Introduction",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "39d93a53-1f21-474d-8ee5-789bae646b89": {
+   "title": "Progressing into the Movement",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "1d4bc487-fc29-4143-9d25-faabdfcfeacb": {
+   "title": "Breathing",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "2d8e585b-ed64-4b60-aeaf-b1dd9816befa": {
+   "title": "Racked Front Squat",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "c0757b09-c926-498c-bb51-d63d3c9c7e0c": {
+   "title": "Practice",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "abb42d21-1550-43a1-adcc-6e3ef0405913": {
+   "title": "Tips for Training",
+   "section": "Squat",
+   "group": "Squat"
+  },
+  "79747e1f-3634-43ae-a9dd-d4be0e2dd2c5": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Squat"
+  },
+  "c6497097-950c-4864-8d82-b5a613e60d88": {
+   "title": "Rounding the Back",
+   "section": "Common Errors",
+   "group": "Squat"
+  },
+  "2fa16d37-da3d-4659-8d28-dd5176068267": {
+   "title": "Head and Neck Alignment",
+   "section": "Common Errors",
+   "group": "Squat"
+  },
+  "6e191836-a905-4f1c-ae6e-a092bb7aa73f": {
+   "title": "Knee Valgus",
+   "section": "Common Errors",
+   "group": "Squat"
+  },
+  "5f01a1d3-bdcd-4475-b246-ca443b3b03b8": {
+   "title": "Ankle Restriction",
+   "section": "Common Errors",
+   "group": "Squat"
+  },
+  "f8523a05-0c49-405d-90e5-e60952faaa93": {
+   "title": "Introduction",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "766e2e25-aba5-43b6-8414-62980b0344de": {
+   "title": "Racked Front Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "4317bdf2-7b4c-4cc8-83f4-687415b8984a": {
+   "title": "Box Squat Multi-Grip",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "db007443-e79f-409f-aad7-ebb93cd661c9": {
+   "title": "Modified Goblet Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "bb77ae14-83da-45cc-bfcc-bc28ebd42280": {
+   "title": "Goblet Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "5393436f-b5d2-43d6-bd98-761b43a1da7f": {
+   "title": "Crush Grip Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "a5d68b36-fa83-4073-a1fe-834fa117223b": {
+   "title": "Plie Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "2f6355f9-b4be-4373-adee-e5bca215e06c": {
+   "title": "Bottoms Up Front Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "e09d720e-91d7-497c-bca0-0c4b3fb5fe4a": {
+   "title": "Bulgarian Split Squat Multi-Grip",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "c56f9f15-7cfd-4b61-b4df-ea2e682c9cdd": {
+   "title": "Curtsy Squat Multi-Grip",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "7033147c-5649-4942-a47e-cc79cbae3988": {
+   "title": "Overhead Squat",
+   "section": "Variations",
+   "group": "Squat"
+  },
+  "4f7b48de-09d3-4d50-b78d-550446a0ff7b": {
+   "title": "Introduction",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "0ba355c7-a2b2-44b6-b8ac-f13480a8d282": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "d0f7c565-35a0-4e4a-8580-c45eeb70a6a2": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "a2db2045-6714-488c-90c9-5e59f95e78d0": {
+   "title": "Step 3 - Common Faults",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "fcb65a68-dad2-43e0-aea4-639bf442c35c": {
+   "title": "Step 4 - Self Correct",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "f459eb64-096e-44f7-a6f4-72b28a71091c": {
+   "title": "Step 5 - Next Steps",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "4966a0a8-6120-4c9f-a18a-0925d35955ed": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "8948def7-dbdc-4f63-afdd-00b074aefb1e": {
+   "title": "Step 7 - Flexibility",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "de41c713-b62b-4b58-8a80-5a7be7611031": {
+   "title": "Additional Resources",
+   "section": "Lunge Pre-Check",
+   "group": "Lunge"
+  },
+  "24a81869-c893-4f39-b8cc-135b08629e5f": {
+   "title": "Introduction",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "fef2245a-cdad-4534-9af7-b6210daa2a79": {
+   "title": "Progressing into the Movement",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "ce533223-b554-4067-b5dc-e7380556fd25": {
+   "title": "Forward Lunge",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "216f98d4-6c66-4f8e-8daf-5730b919d3e8": {
+   "title": "Reverse Lunge",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "aa600164-b3ee-4916-8dd4-e691c9165b61": {
+   "title": "Side Lunge",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "f1c18174-b888-4a9f-9fda-e7bebf5c439a": {
+   "title": "Breathing and Stabilization",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "91ab43ff-2bee-4567-a87e-661713067623": {
+   "title": "Practice",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "80204eae-da90-4d49-af79-ef0a52659518": {
+   "title": "Tips for Training",
+   "section": "Multi-Directional  Lunges",
+   "group": "Lunge"
+  },
+  "73a2c7d7-016d-463c-aa0d-05039729101a": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Lunge"
+  },
+  "72c4a3d6-82c7-48cd-b230-ffe373b53e47": {
+   "title": "Forward and Reverse Lunge Common Errors",
+   "section": "Common Errors",
+   "group": "Lunge"
+  },
+  "0ef69ea4-a99f-4108-ba8e-e453b09b0577": {
+   "title": "Side Lunge Common Errors",
+   "section": "Common Errors",
+   "group": "Lunge"
+  },
+  "ebf7e491-de14-45bc-a19a-f9e4b724752e": {
+   "title": "Introduction",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "42307560-d585-40b1-9604-b0e2c9270a56": {
+   "title": "Split Squat Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "761d0441-438e-4e5c-adf6-cb5c68b3a4f6": {
+   "title": "Forward Lunge Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "451c76c5-ca5e-402b-910c-41987ae26d68": {
+   "title": "Reverse Lunge Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "a9b4fd34-0a4d-43aa-a2e2-7b0600a52e52": {
+   "title": "Side Lunge Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "fb3fde9d-fac2-478a-a704-455b657edc3d": {
+   "title": "Forward Box Step Up Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "5670b143-6ec0-4eb5-a2ef-800447278c11": {
+   "title": "Lateral Box Step Up Multi-Grip",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "79863996-3f8d-4376-8d65-bd6ca5c8045c": {
+   "title": "Cossack Lunge",
+   "section": "Variations",
+   "group": "Lunge"
+  },
+  "b282385f-5d9c-4dd4-aba0-aaf048262bbd": {
+   "title": "Introduction",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "8b599e72-f88e-42e5-951f-c0b9fafbb15f": {
+   "title": "Step 1 - Watch Demonstration",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "00b1a2d1-4eb8-406f-857c-677afc0d856b": {
+   "title": "Step 2 - Perform Yourself",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "145308f9-d9fd-46bf-9c59-09024c8f6744": {
+   "title": "Step 3 - Common Faults",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "4147dc3c-e5a9-4dc1-b990-00322db2d2e4": {
+   "title": "Step 4 - Self Correct",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "1e40a36b-65af-473a-82b1-b0abeb655190": {
+   "title": "Step 5 - Next Steps",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "964f6fad-9600-4d17-b355-9f51b9ca273a": {
+   "title": "Step 6 - Awareness and Control",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "5adea7ae-928e-460f-ac3b-9e8be4fa8d02": {
+   "title": "Step 7 - Flexibility",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "4926895c-d88d-4538-a88f-3a363726186e": {
+   "title": "Additional Resources",
+   "section": "Row Pre-Check",
+   "group": "Row"
+  },
+  "055426e3-aa5a-4ab4-a5e5-a5c06a92a1d7": {
+   "title": "Introduction",
+   "section": "Row",
+   "group": "Row"
+  },
+  "17cf7458-c193-4322-946c-f354b509ed74": {
+   "title": "Progressing Into the Movement",
+   "section": "Row",
+   "group": "Row"
+  },
+  "41d12446-69cb-4169-85fa-90285f635fe3": {
+   "title": "Staggered Stance Bent Over Row",
+   "section": "Row",
+   "group": "Row"
+  },
+  "d53baf20-1dff-40e2-8962-e689f89d0f89": {
+   "title": "Breathing",
+   "section": "Row",
+   "group": "Row"
+  },
+  "15f086a5-359e-43df-808d-237fc571f38e": {
+   "title": "Practice",
+   "section": "Row",
+   "group": "Row"
+  },
+  "7d9c00b8-8f4d-4c92-8b76-61870a1157fc": {
+   "title": "Tips for Training",
+   "section": "Row",
+   "group": "Row"
+  },
+  "9f445b0f-cbe2-4ed2-99c7-c5fdea581619": {
+   "title": "Introduction",
+   "section": "Common Errors",
+   "group": "Row"
+  },
+  "6b14e761-8e0e-4e67-a9c5-f1bffc743c9f": {
+   "title": "Excessive Momentum and Poor Posture",
+   "section": "Common Errors",
+   "group": "Row"
+  },
+  "d7e911e8-9b6a-45a8-925a-15bed8ff9d1c": {
+   "title": "Faulty Initiation Sequence",
+   "section": "Common Errors",
+   "group": "Row"
+  },
+  "746492e3-546e-4af9-8121-93bfe012cd4d": {
+   "title": "Incomplete Range of Motion",
+   "section": "Common Errors",
+   "group": "Row"
+  },
+  "071a0b87-1bfb-4617-9710-75c297b93311": {
+   "title": "Introduction",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "18a3c565-5efa-4490-b20f-8ff9b751fe52": {
+   "title": "Bent Over Row Staggered Stance",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "9313e359-a8e7-463b-ad16-2d36a9962c75": {
+   "title": "PVC Box Supported Row",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "acabd85a-9ade-4872-a2d1-2ff355c107d9": {
+   "title": "Two Hand Towel Row",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "03261432-7917-457b-bc9f-b04a9f3c7852": {
+   "title": "Reciprocity Row",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "765fccca-bb38-4479-8dd8-0538500f9a1d": {
+   "title": "Straight Arm Plank Row",
+   "section": "Variations",
+   "group": "Row"
+  },
+  "85c78cfa-c46f-464c-b315-15dea13bc89f": {
+   "title": "Paul Chek",
+   "section": "Expert Talks",
+   "group": "Bonus"
+  },
+  "23d7f35c-5fea-4d6d-80e4-93271adee563": {
+   "title": "Dr. Drew Vercellino",
+   "section": "Expert Talks",
+   "group": "Bonus"
+  },
+  "6d16c4ab-ecaf-47a1-93bf-b907cca23a33": {
+   "title": "Program Design Lecture",
+   "section": "Program Design",
+   "group": "Bonus"
+  },
+  "ef8193a0-c5ac-4a2e-851f-32075553fb58": {
+   "title": "Resources",
+   "section": "Program Design",
+   "group": "Bonus"
+  },
+  "ac83cd33-4d46-46ad-aa60-45c992d529f0": {
+   "title": "Posture and the Spine",
+   "section": "Posture and the Spine",
+   "group": "Bonus"
+  },
+  "0aaec78e-f0b0-41ff-be00-7d1f2c508a6e": {
+   "title": "Resources",
+   "section": "Posture and the Spine",
+   "group": "Bonus"
+  },
+  "40bfa71a-56e6-431a-ae37-2c50f79d5cf5": {
+   "title": "Physical Tests",
+   "section": "Performance Benchmarks",
+   "group": "Bonus"
+  }
+ }
+}

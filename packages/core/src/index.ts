@@ -8,3 +8,4 @@ export * from "./workout-export";
 export * from "./vimeo";
 export * from "./pricing";
 export * from "./mtk";
+export * from "./lesson-body";

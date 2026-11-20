@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Mastering the Kettlebell personalisation (docs/specs/08 §L15): Results and
+   My Plan. Centred column (≈ 48rem) inside the app shell. Tokens only. Prefix `mtk-`.
+   ========================================================================== */
+
+.mtk { position: relative; max-width: 48rem; margin: 0 auto; padding: 20px 0 48px; }
+@media (min-width: 1024px) { .mtk { padding-top: 8px; } }
+.mtk-x { all: unset; box-sizing: border-box; cursor: pointer; }
+.mtk :is(a, button):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.mtk-num { font-variant-numeric: tabular-nums; }
+.mtk-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 26px; }
+.mtk-eyebrow { margin: 0; font: 650 11px/14px var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--label-2); }
+.mtk-eyebrow[data-tone="accent"] { color: var(--accent-ink); }
+.mtk-h1 { margin: 10px 0 0; font: 700 34px/40px var(--font); letter-spacing: -.028em; text-wrap: balance; }
+@media (min-width: 640px) { .mtk-h1 { font-size: 44px; line-height: 50px; } }
+.mtk-h1 b { color: var(--accent-ink); font-weight: 750; }
+.mtk-lede { margin: 14px 0 0; font: 450 17px/26px var(--font); color: var(--label-2); text-wrap: pretty; }
+.mtk-why { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.mtk-why span { padding: 6px 10px; border-radius: var(--r-pill); background: var(--fill); font: 550 12.5px/1.2 var(--font); color: var(--label-2); }
+.mtk-h2 { margin: 0; font: var(--t-22); letter-spacing: var(--t-22-track); }
+.mtk-note { margin: 4px 0 0; font: var(--t-13); color: var(--label-2); }
+.mtk-sec { margin-top: 44px; }
+.mtk-sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.mtk-link { all: unset; cursor: pointer; font: 650 14px/18px var(--font); color: var(--accent-ink); text-decoration: none; }
+.mtk-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Three result cards */
+.mtk-cards { display: grid; gap: 10px; margin-top: 30px; }
+@media (min-width: 640px) { .mtk-cards { grid-template-columns: repeat(3, 1fr); } }
+.mtk-card { padding: 18px; border-radius: var(--r-panel); display: grid; align-content: start; gap: 8px; }
+.mtk-card-v { font: 700 24px/28px var(--font); letter-spacing: -.02em; }
+.mtk-card p { margin: 0; font: 500 14.5px/20px var(--font); }
+.mtk-card small { font: var(--t-12); color: var(--label-2); }
+.mtk-levels { display: flex; gap: 4px; }
+.mtk-levels i { flex: 1; height: 4px; border-radius: 2px; background: var(--track); }
+.mtk-levels i[data-on] { background: var(--accent); }
+
+/* Signature: movement map — every MTK movement, how your plan treats it. */
+.mtk-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; margin-top: 18px; }
+.mtk-move {
+  position: relative; display: grid; justify-items: center; gap: 4px; padding: 10px 6px 12px; border-radius: 18px; text-align: center;
+  background: var(--fill); color: var(--label-2); transition: transform .4s var(--curve-spring);
+}
+.mtk-move:hover { transform: translateY(var(--lift-y)); }
+.mtk-move[data-depth] { background: var(--bg-elev); color: var(--label); box-shadow: inset 0 0 0 .5px var(--sep); }
+.mtk-move[data-depth="fix"] { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.mtk-move-fig { width: 64px; height: 64px; display: grid; place-items: center; opacity: .5; }
+.mtk-move[data-depth] .mtk-move-fig { opacity: 1; }
+.mtk-move b { font: 650 12.5px/15px var(--font); }
+.mtk-move small { font: 550 11px/13px var(--font); color: var(--label-3); }
+.mtk-move[data-depth="fix"] small { color: var(--accent-ink); }
+.mtk-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font: var(--t-12); color: var(--label-2); }
+.mtk-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.mtk-legend i { width: 10px; height: 10px; border-radius: 3px; background: var(--fill); }
+.mtk-legend i[data-k="plan"] { background: var(--bg-elev); box-shadow: inset 0 0 0 .5px var(--sep); }
+.mtk-legend i[data-k="fix"] { box-shadow: inset 0 0 0 1.5px var(--accent); background: var(--bg-elev); }
+
+/* Personalised curriculum list */
+.mtk-list { margin-top: 14px; border-top: .5px solid var(--sep); }
+.mtk-list > * { border-bottom: .5px solid var(--sep); }
+.mtk-area > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 14px 2px; }
+.mtk-area > summary::-webkit-details-marker { display: none; }
+.mtk-area-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.mtk-area-main b { font: 650 15px/20px var(--font); }
+.mtk-area-main small { font: var(--t-13); color: var(--label-2); }
+.mtk-area-n { font: 600 13px/1 var(--font); color: var(--label-2); font-variant-numeric: tabular-nums; }
+.mtk-chev { width: 16px; height: 16px; color: var(--label-3); transition: transform .3s var(--curve-spring); transform: rotate(-90deg); }
+.mtk-area[open] .mtk-chev { transform: none; }
+.mtk-area ol { margin: 0 0 14px; padding: 0 0 0 30px; display: grid; gap: 6px; font: var(--t-13); color: var(--label-2); }
+.mtk-area ol a { color: inherit; text-decoration: none; }
+.mtk-area ol a:hover { color: var(--accent-ink); }
+
+/* Schedule */
+.mtk-sched { margin-top: 52px; padding-top: 40px; border-top: .5px solid var(--sep); scroll-margin-top: 24px; }
+.mtk-choice { margin-top: 24px; }
+.mtk-choice > p { margin: 0 0 10px; font: 650 15px/20px var(--font); }
+.mtk-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mtk-chip {
+  all: unset; box-sizing: border-box; cursor: pointer; min-height: 38px; padding: 0 14px; display: inline-flex; align-items: center; border-radius: var(--r-pill);
+  background: var(--bg-elev); box-shadow: inset 0 0 0 .5px var(--sep); font: 600 14px/1 var(--font); font-variant-numeric: tabular-nums;
+  transition: background-color .2s, color .2s, box-shadow .2s, transform var(--dur-press) var(--curve-spring);
+}
+.mtk-chip:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--label) 25%, transparent); }
+.mtk-chip:active { transform: scale(var(--press-scale)); }
+.mtk-chip[aria-pressed="true"] { background: var(--label); color: var(--bg); box-shadow: none; }
+.mtk-chip[data-short] { color: var(--label-3); }
+.mtk-chip[data-short][aria-pressed="true"] { color: var(--bg); }
+.mtk-preview { margin-top: 26px; padding: 20px; border-radius: var(--r-panel); }
+.mtk-preview-v { margin: 4px 0 0; font: 700 22px/28px var(--font); letter-spacing: -.015em; }
+.mtk-weeks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.mtk-week { display: grid; gap: 4px; }
+.mtk-week > span { font: 600 10px/1 var(--font); color: var(--label-3); letter-spacing: .04em; }
+.mtk-week > div { display: flex; gap: 3px; }
+.mtk-week i { width: 12px; height: 12px; border-radius: 4px; background: var(--track); animation: mtk-pop .4s var(--curve-spring) both; }
+.mtk-week i[data-on] { background: var(--accent); }
+.mtk-week i[data-done] { background: color-mix(in srgb, var(--label) 46%, transparent); }
+@keyframes mtk-pop { from { transform: scale(.4); opacity: 0; } }
+.mtk-days { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; font: var(--t-13); color: var(--label-2); }
+.mtk-days b { color: var(--label); font-weight: 650; }
+.mtk-warn { margin-top: 16px; padding: 14px; border-radius: 16px; background: var(--accent-soft); font: var(--t-13); line-height: 19px; color: var(--label); }
+.mtk-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.mtk-foot { margin-top: 22px; font: var(--t-12); color: var(--label-3); }
+.mtk-foot a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+
+/* ---------------------------------------------------------------- My Plan */
+.mtk-switch { width: 100%; max-width: 20rem; }
+.mtk-prog { margin-top: 24px; padding: 20px; border-radius: var(--r-panel); }
+.mtk-prog-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font: var(--t-13); color: var(--label-2); }
+.mtk-prog-row b { color: var(--label); font-weight: 700; }
+.mtk-prog .lq-progress { margin-top: 10px; }
+.mtk-nextl { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: 18px; padding-top: 16px; border-top: .5px solid var(--sep); }
+.mtk-nextl small { display: block; font: var(--t-12); color: var(--label-2); }
+.mtk-nextl b { display: block; font: 650 17px/22px var(--font); }
+.mtk-complete { margin: 18px 0 0; font: 650 15px/20px var(--font); color: var(--accent-ink); }
+
+/* Signature: plan ribbon — every learning day as a tile, grouped by week; fill = lessons done. */
+.mtk-ribbon { display: flex; gap: 12px; margin-top: 18px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.mtk-ribbon::-webkit-scrollbar { display: none; }
+.mtk-rweek { display: grid; gap: 5px; flex: none; }
+.mtk-rweek > span { font: 600 10px/1 var(--font); letter-spacing: .04em; color: var(--label-3); }
+.mtk-rweek > div { display: flex; gap: 4px; }
+.mtk-rday {
+  all: unset; box-sizing: border-box; cursor: pointer; position: relative; width: 22px; height: 30px; border-radius: 7px; overflow: hidden; background: var(--track);
+  transition: transform .35s var(--curve-spring);
+}
+.mtk-rday:hover { transform: translateY(-2px); }
+.mtk-rday > i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--p) * 100%); background: color-mix(in srgb, var(--label) 46%, transparent); transition: height .9s var(--curve-spring-soft); }
+.mtk-rday[data-now] { box-shadow: 0 0 0 2px var(--accent); }
+.mtk-rday[data-now] > i { background: var(--accent); }
+.mtk-rday:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.mtk-dlist { list-style: none; margin: 12px 0 0; padding: 0; border-top: .5px solid var(--sep); }
+.mtk-dlist > li { border-bottom: .5px solid var(--sep); padding: 12px 0; scroll-margin-top: 80px; }
+.mtk-dlist > li[data-flash] { animation: mtk-flash 1.2s var(--curve-out); }
+@keyframes mtk-flash { 0%, 40% { background: var(--accent-soft); } }
+.mtk-drow { display: flex; align-items: center; gap: 12px; }
+.mtk-dbadge { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--fill); font: 650 12.5px/1 var(--font); color: var(--label-2); font-variant-numeric: tabular-nums; }
+.mtk-dbadge[data-s="now"] { background: var(--accent); color: var(--on-accent); }
+.mtk-dbadge[data-s="done"] { background: var(--label); color: var(--bg); }
+.mtk-dbadge svg { width: 15px; height: 15px; }
+.mtk-dmain { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.mtk-dmain b { font: 650 14.5px/19px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mtk-dmain small { font: var(--t-12); color: var(--label-2); font-weight: 500; }
+.mtk-dlessons { list-style: none; margin: 10px 0 2px 46px; padding: 0; display: grid; gap: 2px; }
+.mtk-dlessons a { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 10px; color: var(--label); text-decoration: none; font: 500 14px/18px var(--font); }
+.mtk-dlessons a:hover { background: var(--fill); }
+.mtk-dlessons a[data-done] { color: var(--label-2); }
+.mtk-dlessons svg { width: 13px; height: 13px; flex: none; color: var(--label-3); }
+.mtk-dlessons a[data-done] svg { color: var(--label); }
+.mtk-banner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; padding: 12px 14px; border-radius: 16px; background: var(--accent-soft); font: var(--t-13); }
+.mtk-banner span { flex: 1; min-width: 0; }
+.mtk-banner a { color: var(--accent-ink); font-weight: 650; text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .mtk-week i, .mtk-dlist > li[data-flash], .mtk-rday > i { animation: none !important; transition: none !important; } }
+.mtk-h2-gap { margin-top: 8px; }
+.mtk-gap { margin-top: 30px; }
+.mtk-min0 { min-width: 0; }
+.mtk-acts-rule { border-top: .5px solid var(--sep); padding-top: 24px; margin-top: 36px; }
+.mtk-foot-ic { width: 12px; height: 12px; vertical-align: -1px; margin-right: 4px; }
+.mtk-sheet-p { margin: 0; font: var(--t-15); color: var(--label-2); }
+button.mtk-drow { width: 100%; text-align: left; }
+button.mtk-drow:hover .mtk-dmain b { color: var(--accent-ink); }
+@media (min-width: 640px) { .mtk-card { min-height: 116px; } }
+.mtk-ribbon { -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }

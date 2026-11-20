@@ -1,0 +1,1422 @@
+{
+ "program": {
+  "id": "5944a03d-94be-5595-b9da-b212edfdc892",
+  "name": "Athleticism 4 Life",
+  "tagline": "A 30-day program with the Bulgarian Bag",
+  "summary": "Your 30-Day Program: four weeks of daily training with the Bulgarian Bag, from foundations to performance integration, with mobility, breathing, stretching and working-in sessions alongside.",
+  "description": "Start with the philosophy and fundamentals, the training schedule and the BOLT breathing test, then choose your Bulgarian Bag and learn its anatomy, safety and clothing.",
+  "highlights": [
+   "30 days in four weekly blocks",
+   "Seven workouts with level up and down options",
+   "Mobility, breathing, stretching and working-in sessions"
+  ],
+  "isFree": false,
+  "level": null,
+  "access": "included",
+  "slug": "athleticism-4-life",
+  "type": "course",
+  "image": "/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png",
+  "instructor": "Mike Salemi"
+ },
+ "locked": false,
+ "intro": {
+  "sectionId": "909d6a4f-ca59-501c-9c47-44329b725044",
+  "lessonId": "e51e99ce-1e16-5371-8f3b-40375b9d2aeb",
+  "title": "Home"
+ },
+ "groups": [
+  {
+   "name": "30-Day Program",
+   "sections": [
+    {
+     "id": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+     "title": "Getting Started",
+     "position": 2,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "66c41991-4d37-51d9-ba76-aa699712d451",
+       "key": null,
+       "title": "Philosophy & Fundamentals",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "5ddf8175-0734-5800-81fc-284302aae25b",
+       "key": null,
+       "title": "Training Schedule",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "52576dc6-1545-5a5f-848b-a39ee466076d",
+       "key": null,
+       "title": "BOLT Test",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "86b85223-3e48-5550-a947-4f95244d8d9d",
+       "key": null,
+       "title": "*Preparation Plan [For Low BOLT Score]",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "c5603a99-a88a-5af6-a6fb-687982ba1685",
+       "key": null,
+       "title": "Choosing Your Bulgarian Bag",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "22f24411-9574-53fc-8f44-5a176d084a4a",
+       "key": null,
+       "title": "Anatomy of the Bulgarian Bag",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "fac2adeb-6588-57b3-b759-2d4f977ce2b7",
+       "key": null,
+       "title": "Safety & Clothing",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "e0091a2a-1404-5a1e-ae73-aab5d85be827",
+       "key": null,
+       "title": "Let's Go!",
+       "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+       "video": true,
+       "done": true,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+     "title": "Week 1: Foundations",
+     "position": 3,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "d1a2af7a-c4bd-58f3-bf69-1e5a2c0d08ec",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "dbee5ce5-f43d-5636-bb66-560d8df0b8ed",
+       "key": null,
+       "title": "Day 1",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "15ef9490-c64c-5b7d-8715-3983b12ddd98",
+       "key": null,
+       "title": "Day 2",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": true,
+       "minutes": null
+      },
+      {
+       "id": "b00db853-4a63-5ce0-b8e6-adf4c025f516",
+       "key": null,
+       "title": "Day 3",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "2d943d27-6311-5f14-a030-ad279ccba660",
+       "key": null,
+       "title": "Day 4",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "fa5e0df7-b1c4-53dd-850e-6eb3ac02bba1",
+       "key": null,
+       "title": "Day 5",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "1c164a08-c3cc-5947-b7e1-1d1999f648d2",
+       "key": null,
+       "title": "Day 6",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "7bd62eb7-056f-56c2-b408-6f2b4b32db7f",
+       "key": null,
+       "title": "Day 7",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "4bdabb78-1737-5f2d-bc0c-8933998bc070",
+       "key": null,
+       "title": "Week 1 Check In",
+       "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+     "title": "Week 2: Foundations",
+     "position": 4,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "a22fd028-93ea-574a-9ab1-0ffe69af07a7",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "98cb4ed6-d3ce-5a2e-8217-e47ba4666d00",
+       "key": null,
+       "title": "Day 8",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "54dee2c7-c5f0-51e2-a714-aeddf9587ea6",
+       "key": null,
+       "title": "Day 9",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "24318a2e-78e3-570d-ab55-5cd1ad58cf9c",
+       "key": null,
+       "title": "Day 10",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "1df250a3-8e97-5ee6-90c0-c672f9e54e37",
+       "key": null,
+       "title": "Day 11",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "80d3bae0-252b-563c-b316-d145f4bf8824",
+       "key": null,
+       "title": "Day 12",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "46200ea3-2998-5d5b-a2b9-54d100976384",
+       "key": null,
+       "title": "Day 13",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "a21b8213-88d7-55ca-b726-cd0be2765c4a",
+       "key": null,
+       "title": "Day 14",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "5dd3180e-8756-5f88-ae85-091d2bc31f77",
+       "key": null,
+       "title": "Week 2 Check In",
+       "sectionId": "77b08154-4c83-52ed-9a50-8b3a0bdd3280",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "f031e221-2756-5663-8317-e6eaca1d091d",
+     "title": "Week 3: Performance Integration",
+     "position": 5,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "f62a570c-26eb-568e-8339-f3b32dfe3279",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "6421f080-1c98-5af9-ab0a-755840897320",
+       "key": null,
+       "title": "Day 15",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "5a036f93-622d-5f2a-a128-5c9e431e12dc",
+       "key": null,
+       "title": "Day 16",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "c25338bb-a6dd-53a9-bda3-1423c76aa5d2",
+       "key": null,
+       "title": "Day 17",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "20d83bf9-b361-5118-8b28-eadedf74c533",
+       "key": null,
+       "title": "Day 18",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "9bd08a09-2112-5383-a248-7d32fe3a39ea",
+       "key": null,
+       "title": "Day 19",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "327be7e8-4d33-52d4-bf29-4e702e90cbc0",
+       "key": null,
+       "title": "Day 20",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "041a14b9-cdf3-5bbf-ba65-cba6b07cdb16",
+       "key": null,
+       "title": "Day 21",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "19bff309-027a-5a63-a470-d7152b754342",
+       "key": null,
+       "title": "Week 3 Check in",
+       "sectionId": "f031e221-2756-5663-8317-e6eaca1d091d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+     "title": "Week 4: Performance Integration",
+     "position": 6,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "b15b242f-500c-59cf-9fc0-d74082c6fca1",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "f2be42a4-6456-5670-9c85-1b5db5da9360",
+       "key": null,
+       "title": "Day 22",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "842dc7b0-9326-5dd4-9b23-6686e9593267",
+       "key": null,
+       "title": "Day 23",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "d26453da-560e-5b22-995d-c005e33410d8",
+       "key": null,
+       "title": "Day 24",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b78d5332-18ae-5ead-99d4-e671de2416d6",
+       "key": null,
+       "title": "Day 25",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "292f2e92-a138-51c1-8299-c2f4bafde989",
+       "key": null,
+       "title": "Day 26",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "1702e15a-f5a2-58e2-88ad-7da2aea39943",
+       "key": null,
+       "title": "Day 27",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "bb524826-b048-563c-82b6-b6fcfa0645de",
+       "key": null,
+       "title": "Day 28",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "e03ca071-0b9f-5eb1-a91f-417b10497348",
+       "key": null,
+       "title": "Week 4 Check In",
+       "sectionId": "0502f947-6924-585a-9aaa-ff43f2fd4be7",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "b2257619-46d6-5544-a75a-bd9d0102a060",
+     "title": "Final Days",
+     "position": 7,
+     "group": "30-Day Program",
+     "lessons": [
+      {
+       "id": "473bae76-d99c-5819-8454-b073bd86fc93",
+       "key": null,
+       "title": "Day 29",
+       "sectionId": "b2257619-46d6-5544-a75a-bd9d0102a060",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "a08a47c5-15cd-5853-8e26-54548bc030b8",
+       "key": null,
+       "title": "Day 30",
+       "sectionId": "b2257619-46d6-5544-a75a-bd9d0102a060",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3e6e494f-02ba-5fa9-9374-8aee415d1787",
+       "key": null,
+       "title": "Congratulations!",
+       "sectionId": "b2257619-46d6-5544-a75a-bd9d0102a060",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Workout Library",
+   "sections": [
+    {
+     "id": "e7fc92b6-6132-523b-9982-2eb6a03605ff",
+     "title": "Preparation Workout [Low BOLT]",
+     "position": 8,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "6fc6372a-4cc9-5972-bbfd-7f06757ef9ba",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "e7fc92b6-6132-523b-9982-2eb6a03605ff",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "da4ddc29-b425-5c50-a9f4-21213572c243",
+       "key": null,
+       "title": "Preparation Workout [Low BOLT Score]",
+       "sectionId": "e7fc92b6-6132-523b-9982-2eb6a03605ff",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "ab135e7e-be0b-5d8e-bd8e-511168fbb5f3",
+     "title": "Workout 1",
+     "position": 9,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "c4f79497-5349-57de-99be-19ec18e77ffc",
+       "key": null,
+       "title": "Workout 1",
+       "sectionId": "ab135e7e-be0b-5d8e-bd8e-511168fbb5f3",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "f3ea05cb-5f7d-5da4-8b02-cb085b0c7f2a",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "ab135e7e-be0b-5d8e-bd8e-511168fbb5f3",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "4e68c9de-4130-5144-8254-ae71f964d109",
+     "title": "Workout 2",
+     "position": 10,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "8be32c3c-d268-5241-8fca-b7fa17366096",
+       "key": null,
+       "title": "Workout 2",
+       "sectionId": "4e68c9de-4130-5144-8254-ae71f964d109",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b9132fb5-ff21-54c9-8c29-a887dabbc674",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "4e68c9de-4130-5144-8254-ae71f964d109",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "a13685bc-39c3-5f9c-91cd-7a9fc8c52521",
+     "title": "Workout 3",
+     "position": 11,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "34d53285-a4cb-544e-96ce-6e1e7df0af70",
+       "key": null,
+       "title": "Workout 3",
+       "sectionId": "a13685bc-39c3-5f9c-91cd-7a9fc8c52521",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "0b5efc1c-3ddb-599d-b85e-835910bfc68f",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "a13685bc-39c3-5f9c-91cd-7a9fc8c52521",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "bfe774a3-0f68-586f-be6e-07db0a35ed18",
+     "title": "Workout 4",
+     "position": 12,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "a864ead1-92d9-523b-8dfd-918fbeead08e",
+       "key": null,
+       "title": "Workout 4",
+       "sectionId": "bfe774a3-0f68-586f-be6e-07db0a35ed18",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "bfa000af-5a86-5bf6-bba3-68d4a15f3ff7",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "bfe774a3-0f68-586f-be6e-07db0a35ed18",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "d8ee5e9c-c113-5181-a909-a39c7986cb0c",
+     "title": "Workout 5",
+     "position": 13,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "5eb13699-8a58-559f-bb9b-c3b430477ab1",
+       "key": null,
+       "title": "Workout 5",
+       "sectionId": "d8ee5e9c-c113-5181-a909-a39c7986cb0c",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "fcff2f1f-e9bd-58cd-8b9d-c1ac97f4da6c",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "d8ee5e9c-c113-5181-a909-a39c7986cb0c",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "f5742b57-888c-503f-b4a8-d1d93421a23c",
+     "title": "Workout 6",
+     "position": 14,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "299f8343-e772-5de0-b6b3-83c011cb46e9",
+       "key": null,
+       "title": "Workout 6",
+       "sectionId": "f5742b57-888c-503f-b4a8-d1d93421a23c",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "c815e2fa-1533-5f23-a0f3-881281a2760f",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "f5742b57-888c-503f-b4a8-d1d93421a23c",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "374b0189-f9ca-5693-9556-4c311d4c5381",
+     "title": "Workout 7",
+     "position": 15,
+     "group": "Workout Library",
+     "lessons": [
+      {
+       "id": "ed966f51-45c7-543c-a4c8-09376cec58f1",
+       "key": null,
+       "title": "Completion Workout 7",
+       "sectionId": "374b0189-f9ca-5693-9556-4c311d4c5381",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b56ca29b-cbbb-5d33-924b-89495f5b41db",
+       "key": null,
+       "title": "How To Level Up/Down",
+       "sectionId": "374b0189-f9ca-5693-9556-4c311d4c5381",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Exercise Library",
+   "sections": [
+    {
+     "id": "5e89d10d-ed43-5725-9633-17941774548f",
+     "title": "Spin",
+     "position": 16,
+     "group": "Exercise Library",
+     "lessons": [
+      {
+       "id": "c58f7cbe-9198-5da5-8730-77448b3ca88a",
+       "key": null,
+       "title": "Open Arm Side to Side Swing Series",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "893a08df-f0c2-5b68-a1a1-6d69ea468c46",
+       "key": null,
+       "title": "Half Spin",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b2ec2b18-6702-5994-a6e3-35d19924797d",
+       "key": null,
+       "title": "Half Spin-Squat Combo",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "410bc32d-dc1b-587f-b9c5-afedd5561857",
+       "key": null,
+       "title": "Spin and Pause",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "4d8140f8-ddab-5e3c-b7a2-0b00ea70ffa1",
+       "key": null,
+       "title": "Suples Spin",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "80991e46-dcd7-5c9f-b14f-561c49bc575a",
+       "key": null,
+       "title": "Spin-Arm Throw Combo",
+       "sectionId": "5e89d10d-ed43-5725-9633-17941774548f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "429b8176-416e-5875-b6fe-9573d537d523",
+     "title": "Arm Throw",
+     "position": 17,
+     "group": "Exercise Library",
+     "lessons": [
+      {
+       "id": "25f46870-a962-5073-892b-8bb429f0d228",
+       "key": null,
+       "title": "Shoulder Load",
+       "sectionId": "429b8176-416e-5875-b6fe-9573d537d523",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3719cc85-afa5-564b-a5c6-1130e0a3372d",
+       "key": null,
+       "title": "Arm Throw",
+       "sectionId": "429b8176-416e-5875-b6fe-9573d537d523",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "6db2ac21-d998-5b60-8b5b-14edc86209bc",
+       "key": null,
+       "title": "Spin-Arm Throw Combo",
+       "sectionId": "429b8176-416e-5875-b6fe-9573d537d523",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "497372ee-cd78-59a5-9fa3-36eb2789cca4",
+     "title": "Clean",
+     "position": 18,
+     "group": "Exercise Library",
+     "lessons": [
+      {
+       "id": "2b439e70-c89f-5502-b884-d721205989ed",
+       "key": null,
+       "title": "Clean",
+       "sectionId": "497372ee-cd78-59a5-9fa3-36eb2789cca4",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "eb0b8c6b-3a0f-5503-929e-aa5af88b808a",
+       "key": null,
+       "title": "Clean-Squat Combo",
+       "sectionId": "497372ee-cd78-59a5-9fa3-36eb2789cca4",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "9d75d88a-dc3d-578f-a45e-1b8dfcfa2bf8",
+       "key": null,
+       "title": "Clean-Reverse Lunge Combo",
+       "sectionId": "497372ee-cd78-59a5-9fa3-36eb2789cca4",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "89b2b9c2-2d88-5b7e-86a5-668572a99757",
+       "key": null,
+       "title": "Row-Clean Combo",
+       "sectionId": "497372ee-cd78-59a5-9fa3-36eb2789cca4",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "d5cb7166-9402-5b73-9fff-835a57e1e6eb",
+     "title": "Snatch",
+     "position": 19,
+     "group": "Exercise Library",
+     "lessons": [
+      {
+       "id": "f8e35f39-a0bd-51a5-9ea0-22bba88b77bb",
+       "key": null,
+       "title": "Snatch",
+       "sectionId": "d5cb7166-9402-5b73-9fff-835a57e1e6eb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "4ae312d7-d9ad-5478-a215-0f4d3e9dc4af",
+       "key": null,
+       "title": "Snatch (Vertical Bag Position)",
+       "sectionId": "d5cb7166-9402-5b73-9fff-835a57e1e6eb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "ddf61c1b-d98f-5674-a3e1-f7a294f837b9",
+       "key": null,
+       "title": "Snatch-Swing Squat Combo",
+       "sectionId": "d5cb7166-9402-5b73-9fff-835a57e1e6eb",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "25579bd7-e563-5153-98c8-664c3ff79953",
+     "title": "Swing Squat",
+     "position": 20,
+     "group": "Exercise Library",
+     "lessons": [
+      {
+       "id": "6ab1a84c-8654-5759-851c-c4493ca723b5",
+       "key": null,
+       "title": "Swing Squat",
+       "sectionId": "25579bd7-e563-5153-98c8-664c3ff79953",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "ef46d9b9-b91d-5d85-a331-4f074f2e8e1b",
+       "key": null,
+       "title": "Snatch-Swing Squat Combo",
+       "sectionId": "25579bd7-e563-5153-98c8-664c3ff79953",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Preparation & Recovery Series",
+   "sections": [
+    {
+     "id": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+     "title": "Mobility",
+     "position": 22,
+     "group": "Preparation & Recovery Series",
+     "lessons": [
+      {
+       "id": "d2161cc7-cfae-5409-81e6-dd5e09a62b3b",
+       "key": null,
+       "title": "Human First",
+       "sectionId": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "045e2ac1-a612-50da-8a08-99c3567e1051",
+       "key": null,
+       "title": "Shoulders",
+       "sectionId": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "384d6de1-1722-5239-ab04-8c9c200b99ce",
+       "key": null,
+       "title": "Spine",
+       "sectionId": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3965df18-41c6-5f3d-9f44-454fa727fd87",
+       "key": null,
+       "title": "Hips",
+       "sectionId": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "05dc4dc7-ff1c-58f7-88d5-0b72d35563e5",
+       "key": null,
+       "title": "Programming",
+       "sectionId": "559864d6-a8de-59f1-9e5d-ce6b18638fa5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+     "title": "Breathing",
+     "position": 23,
+     "group": "Preparation & Recovery Series",
+     "lessons": [
+      {
+       "id": "c0256a4e-27eb-59a1-bb00-06fead888709",
+       "key": null,
+       "title": "Essential Concepts",
+       "sectionId": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "897cdf38-cfda-5916-bd6a-d5b5793ab7a1",
+       "key": null,
+       "title": "BOLT Test",
+       "sectionId": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "464b4ada-09b8-584b-9141-b82f086c61d9",
+       "key": null,
+       "title": "Nasal Unblocking",
+       "sectionId": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "4daa5bdd-b0b1-5091-8300-1840cd9c9a5c",
+       "key": null,
+       "title": "Breathe Light",
+       "sectionId": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "51d86f8e-fbc7-5baf-84d6-7d87e0218ff6",
+       "key": null,
+       "title": "Complete Breathing Session",
+       "sectionId": "e5d7d8ae-27fa-5e16-be0e-4db829330c2f",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "29af6470-5d00-59a4-99d2-ec340f35984b",
+     "title": "Stretching",
+     "position": 24,
+     "group": "Preparation & Recovery Series",
+     "lessons": [
+      {
+       "id": "eba22a69-6fb1-50c5-a6ca-9d0f97815048",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "29af6470-5d00-59a4-99d2-ec340f35984b",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "fc98ea6e-2f4d-54cd-8c45-20a970210f41",
+       "key": null,
+       "title": "Recovery #1",
+       "sectionId": "29af6470-5d00-59a4-99d2-ec340f35984b",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "bebfd6cc-ad43-570f-8316-c3581fb79022",
+       "key": null,
+       "title": "Recovery #2",
+       "sectionId": "29af6470-5d00-59a4-99d2-ec340f35984b",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "254a85ea-8cd1-51ad-bb21-0db354372d6a",
+       "key": null,
+       "title": "Complete Stretching Session",
+       "sectionId": "29af6470-5d00-59a4-99d2-ec340f35984b",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "650d2aeb-0cc4-5e56-8f87-99f920ec968f",
+       "key": null,
+       "title": "TV ELDOA",
+       "sectionId": "29af6470-5d00-59a4-99d2-ec340f35984b",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+     "title": "Working In",
+     "position": 25,
+     "group": "Preparation & Recovery Series",
+     "lessons": [
+      {
+       "id": "57bd5f56-7647-50e2-90dc-c2854f62974b",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "44798352-a4cd-5efe-8685-f77e87cea8dc",
+       "key": null,
+       "title": "Wood/Energy Chops",
+       "sectionId": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b7dde78c-8511-5b36-b1d9-f2723b20d383",
+       "key": null,
+       "title": "Crocodile Breathing",
+       "sectionId": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "58bbcdfb-3cdd-595c-ab9c-d1fffc168dce",
+       "key": null,
+       "title": "Complete Working In Session",
+       "sectionId": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "869e6caf-6cbb-58b3-8378-caa347dfd12c",
+       "key": null,
+       "title": "Paul Chek: Working In Discussion Series",
+       "sectionId": "6fd8b3bf-2815-58ad-8d77-1bb3e841d073",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "62614f4b-0168-587d-a9d3-34a52f1b7797",
+     "title": "Warming Up",
+     "position": 26,
+     "group": "Preparation & Recovery Series",
+     "lessons": [
+      {
+       "id": "f6a726ca-3c7d-5392-ad5a-3dc1977d245f",
+       "key": null,
+       "title": "Overview",
+       "sectionId": "62614f4b-0168-587d-a9d3-34a52f1b7797",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "1327c5ed-3984-51eb-bce5-b44749616c39",
+       "key": null,
+       "title": "Bodyweight Warm Up",
+       "sectionId": "62614f4b-0168-587d-a9d3-34a52f1b7797",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3c7402f9-9281-576c-820d-58d3badad3ce",
+       "key": null,
+       "title": "Bodyweight Warm Up (Short Version)",
+       "sectionId": "62614f4b-0168-587d-a9d3-34a52f1b7797",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "What's Next",
+   "sections": [
+    {
+     "id": "f8a0b19b-ffce-5058-8d83-9b97dc252a24",
+     "title": "Certification, Coaching, and More",
+     "position": 27,
+     "group": "What's Next",
+     "lessons": [
+      {
+       "id": "82c560d3-9933-5232-be70-c699c933b06e",
+       "key": null,
+       "title": "Where to Go Next?",
+       "sectionId": "f8a0b19b-ffce-5058-8d83-9b97dc252a24",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "212ec2be-40ef-5c03-b572-a812bd0e0ee8",
+       "key": null,
+       "title": "Certification & Coaching",
+       "sectionId": "f8a0b19b-ffce-5058-8d83-9b97dc252a24",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "91608264-b2b6-531c-91ed-c0e2090564ec",
+       "key": null,
+       "title": "The Suples System",
+       "sectionId": "f8a0b19b-ffce-5058-8d83-9b97dc252a24",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "2025 Archives",
+   "sections": [
+    {
+     "id": "f650250e-a62b-4d89-b4e0-55f7af7fe029",
+     "title": "Q & A Archives",
+     "position": 28,
+     "group": "2025 Archives",
+     "lessons": [
+      {
+       "id": "548f7a51-ab43-4b03-a63e-5f8fc0e9acfd",
+       "key": null,
+       "title": "January",
+       "sectionId": "f650250e-a62b-4d89-b4e0-55f7af7fe029",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "71fd4bab-677f-4133-a301-3bfeb176abf4",
+       "key": null,
+       "title": "February",
+       "sectionId": "f650250e-a62b-4d89-b4e0-55f7af7fe029",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "ca26f102-2db0-47a8-a63d-5de1c084ecdd",
+       "key": null,
+       "title": "March",
+       "sectionId": "f650250e-a62b-4d89-b4e0-55f7af7fe029",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "640955a7-c90e-4b40-9e84-639ec2205a75",
+       "key": null,
+       "title": "April",
+       "sectionId": "f650250e-a62b-4d89-b4e0-55f7af7fe029",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "enrolled": true,
+ "lastLessonId": "dbee5ce5-f43d-5636-bb66-560d8df0b8ed",
+ "intake": {
+  "key": "a4l-intake",
+  "done": true
+ },
+ "mtk": null,
+ "lessons": {
+  "5ddf8175-0734-5800-81fc-284302aae25b": {
+   "id": "5ddf8175-0734-5800-81fc-284302aae25b",
+   "title": "Training Schedule",
+   "sectionId": "2924cde6-15b4-567d-a91d-ddffc3b23ba6",
+   "isIntro": false,
+   "videoSeconds": {},
+   "steps": [
+    {
+     "id": "353173e4-4001-543d-94b0-86a422d6dc8b",
+     "title": "Training Schedule",
+     "required": true,
+     "video": {
+      "providerId": "898699693",
+      "privacyHash": "7ff6cae7c4",
+      "title": "Training Schedule",
+      "durationSeconds": 105,
+      "thumbnailUrl": "https://i.vimeocdn.com/video/1775847408-f086077b91a4acfae48fc28a1cd354cc624e0224e66625f29dbd207090f273a8-d_1280?region=us"
+     },
+     "clips": [],
+     "body": "![](/media/ext/d11n7da8rpqbjy/mikesalemi/399974656012workout_2-7.png)\n\n***NOTE**: In the next section we will determine your BOLT (Body Oxygen Level Test) Score. If you score below 15 seconds, included is a suggested alternative \"preparation\" week of training prior to starting on the full program schedule as included above.\n\n- [Download: Suggested Schedule](https://programs.mikesalemi.io/A4L/download/75)\n\n- [Download: Fillable Schedule](https://programs.mikesalemi.io/A4L/download/74)\n\n- [Download: Fillable Workout Log](https://programs.mikesalemi.io/A4L/download/72)",
+     "attachments": [
+      {
+       "url": "https://programs.mikesalemi.io/A4L/download/75",
+       "kind": "file",
+       "title": "Download: Suggested Schedule"
+      },
+      {
+       "url": "https://programs.mikesalemi.io/A4L/download/74",
+       "kind": "file",
+       "title": "Download: Fillable Schedule"
+      },
+      {
+       "url": "https://programs.mikesalemi.io/A4L/download/72",
+       "kind": "file",
+       "title": "Download: Fillable Workout Log"
+      }
+     ],
+     "done": true,
+     "poster": "https://i.vimeocdn.com/video/1775847408-f086077b91a4acfae48fc28a1cd354cc624e0224e66625f29dbd207090f273a8-d_1280?region=us",
+     "description": null
+    }
+   ]
+  },
+  "dbee5ce5-f43d-5636-bb66-560d8df0b8ed": {
+   "id": "dbee5ce5-f43d-5636-bb66-560d8df0b8ed",
+   "title": "Day 1",
+   "sectionId": "059d5d5e-dbbd-5c68-95fd-f78969749064",
+   "isIntro": false,
+   "videoSeconds": {},
+   "steps": [
+    {
+     "id": "4e12fdcb-238a-58cb-ae56-265325248e7a",
+     "title": "Day 1",
+     "required": true,
+     "video": {
+      "providerId": "898970000",
+      "privacyHash": "c0e10741a2",
+      "title": "Workout 1",
+      "durationSeconds": 4187,
+      "thumbnailUrl": "https://i.vimeocdn.com/video/1776257933-f7ee8e13ab612aa0e7d184539a02abe76481b99136591d40fcb84a71f0d4c4da-d_1280?region=us"
+     },
+     "clips": [
+      {
+       "providerId": "897638380",
+       "privacyHash": "322988c312",
+       "title": "Open Arm Side to Side Swing w/ Rotation",
+       "durationSeconds": 63,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1773711612-d00a20fd5d2d8a9b0be62069a542f7a96a62fb4d88e34080bb2f84d3ddfff698-d_1280?region=us"
+      },
+      {
+       "providerId": "897639915",
+       "privacyHash": "871621a8c0",
+       "title": "Single Side Half Spin",
+       "durationSeconds": 64,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1773720263-ffbd3c01ac017e4f313ab7a03484de11c0f3289b165c9fc4dc463b8e6738242a-d_1280?region=us"
+      },
+      {
+       "providerId": "897648847",
+       "privacyHash": "fc3c108d54",
+       "title": "Spin and Pause",
+       "durationSeconds": 71,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1774118860-b3f039fea60ebb371deacbaec63e8662585f82439c1c8579973ef9d6f3a59d4b-d_1280?region=us"
+      },
+      {
+       "providerId": "897934979",
+       "privacyHash": "c70983d699",
+       "title": "Squat",
+       "durationSeconds": 31,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1774307693-ad073c09613111f3f957d5b6147d75aff1842dc331b7d2809f66912b8859a0cf-d_1280?region=us"
+      },
+      {
+       "providerId": "897851065",
+       "privacyHash": "73235a5e92",
+       "title": "Overhead Press",
+       "durationSeconds": 41,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1774285251-b0b6b5a223839b56449a9e9e770b8d74764bc117df9feb435d7f4363007af16a-d_1280?region=us"
+      },
+      {
+       "providerId": "897928747",
+       "privacyHash": null,
+       "title": "Row (Outside Grip)",
+       "durationSeconds": 29,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1774297409-463c55f969b3db1d054ee3e5b66df737e1001a601b2aebef6305848f06c66e96-d_1280?region=us"
+      },
+      {
+       "providerId": "897950193",
+       "privacyHash": "dfbf4ab86a",
+       "title": "Side Lying Leg Raises",
+       "durationSeconds": 44,
+       "thumbnailUrl": "https://i.vimeocdn.com/video/1774338457-fe7bd824bb0451158248d9c2399ecac5cea61e25ce497ed08e53157f9a699cfc-d_1280?region=us"
+      }
+     ],
+     "body": "**WORKOUT DETAILS**\n\n**Work Duration**: 30 seconds on each exercise (based on your fitness level, the number of reps within each working time period can vary)\n\n**Transition Time:** 15 Seconds\n\n**Rest**: Up to 60 Seconds (after each completed round)\n\n**Rounds**: 3-5\n\n**Circuit:**\n\n**1. Spin Progression** (each progression below coincides with the round you are performing):\n\n1. **Open Arm Side to Side Swing w/ Rotation**\n2. **Single Side Half Spin** (15 sec each side)\n3. **Single Side Half Spin** (15 sec each side)\n4. **Single Side Half Spin** (15 sec each side)\n  - **Progression Option:** Spin and Pause (15 sec each side)\n5. **Single Side Half Spin** (15 sec each side)\n  - **Progression Option:** Spin and Pause (15 sec each side)\n\n**2. Squat**\n\n**3. Overhead Press**\n\n**4. Row - Deadlift/Stand Combo** (for every 4 Rows, perform 1 Deadlift/Stand)\n\n**5. Side Lying Leg Raises*** (30 sec each leg)\n\n- Position 1: Leg Inline with torso\n- Position 2: Hip at ~135 degrees\n- Position 3: Hip at ~90 degrees\n\n***Note:** If you perform a total of 5 rounds, in the final one (round #5), during your Side Lying Leg Raises, perform an extended set of 60 seconds on each side, rather than 30 seconds.",
+     "attachments": [],
+     "done": true,
+     "poster": "https://i.vimeocdn.com/video/1776257933-f7ee8e13ab612aa0e7d184539a02abe76481b99136591d40fcb84a71f0d4c4da-d_1280?region=us",
+     "description": null
+    }
+   ]
+  },
+  "e51e99ce-1e16-5371-8f3b-40375b9d2aeb": {
+   "id": "e51e99ce-1e16-5371-8f3b-40375b9d2aeb",
+   "title": "Home",
+   "sectionId": "909d6a4f-ca59-501c-9c47-44329b725044",
+   "isIntro": false,
+   "videoSeconds": {},
+   "steps": [
+    {
+     "id": "93b4c301-8541-55a5-94a8-b135cd0fafaf",
+     "title": "Home",
+     "required": true,
+     "video": {
+      "providerId": "899083573",
+      "privacyHash": "72b0b24e51",
+      "title": "Home",
+      "durationSeconds": 278,
+      "thumbnailUrl": "https://i.vimeocdn.com/video/1776459829-34ee1a536ac4c9210fe8fb3db3aa5f1396201544d18bafe9e3f4177f9920257c-d_1280?region=us"
+     },
+     "clips": [],
+     "body": "This is your 30-Day Program portal. The above video guides you through navigating your program interface, and some suggestions on getting started.\n\n---\n\n![](/media/ext/d11n7da8rpqbjy/mikesalemi/3459667779708.png)",
+     "attachments": [],
+     "done": false,
+     "poster": "https://i.vimeocdn.com/video/1776459829-34ee1a536ac4c9210fe8fb3db3aa5f1396201544d18bafe9e3f4177f9920257c-d_1280?region=us",
+     "description": null
+    }
+   ]
+  }
+ }
+}

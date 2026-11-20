@@ -1,0 +1,171 @@
+{
+ "program": {
+  "id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+  "name": "Working-In with Paul Chek & Mike Salemi",
+  "tagline": "With Paul Chek and Mike Salemi",
+  "summary": "Explore the practice of working in",
+  "description": "Paul Chek and Mike Salemi explain working-in principles, their place in athletic training, and the Energy Push exercise through lectures and demonstrations.",
+  "highlights": [
+   "Working-in foundations",
+   "Athletic performance discussions",
+   "Energy Push demonstration"
+  ],
+  "isFree": false,
+  "level": null,
+  "access": "included",
+  "slug": "working-in",
+  "type": "course",
+  "image": "/media/l5e/0f8c0c9c-3d88-4297-b30a-2c19e672fb67/working-in.png",
+  "instructor": "Mike Salemi"
+ },
+ "locked": false,
+ "intro": {
+  "sectionId": "3c05e9d3-8d98-5ac3-b981-2523ae981da7",
+  "lessonId": "d9da3212-d2bd-5100-8647-68701c561722",
+  "title": "Home"
+ },
+ "groups": [
+  {
+   "name": "Working In Series",
+   "sections": [
+    {
+     "id": "5ee1b47b-d0a3-59dc-b623-4c701f653799",
+     "title": "Getting Started",
+     "position": 2,
+     "group": "Working In Series",
+     "lessons": [
+      {
+       "id": "8b8781d1-b2bc-582f-8deb-aa50cb9b73e4",
+       "key": null,
+       "title": "Understanding Working In",
+       "sectionId": "5ee1b47b-d0a3-59dc-b623-4c701f653799",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "fc7e388f-2b54-5f67-9342-948ccfa92d08",
+     "title": "Working In and Athletic Performance",
+     "position": 3,
+     "group": "Working In Series",
+     "lessons": [
+      {
+       "id": "8b2da57b-7b84-5b54-b04e-be29e047c49d",
+       "key": null,
+       "title": "Working Out and Working In",
+       "sectionId": "fc7e388f-2b54-5f67-9342-948ccfa92d08",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "2b0a0f5d-f9f9-5f82-9f0e-cd6feac72e64",
+     "title": "Energy Push - Explained and Demonstrated",
+     "position": 4,
+     "group": "Working In Series",
+     "lessons": [
+      {
+       "id": "ff049d49-bcaf-51d7-b074-c305c2d6cf91",
+       "key": null,
+       "title": "Energy Push",
+       "sectionId": "2b0a0f5d-f9f9-5f82-9f0e-cd6feac72e64",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "enrolled": false,
+ "lastLessonId": null,
+ "intake": {
+  "key": "working-in-intake",
+  "done": false
+ },
+ "mtk": null,
+ "lessons": {
+  "8b8781d1-b2bc-582f-8deb-aa50cb9b73e4": {
+   "id": "8b8781d1-b2bc-582f-8deb-aa50cb9b73e4",
+   "title": "Understanding Working In",
+   "sectionId": "5ee1b47b-d0a3-59dc-b623-4c701f653799",
+   "isIntro": false,
+   "videoSeconds": {},
+   "steps": [
+    {
+     "id": "4016f708-af0f-59f4-92bd-6a64f88878df",
+     "title": "Understanding Working In",
+     "required": true,
+     "video": {
+      "providerId": "302737309",
+      "privacyHash": null,
+      "title": "Understanding Working In",
+      "durationSeconds": null,
+      "thumbnailUrl": null
+     },
+     "clips": [
+      {
+       "providerId": "302738984",
+       "privacyHash": null,
+       "title": "Parasympathetic Activation Indicators",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302741523",
+       "privacyHash": null,
+       "title": "Entering Flow State",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302722494",
+       "privacyHash": null,
+       "title": "Specific Work-In Zones",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302745434",
+       "privacyHash": null,
+       "title": "Ideal Time Commitment",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302743776",
+       "privacyHash": null,
+       "title": "Best Time of Day",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302723475",
+       "privacyHash": null,
+       "title": "Ideal Clothing",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      },
+      {
+       "providerId": "302721060",
+       "privacyHash": null,
+       "title": "Effects of Heavy Metal Exposure",
+       "durationSeconds": null,
+       "thumbnailUrl": null
+      }
+     ],
+     "body": "*These assortment of 8 lectures are also found in the Bonus Section of Mastering the Kettlebell. Here you'll learn in detail how to get started with working in.*\n\n**Introduction to Working-In**\n\n---\n\n**Parasympathetic Activation Indicators**\n\n---\n\n**Entering Flow State**\n\n---\n\n**Specific Work-In Zones**\n\n---\n\n**Ideal Time Commitment**\n\n---\n\n**Best Time of Day**\n\n---\n\n**Ideal Clothing**\n\n---\n\n**Effects of Heavy Metal Exposure**",
+     "attachments": [],
+     "done": false,
+     "poster": null,
+     "description": null
+    }
+   ]
+  }
+ }
+}

@@ -405,3 +405,59 @@ export function mtkLessonsFromCurriculum(curriculum: Curriculum): DbLesson[] {
 export function mtkLessonIdMap(curriculum: Curriculum): Map<string, string> {
   return new Map(curriculum.lessons.map((l) => [l.key ?? l.id, l.id]));
 }
+
+/* ------------------------------------------------------------------ results (legacy factsFor) */
+
+export const MTK_DEPTH_WHY: Record<Depth, string> = {
+  fix: "You said you struggle with this — pre-checks, technique and error corrections",
+  learn: "Part of your chosen focus — full technique progression",
+  refine: "You're confident here — error corrections and variations to refine it",
+  prereq: "Required foundation for the lifts you're focusing on",
+};
+
+export type MtkFocusArea = { movement: MtkMovement; label: string; count: number; why: string; depth?: Depth };
+
+export type MtkResult = {
+  level: MtkLevel;
+  coach: boolean;
+  strengths: string[];
+  gaps: string[];
+  focusAreas: MtkFocusArea[];
+  /** Classification ids (= v2 lesson ids for MTK), in curriculum order. */
+  lessonIds: string[];
+  recommended: number;
+  total: number;
+  minutes: number;
+  summary: string;
+};
+
+/**
+ * Results for one assessment: level, strengths, gaps, focus areas and the factual summary
+ * ("…That is N of M lessons; the rest of MTK stays open in Full Curriculum.").
+ */
+export function mtkResult(answers: MtkAnswers, dbLessons: DbLesson[], meta: MtkLessonMeta[] = MTK_LESSON_META): MtkResult {
+  const sel = selectMtkLessons(answers, dbLessons, meta);
+  const p = sel.profile;
+  const strengths = p.confident.map((m) => MOVEMENT_LABEL[m]);
+  const gaps = [...new Set([...p.struggles, ...p.focus.filter((m) => !p.confident.includes(m))])].map((m) => MOVEMENT_LABEL[m]);
+  const focusAreas = sel.byMovement.map((b) => ({
+    movement: b.movement,
+    label: b.label,
+    count: b.count,
+    depth: b.depth,
+    why: b.depth ? MTK_DEPTH_WHY[b.depth] : b.movement === "general" ? "Set-up, grips and orientation" : "Programming and expert material",
+  }));
+  const parts: string[] = [];
+  if (strengths.length) parts.push(`You reported confidence in the ${strengths.join(", ")}`);
+  if (p.struggles.length) parts.push(`identified the ${p.struggles.map((m) => MOVEMENT_LABEL[m]).join(", ")} as areas you struggle with`);
+  const summary = `${parts.length ? parts.join(" and ") + ". " : ""}Your plan concentrates on ${p.focus.map((m) => MOVEMENT_LABEL[m]).join(", ") || "the fundamentals"}${p.foundationFirst ? ", starting from set-up, grips and pre-checks" : ""}${p.coach ? ", with the coaching and programming material you asked for" : ""}. That is ${sel.lessonIds.length} of ${sel.total} lessons; the rest of MTK stays open in Full Curriculum.`;
+  return {
+    level: p.level, coach: p.coach, strengths, gaps, focusAreas,
+    lessonIds: sel.lessonIds, recommended: sel.lessonIds.length, total: sel.total, minutes: sel.minutes, summary,
+  };
+}
+
+/** Movement of a lesson (classification), for plan-day titles and the movement map. */
+export function mtkMovementOf(lessonId: string, meta: MtkLessonMeta[] = MTK_LESSON_META): MtkMovement | null {
+  return meta.find((m) => m.id === lessonId)?.movement ?? null;
+}

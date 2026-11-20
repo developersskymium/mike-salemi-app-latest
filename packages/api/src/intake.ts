@@ -53,6 +53,11 @@ export interface IntakeResult {
   start_section?: number;
   pace?: string;
   scores?: Record<string, number>;
+  bucket?: string;
+  flags?: Record<string, boolean>;
+  // program intakes (result kind 'template'): "Your program approach"
+  priorities?: string[];
+  caution?: string;
   // goal setting
   goal_id?: string;
   goal_kind?: string;

@@ -1,0 +1,133 @@
+{
+ "program": {
+  "id": "5944a03d-94be-5595-b9da-b212edfdc892",
+  "slug": "athleticism-4-life",
+  "name": "Athleticism 4 Life",
+  "type": "course",
+  "image": "/media/l5e/f9cc9459-fd95-4602-9ba0-1137217fdbfa/athleticism-4-life.png"
+ },
+ "form": {
+  "id": "a4l-form",
+  "key": "a4l-intake",
+  "programId": "5944a03d-94be-5595-b9da-b212edfdc892",
+  "title": "Athleticism 4 Life intake",
+  "introduction": "Four quick questions so the 30-Day Program starts at the right pace for you.",
+  "version": 1,
+  "steps": [
+   {
+    "id": "goal",
+    "eyebrow": "Program intake",
+    "title": "What do you want the 30 days to give you?",
+    "questions": [
+     {
+      "id": "goal",
+      "label": "What do you want the 30 days to give you?",
+      "type": "single",
+      "required": true,
+      "options": [
+       {
+        "value": "Build consistency",
+        "label": "Build consistency"
+       },
+       {
+        "value": "Get stronger",
+        "label": "Get stronger"
+       },
+       {
+        "value": "Move and feel more athletic",
+        "label": "Move and feel more athletic"
+       },
+       {
+        "value": "Improve my conditioning",
+        "label": "Improve my conditioning"
+       },
+       {
+        "value": "Return to training after a break",
+        "label": "Return to training after a break"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "days",
+    "eyebrow": "Program intake",
+    "title": "How many days a week can you train?",
+    "questions": [
+     {
+      "id": "days",
+      "label": "How many days a week can you train?",
+      "type": "single",
+      "required": true,
+      "options": [
+       {
+        "value": "2 days",
+        "label": "2 days"
+       },
+       {
+        "value": "3 days",
+        "label": "3 days"
+       },
+       {
+        "value": "4 days",
+        "label": "4 days"
+       },
+       {
+        "value": "5 days",
+        "label": "5 days"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "experience",
+    "eyebrow": "Program intake",
+    "title": "How would you describe your training right now?",
+    "questions": [
+     {
+      "id": "experience",
+      "label": "How would you describe your training right now?",
+      "type": "single",
+      "required": true,
+      "options": [
+       {
+        "value": "Just starting",
+        "label": "Just starting"
+       },
+       {
+        "value": "Some experience",
+        "label": "Some experience"
+       },
+       {
+        "value": "Training regularly",
+        "label": "Training regularly"
+       },
+       {
+        "value": "Experienced athlete",
+        "label": "Experienced athlete"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "constraints",
+    "eyebrow": "Program intake",
+    "title": "Anything we should keep in mind?",
+    "questions": [
+     {
+      "id": "constraints",
+      "label": "Anything we should keep in mind?",
+      "type": "text",
+      "required": false,
+      "help": "Injuries, pain, schedule limits or anything else. Optional."
+     }
+    ]
+   }
+  ]
+ },
+ "kind": "program",
+ "latest": null,
+ "attempts": 0
+}

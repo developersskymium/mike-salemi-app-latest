@@ -1,0 +1,541 @@
+{
+ "program": {
+  "id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+  "name": "The Path to Inspired Action",
+  "tagline": "Ten weeks of calls, playwork and practice",
+  "summary": "A ten-week course: a recorded call each week, weekly playwork with reflection and journaling prompts, and breath and energy practices such as Eagle Breath and the Chi Generator.",
+  "description": "Each week pairs a call recording with playwork.",
+  "highlights": [
+   "10 weekly call recordings",
+   "Weekly playwork and journaling prompts",
+   "Breath and energy practices"
+  ],
+  "isFree": false,
+  "level": null,
+  "access": "locked",
+  "slug": "the-path-to-inspired-action",
+  "type": "course",
+  "image": "/media/l5e/16aadc2c-a37d-488e-9a9e-0e1ddc6a51ec/path-to-inspired-action.png",
+  "instructor": "Mike Salemi"
+ },
+ "locked": true,
+ "intro": null,
+ "groups": [
+  {
+   "name": "Start Here",
+   "sections": [
+    {
+     "id": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+     "title": "Week 1",
+     "position": 1,
+     "group": null,
+     "lessons": [
+      {
+       "id": "9f2df834-33a9-5bdf-a373-453d3108bc1c",
+       "key": null,
+       "title": "Pre-Course Materials",
+       "sectionId": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "fcaf17d1-a17a-587b-9293-ccc29cb9bd5d",
+       "key": null,
+       "title": "Week 1 Call Recording",
+       "sectionId": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "54362999-40df-5ab3-b665-7fcd9b8c57df",
+       "key": null,
+       "title": "Week 1 Playwork",
+       "sectionId": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "c948acb6-6b61-5be0-ba6c-17148122d73d",
+       "key": null,
+       "title": "Mindset & Soft Talk",
+       "sectionId": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "43229215-2f05-53d5-a003-96546da7a4db",
+       "key": null,
+       "title": "Eagle Breath",
+       "sectionId": "30c8faef-a26b-5e87-bbd5-7fb5cf6bba5a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "068e40a3-4180-5dd9-bd18-e0b53d22b48a",
+     "title": "Week 2",
+     "position": 2,
+     "group": null,
+     "lessons": [
+      {
+       "id": "570634d5-6db0-56b5-84b9-2211ce5d33b8",
+       "key": null,
+       "title": "Week 2 Call Recording",
+       "sectionId": "068e40a3-4180-5dd9-bd18-e0b53d22b48a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "25033699-e239-5876-8ca5-52cc61f74779",
+       "key": null,
+       "title": "Week 2 Playwork",
+       "sectionId": "068e40a3-4180-5dd9-bd18-e0b53d22b48a",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "f94a5dd1-d213-5d9b-83cf-9cc2243f302e",
+       "key": null,
+       "title": "GAILS Presentation",
+       "sectionId": "068e40a3-4180-5dd9-bd18-e0b53d22b48a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "9b2a0e75-75a6-580a-8813-ddb6701418c7",
+       "key": null,
+       "title": "Eagle Breath",
+       "sectionId": "068e40a3-4180-5dd9-bd18-e0b53d22b48a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "e7c1919f-f4fd-5c21-acbd-95d5e2c76607",
+     "title": "Week 3",
+     "position": 3,
+     "group": null,
+     "lessons": [
+      {
+       "id": "30296d36-47b7-5889-b2ad-e680632e3755",
+       "key": null,
+       "title": "Week 3 Call Recording",
+       "sectionId": "e7c1919f-f4fd-5c21-acbd-95d5e2c76607",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "0e67c283-2b9c-5f35-933e-24aca1a3a366",
+       "key": null,
+       "title": "Eagle Breath",
+       "sectionId": "e7c1919f-f4fd-5c21-acbd-95d5e2c76607",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "17d625fe-6a93-533b-9fed-6638b49c9527",
+       "key": null,
+       "title": "Week 3 Playwork",
+       "sectionId": "e7c1919f-f4fd-5c21-acbd-95d5e2c76607",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "8eab4dbe-1d9c-5bc0-9279-dfe0ba04a360",
+       "key": null,
+       "title": "Negations",
+       "sectionId": "e7c1919f-f4fd-5c21-acbd-95d5e2c76607",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "ba903643-4263-59d8-8906-c2d01a676649",
+     "title": "Week 4",
+     "position": 4,
+     "group": null,
+     "lessons": [
+      {
+       "id": "cac3b8ac-06d1-5d6c-84f7-b76800b8d089",
+       "key": null,
+       "title": "Week 4 Call Recording",
+       "sectionId": "ba903643-4263-59d8-8906-c2d01a676649",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "e02ed63b-64e9-5b72-a925-b4f8946f6298",
+       "key": null,
+       "title": "Check In Call #1",
+       "sectionId": "ba903643-4263-59d8-8906-c2d01a676649",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "51339fda-3287-5922-bb09-1f7a48f8deac",
+       "key": null,
+       "title": "Week 4 Playwork",
+       "sectionId": "ba903643-4263-59d8-8906-c2d01a676649",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "7d1191ea-f3b7-5be1-8fca-d874259b2afe",
+       "key": null,
+       "title": "Eagle Breath",
+       "sectionId": "ba903643-4263-59d8-8906-c2d01a676649",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "82727721-050e-54fd-89f3-d0e53dba0545",
+     "title": "Week 5",
+     "position": 5,
+     "group": null,
+     "lessons": [
+      {
+       "id": "536716f5-345b-5795-abf7-61ede1b7c81b",
+       "key": null,
+       "title": "Week 5 Call",
+       "sectionId": "82727721-050e-54fd-89f3-d0e53dba0545",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3837e413-996d-58a9-b719-271760c17175",
+       "key": null,
+       "title": "4F Presentation",
+       "sectionId": "82727721-050e-54fd-89f3-d0e53dba0545",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "2ba2691a-3624-57a5-a460-e6b5e959d193",
+       "key": null,
+       "title": "Eagle Breath",
+       "sectionId": "82727721-050e-54fd-89f3-d0e53dba0545",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "1e195d6a-f325-57c2-9309-554b3e455a81",
+       "key": null,
+       "title": "Week 5 Playwork",
+       "sectionId": "82727721-050e-54fd-89f3-d0e53dba0545",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "f0500239-760c-5fd9-8233-c53d57edc23a",
+     "title": "Week 6",
+     "position": 6,
+     "group": null,
+     "lessons": [
+      {
+       "id": "8967c1a5-a53f-54fb-9461-39f44cb87c94",
+       "key": null,
+       "title": "Week 6 Call Recording",
+       "sectionId": "f0500239-760c-5fd9-8233-c53d57edc23a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "27fd682f-1faa-54e4-b7d7-f168e2f9d41b",
+       "key": null,
+       "title": "Week 6 Playwork",
+       "sectionId": "f0500239-760c-5fd9-8233-c53d57edc23a",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "d8bd053a-c0e8-5489-9f5b-7d56693a5820",
+       "key": null,
+       "title": "Chi Generator",
+       "sectionId": "f0500239-760c-5fd9-8233-c53d57edc23a",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "9b071d2e-9a3c-5e11-95f6-8abf8e47120c",
+       "key": null,
+       "title": "Integrity Inventory",
+       "sectionId": "f0500239-760c-5fd9-8233-c53d57edc23a",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "b12a940d-8497-54b3-af90-986273b81cbb",
+     "title": "Week 7",
+     "position": 7,
+     "group": null,
+     "lessons": [
+      {
+       "id": "64e5e0b2-e18d-54df-bec5-14f70d6c5957",
+       "key": null,
+       "title": "Week 7 Call Recording",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "be0affbc-3087-5ed3-ad19-4e2bd8f24eec",
+       "key": null,
+       "title": "Week 7 Playwork",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "36cbc742-144b-52b1-ac21-27b187deba0b",
+       "key": null,
+       "title": "Values I",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "bc514f68-a212-50d7-bde9-be509c5f7282",
+       "key": null,
+       "title": "Values II",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "90688670-b73d-5a22-9f26-0bcbc1431187",
+       "key": null,
+       "title": "Values III",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3c616a85-4aa4-5331-b69f-ce9df164f356",
+       "key": null,
+       "title": "Chi Generator",
+       "sectionId": "b12a940d-8497-54b3-af90-986273b81cbb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "2987e303-a6f2-577b-a11d-4db22a913e02",
+     "title": "Week 8",
+     "position": 8,
+     "group": null,
+     "lessons": [
+      {
+       "id": "4e71d5e7-ca3e-5bf4-a9d3-5f3cfaf6dd1b",
+       "key": null,
+       "title": "Week 8 Call Recording",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "5edd6bf7-b907-52ef-baef-87bca31118fd",
+       "key": null,
+       "title": "Week 8 Playwork",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "d94c9c47-8fa2-599a-8746-ca2437854435",
+       "key": null,
+       "title": "Values IV",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3cff9f2f-9c6a-5598-9601-170d719a941a",
+       "key": null,
+       "title": "DRC Part I",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "6db70a09-e92f-5cad-b0ac-1e0065090dd1",
+       "key": null,
+       "title": "Integrity Inventory",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b8bbec3d-6635-5d0a-99bc-9445be26eb1a",
+       "key": null,
+       "title": "Chi Generator",
+       "sectionId": "2987e303-a6f2-577b-a11d-4db22a913e02",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+     "title": "Week 9",
+     "position": 9,
+     "group": null,
+     "lessons": [
+      {
+       "id": "604b5e0b-7a01-5ff2-9a05-f5c7d8bbe0ed",
+       "key": null,
+       "title": "Week 9 Call Recording",
+       "sectionId": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "6869416f-fb20-5370-be28-5549cbf08acc",
+       "key": null,
+       "title": "Week 9 Playwork",
+       "sectionId": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "2d11039f-ba79-5d4e-95b2-a17d2e6360ca",
+       "key": null,
+       "title": "Chi Generator",
+       "sectionId": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "b55b7d13-8bc5-50ab-a87a-517c6bb27750",
+       "key": null,
+       "title": "DRC Part II",
+       "sectionId": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "96a7fbe3-b6ea-5d34-9f7c-516a21478f75",
+       "key": null,
+       "title": "Letter of Recognition",
+       "sectionId": "3a7e23c9-2389-5c54-a015-09aee492c3fb",
+       "video": false,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "3d9de50e-c025-5533-a503-98de2103278d",
+     "title": "Week 10",
+     "position": 10,
+     "group": null,
+     "lessons": [
+      {
+       "id": "9cc98335-35db-5b79-bde1-63969b6b779f",
+       "key": null,
+       "title": "Week 10 Call Recording",
+       "sectionId": "3d9de50e-c025-5533-a503-98de2103278d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "d5962f87-db47-5177-b840-0ec9867a5e72",
+       "key": null,
+       "title": "Week 10 Guest Presenter: Jason Olivea",
+       "sectionId": "3d9de50e-c025-5533-a503-98de2103278d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "dfec6faa-833b-5284-aa41-e81694fbae1a",
+       "key": null,
+       "title": "Week 10 Playwork",
+       "sectionId": "3d9de50e-c025-5533-a503-98de2103278d",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "f7a6ec19-b9df-59a1-938d-4b3a202ba588",
+       "key": null,
+       "title": "Letter of Recognition",
+       "sectionId": "3d9de50e-c025-5533-a503-98de2103278d",
+       "video": false,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "3444ad97-0b25-5852-a15a-3200e9d1001a",
+       "key": null,
+       "title": "Designing Your Lifestyle",
+       "sectionId": "3d9de50e-c025-5533-a503-98de2103278d",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "enrolled": false,
+ "lastLessonId": null,
+ "intake": {
+  "key": "path-intake",
+  "done": false
+ },
+ "mtk": null,
+ "lessons": {}
+}

@@ -1,0 +1,519 @@
+{
+ "program": {
+  "id": "kbl",
+  "slug": "kettlebell-lifestyle",
+  "name": "Kettlebell Lifestyle",
+  "type": "day_program",
+  "image": null
+ },
+ "form": {
+  "id": "6c6368c5-30ed-40f1-a176-5fab1938cd8b",
+  "key": "kbl-intake",
+  "programId": null,
+  "title": "Kettlebell Lifestyle intake",
+  "introduction": "Thirteen quick steps so we can drop you into the right level of Kettlebell Lifestyle.",
+  "version": 1,
+  "steps": [
+   {
+    "id": "experience",
+    "intro": "We start with the basics so we can drop you into the right level of Kettlebell Lifestyle.",
+    "title": "Your kettlebell history",
+    "eyebrow": "Step 01",
+    "questions": [
+     {
+      "id": "used_kettlebell",
+      "type": "single",
+      "label": "Have you ever used a kettlebell before?",
+      "options": [
+       {
+        "label": "Yes",
+        "value": "yes"
+       },
+       {
+        "label": "No",
+        "value": "no"
+       }
+      ],
+      "required": true
+     }
+    ]
+   },
+   {
+    "id": "level",
+    "intro": "Not sure? Use the intermediate movement standards as your guide — squats, two hand swings, deadlifts and overhead presses should feel proficient, not new.",
+    "title": "Describe your kettlebell level",
+    "eyebrow": "Step 02",
+    "questions": [
+     {
+      "id": "kettlebell_level",
+      "type": "single",
+      "label": "Describe your kettlebell level",
+      "options": [
+       {
+        "label": "Beginner",
+        "value": "beginner",
+        "bullets": [
+         "I’ve rarely used a kettlebell before"
+        ]
+       },
+       {
+        "label": "Intermediate",
+        "value": "intermediate",
+        "bullets": [
+         "I use a kettlebell fairly often",
+         "I feel proficient with squats, two hand swings, deadlifts and overhead presses"
+        ]
+       },
+       {
+        "label": "Advanced",
+        "value": "advanced"
+       }
+      ],
+      "required": true
+     }
+    ]
+   },
+   {
+    "id": "fitness",
+    "title": "Fitness baseline",
+    "eyebrow": "Step 03",
+    "questions": [
+     {
+      "id": "fitness_level",
+      "type": "single",
+      "label": "Describe your fitness level",
+      "options": [
+       {
+        "label": "Low",
+        "value": "low",
+        "bullets": [
+         "I feel out of shape"
+        ]
+       },
+       {
+        "label": "Medium",
+        "value": "medium",
+        "bullets": [
+         "I’m in decent shape, and/or I train with resistance at least 2x/week"
+        ]
+       },
+       {
+        "label": "High",
+        "value": "high",
+        "bullets": [
+         "My fitness is on the higher side, and/or I train with resistance 3+ times a week"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "consistency",
+      "type": "single",
+      "label": "How long have you been consistently exercising?",
+      "options": [
+       {
+        "label": "Less than 6 months",
+        "value": "lt6m"
+       },
+       {
+        "label": "Between 6 months and 2 years",
+        "value": "6m-2y"
+       },
+       {
+        "label": "More than 2 years",
+        "value": "gt2y"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "mobility",
+    "intro": "This tells us how much prep and mobility work to weave into your on-ramp.",
+    "title": "Joint mobility",
+    "eyebrow": "Step 04",
+    "questions": [
+     {
+      "id": "shoulders",
+      "type": "single",
+      "label": "Do your shoulder(s) feel limited or restricted in some way?",
+      "options": [
+       {
+        "label": "No",
+        "value": "no"
+       },
+       {
+        "label": "Yes, but not much",
+        "value": "some"
+       },
+       {
+        "label": "Yes, quite a bit",
+        "value": "lots"
+       }
+      ]
+     },
+     {
+      "id": "hips",
+      "type": "single",
+      "label": "Do your hip(s) feel limited or restricted in some way?",
+      "options": [
+       {
+        "label": "No",
+        "value": "no"
+       },
+       {
+        "label": "Yes, but not much",
+        "value": "some"
+       },
+       {
+        "label": "Yes, quite a bit",
+        "value": "lots"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "goals",
+    "title": "What do you want to improve most?",
+    "eyebrow": "Step 05",
+    "questions": [
+     {
+      "id": "focus_areas",
+      "help": "Select all that apply.",
+      "type": "multi",
+      "label": "What areas of your training, ability, or lifestyle do you wish to improve upon most?",
+      "options": [
+       {
+        "label": "Kettlebell Skill",
+        "value": "Kettlebell Skill"
+       },
+       {
+        "label": "Health",
+        "value": "Health"
+       },
+       {
+        "label": "Fitness",
+        "value": "Fitness"
+       },
+       {
+        "label": "Longevity & Injury Prevention",
+        "value": "Longevity & Injury Prevention"
+       },
+       {
+        "label": "Flexibility/Mobility",
+        "value": "Flexibility/Mobility"
+       },
+       {
+        "label": "Mindset",
+        "value": "Mindset"
+       },
+       {
+        "label": "Nutrition",
+        "value": "Nutrition"
+       },
+       {
+        "label": "Sleep",
+        "value": "Sleep"
+       },
+       {
+        "label": "Strength",
+        "value": "Strength"
+       },
+       {
+        "label": "Conditioning",
+        "value": "Conditioning"
+       },
+       {
+        "label": "Fat Loss",
+        "value": "Fat Loss"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "hydration",
+    "title": "Hydration",
+    "eyebrow": "Step 06",
+    "questions": [
+     {
+      "id": "water",
+      "type": "single",
+      "label": "Are you drinking at least half an ounce of quality filtered water per pound of bodyweight a day?",
+      "options": [
+       {
+        "label": "Yes",
+        "value": "yes"
+       },
+       {
+        "label": "No",
+        "value": "no"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "sleep",
+    "note": {
+     "title": "Questions to consider on sleep quality",
+     "points": [
+      "Do you fall asleep easily (~30 minutes or less)?",
+      "Are you waking up multiple times a night?",
+      "Do you wake up in the morning feeling rested?"
+     ]
+    },
+    "title": "Sleep",
+    "eyebrow": "Step 07",
+    "questions": [
+     {
+      "id": "sleep",
+      "type": "single",
+      "label": "Do you get 7+ hours of quality sleep per night?",
+      "options": [
+       {
+        "label": "Yes",
+        "value": "yes"
+       },
+       {
+        "label": "No",
+        "value": "no"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "nutrition",
+    "title": "Nutrition & digestion",
+    "eyebrow": "Step 08",
+    "questions": [
+     {
+      "id": "nutrition",
+      "type": "single",
+      "label": "How would you describe your nutrition and digestion?",
+      "options": [
+       {
+        "label": "Above average",
+        "value": "above",
+        "bullets": [
+         "Food leaves me energised, with regular, easy to pass bowel movements"
+        ]
+       },
+       {
+        "label": "Average",
+        "value": "average",
+        "bullets": [
+         "I generally eat clean, but certain foods affect my digestion adversely"
+        ]
+       },
+       {
+        "label": "Below average",
+        "value": "below",
+        "bullets": [
+         "I don’t eat the greatest, and/or often experience digestive discomfort"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "stress",
+    "title": "Stress & balance",
+    "eyebrow": "Step 09",
+    "questions": [
+     {
+      "id": "stress_level",
+      "type": "single",
+      "label": "How would you describe your daily stress level?",
+      "options": [
+       {
+        "label": "Low",
+        "value": "low",
+        "bullets": [
+         "I rarely feel stressed"
+        ]
+       },
+       {
+        "label": "Moderate",
+        "value": "moderate",
+        "bullets": [
+         "I’m sometimes stressed, but I manage it well"
+        ]
+       },
+       {
+        "label": "High",
+        "value": "high",
+        "bullets": [
+         "I feel stressed a majority of the time"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "stress_management",
+      "type": "single",
+      "label": "How well do you manage your stress on a daily basis?",
+      "options": [
+       {
+        "label": "Poorly",
+        "value": "poorly"
+       },
+       {
+        "label": "Moderate",
+        "value": "moderate"
+       },
+       {
+        "label": "Well",
+        "value": "well"
+       }
+      ]
+     },
+     {
+      "id": "work_life",
+      "type": "single",
+      "label": "Do you feel you have a good work-life balance?",
+      "options": [
+       {
+        "label": "Yes",
+        "value": "yes"
+       },
+       {
+        "label": "No",
+        "value": "no"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "solitude",
+    "title": "Time with yourself",
+    "eyebrow": "Step 10",
+    "questions": [
+     {
+      "id": "alone",
+      "type": "single",
+      "label": "How comfortable do you feel being alone?",
+      "options": [
+       {
+        "label": "Not very / uncertain",
+        "value": "uncertain",
+        "bullets": [
+         "I’ve never paid attention to this and am not sure"
+        ]
+       },
+       {
+        "label": "Mildly",
+        "value": "mild",
+        "bullets": [
+         "I don’t feel comfortable unless I’m around others, or have the TV or radio on"
+        ]
+       },
+       {
+        "label": "Super comfortable",
+        "value": "super",
+        "bullets": [
+         "I can sit quietly or meditate with no distractions for an hour"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "flexibility",
+    "title": "Flexibility",
+    "eyebrow": "Step 11",
+    "questions": [
+     {
+      "id": "flexibility",
+      "type": "single",
+      "label": "Would you consider your body to be:",
+      "options": [
+       {
+        "label": "Stiff as a board and not flexible",
+        "value": "stiff"
+       },
+       {
+        "label": "Mildly flexible",
+        "value": "mild"
+       },
+       {
+        "label": "Highly flexible",
+        "value": "high"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "posture",
+    "note": {
+     "title": "Not sure?",
+     "points": [
+      "If your posture shows characteristics of anything other than good posture, choose option 1 or 2.",
+      "One tell: where do your ears sit relative to your shoulders when standing relaxed?"
+     ]
+    },
+    "title": "Posture",
+    "eyebrow": "Step 12",
+    "questions": [
+     {
+      "id": "posture",
+      "type": "single",
+      "label": "Do you feel your posture is:",
+      "options": [
+       {
+        "label": "Poor and out of balance",
+        "value": "poor"
+       },
+       {
+        "label": "Ok, but could use some improvement",
+        "value": "ok"
+       },
+       {
+        "label": "Good and well-balanced",
+        "value": "good"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "coordination",
+    "title": "Coordination",
+    "eyebrow": "Step 13",
+    "questions": [
+     {
+      "id": "coordination",
+      "type": "single",
+      "label": "How would you describe your level of coordination?",
+      "options": [
+       {
+        "label": "Low",
+        "value": "low",
+        "description": "I feel like a baby giraffe at times ; )"
+       },
+       {
+        "label": "Medium",
+        "value": "medium",
+        "description": "Somewhere between a giraffe and a cheetah"
+       },
+       {
+        "label": "High",
+        "value": "high",
+        "description": "Oh heck yeah, I’m a cheetah!"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "kind": "kbl",
+ "latest": null,
+ "attempts": 0
+}

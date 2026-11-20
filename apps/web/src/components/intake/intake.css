@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Program intakes (docs/specs/08 §L13, §L14): one-question step scenes, the
+   "Your program approach" review and the Kettlebell Lifestyle level result.
+   Tokens only. Prefix `itk-`.
+   ========================================================================== */
+
+html:has(.itk) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !important; }
+.itk {
+  position: fixed; inset: 0; z-index: calc(var(--z-navbar) + 10); isolation: isolate; overflow: hidden;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--bg); color: var(--label);
+}
+.itk-x { all: unset; box-sizing: border-box; cursor: pointer; }
+.itk :is(a, button, textarea):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.itk-col { width: 100%; max-width: 36rem; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+
+/* Header: back · program · k/n, then the rail */
+.itk-head { position: relative; z-index: 2; padding-top: env(safe-area-inset-top); border-radius: 0 !important; box-shadow: inset 0 -.5px 0 var(--sep); }
+.itk-head-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 12px; height: 52px; }
+.itk-back {
+  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--label-2); background: var(--fill); text-decoration: none;
+  transition: background-color .2s, color .2s, transform var(--dur-press) var(--curve-spring);
+}
+.itk-back:hover { background: var(--fill-2); color: var(--label); }
+.itk-back:active { transform: scale(var(--press-scale)); }
+.itk-back svg { width: 18px; height: 18px; }
+.itk-head-t { text-align: center; font: 650 15px/19px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.itk-head-n { text-align: right; font: 600 12px/1 var(--font); color: var(--label-2); font-variant-numeric: tabular-nums; }
+.itk-rail { display: flex; gap: 4px; padding: 2px 0 12px; }
+.itk-rail i { flex: 1; height: 3px; border-radius: 2px; background: var(--track); position: relative; overflow: hidden; }
+.itk-rail i::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); transition: transform .6s var(--curve-spring-soft); }
+.itk-rail i[data-s="done"]::after { transform: scaleX(1); }
+.itk-rail i[data-s="now"]::after { transform: scaleX(.45); opacity: .55; }
+
+/* Body: the question, centred in generous space */
+.itk-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid; }
+.itk-scene { position: relative; align-self: safe center; padding-top: 36px; padding-bottom: 40px; }
+@media (max-width: 639px) { .itk-scene { align-self: start; padding-top: 28px; } }
+/* Signature: the engraved step numeral behind the question. */
+.itk-numeral {
+  position: absolute; z-index: -1; right: 12px; top: 0; font: 800 clamp(96px, 22vw, 168px)/1 var(--font); letter-spacing: -.06em;
+  color: transparent; -webkit-text-stroke: 1px var(--sep); font-variant-numeric: tabular-nums; pointer-events: none; user-select: none;
+}
+.itk-scene > * { animation: itk-in .55s var(--curve-out) both; }
+.itk-scene[data-dir="back"] > * { animation-name: itk-in-back; }
+.itk-scene > *:nth-child(3) { animation-delay: 40ms; }
+.itk-scene > *:nth-child(4) { animation-delay: 80ms; }
+.itk-scene > *:nth-child(5) { animation-delay: 120ms; }
+@keyframes itk-in { from { opacity: 0; transform: translateX(22px); filter: blur(4px); } }
+@keyframes itk-in-back { from { opacity: 0; transform: translateX(-22px); filter: blur(4px); } }
+@media (prefers-reduced-motion: reduce) { .itk-scene > *, .itk-rail i::after { animation: none !important; transition: none !important; } }
+.itk-eyebrow { margin: 0; font: 650 11px/14px var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--label-2); }
+.itk-eyebrow[data-tone="accent"] { color: var(--accent-ink); }
+.itk-title { margin: 10px 0 0; font: 700 26px/31px var(--font); letter-spacing: -.02em; text-wrap: balance; outline: none; }
+@media (min-width: 640px) { .itk-title { font-size: 30px; line-height: 35px; } }
+.itk-help { margin: 12px 0 0; font: 450 15.5px/23px var(--font); color: var(--label-2); }
+.itk-q { margin-top: 28px; }
+.itk-q + .itk-q { margin-top: 32px; }
+.itk-q h3 { margin: 0 0 12px; font: 650 15.5px/21px var(--font); }
+.itk-q h3 span { color: var(--accent-ink); margin-left: 3px; }
+.itk-q > p { margin: -6px 0 12px; font: var(--t-13); color: var(--label-2); }
+.itk-opts { display: grid; gap: 8px; }
+.itk-opts[data-grid] { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.itk-opt {
+  all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start;
+  min-height: 52px; padding: 14px 16px; border-radius: 18px; background: var(--bg-elev); box-shadow: inset 0 0 0 .5px var(--sep);
+  transition: box-shadow .2s var(--curve-out), background-color .2s, transform var(--dur-press) var(--curve-spring);
+}
+.itk-opt:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--label) 22%, transparent); }
+.itk-opt:active { transform: scale(.985); }
+.itk-opt[aria-checked="true"] { background: color-mix(in srgb, var(--accent) 7%, var(--bg-elev)); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.itk-opt:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.itk-opt b { display: block; font: 600 15px/20px var(--font); }
+.itk-opt small { display: block; margin-top: 4px; font: 450 13.5px/19px var(--font); color: var(--label-2); }
+.itk-mark {
+  width: 22px; height: 22px; margin-top: -1px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--sep);
+  color: var(--on-accent); transition: background-color .25s var(--curve-out), box-shadow .25s, transform .45s var(--curve-spring);
+}
+.itk-mark[data-multi] { border-radius: 7px; }
+.itk-opt[aria-checked="true"] .itk-mark { background: var(--accent); box-shadow: none; transform: scale(1.06); }
+.itk-mark svg { width: 13px; height: 13px; opacity: 0; transform: scale(.5); transition: opacity .2s, transform .45s var(--curve-spring); }
+.itk-opt[aria-checked="true"] .itk-mark svg { opacity: 1; transform: none; }
+.itk-text {
+  display: block; width: 100%; box-sizing: border-box; min-height: 150px; resize: vertical; padding: 14px 16px; border: 0; border-radius: 18px;
+  background: var(--bg-elev); box-shadow: inset 0 0 0 .5px var(--sep); color: var(--label); font: var(--t-15); line-height: 22px;
+}
+.itk-text:focus { outline: none; box-shadow: inset 0 0 0 1.5px var(--accent); }
+.itk-count { margin-top: 6px; text-align: right; font: var(--t-11); color: var(--label-3); font-variant-numeric: tabular-nums; }
+.itk-note { margin-top: 24px; padding: 14px 16px; border-radius: 18px; background: var(--fill); }
+.itk-note p { margin: 0; display: flex; align-items: center; gap: 8px; font: 650 14px/19px var(--font); }
+.itk-note p svg { width: 16px; height: 16px; color: var(--accent-ink); }
+.itk-note ul { margin: 8px 0 0; padding-left: 18px; list-style: disc; display: grid; gap: 4px; font: var(--t-13); color: var(--label-2); }
+.itk-err { margin: 18px 0 0; font: 600 13.5px/18px var(--font); color: var(--accent-ink); }
+.itk-saved { margin: 14px 0 0; font: var(--t-12); color: var(--label-3); }
+
+/* Footer: the one action */
+.itk-foot { position: relative; z-index: 2; padding: 12px 0 max(14px, env(safe-area-inset-bottom)); border-radius: 0 !important; box-shadow: inset 0 .5px 0 var(--sep); }
+.itk-foot .itk-col { display: flex; gap: 10px; }
+
+/* ---------------------------------------------------------------- review / result pages */
+.itk-page { position: relative; overflow-y: auto; grid-row: 1 / -1; }
+.itk-page-in { max-width: 42rem; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 20px 64px; box-sizing: border-box; }
+@media (min-width: 640px) { .itk-page-in { padding-top: 56px; } }
+.itk-page-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.itk-page h1 { margin: 10px 0 0; font: var(--t-34); letter-spacing: var(--t-34-track); text-wrap: balance; }
+.itk-lede { margin: 12px 0 0; font: 500 18px/26px var(--font); color: var(--label); text-wrap: pretty; }
+.itk-sub { margin: 10px 0 0; font: 450 15.5px/23px var(--font); color: var(--label-2); }
+/* Signature (review): the approach card — headline engraved over the program artwork. */
+.itk-approach { position: relative; overflow: hidden; margin-top: 24px; border-radius: var(--r-card); min-height: 180px; display: grid; align-content: end; isolation: isolate; color: #fff; background: #111; }
+.itk-approach img { object-fit: cover; z-index: -2; }
+.itk-approach::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8, 8, 8, .1), rgba(8, 8, 8, .78)); }
+.itk-approach-in { padding: 22px; }
+.itk-approach-in small { font: 650 11px/14px var(--font); letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.itk-approach-in p { margin: 6px 0 0; font: 700 24px/29px var(--font); letter-spacing: -.02em; text-wrap: balance; }
+.itk-list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 8px; }
+.itk-list li {
+  display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 18px; background: var(--bg-elev); box-shadow: inset 0 0 0 .5px var(--sep);
+  font: 500 15px/21px var(--font); animation: itk-rise .5s var(--curve-spring-soft) both;
+}
+.itk-list li:nth-child(2) { animation-delay: 70ms; }
+.itk-list li:nth-child(3) { animation-delay: 140ms; }
+.itk-list li:nth-child(4) { animation-delay: 210ms; }
+.itk-list li svg { width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--accent-ink); }
+@keyframes itk-rise { from { opacity: 0; transform: translateY(8px); } }
+.itk-keep { margin-top: 16px; padding: 14px 16px; border-radius: 18px; background: var(--fill); font: var(--t-15); color: var(--label-2); line-height: 22px; }
+.itk-keep b { color: var(--label); font-weight: 650; }
+.itk-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.itk-meta { margin-top: 22px; font: var(--t-12); color: var(--label-3); }
+.itk-answers { margin-top: 36px; border-top: .5px solid var(--sep); }
+.itk-answers summary { cursor: pointer; padding: 16px 0; font: 600 14px/18px var(--font); color: var(--label-2); list-style: none; display: flex; justify-content: space-between; }
+.itk-answers summary::-webkit-details-marker { display: none; }
+.itk-answers dl { margin: 0 0 8px; display: grid; gap: 12px; }
+.itk-answers dt { font: var(--t-12); color: var(--label-3); }
+.itk-answers dd { margin: 2px 0 0; font: 500 14.5px/20px var(--font); }
+
+/* KBL level result (L14) */
+.itk-result { display: grid; justify-items: start; }
+.itk-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.itk-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: var(--r-pill); background: var(--fill); font: 650 12px/1 var(--font); }
+.itk-pill[data-tone="accent"] { background: var(--accent-soft); color: var(--accent-ink); }
+.itk-pill svg { width: 12px; height: 12px; }
+.itk-emblem { margin: 8px 0 18px; animation: itk-emblem .9s var(--curve-spring) both; }
+@keyframes itk-emblem { from { opacity: 0; transform: scale(.7) rotate(-8deg); } }
+@media (prefers-reduced-motion: reduce) { .itk-emblem, .itk-list li { animation: none; } }
+
+/* Start-fresh confirmation */
+.itk-confirm p { margin: 0; font: var(--t-15); color: var(--label-2); }
+.itk-result > .itk-page-top, .itk-result .itk-list, .itk-result .itk-wide { width: 100%; }
+.itk { grid-template-columns: minmax(0, 1fr); }

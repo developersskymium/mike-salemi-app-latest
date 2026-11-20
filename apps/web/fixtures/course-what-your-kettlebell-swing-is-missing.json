@@ -1,0 +1,214 @@
+{
+ "program": {
+  "id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+  "name": "What Your Kettlebell Swing Is Missing",
+  "tagline": "Seven steps to a stronger swing setup",
+  "summary": "Seven steps to a stronger swing setup",
+  "description": "An ebook and video series covering the seven parts of a kettlebell swing setup, plus an approach lesson, review checklist, and two-week swing program.",
+  "highlights": [
+   "Seven setup videos",
+   "Downloadable ebook",
+   "Checklist and two-week program"
+  ],
+  "isFree": true,
+  "level": null,
+  "access": "free",
+  "slug": "what-your-kettlebell-swing-is-missing",
+  "type": "course",
+  "image": "/media/l5e/925ade4e-a748-4805-9745-bec41aaeb8d5/what-your-kettlebell-swing-is-missing.png",
+  "instructor": "Mike Salemi"
+ },
+ "locked": false,
+ "intro": {
+  "sectionId": "7bdb0af1-7b1b-548a-8211-7b44894201ab",
+  "lessonId": "2c196459-10b2-5d2e-9c0d-de8fc0b8d590",
+  "title": "Home"
+ },
+ "groups": [
+  {
+   "name": "Start Here",
+   "sections": [
+    {
+     "id": "12f8036b-1444-5fef-8763-27f3ba5d8514",
+     "title": "Ebook PDF",
+     "position": 2,
+     "group": null,
+     "lessons": [
+      {
+       "id": "54c4dcff-ca93-57d0-a10d-0502479c7406",
+       "key": null,
+       "title": "Download",
+       "sectionId": "12f8036b-1444-5fef-8763-27f3ba5d8514",
+       "video": false,
+       "done": true,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Videos",
+   "sections": [
+    {
+     "id": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+     "title": "7 Steps",
+     "position": 3,
+     "group": "Videos",
+     "lessons": [
+      {
+       "id": "2d67083f-36da-52f6-8ae6-f60a9e1feb72",
+       "key": null,
+       "title": "Step 1 - Feet",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "fa36f912-852a-504b-8f4d-67cd6f115879",
+       "key": null,
+       "title": "Step 2 - Hips",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "ca8cf4fd-cc39-57aa-bef2-2ec296c287f5",
+       "key": null,
+       "title": "Step 3 - Back",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "8e42cd09-e26d-5dcf-96e5-4d76933b6cc8",
+       "key": null,
+       "title": "Step 4 - Shoulders",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "98d795a0-5927-55b8-b17c-190d4f3ae6aa",
+       "key": null,
+       "title": "Step 5 - Head/Neck",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "bbd19aa6-878b-5ea9-85d0-bcf48e1475a8",
+       "key": null,
+       "title": "Step 6 - Grip",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      },
+      {
+       "id": "c7b266e2-8585-543b-9ebd-7b98849fd2bc",
+       "key": null,
+       "title": "Step 7 - Breath",
+       "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "6eca2919-de93-5b61-bbbb-d9a421684d65",
+     "title": "Bonus 1 - The Approach",
+     "position": 4,
+     "group": "Videos",
+     "lessons": [
+      {
+       "id": "ca2e2bbc-78b0-5c4f-b684-51a6bbd66e5d",
+       "key": null,
+       "title": "The Approach",
+       "sectionId": "6eca2919-de93-5b61-bbbb-d9a421684d65",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "97a42409-94e4-5b1d-8d5f-83b412a81575",
+     "title": "Bonus 2 - Checklist",
+     "position": 5,
+     "group": "Videos",
+     "lessons": [
+      {
+       "id": "bb970147-f124-5072-bde7-c2f4743e34c0",
+       "key": null,
+       "title": "Review Checklist",
+       "sectionId": "97a42409-94e4-5b1d-8d5f-83b412a81575",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    },
+    {
+     "id": "9692e439-40a4-50a7-b607-73c63dd32859",
+     "title": "Bonus 3 - Two Week Swing Program",
+     "position": 6,
+     "group": "Videos",
+     "lessons": [
+      {
+       "id": "3511a5ce-5fb8-59c3-9fe7-de84736db593",
+       "key": null,
+       "title": "Two Week Swing Program",
+       "sectionId": "9692e439-40a4-50a7-b607-73c63dd32859",
+       "video": true,
+       "done": false,
+       "minutes": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "enrolled": true,
+ "lastLessonId": "2d67083f-36da-52f6-8ae6-f60a9e1feb72",
+ "intake": {
+  "key": "swing-series-intake",
+  "done": false
+ },
+ "mtk": null,
+ "lessons": {
+  "2d67083f-36da-52f6-8ae6-f60a9e1feb72": {
+   "id": "2d67083f-36da-52f6-8ae6-f60a9e1feb72",
+   "title": "Step 1 - Feet",
+   "sectionId": "b2781aa1-aed7-5cd5-9bad-1edb3f04f0e5",
+   "isIntro": false,
+   "videoSeconds": {},
+   "steps": [
+    {
+     "id": "97954403-b04d-5e84-ab1d-5b2dff28d28a",
+     "title": "Step 1 - Feet",
+     "required": true,
+     "video": {
+      "providerId": "346142396",
+      "privacyHash": null,
+      "title": "Step 1 - Feet",
+      "durationSeconds": null,
+      "thumbnailUrl": null
+     },
+     "clips": [],
+     "body": "**FEET**",
+     "attachments": [],
+     "done": false,
+     "poster": null,
+     "description": null
+    }
+   ]
+  }
+ }
+}
