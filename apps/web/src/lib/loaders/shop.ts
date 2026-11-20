@@ -149,7 +149,7 @@ export async function loadShop(): Promise<ShopData> {
   const sb = supabase as unknown as DB;
   // shop_* tables are newer than the generated types
   const raw = sb as unknown as { from: (t: string) => { select: (c: string) => { order: (c: string) => PromiseLike<{ data: unknown }> } } };
-  const rpc = sb.rpc as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: unknown }>;
+  const rpc = sb.rpc.bind(sb) as unknown as (fn: string, args?: Record<string, unknown>) => PromiseLike<{ data: unknown; error: unknown }>;
   const [setting, admin, products, orders, member, ratings, ownsBell, tracking] = await Promise.all([
     sb.from("site_settings").select("value").eq("key", "shop").maybeSingle().then((r) => (r.data?.value ?? {}) as { enabled?: boolean; free_shipping_cents?: number; shipping_cents?: number }),
     sb.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle().then((r) => !!r.data),

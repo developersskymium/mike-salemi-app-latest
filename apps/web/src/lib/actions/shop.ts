@@ -122,7 +122,7 @@ export async function checkoutCart(items: { variant: string; quantity: number }[
   if (!stripeConfigured()) return { ok: false, error: "payments_not_configured" };
 
   const service = createServiceClient();
-  const rpc = service.rpc as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+  const rpc = service.rpc.bind(service) as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
   const { data, error } = await rpc("create_shop_cart_order", { p_user: user.id, p_items: clean });
   if (error) {
     console.error("create_shop_cart_order", error.message);
@@ -217,7 +217,7 @@ export async function quoteCart(items: CartItems): Promise<{ ok: true; quote: Sh
   if (MOCK) return { ok: true, quote: await mockQuote(clean) };
   const { supabase, user } = await getUser();
   if (!user) return { ok: false, error: "signed_out" };
-  const rpc = supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+  const rpc = supabase.rpc.bind(supabase) as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
   const { data, error } = await rpc("quote_shop_cart", { p_items: clean });
   if (error) return { ok: false, error: "failed" };
   const q = data as ShopQuote & { error?: string; variant?: string };
@@ -269,7 +269,7 @@ export async function startShopPayment(items: CartItems, shipping: ShippingAddre
     : null;
 
   const service = createServiceClient();
-  const rpc = service.rpc as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+  const rpc = service.rpc.bind(service) as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
   const { data, error } = await rpc("create_shop_checkout_order", { p_user: user.id, p_items: clean, p_shipping: addr });
   if (error) {
     console.error("create_shop_checkout_order", error.message);
@@ -313,7 +313,7 @@ export async function rateGear(productId: string, rating: number): Promise<{ ok:
   if (!/^[0-9a-f-]{36}$/i.test(productId)) return { ok: false, error: "invalid" };
   const { supabase, user } = await getUser();
   if (!user) return { ok: false, error: "signed_out" };
-  const rpc = supabase.rpc as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+  const rpc = supabase.rpc.bind(supabase) as unknown as (fn: string, args: Record<string, unknown>) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
   const { data, error } = await rpc("rate_shop_product", { p_product: productId, p_rating: Math.max(1, Math.min(5, Math.round(rating))) });
   if (error) return { ok: false, error: "failed" };
   const r = data as { ok?: boolean; error?: string };
