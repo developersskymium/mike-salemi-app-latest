@@ -535,6 +535,25 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       </span>
     );
 
+  /** Prev · the step's one action · next. Same controls, same place on every step: rail footer (desktop), bottom bar (phone). */
+  const controls = (
+    <>
+      <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
+        <Icon name="back" size="sm" />
+      </button>
+      <div className="kd-bar-main">{primary(true)}</div>
+      {dayDone && nextLesson && active >= steps.length - 1 ? (
+        <Link href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} className="kd-stepbtn kd-stepbtn-next lq-press" aria-label={`Start ${lessonLabel(nextLesson, word)}`} title={`Start ${lessonLabel(nextLesson, word)}`}>
+          <Icon name="chevron" size="sm" />
+        </Link>
+      ) : (
+        <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
+          <Icon name="chevron" size="sm" />
+        </button>
+      )}
+    </>
+  );
+
   const list = (
     <LessonList
       steps={steps}
@@ -690,15 +709,6 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             <span className="kd-meta-ring" aria-hidden>
               <MiniRing percent={percent} label={`${doneCount}/${steps.length}`} size={52} />
             </span>
-            <div className="kd-meta-a">
-              <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
-                <Icon name="back" size="sm" />
-              </button>
-              {primary()}
-              <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
-                <Icon name="chevron" size="sm" />
-              </button>
-            </div>
           </section>
 
           {(notes.has || notes.atts.length > 0 || readinessCard) && (
@@ -790,25 +800,14 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             {helpCard}
             {footer}
           </div>
+          {/* desktop: the step controls, pinned to the bottom of the rail (always the same place) */}
+          <div className="kd-rail-act">{controls}</div>
         </aside>
       </div>
 
       {/* phone: thumb-zone actions */}
       <div className="kd-bar lq-glass" data-level="thick">
-        <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
-          <Icon name="back" size="sm" />
-        </button>
-        <div className="kd-bar-main">{primary(true, `Mark ${step.title} complete`)}</div>
-        {dayDone && nextLesson && active >= steps.length - 1 ? (
-          <Link href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} className="kd-bar-next lq-press">
-            {lessonLabel(nextLesson, word)}
-            <Icon name="chevron" size="xs" />
-          </Link>
-        ) : (
-          <button type="button" className="kd-stepbtn lq-press" aria-label="Next step" disabled={active >= steps.length - 1 || !openNow(active + 1)} onClick={() => go(active + 1)}>
-            <Icon name="chevron" size="sm" />
-          </button>
-        )}
+        {controls}
       </div>
 
       {workoutDay && (

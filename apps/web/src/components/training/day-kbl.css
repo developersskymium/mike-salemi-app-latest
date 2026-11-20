@@ -95,3 +95,23 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
   .kd-day .wk-table[data-view="table"] { box-shadow: inset 0 0 0 1px var(--line); }
   .kd-day .wk-table[data-view="table"] .kd-ct { box-shadow: none; }
 }
+
+/* ---------------------------------------------------------------- step controls: always the same place */
+/* prev · action · next keep fixed sizes so nothing shifts between steps */
+.kd-day :is(.kd-bar, .kd-rail-act) { display: flex; align-items: center; gap: 10px; }
+.kd-day :is(.kd-bar, .kd-rail-act) .kd-stepbtn { display: grid !important; place-items: center; flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--surface); color: var(--text); box-shadow: inset 0 0 0 1.5px var(--line-strong); text-decoration: none; }
+.kd-day :is(.kd-bar, .kd-rail-act) .kd-stepbtn:disabled { opacity: .35; }
+.kd-day .kd-stepbtn-next { background: var(--accent-soft) !important; color: var(--accent-ink) !important; box-shadow: none !important; }
+.kd-day :is(.kd-bar, .kd-rail-act) .kd-bar-main { flex: 1; min-width: 0; display: flex; }
+.kd-day :is(.kd-bar, .kd-rail-act) .kd-bar-main > * { flex: 1; min-width: 0; }
+.kd-day :is(.kd-bar, .kd-rail-act) .kd-bar-main .lq-btn { width: 100%; height: 52px; border-radius: 99px; font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* desktop: pinned to the bottom of the right rail */
+.kd-rail-act { display: none !important; }
+@media (min-width: 1024px) {
+  .kd-day .kd-rail-act { display: flex !important; flex: none; padding: 14px 16px max(16px, env(safe-area-inset-bottom)); background: var(--surface); box-shadow: inset 0 1px 0 var(--line); }
+}
+/* phone: fixed bottom bar; the page keeps room for it so nothing is covered */
+@media (max-width: 1023px) {
+  .kd-day .kd-bar { padding-top: 12px; }
+  .kd-day .kd-col { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+}
