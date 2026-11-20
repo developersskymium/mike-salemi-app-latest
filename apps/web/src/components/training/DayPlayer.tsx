@@ -22,6 +22,7 @@ import { Cheer, useCheer, useConfetti } from "./Celebrate";
 import { CompletionMoment } from "./CompletionMoment";
 import { hasNotes, NotesBody } from "./NotesBody";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
+import { photo } from "@/lib/photos";
 import "./training.css";
 import "./day-styles";
 import "./day-kbl.css";
@@ -92,6 +93,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       : null,
   );
   const draftTimer = useRef(0);
+  const [draftCount, setDraftCount] = useState(() => Object.keys(data.position?.draftAnswers ?? {}).length);
   const table: Table | null = readiness
     ? readiness.prescription ?? (readiness.tableId ? tables[readiness.tableId] ?? null : null)
     : !form && lesson.starterTableId
@@ -741,7 +743,8 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
           )}
 
           {step.special === "readiness" && form && (
-            <section className="kd-sec kd-card kd-in" ref={readyRef} aria-labelledby="kd-ready-h">
+            <section className="kd-sec kd-card kd-in krq-sec" ref={readyRef} aria-labelledby="kd-ready-h">
+              <ReadyVisual answered={readiness ? form.questions.length : draftCount} total={form.questions.length} band={readiness?.band ?? null} bandWord={bandWord} />
               <div className="kd-sec-in">
                 <p id="kd-ready-h" className="krq-h">
                   <b>Readiness check</b>
@@ -753,6 +756,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
                   saved={readiness}
                   initial={data.position?.draftAnswers ?? {}}
                   onDraft={(a) => {
+                    setDraftCount(Object.keys(a).length);
                     window.clearTimeout(draftTimer.current);
                     draftTimer.current = window.setTimeout(() => void savePositionAction(lesson.id, { draftAnswers: a }), 600);
                   }}
@@ -890,6 +894,31 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
 }
 
 /* ------------------------------------------------------------------ parts */
+
+const MORNING = photo("qiGong");
+
+/**
+ * The readiness step's visual (it has no video): a calm morning photo with a gauge that fills as
+ * the questions are answered, then takes the day's band colour (Sharp / Steady / Low).
+ */
+function ReadyVisual({ answered, total, band, bandWord }: { answered: number; total: number; band: "green" | "amber" | "red" | null; bandWord: string | null }) {
+  const p = total ? Math.min(1, answered / total) : 0;
+  const r = 34;
+  const half = Math.PI * r;
+  return (
+    <figure className="krq-vis" data-band={band ?? undefined}>
+      <Image src={MORNING.src} alt={MORNING.alt} fill sizes="(max-width: 1023px) 100vw, 320px" style={{ objectPosition: MORNING.focal }} />
+      <figcaption className="krq-gauge" aria-label={band ? `Readiness ${bandWord}` : `${answered} of ${total} answered`}>
+        <svg viewBox="0 0 80 46" width="96" height="55" aria-hidden>
+          <path d="M6 40a34 34 0 0 1 68 0" className="krq-g-track" />
+          <path d="M6 40a34 34 0 0 1 68 0" className="krq-g-arc" strokeDasharray={half} strokeDashoffset={half * (1 - p)} />
+        </svg>
+        <b className="lq-num">{band ? bandWord : `${answered}/${total}`}</b>
+        <span>{band ? "today's readiness" : "answered"}</span>
+      </figcaption>
+    </figure>
+  );
+}
 
 type PlayItem = { key: string; stepIndex: number; clipId: string | null; title: string; demo: boolean; thumb: string | null; duration: string | null };
 

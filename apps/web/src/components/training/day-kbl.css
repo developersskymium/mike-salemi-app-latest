@@ -240,3 +240,41 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
   .krq-prompt { font-size: 18px; }
   .krq-opt { flex: 1; min-width: 0; }
 }
+
+/* ---------------------------------------------------------------- no resting shadows, anywhere in the day view
+   (day-summit's rules are scoped :is(.kd-day, .kd-guide) and load more than once, so these carry extra weight) */
+:root .kd-day :is(.kd-meta, .kd-card, .kd-ctx, .wk, .wk-c, .kd-help, .kd-begin, .kd-result, .kd-recap, .kd-ct, .kcm-stats) { box-shadow: inset 0 0 0 1px var(--line); }
+:root .kd-day :is(.kd-stage-wrap, .kd-help:hover) { box-shadow: none; }
+:root .kd-day .kd-bar { box-shadow: inset 0 1px 0 var(--line); }
+:root .kd-day .wk-table[data-view="table"] { box-shadow: inset 0 0 0 1px var(--line); }
+:root .kd-day .wk .kd-ct, :root .kd-day .wk-table .kd-ct { box-shadow: none; }
+:root .kd-day .kcm-medal { filter: none; }
+@media (max-width: 1023px) {
+  :root .kd-day .kd-meta { box-shadow: none; }
+}
+@media (max-width: 719px) {
+  :root .kd-day .wk { box-shadow: none; }
+}
+
+/* ---------------------------------------------------------------- readiness visual */
+:root .kd-day .kd-sec.krq-sec { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0; padding: 0; overflow: hidden; }
+:root .kd-day .krq-sec > .kd-sec-in { grid-column: 1; grid-row: 1; padding: 22px 24px 20px; margin: 0; max-width: none; }
+.krq-vis { grid-column: 2; grid-row: 1; position: relative; margin: 0; min-height: 260px; background: #1B2430; overflow: hidden; }
+.krq-vis img { object-fit: cover; }
+.krq-vis::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10, 14, 20, .62) 0%, rgba(10, 14, 20, 0) 55%); }
+.krq-gauge { position: absolute; left: 0; right: 0; bottom: 16px; z-index: 1; display: grid; justify-items: center; gap: 0; color: #fff; text-align: center; }
+.krq-gauge b { margin-top: -22px; font: 700 18px/1.1 var(--font); }
+.krq-gauge span { font: 600 10.5px/14px var(--font); letter-spacing: .08em; text-transform: uppercase; opacity: .82; }
+.krq-g-track, .krq-g-arc { fill: none; stroke-width: 6; stroke-linecap: round; }
+.krq-g-track { stroke: rgba(255, 255, 255, .28); }
+.krq-g-arc { stroke: #fff; transition: stroke-dashoffset .45s cubic-bezier(.2, .8, .2, 1), stroke .3s; }
+.krq-vis[data-band="green"] .krq-g-arc { stroke: #4CD07D; }
+.krq-vis[data-band="amber"] .krq-g-arc { stroke: #F5B342; }
+.krq-vis[data-band="red"] .krq-g-arc { stroke: #F06A5A; }
+@media (prefers-reduced-motion: reduce) { .krq-g-arc { transition: none; } }
+@media (max-width: 1023px) {
+  :root .kd-day .kd-sec.krq-sec { grid-template-columns: minmax(0, 1fr); }
+  .krq-vis { grid-column: 1; grid-row: 1; min-height: 0; aspect-ratio: 16 / 7; }
+  :root .kd-day .krq-sec > .kd-sec-in { grid-row: 2; padding: 16px; }
+  .krq-gauge { bottom: 10px; }
+}
