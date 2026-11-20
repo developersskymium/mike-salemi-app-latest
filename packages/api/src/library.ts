@@ -28,16 +28,15 @@ export interface LibraryQuery {
 
 /** Videos the member can watch (via any accessible program), with programs, tags and saved flag. */
 export async function libraryVideos(sb: DB, q: LibraryQuery = {}) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.rpc as any)("library_videos", {
-    p_query: q.query ?? null,
-    p_program: q.programId ?? null,
-    p_tags: q.tags?.length ? q.tags : null,
+  const { data, error } = await sb.rpc("library_videos", {
+    p_query: q.query ?? undefined,
+    p_program: q.programId ?? undefined,
+    p_tags: q.tags?.length ? q.tags : undefined,
     p_limit: q.limit ?? 60,
     p_offset: q.offset ?? 0,
   });
   if (error) throw new Error(error.message);
-  const rows = (data ?? []) as LibraryVideo[];
+  const rows = (data ?? []) as unknown as LibraryVideo[];
   return { videos: rows, total: rows[0]?.total_count ?? 0 };
 }
 

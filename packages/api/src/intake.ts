@@ -86,8 +86,7 @@ export async function programIntake(sb: DB, programId: string): Promise<IntakeFo
 
 /** Saves the answers (retakes add a new row) and returns the recommendation. */
 export async function submitIntake(sb: DB, formId: string, answers: IntakeAnswers): Promise<IntakeResult> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.rpc as any)("submit_intake", { p_form: formId, p_answers: answers });
+  const { data, error } = await sb.rpc("submit_intake", { p_form: formId, p_answers: answers as never });
   if (error) throw new Error(error.message);
   return data as IntakeResult;
 }

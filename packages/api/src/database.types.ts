@@ -128,6 +128,27 @@ export type Database = {
         }
         Relationships: []
       }
+      billing_customers: {
+        Row: {
+          created_at: string
+          customer_id: string
+          provider: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          provider?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          provider?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bundle_items: {
         Row: {
           bundle_id: string
@@ -748,6 +769,7 @@ export type Database = {
           key: string | null
           program_id: string | null
           questions: Json
+          result_rules: Json
           title: string
           updated_at: string
           version: number
@@ -759,6 +781,7 @@ export type Database = {
           key?: string | null
           program_id?: string | null
           questions?: Json
+          result_rules?: Json
           title: string
           updated_at?: string
           version?: number
@@ -770,6 +793,7 @@ export type Database = {
           key?: string | null
           program_id?: string | null
           questions?: Json
+          result_rules?: Json
           title?: string
           updated_at?: string
           version?: number
@@ -3172,8 +3196,35 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_org_invite: { Args: { p_token: string }; Returns: Json }
+      apply_missed_day_rule: {
+        Args: { p_plan: string; p_today?: string }
+        Returns: Json
+      }
+      apply_paid_order: {
+        Args: { p_order: string; p_payment_ref?: string; p_subscription?: Json }
+        Returns: Json
+      }
+      apply_to_run: { Args: { p_answers?: Json; p_run: string }; Returns: Json }
+      book_coaching: {
+        Args: { p_note?: string; p_slot: string }
+        Returns: Json
+      }
       can_access: { Args: { p_program: string }; Returns: boolean }
+      cancel_coaching: { Args: { p_booking: string }; Returns: Json }
+      claim_referral: { Args: { p_code: string }; Returns: Json }
       complete_step: { Args: { p_step: string; p_via?: string }; Returns: Json }
+      create_pending_order: {
+        Args: {
+          p_coupon?: string
+          p_interval?: string
+          p_kind: string
+          p_offer?: string
+          p_ref: string
+          p_user: string
+        }
+        Returns: Json
+      }
       curriculum_progress: {
         Args: { p_path?: string; p_program: string }
         Returns: {
@@ -3193,8 +3244,42 @@ export type Database = {
         }
         Returns: string
       }
+      get_offer: {
+        Args: { p_context?: Json; p_placement: string }
+        Returns: Json
+      }
+      join_org: { Args: { p_join_token: string }; Returns: Json }
       lesson_state: { Args: { p_lesson: string }; Returns: Json }
       lesson_unlocked: { Args: { p_lesson: string }; Returns: boolean }
+      library_videos: {
+        Args: {
+          p_limit?: number
+          p_offset?: number
+          p_program?: string
+          p_query?: string
+          p_tags?: string[]
+        }
+        Returns: {
+          category: string
+          description: string
+          duration_seconds: number
+          id: string
+          level: string
+          privacy_hash: string
+          programs: Json
+          provider: string
+          provider_id: string
+          saved: boolean
+          tags: Json
+          thumbnail_url: string
+          title: string
+          total_count: number
+        }[]
+      }
+      log_offer_event: {
+        Args: { p_event: string; p_offer: string; p_placement: string }
+        Returns: undefined
+      }
       my_enrollments: {
         Args: never
         Returns: {
@@ -3219,7 +3304,43 @@ export type Database = {
           steps_total: number
         }[]
       }
+      my_experiences: { Args: never; Returns: Json }
       my_referral_code: { Args: never; Returns: string }
+      my_rewards: { Args: never; Returns: Json }
+      my_week: {
+        Args: { p_from: string; p_to: string }
+        Returns: {
+          done: boolean
+          item_kind: string
+          kind: string
+          lesson_id: string
+          on_date: string
+          plan_id: string
+          plan_item_id: string
+          program_id: string
+          program_name: string
+          program_slug: string
+          ref_id: string
+          skipped: boolean
+          sort_order: number
+          starts_at: string
+          subtitle: string
+          title: string
+        }[]
+      }
+      org_admin_invite: {
+        Args: { p_email: string; p_org: string; p_role?: string }
+        Returns: Json
+      }
+      org_overview: { Args: { p_org: string }; Returns: Json }
+      org_remove_member: {
+        Args: { p_org: string; p_user: string }
+        Returns: undefined
+      }
+      org_set_coach: {
+        Args: { p_coach: string; p_member: string; p_org: string }
+        Returns: undefined
+      }
       program_access_states: {
         Args: never
         Returns: {
@@ -3227,8 +3348,30 @@ export type Database = {
           state: string
         }[]
       }
+      quote: {
+        Args: {
+          p_coupon?: string
+          p_interval?: string
+          p_kind: string
+          p_ref: string
+        }
+        Returns: Json
+      }
+      refund_order: { Args: { p_order: string }; Returns: Json }
       restart_path: {
         Args: { p_path?: string; p_program: string }
+        Returns: Json
+      }
+      schedule_immersion: {
+        Args: { p_days: number[]; p_enrollment: string; p_starts_on?: string }
+        Returns: string
+      }
+      start_plan_from_template: {
+        Args: { p_days?: number[]; p_starts_on?: string; p_template: string }
+        Returns: string
+      }
+      submit_intake: {
+        Args: { p_answers: Json; p_form: string }
         Returns: Json
       }
       submit_readiness: {

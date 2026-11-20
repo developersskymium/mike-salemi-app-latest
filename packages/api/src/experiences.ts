@@ -1,4 +1,5 @@
 import type { DB } from "./client";
+import type { Database, Json } from "./database.types";
 
 export type RunStatus = "draft" | "open" | "waitlist" | "full" | "in_progress" | "past" | "cancelled";
 export type ApplicationStatus = "submitted" | "call_booked" | "accepted" | "waitlist" | "declined" | "booked" | "cancelled";
@@ -42,9 +43,9 @@ export interface MyExperiences {
   coaching: { credits_remaining: number; bookings: MyCoachingBooking[] };
 }
 
-async function rpc<T>(sb: DB, fn: string, args: Record<string, unknown> = {}): Promise<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.rpc as any)(fn, args);
+type Fns = Database["public"]["Functions"];
+async function rpc<T, F extends keyof Fns & string = keyof Fns & string>(sb: DB, fn: F, args?: Fns[F]["Args"]): Promise<T> {
+  const { data, error } = await sb.rpc(fn, (args ?? {}) as never);
   if (error) throw new Error(error.message);
   return data as T;
 }
@@ -74,7 +75,7 @@ export async function getRun(sb: DB, runId: string) {
 
 /** Apply (or update answers). Waitlisted runs file the application as waitlist. */
 export function applyToRun(sb: DB, runId: string, answers: Record<string, unknown>) {
-  return rpc<{ application_id: string; status: ApplicationStatus }>(sb, "apply_to_run", { p_run: runId, p_answers: answers });
+  return rpc<{ application_id: string; status: ApplicationStatus }>(sb, "apply_to_run", { p_run: runId, p_answers: answers as Json });
 }
 
 /** The member's applications/bookings with countdown, next itinerary item, checklist progress, and coaching. */
@@ -125,7 +126,7 @@ export async function openCoachingSlots(sb: DB, from?: Date, to?: Date) {
 /** Uses one credit (oldest valid first) and closes the slot. */
 export function bookCoaching(sb: DB, slotId: string, note?: string) {
   return rpc<{ booking_id: string; starts_at: string; credit_id: string; credits_left: number }>(
-    sb, "book_coaching", { p_slot: slotId, p_note: note ?? null },
+    sb, "book_coaching", { p_slot: slotId, p_note: note ?? undefined },
   );
 }
 

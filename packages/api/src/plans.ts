@@ -1,12 +1,13 @@
 import { addDays, weekday, type IsoDate } from "@ms/core";
 import type { DB } from "./client";
+import type { Database } from "./database.types";
 
 export type GoalKind = "strength" | "technique" | "mobility" | "conditioning" | "mindset" | "retreat_prep" | "custom";
 export type PlanItemKind = "training" | "recovery" | "rest";
 
-async function rpc<T>(sb: DB, fn: string, args: Record<string, unknown> = {}): Promise<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.rpc as any)(fn, args);
+type Fns = Database["public"]["Functions"];
+async function rpc<T, F extends keyof Fns & string = keyof Fns & string>(sb: DB, fn: F, args?: Fns[F]["Args"]): Promise<T> {
+  const { data, error } = await sb.rpc(fn, (args ?? {}) as never);
   if (error) throw new Error(error.message);
   return data as T;
 }
@@ -51,18 +52,18 @@ export async function planItems(sb: DB, planId: string) {
 // ---------------------------------------------------------------- writes (server functions)
 /** Copy a template onto the member's weekdays (0=Sun…6=Sat). Lessons the member can't open are skipped. */
 export function startPlanFromTemplate(sb: DB, templateId: string, startsOn: IsoDate | null, days: number[]) {
-  return rpc<string>(sb, "start_plan_from_template", { p_template: templateId, p_starts_on: startsOn, p_days: days });
+  return rpc<string>(sb, "start_plan_from_template", { p_template: templateId, p_starts_on: startsOn ?? undefined, p_days: days });
 }
 
-/** Immersion "Scheduled pace": places the remaining lessons on training days (replaces any earlier schedule). */
+/** Immersion "Scheduled pace": places the remaining lessons on training days (archives any earlier schedule). */
 export function scheduleImmersion(sb: DB, enrollmentId: string, days: number[], startsOn?: IsoDate | null) {
-  return rpc<string>(sb, "schedule_immersion", { p_enrollment: enrollmentId, p_days: days, p_starts_on: startsOn ?? null });
+  return rpc<string>(sb, "schedule_immersion", { p_enrollment: enrollmentId, p_days: days, p_starts_on: startsOn ?? undefined });
 }
 
 /** "Fix my plan": shift / skip / weekend (the enrollment's rule for immersion schedules, shift otherwise). */
 export function applyMissedDayRule(sb: DB, planId: string, today?: IsoDate) {
   return rpc<{ rule: "shift" | "skip" | "weekend"; missed: number; changed: number; offset_days?: number }>(
-    sb, "apply_missed_day_rule", { p_plan: planId, p_today: today ?? null },
+    sb, "apply_missed_day_rule", { p_plan: planId, p_today: today ?? undefined },
   );
 }
 
@@ -82,7 +83,7 @@ export interface WeekEntry {
   ref_id: string | null;
   done: boolean;
   skipped: boolean;
-  position: number;
+  sort_order: number;
 }
 
 /** One calendar feed: plan items, booked live sessions and coaching between two dates (≤ 92 days). */

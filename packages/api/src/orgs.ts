@@ -1,4 +1,5 @@
 import type { DB } from "./client";
+import type { Database } from "./database.types";
 
 export type OrgRole = "owner" | "admin" | "coach" | "member";
 
@@ -31,9 +32,9 @@ export interface OrgOverview {
   members: OrgMemberOverview[];
 }
 
-async function rpc<T>(sb: DB, fn: string, args: Record<string, unknown> = {}): Promise<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.rpc as any)(fn, args);
+type Fns = Database["public"]["Functions"];
+async function rpc<T, F extends keyof Fns & string = keyof Fns & string>(sb: DB, fn: F, args?: Fns[F]["Args"]): Promise<T> {
+  const { data, error } = await sb.rpc(fn, (args ?? {}) as never);
   if (error) throw new Error(error.message);
   return data as T;
 }
@@ -45,7 +46,7 @@ export function acceptOrgInvite(sb: DB, token: string) {
 
 /** Join by the org's join link token, or pass null to join the org that auto-joins your email domain. */
 export function joinOrg(sb: DB, joinToken: string | null) {
-  return rpc<{ org_id: string; role: OrgRole }>(sb, "join_org", { p_join_token: joinToken });
+  return rpc<{ org_id: string; role: OrgRole }>(sb, "join_org", { p_join_token: joinToken ?? "" });
 }
 
 /** Owner/admin: create or refresh an invite. Send the email from a server route using the returned token. */
@@ -62,7 +63,7 @@ export function removeOrgMember(sb: DB, orgId: string, userId: string) {
 
 /** Owner/admin: assign (or clear with null) a member's coach. */
 export function setOrgCoach(sb: DB, orgId: string, memberId: string, coachId: string | null) {
-  return rpc<void>(sb, "org_set_coach", { p_org: orgId, p_member: memberId, p_coach: coachId });
+  return rpc<void>(sb, "org_set_coach", { p_org: orgId, p_member: memberId, p_coach: coachId as string } /* null clears */);
 }
 
 /** Owner/admin/coach dashboard: seats, status and per-member progress (coaches see their own members). */
