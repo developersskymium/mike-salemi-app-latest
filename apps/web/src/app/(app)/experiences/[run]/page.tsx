@@ -7,6 +7,7 @@ import { retreatStage } from "@/lib/retreat-stage";
 import "@/components/commerce/commerce.css";
 import "@/components/experiences/experiences.css";
 import "@/components/experiences/retreat.css";
+import "@/components/experiences/retreat-plus.css";
 
 export async function generateMetadata(props: PageProps<"/experiences/[run]">): Promise<Metadata> {
   const { run } = await props.params;

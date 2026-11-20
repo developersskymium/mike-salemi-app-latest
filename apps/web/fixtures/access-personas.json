@@ -1,0 +1,1855 @@
+{
+ "default": "pro",
+ "personas": {
+  "free": {
+   "label": "Free member",
+   "plan": "free",
+   "admin": false,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "max",
+     "upgrade_plan_name": "Max",
+     "amount_cents": 29700,
+     "base_cents": 29700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "max",
+     "upgrade_plan_name": "Max",
+     "amount_cents": 24900,
+     "base_cents": 24900,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": 19700,
+     "base_cents": 19700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": true
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "free",
+     "name": "Free",
+     "rank": 0
+    },
+    "owned": [],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": false,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": false,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": false
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 0
+     }
+    ]
+   },
+   "readinessLow": false,
+   "streakWeeks": 1
+  },
+  "pro": {
+   "label": "Pro subscriber",
+   "plan": "pro",
+   "admin": false,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "included",
+     "plan_id": "pro",
+     "plan_name": "Pro",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "max",
+     "upgrade_plan_name": "Max",
+     "amount_cents": 23760,
+     "base_cents": 29700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "max",
+     "upgrade_plan_name": "Max",
+     "amount_cents": 19920,
+     "base_cents": 24900,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": 19700,
+     "base_cents": 19700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "included",
+     "plan_id": "pro",
+     "plan_name": "Pro",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "pro",
+     "name": "Pro",
+     "rank": 1
+    },
+    "owned": [],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": true,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": false,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": false
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 0
+     }
+    ]
+   },
+   "readinessLow": true,
+   "streakWeeks": 1
+  },
+  "max": {
+   "label": "Max subscriber",
+   "plan": "max",
+   "admin": false,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "included",
+     "plan_id": "max",
+     "plan_name": "Max",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "included",
+     "plan_id": "max",
+     "plan_name": "Max",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "included",
+     "plan_id": "max",
+     "plan_name": "Max",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": 14775,
+     "base_cents": 19700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "included",
+     "plan_id": "max",
+     "plan_name": "Max",
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "max",
+     "name": "Max",
+     "rank": 2
+    },
+    "owned": [],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": false,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": true,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": false
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 0
+     }
+    ]
+   },
+   "readinessLow": false,
+   "streakWeeks": 4
+  },
+  "owner": {
+   "label": "Owns one program (MTK)",
+   "plan": "free",
+   "admin": false,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "max",
+     "upgrade_plan_name": "Max",
+     "amount_cents": 24900,
+     "base_cents": 24900,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": 19700,
+     "base_cents": 19700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "free",
+     "name": "Free",
+     "rank": 0
+    },
+    "owned": [
+     {
+      "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+      "slug": "mastering-the-kettlebell",
+      "name": "Mastering the Kettlebell",
+      "paid_cents": 29700,
+      "paid_at": "2026-11-02T10:00:00Z",
+      "list_cents": 29700
+     }
+    ],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": false,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": false,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": true
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 29700
+     }
+    ]
+   },
+   "readinessLow": false,
+   "streakWeeks": 1
+  },
+  "collector": {
+   "label": "Bought 2 programs",
+   "plan": "free",
+   "admin": false,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "buy",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": 19700,
+     "base_cents": 19700,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "upgrade",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": "pro",
+     "upgrade_plan_name": "Pro",
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "free",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "apply",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "free",
+     "name": "Free",
+     "rank": 0
+    },
+    "owned": [
+     {
+      "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+      "slug": "mastering-the-kettlebell",
+      "name": "Mastering the Kettlebell",
+      "paid_cents": 29700,
+      "paid_at": "2026-11-02T10:00:00Z",
+      "list_cents": 29700
+     },
+     {
+      "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+      "slug": "athleticism-4-life",
+      "name": "Athleticism 4 Life",
+      "paid_cents": 24900,
+      "paid_at": "2026-11-12T10:00:00Z",
+      "list_cents": 24900
+     }
+    ],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": false,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": false,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": true
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": true
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 54600
+     }
+    ]
+   },
+   "readinessLow": false,
+   "streakWeeks": 1
+  },
+  "admin": {
+   "label": "Admin",
+   "plan": "max",
+   "admin": true,
+   "states": [
+    {
+     "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "slug": "kettlebell-lifestyle",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": true,
+     "started": true,
+     "completed": false
+    },
+    {
+     "program_id": "8b15e5bb-2c10-40ce-bab7-8559d969d515",
+     "slug": "men-of-movement-retreats",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+     "slug": "mastering-the-kettlebell",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+     "slug": "athleticism-4-life",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4",
+     "slug": "the-path-to-inspired-action",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+     "slug": "working-in",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "414b4325-9841-525f-960d-e8438e5ee94b",
+     "slug": "men-of-movement",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "54d6a312-6c86-5e3b-93da-a3edc159c45e",
+     "slug": "kettlebell-roadmap",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "0e9468ea-71cf-5903-afca-b5b2bee36055",
+     "slug": "what-your-kettlebell-swing-is-missing",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+     "slug": "free-6-video-kettlebell-mini-series",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "3153ea23-21eb-473e-8acc-7f844723ef4d",
+     "slug": "coaching",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "15f12bb4-ca09-4516-8345-9812c7fe967a",
+     "slug": "executive-edge",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    },
+    {
+     "program_id": "c488c3d4-5607-49d7-8ba3-d3bf5734b148",
+     "slug": "zen-savage",
+     "state": "owned",
+     "plan_id": null,
+     "plan_name": null,
+     "upgrade_plan_id": null,
+     "upgrade_plan_name": null,
+     "amount_cents": null,
+     "base_cents": null,
+     "currency": "usd",
+     "enrolled": false,
+     "started": false,
+     "completed": false
+    }
+   ],
+   "savings": {
+    "plan": {
+     "id": "max",
+     "name": "Max",
+     "rank": 2
+    },
+    "owned": [],
+    "plans": [
+     {
+      "id": "pro",
+      "name": "Pro",
+      "rank": 1,
+      "tagline": null,
+      "current": false,
+      "month_cents": 2900,
+      "year_cents": 29000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "percent": 20
+       },
+       {
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "percent": 20
+       }
+      ],
+      "credit_cents": 0
+     },
+     {
+      "id": "max",
+      "name": "Max",
+      "rank": 2,
+      "tagline": null,
+      "current": true,
+      "month_cents": 5900,
+      "year_cents": 59000,
+      "includes": [
+       {
+        "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "slug": "kettlebell-lifestyle",
+        "name": "Kettlebell Lifestyle",
+        "list_cents": null,
+        "owned": false
+       },
+       {
+        "program_id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+        "slug": "mastering-the-kettlebell",
+        "name": "Mastering the Kettlebell",
+        "list_cents": 29700,
+        "owned": false
+       },
+       {
+        "program_id": "5944a03d-94be-5595-b9da-b212edfdc892",
+        "slug": "athleticism-4-life",
+        "name": "Athleticism 4 Life",
+        "list_cents": 24900,
+        "owned": false
+       },
+       {
+        "program_id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+        "slug": "working-in",
+        "name": "Working-In with Paul Chek & Mike Salemi",
+        "list_cents": null,
+        "owned": false
+       }
+      ],
+      "discounts": [
+       {
+        "slug": "the-path-to-inspired-action",
+        "name": "The Path to Inspired Action",
+        "percent": 25
+       }
+      ],
+      "credit_cents": 0
+     }
+    ]
+   },
+   "readinessLow": false,
+   "streakWeeks": 1
+  }
+ },
+ "previews": {
+  "kettlebell-lifestyle": [
+   "134f4dc4-ed7c-455b-bf9c-9af918685018",
+   "6e0c081c-4a6a-4c7d-9e8b-51f1f2cb958a"
+  ],
+  "mastering-the-kettlebell": [
+   "40ff1a34-ef31-461e-8fba-4f41496c7a75"
+  ],
+  "athleticism-4-life": [
+   "e51e99ce-1e16-5371-8f3b-40375b9d2aeb"
+  ],
+  "the-path-to-inspired-action": [
+   "9f2df834-33a9-5bdf-a373-453d3108bc1c"
+  ],
+  "working-in": [
+   "d9da3212-d2bd-5100-8647-68701c561722"
+  ],
+  "men-of-movement": [
+   "18fbfd96-f109-5f27-a0b3-815b5bc776ac"
+  ],
+  "kettlebell-roadmap": [
+   "9eb219a1-dc30-5619-a774-b9e3d929e384"
+  ],
+  "what-your-kettlebell-swing-is-missing": [
+   "2c196459-10b2-5d2e-9c0d-de8fc0b8d590"
+  ],
+  "free-6-video-kettlebell-mini-series": [
+   "02d452f3-a82e-5531-b403-92fe25d3d95a"
+  ]
+ }
+}

@@ -1,54 +1,48 @@
-"use client";
+import type { ProgramAccess } from "@ms/api";
+import { ProgramCta } from "@/components/access/ProgramCta";
+import type { ButtonVariant } from "@/components/ui";
+import { programAccess } from "@/lib/access";
 
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { Button, useToast, type ButtonVariant } from "@/components/ui";
-import { joinProgramAction } from "@/lib/actions/home";
-
-/** One-tap Join (legacy useJoinAndOpen): enrol, toast "You've joined X", open the first lesson. */
-export function JoinButton({
+/**
+ * State-aware Join / Start (spec 11). Server Component: resolves the member's access to the program
+ * (one cached RPC per request) and renders the right action — Start / Continue · Included in your plan —
+ * Start · Upgrade to <Plan> · Buy — $X · Free — Start · Apply. Props are backward compatible with the
+ * old client JoinButton; pass `access` when you already have it, `slug` is optional.
+ */
+export async function JoinButton({
   programId,
   pathId,
   name,
+  slug,
+  access,
   variant = "fill",
   size = "sm",
   block,
-  label = "Join program",
+  label,
+  showNote = false,
 }: {
   programId: string;
   pathId: string | null;
   name: string;
+  slug?: string;
+  access?: ProgramAccess | null;
   variant?: ButtonVariant;
   size?: "sm" | "md" | "lg";
   block?: boolean;
   label?: string;
+  showNote?: boolean;
 }) {
-  const router = useRouter();
-  const toast = useToast();
-  const [pending, start] = useTransition();
+  const a = access !== undefined ? access : await programAccess(programId);
   return (
-    <Button
+    <ProgramCta
+      access={a}
+      program={{ id: programId, slug: a?.slug ?? slug ?? programId, name }}
+      pathId={pathId}
       variant={variant}
       size={size}
       block={block}
-      icon={pending ? undefined : "plus"}
-      disabled={pending}
-      aria-busy={pending || undefined}
-      aria-label={`${label}: ${name}`}
-      onClick={() =>
-        start(async () => {
-          const res = await joinProgramAction(programId, pathId);
-          if (!res.ok) {
-            toast(res.error);
-            return;
-          }
-          toast(`You've joined ${res.name}`, { tone: "success", icon: "check" });
-          router.push(res.href);
-        })
-      }
-    >
-      {pending ? <span className="w1-spin" aria-hidden /> : null}
-      {pending ? "Joining…" : label}
-    </Button>
+      showNote={showNote}
+      startLabel={label && label !== "Join program" ? label : undefined}
+    />
   );
 }

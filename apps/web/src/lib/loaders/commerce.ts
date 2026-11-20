@@ -80,7 +80,16 @@ async function realOffer(placement: OfferSlotPlacement, context: OfferContext): 
   if (!offer) return null;
   const [image, type] = await Promise.all([offerImage(offer), programTypeOf(offer)]);
   const { href, external } = offerHref(offer);
-  return { offer, href: type ? programHref(offer.target?.slug ?? offer.target_ref, type) : href, external, image, eyebrow: offer.target?.name ?? null };
+  return { offer, href: type ? programHref(offer.target?.slug ?? offer.target_ref, type) : href, external, image, eyebrow: offer.reason ?? offer.target?.name ?? null };
+}
+
+/** Local preview: the seeded rules evaluated against the fixture persona (lib/offers-mock). */
+async function mockOfferView(placement: OfferSlotPlacement, context: OfferContext): Promise<OfferView | null> {
+  const { mockOffer } = await import("@/lib/offers-mock");
+  const offer = await mockOffer(placement, context);
+  if (!offer) return null;
+  const { href, external } = offerHref(offer);
+  return { offer, href, external, image: null, eyebrow: offer.reason ?? offer.target?.name ?? null };
 }
 
 /**
@@ -102,7 +111,9 @@ function withPhoto(view: OfferView): OfferView {
  */
 export async function loadOffer(placement: OfferSlotPlacement, context: OfferContext = {}): Promise<OfferView | null> {
   try {
-    const view = MOCK ? await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null) : await realOffer(placement, context);
+    const view = MOCK
+      ? (await mockOfferView(placement, context)) ?? (await fixture<OfferView | null>(`commerce-offer-${placement}`).catch(() => null))
+      : await realOffer(placement, context);
     return view ? withPhoto(view) : null;
   } catch (e) {
     unstable_rethrow(e); // let Next's dynamic-rendering and navigation signals through
@@ -173,7 +184,15 @@ export interface RunDetails {
   cta_label?: string;
   highlights?: string[];
   aftercare?: string[];
-  facilitators?: { name: string; role: string }[];
+  /** `photo` and `line` are optional: a tasteful initials placeholder shows until Mike sends photos. */
+  facilitators?: { name: string; role: string; line?: string; photo?: string }[];
+  nights?: number;
+  /** "About 1 hr from Redding airport (RDD) · …" */
+  travel_time?: string;
+  not_included?: string[];
+  /** "Is this for me?" lines. */
+  for_you?: string[];
+  copy_draft_note?: string;
   faq?: { q: string; a: string }[];
   travel?: string;
   accommodation?: string;
@@ -221,6 +240,12 @@ export interface RunHub {
   callSlots: { id: string; starts_at: string; duration_minutes: number }[];
   /** Men of Movement: Preparation, included with a booked place; opens ~3 months before the run. */
   prepProgram: { slug: string; name: string; lessons: number; opensAt: string; open: boolean } | null;
+  /** Shared photo wall (booked men only; live and after). */
+  wall: { id: string; url: string; caption: string | null; by: string; mine: boolean }[];
+  /** The member's retreat certificate once issued (after). */
+  certificate: { id: string } | null;
+  /** Places left (capacity minus accepted/booked). */
+  seatsLeft: number | null;
   /** The retreat program's shared copy: the five pillars, the two tracks, the daily rhythm. */
   about: {
     pillars: string[];
@@ -269,6 +294,17 @@ async function realRunHub(runId: string): Promise<RunHub | null> {
       ? sb.from("access_grants").select("starts_at").eq("user_id", user.id).eq("program_id", prep.id).is("revoked_at", null).order("starts_at").limit(1).maybeSingle().then((r) => r.data)
       : null,
   ]);
+  const booked = app?.status === "booked";
+  const [wallRows, cert, seats] = await Promise.all([
+    booked
+      ? sb.from("run_wall_posts" as never).select("id, path, caption, user_id, created_at").eq("run_id", runId).order("created_at", { ascending: false }).limit(60).then((r) => (r.data ?? []) as unknown as { id: string; path: string; caption: string | null; user_id: string }[])
+      : [],
+    user && booked ? sb.from("certificates").select("id").eq("user_id", user.id).eq("program_id", run.program_id).order("issued_at", { ascending: false }).limit(1).maybeSingle().then((r) => r.data) : null,
+    sb.rpc("run_seats" as never, { p_runs: [runId] } as never).then((r) => ((r.data ?? []) as unknown as { seats_left: number | null }[])[0]?.seats_left ?? null),
+  ]);
+  const signed = wallRows.length
+    ? await sb.storage.from("retreat-wall").createSignedUrls(wallRows.map((w) => w.path), 3600).then((r) => r.data ?? [])
+    : [];
   const meta = (parent?.meta ?? {}) as { tracks?: RunHub["about"]["tracks"]; tracks_draft_note?: string; pillars_draft_note?: string; sections?: { heading: string; body: string }[] };
   const prepMeta = (prep?.meta ?? {}) as { pillars?: string[] };
   const opensAt = grant?.starts_at ?? new Date(new Date(run.starts_at).getTime() - PREP_DAYS_BEFORE * 86400000).toISOString();
@@ -299,12 +335,41 @@ async function realRunHub(runId: string): Promise<RunHub | null> {
     price: priceRow ? { amountCents: priceRow.amount_cents, currency: priceRow.currency, draftNote: priceRow.draft_note } : null,
     callSlots: slots.map((x) => ({ id: x.id, starts_at: x.starts_at, duration_minutes: x.duration_minutes })),
     prepProgram: prep ? { slug: prep.slug, name: prep.name, lessons, opensAt, open: Date.parse(opensAt) <= Date.now() && app?.status === "booked" } : null,
+    wall: wallRows.flatMap((w, i) => (signed[i]?.signedUrl ? [{ id: w.id, url: signed[i]!.signedUrl, caption: w.caption, by: w.user_id === user?.id ? "You" : "A brother", mine: w.user_id === user?.id }] : [])),
+    certificate: cert ? { id: cert.id } : null,
+    seatsLeft: seats,
     about: {
       pillars: prepMeta.pillars ?? [],
       pillarsDraftNote: meta.pillars_draft_note ?? null,
       tracks: meta.tracks ?? [],
       tracksDraftNote: meta.tracks_draft_note ?? null,
       rhythm: meta.sections?.find((x) => /what it is/i.test(x.heading))?.body.match(/Mornings[^.]*\./)?.[0] ?? null,
+    },
+  };
+}
+
+/** Fixture defaults for the fields added in spec 12 (wall, certificate, seats, starter copy). */
+function withMockExtras(hub: RunHub, mode: "live" | "after" | null): RunHub {
+  const photos = hub.run.gallery.filter((g) => !g.stock);
+  const wall = mode
+    ? [5, 8, 3, 10, 6, 4, 7].map((n, i) => photos[n]).filter(Boolean).map((p, i) => ({ id: `w${i}`, url: p!.url, caption: i % 3 === 0 ? p!.caption : null, by: i === 1 ? "You" : ["Daniel", "Marcus", "Sam", "Jonah", "Eli", "Theo"][i % 6]!, mine: i === 1 }))
+    : [];
+  const d = hub.run.details;
+  return {
+    ...hub,
+    wall: hub.wall ?? wall,
+    certificate: hub.certificate ?? (mode === "after" ? { id: "preview" } : null),
+    seatsLeft: hub.seatsLeft ?? 7,
+    run: {
+      ...hub.run,
+      details: {
+        ...d,
+        nights: d.nights ?? 3,
+        travel_time: d.travel_time ?? "About 1 hr from Redding airport (RDD) · 4 hrs from Sacramento (SMF)",
+        not_included: d.not_included ?? ["Flights to Redding (RDD) or Sacramento (SMF)", "Travel insurance", "Alcohol and personal extras"],
+        for_you: d.for_you,
+        copy_draft_note: d.copy_draft_note ?? "Starter copy (travel time, inclusions, guide lines); awaiting Mike",
+      },
     },
   };
 }
@@ -328,8 +393,21 @@ export async function loadRunHub(runId: string, preview?: string | null): Promis
   if (!/^[0-9a-f-]{36}$/i.test(runId)) return null;
   if (MOCK) {
     const mode = preview === "live" || preview === "after" ? preview : null;
-    const hub = await mockFixture<RunHub>("commerce-run", mode ? "booked" : preview);
-    if (hub.run.id !== runId) return null;
+    let hub = withMockExtras(await mockFixture<RunHub>("commerce-run", mode ? "booked" : preview), mode);
+    if (hub.run.id !== runId) {
+      // Other sample runs on the index: the base retreat, re-dated, with the card's state.
+      const idx = await fixture<{ runs: { id: string; name: string; status: string; starts_at: string; ends_at: string | null; cover: string | null; track?: string | null; season: string | null; tagline: string | null; mine: string | null; seatsLeft?: number | null; draft_note: string | null }[] }>("commerce-retreats");
+      const card = idx.runs.find((r) => r.id === runId);
+      if (!card) return null;
+      const state = card.mine ? await mockFixture<RunHub>("commerce-run", card.mine === "submitted" ? "submitted" : card.mine === "booked" ? "booked" : card.mine) : null;
+      const base = withMockExtras(state ?? hub, null);
+      hub = {
+        ...base,
+        run: { ...base.run, id: card.id, name: card.name, status: card.status as RunStatus, starts_at: card.starts_at, ends_at: card.ends_at, draft_note: card.draft_note, details: { ...base.run.details, cover: card.cover ?? base.run.details.cover, track: card.track ?? base.run.details.track, season: card.season ?? undefined, tagline: card.tagline ?? undefined } },
+        seatsLeft: card.seatsLeft ?? null,
+      };
+      if (hub.prepProgram) hub.prepProgram = { ...hub.prepProgram, opensAt: new Date(Date.parse(card.starts_at) - PREP_DAYS_BEFORE * 86400000).toISOString(), open: card.mine === "booked" && Date.parse(card.starts_at) - PREP_DAYS_BEFORE * 86400000 <= Date.now() };
+    }
     return mode ? shiftRun(hub, mode) : hub;
   }
   return realRunHub(runId);

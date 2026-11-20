@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PlanSavings } from "@/components/access/PlanSavings";
 import { YouScreen } from "@/components/you/YouScreen";
 import type { YouTab } from "@/components/you/YouTabs";
 import { loadPassport } from "@/lib/loaders/you";
@@ -18,5 +19,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ t
     loadBadges().catch(() => null),
     loadYouExtras().catch(() => null),
   ]);
-  return <YouScreen d={d} shop={shop} badges={badges} extras={extras} tab={TABS.includes(tab as YouTab) ? (tab as YouTab) : "overview"} />;
+  const t = TABS.includes(tab as YouTab) ? (tab as YouTab) : "overview";
+  return (
+    <>
+      <YouScreen d={d} shop={shop} badges={badges} extras={extras} tab={t} />
+      {t === "overview" && (
+        <div style={{ maxWidth: 1240, margin: "32px auto 0" }}>
+          <PlanSavings />
+        </div>
+      )}
+    </>
+  );
 }

@@ -8,7 +8,7 @@ import type { Step, VideoRef } from "./types";
 export type Clip = VideoRef & { title: string };
 
 /** Fraction of a video that counts as watched. */
-export const WATCHED_RATIO = 0.95;
+export const WATCHED_RATIO = 0.9;
 
 /** True once `seconds` reaches 95% of `duration`. Unknown/zero duration never counts. */
 export function isWatched(seconds: number, duration: number | null | undefined): boolean {
