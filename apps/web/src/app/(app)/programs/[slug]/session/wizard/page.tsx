@@ -22,7 +22,7 @@ export default async function WizardPage({ params, searchParams }: Props) {
     loadTrainingProfile().catch(() => null),
   ]);
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto", display: "grid", gap: 18, paddingBottom: 40 }}>
+    <div data-wz-page="" style={{ maxWidth: 720, margin: "0 auto", display: "grid", gap: 18, paddingBottom: 40 }}>
       <Link href={`/programs/${slug}?mode=self-guided`} className="lq-link" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14 }}>
         <Icon name="back" size="xs" /> {data.program.name}
       </Link>

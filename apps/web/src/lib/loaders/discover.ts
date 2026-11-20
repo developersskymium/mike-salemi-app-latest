@@ -211,3 +211,15 @@ export async function loadSales(sb: DB, slug: string): Promise<SalesPage | null>
   if (MOCK) return fixture<SalesPage>(`discover-sales-${slug}`).catch(() => null);
   return realSales(sb, slug);
 }
+
+/**
+ * Mike's picks shelf: video ids the admin sets monthly in site_settings (key `library_picks`,
+ * value `{ "ids": ["<video id>", ...], "month": "2026-11" }`). Unset: no shelf. Preview mode shows a sample.
+ */
+export async function loadLibraryPicks(sb: DB, known: string[]): Promise<string[]> {
+  if (MOCK) return known.slice(3, 9);
+  const { data } = await sb.from("site_settings").select("value").eq("key", "library_picks").maybeSingle();
+  const ids = ((data?.value ?? {}) as { ids?: unknown }).ids;
+  const have = new Set(known);
+  return Array.isArray(ids) ? ids.filter((x): x is string => typeof x === "string" && have.has(x)).slice(0, 8) : [];
+}

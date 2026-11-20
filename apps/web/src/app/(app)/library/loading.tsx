@@ -1,5 +1,5 @@
-import { PageSkeleton } from "@/components/shell/PageSkeleton";
+import { LibrarySkeleton } from "@/components/discover/library/LibrarySkeleton";
 
 export default function Loading() {
-  return <PageSkeleton kind="grid" label="Loading the library" />;
+  return <LibrarySkeleton />;
 }

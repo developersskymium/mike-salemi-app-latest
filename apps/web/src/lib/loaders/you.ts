@@ -17,9 +17,10 @@ import {
 } from "@ms/api";
 import { embedUrl, type WorkoutTable } from "@ms/core";
 import { toolDef } from "@/components/discover/tools/defs";
-import { mockable } from "@/lib/mock";
+import { MOCK, mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import type { Badge, Certificate, Enrollment } from "./today-plan-you";
+import { dayProgress, pctOf, streakCount, withTrainingDays } from "./day-progress";
 
 /* ============================================================== shared */
 
@@ -294,7 +295,7 @@ export interface PassportData {
   referrals: number;
 }
 
-export const loadPassport = mockable("you-passport", async (): Promise<PassportData> => {
+const loadPassportRaw = mockable("you-passport", async (): Promise<PassportData> => {
   const { sb, user } = await session();
   const [profile, enrollments, rewards, badges, progress, certificates, orders, runs, videos, tools, plans, refs] = await Promise.all([
     profileOf(sb, user),
@@ -327,7 +328,7 @@ export interface RewardsV2 {
   certificates: Certificate[];
 }
 
-export const loadRewardsV2 = mockable("you-rewards", async (): Promise<RewardsV2> => {
+const loadRewardsRaw = mockable("you-rewards", async (): Promise<RewardsV2> => {
   const { sb, user } = await session();
   const [profile, rewards, badges, progress, ledger, enrollments, runs, certificates] = await Promise.all([
     profileOf(sb, user),
@@ -340,8 +341,45 @@ export const loadRewardsV2 = mockable("you-rewards", async (): Promise<RewardsV2
     certificatesOf(sb, user.id),
   ]);
   const { stats } = await passport(sb, user.id, rewards, enrollments);
-  return { name: profile.displayName, rewards, badges, progress, ledger, levels: stats.programs, runs, certificates };
+  return { name: profile.displayName, rewards, badges, progress, ledger, levels: await levelsInDays(stats.programs, enrollments), runs, certificates };
 });
+
+/* ============================================================== One source of truth (D09) */
+
+/** Day-program levels in training days (the same counts as the rail, Today and the program page). */
+async function levelsInDays(levels: PassportProgram[], enrollments: Enrollment[]): Promise<PassportProgram[]> {
+  const dayPrograms = new Set(enrollments.filter((e) => e.program_type === "day_program").map((e) => e.program_id));
+  return Promise.all(
+    levels.map(async (p) => {
+      if (!dayPrograms.has(p.program_id)) return p;
+      const d = await dayProgress(p.program_id, p.path_id ?? null);
+      if (!d) return p;
+      const phases = d.sections.filter((s) => s.days > 0).map((s) => ({ section_id: s.id, title: s.title, done: s.daysDone, total: s.days, pct: pctOf(s.daysDone, s.days) }));
+      return { ...p, done: d.done, total: d.total, pct: pctOf(d.done, d.total), phases };
+    }),
+  );
+}
+
+/** You: enrollments and levels counted in training days, the streak from my_rewards. */
+export async function loadPassport(): Promise<PassportData> {
+  const [raw, streak] = await Promise.all([loadPassportRaw(), streakCount()]);
+  const enrollments = await withTrainingDays(raw.enrollments);
+  const programs = await levelsInDays(raw.stats.programs, raw.enrollments);
+  return {
+    ...raw,
+    enrollments,
+    rewards: { ...raw.rewards, streak_current: streak.current, streak_best: Math.max(streak.best, streak.current) },
+    stats: { ...raw.stats, programs, streak: { current: streak.current, best: Math.max(streak.best, streak.current) } },
+  };
+}
+
+export async function loadRewardsV2(): Promise<RewardsV2> {
+  const raw = await loadRewardsRaw();
+  if (!MOCK) return raw;
+  // Preview snapshot: its only level is the day program (the real loader passes the enrollments).
+  const enrollments = raw.levels.map((l) => ({ program_id: l.program_id, program_type: "day_program" }) as Enrollment);
+  return { ...raw, levels: await levelsInDays(raw.levels, enrollments) };
+}
 
 /* ============================================================== Referrals */
 
