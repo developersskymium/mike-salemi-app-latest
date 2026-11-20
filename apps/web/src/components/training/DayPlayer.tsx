@@ -47,12 +47,13 @@ function letsBeginText(html: string | null | undefined) {
  * readiness form, today's workout table) and the "Today's sequence" rail; on a phone the
  * sequence sits under the content with a thumb-zone action bar.
  */
-export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?: ReactNode }) {
+export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData; endOffer?: ReactNode; /** Level / program finished: "Choose your next step". */ levelOffer?: ReactNode }) {
   const { program, path, lesson, steps, section, outline, progress, form, tables } = data;
   const router = useRouter();
   const toast = useToast();
   const word = program.lessonLabel || "Day";
   const lockedOrder = data.state.lockedOrder;
+  const preview = Boolean(data.state.preview);
   const [now] = useState(() => Date.now());
 
   /* ---------------------------------------------------------------- progress */
@@ -211,6 +212,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   }
 
   async function complete(i: number, via: "button" | "watched" = "button", at?: Point) {
+    if (preview) return;
     const s = steps[i];
     if (!s || completedRef.current.has(s.id) || !isOpen(i)) return;
     if (s.special === "readiness") return toReadiness();
@@ -238,6 +240,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   }
 
   async function uncomplete(i: number) {
+    if (preview) return;
     const s = steps[i];
     if (!s || !completedRef.current.has(s.id)) return;
     if (s.special === "readiness") return toReadiness();
@@ -492,6 +495,12 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   /** The one primary action for where the member is in the day. */
   const primary = (block?: boolean) => {
     const size = block ? "lg" : "md";
+    if (preview)
+      return (
+        <Button block={block} size={size} href={programHref} iconAfter="chevron">
+          Get full access
+        </Button>
+      );
     if (dayDone && active >= steps.length - 1)
       return nextHref ? (
         <Button block={block} size={size} href={nextHref} iconAfter="chevron">
@@ -535,7 +544,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     );
   };
 
-  const moreItems: MoreItem[] = [
+  const moreItems: MoreItem[] = preview ? [{ label: "Program overview", icon: "grid" as const, href: programHref }] : [
     ...(workoutDay ? [{ label: "Session plan", icon: "clipboard" as const, onSelect: () => setPlanOpen(true) }] : []),
     ...(workoutStep && !isDone && tableReady ? [{ label: `Mark ${step.title} done`, icon: "check" as const, onSelect: () => void complete(active, "button") }] : []),
     ...(isDone && step.special !== "readiness" ? [{ label: "Mark this step not done", icon: "repeat" as const, onSelect: () => void uncomplete(active) }] : []),
@@ -619,6 +628,12 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
         </header>
 
         <main className="kc-main">
+          {preview && (
+            <p className="kc-preview" role="note">
+              <b>Free preview</b>
+              <span>Watch this day as a taste of {program.name}. Progress is saved once you have access.</span>
+            </p>
+          )}
           {/* ---------------- player + playlist ---------------- */}
           <div className="kc-hero">
             <div className="kc-player" ref={playerRef}>
@@ -748,7 +763,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           offer={
             <>
               <FinishStats lessonId={lesson.id} startedAt={now} table={tableReady ? table : null} />
-              {endOffer}
+              {endKind === "level" && levelOffer ? levelOffer : endOffer}
             </>
           }
           ctx={endCtx}

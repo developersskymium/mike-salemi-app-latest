@@ -211,6 +211,8 @@ export interface LessonStateInfo {
   openThrough: number;
   completedSteps: string[];
   done: boolean;
+  /** A free taste for a member without access (lesson_state.preview): watch only, nothing is saved. */
+  preview?: boolean;
 }
 
 export interface ReadinessSaved {
@@ -375,7 +377,7 @@ async function realLessonPage(sb: DB, userId: string, slug: string, lessonKey: s
     progress: progress.map(toProgress),
     state: {
       access: Boolean(stateRaw.access), lockedOrder: Boolean(stateRaw.locked_order), unlocked: stateRaw.unlocked !== false,
-      openThrough: stateRaw.open_through ?? 0, completedSteps: stateRaw.completed_steps ?? [], done: Boolean(stateRaw.done),
+      openThrough: stateRaw.open_through ?? 0, completedSteps: stateRaw.completed_steps ?? [], done: Boolean(stateRaw.done), preview: Boolean((stateRaw as { preview?: boolean }).preview),
     },
     position: p ? { activeStepId: p.active_step_id, videoSeconds: (p.video_seconds ?? {}) as Record<string, number>, draftAnswers: (p.draft_answers ?? null) as Record<string, string> | null } : null,
     form,
