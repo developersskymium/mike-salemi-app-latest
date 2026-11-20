@@ -1,0 +1,22 @@
+# Spec 06 — Design system in code + app shell (starts when Ahmed approves the design)
+
+Owner: design-system agent (Opus medium). Lead reviews by screenshots.
+Source of truth: the approved mockup at `/home/claude/design/directions/liquid/` (index.html, its CSS variables, glass recipes, type scale, components). Match it exactly in code; when the mockup and this spec disagree, the mockup wins.
+
+## You own
+- `packages/tokens/src/` — `tokens.ts` (colours light/dark, glass recipes, type scale, spacing, radii, motion springs, z-layers as typed constants usable by web now and React Native later) and `tokens.css` (the same as CSS custom properties, light under `:root`, dark under `[data-theme="dark"]` and `@media (prefers-color-scheme: dark)` when theme is "system").
+- `apps/web/src/app/globals.css` — Tailwind v4 `@theme` mapping to the tokens; base styles; self-hosted Inter variable (copy woff2 into `apps/web/public/fonts/`, `@font-face`, fallback after the Apple system stack).
+- `apps/web/src/components/ui/**` — primitives, each a small typed component with variants: `Glass` (surface with the glass recipe, levels: regular/thick/clear, tint from prop), `Button` (filled accent, glass, plain; sizes; capsule), `IconButton` (circular glass), `Icon` (the SF-Symbols-like SVG set from the mockup: today, programs, library, plan, you, play, pause, back, more, check, lock, flame, clock, calendar, search, filter, bookmark, share, chevron, close, plus, settings, bell, sparkle, kettlebell, timer, ring), `Rings` (concentric activity rings, animated fill, reduced-motion aware), `ProgressBar`, `Chip`/`Segmented` (glass segmented control with sliding lens), `Card` (media card with image + glass footer; continuous radius), `Sheet` (bottom sheet with grabber and detents on phone, side/centre panel on desktop; focus-trapped, Esc, swipe-down on touch), `Toast`, `Toggle` (iOS switch), `Avatar`, `Skeleton`, `EmptyState` (with illustration slot), `LargeTitle` (large title that collapses to an inline nav title on scroll), `Poster` (image with blurred ambient backdrop helper), `AmbientBackdrop` (blurred, saturated copy of an image as page backdrop), `StatTile`, `Table` primitives styled for the workout table.
+- `apps/web/src/components/shell/**` and `apps/web/src/app/(app)/layout.tsx` — the app shell: floating glass capsule tab bar (5 tabs from `src/lib/nav.ts`, active lens slides, compacts on scroll) on phone; refined desktop layout from the mockup (glass sidebar or floating bar); safe areas (`env(safe-area-inset-*)`); theme switching (system/light/dark stored in profile preferences, applied via `data-theme` on `<html>` without a flash); route-change progress; page transitions (View Transitions API where available, CSS fallback) with reduced-motion respect. The shell fetches the user server-side (`getUser`) and passes name/avatar to the header.
+- `apps/web/src/app/(app)/_gallery/page.tsx` — a hidden gallery route that renders every primitive in both themes (used for screenshot QA and by other agents as reference).
+- `docs/design/system.md` — one page: principles, tokens, when to use each primitive, glass rules (never glass on glass more than two levels; text on glass always passes AA; the accent means "now"/primary action), motion rules, imagery rules (low-res photos only behind blur; crisp photos at hero sizes only if ≥1.5× display size).
+
+## Requirements
+- Next.js 16 conventions (read `apps/web/AGENTS.md` and the docs in `node_modules/next/dist/docs`). Server Components by default; primitives that need state are client components.
+- Performance: no runtime CSS-in-JS; backdrop-filter used sparingly (max ~3 blurred layers on screen); images via `next/image` with blur placeholders; fonts preloaded; Lighthouse performance ≥ 90 on the gallery page on mobile emulation.
+- Accessibility: AA contrast on glass in both themes (add a scrim layer when needed), visible focus rings in the glass style, 44px targets, reduced motion, reduced transparency (`prefers-reduced-transparency`: solid fallbacks).
+- Screenshot QA with the installed Chrome (`/usr/bin/google-chrome`, puppeteer-core): gallery + shell at 390×844 and 1440×900, light and dark; compare side by side with the mockup screenshots; fix differences. Save to `docs/screenshots/design-system/`.
+- `pnpm --filter web build` passes. Do not commit; the lead commits.
+
+## Report (under 250 words)
+What exists, deviations from the mockup and why, anything other agents must know.
