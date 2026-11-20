@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Climb as GfxClimb } from "@/components/graphics/Climb";
 import { Avatar } from "../ui/Avatar";
 
 /**
@@ -113,76 +114,25 @@ function campAt(H: number, i: number, n: number): [number, number] {
   return lerp(a[k]!, a[k + 1]!, t - k);
 }
 
-export function Climb({ phases, done, total, member, youLabel, summitLabel = "Summit", labels = true, height: H = 236, art, id = "climb", label, className, style }: Props) {
+export function Climb({ phases, done, total, member, youLabel, summitLabel = "Summit", labels = true, height, id, label, className, style }: Props) {
+  // Rendered by the polished illustration (components/graphics/Climb); this keeps the older API working.
   const list = phases.length ? phases : [{ label: "Start", from: 1, to: Math.max(1, total ?? 1) }];
   const T = total ?? list[list.length - 1]!.to;
-  const n = list.length;
-  const today = Math.min(T, Math.max(1, done + 1));
-  const finished = done >= T;
-  const cur = finished ? n - 1 : Math.max(0, list.findIndex((p) => today >= p.from && today <= p.to));
-  const camps = list.map((_, i) => campAt(H, i, n));
-  const summit = anchors(H)[4]!;
-  const pts = [...camps, summit];
-  const ph = list[cur]!;
-  const f = finished ? 1 : Math.max(0, Math.min(1, (today - ph.from) / Math.max(1, ph.to - ph.from + 1)));
-  const you = finished ? summit : lerp(pts[cur]!, pts[cur + 1]!, f);
-  const L = (arr: [number, number][]) => arr.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
-  const outline = outlineFor(H);
-  const layers = { ...CLIMB_LAYERS, ...art };
-  const a: ClimbArtProps = { W, H, id, outline };
-  const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
-
+  const initials = member?.name ? member.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() : undefined;
   return (
-    <div className={className ? `cl ${className}` : "cl"} role="img" aria-label={label ?? `Day ${today} of ${T}: ${ph.label}`} style={style}>
-      <svg viewBox={`0 0 ${W} ${H}`} className="cl-svg" aria-hidden>
-        {layers.sky(a)}
-        {layers.range(a)}
-        {layers.mountain(a)}
-        {layers.snow(a)}
-        {layers.ground(a)}
-        {layers.trees(a)}
-        <g className="cl-route">
-          {!finished && <path className="cl-ahead" d={L([you, ...pts.slice(cur + 1)])} />}
-          <path className="cl-done" d={L([...pts.slice(0, cur + 1), you])} pathLength={1} />
-        </g>
-        <g className="cl-camps">
-          {camps.map((p, i) => {
-            const reached = today >= list[i]!.from || finished;
-            return (
-              <g key={i} transform={`translate(${p[0].toFixed(1)} ${p[1].toFixed(1)})`} className="cl-camp" data-reached={reached ? "" : undefined}>
-                <circle r={11} />
-                {reached ? <path d="M-4.5 0.5 L-1.2 3.6 L4.8 -3.2" className="cl-check" /> : <circle r={3} className="cl-pip" />}
-              </g>
-            );
-          })}
-          <g transform={`translate(${summit[0]} ${summit[1]})`} className="cl-summit">
-            <path d="M0 0 V-26" className="cl-pole" />
-            <path d="M0 -26 L20 -20 L0 -14Z" className="cl-flag" />
-            <circle r={6.5} />
-          </g>
-        </g>
-      </svg>
-      {labels &&
-        pts.map((p, i) => {
-          const isSummit = i === pts.length - 1;
-          const st = isSummit ? (finished ? "done" : "") : i <= cur ? "done" : i === cur + 1 ? "next" : "";
-          const x = isSummit ? p[0] + 52 : p[0];
-          const y = isSummit ? p[1] - 8 : i === 0 ? p[1] - 58 : p[1] + 20;
-          const name = isSummit ? summitLabel : list[i]!.label;
-          const sub = isSummit ? `Day ${T}` : list[i]!.from === list[i]!.to ? `Day ${list[i]!.from}` : `Days ${list[i]!.from}–${list[i]!.to}`;
-          return (
-            <div key={i} className="cl-lab" data-state={st || undefined} style={{ left: pct(x, W), top: pct(y, H) }}>
-              <b>{name}</b>
-              <span>{sub}</span>
-            </div>
-          );
-        })}
-      <div className="cl-you" style={{ left: pct(you[0], W), top: pct(you[1], H) }}>
-        <em>{youLabel ?? (finished ? "You · Summit" : `You · Day ${today}`)}</em>
-        <span className="cl-you-pin">
-          <Avatar name={member?.name ?? "You"} src={member?.avatarUrl} size="sm" />
-        </span>
-      </div>
-    </div>
+    <GfxClimb
+      totalDays={T}
+      currentDay={Math.min(T, Math.max(1, done + 1))}
+      completedDays={Math.min(T, done)}
+      phases={list.map((p) => ({ startDay: p.from, label: p.label, sub: `Days ${p.from}–${p.to}` }))}
+      variant={height && height >= 250 ? "compact" : "full"}
+      labels={labels}
+      youLabel={youLabel}
+      avatar={member?.avatarUrl || initials}
+      summitLabel={summitLabel}
+      title={label ?? id}
+      className={className}
+      style={style}
+    />
   );
 }
