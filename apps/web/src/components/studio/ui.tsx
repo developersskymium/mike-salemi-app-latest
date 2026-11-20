@@ -54,7 +54,7 @@ export function DataTable<R>({ cols, rows, empty = "Nothing here yet." }: { cols
 }
 
 /** Status chips: green = live, glacier = scheduled, ember = waiting on someone, outline = draft, sunk = done/past. */
-const TONE: Record<string, "ok" | "tint" | "warm" | "fill" | "outline"> = { published: "ok", active: "ok", open: "ok", accepted: "ok", paid: "ok", sent: "ok", upcoming: "tint", scheduled: "tint", submitted: "warm", pending: "warm", waitlist: "warm", draft: "outline", archived: "fill", past: "fill", cancelled: "fill", rejected: "fill" };
+const TONE: Record<string, "ok" | "tint" | "warm" | "fill" | "outline"> = { published: "ok", active: "ok", open: "ok", accepted: "ok", paid: "ok", sent: "ok", upcoming: "tint", scheduled: "tint", submitted: "warm", pending: "warm", waitlist: "warm", draft: "outline", archived: "fill", past: "fill", cancelled: "fill", rejected: "fill", new: "warm", contacted: "tint", booked: "ok", closed: "fill", in_progress: "tint", done: "fill", withdrawn: "fill", processing: "warm", shipped: "tint", delivered: "ok", hidden: "fill", waiting: "warm" };
 export function Status({ v }: { v: string | null | undefined }) {
   if (!v) return null;
   return <Chip size="sm" variant={TONE[v] ?? "fill"}>{v.replace(/_/g, " ")}</Chip>;

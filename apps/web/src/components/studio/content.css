@@ -1,0 +1,22 @@
+/* Studio screens for the Nov 20 content (home note, picks, coaching thread, facilitators). Tokens only. */
+.st-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px; }
+.st-photo { position: relative; display: grid; gap: 4px; padding: 4px; border: 0; border-radius: 14px; background: var(--surface-sunk); color: var(--text-2); font: 550 11.5px/1.2 var(--font); cursor: pointer; text-align: left; }
+.st-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; display: block; }
+.st-photo span { padding: 0 4px 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-photo[aria-checked="true"] { box-shadow: 0 0 0 2px var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
+.st-photo:focus-visible { outline: 0; box-shadow: var(--sh-focus); }
+.st-photo-none { place-items: center; min-height: 96px; text-align: center; }
+.st-picklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.st-picklist li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px 8px 14px; border-radius: 12px; background: var(--surface-sunk); font-size: 14px; }
+.st-picklist b { font-weight: 600; }
+.st-fac { display: flex; gap: 14px; align-items: flex-start; padding: 12px; border-radius: 16px; background: var(--surface-sunk); }
+.st-fac-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; background: var(--surface); display: block; }
+.st-thread { display: grid; gap: 10px; margin-bottom: 18px; }
+.st-msg { max-width: 72ch; padding: 10px 14px; border-radius: 16px; background: var(--surface-sunk); white-space: pre-wrap; font-size: 14.5px; }
+.st-msg[data-coach] { justify-self: end; background: var(--accent-soft); color: var(--text); }
+.st-msg small { display: block; margin-top: 4px; color: var(--text-3); font-size: 11.5px; }
+.st-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.st-wall figure { margin: 0; padding: 6px; border-radius: 16px; background: var(--surface-sunk); display: grid; gap: 6px; }
+.st-wall figure[data-hidden] img { opacity: .35; filter: grayscale(1); }
+.st-wall img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; display: block; }
+.st-wall figcaption { font-size: 12.5px; color: var(--text-2); padding: 0 4px 4px; display: grid; gap: 6px; }

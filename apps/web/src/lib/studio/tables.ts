@@ -48,6 +48,9 @@ export const OUTCOMES = ["workout", "recovery", "rest"] as const;
 export const PLACEMENTS = ["today", "program_page", "program_complete", "tool_result", "checkout", "library", "you"] as const;
 export const TARGET_KINDS = ["url", "program", "plan", "coaching", "run"] as const;
 export const APPLICATION_STATUS = ["submitted", "call_booked", "accepted", "waitlist", "declined", "booked", "cancelled"] as const;
+export const LEAD_STATUS = ["new", "contacted", "booked", "closed"] as const;
+export const REQUEST_STATUS = ["open", "in_progress", "done", "withdrawn"] as const;
+export const FULFILLMENT = ["processing", "shipped", "delivered"] as const;
 export const RUN_STATUS = ["upcoming", "open", "full", "past", "cancelled"] as const;
 
 export const TABLES = {
@@ -183,6 +186,27 @@ export const TABLES = {
   notices: {
     label: "Notice", pk: ["id"], positioned: true, title: "title",
     fields: [t("title", "Title"), long("body", "Body", { required: true, notNull: true }), sel("placement", "Placement", ["banner", "today", "program_page", "you"], { required: true, notNull: true }), json("audience", "Audience (JSON)", { notNull: true }), t("link_label", "Link label"), t("link_url", "Link URL"), dt("starts_at", "Starts"), dt("ends_at", "Ends"), bool("is_active", "Active")],
+  },
+  coaching_live_sessions: {
+    label: "Live session", pk: ["id"], title: "title",
+    fields: [
+      t("title", "Title", { required: true }), dt("starts_at", "Starts", { required: true, help: "Your local time." }), int("duration_minutes", "Minutes", { required: true }),
+      t("series", "Series", { required: true, notNull: true, help: "zen-savage" }), long("summary", "Summary"),
+      t("join_url", "Join link", { wide: true }), t("replay_url", "Replay URL", { wide: true }), t("replay_thumb", "Replay thumbnail URL", { wide: true }),
+      bool("is_published", "Published"), long("draft_note", "Draft note", { help: "Shown to admins only. Clear it to confirm the date." }),
+    ],
+  },
+  podcast_episodes: {
+    label: "Episode", pk: ["id"], positioned: true, title: "title",
+    fields: [t("title", "Title", { required: true }), t("show", "Show", { required: true, notNull: true, help: "king-within" }), t("published_on", "Published on", { help: "YYYY-MM-DD" }), t("url", "Episode link", { required: true, wide: true }), t("image_url", "Image URL", { wide: true }), bool("is_published", "Published")],
+  },
+  retreat_leads: {
+    label: "Enquiry", pk: ["id"], title: "email",
+    fields: [sel("status", "Status", LEAD_STATUS, { required: true, notNull: true }), long("admin_note", "Note")],
+  },
+  account_requests: {
+    label: "Request", pk: ["id"], title: "kind",
+    fields: [sel("status", "Status", REQUEST_STATUS, { required: true, notNull: true }), long("admin_note", "Note")],
   },
   site_settings: { label: "Setting", pk: ["key"], title: "key", fields: [t("key", "Key", { required: true }), json("value", "Value (JSON)", { required: true, notNull: true })] },
 } as const satisfies Record<string, TableCfg>;

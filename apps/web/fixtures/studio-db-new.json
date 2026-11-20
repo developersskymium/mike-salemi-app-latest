@@ -1,0 +1,390 @@
+{
+ "_comment": [
+  "Preview-only sample rows for the Nov 20 Studio screens (merged over studio-db.json in local mock mode). Live sessions, podcast episodes and badge perks are real rows; messages, leads, wall posts, requests and orders are made-up samples."
+ ],
+ "profiles": [
+  {
+   "id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "display_name": "Marcus Reid",
+   "first_name": "Marcus"
+  },
+  {
+   "id": "7b3e9d10-2c4a-4e8f-8d21-0a9b8c7d6e55",
+   "display_name": "Tom Alvarez",
+   "first_name": "Tom"
+  }
+ ],
+ "site_settings": [
+  {
+   "key": "home_mike_note",
+   "value": {
+    "text": "Small, honest sessions beat heroic ones. Give me twenty good minutes a day this week and let the bell do the teaching.",
+    "photo": "press",
+    "enabled": true,
+    "week_of": "2026-11-16"
+   },
+   "updated_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "key": "library_picks",
+   "value": {
+    "ids": [
+     "8c7e78b0-b50a-4572-8860-7871ced0a5fa",
+     "cc387a46-2973-466c-8458-d2f0e0d0516a",
+     "8fc7ee36-6189-46c5-9a67-5f51a25a4d08"
+    ],
+    "month": "2026-11"
+   },
+   "updated_at": "2026-11-20T15:46:08+00:00"
+  }
+ ],
+ "coaching_messages": [
+  {
+   "id": "c1000000-0000-4000-8000-000000000001",
+   "member_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "author_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "from_coach": false,
+   "body": "Hey Mike, my lower back gets tight after the swings in week 2. Should I drop the bell size or keep going?",
+   "attachment_url": null,
+   "created_at": "2026-11-20T09:12:00+00:00",
+   "read_at": null
+  },
+  {
+   "id": "c1000000-0000-4000-8000-000000000002",
+   "member_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "author_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "from_coach": false,
+   "body": "Did the homework every day this week. The get-up finally feels smooth on the left side.",
+   "attachment_url": null,
+   "created_at": "2026-11-18T14:02:00+00:00",
+   "read_at": "2026-11-18T16:00:00+00:00"
+  },
+  {
+   "id": "c1000000-0000-4000-8000-000000000003",
+   "member_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "author_id": "00000000-0000-4000-8000-000000000001",
+   "from_coach": true,
+   "body": "That's the work. Keep the left side first next week and add one slow rep at the top.",
+   "attachment_url": null,
+   "created_at": "2026-11-18T18:30:00+00:00",
+   "read_at": null
+  }
+ ],
+ "coaching_bookings": [
+  {
+   "id": "b1000000-0000-4000-8000-000000000001",
+   "user_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "starts_at": "2026-11-17T16:00:00+00:00",
+   "status": "completed",
+   "homework": "Five slow get-ups each side, left first\nTen minutes of hip flexor work before bed",
+   "coach_note": null
+  },
+  {
+   "id": "b1000000-0000-4000-8000-000000000002",
+   "user_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "starts_at": "2026-11-24T17:00:00+00:00",
+   "status": "booked",
+   "homework": null,
+   "coach_note": null
+  }
+ ],
+ "coaching_live_sessions": [
+  {
+   "id": "ae0e8f0c-1933-482c-a717-d49686631700",
+   "series": "zen-savage",
+   "title": "Grounded awareness: the morning reset",
+   "summary": "Breath, a short flow and one decision for the day.",
+   "starts_at": "2026-11-26T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "is_published": true,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "created_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "id": "f756df8a-becc-465b-a092-c0a6c423befc",
+   "series": "zen-savage",
+   "title": "Decisive action under pressure",
+   "summary": "Kettlebell complex, then the one thing you have been avoiding.",
+   "starts_at": "2026-12-03T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "is_published": true,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "created_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "id": "78685c05-7faa-43f2-8601-80c285050de0",
+   "series": "zen-savage",
+   "title": "Antifragile: training the nervous system",
+   "summary": "Contrast work, breath holds and recovery you can repeat.",
+   "starts_at": "2026-12-10T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "is_published": true,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "created_at": "2026-11-20T15:46:08+00:00"
+  }
+ ],
+ "podcast_episodes": [
+  {
+   "id": "18822c37-baa2-4f1c-9053-00c0679a39db",
+   "show": "king-within",
+   "title": "The Truth About Health Habits for CEOs: Why Generic Advice Fails",
+   "published_on": "2026-03-26",
+   "url": "https://podcasts.apple.com/us/podcast/the-truth-about-health-habits-for-ceos-why-generic/id1643622665?i=1000757448739",
+   "image_url": null,
+   "position": 1,
+   "is_published": true,
+   "created_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "id": "9860663e-ddcf-4149-ae0b-256b64498d9f",
+   "show": "king-within",
+   "title": "How Jason Olivea Discovered the Influence of Childhood Patterns to Deepen Connection",
+   "published_on": "2026-03-19",
+   "url": "https://podcasts.apple.com/us/podcast/how-jason-olivea-discovered-the-influence-of/id1643622665?i=1000756100623",
+   "image_url": null,
+   "position": 2,
+   "is_published": true,
+   "created_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "id": "5bab0f68-6bad-4b35-846c-f395cce63bd6",
+   "show": "king-within",
+   "title": "The Importance of Naming Your Real Needs in Breaking Free from Resentment",
+   "published_on": "2026-03-12",
+   "url": "https://podcasts.apple.com/us/podcast/the-importance-of-naming-your-real-needs-in/id1643622665?i=1000754811849",
+   "image_url": null,
+   "position": 3,
+   "is_published": true,
+   "created_at": "2026-11-20T15:46:08+00:00"
+  },
+  {
+   "id": "cae7063e-f2eb-4e97-9c9a-a179180b2a33",
+   "show": "king-within",
+   "title": "How Preston Woody Discovered the Core 9 Framework to Achieve Life Balance",
+   "published_on": "2026-03-05",
+   "url": "https://podcasts.apple.com/us/podcast/how-preston-woody-discovered-the-core-9-framework-to/id1643622665?i=1000753185437",
+   "image_url": null,
+   "position": 4,
+   "is_published": true,
+   "created_at": "2026-11-20T15:46:08+00:00"
+  }
+ ],
+ "retreat_leads": [
+  {
+   "id": "d1000000-0000-4000-8000-000000000001",
+   "kind": "question_call",
+   "email": "marcus.reid@example.com",
+   "user_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "run_id": "40bef893-659e-bcee-00e8-fafe5a4211c6",
+   "note": "Is the cold plunge optional? I have a heart condition.",
+   "handled_at": null,
+   "created_at": "2026-11-20T11:40:00+00:00",
+   "status": "new",
+   "admin_note": null
+  },
+  {
+   "id": "d1000000-0000-4000-8000-000000000002",
+   "kind": "notify",
+   "email": "tom.alvarez@example.com",
+   "user_id": null,
+   "run_id": null,
+   "note": null,
+   "handled_at": "2026-11-19T10:00:00+00:00",
+   "created_at": "2026-11-18T08:15:00+00:00",
+   "status": "contacted",
+   "admin_note": "Sent the spring dates."
+  }
+ ],
+ "run_wall_posts": [
+  {
+   "id": "e1000000-0000-4000-8000-000000000001",
+   "run_id": "40bef893-659e-bcee-00e8-fafe5a4211c6",
+   "user_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "path": "/media/retreats/ridge-circle.jpg",
+   "caption": "First light on the ridge.",
+   "hidden_at": null,
+   "created_at": "2026-11-19T07:00:00+00:00"
+  },
+  {
+   "id": "e1000000-0000-4000-8000-000000000002",
+   "run_id": "40bef893-659e-bcee-00e8-fafe5a4211c6",
+   "user_id": "7b3e9d10-2c4a-4e8f-8d21-0a9b8c7d6e55",
+   "path": "/media/retreats/cold-plunge.jpg",
+   "caption": "Brothers in the cold.",
+   "hidden_at": null,
+   "created_at": "2026-11-19T09:30:00+00:00"
+  },
+  {
+   "id": "e1000000-0000-4000-8000-000000000003",
+   "run_id": "40bef893-659e-bcee-00e8-fafe5a4211c6",
+   "user_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "path": "/media/retreats/fire-circle.jpg",
+   "caption": "Fire circle, night two.",
+   "hidden_at": "2026-11-20T10:00:00+00:00",
+   "created_at": "2026-11-19T21:00:00+00:00"
+  }
+ ],
+ "account_requests": [
+  {
+   "id": "f1000000-0000-4000-8000-000000000001",
+   "user_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "kind": "export",
+   "status": "open",
+   "topic": null,
+   "message": "Please send me a copy of my training history.",
+   "payload": {},
+   "created_at": "2026-11-20T08:00:00+00:00",
+   "handled_at": null,
+   "admin_note": null
+  },
+  {
+   "id": "f1000000-0000-4000-8000-000000000002",
+   "user_id": "7b3e9d10-2c4a-4e8f-8d21-0a9b8c7d6e55",
+   "kind": "billing",
+   "status": "open",
+   "topic": "Charged twice",
+   "message": "I think I was charged twice for November.",
+   "payload": {},
+   "created_at": "2026-11-19T19:20:00+00:00",
+   "handled_at": null,
+   "admin_note": null
+  }
+ ],
+ "orders": [
+  {
+   "id": "a1000000-0000-4000-8000-000000000001",
+   "user_id": "5a0c2a3e-1f7e-4c1b-9a51-6e1d2f0c7b11",
+   "reference": "MS-10482",
+   "status": "paid",
+   "total_cents": 15800,
+   "currency": "usd",
+   "is_test": false,
+   "created_at": "2026-11-20T12:00:00+00:00",
+   "shipping_address": {
+    "name": "Marcus Reid",
+    "line1": "14 Pine St",
+    "city": "Bend",
+    "state": "OR",
+    "postal_code": "97701",
+    "country": "US"
+   },
+   "fulfillment": "processing",
+   "tracking_carrier": null,
+   "tracking_number": null,
+   "tracking_url": null,
+   "shipped_at": null,
+   "delivered_at": null
+  },
+  {
+   "id": "a1000000-0000-4000-8000-000000000002",
+   "user_id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+   "reference": "MS-10477",
+   "status": "paid",
+   "total_cents": 8900,
+   "currency": "usd",
+   "is_test": false,
+   "created_at": "2026-11-17T12:00:00+00:00",
+   "shipping_address": {
+    "name": "Daniel Test",
+    "line1": "2 Oak Ave",
+    "city": "Austin",
+    "state": "TX",
+    "postal_code": "78701",
+    "country": "US"
+   },
+   "fulfillment": "shipped",
+   "tracking_carrier": "USPS",
+   "tracking_number": "9400 1000 0000 0000 0000 00",
+   "tracking_url": "https://tools.usps.com/",
+   "shipped_at": "2026-11-18T15:00:00+00:00",
+   "delivered_at": null
+  }
+ ],
+ "order_items": [
+  {
+   "order_id": "a1000000-0000-4000-8000-000000000001",
+   "kind": "shop",
+   "name": "Competition kettlebell 16 kg",
+   "quantity": 1
+  },
+  {
+   "order_id": "a1000000-0000-4000-8000-000000000001",
+   "kind": "shop",
+   "name": "Chalk ball",
+   "quantity": 2
+  },
+  {
+   "order_id": "a1000000-0000-4000-8000-000000000002",
+   "kind": "shop",
+   "name": "Bulgarian bag 10 kg",
+   "quantity": 1
+  }
+ ],
+ "badges": [
+  {
+   "id": "weeks-12",
+   "name": "Twelve Good Weeks",
+   "description": "Train in 12 different weeks. Mike has a bonus session for you.",
+   "tier": "gold",
+   "family": "consistency",
+   "position": 102,
+   "perk": {
+    "href": "/library",
+    "kind": "bonus_video",
+    "label": "Bonus: Mike's 20-minute mobility reset",
+    "detail": "An extra session from Mike, yours to keep."
+   }
+  },
+  {
+   "id": "explore-25-videos",
+   "name": "Library Regular",
+   "description": "Watch 25 videos from the library to the end.",
+   "tier": "silver",
+   "family": "explorer",
+   "position": 302,
+   "perk": {
+    "href": "/library/8c7e78b0-b50a-4572-8860-7871ced0a5fa",
+    "kind": "bonus_video",
+    "label": "Bonus: Mike's favourite flow",
+    "detail": "Unlocked for watching the library.",
+    "video_id": "8c7e78b0-b50a-4572-8860-7871ced0a5fa"
+   }
+  },
+  {
+   "id": "mike-finish-program",
+   "name": "Finished a Program",
+   "description": "You finished a program or level.",
+   "tier": "gold",
+   "family": "mike",
+   "position": 403,
+   "perk": {
+    "href": "/coaching",
+    "kind": "discount",
+    "label": "15% off a 1:1 call with Mike",
+    "percent": 15
+   }
+  },
+  {
+   "id": "mike-refer",
+   "name": "Brought a Friend",
+   "description": "A friend you invited joined.",
+   "tier": "gold",
+   "family": "mike",
+   "position": 406,
+   "perk": {
+    "href": "/you/referrals",
+    "kind": "free_month",
+    "label": "A free month"
+   }
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { MOCK, mockable } from "@/lib/mock";
+import { MOCK, fixture, mockable } from "@/lib/mock";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { mockDb } from "./mockdb";
 
@@ -14,7 +14,13 @@ const source = mockable("studio-db", async () => createServiceClient() as unknow
 /** Service client (real) or the fixture-backed stand-in (local preview). Call only after studioAdmin(). */
 export async function studioDb(): Promise<Db> {
   const s = await source();
-  return (MOCK ? mockDb(s as unknown as Record<string, Row[]>) : s) as unknown as Db;
+  if (!MOCK) return s;
+  // Preview: studio-db.json plus sample rows for the Nov 20 screens (studio-db-new.json); rows are appended per table.
+  const base = s as unknown as Record<string, Row[]>;
+  const extra = await fixture<Record<string, Row[]>>("studio-db-new").catch(() => ({} as Record<string, Row[]>));
+  const merged: Record<string, Row[]> = { ...base };
+  for (const [k, v] of Object.entries(extra)) if (Array.isArray(v) && !k.startsWith("_")) merged[k] = [...(base[k] ?? []), ...v];
+  return mockDb(merged) as unknown as Db;
 }
 
 /** Wrap a page loader: guard, then run with the database. In preview the fixture comes from studio-db.json. */

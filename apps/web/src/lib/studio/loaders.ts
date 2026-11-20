@@ -215,7 +215,7 @@ export const loadRun = studioLoader("studio-run", async (db, id: string) => {
   return { run: run as Row, itinerary, sessions, applications: apps.map((a): Row => ({ ...a, who: people.get(a.user_id) ?? a.user_id })) };
 });
 
-async function profileNames(db: Db, ids: string[]) {
+export async function profileNames(db: Db, ids: string[]) {
   const uniq = [...new Set(ids.filter(Boolean))];
   const ps = uniq.length ? await rows(db.from("profiles").select("id,display_name,first_name").in("id", uniq)) : [];
   return new Map(ps.map((p) => [p.id as string, (p.display_name ?? p.first_name ?? p.id) as string]));
