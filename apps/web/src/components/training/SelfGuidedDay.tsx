@@ -10,6 +10,7 @@ import { savePositionAction, submitReadinessAction } from "@/lib/actions/trainin
 import { lessonHref, lessonLabel, lessonName } from "./model";
 import { VideoStage } from "./VideoStage";
 import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
+import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
 import "./day.css";
 
@@ -76,6 +77,7 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
 
   return (
     <div className="kd-guide">
+      <SessionAutoStart lessonId={lesson.id} />
       <div className="kd-ctx lq-glass">
         <div className="kd-ctx-row">
           <IconButton icon="back" label={`Back to ${program.name}`} href={programHref} variant="fill" size="sm" iconSize="sm" />

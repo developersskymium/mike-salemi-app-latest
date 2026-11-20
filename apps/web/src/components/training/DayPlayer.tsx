@@ -14,6 +14,7 @@ import { ClipCards } from "./ClipRow";
 import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
+import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
 import "./day.css";
 
@@ -378,6 +379,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
 
   return (
     <div className="kd-day">
+      <SessionAutoStart lessonId={lesson.id} />
       {layer}
       <Cheer message={message} />
 
