@@ -423,3 +423,10 @@ details[open] > summary .crs-chev { transform: rotate(0); }
   .crs[data-slim]:not([data-focus]) .crs-body { grid-template-columns: 320px minmax(0, 1fr) 320px; }
   .crs-notes { min-height: 0; overflow-y: auto; padding: 32px 20px 40px 0; }
 }
+
+/* phone pass: banners wrap instead of cutting their message to "Your pr..." */
+@media (max-width: 639px) {
+  .crs-banner { flex-wrap: wrap; row-gap: 2px; }
+  .crs-banner > span.crs-ellipsis { flex: 1 1 100%; order: 2; white-space: normal; overflow: visible; text-overflow: clip; }
+  .crs-banner > a { order: 1; margin-left: auto; min-height: 32px; display: inline-flex; align-items: center; }
+}

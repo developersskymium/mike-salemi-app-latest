@@ -61,7 +61,7 @@ export function MoreMenu({ items, label = "More" }: { items: { label: string; hr
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) ref.current.open = false;
+      if (ref.current && (e.target === ref.current || !ref.current.contains(e.target as Node))) ref.current.open = false; // the phone scrim is the <details> itself
     };
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);
