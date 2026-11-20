@@ -1,52 +1,57 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { Clip } from "@ms/core";
-import { DayGlyph, type DayType } from "@/components/graphics";
+import { Icon } from "@/components/ui";
 import { clock } from "./model";
 
-/** A step's demo clips as a compact horizontal row: small 16:9 thumb, title, duration, state. */
-export function ClipRow({ clips, playingId, nextId, glyph, onPlay, label }: { clips: Clip[]; playingId?: string | null; nextId?: string | null; glyph: DayType; onPlay: (id: string) => void; label: string }) {
+/**
+ * A step's clips as poster cards in a horizontal row (original "In this lesson · N clips"):
+ * thumbnail, index, duration, a play / playing badge and the title underneath.
+ * Pressing a card plays that clip on the stage.
+ */
+export function ClipCards({ clips, playingId, onPlay }: { clips: Clip[]; playingId?: string | null; onPlay: (id: string) => void }) {
   if (!clips.length) return null;
   return (
-    <ul className="trn-clips" aria-label={label} data-single={clips.length === 1 ? "" : undefined}>
-      {clips.map((c, i) => {
-        const playing = c.providerId === playingId;
-        const upNext = !playing && c.providerId === nextId;
-        return (
-          <li key={c.providerId + i}>
-            <button type="button" className="trn-clip" data-playing={playing ? "" : undefined} onClick={() => onPlay(c.providerId)} aria-label={`Play ${c.title.trim()}`}>
-              <span className="trn-clip-th">
-                {c.thumbnailUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.thumbnailUrl} alt="" loading="lazy" />
-                ) : (
-                  <DayGlyph type={glyph} size={22} tone="mono" title="" />
-                )}
-                {c.durationSeconds ? <span className="trn-clip-dur lq-num">{clock(c.durationSeconds)}</span> : null}
-              </span>
-              <span className="trn-clip-txt">
-                <span className="lq-t15 trn-clip-t">{c.title.trim()}</span>
-                <span className="lq-t13 trn-clip-s" data-on={playing ? "" : undefined}>
-                  {playing ? (
-                    <>
-                      <span className="trn-eq" aria-hidden>
-                        <i />
-                        <i />
-                        <i />
-                      </span>
-                      Playing
-                    </>
-                  ) : upNext ? (
-                    "Up next"
-                  ) : (
-                    `Clip ${i + 1} of ${clips.length}`
-                  )}
-                </span>
-              </span>
-            </button>
-          </li>
-        );
-      })}
+    <ul className="kd-clips" aria-label="Clips in this lesson">
+      {clips.map((c, i) => (
+        <li key={c.providerId + i}>
+          <ClipCard clip={c} index={i} active={c.providerId === playingId} onPlay={() => onPlay(c.providerId)} />
+        </li>
+      ))}
     </ul>
+  );
+}
+
+function ClipCard({ clip, index, active, onPlay }: { clip: Clip; index: number; active: boolean; onPlay: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (active) ref.current?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [active]);
+  return (
+    <button ref={ref} type="button" className="kd-clip lq-press" aria-current={active || undefined} onClick={onPlay}>
+      <span className="kd-clip-th">
+        {clip.thumbnailUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={clip.thumbnailUrl} alt="" loading="lazy" />
+        ) : (
+          <span className="kd-clip-blank" aria-hidden />
+        )}
+        <span className="kd-clip-n lq-num">{index + 1}</span>
+        {clip.durationSeconds ? <span className="kd-clip-d lq-num">{clock(clip.durationSeconds)}</span> : null}
+        <span className="kd-clip-btn" aria-hidden>
+          {active ? (
+            <span className="kd-eq">
+              <i />
+              <i />
+              <i />
+            </span>
+          ) : (
+            <Icon name="play" size="xs" />
+          )}
+        </span>
+      </span>
+      <span className="lq-t13 kd-clip-t">{clip.title.trim()}</span>
+    </button>
   );
 }

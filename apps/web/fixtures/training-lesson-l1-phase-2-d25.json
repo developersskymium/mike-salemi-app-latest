@@ -1568,7 +1568,7 @@
  "state": {
   "access": true,
   "lockedOrder": true,
-  "unlocked": false,
+  "unlocked": true,
   "openThrough": 0,
   "completedSteps": [],
   "done": false

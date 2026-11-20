@@ -1,5 +1,6 @@
 import { Glass, Skeleton, SkeletonText } from "@/components/ui";
 import "./training.css";
+import "./day.css";
 
 export function ProgramSkeleton() {
   return (
@@ -37,16 +38,42 @@ export function ProgramSkeleton() {
 
 export function PlayerSkeleton() {
   return (
-    <div className="trn-player" aria-busy="true" aria-label="Loading day">
-      <div className="trn-player-scroll">
-        <div className="trn-player-main" style={{ paddingTop: 72 }}>
-          <Skeleton shape="card" glass style={{ aspectRatio: "16 / 9", borderRadius: "var(--r-card)" }} />
-          <Skeleton shape="text" width="40%" style={{ marginTop: 22 }} />
-          <Skeleton shape="title" width="70%" style={{ marginTop: 10 }} />
-          <div style={{ marginTop: 20 }}>
-            <SkeletonText lines={3} />
+    <div className="kd-day" aria-busy="true" aria-label="Loading day">
+      <header className="kd-top lq-glass">
+        <Skeleton shape="circle" width={36} />
+        <div className="kd-top-t">
+          <Skeleton shape="text" width={150} />
+          <Skeleton shape="text" width={110} style={{ marginTop: 6 }} />
+        </div>
+        <Skeleton shape="circle" width={34} />
+      </header>
+      <div className="kd-body">
+        <div className="kd-col">
+          <div className="kd-stage-wrap">
+            <div className="kd-stage" data-flush="" />
+          </div>
+          <section className="kd-meta">
+            <div className="kd-meta-t">
+              <Skeleton shape="text" width={120} />
+              <Skeleton shape="title" width="55%" style={{ marginTop: 8 }} />
+            </div>
+          </section>
+          <div className="kd-sec">
+            <div className="kd-sec-in">
+              <SkeletonText lines={3} />
+            </div>
           </div>
         </div>
+        <aside className="kd-rail">
+          <div className="kd-rail-h">
+            <Skeleton shape="text" width={130} />
+          </div>
+          <div style={{ padding: 16, display: "grid", gap: 14 }}>
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} shape="text" width={`${80 - i * 7}%`} />
+            ))}
+          </div>
+        </aside>
       </div>
     </div>
   );

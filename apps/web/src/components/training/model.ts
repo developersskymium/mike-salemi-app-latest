@@ -1,5 +1,5 @@
 import type { DayType } from "@/components/graphics";
-import type { LearningMode, WorkoutRow } from "@ms/core";
+import type { LearningMode } from "@ms/core";
 import type { LessonLite, ProgressRow, SectionLite } from "@/lib/loaders/training";
 
 /** Map authored day types ("Workout II Day", "Recovery Day") onto the glyph set. */
@@ -70,40 +70,6 @@ export function currentFrom(lessons: LessonLite[], progress: ProgressRow[]) {
   const ordered = progress.length ? [...progress].sort((a, b) => a.ord - b.ord).map((p) => lessons.find((l) => l.id === p.lessonId)).filter(Boolean) as LessonLite[] : lessons;
   return ordered.find((l) => !done.has(l.id)) ?? null;
 }
-
-/** Group a workout table's rows into stations / circuits (consecutive rows with the same circuit). */
-export interface RowGroup {
-  circuit: string;
-  kind: "station" | "circuit" | "other";
-  number: string;
-  rows: WorkoutRow[];
-  /** Break shown after the group ("1 min Rest Before Next Circuit"). */
-  breakAfter: string | null;
-}
-
-export function groupRows(rows: WorkoutRow[]): RowGroup[] {
-  const groups: RowGroup[] = [];
-  for (const r of rows) {
-    if (r.separator && !r.exercise) {
-      const last = groups[groups.length - 1];
-      const label = typeof r.separator === "string" ? r.separator : String(r.note ?? "");
-      if (last) last.breakAfter = label;
-      continue;
-    }
-    const c = String(r.circuit ?? "");
-    let g = groups[groups.length - 1];
-    if (!g || g.circuit !== c) {
-      const k = c.charAt(0).toUpperCase();
-      g = { circuit: c, kind: k === "S" ? "station" : k === "C" ? "circuit" : "other", number: c.slice(1), rows: [], breakAfter: null };
-      groups.push(g);
-    }
-    g.rows.push(r);
-    if (typeof r.separator === "string" && r.separator) g.breakAfter = r.separator;
-  }
-  return groups;
-}
-
-export const cleanBreak = (s: string) => s.replace(/^\[|\]$/g, "").trim();
 
 /** Seconds → "1:48". */
 export function clock(s: number) {

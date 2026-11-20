@@ -3,49 +3,48 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { stagePlaylist, type ReadinessOutcome } from "@ms/core";
-import { AmbientBackdrop, Button, Chip, Glass, Icon, IconButton, useToast } from "@/components/ui";
-import { DayGlyph, ReadinessDial } from "@/components/graphics";
+import { Button, Icon, IconButton, useToast } from "@/components/ui";
+import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { savePositionAction, submitReadinessAction } from "@/lib/actions/training";
-import { dayGlyph, dayTypeShort, lessonHref, lessonLabel, lessonName, minutesOf } from "./model";
+import { lessonHref, lessonLabel, lessonName } from "./model";
 import { VideoStage } from "./VideoStage";
-import { ClipRow } from "./ClipRow";
-import { WorkoutPanel } from "./WorkoutPanel";
-import { ReadinessSheet, zonesFor } from "./ReadinessSheet";
+import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
 import "./training.css";
+import "./day.css";
 
-type Ready = { score: number; band: "green" | "amber" | "red"; name: string; outcome: "workout" | "recovery" | "rest"; tableId: string | null; message: string; answers: Record<string, string> };
-
-/** Self-Guided day: all steps stacked, sticky step chips with scroll-spy, readiness and table, prev/next day. */
+/**
+ * Self-Guided day, as in the original app: a sticky context bar with a chip per lesson
+ * (scroll-spy), the day intro with "Let's begin", then every lesson stacked — its meta on
+ * the left, notes, video, readiness form, workout table and exercise demos on the right —
+ * and previous / next day cards.
+ */
 export function SelfGuidedDay({ data }: { data: LessonPageData }) {
   const { program, path, lesson, steps, section, outline, form, tables } = data;
   const toast = useToast();
   const word = program.lessonLabel || "Day";
   const [activeId, setActiveId] = useState(steps[0]?.id ?? "");
   const chips = useRef<HTMLDivElement>(null);
-  const [readyOpen, setReadyOpen] = useState(false);
-  const [ready, setReady] = useState<Ready | null>(() =>
-    data.readiness ? { score: data.readiness.score, band: data.readiness.band, name: data.readiness.bandName, outcome: data.readiness.outcome, tableId: data.readiness.tableId, message: form?.bands.find((b) => b.name === data.readiness!.bandName)?.message ?? "", answers: data.readiness.answers } : null,
+  const [ready, setReady] = useState<Readiness | null>(() =>
+    data.readiness
+      ? { score: data.readiness.score, band: data.readiness.band, name: data.readiness.bandName, outcome: data.readiness.outcome, tableId: data.readiness.tableId, message: form?.bands.find((b) => b.name === data.readiness!.bandName)?.message ?? "", answers: data.readiness.answers, saved: true, prescription: data.readiness.prescription }
+      : null,
   );
   const table = ready
-    ? data.readiness?.prescription && data.readiness.score === ready.score
-      ? data.readiness.prescription
-      : ready.tableId
-        ? tables[ready.tableId] ?? null
-        : null
+    ? ready.prescription ?? (ready.tableId ? tables[ready.tableId] ?? null : null)
     : !form && lesson.starterTableId
       ? tables[lesson.starterTableId] ?? null
       : null;
 
-  // Scroll-spy: the chip for the step in view lights up and scrolls into the chip row.
+  // Scroll-spy: the chip for the lesson in view lights up and scrolls into the chip row.
   useEffect(() => {
-    const els = steps.map((s) => document.getElementById(`step-${s.id}`)).filter(Boolean) as HTMLElement[];
+    const els = steps.map((s) => document.getElementById(`lesson-${s.id}`)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (entries) => {
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (vis) setActiveId(vis.target.id.slice(5));
+        if (vis) setActiveId(vis.target.id.slice(7));
       },
-      { rootMargin: "-120px 0px -55% 0px" },
+      { rootMargin: "-140px 0px -55% 0px" },
     );
     els.forEach((e) => io.observe(e));
     return () => io.disconnect();
@@ -55,199 +54,193 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
   }, [activeId]);
 
   async function submit(answers: Record<string, string>, p: ReadinessOutcome) {
-    setReady({ score: p.score, band: p.band, name: p.name, outcome: p.outcome, tableId: p.tableId, message: p.message, answers });
+    const before = ready;
+    setReady({ score: p.score, band: p.band, name: p.name, outcome: p.outcome, tableId: p.tableId, message: p.message, answers, saved: false });
     const r = await submitReadinessAction(lesson.id, answers);
     if (!r.ok && r.code !== "offline") {
       toast(r.message);
+      setReady(before);
       return false;
     }
-    if (!r.ok) toast("Today's table is ready. Your answers save when you're back online.");
-    else toast("Readiness saved", { tone: "success" });
+    if (r.ok) setReady((x) => (x ? { ...x, saved: true } : x));
+    toast(r.ok ? "Readiness logged — your workout table is ready." : "Today's table is ready. Your answers save when you're back online.");
     return true;
   }
 
   const ord = outline.findIndex((l) => l.id === lesson.id);
-  const prev = ord > 0 ? outline[ord - 1] : null;
+  const prev = ord > 0 ? outline[ord - 1] ?? null : null;
   const next = ord >= 0 ? outline[ord + 1] ?? null : null;
   const programHref = `/programs/${program.slug}${path?.key ? `?path=${path.key}` : ""}`;
-  const glyph = dayGlyph(lesson.dayType, lesson.pageType);
-  const minutes = minutesOf(steps.map((s) => s.durationLabel));
-  const backdrop = lesson.image ?? steps.find((s) => s.poster)?.poster ?? program.media[0]?.url ?? null;
+  const dayName = lesson.pageType ? lesson.title : lessonName(lesson);
+  const meta = [path?.shortName, section.title].filter(Boolean).join(" · ");
 
   return (
-    <div className="trn-guide">
-      {backdrop && <AmbientBackdrop src={backdrop} fixed className="trn-ambient" />}
-      <div className="trn-prog-top">
-        <IconButton icon="back" label={`Back to ${program.name}`} href={programHref} />
-        <Chip variant="glass" icon="compass">
-          Self-Guided
-        </Chip>
+    <div className="kd-guide">
+      <div className="kd-ctx lq-glass">
+        <div className="kd-ctx-row">
+          <IconButton icon="back" label={`Back to ${program.name}`} href={programHref} variant="fill" size="sm" iconSize="sm" />
+          <div className="kd-ctx-t">
+            <p className="lq-t15 kd-ellipsis" style={{ fontWeight: 650 }}>
+              {dayName}
+            </p>
+            <p className="lq-t12 lq-c2 kd-ellipsis">{meta}</p>
+          </div>
+          <span className="lq-t13 lq-c2 lq-num kd-sm">{steps.length} lessons</span>
+        </div>
+        <nav className="kd-chips" ref={chips} aria-label="Jump to a part of this day">
+          {steps.map((s) => (
+            <a key={s.id} href={`#lesson-${s.id}`} data-id={s.id} className="kd-chip" aria-current={activeId === s.id ? "true" : undefined}>
+              {s.title}
+            </a>
+          ))}
+        </nav>
       </div>
 
-      <header className="trn-guide-head">
-        <span className="trn-guide-glyph" aria-hidden>
-          <DayGlyph type={glyph} size={36} strokeWidth={1.5} />
-        </span>
-        <div style={{ minWidth: 0 }}>
-          <p className="lq-t13 lq-c2 trn-eyebrow">{[lessonLabel(lesson, word), section.title, path?.shortName].filter(Boolean).join(" · ")}</p>
-          <h1 className="lq-t34">{lesson.pageType ? lesson.title : lessonName(lesson)}</h1>
-          <p className="lq-t15 lq-c2 lq-num">
-            {steps.length} steps{minutes ? ` · about ${minutes} min` : ""}
-            {lesson.dayType && !lesson.pageType ? ` · ${dayTypeShort(lesson.dayType)}` : ""}
-          </p>
-        </div>
+      <header className="kd-guide-intro">
+        <p className="kd-eyebrow">{[path?.shortName, section.title, lessonLabel(lesson, word)].filter(Boolean).join(" · ")}</p>
+        <h1 className="lq-t34">{dayName}</h1>
+        {lesson.focus && <p className="lq-t17 lq-c2 kd-lede">{lesson.focus}</p>}
+        {lesson.intro && (
+          <div className="kd-begin">
+            {lesson.image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={lesson.image} alt="" loading="lazy" />
+            )}
+            <div className="kd-begin-t" dangerouslySetInnerHTML={{ __html: /<[a-z]/i.test(lesson.intro) ? lesson.intro : `<p>${lesson.intro}</p>` }} />
+          </div>
+        )}
       </header>
 
-      <div className="trn-chips lq-glass" ref={chips} role="navigation" aria-label="Steps">
+      <div className="kd-guide-list">
         {steps.map((s, i) => (
-          <a key={s.id} href={`#step-${s.id}`} data-id={s.id} className="trn-chip" aria-current={activeId === s.id ? "true" : undefined}>
-            <span className="lq-num">{i + 1}</span>
-            {s.title}
-          </a>
-        ))}
-      </div>
-
-      <div className="trn-guide-steps">
-        {steps.map((s, i) => (
-          <GuideStep
+          <GuideLesson
             key={s.id}
             step={s}
             index={i}
             total={steps.length}
-            fallbackPoster={lesson.image}
-            glyph={glyph}
-            readiness={s.special === "readiness" && form ? (
-              <Glass radius="card" className="trn-gatecard">
-                {ready ? (
-                  <>
-                    <ReadinessDial score={ready.score} band={ready.band} max={form.maxScore} zones={zonesFor(form)} size={200} />
-                    <div>
-                      <p className="lq-t22">{ready.name}</p>
-                      {ready.message && <p className="lq-t15 lq-c2">{ready.message}</p>}
-                    </div>
-                    <Button variant="fill" size="md" icon="repeat" onClick={() => setReadyOpen(true)}>
-                      Review answers
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <p className="lq-t17">Five honest questions set today&apos;s workout</p>
-                      <p className="lq-t13 lq-c2">Takes about a minute.</p>
-                    </div>
-                    <Button size="md" icon="play" onClick={() => setReadyOpen(true)}>
-                      Start check-in
-                    </Button>
-                  </>
-                )}
-              </Glass>
-            ) : null}
-            table={s.special === "workout" ? (
-              table ? (
-                <WorkoutPanel table={table} band={ready?.name ?? null} score={ready?.score ?? null} />
-              ) : ready && ready.outcome !== "workout" ? (
-                <Glass radius="card" className="trn-gatecard">
-                  <p className="lq-t17">{ready.outcome === "rest" ? "Today is for rest." : "Today is for recovery."}</p>
-                  {ready.message && <p className="lq-t15 lq-c2">{ready.message}</p>}
-                </Glass>
-              ) : form ? (
-                <Glass radius="card" className="trn-gatecard" data-locked="">
-                  <span className="trn-gatecard-ic" aria-hidden>
-                    <Icon name="lock" size="sm" />
-                  </span>
-                  <div>
-                    <p className="lq-t17">Your table unlocks after the check-in</p>
-                    <p className="lq-t13 lq-c2">Five quick questions pick the right load for today.</p>
-                  </div>
-                  <Button size="md" icon="play" onClick={() => setReadyOpen(true)}>
-                    Start check-in
-                  </Button>
-                </Glass>
+            readiness={
+              s.special === "readiness" && form ? (
+                <ReadinessAssessment form={form} saved={ready} initial={data.position?.draftAnswers ?? {}} onDraft={(a) => void savePositionAction(lesson.id, { draftAnswers: a })} onSubmit={submit} />
               ) : null
-            ) : null}
+            }
+            table={
+              s.special === "workout" && (form || table) ? (
+                <WorkoutTablePanel
+                  hasForm={Boolean(form)}
+                  readiness={ready}
+                  table={table}
+                  onGoToAssessment={() => {
+                    const r = steps.find((x) => x.special === "readiness");
+                    if (r) document.getElementById(`lesson-${r.id}`)?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                />
+              ) : null
+            }
+            completion={
+              s.special === "completion" ? (
+                <div className="kd-guide-done">
+                  <Completion variant="step" size={80} />
+                  <p className="lq-t17">{s.body || "You've Crushed Another Day"}</p>
+                  {next ? (
+                    <Button size="md" href={lessonHref(program.slug, next.key, next.id, "self_guided")} iconAfter="chevron">
+                      Finish day · go to {lessonLabel(next, word)}
+                    </Button>
+                  ) : (
+                    <Button size="md" href={programHref}>
+                      Finish level · back to the program
+                    </Button>
+                  )}
+                </div>
+              ) : null
+            }
           />
         ))}
       </div>
 
-      <nav className="trn-guide-days" aria-label="Other days">
+      <nav className="kd-guide-days" aria-label="Day navigation">
         {prev ? (
-          <Link href={lessonHref(program.slug, prev.key, prev.id, "self_guided")} className="trn-guide-day lq-glass">
-            <Icon name="back" size="sm" />
-            <span>
-              <span className="lq-t13 lq-c2">Previous</span>
-              <b className="lq-t15 trn-ellipsis">{lessonLabel(prev, word)}</b>
+          <Link href={lessonHref(program.slug, prev.key, prev.id, "self_guided")} className="kd-guide-day lq-press">
+            <span className="kd-eyebrow">
+              <Icon name="back" size="xs" /> Previous day
             </span>
+            <span className="lq-t15 kd-ellipsis">{lessonLabel(prev, word)}{prev.pageType ? "" : ` · ${lessonName(prev)}`}</span>
           </Link>
         ) : (
           <span />
         )}
         {next && (
-          <Link href={lessonHref(program.slug, next.key, next.id, "self_guided")} className="trn-guide-day lq-glass" data-next="">
-            <span>
-              <span className="lq-t13 lq-c2">Next</span>
-              <b className="lq-t15 trn-ellipsis">{lessonLabel(next, word)}</b>
+          <Link href={lessonHref(program.slug, next.key, next.id, "self_guided")} className="kd-guide-day lq-press" data-next="">
+            <span className="kd-eyebrow">
+              Next day <Icon name="chevron" size="xs" />
             </span>
-            <Icon name="chevron" size="sm" />
+            <span className="lq-t15 kd-ellipsis">{lessonLabel(next, word)}{next.pageType ? "" : ` · ${lessonName(next)}`}</span>
           </Link>
         )}
       </nav>
-
-      {form && (
-        <ReadinessSheet
-          open={readyOpen}
-          onClose={() => setReadyOpen(false)}
-          form={form}
-          initial={data.position?.draftAnswers ?? {}}
-          saved={ready ? { ...ready } : null}
-          onDraft={(a) => void savePositionAction(lesson.id, { draftAnswers: a })}
-          onSubmit={submit}
-        />
-      )}
     </div>
   );
 }
 
-function GuideStep({ step, index, total, fallbackPoster, glyph, readiness, table }: { step: PlayerStep; index: number; total: number; fallbackPoster: string | null; glyph: ReturnType<typeof dayGlyph>; readiness: React.ReactNode; table: React.ReactNode }) {
-  const [clipId, setClipId] = useState<string | null>(null);
-  const pl = stagePlaylist(step, clipId);
-  const video = clipId ? pl.queue.find((c) => c.providerId === clipId) ?? null : pl.lead;
+function GuideLesson({ step, index, total, readiness, table, completion }: { step: PlayerStep; index: number; total: number; readiness: React.ReactNode; table: React.ReactNode; completion: React.ReactNode }) {
+  const pl = stagePlaylist(step, null);
+  const lines =
+    step.special === "completion"
+      ? []
+      : (step.body ?? "")
+          .replace(/^NOTES:\s*/i, "")
+          .split(/\n+/)
+          .map((l) => l.trim())
+          .filter((l) => l && l.toLowerCase() !== step.title.trim().toLowerCase());
   return (
-    <section id={`step-${step.id}`} className="trn-gstep" aria-labelledby={`h-${step.id}`}>
-      <p className="lq-t13 lq-c2 lq-num" style={{ fontWeight: 600 }}>
-        Step {index + 1} of {total}
-        {step.durationLabel ? ` · ${step.durationLabel}` : ""}
-      </p>
-      <h2 id={`h-${step.id}`} className="lq-t22">
-        {step.title}
-      </h2>
-      {video && (
-        <VideoStage key={video.providerId} video={video} poster={video.thumbnailUrl ?? step.poster ?? fallbackPoster} title={video.title ?? step.title} autoStart={Boolean(clipId)} onEnded={() => pl.nextClip && setClipId(pl.nextClip.providerId)}>
-          <div className="trn-stage-inner">
-            <DayGlyph type={glyph} size={56} tone="mono" />
-          </div>
-        </VideoStage>
-      )}
-      <ClipRow clips={pl.queue} playingId={clipId ?? pl.playingClipId} nextId={pl.nextClip?.providerId} glyph={glyph} onPlay={setClipId} label={`${step.title} clips`} />
-      {readiness}
-      {table}
-      {step.special === "completion" && (
-        <Glass radius="card" className="trn-gatecard">
-          <p className="lq-t17">{step.body || "You've crushed another day"}</p>
-        </Glass>
-      )}
-      {step.body && step.special !== "completion" && (
-        <Glass radius="card" className="trn-notes">
-          {step.body
-            .replace(/^NOTES:\s*/i, "")
-            .split(/\n{2,}/)
-            .filter(Boolean)
-            .map((p, i) => (
+    <section id={`lesson-${step.id}`} className="kd-gl" aria-labelledby={`h-${step.id}`}>
+      <div className="kd-gl-meta">
+        <p className="kd-eyebrow lq-num">
+          {index + 1} of {total}
+          {step.durationLabel ? ` · ${step.durationLabel}` : ""}
+        </p>
+        <h2 id={`h-${step.id}`} className="lq-t22">
+          {step.title}
+        </h2>
+        {!lines.length && step.description && step.special !== "completion" && <p className="lq-t15 lq-c2">{step.description}</p>}
+      </div>
+      <div className="kd-gl-body">
+        {lines.length > 0 && (
+          <div className="kd-notes">
+            {lines.map((l, i) => (
               <p key={i} className="lq-t15">
-                {p}
+                {l}
               </p>
             ))}
-        </Glass>
-      )}
+          </div>
+        )}
+        {pl.lead && <VideoStage video={pl.lead} poster={pl.lead.thumbnailUrl ?? step.poster ?? null} title={pl.lead.title ?? step.title} />}
+        {readiness}
+        {table}
+        {completion}
+        {step.attachments.length > 0 && (
+          <div className="kd-atts">
+            {step.attachments.map((a) => (
+              <a key={a.url} href={a.url} target="_blank" rel="noreferrer" className="kd-att lq-press">
+                <Icon name="down" size="xs" />
+                {a.title}
+              </a>
+            ))}
+          </div>
+        )}
+        {pl.queue.length > 0 && (
+          <div className="kd-demos">
+            <p className="kd-eyebrow">Exercise demos</p>
+            <div className="kd-demos-grid">
+              {pl.queue.map((c, i) => (
+                <div key={c.providerId + i}>
+                  <VideoStage video={c} poster={c.thumbnailUrl ?? null} title={c.title} />
+                  <p className="lq-t13 kd-demo-t">{c.title.trim()}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
