@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import type { NextRecommendation } from "@ms/core";
-import { Button, Icon } from "@/components/ui";
-import { Completion, DayGlyph, LevelEmblem, type DayType } from "@/components/graphics";
+import type { NextAction, NextRecommendation } from "@ms/core";
+import { Button, Icon, IconButton } from "@/components/ui";
+import { Completion, LevelEmblem } from "@/components/graphics";
 import { markSeenAction } from "@/lib/actions/training";
 
 /**
@@ -38,83 +37,91 @@ export function useSeenOnce(key: string, enabled: boolean) {
   return [show, () => setShow(false)] as const;
 }
 
-function Gate({ label, children, onClose, image }: { label: string; children: ReactNode; onClose: () => void; image?: string | null }) {
+/** Light, dismissible popup (bottom sheet on a phone, centred card on desktop). */
+function Gate({ label, children, onClose }: { label: string; children: ReactNode; onClose: () => void }) {
   useEffect(() => {
     const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
   }, [onClose]);
   return (
-    <div className="trn-gate" role="dialog" aria-modal="true" aria-label={label}>
-      {image && (
-        <div className="trn-gate-bg" aria-hidden>
-          <Image src={image} alt="" fill sizes="96px" />
-        </div>
-      )}
-      <div className="trn-gate-card lq-glass" data-level="thick" tabIndex={-1} ref={(el) => el?.focus({ preventScroll: true })}>
+    <div className="kd-gate" role="dialog" aria-modal="true" aria-label={label}>
+      <button type="button" className="kd-gate-scrim" aria-label="Close" tabIndex={-1} onClick={onClose} />
+      <div className="kd-gate-card lq-glass" data-level="thick" data-float="" tabIndex={-1} ref={(el) => el?.focus({ preventScroll: true })}>
+        <IconButton icon="close" label="Close" variant="plain" size="sm" iconSize="sm" className="kd-gate-x" onClick={onClose} />
         {children}
       </div>
     </div>
   );
 }
 
+/** Start of day: context, "It's a new day, name.", the intro, Steps and Time, Start. */
 export function DayStart({
-  onClose, name, eyebrow, title, glyph, focus, steps, minutes, image,
-}: { onClose: () => void; name: string; eyebrow: string; title: string; glyph: DayType; focus: string | null; steps: number; minutes: number; image: string | null }) {
+  onClose, name, context, intro, entryLabel, steps, minutes,
+}: { onClose: () => void; name: string; context: string; intro: string; entryLabel: string; steps: number; minutes: number }) {
   return (
-    <Gate label="Start of day" onClose={onClose} image={image}>
-      <div className="trn-gate-glyph" aria-hidden>
-        <DayGlyph type={glyph} size={56} strokeWidth={1.4} />
+    <Gate label="Start of day" onClose={onClose}>
+      <span className="kd-gate-ic" aria-hidden>
+        <Icon name="sun" size="lg" />
+      </span>
+      <p className="kd-eyebrow kd-eyebrow-now">{context}</p>
+      <h2 className="lq-t28 kd-gate-title">{name ? `It's a new day, ${name}.` : "It's a new day."}</h2>
+      {intro && <p className="lq-t15 lq-c2 kd-gate-body">{intro}</p>}
+      <div className="kd-gate-stats">
+        <div>
+          <p className="kd-eyebrow">Steps</p>
+          <p className="lq-t20 lq-num">{steps}</p>
+        </div>
+        <div>
+          <p className="kd-eyebrow">Time</p>
+          <p className="lq-t20 lq-num">
+            <Icon name="clock" size="sm" />
+            {minutes ? `${minutes} min` : "Flexible"}
+          </p>
+        </div>
       </div>
-      <p className="lq-t13 lq-c2 trn-eyebrow">{eyebrow}</p>
-      <h2 className="lq-t34 trn-gate-title">{name ? `It's a new day, ${name}.` : "It's a new day."}</h2>
-      <p className="lq-t17">{title}</p>
-      {focus && <p className="lq-t15 lq-c2 trn-gate-body">{focus}</p>}
-      <div className="trn-gate-meta lq-t15">
-        <span>
-          <Icon name="steps" size="sm" />
-          <span className="lq-num">{steps} steps</span>
-        </span>
-        {minutes > 0 && (
-          <span>
-            <Icon name="timer" size="sm" />
-            <span className="lq-num">About {minutes} min</span>
-          </span>
-        )}
-      </div>
-      <Button block icon="play" onClick={onClose} >
-        Begin
+      <Button block iconAfter="chevron" onClick={onClose}>
+        Start {entryLabel}
       </Button>
+      <p className="lq-t13 lq-c2">Press Esc any time to jump straight in.</p>
     </Gate>
   );
 }
 
+/** End of day: the moment, congratulations, what's next (coloured by readiness), stay. */
 export function DayEnd({
-  onClose, name, title, next, onNext, kind, levelNumber, certificateHref, offer,
+  onClose, name, kind, entryLabel, dayTitle, steps, next, onAction, levelNumber, certificateHref, offer,
 }: {
   onClose: () => void;
   name: string;
-  title: string;
-  next: NextRecommendation;
-  onNext: () => void;
   /** day | phase | level: the biggest thing just finished. */
   kind: "day" | "phase" | "level";
+  entryLabel: string;
+  dayTitle: string;
+  steps: number;
+  next: NextRecommendation;
+  onAction: (a: NextAction) => void;
   levelNumber?: number;
   certificateHref?: string | null;
   offer?: ReactNode;
 }) {
-  const heading = kind === "level" ? "Level complete" : kind === "phase" ? "Phase complete" : "Day complete";
+  const heading = kind === "level" ? "Level complete" : kind === "phase" ? "Phase complete" : `${entryLabel} complete`;
   return (
     <Gate label={heading} onClose={onClose}>
-      <div className="trn-gate-moment" aria-hidden>
-        {kind === "level" && levelNumber ? <LevelEmblem level={levelNumber} size={120} tier="gold" /> : <Completion variant={kind === "day" ? "step" : "milestone"} size={kind === "day" ? 150 : 260} />}
+      <div className="kd-gate-moment" aria-hidden>
+        {kind === "level" && levelNumber ? <LevelEmblem level={levelNumber} size={104} tier="gold" /> : <Completion variant={kind === "day" ? "step" : "milestone"} size={kind === "day" ? 96 : 180} />}
       </div>
-      <p className="lq-t13 lq-c2 trn-eyebrow">{heading}</p>
-      <h2 className="lq-t34 trn-gate-title">{name ? `Well done, ${name}.` : "Well done."}</h2>
-      <p className="lq-t15 lq-c2">{title}</p>
-      <div className="trn-next lq-glass">
-        <p className="lq-t13 lq-c2 trn-eyebrow">{next.eyebrow}</p>
-        <p className="lq-t17">{next.title}</p>
+      <p className="kd-eyebrow kd-eyebrow-now">{heading}</p>
+      <h2 className="lq-t28 kd-gate-title">{name ? `Congratulations, ${name}!` : "Congratulations!"}</h2>
+      <p className="lq-t15 lq-c2 kd-gate-body">
+        You&apos;ve crushed another day. Every one of the {steps} steps in {dayTitle} is logged.
+      </p>
+      <div className="kd-gate-next" data-tone={next.tone}>
+        <p className="kd-eyebrow kd-eyebrow-now">
+          <Icon name="compass" size="xs" />
+          {next.eyebrow}
+        </p>
+        <p className="lq-t15 kd-gate-next-t">{next.title}</p>
         <p className="lq-t13 lq-c2">{next.detail}</p>
       </div>
       {certificateHref ? (
@@ -122,13 +129,18 @@ export function DayEnd({
           Get your certificate
         </Button>
       ) : (
-        <Button block icon={next.primary.kind === "lesson" ? "play" : "next"} onClick={onNext} >
+        <Button block iconAfter="chevron" onClick={() => onAction(next.primary)}>
           {next.primary.label}
         </Button>
       )}
-      <Button block variant="plain" onClick={onClose}>
+      {next.secondary && !certificateHref && (
+        <Button block variant="fill" onClick={() => onAction(next.secondary!)}>
+          {next.secondary.label}
+        </Button>
+      )}
+      <button type="button" className="kd-link kd-gate-stay" onClick={onClose}>
         Stay on this day
-      </Button>
+      </button>
       {offer}
     </Gate>
   );

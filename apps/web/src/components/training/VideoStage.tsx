@@ -3,12 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { embedUrl, isWatched, type VideoRef } from "@ms/core";
-import { Button, Chip, Icon, IconButton } from "@/components/ui";
+import { Icon } from "@/components/ui";
 import { clock } from "./model";
 
 type VimeoPlayer = {
   on: (e: string, cb: (d: { seconds: number; duration: number; percent: number }) => void) => void;
-  off: (e: string) => void;
   play: () => Promise<void>;
   pause: () => Promise<void>;
   setCurrentTime: (s: number) => Promise<number>;
@@ -20,9 +19,7 @@ export interface StageProps {
   video: (VideoRef & { title?: string }) | null;
   poster: string | null;
   title: string;
-  /** Top-left label ("Main video", "Clip 2 of 8"). */
-  badge?: string;
-  /** Start playing as soon as the stage mounts (autoplay-next, clip queue). */
+  /** Start playing as soon as the stage mounts (moving between steps, autoplay-next, clip queue). */
   autoStart?: boolean;
   /** Saved position for "Resume". */
   resumeAt?: number;
@@ -32,26 +29,27 @@ export interface StageProps {
   onEnded?: () => void;
   /** Overlay drawn above the player (Up next countdown). Stays visible in fullscreen. */
   overlay?: ReactNode;
-  /** Content when there's no video (readiness, completion moments). */
+  /** Content when there's no video. */
   children?: ReactNode;
-  /** Called with a function that pauses playback (readiness sheet opening). */
+  /** Called with a function that pauses playback. */
   pauseRef?: React.RefObject<(() => void) | null>;
+  /** Edge-to-edge (day player) or a rounded card (Self-Guided). */
+  flush?: boolean;
 }
 
 /**
- * The video stage. Poster first (no third-party load until the member presses play),
- * then the Vimeo embed (privacy hash supported) driven over the Player API for resume,
- * 95% auto-complete and the playlist. Fullscreen is requested on the stage itself so
- * the "Up next" overlay stays visible.
+ * 16:9 video stage on black. Poster first (no third-party load until play, or straight in
+ * when `autoStart`), then the Vimeo embed (privacy hash supported) over the Player API for
+ * resume, 95% auto-complete and the playlist. The stage itself goes fullscreen so the
+ * "Up next" overlay stays visible.
  */
-export function VideoStage({ video, poster, title, badge, autoStart, resumeAt = 0, onProgress, onWatched, onEnded, overlay, children, pauseRef }: StageProps) {
+export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onProgress, onWatched, onEnded, overlay, children, pauseRef, flush }: StageProps) {
   const wrap = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLIFrameElement>(null);
   const player = useRef<VimeoPlayer | null>(null);
   const [playing, setPlaying] = useState(Boolean(autoStart && video));
   const [showResume, setShowResume] = useState(resumeAt > 8);
-  const [t, setT] = useState({ s: 0, d: video?.durationSeconds ?? 0 });
-  const [lowRes, setLowRes] = useState(false);
+  const [progress, setProgress] = useState(0);
   const watched = useRef(false);
   const cb = useRef({ onProgress, onWatched, onEnded });
   useEffect(() => {
@@ -66,7 +64,7 @@ export function VideoStage({ video, poster, title, badge, autoStart, resumeAt = 
       const p = new Player(frame.current) as unknown as VimeoPlayer;
       player.current = p;
       p.on("timeupdate", (d) => {
-        setT({ s: d.seconds, d: d.duration });
+        setProgress(d.duration ? d.seconds / d.duration : 0);
         cb.current.onProgress?.(d.seconds, d.duration);
         if (!watched.current && isWatched(d.seconds, d.duration)) {
           watched.current = true;
@@ -98,42 +96,18 @@ export function VideoStage({ video, poster, title, badge, autoStart, resumeAt = 
     }
   }, [overlay]);
 
-  const fullscreen = () => {
-    const el = wrap.current;
-    if (!el) return;
-    if (document.fullscreenElement) void document.exitFullscreen();
-    else void el.requestFullscreen?.().catch(() => {});
-  };
-
-  const progress = t.d ? t.s / t.d : 0;
-
   return (
-    <div ref={wrap} className="trn-stage" data-playing={playing ? "" : undefined}>
+    <div ref={wrap} className="kd-stage" data-flush={flush ? "" : undefined} data-playing={playing ? "" : undefined}>
       {poster && !playing && (
-        <div className="trn-stage-poster" data-lowres={lowRes ? "" : undefined}>
-          <Image src={poster} alt="" fill sizes="96px" className="trn-stage-poster-bg" aria-hidden />
-          <Image
-            src={poster}
-            alt=""
-            fill
-            sizes="(min-width: 1024px) 900px, 100vw"
-            priority
-            className="trn-stage-poster-fg"
-            onLoad={(e) => {
-              // Small artwork stays crisp: shown contained over its own blurred field instead of upscaled.
-              const img = e.currentTarget;
-              const w = wrap.current?.clientWidth ?? 0;
-              if (img.naturalWidth && img.naturalWidth < w * 1.2) setLowRes(true);
-            }}
-          />
+        <div className="kd-stage-poster" aria-hidden>
+          <Image src={poster} alt="" fill sizes="(min-width: 1024px) 900px, 100vw" />
         </div>
       )}
-      {!poster && !playing && <div className="trn-stage-blank" aria-hidden />}
 
       {video && playing && (
         <iframe
           ref={frame}
-          className="trn-stage-frame"
+          className="kd-stage-frame"
           src={embedUrl(video, { autoplay: true, startAt: 0 })}
           title={title}
           allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
@@ -142,56 +116,59 @@ export function VideoStage({ video, poster, title, badge, autoStart, resumeAt = 
       )}
 
       {video && !playing && (
-        <>
-          <div className="trn-stage-scrim" aria-hidden />
-          <button type="button" className="trn-play lq-glass lq-fx lq-press" data-level="clear" data-fx="" aria-label={`Play ${title}`} onClick={() => setPlaying(true)}>
+        <button type="button" className="kd-stage-cover" aria-label={`Play ${title}`} onClick={() => setPlaying(true)}>
+          <span className="kd-play lq-press">
             <Icon name="play" size="lg" />
-          </button>
-          {badge && (
-            <Chip variant="clear" className="trn-stage-badge">
-              {badge}
-            </Chip>
-          )}
-          <div className="trn-stage-foot">
-            <span className="lq-t15 trn-stage-title">{video.title ?? title}</span>
-            {resumeAt > 8 ? <span className="lq-t13 lq-num">Paused at {clock(resumeAt)}</span> : video.durationSeconds ? <span className="lq-t13 lq-num">{clock(video.durationSeconds)}</span> : null}
-          </div>
-        </>
+          </span>
+          <span className="kd-stage-cap">
+            <span className="lq-t15 kd-ellipsis">{video.title ?? title}</span>
+            {resumeAt > 8 ? <span className="lq-t13 lq-num">Left off at {clock(resumeAt)}</span> : video.durationSeconds ? <span className="lq-t13 lq-num">{clock(video.durationSeconds)}</span> : null}
+          </span>
+        </button>
       )}
 
       {!video && children}
 
       {video && playing && showResume && !overlay && (
-        <div className="trn-resume lq-glass" data-level="clear-deep">
-          <span className="lq-t13">Resume at {clock(resumeAt)}?</span>
-          <Button
-            size="sm"
-            variant="white"
-            onClick={() => {
-              void player.current?.setCurrentTime(resumeAt).catch(() => {});
-              setShowResume(false);
-            }}
-          >
-            Resume
-          </Button>
-          <IconButton icon="close" label="Start from the beginning" variant="clear" size="sm" iconSize="xs" onClick={() => setShowResume(false)} />
-        </div>
+        <ResumePill
+          seconds={resumeAt}
+          onResume={() => {
+            void player.current?.setCurrentTime(resumeAt).catch(() => {});
+            setShowResume(false);
+          }}
+          onDismiss={() => setShowResume(false)}
+        />
       )}
 
-      {video && playing && (
-        <>
-          <i className="trn-stage-progress" aria-hidden style={{ transform: `scaleX(${progress})` }} />
-          <IconButton icon="fullscreen" label="Full screen" variant="clear" size="sm" iconSize="sm" className="trn-stage-fs" onClick={fullscreen} />
-        </>
-      )}
+      {video && playing && <i className="kd-stage-progress" aria-hidden style={{ transform: `scaleX(${progress})` }} />}
 
       {overlay}
     </div>
   );
 }
 
-/** "Up next" countdown over the stage. A ring drains over `seconds`; Play now / Cancel. */
-export function UpNext({ title, label = "Up next", seconds = 5, onGo, onCancel }: { title: string; label?: string; seconds?: number; onGo: () => void; onCancel: () => void }) {
+/** "Left off at 1:24 · Resume · Start over", bottom-centre over the player. */
+export function ResumePill({ seconds, onResume, onDismiss }: { seconds: number; onResume: () => void; onDismiss: () => void }) {
+  return (
+    <div className="kd-resume">
+      <div className="kd-resume-pill lq-glass" data-level="clear-deep">
+        <span className="lq-t13 lq-num">Left off at {clock(seconds)}</span>
+        <button type="button" className="kd-resume-go" onClick={onResume}>
+          Resume
+        </button>
+        <button type="button" className="kd-resume-x" onClick={onDismiss}>
+          Start over
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * "Up next" countdown over the whole player (readable in fullscreen): title, a draining ring
+ * with the seconds left, "Starting automatically", Play now / Stay here.
+ */
+export function UpNext({ title, seconds = 6, onGo, onCancel }: { title: string; seconds?: number; onGo: () => void; onCancel: () => void }) {
   const [left, setLeft] = useState(seconds);
   const go = useRef(onGo);
   useEffect(() => {
@@ -209,29 +186,29 @@ export function UpNext({ title, label = "Up next", seconds = 5, onGo, onCancel }
     }, 100);
     return () => window.clearInterval(id);
   }, [seconds]);
-  const R = 26;
+  const R = 17;
   const C = 2 * Math.PI * R;
   return (
-    <div className="trn-upnext" role="status" aria-live="polite">
-      <div className="trn-upnext-card lq-glass" data-level="clear-deep">
-        <button type="button" className="trn-upnext-ring" onClick={onGo} aria-label={`Play ${title} now`}>
-          <svg viewBox="0 0 64 64" width={64} height={64} aria-hidden>
-            <circle cx="32" cy="32" r={R} className="trn-upnext-track" />
-            <circle cx="32" cy="32" r={R} className="trn-upnext-arc" strokeDasharray={C} strokeDashoffset={C * (1 - left / seconds)} transform="rotate(-90 32 32)" />
+    <div className="kd-upnext" role="status" aria-live="polite">
+      <div className="kd-upnext-card">
+        <p className="kd-eyebrow kd-upnext-eyebrow">Up next</p>
+        <p className="lq-t17 kd-upnext-title">{title}</p>
+        <div className="kd-upnext-ring">
+          <svg viewBox="0 0 40 40" aria-hidden>
+            <circle cx="20" cy="20" r={R} className="kd-upnext-track" />
+            <circle cx="20" cy="20" r={R} className="kd-upnext-arc" strokeDasharray={C} strokeDashoffset={C * (1 - left / seconds)} transform="rotate(-90 20 20)" />
           </svg>
-          <span className="lq-t17 lq-num">{Math.ceil(left)}</span>
-        </button>
-        <div className="trn-upnext-t">
-          <span className="lq-t13">{label}</span>
-          <b className="lq-t17 trn-ellipsis">{title}</b>
+          <span className="lq-num">{Math.ceil(left)}</span>
         </div>
-        <div className="trn-upnext-actions">
-          <Button size="sm" variant="white" icon="play" onClick={onGo}>
+        <p className="lq-t13 kd-upnext-sub">Starting automatically</p>
+        <div className="kd-upnext-actions">
+          <button type="button" className="kd-upnext-go lq-press" onClick={onGo}>
             Play now
-          </Button>
-          <Button size="sm" variant="plain" className="trn-upnext-cancel" onClick={onCancel}>
-            Cancel
-          </Button>
+            <Icon name="chevron" size="xs" />
+          </button>
+          <button type="button" className="kd-upnext-stay lq-press" onClick={onCancel}>
+            Stay here
+          </button>
         </div>
       </div>
     </div>
