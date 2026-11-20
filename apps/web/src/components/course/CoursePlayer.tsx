@@ -70,7 +70,12 @@ const wideStore = {
   server: () => false,
 };
 
-export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode; note?: string | null }) {
+export function CoursePlayer({ data, mode, slim, nextStep, note = null, preview = null }: {
+  data: CoursePageData; mode: Mode; slim?: "mtk" | "a4l"; nextStep?: ReactNode; note?: string | null;
+  /** A free preview without access: progress can't be saved, so "Mark complete" explains that and links to unlock. */
+  preview?: { href: string } | null;
+}) {
+  const [previewNote, setPreviewNote] = useState(false);
   const wide = useSyncExternalStore(wideStore.subscribe, wideStore.get, wideStore.server);
   const router = useRouter();
   const toast = useToast();
@@ -158,6 +163,10 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
   /* ---------------- complete */
   const markDone = async (via: "button" | "watched") => {
     if (!node || done.has(node.id)) return true;
+    if (preview) {
+      if (via === "button") setPreviewNote(true);
+      return false;
+    }
     setDone((s) => new Set(s).add(node.id));
     const r = await completeLessonAction(data.program.id, node.id, via); announceProgress();
     if (!r.ok && r.code !== "offline") {
@@ -292,6 +301,13 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
     if (ok) toast("Marked complete", { tone: "success" });
   };
   const controls = (
+    <>
+    {previewNote && preview && (
+      <p className="crs-preview-note" role="status">
+        <span>This is a free preview, so progress isn&apos;t saved.</span>
+        <Link href={preview.href} className="lq-link">Unlock {data.program.name}</Link>
+      </p>
+    )}
     <div className="jsb-ctl">
       <button type="button" className="jsb-ctl-step" disabled={!prev || isIntro} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
         <Arrow dir="left" />
@@ -313,6 +329,7 @@ export function CoursePlayer({ data, mode, slim, nextStep, note = null }: { data
         </button>
       )}
     </div>
+    </>
   );
 
   const nav = (onPick?: () => void, footer?: ReactNode) => slim ? (

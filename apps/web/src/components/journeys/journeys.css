@@ -316,3 +316,8 @@
   .crs:not([data-slim]) .crs-side > :first-child { flex: 1; min-height: 0; }
 }
 @media (max-width: 1023px) { .crs:not([data-slim]) .crs-stage { padding-bottom: calc(120px + env(safe-area-inset-bottom)); } }
+
+/* Free preview: "Mark complete" explains, quietly, that progress needs access. */
+.crs-preview-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; line-height: 1.4; color: var(--text-2); }
+.crs-preview-note .lq-link { font-weight: 600; }
+.jsb-dock > .crs-preview-note { position: absolute; left: 14px; right: 14px; bottom: calc(100% + 8px); margin: 0; background: var(--bg); }
