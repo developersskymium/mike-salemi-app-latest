@@ -5,7 +5,6 @@ import { CourseLocked } from "@/components/course/CourseLocked";
 import { CoursePlayer } from "@/components/course/CoursePlayer";
 import { ChooseNextStep } from "@/components/access/ChooseNextStep";
 import { loadCoursePage } from "@/lib/loaders/course";
-import { SeriesPlayer } from "@/components/series/SeriesPlayer";
 import { loadSeriesLesson, myNote } from "@/lib/loaders/series";
 import { isSeries } from "@/lib/series";
 import { hasAccess } from "@ms/api";
@@ -31,7 +30,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
   const [{ slug, lesson }, sp] = await Promise.all([params, searchParams]);
   const mode = sp.mode === "plan" || sp.mode === "full" ? sp.mode : null;
   const token = decodeURIComponent(lesson);
-  // Working-In, The Path, Men of Movement prep and the free series: player + chapter playlist (journeys-b).
+  // Working-In, The Path, Men of Movement prep, the free series and every other course.
   if (isSeries(slug)) {
     const home = await loadSeriesLesson(slug, token);
     if (!home) notFound();
@@ -39,7 +38,19 @@ export default async function CoursePage({ params, searchParams }: Props) {
     // The guard layout only lets members without access reach previews (intro, first lesson, flagged).
     const access = await programAccess(slug).catch(() => null);
     const preview = Boolean(access && !hasAccess(access));
-    return <SeriesPlayer home={home} preview={preview ? { href: unlockHref(slug, `lesson:${token}`) } : null} />;
+    // Same lesson shell as MTK / A4L (sidebar, notes, fixed complete + next), series chapters in the sidebar.
+    return (
+      <CoursePlayer
+        key={home.data.activeId}
+        data={home.data}
+        mode={null}
+        slim="series"
+        media={home.media}
+        note={home.note}
+        preview={preview ? { href: unlockHref(slug, `lesson:${token}`) } : null}
+        nextStep={<ChooseNextStep program={slug} />}
+      />
+    );
   }
   const data = await loadCoursePage(slug, token);
   if (!data) notFound();
