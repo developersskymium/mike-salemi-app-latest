@@ -102,7 +102,7 @@ export function SavesView({ d, initialKind = "all", initialOpen }: { d: SavesV2;
 
   const empty: Record<SaveKind, { title: string; body: string; action?: React.ReactNode; scene: "nothing-saved" | "plan-empty" | "caught-up" }> = {
     all: { title: "Nothing saved yet", body: "Session plans from your check-ins, tool results and bookmarked videos all land here.", scene: "nothing-saved", action: <Button icon="library" href="/library">Browse the Library</Button> },
-    tools: { title: "No tool results yet", body: "Try the Kettlebell Selector, Stretch Test, Readiness Check or Roadmap. Your results are kept here.", scene: "nothing-saved", action: <Button icon="compass" href="/tools">Try a free tool</Button> },
+    tools: { title: "No tool results yet", body: "Try the Kettlebell Selector or the Stretch Test. Your results are kept here.", scene: "nothing-saved", action: <Button icon="compass" href="/tools">Try a free tool</Button> },
     plans: { title: "No session plans yet", body: "Before each workout day you answer five quick questions. The table it gives you is saved here.", scene: "plan-empty" },
     videos: { title: "No saved videos", body: "Tap the bookmark on any video in the Library and it waits for you here.", scene: "nothing-saved", action: <Button icon="library" href="/library">Browse the Library</Button> },
   };

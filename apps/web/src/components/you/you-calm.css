@@ -48,3 +48,4 @@
 .yc-section { display: grid; gap: 14px; }
 .yc-section > h2 { margin: 0; }
 .yc-li { display: inline-flex; align-items: center; gap: 6px; }
+.yc-nowrap { white-space: nowrap; display: inline-flex; align-items: center; gap: 3px; }

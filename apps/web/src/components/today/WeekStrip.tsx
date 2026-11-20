@@ -3,6 +3,18 @@ import { Icon } from "@/components/ui";
 import { dayLetter, dayNum, longDay } from "./dates";
 import type { WeekDay } from "./buildToday";
 import { plural } from "./model";
+import { PROGRAM_MEDAL } from "@/components/badges/catalog";
+
+/** Program colour dots for a day (one schedule, Home #4): planned program sessions + coaching (gold). */
+function dotsOf(d: WeekDay): { key: string; color: string; label: string }[] {
+  const out = new Map<string, { key: string; color: string; label: string }>();
+  for (const e of d.entries) {
+    if (e.kind === "coaching") out.set("coaching", { key: "coaching", color: "var(--gold)", label: "Coaching" });
+    else if (e.kind === "run_session") out.set("run", { key: "run", color: "var(--accent)", label: "Live session" });
+    else if (e.item_kind !== "rest" && e.program_slug) out.set(e.program_slug, { key: e.program_slug, color: PROGRAM_MEDAL[e.program_slug]?.color ?? "var(--text-3)", label: e.program_name ?? e.program_slug });
+  }
+  return [...out.values()].slice(0, 3);
+}
 
 function MiniRing({ p, tone }: { p: number; tone: "accent" | "label" }) {
   const r = 17;
@@ -37,7 +49,7 @@ function describe(d: WeekDay) {
 }
 
 /** Monday-to-Sunday strip: rings fill with the day's done sessions; today is Glacier; rest days show a moon. */
-export function WeekStrip({ days, hrefFor }: { days: WeekDay[]; hrefFor: (date: string) => string }) {
+export function WeekStrip({ days, hrefFor, colors }: { days: WeekDay[]; hrefFor: (date: string) => string; /** Show program colour dots under each day. */ colors?: boolean }) {
   return (
     <div className="tpy-week" role="list">
       {days.map((d) => (
@@ -48,6 +60,13 @@ export function WeekStrip({ days, hrefFor }: { days: WeekDay[]; hrefFor: (date: 
             {d.state === "rest" ? <Icon name="moon" size="xs" /> : <span>{dayNum(d.date)}</span>}
             {d.state === "missed" && <i className="tpy-missdot" />}
           </span>
+          {colors && (
+            <span className="tpy-pdots" aria-hidden>
+              {dotsOf(d).map((x) => (
+                <i key={x.key} style={{ background: x.color }} title={x.label} />
+              ))}
+            </span>
+          )}
         </Link>
       ))}
     </div>

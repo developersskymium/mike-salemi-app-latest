@@ -102,7 +102,7 @@ export default function ShellGallery() {
               sub="Where members go after Level I — picked for your pace and goals."
               more={{ href: "/programs", label: "See your full path" }}
               peaks={[
-                { title: "Level II · Intermediate", sub: "Unlocks when you reach the Day 61 summit.", href: "/programs/kettlebell-lifestyle", cta: "Preview Level II", image: { src: IMG.getup, alt: "", position: "50% 25%" }, badge: { label: "Included", kind: "badge" }, locked: true },
+                { title: "Level II · Intermediate", sub: "Your choice: switch levels any time.", href: "/programs/kettlebell-lifestyle", cta: "Preview Level II", image: { src: IMG.getup, alt: "", position: "50% 25%" }, badge: { label: "Included", kind: "badge" } },
                 { title: "Mastering the Kettlebell", sub: "Technique for every Phase 2 lift · $297", href: "/programs/mastering-the-kettlebell", cta: "See what's inside", image: { src: IMG.deadlift, alt: "", position: "50% 30%" }, badge: { label: "Best next step" } },
                 { title: "The Breakthrough retreat", sub: "Train with Mike on Mount Shasta · May 13–16", href: "/experiences", cta: "Apply", image: { src: IMG.summit, alt: "", position: "50% 40%" }, badge: { label: "Applications open", kind: "badge" } },
               ]}

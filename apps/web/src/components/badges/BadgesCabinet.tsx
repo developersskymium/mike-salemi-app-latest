@@ -63,7 +63,7 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
                   {n} of {list.length}
                 </span>
               </header>
-              {f.id === "program" ? <ProgramRows list={list} earned={earned} tile={tile} /> : <div className="bd-grid">{list.map((b) => tile(b))}</div>}
+              {f.id === "program" ? <ProgramRows list={list} earned={earned} progress={by} tile={tile} /> : <div className="bd-grid">{list.map((b) => tile(b))}</div>}
             </section>
           );
         })}
@@ -107,15 +107,20 @@ export function BadgesCabinet({ defs, earned, progress, only }: { defs: BadgeDef
 const STAGE_LABEL: Record<string, string> = { start: "Start", halfway: "Halfway", complete: "Finish" };
 
 /** Program milestones: one row per program (start · halfway · finish), most progressed first. */
-function ProgramRows({ list, earned, tile }: { list: BadgeDefinition[]; earned: Record<string, string>; tile: (b: BadgeDefinition, label?: string) => React.ReactNode }) {
+function ProgramRows({ list, earned, progress, tile }: { list: BadgeDefinition[]; earned: Record<string, string>; progress: Map<string, BadgeProgress>; tile: (b: BadgeDefinition, label?: string) => React.ReactNode }) {
   const groups = new Map<string, BadgeDefinition[]>();
   for (const b of list) {
     const k = b.program_slug ?? "other";
     groups.set(k, [...(groups.get(k) ?? []), b]);
   }
-  const rows = [...groups].sort((a, z) => z[1].filter((b) => earned[b.id]).length - a[1].filter((b) => earned[b.id]).length);
+  const all = [...groups].sort((a, z) => z[1].filter((b) => earned[b.id]).length - a[1].filter((b) => earned[b.id]).length);
+  // Calm: only programs the member has started; the rest are one quiet line (their medals live on each program page).
+  const touched = (bs: BadgeDefinition[]) => bs.some((b) => earned[b.id] || (progress.get(b.id)?.current ?? 0) > 0);
+  const rows = all.filter(([, bs]) => touched(bs));
+  const rest = all.filter(([, bs]) => !touched(bs));
   return (
     <div className="bd-progs">
+      {rest.length > 0 && rows.length === 0 && <p className="lq-t13 lq-c2">Start a program to begin its medals.</p>}
       {rows.map(([slug, bs]) => {
         const stages = bs.filter((b) => b.id.startsWith("prog-"));
         const extra = bs.filter((b) => !b.id.startsWith("prog-"));
@@ -130,6 +135,11 @@ function ProgramRows({ list, earned, tile }: { list: BadgeDefinition[]; earned: 
           </div>
         );
       })}
+      {rest.length > 0 && (
+        <p className="lq-t13 lq-c3 bd-rest">
+          Also waiting: {rest.map(([slug]) => PROGRAM_MEDAL[slug]?.short ?? slug.replace(/-/g, " ")).join(" · ")} — start, halfway and finish medals in each.
+        </p>
+      )}
     </div>
   );
 }

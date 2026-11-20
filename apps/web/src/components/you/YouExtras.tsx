@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui";
 import type { JournalEntry, Lift, StretchEntry } from "@/lib/loaders/you-extras";
+import { JournalList } from "./JournalList";
 import "./you-calm.css";
 
 const day = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(iso));
@@ -93,23 +94,7 @@ export function Journal({ entries }: { entries: JournalEntry[] }) {
         <h2 id="yc-jr" className="lq-d-xs">Journal</h2>
         <span className="lq-t13 lq-c3">{entries.length ? `${entries.length} entries` : "Reflections and notes"}</span>
       </header>
-      {entries.length ? (
-        <ul className="yc-journal" role="list">
-          {entries.slice(0, 6).map((e) => {
-            const inner = (
-              <>
-                <span className="lq-t12 lq-c3">
-                  {day(e.at)} · {e.title}
-                </span>
-                <span className="lq-serif yc-jr-body">{e.body}</span>
-              </>
-            );
-            return <li key={e.id}>{e.href ? <Link href={e.href} className="yc-jr-item">{inner}</Link> : <div className="yc-jr-item">{inner}</div>}</li>;
-          })}
-        </ul>
-      ) : (
-        <p className="lq-t13 lq-c2 yc-empty">Notes you write on a day or after a session collect here.</p>
-      )}
+      <JournalList entries={entries} />
     </section>
   );
 }
