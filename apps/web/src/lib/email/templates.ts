@@ -49,7 +49,7 @@ export type AppEmail =
       message?: string;
     }
   | { kind: "streak_nudge"; streakDays?: number; lastTrained?: string; atRisk?: boolean }
-  | { kind: "new_content"; title: string; description?: string; items?: string[]; href?: string }
+  | { kind: "new_content"; title: string; description?: string; items?: string[]; href?: string; /** Header photo without baked-in text (path or URL). */ image?: { src: string; alt: string } }
   | { kind: "welcome"; name?: string }
   | { kind: "password_reset"; actionUrl: string }
   | { kind: "test"; to?: string };
@@ -115,19 +115,19 @@ function build(email: AppEmail): EmailContent {
         heading: many ? `${email.badgeNames.length} new medals` : email.badgeNames[0] ?? "Reward unlocked",
         subheading: "Earned the hard way — by showing up.",
         blocks: [
-          { t: "section", text: many ? "Unlocked today" : "Unlocked" },
-          { t: "bullets", items: email.badgeNames },
+          { t: "achievement", label: many ? "Unlocked today" : "Unlocked", items: email.badgeNames },
           {
             t: "stats",
             tiles: [
               { value: email.totalBadges ? String(email.totalBadges) : "", label: "Medals in total" },
-              { value: String(email.badgeNames.length), label: many ? "New today" : "New" },
-              { value: email.streakDays ? `${email.streakDays}d` : "", label: "Streak" },
+              { value: String(email.badgeNames.length), label: many ? "New today" : "New", warm: true },
+              { value: email.streakDays ? `${email.streakDays}d` : "", label: "Streak", warm: true },
             ],
           },
           { t: "callout", title: "Keep the chain going", text: "The next medal is usually one or two sessions away." },
         ],
         cta: { label: "See your rewards", url: url("/you/rewards") },
+        tone: "warm",
         sender: "mike",
       };
     }
@@ -150,11 +150,13 @@ function build(email: AppEmail): EmailContent {
               ...(email.verifyCode ? [{ label: "Verification code", value: email.verifyCode }] : []),
             ],
           },
-          ...(email.phases?.length ? [{ t: "section" as const, text: "What you worked through" }, { t: "bullets" as const, items: email.phases }] : []),
+          ...(email.phases?.length ? [{ t: "achievement" as const, label: "Camps you passed on the way up", items: email.phases }] : []),
           { t: "callout", title: "Yours to keep", text: "Your certificate lives in your account — view it, save it as a PDF or share the verification link any time." },
         ],
         cta: { label: "View your certificate", url: url(email.certificateId ? `/you/certificates/${email.certificateId}` : "/you/rewards") },
         secondary: { label: "Choose what's next", url: url("/programs") },
+        hero: { src: "/media/email/certificate.jpg", alt: "Men of Movement on the summit ridge facing Mount Shasta" },
+        tone: "warm",
         sender: "mike",
       };
 
@@ -181,6 +183,7 @@ function build(email: AppEmail): EmailContent {
           { t: "callout", title: "Block the slot", text: "Add your sessions to your calendar from the Plan page — Apple, Google and Outlook all work." },
         ],
         cta: { label: "Open your schedule", url: url("/plan") },
+        hero: { src: "/media/email/schedule.jpg", alt: "Morning practice on the rocks below Mount Shasta" },
         sender: "brand",
       };
 
@@ -198,7 +201,7 @@ function build(email: AppEmail): EmailContent {
             tiles: [
               { value: email.minutes ? `${email.minutes}m` : "", label: "Today" },
               { value: email.lessons?.length ? String(email.lessons.length) : "", label: email.lessons?.length === 1 ? "Session" : "Sessions" },
-              { value: email.streakDays ? `${email.streakDays}d` : "", label: "Streak" },
+              { value: email.streakDays ? `${email.streakDays}d` : "", label: "Streak", warm: true },
             ],
           },
           ...(email.dayLabel ? [{ t: "details" as const, rows: [{ label: "Today", value: email.dayLabel }, ...(email.phaseLabel ? [{ label: "From", value: email.phaseLabel }] : [])] }] : []),
@@ -207,6 +210,7 @@ function build(email: AppEmail): EmailContent {
         ],
         cta: { label: "Start today's session", url: url(email.href ?? "/today") },
         secondary: { label: "Change reminder time", url: url("/plan#reminders") },
+        hero: { src: "/media/email/reminder.jpg", alt: "Mike Salemi in a kettlebell windmill" },
         sender: "brand",
       };
 
@@ -225,14 +229,16 @@ function build(email: AppEmail): EmailContent {
             tiles: [
               { value: String(days), label: "Days" },
               { value: String(email.lessonsCompleted ?? 0), label: "Lessons" },
-              email.minutes ? { value: `${email.minutes}m`, label: "Minutes" } : { value: `${email.streakDays ?? 0}d`, label: "Streak" },
+              email.minutes ? { value: `${email.minutes}m`, label: "Minutes" } : { value: `${email.streakDays ?? 0}d`, label: "Streak", warm: true },
             ],
           },
           { t: "progress", percent: Math.min(100, (days / 5) * 100), label: "Week target · 5 days" },
-          ...(email.wins?.length ? [{ t: "section" as const, text: "Wins this week" }, { t: "bullets" as const, items: email.wins }] : []),
+          ...(email.wins?.length ? [{ t: "achievement" as const, label: "Wins this week", items: email.wins }] : []),
           { t: "callout", title: "Next up", text: email.nextUp ?? "Your next session is waiting on Today." },
         ],
         cta: { label: "Open your progress", url: url("/today") },
+        hero: { src: "/media/email/weekly.jpg", alt: "Mike coaching a member through a kettlebell get-up" },
+        tone: "warm",
         sender: "brand",
       };
     }
@@ -251,10 +257,12 @@ function build(email: AppEmail): EmailContent {
                 ? `Your ${email.streakDays}-day streak is still standing. One session today keeps it alive.`
                 : "It's been a few days. One short session gets you back into the rhythm.",
           },
-          ...(email.lastTrained ? [{ t: "details" as const, rows: [{ label: "Last session", value: email.lastTrained }] }] : []),
+          ...(email.atRisk && email.streakDays ? [{ t: "stats" as const, tiles: [{ value: `${email.streakDays}d`, label: "Streak still standing", warm: true }, { value: email.lastTrained ?? "", label: "Last session" }] }] : []),
+          ...(email.lastTrained && !(email.atRisk && email.streakDays) ? [{ t: "details" as const, rows: [{ label: "Last session", value: email.lastTrained }] }] : []),
           { t: "callout", title: "The 10-minute way back", text: "Do the warm-up only. Most days you'll finish the session anyway." },
         ],
         cta: { label: "Train now", url: url("/today") },
+        tone: "warm",
         sender: "brand",
       };
 
@@ -270,6 +278,7 @@ function build(email: AppEmail): EmailContent {
           ...(email.items?.length ? [{ t: "section" as const, text: "What's included" }, { t: "bullets" as const, items: email.items }] : []),
         ],
         cta: { label: "Open the library", url: url(email.href ?? "/library") },
+        hero: email.image,
         sender: "brand",
       };
 
@@ -306,6 +315,7 @@ function build(email: AppEmail): EmailContent {
         ],
         cta: { label: "Finish setup", url: url("/today") },
         secondary: { label: "Browse the library", url: url("/library") },
+        hero: { src: "/media/email/welcome.jpg", alt: "Mike Salemi in his gym with a kettlebell" },
         sender: "mike",
       };
 

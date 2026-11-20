@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Button, Glass, Icon } from "@/components/ui";
-import { Completion, EmptyScene } from "@/components/graphics";
+import { Button, Icon } from "@/components/ui";
+import { Medal } from "@/components/graphics";
+import { Photo, PubWordmark } from "@/components/discover/public/Pieces";
+import { PHOTOS } from "@/components/discover/public/photos";
 import { loadVerification } from "@/lib/loaders/training";
-import "@/components/training/training.css";
+import "@/components/discover/public/public.css";
 
 export const metadata: Metadata = { title: "Verify a certificate", robots: { index: false } };
 
@@ -13,38 +15,42 @@ export default async function VerifyPage({ params }: { params: Promise<{ code: s
   const { code } = await params;
   const v = await loadVerification(decodeURIComponent(code));
   return (
-    <main className="trn-verify">
-      <Glass level="thick" className="trn-verify-card">
-        {v ? (
-          <>
-            <Completion variant="milestone" size={240} />
-            <span className="trn-verified lq-t13">
-              <Icon name="check" size="xs" /> Verified certificate
-            </span>
-            <h1 className="lq-t34" style={{ textWrap: "balance" }}>{v.name}</h1>
-            <p className="lq-t17">
-              completed <b>{v.program}</b>
-            </p>
-            {v.path && <p className="lq-t15 lq-c2">{v.path}</p>}
-            <p className="lq-t15 lq-c2 lq-num">
-              Issued {fmt(v.issuedAt)}
-              {v.run > 1 ? ` · Run ${v.run}` : ""} · Code {code.toUpperCase()}
-            </p>
-            <Button variant="glass" href="/" style={{ marginTop: 12 }}>
-              About Mike Salemi
-            </Button>
-          </>
-        ) : (
-          <>
-            <EmptyScene scene="caught-up" size={200} />
-            <h1 className="lq-t28">We couldn&apos;t verify that code</h1>
-            <p className="lq-t15 lq-c2">Check the code on the certificate and try again. Codes are 8 letters and numbers.</p>
-            <Button variant="glass" href="/" style={{ marginTop: 12 }}>
-              Go to Mike Salemi
-            </Button>
-          </>
-        )}
-      </Glass>
+    <main className="pub pub-solo">
+      <article className="pub-solo-card">
+        <Photo p={v ? PHOTOS.summitGroup : PHOTOS.summitClouds} sizes="520px" priority>
+          <PubWordmark />
+        </Photo>
+        <div className="pub-solo-body">
+          {v ? (
+            <>
+              <span className="pub-solo-badge" data-tone="ember"><Medal tier="gold" size={76} /></span>
+              <span className="pub-solo-ok"><Icon name="check" size="xs" /> Verified certificate</span>
+              <h1 className="lq-d-lg">{v.name}</h1>
+              <p className="lq-lede">
+                completed <b style={{ color: "var(--text)" }}>{v.program}</b>
+                {v.path ? ` · ${v.path}` : ""}
+              </p>
+              <div className="pub-solo-facts">
+                <div><span>Issued</span><b>{fmt(v.issuedAt)}</b></div>
+                <div><span>Run</span><b className="lq-num">{v.run}</b></div>
+                <div><span>Code</span><b className="lq-num">{code.toUpperCase()}</b></div>
+              </div>
+              <div className="pub-solo-actions">
+                <Button href="/" size="md" variant="secondary">About Mike Salemi</Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <span className="pub-solo-badge" data-tone="accent"><Icon name="search" /></span>
+              <h1 className="lq-d-md">We couldn&rsquo;t verify that code</h1>
+              <p className="lq-t15 lq-c2">Check the code on the certificate and try again. Codes are 8 letters and numbers.</p>
+              <div className="pub-solo-actions">
+                <Button href="/" size="md" variant="secondary">Go to Mike Salemi</Button>
+              </div>
+            </>
+          )}
+        </div>
+      </article>
     </main>
   );
 }

@@ -109,6 +109,7 @@ export function sampleEmail(kind: EmailKind, name?: string): AppEmail {
         title: "Working-In with Paul Chek & Mike Salemi",
         description: "Three follow-along sessions for the days between hard training: breath, flow and grounding.",
         items: ["Working-In · Session 1", "Working-In · Session 2", "Working-In · Session 3"],
+        image: { src: "/media/email/new-content.jpg", alt: "Mike and Paul Chek teaching Working In" },
       };
   }
 }

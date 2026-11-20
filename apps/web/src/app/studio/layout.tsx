@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { FxLayer, Glass, Icon, ToastProvider } from "@/components/ui";
+import { FxLayer, Icon, ToastProvider } from "@/components/ui";
+import { BellMark } from "@/components/shell/Sidebar";
 import { StudioNav } from "@/components/studio/Nav";
 import { studioAdmin } from "@/lib/studio/guard";
 import "@/components/studio/studio.css";
@@ -14,17 +15,23 @@ export default async function StudioLayout({ children }: { children: ReactNode }
     <ToastProvider>
       <FxLayer />
       <div className="st-root">
-        <Glass as="aside" className="st-side" aria-label="Studio sidebar">
-          <Link href="/studio" className="st-brand">
-            <span className="st-brand-mark" aria-hidden><Icon name="kettlebell" size="sm" /></span>
-            <span><b>Studio</b><small>Mike Salemi App</small></span>
+        <aside className="st-side" aria-label="Studio sidebar">
+          <Link href="/studio" className="st-brand" prefetch>
+            <span className="st-brand-mark" aria-hidden><BellMark /></span>
+            <span><b>Studio</b><small>Mike Salemi</small></span>
           </Link>
           <StudioNav />
           <div className="st-side-foot">
-            <span>{admin.email}</span>
-            <Link href="/today" style={{ color: "inherit" }}>Back to the app</Link>
+            <span className="st-side-who">
+              <span className="st-side-av" aria-hidden>{(admin.email[0] ?? "A").toUpperCase()}</span>
+              <span><b>Admin</b><small>{admin.email}</small></span>
+            </span>
+            <span className="st-side-links">
+              <Link href="/today"><Icon name="home" size="xs" /> App</Link>
+              <Link href="/" target="_blank"><Icon name="external" size="xs" /> Site</Link>
+            </span>
           </div>
-        </Glass>
+        </aside>
         <main id="main" className="st-main">{children}</main>
       </div>
     </ToastProvider>

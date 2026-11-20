@@ -1,0 +1,12 @@
+{
+  "programs": [
+    { "programId": "a2888fdd-4bf5-5624-9e99-ba3d4578ecb4", "amountCents": 19700, "currency": "usd", "label": "The Path to Inspired Action", "draftNote": "Draft - price awaiting Mike" },
+    { "programId": "5944a03d-94be-5595-b9da-b212edfdc892", "amountCents": 24900, "currency": "usd", "label": "Athleticism 4 Life", "draftNote": "Draft - price awaiting Mike" },
+    { "programId": "354f9cf4-b33f-5a67-ba60-12e191a6933b", "amountCents": 29700, "currency": "usd", "label": "Mastering the Kettlebell", "draftNote": "Draft - price awaiting Mike" }
+  ],
+  "coaching": [
+    { "programId": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79", "amountCents": 18000, "currency": "usd", "label": "Single session", "draftNote": "Legacy price; awaiting Mike" },
+    { "programId": "9b9b7e4b-0fa2-e35a-00cc-ca46e4bcc650", "amountCents": 25000, "currency": "usd", "label": "Deep dive (recommended)", "draftNote": "Price awaiting Mike" },
+    { "programId": "adb8cfe4-ee9c-7e99-b197-05bed0c63166", "amountCents": 64000, "currency": "usd", "label": "Four-session block", "draftNote": "Price awaiting Mike" }
+  ]
+}
