@@ -240,6 +240,32 @@ function Manage({
               );
             })}
           </div>
+          {(raw.pausedPlans?.length ?? 0) > 0 && (
+            <div className="mng-paused">
+              <h2 className="mng-paused-h">Paused <span className="lq-num">· {raw.pausedPlans!.length}</span></h2>
+              <p className="mng-lede">Off your calendar for now. Resume to put one back.</p>
+              <div className="mng-cards">
+                {raw.pausedPlans!.map((pl) => {
+                  const c = raw.planCounts.find((x) => x.plan_id === pl.id);
+                  return (
+                    <article key={pl.id} className="mng-card" data-paused="">
+                      <div className="mng-card-top">
+                        <Link href={`/plan/${pl.id}`} className="mng-card-t">{pl.name}</Link>
+                        <span className="mng-card-k">Paused</span>
+                      </div>
+                      {c && c.total > 0 && (
+                        <div className="mng-prog">
+                          <ProgressBar value={c.done / c.total} label={`${pl.name} progress`} size="thin" />
+                          <span className="lq-num">{c.done} of {plural(c.total, "session")} done</span>
+                        </div>
+                      )}
+                      <ManagePlanActions planId={pl.id} name={pl.name} status="paused" />
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </section>
       )}
 

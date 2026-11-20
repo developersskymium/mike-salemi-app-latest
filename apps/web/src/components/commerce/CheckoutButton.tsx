@@ -30,6 +30,7 @@ const REASONS: Record<string, string> = {
   application_required: "Apply first — Mike reviews every application.",
   run_not_open: "Bookings for this date aren't open.",
   invalid_coupon: "That code isn't valid.",
+  coupon_not_applicable: "That code can't be used on this.",
   no_price: "This isn't for sale yet.",
   checkout_failed: "Stripe didn't respond. Try again in a moment.",
   order_failed: "We couldn't start your order. Try again in a moment.",
