@@ -438,7 +438,22 @@ export const STEP_VIDEO: Record<SwingStepId, string> = {
   breath: "346098901",
 };
 
+/**
+ * The one editable map of demo moments in Mike's lesson videos (seconds). v1 values = the source
+ * plan's times, signed off as official on Nov 21 (spec 13 › Decided). Edit here only.
+ */
+export const SWING_CLIP_TIMES = {
+  feet: { tripod: 16, setup: 4 * 60 + 48 },
+  hips: { hinge: 40, setup: 2 * 60 + 24 },
+  back: { stick: 24, solo: 3 * 60 + 4 },
+  shoulders: { demo: 16 },
+  head: { demo: 16 },
+  grip: { grip: 8, tail: 3 * 60 + 12 },
+  breath: { breath: 24, swing: 2 * 60 + 32 },
+} as const satisfies Record<SwingStepId, Record<string, number>>;
+
 const clip = (step: SwingStepId, start: number, label: string): SwingClip => ({ step, video: STEP_VIDEO[step], start, label });
+const T = SWING_CLIP_TIMES;
 
 export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
   back_rounding: {
@@ -447,7 +462,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "Long from crown to tailbone",
     why: "Your spine is the beam the bell hangs from. A rounded back leaks the force and loads the spine instead of the hips.",
     do: "Picture a stick along your back touching three points: head, mid-back, tailbone. Keep all three on it as you hinge.",
-    clip: clip("back", 24, "Stick demo with Dr. Drew, side view"),
+    clip: clip("back", T.back.stick, "Stick demo with Dr. Drew, side view"),
   },
   broken_neck: {
     step: "head",
@@ -455,7 +470,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "avoid the \"broken neck\"",
     why: "Looking up past the horizon bends the neck at the top of a straight back.",
     do: "Bring your chin back in line with your back. Neutral, or only slightly up.",
-    clip: clip("head", 16, "Head down, neutral, slight lift, broken neck"),
+    clip: clip("head", T.head.demo, "Head down, neutral, slight lift, broken neck"),
   },
   bell_far: {
     step: "feet",
@@ -463,7 +478,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "bell 0.5–1.5 ft from the toes",
     why: "A bell far in front puts bending force on your spine before the first hike.",
     do: "Set the bell about a foot in front of your toes. The heavier the bell, the closer it sits.",
-    clip: clip("feet", 288, "Set-up with the bell"),
+    clip: clip("feet", T.feet.setup, "Set-up with the bell"),
   },
   bell_near: {
     step: "feet",
@@ -471,7 +486,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "bell 0.5–1.5 ft from the toes",
     why: "Too close and you can't hike it back into the swing; you'll lift it straight up.",
     do: "Give the bell a little room: about a foot in front of your toes.",
-    clip: clip("feet", 288, "Set-up with the bell"),
+    clip: clip("feet", T.feet.setup, "Set-up with the bell"),
   },
   squat_pattern: {
     step: "hips",
@@ -479,7 +494,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "Back, then down",
     why: "Tilted shins and low hips turn the swing into a squat, and the hips stop doing the work.",
     do: "Send the hips back first, then bend the knees only as much as you need. Shins near vertical.",
-    clip: clip("hips", 40, "Karate-chop hinge"),
+    clip: clip("hips", T.hips.hinge, "Karate-chop hinge"),
   },
   shoulders_hiked: {
     step: "shoulders",
@@ -487,7 +502,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "Shoulders down away from the ears",
     why: "Hiked shoulders switch off the lats that connect the bell to your body.",
     do: "Pull the shoulders down away from the ears and bend the handle so the elbow creases turn forward.",
-    clip: clip("shoulders", 16, "Hands-on demo with Dr. Drew"),
+    clip: clip("shoulders", T.shoulders.demo, "Hands-on demo with Dr. Drew"),
   },
   hips_high: {
     step: "hips",
@@ -495,7 +510,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "hips above knees, below shoulders",
     why: "Hips above the shoulders turn the set-up into a stiff-legged reach.",
     do: "Unlock the knees a touch and sit the hips back, so they land between your knees and shoulders.",
-    clip: clip("hips", 144, "Set-up and backswing"),
+    clip: clip("hips", T.hips.setup, "Set-up and backswing"),
   },
   shin_tilt: {
     step: "hips",
@@ -503,7 +518,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "shins near vertical",
     why: "Forward shins move the load from the hips to the knees.",
     do: "Push the hips further back until you feel the hamstring stretch and the shins stand up.",
-    clip: clip("hips", 40, "Karate-chop hinge"),
+    clip: clip("hips", T.hips.hinge, "Karate-chop hinge"),
   },
   head_high: {
     step: "head",
@@ -511,7 +526,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "Neutral, or slightly up so the eyes hold the horizon",
     why: "A little lift is fine. Much more and the neck starts to bend.",
     do: "Ease the chin back so your head stays in line with your back.",
-    clip: clip("head", 16, "Head down, neutral, slight lift, broken neck"),
+    clip: clip("head", T.head.demo, "Head down, neutral, slight lift, broken neck"),
   },
   head_down: {
     step: "head",
@@ -519,7 +534,7 @@ export const SWING_FIXES: Record<FaultId, Omit<SwingFix, "fault">> = {
     cue: "Long from crown to tailbone",
     why: "A dropped head pulls the upper back round with it.",
     do: "Bring the back of your head in line with your back, as if the stick touches it.",
-    clip: clip("head", 16, "Head down, neutral, slight lift, broken neck"),
+    clip: clip("head", T.head.demo, "Head down, neutral, slight lift, broken neck"),
   },
 };
 
@@ -531,9 +546,9 @@ const NECK_SAFE: Partial<Record<FaultId, Partial<Omit<SwingFix, "fault">>>> = {
 
 /** Self-check prompts for the steps the camera can't measure in v1. */
 export const SELF_CHECKS: Record<"feet" | "grip" | "breath", { cue: string; prompt: string; clip: SwingClip }> = {
-  feet: { cue: "Root through the floor", prompt: "Tripod down (big toe, little toe, heel), toes flat, a 10–20% press through the tips. Bell 0.5–1.5 ft in front of your toes.", clip: clip("feet", 16, "Tripod drill") },
-  grip: { cue: "Relaxed yet secure", prompt: "Hands on the handle, firm but not white-knuckled. A bell that swings out like a tail means the grip is too loose.", clip: clip("grip", 8, "Two-hand grip, close-up") },
-  breath: { cue: "Rock back so the bell tips off the floor, belly breath in, draw the navel in, hold", prompt: "Before the hike: rock back, belly breath in, navel in, hold, then hike.", clip: clip("breath", 24, "Set-up, tip-back and breath") },
+  feet: { cue: "Root through the floor", prompt: "Tripod down (big toe, little toe, heel), toes flat, a 10–20% press through the tips. Bell 0.5–1.5 ft in front of your toes.", clip: clip("feet", T.feet.tripod, "Tripod drill") },
+  grip: { cue: "Relaxed yet secure", prompt: "Hands on the handle, firm but not white-knuckled. A bell that swings out like a tail means the grip is too loose.", clip: clip("grip", T.grip.grip, "Two-hand grip, close-up") },
+  breath: { cue: "Rock back so the bell tips off the floor, belly breath in, draw the navel in, hold", prompt: "Before the hike: rock back, belly breath in, navel in, hold, then hike.", clip: clip("breath", T.breath.breath, "Set-up, tip-back and breath") },
 };
 
 /* ------------------------------------------------------------------ coach seam */
@@ -568,6 +583,10 @@ export const ruleCoach: Coach = {
 
 /* ------------------------------------------------------------------ 2-week program */
 
+/** Listed after each session when the program is run on its own. */
+export const SWING_PROGRAM_EXTRAS = ["Goblet squat", "Reverse hyper", "Side plank raise"] as const;
+export const SWING_PROGRAM_EXTRAS_DOSE = "2–4 sets of 8–12";
+
 export interface SwingSession {
   n: number;
   reps: number;
@@ -575,8 +594,7 @@ export interface SwingSession {
 }
 
 /**
- * The ebook's 2-week program: 6 sessions on the minute, 8–14 reps, 3–8 sets (rows are a draft
- * spread of those ranges until Mike's exact table is entered).
+ * The ebook's 2-week program: 6 sessions, every minute on the minute (decided Nov 21, spec 13).
  */
 export const SWING_PROGRAM: SwingSession[] = [
   { n: 1, reps: 8, sets: 3 },

@@ -32,6 +32,8 @@ export interface SetupProfile {
   bell_kg: number | null;
   goal: Goal | null;
   disclaimer_at: string | null;
+  /** "I'm 18 or older", confirmed with the disclaimer (required for the camera check). */
+  adult_confirmed_at?: string | null;
 }
 
 export interface SavedCheck {

@@ -3,6 +3,7 @@ import { SwingCoach, type SwingView } from "@/components/swing/SwingCoach";
 import { Button, EmptyState } from "@/components/ui";
 import { EmptyScene } from "@/components/graphics";
 import { loadSwingHome } from "@/lib/loaders/swing";
+import { hasCameraAccess } from "@/lib/swing-access";
 import "@/components/swing/swing.css";
 
 export const metadata: Metadata = {
@@ -19,8 +20,9 @@ const VIEWS: SwingView[] = ["home", "profile", "check", "result", "approach", "f
 export default async function SwingSetupPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const sp = await searchParams;
   let data;
+  let cameraAccess = false;
   try {
-    data = await loadSwingHome();
+    [data, cameraAccess] = await Promise.all([loadSwingHome(), hasCameraAccess().catch(() => false)]);
   } catch {
     return (
       <EmptyState
@@ -32,5 +34,5 @@ export default async function SwingSetupPage({ searchParams }: { searchParams: P
     );
   }
   const view = VIEWS.includes(sp.view as SwingView) ? (sp.view as SwingView) : "home";
-  return <SwingCoach data={data} initialView={view} />;
+  return <SwingCoach data={data} initialView={view} cameraAccess={cameraAccess} />;
 }

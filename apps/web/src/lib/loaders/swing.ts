@@ -12,7 +12,7 @@ export const loadSwingHome = mockable("swing-setup", async (): Promise<SwingHome
   if (!user) throw new Error("Not signed in");
   const sb = supabase as Loose;
   const [profile, checks, run, selector, tp] = await Promise.all([
-    sb.from("setup_profiles").select("neck_history, bell_type, bell_kg, goal, disclaimer_at").eq("user_id", user.id).maybeSingle(),
+    sb.from("setup_profiles").select("neck_history, bell_type, bell_kg, goal, disclaimer_at, adult_confirmed_at").eq("user_id", user.id).maybeSingle(),
     sb.from("setup_checks").select("id, created_at, measures, steps, main_fault, faults").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12),
     sb.from("swing_program_runs").select("id, bell_kg, started_at, finished_at, swing_program_sets(session, set_no, reps, feel, created_at)").eq("user_id", user.id).order("started_at", { ascending: false }).limit(1).maybeSingle(),
     sb.from("tool_results").select("answers, result").eq("user_id", user.id).eq("tool_id", "kettlebell-selector").order("created_at", { ascending: false }).limit(1).maybeSingle(),

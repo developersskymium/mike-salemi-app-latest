@@ -26,3 +26,16 @@ Bell tracking (toe-to-bell distance, tail in the backswing), front view / stance
 
 ## Decisions for Mike
 Pass ranges (draft, from the plan); feet wording (we use the video version: toes flat, 10–20 % press); draft video timestamps; who gets the camera check (v1: every signed-in member); under-18s.
+
+## Decided (Nov 21, client)
+1. **Video timestamps:** the plan's draft times are the official v1 values, in one editable map, `SWING_CLIP_TIMES` (`packages/core/src/swing-setup.ts`): Feet set-up 4:48, tripod drill 0:16 · Hips hinge 0:40, set-up/backswing 2:24 · Back stick demo 0:24, solo drill 3:04 · Shoulders 0:16 · Head 0:16 · Grip 0:08, tail ~3:12 · Breath 0:24, swing demo 2:32.
+2. **Pass ranges:** the plan's drafts plus the back-length rule (back length vs standing tall: < 0.88 rounding, 0.88–0.93 adjust) are v1.
+3. **Feet wording:** the video version: toes flat, a 10–20% press through the tips.
+4. **2-week program:** S1 8 × 3, S2 10 × 4, S3 10 × 5, S4 12 × 6, S5 12 × 7, S6 14 × 8, every minute on the minute. Starting bell 16 kg men / 8 kg women, or the Kettlebell Selector result. Extras after each session: goblet squat, reverse hyper, side plank raise, 2–4 × 8–12.
+5. **Access:** guided modes (Approach, Feet drill, 2-week program) for every signed-in member. The camera check for members with any active plan or any purchased program (an access state `included` or `owned`; `lib/swing-access.ts`), and admins always. Others see it locked: "Included with any plan" + See plans. The save action re-checks on the server.
+6. **Under-18s:** no camera check. The one-time disclaimer has a required "I'm 18 or older" confirmation, stored as `setup_profiles.adult_confirmed_at` (migration 0035). Without it the check doesn't open; "I'm under 18" explains and points to the guided modes.
+7. **Saving and email:** every check is saved and listed in Saves (a `tool_results` row), but no email per check: 0035 makes the outbox trigger skip `tool_id = 'swing-setup'`.
+8. **Tools page heading:** "Tools that coach you".
+9. **AI coach:** later. The `Coach` seam stays (`ruleCoach` today); it needs `ANTHROPIC_API_KEY` on Vercel.
+
+**Posture graphic (client feedback):** the dark panel with stick lines is replaced by a side-view body diagram built from the member's landmarks (rounded head, torso and limb capsules, a competition bell on the floor, porcelain card, floor line) with only the measurements on top: shin-angle arc, hip zone, dotted back line, head-angle arc; green good, amber adjust, red fix. A faint target set-up sits behind. `components/swing/PostureFigure.tsx`; the live camera view keeps the thin 4-line overlay.

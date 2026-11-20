@@ -24,7 +24,7 @@ export interface CheckOutcome {
   bellDistance: BellDistance;
 }
 
-type Phase = "disclaimer" | "place" | "camera" | "bell" | "stop";
+type Phase = "disclaimer" | "under18" | "place" | "camera" | "bell" | "stop";
 type Stage = "loading" | "error" | "denied" | "frame" | "stand" | "ready" | "hold";
 
 const STAND_MS = 2000;
@@ -50,6 +50,7 @@ export function SetupCheck({
   onExit: () => void;
 }) {
   const [phase, setPhase] = useState<Phase>(needsDisclaimer ? "disclaimer" : "place");
+  const [adult, setAdult] = useState(false);
   const [held, setHeld] = useState<{ assessment: SetupAssessment; aspect: number; pose: Pose; cal: Calibration | null } | null>(null);
   const speech = useSpeech();
 
@@ -73,10 +74,22 @@ export function SetupCheck({
             <li>Use a bell you can control. The check only looks at your position, never the load.</li>
             <li>Your camera feed stays on this device. Only the measurements are saved to your account.</li>
           </ul>
+          <label className="sw-adult">
+            <input type="checkbox" checked={adult} onChange={(e) => setAdult(e.target.checked)} />
+            <span><b>I’m 18 or older.</b> The camera check is for adults only.</span>
+          </label>
           <div className="sw-actions">
-            <Button variant="filled" size="lg" onClick={() => { onAcceptDisclaimer(); setPhase("place"); }}>I understand, continue</Button>
-            <Button variant="ghost" size="lg" onClick={onExit}>Not now</Button>
+            <Button variant="filled" size="lg" disabled={!adult} onClick={() => { onAcceptDisclaimer(); setPhase("place"); }}>I understand, continue</Button>
+            <Button variant="ghost" size="lg" onClick={() => setPhase("under18")}>I’m under 18</Button>
           </div>
+        </section>
+      )}
+
+      {phase === "under18" && (
+        <section className="sw-panel sw-narrow" aria-labelledby="sw-u18-h">
+          <h1 id="sw-u18-h" className="sw-h1">The camera check is for 18 and over</h1>
+          <p className="sw-body">You can still learn the set-up: Mike’s 7 step videos, the Approach, the Feet drill and the 2-week program are all open to you.</p>
+          <div className="sw-actions"><Button variant="filled" size="lg" onClick={onExit}>Back to the coach</Button></div>
         </section>
       )}
 

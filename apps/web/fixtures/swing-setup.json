@@ -4,7 +4,8 @@
   "bell_type": "competition",
   "bell_kg": 16,
   "goal": "fix",
-  "disclaimer_at": "2026-11-14T08:00:00+00:00"
+  "disclaimer_at": "2026-11-14T08:00:00+00:00",
+  "adult_confirmed_at": "2026-11-14T08:00:00+00:00"
  },
  "checks": [
   {

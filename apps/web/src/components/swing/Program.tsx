@@ -1,6 +1,6 @@
 "use client";
 
-import { SWING_PROGRAM, type SwingSession } from "@ms/core";
+import { SWING_PROGRAM, SWING_PROGRAM_EXTRAS, SWING_PROGRAM_EXTRAS_DOSE, type SwingSession } from "@ms/core";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { NumberStepper } from "@/components/intake/QuestionShell";
 import { Button, Icon } from "@/components/ui";
@@ -93,8 +93,8 @@ export function ProgramHome({
           </ol>
           {!next && <p className="sw-body sw-done-note"><b>Two weeks done.</b> Run it again with one more set per session, or move up a bell and start back at session 1.</p>}
           <section className="sw-extras" aria-labelledby="sw-extras-h">
-            <h2 id="sw-extras-h" className="sw-h3">When you run it on its own, add</h2>
-            <p className="sw-body sw-c2">Goblet squats, reverse hypers and side plank raises: 2–4 sets of 8–12.</p>
+            <h2 id="sw-extras-h" className="sw-h3">After each session, when you run it on its own</h2>
+            <p className="sw-body sw-c2">{SWING_PROGRAM_EXTRAS.join(", ")}: {SWING_PROGRAM_EXTRAS_DOSE} each.</p>
           </section>
         </>
       )}
@@ -177,6 +177,12 @@ export function EmomSession({ session, bellKg, neck, onExit, onSave }: { session
               </li>
             ))}
           </ol>
+          <section className="sw-extras-after" aria-labelledby="sw-ex-h">
+            <h2 id="sw-ex-h" className="sw-h3">Then, if you’re running the program on its own</h2>
+            <ul>
+              {SWING_PROGRAM_EXTRAS.map((x) => <li key={x}><b>{x}</b> <span>{SWING_PROGRAM_EXTRAS_DOSE}</span></li>)}
+            </ul>
+          </section>
           <div className="sw-actions">
             <Button variant="filled" size="lg" disabled={saving} onClick={async () => { setSaving(true); await onSave(log); setSaving(false); }}>Save session</Button>
             <Button variant="ghost" size="lg" onClick={onExit}>Discard</Button>

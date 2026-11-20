@@ -1,6 +1,6 @@
 "use client";
 
-import { fixFor, startingBell, stepScore, SWING_STEPS, type StepStatus } from "@ms/core";
+import { fixFor, startingBell, stepScore, SWING_STEPS } from "@ms/core";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,8 @@ import { acceptSwingDisclaimer, logSwingSession, saveSetupCheck, saveSetupProfil
 import { PHOTO } from "@/lib/photos";
 import { firstKg, lessonHref, type ProgramRun, type SavedCheck, type SetupProfile, type SwingHomeData } from "@/lib/swing";
 import { approachSteps, feetSteps } from "./modes";
-import { cueText, SetupOverlay } from "./Overlay";
+import { cueText } from "./Overlay";
+import { PostureFigure } from "./PostureFigure";
 import { ProfileFlow } from "./ProfileFlow";
 import { ProgramHome } from "./Program";
 import { Scorecard } from "./Scorecard";
@@ -25,7 +26,9 @@ const GOAL_LABEL = { learn: "Learn the set-up", fix: "Fix a known fault", progra
  * Swing Set-Up Coach root: the tool home and its modes (profile, camera check, scorecard, Approach
  * ritual, Feet drill, 2-week program). One client component so modes switch instantly.
  */
-export function SwingCoach({ data, initialView }: { data: SwingHomeData; initialView: SwingView }) {
+export function SwingCoach({ data, initialView: asked, cameraAccess }: { data: SwingHomeData; initialView: SwingView; cameraAccess: boolean }) {
+  // Without camera access the check opens as the locked home (guided modes stay open).
+  const initialView: SwingView = asked === "check" && !cameraAccess ? "home" : asked;
   const router = useRouter();
   const toast = useToast();
   const [profile, setProfile] = useState<SetupProfile | null>(data.profile);
@@ -47,6 +50,10 @@ export function SwingCoach({ data, initialView }: { data: SwingHomeData; initial
   const kgSource = data.prefill.selectorKg ? "your Kettlebell Selector result" : kgFromProfile ? "your training profile" : null;
   const neck = !!profile?.neck_history;
   const open = (v: SwingView) => {
+    if (v === "check" && !cameraAccess) {
+      document.getElementById("sw-locked")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
     if (!profile && v !== "home") {
       setAfter(v);
       setView("profile");
@@ -79,12 +86,13 @@ export function SwingCoach({ data, initialView }: { data: SwingHomeData; initial
   if (view === "check")
     return (
       <SetupCheck
-        needsDisclaimer={!profile?.disclaimer_at}
+        needsDisclaimer={!profile?.disclaimer_at || !profile?.adult_confirmed_at}
         neckHistory={neck}
         onExit={() => setView("home")}
         onAcceptDisclaimer={() => {
-          setProfile((p) => (p ? { ...p, disclaimer_at: new Date().toISOString() } : p));
-          void acceptSwingDisclaimer();
+          const now = new Date().toISOString();
+          setProfile((p) => (p ? { ...p, disclaimer_at: now, adult_confirmed_at: now } : p));
+          void acceptSwingDisclaimer(true);
         }}
         onDone={async (o: CheckOutcome) => {
           const check = toSaved(o, neck);
@@ -103,7 +111,7 @@ export function SwingCoach({ data, initialView }: { data: SwingHomeData; initial
     );
 
   if (view === "result" && result)
-    return <Scorecard check={result.check} saving={result.saving} onAgain={() => open("check")} onHome={home} />;
+    return <Scorecard check={result.check} bellKg={profile?.bell_kg ?? suggestedKg} saving={result.saving} onAgain={() => open("check")} onHome={home} />;
 
   if (view === "approach" || view === "feet") return <Guided kind={view} neck={neck} onExit={() => setView("home")} />;
 
@@ -137,6 +145,7 @@ export function SwingCoach({ data, initialView }: { data: SwingHomeData; initial
 
   return (
     <Home
+      cameraAccess={cameraAccess}
       profile={profile}
       checks={checks}
       run={run}
@@ -214,6 +223,7 @@ function Guided({ kind, neck, onExit }: { kind: "approach" | "feet"; neck: boole
 /* ------------------------------------------------------------------ home */
 
 function Home({
+  cameraAccess,
   profile,
   checks,
   run,
@@ -221,6 +231,7 @@ function Home({
   onOpen,
   onResult,
 }: {
+  cameraAccess: boolean;
   profile: SetupProfile | null;
   checks: SavedCheck[];
   run: ProgramRun | null;
@@ -240,10 +251,21 @@ function Home({
           <p className="sw-kicker">From <Link href={`/programs/what-your-kettlebell-swing-is-missing/course`}>What Your Kettlebell Swing Is Missing</Link></p>
           <h1 className="sw-display">Swing Set-Up Coach</h1>
           <p className="sw-lede">Film your set-up side-on. The coach measures it against Mike’s 7 steps and gives you one fix at a time, in his words, with the moment in his video that shows it.</p>
-          <div className="sw-actions">
-            <Button variant="filled" size="lg" icon="video" onClick={() => onOpen("check")}>Check my set-up</Button>
-            <span className="sw-hero-meta">About 2 minutes · the video stays on your phone</span>
-          </div>
+          {cameraAccess ? (
+            <div className="sw-actions">
+              <Button variant="filled" size="lg" icon="video" onClick={() => onOpen("check")}>Check my set-up</Button>
+              <span className="sw-hero-meta">About 2 minutes · the video stays on your phone</span>
+            </div>
+          ) : (
+            <div className="sw-locked" id="sw-locked">
+              <span className="sw-locked-ic" aria-hidden><Icon name="lock" size="sm" /></span>
+              <div className="sw-locked-body">
+                <p className="sw-locked-title">The camera check is included with any plan</p>
+                <p className="sw-locked-text">Film your set-up and get one fix at a time from Mike’s 7 steps. The Approach, the Feet drill and the 2-week program below are open to you now.</p>
+              </div>
+              <Button variant="filled" size="md" href="/pricing">See plans</Button>
+            </div>
+          )}
         </div>
         <div className="sw-hero-photo">
           <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 420px, 100vw" style={{ objectFit: "cover", objectPosition: photo.focal }} />
@@ -252,12 +274,8 @@ function Home({
 
       <div className="sw-home-grid">
         <section className="sw-card sw-last" aria-labelledby="sw-last-h">
-          <div className="sw-last-fig">
-            {last?.measures.overlay ? (
-              <SetupOverlay fit="body" points={last.measures.overlay} aspect={last.measures.aspect ?? 0.5625} status={{ back: st(last.steps.back), shin: st(last.steps.hips), hip: st(last.steps.hips), head: st(last.steps.head) }} />
-            ) : (
-              <EmptyFigure />
-            )}
+          <div className="sw-last-fig sw-pfcard">
+            {last ? <PostureFigure check={last} bellKg={profile?.bell_kg ?? suggestedKg} compact /> : <PostureFigure check={EMPTY_CHECK} bellKg={profile?.bell_kg ?? suggestedKg} compact />}
           </div>
           <div className="sw-last-body">
             {last ? (
@@ -312,7 +330,12 @@ function Home({
   );
 }
 
-const st = (s: StepStatus | undefined) => (s === "self" || !s ? undefined : s);
+/** No check yet: the target set-up on its own. */
+const EMPTY_CHECK: Pick<SavedCheck, "measures" | "steps" | "faults"> = {
+  measures: { side: "right", sideOn: 0, visibility: 0, shin: null, hip: null, head: null, torsoRatio: null, gapRatio: null, calibrated: false, overlay: null },
+  steps: { feet: "self", hips: "cant", back: "cant", shoulders: "cant", head: "cant", grip: "self", breath: "self" },
+  faults: [],
+};
 
 function ModeRow({ icon, title, meta, text, onClick }: { icon: "wind" | "steps" | "timer"; title: string; meta: string; text: string; onClick: () => void }) {
   return (
@@ -327,17 +350,6 @@ function ModeRow({ icon, title, meta, text, onClick }: { icon: "wind" | "steps" 
         <Icon name="chevron" size="sm" className="sw-mode-go" />
       </button>
     </li>
-  );
-}
-
-function EmptyFigure() {
-  return (
-    <svg viewBox="0 0 56 100" className="sw-overlay sw-overlay-empty" aria-hidden>
-      <line x1="16" y1="88" x2="19" y2="70" className="sw-ov-line" data-tone="neutral" strokeWidth={1.2} />
-      <line x1="19" y1="70" x2="9" y2="58" className="sw-ov-line sw-ov-thin" data-tone="neutral" strokeWidth={0.9} />
-      <line x1="7" y1="59" x2="44" y2="38" className="sw-ov-line" data-tone="neutral" strokeWidth={1.4} />
-      <circle cx="46" cy="35" r="3.2" className="sw-ov-dot" />
-    </svg>
   );
 }
 

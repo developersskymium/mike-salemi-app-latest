@@ -6,6 +6,7 @@ import { z } from "zod";
 import { MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import { SWING_TOOL_ID } from "@/lib/swing";
+import { hasCameraAccess } from "@/lib/swing-access";
 
 export type SwingResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -49,10 +50,12 @@ export async function saveSetupProfile(input: z.infer<typeof profileSchema>): Pr
   });
 }
 
-/** Accepts the disclaimer before the first check (keeps the other answers). */
-export async function acceptSwingDisclaimer(): Promise<SwingResult<true>> {
+/** Accepts the disclaimer and the "I'm 18 or older" confirmation before the first check (keeps the other answers). */
+export async function acceptSwingDisclaimer(adult: boolean): Promise<SwingResult<true>> {
+  if (adult !== true) return { ok: false, error: "The camera check is for members 18 and over." };
   return run(async (sb, userId) => {
-    const { error } = await sb.from("setup_profiles").upsert({ user_id: userId, disclaimer_at: new Date().toISOString(), updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+    const now = new Date().toISOString();
+    const { error } = await sb.from("setup_profiles").upsert({ user_id: userId, disclaimer_at: now, adult_confirmed_at: now, updated_at: now }, { onConflict: "user_id" });
     if (error) throw new Error(error.message);
     return true as const;
   });
@@ -83,14 +86,18 @@ const checkSchema = z.object({
 
 /**
  * Saves one Set-Up Check: only numbers (no video, no images), plus a summary row in tool_results
- * so it shows in Saves like the other tools.
+ * so it shows in Saves like the other tools (no email: 0035 skips swing-setup in the outbox trigger).
+ * Members with camera access (any plan or purchase, or admin) who confirmed they are 18+.
  */
 export async function saveSetupCheck(input: z.infer<typeof checkSchema>): Promise<SwingResult<{ id: string }>> {
   const p = checkSchema.safeParse(input);
   if (!p.success) return { ok: false, error: "That check couldn't be saved." };
   const faults = FAULT_PRIORITY.filter((f) => p.data.faults.includes(f));
   const main = faults[0] ?? null;
+  if (!MOCK && !(await hasCameraAccess())) return { ok: false, error: "The camera check is included with any plan." };
   return run(async (sb, userId) => {
+    const { data: prof } = await sb.from("setup_profiles").select("adult_confirmed_at").eq("user_id", userId).maybeSingle();
+    if (!prof?.adult_confirmed_at) throw new Error("adult confirmation missing");
     const { data, error } = await sb
       .from("setup_checks")
       .insert({ user_id: userId, measures: p.data.measures, steps: p.data.steps, faults, main_fault: main })

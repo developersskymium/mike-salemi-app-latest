@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button, Icon } from "@/components/ui";
 import { lessonHref, type SavedCheck } from "@/lib/swing";
-import { cueText, SetupOverlay } from "./Overlay";
+import { cueText } from "./Overlay";
+import { PostureFigure, PostureLegend } from "./PostureFigure";
 
 const STATUS: Record<StepStatus, string> = { good: "Good", adjust: "Adjust", self: "Self-check", cant: "Can't see it" };
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
@@ -32,11 +33,10 @@ const CANT_HOW: Partial<Record<SwingStepId, string>> = {
   head: "Keep your head in the frame and the light in front of you.",
 };
 
-export function Scorecard({ check, onAgain, onHome, saving }: { check: SavedCheck; onAgain: () => void; onHome: () => void; saving?: "saving" | "saved" | "preview" | "error" | null }) {
+export function Scorecard({ check, onAgain, onHome, saving, bellKg }: { check: SavedCheck; onAgain: () => void; onHome: () => void; saving?: "saving" | "saved" | "preview" | "error" | null; bellKg?: number }) {
   const neck = !!check.measures.neck_history;
   const fix = check.main_fault ? fixFor(check.main_fault, neck) : null;
   const also = check.faults.filter((f) => f !== check.main_fault).slice(0, 2).map((f: FaultId) => fixFor(f, neck));
-  const ov = check.measures.overlay;
   const measured = SWING_STEPS.filter((s) => s.measured);
   const goodCount = measured.filter((s) => check.steps[s.id] === "good").length;
   const cantAll = measured.every((s) => check.steps[s.id] === "cant");
@@ -57,17 +57,10 @@ export function Scorecard({ check, onAgain, onHome, saving }: { check: SavedChec
 
       <div className="sw-score-grid">
         <figure className="sw-figure">
-          {ov ? (
-            <SetupOverlay fit="body" points={ov} aspect={check.measures.aspect ?? 0.5625} status={{ back: st(check.steps.back), shin: st(check.steps.hips), hip: st(check.steps.hips), head: st(check.steps.head) }} />
-          ) : (
-            <div className="sw-figure-empty"><Icon name="video" size="lg" /><p>Can’t see it</p></div>
-          )}
-          <figcaption className="sw-legend">
-            <span><i data-k="stick" /> The stick: your back line</span>
-            <span><i data-k="shin" /> Shin line</span>
-            <span><i data-k="band" /> Hip band: knee to shoulder</span>
-            <span><i data-k="head" /> Head line</span>
-          </figcaption>
+          <div className="sw-pfcard sw-pfcard-lg">
+            <PostureFigure check={check} bellKg={bellKg} />
+          </div>
+          <figcaption><PostureLegend check={check} /></figcaption>
         </figure>
 
         <div className="sw-score-main">
@@ -121,7 +114,6 @@ export function Scorecard({ check, onAgain, onHome, saving }: { check: SavedChec
   );
 }
 
-const st = (s: StepStatus | undefined) => (s === "self" || !s ? undefined : s);
 
 function FixCard({ fix }: { fix: SwingFix }) {
   return (

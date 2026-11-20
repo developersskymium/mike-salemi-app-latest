@@ -15,7 +15,9 @@ import {
   startingBell,
   steadiestPose,
   stepScore,
+  SWING_CLIP_TIMES,
   SWING_FIXES,
+  SWING_PROGRAM,
   type FaultId,
   type Pose,
 } from "./swing-setup";
@@ -221,6 +223,13 @@ describe("Mike's words", () => {
       ...Object.values(SELF_CHECKS).map((c) => c.cue),
     ];
     for (const cue of cues) expect(source, cue).toContain(cue.toLowerCase());
+  });
+  it("every clip comes from the one editable time map", () => {
+    const times = new Set(Object.values(SWING_CLIP_TIMES).flatMap((m) => Object.values(m)));
+    for (const f of Object.keys(SWING_FIXES)) expect(times.has(fixFor(f as FaultId, false).clip.start)).toBe(true);
+    for (const c of Object.values(SELF_CHECKS)) expect(times.has(c.clip.start)).toBe(true);
+    expect(SWING_CLIP_TIMES.feet.setup).toBe(288);
+    expect(SWING_PROGRAM.map((s) => [s.reps, s.sets])).toEqual([[8, 3], [10, 4], [10, 5], [12, 6], [12, 7], [14, 8]]);
   });
   it("step scores and starting bell", () => {
     expect([stepScore("good"), stepScore("adjust"), stepScore("cant"), stepScore("self")]).toEqual([2, 1, null, null]);
