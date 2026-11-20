@@ -186,3 +186,83 @@
   .pk-sug-b { padding: 14px 16px 16px; }
   .pk-sug-go { display: none; }
 }
+
+/* ---------------------------------------------------------------- top row with schedules (client, Nov 21):
+   the hero takes a third, "Continue your plans" the rest, same height. Phone: hero first, plans below. */
+.pk-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.pk-top-hero { display: flex; min-width: 0; }
+.pk-top-hero > .sm-hero { flex: 1; min-width: 0; }
+@media (min-width: 1100px) { .pk-top { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 20px; } }
+
+/* The compact hero: vertical scrim, smaller type, the thin progress line in place of the ring panel. */
+.pk-top .pk-hero { border-radius: 24px; }
+.pk-top .pk-hero::after { background: linear-gradient(180deg, rgba(6, 12, 22, .3) 0%, rgba(6, 12, 22, .1) 22%, rgba(6, 12, 22, .62) 48%, rgba(6, 12, 22, .92) 100%) !important; }
+.pk-top .pk-hero .sm-hero-content { padding: 28px 28px 28px; max-width: none; }
+.pk-top .pk-hero-k { font-size: 12px; margin-bottom: 10px; }
+.pk-top .pk-hero .sh-hero-t { font-size: clamp(30px, 2.7vw, 40px); line-height: 1.02; margin: 12px 0 8px; }
+.pk-top .pk-hero .sh-hero-meta { font-size: 15px; }
+.pk-top .pk-hero-prog { display: flex; margin-top: 16px; max-width: none; }
+.pk-top .pk-hero .sh-hero-actions { margin-top: 20px; gap: 14px 18px; }
+.pk-top .pk-hero-alt { font-size: 14px; }
+@media (max-width: 719px) { .pk-top .pk-hero { min-height: 440px !important; } .pk-top .pk-hero .sm-hero-content { padding: 24px 22px; } .pk-top .pk-hero .sh-hero-t { font-size: 34px; } }
+
+/* "Continue your plans" panel: hairline card, one calm row per plan. */
+.pk-plans { display: flex; flex-direction: column; min-width: 0; padding: 22px 24px 20px; border-radius: 24px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.pk-plans-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.pk-plans-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; flex: 1; }
+.pk-plans-list > li + li { border-top: 1px solid var(--line); }
+.pk-plan { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 16px 0; color: inherit; text-decoration: none; border-radius: 12px; }
+.pk-plan:focus-visible, .pk-sess:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pk-plan-main { display: grid; gap: 7px; min-width: 0; }
+.pk-plan-name { display: flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
+.pk-plan-name > i { width: 8px; height: 8px; border-radius: 50%; background: var(--pc); flex: none; }
+.pk-plan-name > b { font: 650 16px/1.25 var(--font-display); letter-spacing: -.01em; color: var(--text); }
+.pk-plan-sub { font: 500 13.5px/1.25 var(--font); color: var(--text-2); }
+.pk-plan-tag { padding: 3px 8px; border-radius: 99px; font: 600 11.5px/1 var(--font); color: var(--text-2); background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); }
+.pk-plan-next { font: 500 14px/1.35 var(--font); color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pk-plan-next b { font-weight: 650; color: var(--text); }
+.pk-plan-next[data-today] b { color: var(--accent-ink, var(--accent)); }
+.pk-plan-prog { white-space: nowrap; display: flex; align-items: center; gap: 12px; font: 500 12.5px/1 var(--font); color: var(--text-3, var(--text-2)); }
+.pk-plan-bar { flex: 0 1 220px; height: 4px; border-radius: 99px; background: var(--surface-sunk); overflow: hidden; }
+.pk-plan-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--pc); }
+.pk-plan-go { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border-radius: 99px; font: 650 14px/1 var(--font); white-space: nowrap;
+  color: var(--text); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-strong); transition: background .2s, box-shadow .2s; }
+.pk-plan-go[data-primary] { color: #fff; background: var(--accent); box-shadow: none; }
+.pk-plan:hover .pk-plan-go:not([data-primary]), .pk-sess:hover .pk-plan-go:not([data-primary]) { background: var(--surface-sunk); }
+.pk-plan:hover .pk-plan-go[data-primary], .pk-sess:hover .pk-plan-go[data-primary] { background: color-mix(in srgb, var(--accent) 88%, #000); }
+.pk-plan:hover .pk-plan-name > b { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.pk-plans-more { margin: 10px 0 0; font-size: 14px; }
+
+/* One plan: its summary, then the next few sessions. */
+.pk-plan-one { display: grid; gap: 8px; padding: 10px 0 14px; border-bottom: 1px solid var(--line); }
+.pk-sess { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 13px 0; color: inherit; text-decoration: none; border-radius: 12px; }
+.pk-sess-when { font: 600 13px/1.2 var(--font); color: var(--text-2); }
+.pk-sess[data-today] .pk-sess-when { color: var(--accent-ink, var(--accent)); }
+.pk-sess-b { display: grid; gap: 2px; min-width: 0; }
+.pk-sess-b b { font: 600 15px/1.3 var(--font); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pk-sess-b span { font: 500 13px/1.3 var(--font); color: var(--text-3, var(--text-2)); }
+.pk-sess-chev { color: var(--text-3, var(--text-2)); }
+.pk-sess:hover .pk-sess-b b { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+
+@media (min-width: 720px) and (max-width: 1099px) {
+  /* Stacked: the hero (a little shorter), then the plans, both full width. */
+  .pk-top .pk-hero { min-height: 360px !important; }
+  .pk-top .pk-hero .sm-hero-content { padding: 32px 36px; max-width: 560px; }
+  .pk-top .pk-hero::after { background: linear-gradient(90deg, rgba(6, 12, 22, .86) 0%, rgba(6, 12, 22, .5) 50%, rgba(6, 12, 22, .1) 80%), linear-gradient(180deg, rgba(6, 12, 22, 0) 50%, rgba(6, 12, 22, .5) 100%) !important; }
+}
+@media (max-width: 719px) {
+  .pk-plans { padding: 18px 18px 14px; border-radius: 22px; }
+  .pk-plan { gap: 12px; padding: 14px 0; }
+  .pk-plan-go { height: 34px; padding: 0 13px; font-size: 13.5px; }
+  .pk-plan-next { white-space: normal; }
+  .pk-sess { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "w go" "b go"; gap: 3px 12px; }
+  .pk-sess-when { grid-area: w; font-size: 12.5px; }
+  .pk-sess-b { grid-area: b; }
+  .pk-sess > :last-child { grid-area: go; }
+  .pk-sess-b b { white-space: normal; }
+}
+.pk-sess-when { white-space: nowrap; }
+/* Rows share the panel's height evenly, so it matches the hero without an empty tail. */
+.pk-plans-list > li { display: flex; align-items: center; min-height: 0; }
+@media (min-width: 1100px) { .pk-plans-list > li { flex: 1 1 0; } }
+.pk-plans-list > li > a { flex: 1; min-width: 0; }
