@@ -10,6 +10,7 @@ import { loadRetreats, type RetreatCard } from "@/lib/loaders/experiences";
 import { requestTime } from "@/lib/request-time";
 import { retreatStage, retreatSteps } from "@/lib/retreat-stage";
 import { getUser } from "@/lib/supabase/server";
+import { surfacePhoto } from "@/lib/photos";
 import "@/components/commerce/commerce.css";
 import "@/components/experiences/retreat.css";
 import "@/components/experiences/retreat-plus.css";
@@ -119,10 +120,11 @@ export default async function RetreatsPage() {
   const runs = d.runs;
   const next = runs.find((r) => r.mine === "booked") ?? runs.find((r) => r.status === "open") ?? runs[0];
   const email = user?.email ?? null;
+  const hero = surfacePhoto("retreats");
   return (
     <div className="com-page rt-page rt-index rtp-index">
       <section className="rt-ihero rtp-ihero" aria-labelledby="ih">
-        <Image src="/media/retreats/summit-group.jpg" alt="Men of Movement on a ridge facing Mount Shasta" fill priority sizes="(min-width: 1024px) 1100px, 100vw" className="rt-ihero-img" />
+        <Image src={hero.src} alt={hero.alt} fill priority sizes="(min-width: 1024px) 1100px, 100vw" className="rt-ihero-img" style={{ objectPosition: hero.focal }} />
         <div className="rt-ihero-body">
           <div className="rt-hero-eyebrow">Men of Movement · Retreats</div>
           <h1 id="ih" className="lq-d-xxl">Four days on<br />the mountain.</h1>

@@ -130,6 +130,7 @@
   .rtp-fab { bottom: calc(84px + env(safe-area-inset-bottom)); right: 16px; }
 }
 @media (max-width: 480px) {
-  .rtp-fit { grid-template-columns: 1fr; }
+  .rtp-fit { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(var(--s-4) * -1); padding: 0 var(--s-4); }
+  .rtp-fit li { flex: 0 0 74%; scroll-snap-align: start; }
   .rtp-row { flex-direction: column; }
 }

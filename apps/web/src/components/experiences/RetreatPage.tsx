@@ -10,7 +10,7 @@ import type { RetreatStage } from "@/lib/retreat-stage";
 import { BookingBar, BookingCard } from "./BookingCard";
 import { Faq } from "./RunParts";
 import { PhotoTour } from "./PhotoTour";
-import { Guides, Included, Timeline } from "./RetreatParts";
+import { Guides, Included, Timeline, withSitePhotos } from "./RetreatParts";
 
 /* ------------------------------------------------------------------ helpers shared with the hub */
 
@@ -183,7 +183,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
         </p>
       </header>
 
-      <PhotoTour photos={photos} name={run.name} />
+      <PhotoTour photos={withSitePhotos(photos)} name={run.name} />
 
       <div className="rt-cols" data-stage={stage}>
         <div className="rt-main">

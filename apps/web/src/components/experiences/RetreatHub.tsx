@@ -11,7 +11,7 @@ import { Countdown } from "./Countdown";
 import { PhotoTour } from "./PhotoTour";
 import { byDay, dayTitle, photoFor, ROMAN } from "./RetreatPage";
 import { RetreatSteps } from "./RetreatSteps";
-import { Guides, HelpFab, Timeline, whereNext } from "./RetreatParts";
+import { Guides, HelpFab, retreatPhoto, Timeline, whereNext, withSitePhotos } from "./RetreatParts";
 import { PhotoWall } from "./PhotoWall";
 import { programHref } from "@/lib/hrefs";
 import { Faq } from "./RunParts";
@@ -67,7 +67,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
   const { run, about } = hub;
   const d = run.details;
   const photos = run.gallery.filter((g) => !g.stock);
-  const cover = (stage === "booked" ? null : photoFor(photos, ["group on"], 0)?.url) ?? d.cover ?? photos[0]?.url ?? null;
+  const cover = (stage === "booked" ? null : stage === "after" ? retreatPhoto("celebration").url : photoFor(photos, ["group on"], 0)?.url) ?? d.cover ?? photos[0]?.url ?? null;
   const dates = dateRange(run.starts_at, run.ends_at, run.timezone);
   const prereq = d.prerequisites ?? [];
   const packing = d.packing ?? [];
@@ -278,7 +278,7 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
               <div><b className="lq-d-lg lq-num">{hub.itinerary.length}</b><span>practices and ceremonies</span></div>
               <div><b className="lq-d-lg lq-num">{run.capacity ?? 20}</b><span>men in the circle</span></div>
             </div>
-            {hub.wall.length > 0 ? <PhotoWall runId={run.id} photos={hub.wall} /> : <PhotoTour photos={photos} name={run.name} priority={false} />}
+            {hub.wall.length > 0 ? <PhotoWall runId={run.id} photos={hub.wall} /> : <PhotoTour photos={withSitePhotos(photos)} name={run.name} priority={false} />}
           </Sec>
           <Sec id="certificate" eyebrow="Moments with Mike" title="Your certificate">
             <Glass radius="card" className="rtp-cert">
@@ -297,11 +297,11 @@ export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; s
                 <div><div className="lq-eyebrow" data-tone="accent">1:1 with Mike</div><b className="lq-d-xs">Coaching</b><p className="lq-t13 lq-c2">Physical performance and inner work, 45 minutes on Tuesdays.</p></div>
               </Link>
               <Link href="/experiences" className="rt-next-card lq-press">
-                <div className="rt-next-photo">{photoFor(photos, ["group"], 0) && <Image src={photoFor(photos, ["group"], 0)!.url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" />}</div>
+                <div className="rt-next-photo"><Image src={retreatPhoto("celebration").url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" style={{ objectPosition: retreatPhoto("celebration").focal }} /></div>
                 <div><div className="lq-eyebrow" data-tone="warm">Come back deeper</div><b className="lq-d-xs">The next retreat</b><p className="lq-t13 lq-c2">About half the men return for a second round.</p></div>
               </Link>
               <Link href="/you/referrals" className="rt-next-card rtp-brother lq-press">
-                <div className="rtp-brother-i" aria-hidden><Icon name="people" size="lg" /></div>
+                <div className="rt-next-photo"><Image src={retreatPhoto("brothers").url} alt="" fill sizes="(min-width: 1024px) 360px, 100vw" style={{ objectPosition: retreatPhoto("brothers").focal }} /></div>
                 <div><div className="lq-eyebrow" data-tone="ok">Referral</div><b className="lq-d-xs">Bring a brother next time</b><p className="lq-t13 lq-c2">Send your link to the man who needs this. You both get a month on Mike.</p></div>
               </Link>
             </div>

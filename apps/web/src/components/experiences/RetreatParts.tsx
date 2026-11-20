@@ -2,6 +2,23 @@ import Image from "next/image";
 import { Avatar, Button, Icon } from "@/components/ui";
 import type { GalleryPhoto, RunHub } from "@/lib/loaders/commerce";
 import { MIKE_FACE } from "@/lib/program-photos";
+import { MOCK } from "@/lib/mock";
+import { photo, type PhotoName } from "@/lib/photos";
+
+/** A retreat photo from the central map (lib/photos). The local preview cannot reach the CDN, so it uses the local stand-in. */
+export function retreatPhoto(name: PhotoName): { url: string; caption: string; focal: string } {
+  const p = photo(name);
+  return { url: MOCK && p.fallback && /^https?:/.test(p.src) ? p.fallback : p.src, caption: p.alt, focal: p.focal };
+}
+
+/** Real retreat photos from mikesalemi.io (spec 12 gallery): added to a run's own gallery, never repeated. */
+const SITE_PHOTOS: PhotoName[] = ["celebration", "groupGrass", "lodge", "forestWalk", "overlook", "brothers"];
+export function withSitePhotos<T extends { url: string; caption: string }>(own: T[]): { url: string; caption: string }[] {
+  const seen = new Set(own.map((p) => p.url));
+  const extra = SITE_PHOTOS.map(retreatPhoto).filter((p) => !seen.has(p.url) && (seen.add(p.url), true)).map(({ url, caption }) => ({ url, caption }));
+  // The run's cover leads; the site's group photos sit in the mosaic; the rest follow.
+  return own.length ? [own[0]!, ...extra.slice(0, 2), ...own.slice(1), ...extra.slice(2)] : extra;
+}
 
 /* Spec 12 · Retreat page: itinerary timeline, guides, included / not included, live "where next" and help. */
 
