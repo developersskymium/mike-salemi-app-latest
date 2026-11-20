@@ -1,6 +1,118 @@
 @import "tailwindcss";
+@import "../../../../packages/tokens/src/tokens.css";
+@import "../components/ui/ui.css";
+@import "../components/shell/shell.css";
 
-:root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Inter", sans-serif;
+/* Self-hosted Inter (optical sizes) — used after the Apple system stack. */
+@font-face {
+  font-family: "Inter Liquid";
+  src: url("/fonts/inter-opsz.woff2") format("woff2-variations"), url("/fonts/inter-opsz.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
-html { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+/* Tailwind theme → Liquid tokens. Utilities resolve to the live CSS variables, so
+   they follow the theme and any token edit. Never add raw values here. */
+@theme inline {
+  --font-sans: var(--font);
+  --font-mono: var(--font-code);
+
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-label: var(--label);
+  --color-label-2: var(--label-2);
+  --color-label-3: var(--label-3);
+  --color-sep: var(--sep);
+  --color-fill: var(--fill);
+  --color-fill-2: var(--fill-2);
+  --color-track: var(--track);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-ring-1: var(--ring-1);
+  --color-ring-2: var(--ring-2);
+  --color-ring-3: var(--ring-3);
+
+  --text-display: var(--t-display-size);
+  --text-display--line-height: var(--t-display-line);
+  --text-display--letter-spacing: var(--t-display-track);
+  --text-display--font-weight: var(--t-display-weight);
+  --text-34: var(--t-34-size);
+  --text-34--line-height: var(--t-34-line);
+  --text-34--letter-spacing: var(--t-34-track);
+  --text-34--font-weight: var(--t-34-weight);
+  --text-28: var(--t-28-size);
+  --text-28--line-height: var(--t-28-line);
+  --text-28--letter-spacing: var(--t-28-track);
+  --text-28--font-weight: var(--t-28-weight);
+  --text-22: var(--t-22-size);
+  --text-22--line-height: var(--t-22-line);
+  --text-22--letter-spacing: var(--t-22-track);
+  --text-22--font-weight: var(--t-22-weight);
+  --text-20: var(--t-20-size);
+  --text-20--line-height: var(--t-20-line);
+  --text-20--letter-spacing: var(--t-20-track);
+  --text-20--font-weight: var(--t-20-weight);
+  --text-17: var(--t-17-size);
+  --text-17--line-height: var(--t-17-line);
+  --text-17--letter-spacing: var(--t-17-track);
+  --text-17--font-weight: var(--t-17-weight);
+  --text-15: var(--t-15-size);
+  --text-15--line-height: var(--t-15-line);
+  --text-15--letter-spacing: var(--t-15-track);
+  --text-15--font-weight: var(--t-15-weight);
+  --text-13: var(--t-13-size);
+  --text-13--line-height: var(--t-13-line);
+  --text-13--letter-spacing: var(--t-13-track);
+  --text-13--font-weight: var(--t-13-weight);
+  --text-12: var(--t-12-size);
+  --text-12--line-height: var(--t-12-line);
+  --text-12--font-weight: var(--t-12-weight);
+  --text-11: var(--t-11-size);
+  --text-11--line-height: var(--t-11-line);
+  --text-11--letter-spacing: var(--t-11-track);
+  --text-11--font-weight: var(--t-11-weight);
+
+  --radius-screen: var(--r-screen);
+  --radius-sheet: var(--r-sheet);
+  --radius-hero: var(--r-hero);
+  --radius-card: var(--r-card);
+  --radius-panel: var(--r-panel);
+  --radius-inner: var(--r-inner);
+  --radius-thumb: var(--r-thumb);
+  --radius-control: var(--r-control);
+
+  --shadow-float: var(--float-shadow);
+  --ease-spring: var(--curve-spring);
+  --ease-spring-soft: var(--curve-spring-soft);
+  --ease-liquid: var(--curve-out);
+}
+
+/* ---------------------------------------------------------------- base */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--label);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    min-height: 100dvh;
+    font-family: var(--font);
+    font: var(--t-15);
+    letter-spacing: var(--t-15-track);
+    font-feature-settings: "cv11", "ss01", "ss03";
+    font-optical-sizing: auto;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
+}

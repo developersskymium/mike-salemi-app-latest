@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
     ],
   },
   poweredByHeader: false,
+  // Tailwind v4 via its Turbopack loader (there is no PostCSS config).
+  turbopack: {
+    rules: {
+      "*.css": { loaders: ["@tailwindcss/turbopack"], as: "*.css" },
+    },
+  },
 };
 
 export default nextConfig;

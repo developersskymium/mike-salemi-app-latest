@@ -1,0 +1,113 @@
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.lq-shell { position: relative; min-height: 100dvh; isolation: isolate; }
+
+.lq-main {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100dvh;
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    calc(var(--tabbar-h) + var(--tabbar-bottom) + env(safe-area-inset-bottom) + 32px)
+    max(16px, env(safe-area-inset-left));
+}
+.lq-page { position: relative; }
+
+/* ---------------------------------------------------------------- tab bar */
+.lq-tabbar {
+  position: fixed;
+  z-index: var(--z-tabbar);
+  left: max(var(--tabbar-inset), env(safe-area-inset-left));
+  right: max(var(--tabbar-inset), env(safe-area-inset-right));
+  bottom: max(var(--tabbar-bottom), calc(env(safe-area-inset-bottom) - 8px));
+  height: var(--tabbar-h);
+  max-width: 520px;
+  margin: 0 auto;
+  border-radius: var(--r-pill);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 4px;
+  transition: height var(--dur-lens) var(--curve-spring), left var(--dur-lens) var(--curve-spring), right var(--dur-lens) var(--curve-spring);
+}
+.lq-tabbar > .lq-lens { top: 4px; bottom: 4px; width: calc((100% - 8px) / 5); z-index: 1; }
+.lq-tabbar > a {
+  position: relative; z-index: 3; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  color: var(--label); text-decoration: none;
+  font: var(--t-10); letter-spacing: var(--t-10-track);
+  border-radius: var(--r-pill);
+}
+.lq-tabbar > a[aria-current="page"] { color: var(--accent-ink); }
+.lq-tabbar > a > span { transition: opacity .25s var(--curve-out), max-height .35s var(--curve-spring); max-height: 14px; overflow: hidden; }
+.lq-tabbar > a > svg { transition: transform .45s var(--curve-spring); }
+.lq-tabbar > a:active > svg { transform: scale(.88); }
+/* compact while scrolling down (iOS 26 minimise) */
+.lq-tabbar[data-compact] { height: 52px; left: max(40px, env(safe-area-inset-left)); right: max(40px, env(safe-area-inset-right)); }
+.lq-tabbar[data-compact] > a > span { opacity: 0; max-height: 0; }
+.lq-tabbar[data-compact] > a > svg { transform: scale(.92); }
+
+.lq-tabedge { z-index: calc(var(--z-tabbar) - 1); height: calc(110px + env(safe-area-inset-bottom)); }
+
+/* ---------------------------------------------------------------- sidebar */
+.lq-sidebar { display: none; }
+.lq-brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 18px; color: inherit; text-decoration: none; }
+.lq-brand-mark { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: var(--bg); background: var(--label); flex: none; }
+.lq-nav { position: relative; display: grid; gap: 2px; }
+.lq-nav > a {
+  position: relative; z-index: 3; min-width: 0;
+  display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: var(--r-control);
+  color: var(--label); font: 560 15px/1 var(--font); letter-spacing: -.01em; text-decoration: none;
+  transition: background-color .2s var(--curve-out);
+}
+.lq-nav > a:hover { background: var(--fill); }
+.lq-nav > a[aria-current="page"] { color: var(--accent-ink); font-weight: 650; background: none; }
+.lq-nav > .lq-lens { border-radius: var(--r-control); left: 0; right: 0; height: 40px; z-index: 1; }
+.lq-nav-grp { font: 600 12px/1 var(--font); color: var(--label-3); padding: 18px 12px 8px; }
+.lq-me {
+  margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 16px;
+  background: var(--fill); color: inherit; text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .lq-sidebar {
+    display: flex; flex-direction: column;
+    position: fixed; z-index: var(--z-sidebar);
+    top: var(--sidebar-inset); left: var(--sidebar-inset); bottom: var(--sidebar-inset);
+    width: var(--sidebar-w);
+    border-radius: var(--r-panel);
+    padding: 18px 12px 12px;
+    overflow: auto;
+  }
+  .lq-main {
+    margin-left: calc(var(--sidebar-w) + var(--sidebar-inset));
+    padding: 40px 48px 48px;
+  }
+  .lq-page { max-width: var(--content-max); margin: 0 auto; }
+  .lq-tabbar, .lq-tabedge { display: none; }
+}
+
+/* ---------------------------------------------------------------- route progress */
+.lq-route-progress {
+  position: fixed; z-index: var(--z-progress); top: 0; left: 0; height: 2.5px; width: 100%;
+  background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); opacity: 0; pointer-events: none;
+}
+.lq-route-progress[data-state="loading"] { opacity: 1; transform: scaleX(.8); transition: transform 8s cubic-bezier(.1, .7, .2, 1), opacity .1s; }
+.lq-route-progress[data-state="done"] { opacity: 0; transform: scaleX(1); transition: transform .25s var(--curve-out), opacity .35s .2s; }
+
+/* ---------------------------------------------------------------- page transitions */
+:root { view-transition-name: none; }
+::view-transition-old(.lq-page) { animation: var(--dur-page) var(--curve-out) both lq-vt-out; }
+::view-transition-new(.lq-page) { animation: calc(var(--dur-page) * 1.4) var(--curve-out) both lq-vt-in; }
+@keyframes lq-vt-out { to { opacity: 0; } }
+@keyframes lq-vt-in { from { opacity: 0; transform: translateY(8px); } }
+@supports not (view-transition-name: none) {
+  .lq-enter { animation: lq-vt-in calc(var(--dur-page) * 1.4) var(--curve-out) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.lq-page), ::view-transition-new(.lq-page) { animation: none; }
+  .lq-enter { animation: none; }
+  .lq-tabbar, .lq-tabbar > a > span, .lq-tabbar > a > svg, .lq-route-progress { transition: none !important; }
+}
