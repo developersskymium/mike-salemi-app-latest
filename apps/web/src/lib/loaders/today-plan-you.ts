@@ -20,6 +20,7 @@ import { addDays, isoDate, type IsoDate } from "@ms/core";
 import { mockable } from "@/lib/mock";
 import { pickContinue } from "@/lib/continue";
 import { introLessonIds } from "./intro-lessons";
+import { withTrainingDays } from "./day-progress";
 import { getUser } from "@/lib/supabase/server";
 import { startOfWeek } from "@/components/today/dates";
 
@@ -218,7 +219,7 @@ async function currentLesson(sb: DB, userId: string, lessonId: string | null): P
   };
 }
 
-export const loadToday = mockable("tpy-today", async (): Promise<TodayRaw> => {
+const loadTodayRaw = mockable("tpy-today", async (): Promise<TodayRaw> => {
   const { sb, user } = await session();
   const profile = await loadProfile(sb, user);
   const today = memberToday(profile.timezone);
@@ -237,6 +238,12 @@ export const loadToday = mockable("tpy-today", async (): Promise<TodayRaw> => {
   const [current, counts] = await Promise.all([currentLesson(sb, user.id, primary?.current_lesson_id ?? null), planCounts(sb, plans.map((p) => p.id))]);
   return { today, profile, enrollments, currentLesson: current, entries: entries ?? [], goals, plans, planCounts: counts, rewards, experiences, openRuns: runs, introLessonIds: intro };
 });
+
+/** Today's data, with day programs counted in training days (one source with the rail and You). */
+export async function loadToday(): Promise<TodayRaw> {
+  const raw = await loadTodayRaw();
+  return { ...raw, enrollments: await withTrainingDays(raw.enrollments) };
+}
 
 /* ============================================================== Onboarding */
 
