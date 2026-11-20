@@ -85,8 +85,8 @@ export function BookCalendar({ slots, credits, packages, mikeTz = "America/Los_A
         <div className="co-cal-head">
           <b>{cur ? fmt(new Date(cur.y, cur.m, 1), { month: "long", year: "numeric" }) : ""}</b>
           <div className="co-cal-nav">
-            <button type="button" onClick={() => go(-1)} disabled={idx <= 0} aria-label="Previous month"><Icon name="prev" size="sm" /></button>
-            <button type="button" onClick={() => go(1)} disabled={idx < 0 || idx >= months.length - 1} aria-label="Next month"><Icon name="next" size="sm" /></button>
+            <button type="button" onClick={() => go(-1)} disabled={idx <= 0} aria-label="Previous month"><Icon name="back" size="sm" /></button>
+            <button type="button" onClick={() => go(1)} disabled={idx < 0 || idx >= months.length - 1} aria-label="Next month"><Icon name="chevron" size="sm" /></button>
           </div>
         </div>
         <div className="co-grid" role="grid" aria-label="Choose a day">
