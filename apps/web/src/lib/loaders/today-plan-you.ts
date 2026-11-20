@@ -37,7 +37,7 @@ export interface Profile {
   timezone: string;
   createdAt: string;
   preferences: { theme?: string; autoplay?: boolean };
-  onboarding: { goal_skipped?: boolean };
+  onboarding: { goal_skipped?: boolean; completed_at?: string; skipped_at?: string };
 }
 
 export interface Goal {
