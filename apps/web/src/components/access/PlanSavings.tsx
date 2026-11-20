@@ -71,7 +71,7 @@ export async function PlanSavings() {
               ))}
             </ul>
             {next.creditCents > 0 && (
-              <p className="lq-t13"><b className="lq-num">{money(next.creditCents)}</b> of your recent purchases counts toward {next.name} (bought in the last 30 days).</p>
+              <p className="lq-t13"><b className="lq-num">{money(next.creditCents)}</b> from your purchases in the last 30 days comes off your first {next.name} payment.</p>
             )}
             <div className="ac-sheet-actions">
               <CheckoutButton kind="plan" refId={next.id} interval="month" label={`Upgrade to ${next.name}`} size="sm" />

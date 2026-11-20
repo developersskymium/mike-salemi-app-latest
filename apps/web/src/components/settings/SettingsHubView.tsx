@@ -47,7 +47,7 @@ export function SettingsHubView({ d }: { d: SettingsHub }) {
         <ProfileGroup profile={d.profile} sources={d.profileSources} units={units} ownedBells={d.settings.ownedBells} />
         <NotificationsGroup d={d} />
         <BillingGroup b={d.billing} />
-        <PrivacyGroup requests={d.requests} />
+        <PrivacyGroup requests={d.requests} billing={d.billing} deletion={d.deletion} />
         <HelpGroup d={d} />
       </div>
     </div>

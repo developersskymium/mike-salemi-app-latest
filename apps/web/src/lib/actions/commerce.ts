@@ -44,6 +44,24 @@ function friendly(e: unknown, fallback: string): ActionResult<never> {
   return fail("failed", hit ? hit[1] : fallback);
 }
 
+/**
+ * Stores when the member confirmed "I'm 18 or older" on the row they just created (adult_confirmed_at, 0041).
+ * The answer itself is already enforced above and, for applications, saved in the answers. Best effort: before
+ * 0041 is applied (no column) or without the service key it does nothing, and it never fails the action.
+ */
+async function recordAdult(table: "run_applications" | "coaching_applications" | "coaching_bookings", match: Record<string, string>) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) return;
+  try {
+    const { createServiceClient } = await import("@/lib/supabase/admin");
+    let q = (createServiceClient() as unknown as { from: (t: string) => any }).from(table).update({ adult_confirmed_at: new Date().toISOString() }); // eslint-disable-line @typescript-eslint/no-explicit-any
+    for (const [k, v] of Object.entries(match)) q = q.eq(k, v);
+    const { error } = await q.is("adult_confirmed_at", null);
+    if (error) console.warn("recordAdult", table, error.message);
+  } catch (e) {
+    console.warn("recordAdult", table, e instanceof Error ? e.message : e);
+  }
+}
+
 async function member() {
   const { supabase, user } = await getUser();
   return { sb: supabase, user };
@@ -96,6 +114,7 @@ const Application = z.object({
   phone: z.string().trim().min(7, "Add a phone number so the team can reach you.").max(40),
   emergencyName: z.string().trim().min(2, "Add an emergency contact.").max(120),
   emergencyPhone: z.string().trim().min(7, "Add your emergency contact's phone.").max(40),
+  adult: z.literal(true, "Please confirm you're 18 or older."),
 });
 export type ApplicationAnswers = z.input<typeof Application>;
 
@@ -108,6 +127,7 @@ export async function applyToRunAction(runId: string, answers: ApplicationAnswer
     const { sb, user } = await member();
     if (!user) return fail("not_signed_in", "Sign in first.");
     const r = await applyToRun(sb, runId, p.data);
+    await recordAdult("run_applications", { run_id: runId, user_id: user.id });
     revalidatePath(`/experiences/${runId}`);
     return { ok: true, data: { status: r.status } };
   } catch (e) {
@@ -169,6 +189,7 @@ const CoachingApplication = z.object({
   goal: z.string().trim().min(10, "Tell Mike what you want from the eight weeks (a sentence or two).").max(2000),
   pressure: z.string().trim().max(2000).default(""),
   commit: z.literal(true, "Please confirm the daily five minutes."),
+  adult: z.literal(true, "Please confirm you're 18 or older."),
 });
 export type CoachingApplicationAnswers = z.input<typeof CoachingApplication>;
 
@@ -181,6 +202,7 @@ export async function applyForCoachingAction(packageId: string, answers: Coachin
     const { sb, user } = await member();
     if (!user) return fail("not_signed_in", "Sign in first.");
     const r = await applyForCoaching(sb, packageId, p.data);
+    await recordAdult("coaching_applications", { package_id: packageId, user_id: user.id });
     revalidatePath("/coaching");
     return { ok: true, data: { status: r.status } };
   } catch (e) {
@@ -188,14 +210,16 @@ export async function applyForCoachingAction(packageId: string, answers: Coachin
   }
 }
 
-export async function bookCoachingAction(slotId: string, note?: string): Promise<ActionResult<{ startsAt: string; creditsLeft: number }>> {
+export async function bookCoachingAction(slotId: string, note: string | undefined, adult: boolean): Promise<ActionResult<{ startsAt: string; creditsLeft: number }>> {
   const p = z.object({ slotId: z.uuid(), note: z.string().trim().max(1000).optional() }).safeParse({ slotId, note });
   if (!p.success) return fail("invalid", "Pick a time first.");
+  if (adult !== true) return fail("adult_required", "Please confirm you're 18 or older. Coaching is for adults only.");
   if (MOCK) return OFFLINE;
   try {
     const { sb, user } = await member();
     if (!user) return fail("not_signed_in", "Sign in first.");
     const r = await bookCoaching(sb, p.data.slotId, p.data.note || undefined);
+    await recordAdult("coaching_bookings", { slot_id: p.data.slotId, user_id: user.id, status: "booked" });
     revalidatePath("/coaching");
     return { ok: true, data: { startsAt: r.starts_at, creditsLeft: r.credits_left } };
   } catch (e) {

@@ -184,6 +184,8 @@ export interface SettingsHub {
     invoices: { id: string; reference: string; date: string; totalCents: number; currency: string; status: string; label: string }[];
   };
   requests: { id: string; kind: string; status: string; createdAt: string }[];
+  /** What deleting the account would touch, for the confirmation (optional: older fixtures). */
+  deletion?: { coachingSessions: { id: string; startsAt: string }[]; retreats: string[] };
 }
 
 export type Result<T = void> = { ok: true; data: T } | { ok: false; error: string };

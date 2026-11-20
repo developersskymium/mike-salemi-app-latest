@@ -125,3 +125,30 @@ export function ManageBillingButton({ label = "Manage billing", variant = "glass
     </div>
   );
 }
+
+/** Resumes a paused plan (POST /api/stripe/resume), then reloads Billing. */
+export function ResumePlanButton({ variant = "filled", size = "md" }: { variant?: ButtonVariant; size?: "sm" | "md" | "lg" }) {
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
+  async function go() {
+    setStatus({ kind: "loading" });
+    try {
+      const res = await fetch("/api/stripe/resume", { method: "POST" });
+      if (res.status === 503) return setStatus({ kind: "off" });
+      if (!res.ok) return setStatus({ kind: "error", message: "Your plan didn't resume. Try again, or use Manage billing." });
+      window.location.reload();
+    } catch {
+      setStatus({ kind: "error", message: "You seem to be offline." });
+    }
+  }
+  return (
+    <div>
+      <Button variant={variant} size={size} icon="play" onClick={go} disabled={status.kind === "loading"} aria-busy={status.kind === "loading"}>
+        {status.kind === "loading" ? "Resuming…" : "Resume plan"}
+      </Button>
+      <div aria-live="polite">
+        {status.kind === "off" && <p className="com-error lq-c2" style={{ marginTop: 8 }} role="status">Payments aren&rsquo;t switched on yet.</p>}
+        {status.kind === "error" && <p className="com-error lq-c2" style={{ marginTop: 8 }} role="alert">{status.message}</p>}
+      </div>
+    </div>
+  );
+}

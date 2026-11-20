@@ -107,6 +107,7 @@ textarea.com-input { min-height: 112px; resize: vertical; }
 @media (min-width: 900px) { .com-plan-medal-wrap { width: 104px; } }
 .com-plan-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: flex-start; }
 @media (min-width: 900px) { .com-plan-actions { flex-direction: column; align-items: stretch; } }
+.com-billing-note { display: flex; gap: 10px; align-items: baseline; margin: 0 4px var(--s-4); padding: 12px 16px; border: 1px solid var(--line-strong); border-radius: 14px; }
 .com-billing-foot { display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: var(--s-8); }
 .com-order-sum { cursor: pointer; list-style: none; }
 .com-order-sum::-webkit-details-marker { display: none; }
@@ -115,3 +116,9 @@ textarea.com-input { min-height: 112px; resize: vertical; }
 .com-cancel-mark { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--label-2); margin-bottom: var(--s-2); animation: com-rise var(--dur-sheet) var(--curve-spring) both; }
 @media (prefers-reduced-motion: reduce) { .com-cancel-mark { animation: none; } }
 .com-page > :not(.lq-ambient) { position: relative; }
+
+/* "I'm 18 or older" (same pattern as the Swing Set-Up Coach) */
+.com-adult { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 14px; box-shadow: inset 0 0 0 1px var(--line); cursor: pointer; font: 400 14px/20px var(--font); color: var(--text-2); text-align: left; }
+.com-adult b { color: var(--text); font-weight: 600; }
+.com-adult input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); flex: none; }
+.com-adult:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }

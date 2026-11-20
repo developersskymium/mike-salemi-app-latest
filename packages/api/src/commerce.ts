@@ -17,6 +17,8 @@ export interface Quote {
   currency: string;
   base_cents: number;
   discount_cents: number;
+  /** Credit from recent one-off purchases, off the first plan payment, after the discount (0041). Missing before 0041. */
+  credit_cents?: number;
   amount_cents: number;
   /** 'pro:discount:20' | 'coupon:CODE' | 'max:included' | null */
   benefit_applied: string | null;

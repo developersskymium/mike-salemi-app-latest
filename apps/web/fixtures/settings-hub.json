@@ -25,5 +25,9 @@
       { "id": "inv-1", "reference": "MS-20112", "date": "2026-03-02T09:00:00Z", "totalCents": 2900, "currency": "usd", "status": "refunded", "label": "Pro · monthly" }
     ]
   },
-  "requests": []
+  "requests": [],
+  "deletion": {
+    "coachingSessions": [{ "id": "cb-1", "startsAt": "2026-12-03T16:00:00Z" }, { "id": "cb-2", "startsAt": "2026-12-17T16:00:00Z" }],
+    "retreats": ["Men of Movement, May 2027"]
+  }
 }
