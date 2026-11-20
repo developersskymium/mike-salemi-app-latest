@@ -10,20 +10,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ms/api": "workspace:*",
+    "@ms/core": "workspace:*",
+    "@ms/tokens": "workspace:*",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.2",
+    "@vimeo/player": "^2.30.4",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.76.0",
+    "motion": "^14.14.0",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "@supabase/supabase-js": "^2.119.2",
-    "@supabase/ssr": "^0.12.7",
-    "@ms/core": "workspace:*",
-    "@ms/api": "workspace:*",
-    "@ms/tokens": "workspace:*",
-    "zod": "^4.6.7",
     "server-only": "^0.0.1",
-    "@vimeo/player": "^2.30.4",
-    "motion": "^14.14.0",
-    "lucide-react": "^1.76.0",
-    "clsx": "^2.1.1"
+    "stripe": "^23.2.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
