@@ -1,0 +1,30 @@
+{
+ "profile": {
+  "id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+  "email": "member.test@example.com",
+  "firstName": "Daniel",
+  "displayName": "Daniel Test",
+  "avatarUrl": null,
+  "timezone": "UTC",
+  "createdAt": "2026-11-20T04:45:18.98218+00:00",
+  "preferences": {},
+  "onboarding": {}
+ },
+ "notifications": {
+  "email_enabled": true,
+  "push_enabled": false,
+  "reminder_time": "07:00:00",
+  "reminder_days": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "quiet_start": null,
+  "quiet_end": null,
+  "streak_nudge": true,
+  "weekly_recap": true,
+  "offers_email": true
+ }
+}

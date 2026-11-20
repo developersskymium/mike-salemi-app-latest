@@ -1,0 +1,141 @@
+{
+ "rewards": {
+  "level": 1,
+  "badges": [
+   {
+    "id": "streak-3",
+    "icon": "flame",
+    "name": "Momentum",
+    "tier": "bronze",
+    "earned_at": "2026-11-20T05:45:42.215476+00:00"
+   },
+   {
+    "id": "streak-7",
+    "icon": "flame",
+    "name": "Unbroken",
+    "tier": "silver",
+    "earned_at": "2026-11-20T05:45:42.215476+00:00"
+   }
+  ],
+  "level_name": "Initiate",
+  "streak_best": 27,
+  "points_total": 0,
+  "next_level_at": 1000,
+  "streak_current": 27
+ },
+ "ledger": [],
+ "badges": [
+  {
+   "id": "first-day",
+   "name": "First Rep",
+   "tier": "bronze",
+   "icon": "sparkles",
+   "description": "Complete your first day",
+   "points": 0
+  },
+  {
+   "id": "day-7",
+   "name": "One Week In",
+   "tier": "bronze",
+   "icon": "calendar",
+   "description": "Complete 7 days",
+   "points": 0
+  },
+  {
+   "id": "day-30",
+   "name": "Thirty Deep",
+   "tier": "silver",
+   "icon": "dumbbell",
+   "description": "Complete 30 days",
+   "points": 0
+  },
+  {
+   "id": "on-ramp",
+   "name": "On Ramp Cleared",
+   "tier": "bronze",
+   "icon": "compass",
+   "description": "Finish the On Ramp phase",
+   "points": 0
+  },
+  {
+   "id": "phase-1",
+   "name": "Phase I Complete",
+   "tier": "silver",
+   "icon": "target",
+   "description": "Finish Phase I",
+   "points": 0
+  },
+  {
+   "id": "phase-2",
+   "name": "Phase II Complete",
+   "tier": "silver",
+   "icon": "target",
+   "description": "Finish Phase II",
+   "points": 0
+  },
+  {
+   "id": "phase-3",
+   "name": "Phase III Complete",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Finish Phase III",
+   "points": 0
+  },
+  {
+   "id": "streak-3",
+   "name": "Momentum",
+   "tier": "bronze",
+   "icon": "flame",
+   "description": "Train 3 days in a row",
+   "points": 0
+  },
+  {
+   "id": "streak-7",
+   "name": "Unbroken",
+   "tier": "silver",
+   "icon": "flame",
+   "description": "Train 7 days in a row",
+   "points": 0
+  },
+  {
+   "id": "streak-30",
+   "name": "Lifestyle",
+   "tier": "gold",
+   "icon": "flame",
+   "description": "Train 30 days in a row",
+   "points": 0
+  },
+  {
+   "id": "tool-first",
+   "name": "Self-Aware",
+   "tier": "bronze",
+   "icon": "heart",
+   "description": "Complete your first tool",
+   "points": 0
+  },
+  {
+   "id": "tool-all",
+   "name": "Fully Assessed",
+   "tier": "silver",
+   "icon": "heart",
+   "description": "Complete every assessment tool",
+   "points": 0
+  },
+  {
+   "id": "level-1",
+   "name": "Beginner Graduate",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Complete Level I",
+   "points": 0
+  },
+  {
+   "id": "level-2",
+   "name": "Intermediate Graduate",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Complete Level II",
+   "points": 0
+  }
+ ]
+}
