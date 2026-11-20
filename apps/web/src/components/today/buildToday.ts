@@ -44,6 +44,7 @@ const STREAK_MILESTONES = [3, 7, 30, 60, 100, 365];
 /** Pure: turns Today's raw data into the screen model (same code for real data and fixtures). */
 export function buildToday(raw: TodayRaw) {
   const { today } = raw;
+  const typeOf = (slug: string) => raw.enrollments.find((e) => e.program_slug === slug)?.program_type;
   const ws = startOfWeek(today);
   const todays = raw.entries.filter((e) => e.on_date === today);
   const todaysOpen = todays.filter((e) => !e.done && !e.skipped && e.item_kind !== "rest");
@@ -93,7 +94,7 @@ export function buildToday(raw: TodayRaw) {
         ...(level ? [{ icon: "kettlebell" as IconName, text: level }] : []),
       ],
       cta: done > 0 ? `Continue ${label}` : `Start ${label}`,
-      href: lessonHref(primary.program_slug, primary.current_lesson_id),
+      href: lessonHref(primary.program_slug, primary.current_lesson_id, { type: primary.program_type, mode: primary.mode }),
       hint: nextStep >= 0 ? `Next: ${steps[nextStep]!.title}, step ${nextStep + 1} of ${steps.length}` : null,
       steps: steps.length ? { done, total: steps.length } : null,
     };
@@ -107,7 +108,7 @@ export function buildToday(raw: TodayRaw) {
       photo: photoFor(dt, e.program_slug),
       meta: [{ icon: e.item_kind === "recovery" ? "leaf" : "kettlebell", text: e.item_kind === "recovery" ? "Recovery" : "Training" }],
       cta: "Start session",
-      href: entryHref(e),
+      href: entryHref(e, typeOf),
       hint: todaysOpen.length > 1 ? `Then ${splitDayTitle(todaysOpen[1]!.title).name}` : null,
       steps: null,
     };
@@ -121,7 +122,7 @@ export function buildToday(raw: TodayRaw) {
       photo: photoFor(dt, primary.program_slug),
       meta: day ? [{ icon: "calendar", text: `Day ${day}` }] : [],
       cta: day ? `Continue Day ${day}` : "Continue",
-      href: lessonHref(primary.program_slug, primary.current_lesson_id),
+      href: lessonHref(primary.program_slug, primary.current_lesson_id, { type: primary.program_type, mode: primary.mode }),
       hint: null,
       steps: null,
     };
@@ -192,7 +193,7 @@ export function buildToday(raw: TodayRaw) {
   }
   for (const e of raw.entries) {
     if (e.kind !== "run_session" || e.on_date < today || !e.ref_id) continue;
-    upcoming.push({ id: e.ref_id, kind: "session", title: e.title, subtitle: e.subtitle ?? "", when: e.on_date, href: entryHref(e) });
+    upcoming.push({ id: e.ref_id, kind: "session", title: e.title, subtitle: e.subtitle ?? "", when: e.on_date, href: entryHref(e, typeOf) });
   }
   const applied = new Set(raw.experiences.runs.map((x) => x.run_id));
   const invitation = raw.openRuns.find((x) => !applied.has(x.id)) ?? null;
