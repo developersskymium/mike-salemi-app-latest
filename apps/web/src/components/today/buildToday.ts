@@ -204,6 +204,8 @@ export function buildToday(raw: TodayRaw) {
     timezone: raw.profile.timezone,
     // The app-wide onboarding (completed_at / skipped_at) counts too: it sets a profile, not a goal row.
     needsOnboarding: !goalRow && !raw.profile.onboarding.goal_skipped && !raw.profile.onboarding.completed_at && !raw.profile.onboarding.skipped_at,
+    /** Onboarding is behind the member: finished, skipped, goal skipped, or any goal saved. */
+    onboarded: raw.goals.length > 0 || Boolean(raw.profile.onboarding.goal_skipped || raw.profile.onboarding.completed_at || raw.profile.onboarding.skipped_at),
     next,
     primary: primary ?? null,
     /** The primary enrollment's current day (steps with durations, focus). */

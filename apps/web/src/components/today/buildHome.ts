@@ -324,7 +324,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
   const anyDay = raw.enrollments.some((e) => e.program_type === "day_program" && e.lessons_done > 0);
   const named = Boolean(v.firstName && v.firstName !== "Member");
   const checklist: ChecklistItem[] = [
-    { id: "goal", label: "Set your goal and get your plan", doneLabel: "Your goal is set", done: Boolean(v.goal), href: "/onboarding" },
+    { id: "goal", label: "Set your goal and get your plan", doneLabel: "Your goal is set", done: Boolean(v.goal) || v.onboarded, href: "/onboarding" },
     { id: "intake", label: "Complete the intake questionnaire", doneLabel: "Intake done", done: raw.checklist.intake, href: "/programs/kettlebell-lifestyle" },
     { id: "name", label: "Add your name", doneLabel: "Your name is on the wall", done: named, href: "/you/settings" },
     { id: "lesson", label: "Complete your first lesson", doneLabel: "You started", done: anyDone, href: featured?.startHref ?? continuing?.resumeHref ?? "/programs" },
