@@ -16,6 +16,8 @@ import { WeekStrip } from "./WeekStrip";
 import "./summit-home.css";
 import "./tpy.css";
 import "./calm-home.css";
+import "./peak-home.css";
+import { PROGRAM_MEDAL } from "@/components/badges/catalog";
 
 const levelOf = (pathName: string | null | undefined) => pathName?.split("·")[0]?.trim() || null;
 const STREAK_GOALS = [3, 7, 14, 30, 60, 100, 365];
@@ -51,7 +53,7 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
   const restDay = !!today && today.state === "rest" && !isNew;
 
   return (
-    <div className="sh ch">
+    <div className="sh ch pk">
       <h1 className="lq-sr">Home</h1>
 
       {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
@@ -79,10 +81,10 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
               All programs <Icon name="arrowRight" size="xs" />
             </Link>
           </header>
-          <ul className="ch-programs" role="list">
-            {enrolled.slice(0, 4).map((i) => (
+          <ul className="pk-tiles" role="list" data-n={Math.min(enrolled.length, 4)}>
+            {enrolled.slice(0, 4).map((i, n) => (
               <li key={i.key}>
-                <ProgramRow item={i} />
+                <ProgramTile item={i} first={n === 0} />
               </li>
             ))}
           </ul>
@@ -90,7 +92,7 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
       )}
 
       {!isNew && (
-        <div className="ch-pair" data-single={badge ? undefined : ""}>
+        <div className="ch-pair pk-pair" data-single={badge ? undefined : ""}>
           <WeekCard v={v} />
           {badge && <BadgeCard b={badge} />}
         </div>
@@ -98,7 +100,7 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
 
       {mikeNote && <MikeNoteCard note={mikeNote} />}
 
-      <div className="sh-offer">
+      <div className="sh-offer pk-offer">
         <OfferSlot placement="today" />
       </div>
     </div>
@@ -131,14 +133,14 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
   const sub = mode === "comeback" ? `An easy restart day. Go at 70% and just move — ${meta}` : meta;
   const label = item.complete ? "Review" : mode === "comeback" ? "Restart easy" : mode === "tomorrow" ? "Preview tomorrow" : day ? `${started ? "Continue" : "Start"} Day ${day}` : action.label;
   return (
-    <PhotoHero className="sh-hero ch-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={440} priority>
+    <PhotoHero className="sh-hero ch-hero pk-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={520} priority overlay={<HeroStat item={item} h={h} day={day} />}>
       <Tag tone={mode === "tomorrow" ? "accent" : "warm"} size="lg">
         {mode === "tomorrow" ? <Icon name="check" size="xs" /> : null}
         {tag}
       </Tag>
       <h2 className="lq-d-xxl sh-hero-t">{title}</h2>
       <p className="sh-hero-meta">{sub}</p>
-      <div className="ch-hero-prog">
+      <div className="ch-hero-prog pk-hero-prog">
         <ProgressBar value={item.percent / 100} tone="white" size="thin" label={`${item.name} progress`} />
         <span className="lq-num">{item.percent}%</span>
       </div>
@@ -146,6 +148,9 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
         <Button icon={item.complete ? "repeat" : mode === "tomorrow" ? "calendar" : "play"} variant={mode === "tomorrow" ? "onphoto" : undefined} href={action.href} size="lg" className="sh-hero-go">
           {label}
         </Button>
+        <Link href={item.pageHref} className="pk-hero-alt">
+          {item.name.split(" · ")[0]} <Icon name="arrowRight" size="xs" />
+        </Link>
       </div>
     </PhotoHero>
   );
@@ -194,19 +199,73 @@ function EmptyHero({ v }: { v: TodayView }) {
 
 /* ================================================================== programs */
 
-function ProgramRow({ item }: { item: HomeItem }) {
-  const img = framed(item.image?.src, item.slug);
+const accentOf = (slug: string) => PROGRAM_MEDAL[slug]?.color ?? "var(--accent)";
+
+/** Hero stat panel: an ember progress ring for the program, and the readiness hint when we have one. */
+function HeroStat({ item, h, day }: { item: HomeItem; h: HomeView; day: string | number | null }) {
+  const r = 46;
+  const c = 2 * Math.PI * r;
+  const rd = h.readiness;
   return (
-    <Link href={item.resumeHref} className="ch-prog lq-press" aria-label={`${item.verb.label} ${item.name}, ${item.percent}% complete`}>
-      <span className="ch-thumb">
-        <Image src={img.src} alt="" fill sizes="96px" style={{ objectPosition: img.focal }} />
+    <div className="pk-stat" aria-hidden>
+      <div className="pk-stat-ring">
+        <svg viewBox="0 0 108 108">
+          <circle cx="54" cy="54" r={r} className="pk-ring-track" />
+          <circle cx="54" cy="54" r={r} className="pk-ring-fill" strokeDasharray={c} strokeDashoffset={c * (1 - item.percent / 100)} transform="rotate(-90 54 54)" />
+        </svg>
+        <span className="pk-stat-pct">
+          <b className="lq-num">{item.percent}</b>
+          <small>%</small>
+        </span>
+      </div>
+      <div className="pk-stat-b">
+        <b>{item.name.split(" · ")[0]}</b>
+        <span className="lq-num">{item.progressLabel}</span>
+        {rd ? (
+          <span className="pk-stat-rd">
+            <i data-band={rd.band} /> Readiness <b className="lq-num">{rd.score}</b>
+            {rd.band === "red" ? " · go easy today" : rd.band === "green" ? " · ready to train" : ""}
+          </span>
+        ) : day ? (
+          <span className="pk-stat-rd">Day {day}</span>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+/** A joined program as a photo tile: cover, program colour, next lesson, progress. */
+function ProgramTile({ item, first }: { item: HomeItem; first?: boolean }) {
+  const img = framed(item.image?.src, item.slug);
+  const color = accentOf(item.slug);
+  const [prog, level] = item.name.split(" · ");
+  return (
+    <Link href={item.resumeHref} className="pk-tile" style={{ ["--pc" as string]: color }} data-first={first ? "" : undefined} aria-label={`${item.verb.label} ${item.name}, ${item.percent}% complete`}>
+      <span className="pk-tile-ph">
+        <Image src={img.src} alt="" fill sizes="(min-width: 1100px) 270px, (min-width: 720px) 45vw, 78vw" loading="eager" style={{ objectPosition: img.focal }} />
       </span>
-      <span className="ch-prog-b">
-        <b className="ch-prog-t">{item.name}</b>
-        <span className="ch-prog-s">{item.complete ? "Completed" : item.nextLabel ? `Up next · ${item.nextLabel}` : item.progressLabel}</span>
-        <span className="ch-meter">
-          <ProgressBar value={item.percent / 100} tone={item.complete ? "ok" : "accent"} size="thin" label={`${item.percent}% complete`} />
+      <span className="pk-tile-top">
+        <span className="pk-tile-chip">
+          <i />
+          {level ?? item.kicker ?? "Program"}
+        </span>
+        {item.complete && (
+          <span className="pk-tile-done">
+            <Icon name="check" size="xs" />
+          </span>
+        )}
+      </span>
+      <span className="pk-tile-b">
+        <b className="pk-tile-t">{prog}</b>
+        <span className="pk-tile-s">{item.complete ? "Completed. Review any lesson." : item.nextLabel ? `Next: ${item.nextLabel}` : item.progressLabel}</span>
+        <span className="pk-tile-m">
+          <span className="pk-tile-bar">
+            <span style={{ width: `${Math.max(item.percent, 2)}%` }} />
+          </span>
           <b className="lq-num">{item.percent}%</b>
+        </span>
+        <span className="pk-tile-go">
+          <Icon name={item.verb.icon} size="xs" /> {item.verb.label}
         </span>
       </span>
     </Link>
@@ -220,39 +279,44 @@ function WeekCard({ v }: { v: TodayView }) {
   const target = STREAK_GOALS.find((m) => m > streak) ?? streak + 1;
   const planned = v.weekSummary.planned;
   return (
-    <Glass as="section" radius="card" className="ch-card ch-week" aria-labelledby="ch-week-t">
-      <header className="ch-card-h">
-        <h2 id="ch-week-t" className="lq-eyebrow" data-tone="warm">
-          This week
-        </h2>
-        <Link href="/plan" className="lq-link ch-all">
-          {planned ? `${v.weekSummary.done} of ${plural(planned, "session")}` : "Open schedule"} <Icon name="arrowRight" size="xs" />
-        </Link>
-      </header>
-      <WeekStrip days={v.week} hrefFor={(d) => `/plan?d=${d}`} colors />
-      <p className="ch-streak lq-t13 lq-c2">
-        <Icon name="flame" size="xs" className="ch-flame" />
-        {streak > 0 ? (
-          <>
-            <b className="lq-num">{plural(streak, "day")}</b> in a row · {plural(target - streak, "day")} to your {target}-day badge
-          </>
-        ) : (
-          "Train today to start a streak."
-        )}
-      </p>
-    </Glass>
+    <section className="ch-card ch-week pk-week" aria-labelledby="ch-week-t">
+      <div className="pk-week-streak">
+        <span className="pk-week-flame" aria-hidden>
+          <Icon name="flame" size="sm" />
+        </span>
+        <b className="pk-week-n lq-num">{streak}</b>
+        <span className="pk-week-l">
+          <b>{streak === 1 ? "day" : "days"} in a row</b>
+          <span>{streak > 0 ? `${plural(target - streak, "day")} to your ${target}-day badge` : "Train today to start a streak."}</span>
+        </span>
+        <span className="pk-week-goal" aria-hidden>
+          <span style={{ width: `${Math.min(100, (streak / target) * 100)}%` }} />
+        </span>
+      </div>
+      <div className="pk-week-days">
+        <header className="ch-card-h">
+          <h2 id="ch-week-t" className="pk-h3">
+            This week
+          </h2>
+          <Link href="/plan" className="lq-link ch-all">
+            {planned ? `${v.weekSummary.done} of ${plural(planned, "session")}` : "Open schedule"} <Icon name="arrowRight" size="xs" />
+          </Link>
+        </header>
+        <WeekStrip days={v.week} hrefFor={(d) => `/plan?d=${d}`} colors />
+      </div>
+    </section>
   );
 }
 
 function BadgeCard({ b }: { b: LatestBadge }) {
   return (
-    <Link href="/you?tab=achievements" className="ch-card ch-badge lq-press" aria-label={`Latest badge: ${b.name}. See all badges`}>
-      <MedalPin tier={b.tier} icon={b.icon} color={medalColorOf(b)} size={72} />
+    <Link href="/you?tab=achievements" className="ch-card ch-badge pk-badge lq-press" style={{ ["--mc" as string]: medalColorOf(b) ?? "var(--gold)" }} aria-label={`Latest badge: ${b.name}. See all badges`}>
+      <span className="pk-badge-medal">
+        <MedalPin tier={b.tier} icon={b.icon} color={medalColorOf(b)} size={84} />
+      </span>
       <span className="ch-badge-b">
-        <span className="lq-eyebrow" data-tone="warm">
-          Latest badge
-        </span>
-        <b className="lq-d-xs">{b.name}</b>
+        <span className="pk-badge-k">New badge</span>
+        <b className="pk-badge-t">{b.name}</b>
         {b.description ? <span className="lq-t13 lq-c2 sh-clamp2">{b.description}</span> : null}
         <span className="ch-badge-go">
           All badges <Icon name="arrowRight" size="xs" />
@@ -283,20 +347,26 @@ function RestDayCard() {
   );
 }
 
-/** Mike's weekly note (Home #10): Instrument Serif italic beside a fresh photo, admin-set. */
+/** Mike's weekly note (Home #10): a warm portrait card, Mike's photo with the note in Instrument Sans. */
 function MikeNoteCard({ note }: { note: MikeNote }) {
   const ph = (note.photo && note.photo in PHOTO ? PHOTO[note.photo as PhotoName] : null) ?? photoByFile(note.photo) ?? surfacePhoto("coaching");
+  const face = PHOTO.standing;
   return (
-    <section className="ch-card ch-note" aria-label="A note from Mike this week">
-      <span className="ch-note-ph">
-        <Image src={ph.src} alt={ph.alt} fill sizes="(min-width: 720px) 220px, 100vw" style={{ objectPosition: ph.focal }} />
+    <section className="pk-note" aria-label="A note from Mike this week">
+      <span className="pk-note-ph">
+        <Image src={ph.src} alt={ph.alt} fill loading="eager" sizes="(min-width: 720px) 520px, 100vw" style={{ objectPosition: ph.focal }} />
       </span>
-      <figure className="ch-note-b">
-        <span className="lq-eyebrow" data-tone="warm">
-          This week from Mike
-        </span>
-        <blockquote className="lq-serif ch-note-q">{note.text}</blockquote>
-        <figcaption className="lq-t13 lq-c3">— Mike Salemi</figcaption>
+      <figure className="pk-note-b">
+        <blockquote className="pk-note-q">{note.text}</blockquote>
+        <figcaption className="pk-note-by">
+          <span className="pk-note-face">
+            <Image src={face.src} alt="" fill loading="eager" sizes="48px" style={{ objectPosition: "54% 14%" }} />
+          </span>
+          <span>
+            <b>Mike Salemi</b>
+            <span>Your note for this week</span>
+          </span>
+        </figcaption>
       </figure>
     </section>
   );
