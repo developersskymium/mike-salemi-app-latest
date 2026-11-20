@@ -23,6 +23,10 @@ export type CircuitRow = {
   reps: string;
   sets: string;
   tempo: string;
+  /** Source TablePress icon for the Type cell (C1, C2, S1 …), served from /kbl/icons. */
+  circuitIcon?: string;
+  /** Source TablePress arrow shown before the rest time, served from /kbl/icons. */
+  restIcon?: string;
 };
 export type CircuitSeparator = { after: string; label: string };
 export type WorkoutTable = {

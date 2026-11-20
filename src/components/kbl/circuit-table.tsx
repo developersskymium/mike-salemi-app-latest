@@ -1,9 +1,22 @@
 import { Fragment } from "react";
-import { ArrowDown, ArrowUp } from "lucide-react";
 import type { WorkoutTable } from "@/content/readiness-table";
 import { cn } from "@/lib/utils";
 
-/** The workout table: circuit badges, rest direction signs, reps/sets/tempo. */
+/** Column headings and their source TablePress tooltips. */
+const COLUMNS = [
+  { label: "Type", hint: "(S) Station Exercise or (C) Circuit" },
+  { label: "Exercise", hint: "Movement" },
+  { label: "Rest", hint: "The time interval in between sets" },
+  { label: "Intensity", hint: "Related to the load being lifted" },
+  { label: "Reps", hint: "Number of times you perform a specific movement" },
+  { label: "Sets", hint: "Number of repetition cycles" },
+  { label: "Tempo", hint: "The rhythm/speed at which you move a given weight" },
+];
+
+/**
+ * The KBL workout table. Every icon is the original TablePress image from
+ * /kbl/icons (Type symbols and rest arrows) — none are drawn by the app.
+ */
 export function CircuitTable({ table }: { table: WorkoutTable }) {
   const separators = table.separators ?? [];
 
@@ -17,27 +30,16 @@ export function CircuitTable({ table }: { table: WorkoutTable }) {
           <caption className="sr-only">{table.title}</caption>
           <thead>
             <tr className="bg-primary/10 text-[0.625rem] uppercase tracking-[0.12em] text-foreground">
-              <th scope="col" className="px-4 py-3 font-bold">
-                Type
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Exercise
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Rest
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Intensity
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Reps
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Sets
-              </th>
-              <th scope="col" className="px-4 py-3 font-bold">
-                Tempo
-              </th>
+              {COLUMNS.map((column) => (
+                <th
+                  key={column.label}
+                  scope="col"
+                  title={column.hint}
+                  className="cursor-help px-4 py-3 font-bold"
+                >
+                  {column.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -51,21 +53,19 @@ export function CircuitTable({ table }: { table: WorkoutTable }) {
                 <Fragment key={`${table.id}-${i}`}>
                   <tr className={cn("border-t border-border", i % 2 === 1 && "bg-muted/30")}>
                     <td className="px-4 py-3">
-                      <CircuitBadge circuit={row.circuit} />
+                      <CircuitBadge circuit={row.circuit} icon={row.circuitIcon} />
                     </td>
                     <td className="px-4 py-3 font-medium text-foreground">{row.exercise}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={cn(
-                          "inline-flex items-center gap-1.5 font-semibold",
-                          row.restDir === "up" ? "text-primary" : "text-foreground",
-                        )}
-                      >
-                        {row.restArrow === false ||
-                        (!row.rest && row.restArrow !== true) ? null : row.restDir === "up" ? (
-                          <ArrowUp className="h-4 w-4" strokeWidth={2.5} />
-                        ) : (
-                          <ArrowDown className="h-4 w-4" strokeWidth={2.5} />
+                      <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+                        {row.restIcon && (
+                          <img
+                            src={row.restIcon}
+                            alt=""
+                            width={20}
+                            className="h-auto w-5 shrink-0"
+                            loading="lazy"
+                          />
                         )}
                         {row.rest}
                       </span>
@@ -109,15 +109,13 @@ export function CircuitTable({ table }: { table: WorkoutTable }) {
   );
 }
 
-/** Circuit marker: the bracketed C1 / C2 sign used in the program tables. */
-export function CircuitBadge({ circuit }: { circuit: string }) {
+/**
+ * Type cell: the original TablePress symbol image (C1, C2, C3, C, S1–S5).
+ * Falls back to the plain label only if a row has no source image.
+ */
+export function CircuitBadge({ circuit, icon }: { circuit: string; icon?: string }) {
+  if (!icon) return <span className="font-mono text-sm font-bold text-foreground">{circuit}</span>;
   return (
-    <span className="relative inline-block px-[0.3rem] py-[0.15rem] font-mono text-[0.8125rem] font-bold leading-none tracking-tight text-success">
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[3px] border-2 border-success [clip-path:polygon(0_0,35%_0,35%_12%,12%_12%,12%_88%,35%_88%,35%_100%,0_100%,0_0,100%_0,100%_100%,65%_100%,65%_88%,88%_88%,88%_12%,65%_12%,65%_0,100%_0)]"
-      />
-      {circuit}
-    </span>
+    <img src={icon} alt={circuit} title={circuit} className="h-10 w-auto max-w-none" loading="lazy" />
   );
 }

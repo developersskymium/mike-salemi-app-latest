@@ -115,6 +115,32 @@ describe("authored exercise prescriptions", () => {
       .replace(/<[^>]+>/g, " ")
       .replace(/\s+/g, " ")
       .trim();
+  // Table 32 has a broken <img> tag whose leftover attribute text renders as
+  // part of the rest time on WordPress; the app shows the intended "20s".
+  const withSourceTypoFixed = (cell: string) =>
+    cell.replace(/^ass="alignnone wp-image-\d+" \/>\s*/, "");
+  const SOURCE_ICONS: Record<string, string> = {
+    "564C4D2C-836F-42CA-A871-43639C3F0998.png": "c1",
+    "D1752BFB-BF96-4CE7-BB46-6C2B027A2A33.png": "c2",
+    "1977DD0F-5BD5-45EE-97F2-C3077736FB54.png": "c3",
+    "Image20200316091907.png": "c",
+    "S1-Symbol.png": "s1",
+    "S2-Symbol.png": "s2",
+    "S3-Symbol.png": "s3",
+    "S4-Symbol.png": "s4",
+    "S5-Symbol.png": "s5",
+    "992EEC4A-7496-4689-A28B-CA5B9CF0F310.png": "rest-down",
+    "Arrow-mirrored.png": "rest-up",
+    "DD469C09-A909-4923-B45E-E80A731CCAA1.png": "rest-up-large",
+  };
+  const sourceImage = (cell: string) => {
+    const file = cell.match(/<img[^>]*?src="[^"]*\/([^"/]+)"/)?.[1];
+    return file ? (SOURCE_ICONS[file] ?? file) : null;
+  };
+  const iconFor = (url: string) => {
+    expect(existsSync(resolve("public", url.slice(1))), url).toBe(true);
+    return url.replace(/^\/kbl\/icons\//, "").replace(/\.png$/, "");
+  };
   it.each(expectedTables.tables)(
     "preserves every visible exercise cell from source table $id",
     (source) => {
@@ -132,8 +158,15 @@ describe("authored exercise prescriptions", () => {
           table.rows[index].reps,
           table.rows[index].sets,
           table.rows[index].tempo,
-        ]).toEqual(row.slice(1).map(plain));
+        ]).toEqual(row.slice(1).map(plain).map(withSourceTypoFixed));
         expect(table.rows[index].restDir).toBe(/Arrow-mirrored/.test(row[2]) ? "up" : "down");
+        // Icons are the source images themselves, never app-drawn.
+        expect(table.rows[index].circuitIcon ? iconFor(table.rows[index].circuitIcon!) : null).toBe(
+          sourceImage(row[0]),
+        );
+        expect(table.rows[index].restIcon ? iconFor(table.rows[index].restIcon!) : null).toBe(
+          sourceImage(row[2]),
+        );
       });
       const separators = source.data
         .filter((row) => row[1] === "#colspan#")
