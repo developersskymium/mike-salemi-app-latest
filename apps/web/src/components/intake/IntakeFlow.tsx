@@ -1,14 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { IntakeQuestion, IntakeResult } from "@ms/api";
 import { Button, Glass, Sheet, useToast } from "@/components/ui";
 import { submitIntakeAction } from "@/lib/actions/intake";
+import { coverFor } from "@/lib/covers";
+import { resolveJourney } from "@/lib/journey";
 import type { IntakeAttempt, IntakePageData } from "@/lib/loaders/course";
 import { IntakeReview, KblResult } from "./IntakeReview";
 import "./intake.css";
+import "../journey/accent.css";
 
 type Answers = Record<string, string | string[]>;
 type View = { kind: "flow"; fresh: boolean } | { kind: "done"; attempt: IntakeAttempt };
@@ -24,7 +28,7 @@ const InfoIcon = () => (
 );
 
 export function programHref(p: IntakePageData["program"]) {
-  return p.type === "course" ? `/programs/${p.slug}/course/resume` : `/programs/${p.slug}`;
+  return p.type === "course" ? `/programs/${p.slug}/course` : `/programs/${p.slug}`;
 }
 
 const answered = (q: IntakeQuestion, v: Answers[string] | undefined) => (Array.isArray(v) ? v.length > 0 : Boolean(v && String(v).trim()));
@@ -34,7 +38,34 @@ const answered = (q: IntakeQuestion, v: Answers[string] | undefined) => (Array.i
  * and the rail, options as rows, a single footer action. Answers are drafted on this device so a
  * member can leave and come back; every save is a new attempt (earlier ones are kept).
  */
+/**
+ * Summit: on desktop the intake sits beside a full-colour photo of Mike for the program, with
+ * the steps listed so the member always knows how much is left. Hidden on phones.
+ */
+function IntakePhoto({ data, steps, at }: { data: IntakePageData; steps: string[]; at: number }) {
+  const cover = coverFor(data.program.slug, data.program.image);
+  const lead = data.kind === "kbl" ? "Thirteen short steps place you in the right level." : data.kind === "mtk" ? "Two minutes, then Mike recommends where to start." : "A few questions so Mike's guidance fits where you are.";
+  return (
+    <aside className="itk-photo" aria-hidden>
+      <Image src={cover.src} alt="" fill sizes="40vw" priority style={{ objectPosition: cover.focal }} />
+      <div className="itk-photo-in">
+        <p className="itk-photo-e">{data.kind === "mtk" ? "Assessment" : "Program intake"} · {data.program.name}</p>
+        <p className="itk-photo-t">{lead}</p>
+        <ol className="itk-photo-steps">
+          {steps.map((t, i) => (
+            <li key={`${i}-${t}`} data-s={i < at ? "done" : i === at ? "now" : undefined}>
+              <span>{i < at ? "✓" : i + 1}</span>
+              {t}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </aside>
+  );
+}
+
 export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow" | "review" | "fresh" }) {
+  const theme = resolveJourney(data.program.slug).theme;
   const router = useRouter();
   const toast = useToast();
   const steps = data.form.steps;
@@ -158,7 +189,8 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       onFresh: () => setConfirm(true),
     };
     return (
-      <div className="itk">
+      <div className="itk" data-shell-focus="" data-jy-theme={theme}>
+        <IntakePhoto data={data} steps={steps.map((x) => x.title)} at={steps.length} />
         {data.kind === "kbl" ? <KblResult {...props} /> : <IntakeReview {...props} />}
         <Sheet
           open={confirm}
@@ -183,7 +215,8 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
   };
 
   return (
-    <div className="itk">
+    <div className="itk" data-shell-focus="" data-jy-theme={theme}>
+      <IntakePhoto data={data} steps={steps.map((x) => x.title)} at={step} />
       <Glass as="header" level="thick" className="itk-head">
         <div className="itk-col">
           <div className="itk-head-row">

@@ -14,6 +14,7 @@ import { CourseVideo } from "./CourseVideo";
 import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelOpen, Spark, X } from "./glyphs";
 import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
 import "./course.css";
+import "../journey/accent.css";
 
 type Mode = "plan" | "full" | null;
 
@@ -242,11 +243,11 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   const intakeHref = data.intake ? (data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`) : null;
 
   return (
-    <div className="crs" data-focus={focus ? "" : undefined}>
+    <div className="crs" data-shell-focus="" data-jy-theme={data.program.journey.theme} data-focus={focus ? "" : undefined}>
       <Glass as="header" level="thick" className="crs-bar">
         <div className="crs-bar-row">
-          <Link href={planMode ? "/mtk" : `/programs`} className="crs-ghost" aria-label={planMode ? "Back to My Plan" : "Back to Programs"}>
-            <Back /><span className="crs-sm">{planMode ? "My Plan" : "Programs"}</span>
+          <Link href={planMode ? "/mtk" : `/programs/${slug}/course`} className="crs-ghost" aria-label={planMode ? "Back to My Plan" : `Back to the ${data.program.name} overview`}>
+            <Back /><span className="crs-sm">{planMode ? "My Plan" : "Overview"}</span>
           </Link>
           <p className="crs-bar-title crs-ellipsis">{data.program.name}</p>
           <span className="crs-bar-pct crs-num" aria-label={`${pct}% complete`}>{pct}%</span>
@@ -286,9 +287,9 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
 
             {overview && (
               <section className="crs-over" aria-labelledby="crs-over-h">
-                {data.program.image && (
+                {data.program.cover && (
                   <figure className="crs-over-art">
-                    <Image src={data.program.image} alt="" fill sizes="(min-width: 1024px) 760px, 100vw" priority />
+                    <Image src={data.program.cover.src} alt={data.program.cover.alt} fill sizes="(min-width: 1024px) 760px, 100vw" priority style={{ objectPosition: data.program.cover.focal }} />
                     {data.program.tagline && !byline && <figcaption>{data.program.tagline}</figcaption>}
                   </figure>
                 )}
@@ -339,7 +340,7 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
                     directUrl={parsed.directVideo?.url}
                     poster={main0?.poster ?? null}
                     title={isIntro ? data.program.name : lesson.title}
-                    fallbackImage={data.program.image}
+                    fallbackImage={data.program.cover?.src ?? data.program.image}
                     kicker={isIntro ? "Start here" : group ? `${group.name} · ${index + 1}` : undefined}
                     resumeAt={main0?.video ? lesson.videoSeconds[main0.video.providerId] ?? 0 : 0}
                     onProgress={(s) => {
@@ -352,7 +353,7 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
 
                 <AudioList items={parsed.audio} />
                 {parsed.body && <Markdown source={parsed.body} hide={hideLeads} />}
-                <Clips clips={clips} fallbackImage={data.program.image} />
+                <Clips clips={clips} fallbackImage={data.program.cover?.src ?? data.program.image} />
                 <Downloads items={parsed.files} />
 
                 <Glass level="thick" float className="crs-next">

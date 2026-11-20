@@ -1,0 +1,16 @@
+/* Journey accents for full-screen surfaces (course player, intake, MTK pages): any element with
+   data-jy-theme re-points the Summit accent to the program's journey colour (lib/journey themes). */
+[data-jy-theme="athletic"] { --accent: #D7262E; --accent-strong: #B81E25; --accent-ink: #A8141B; --accent-soft: #FDECEC; --focus: #D7262E; --trace: #D7262E; }
+[data-jy-theme="calm"] { --accent: #3E7D5E; --accent-strong: #2F6A4D; --accent-ink: #2C5E45; --accent-soft: #E9F3EE; --focus: #3E7D5E; --trace: #3E7D5E; }
+[data-jy-theme="dusk"] { --accent: #5257C4; --accent-strong: #4247AE; --accent-ink: #3A3E9E; --accent-soft: #EEEEFB; --focus: #5257C4; --trace: #5257C4; }
+[data-jy-theme="earth"] { --accent: #4C7A36; --accent-strong: #3D672A; --accent-ink: #355A24; --accent-soft: #EDF4E8; --focus: #4C7A36; --trace: #4C7A36; }
+:root[data-theme="dark"] [data-jy-theme="athletic"] { --accent: #FF4A3D; --accent-strong: #FF6B60; --accent-ink: #FF8A80; --accent-soft: color-mix(in srgb, #FF4A3D 14%, transparent); }
+:root[data-theme="dark"] [data-jy-theme="calm"] { --accent: #6FBF95; --accent-strong: #8ACFA9; --accent-ink: #A7D9BE; --accent-soft: color-mix(in srgb, #6FBF95 14%, transparent); }
+:root[data-theme="dark"] [data-jy-theme="dusk"] { --accent: #9095FF; --accent-strong: #A8ACFF; --accent-ink: #BFC2FF; --accent-soft: color-mix(in srgb, #9095FF 14%, transparent); }
+:root[data-theme="dark"] [data-jy-theme="earth"] { --accent: #8CC46E; --accent-strong: #A2D287; --accent-ink: #B9DFA5; --accent-soft: color-mix(in srgb, #8CC46E 14%, transparent); }
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] [data-jy-theme="athletic"] { --accent: #FF4A3D; --accent-strong: #FF6B60; --accent-ink: #FF8A80; --accent-soft: color-mix(in srgb, #FF4A3D 14%, transparent); }
+  :root[data-theme="system"] [data-jy-theme="calm"] { --accent: #6FBF95; --accent-strong: #8ACFA9; --accent-ink: #A7D9BE; --accent-soft: color-mix(in srgb, #6FBF95 14%, transparent); }
+  :root[data-theme="system"] [data-jy-theme="dusk"] { --accent: #9095FF; --accent-strong: #A8ACFF; --accent-ink: #BFC2FF; --accent-soft: color-mix(in srgb, #9095FF 14%, transparent); }
+  :root[data-theme="system"] [data-jy-theme="earth"] { --accent: #8CC46E; --accent-strong: #A2D287; --accent-ink: #B9DFA5; --accent-soft: color-mix(in srgb, #8CC46E 14%, transparent); }
+}

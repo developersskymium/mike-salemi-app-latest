@@ -45,7 +45,7 @@ function Answers({ data, attempt }: Pick<Props, "data" | "attempt">) {
 /** "Your program approach" (legacy review): headline, priorities, keep in mind, Open program / Review answers / Start fresh. */
 export function IntakeReview({ data, attempt, attempts, onReview, onFresh }: Props) {
   const r = attempt.result;
-  const open = data.program.type === "course" ? `/programs/${data.program.slug}/course/resume` : `/programs/${data.program.slug}`;
+  const open = data.program.type === "course" ? `/programs/${data.program.slug}/course` : `/programs/${data.program.slug}`;
   return (
     <div className="itk-page">
       <div className="itk-page-in">

@@ -161,3 +161,32 @@ button.mtk-drow { width: 100%; text-align: left; }
 button.mtk-drow:hover .mtk-dmain b { color: var(--accent-ink); }
 @media (min-width: 640px) { .mtk-card { min-height: 116px; } }
 .mtk-ribbon { -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
+
+/* ---------------------------------------------------------------- Summit band: photo + the MTK path */
+.mtk-band { display: grid; grid-template-columns: minmax(0, 1fr) 240px; border-radius: var(--r-xl, 26px); overflow: hidden; background: var(--glacier-900, #0E2A45); color: #fff; box-shadow: var(--sh-3); margin-bottom: 30px; }
+.mtk-band-panel { padding: 22px 26px; display: grid; gap: 6px; align-content: center; background: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 24px 24px, linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 24px 24px; }
+.mtk-band-back { font: 650 11.5px/1 var(--font); letter-spacing: .09em; text-transform: uppercase; color: #8CCBF5; text-decoration: none; }
+.mtk-band-t { margin: 4px 0 0; font: 800 26px/1.1 var(--font-display); letter-spacing: -.03em; }
+.mtk-band-s { margin: 0; font: 500 13.5px/1.4 var(--font); color: rgba(255, 255, 255, .72); }
+.mtk-band-steps { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mtk-band-steps li > * { display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px 6px 6px; border-radius: 99px; font: 600 12.5px/1 var(--font); color: rgba(255, 255, 255, .7); text-decoration: none; background: rgba(255, 255, 255, .06); }
+.mtk-band-steps li span span, .mtk-band-steps li a span { width: 20px; height: 20px; border-radius: 99px; display: grid; place-items: center; font: 800 10.5px/1 var(--font-display); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .3); padding: 0; background: none; }
+.mtk-band-steps li[data-s="done"] a span { background: var(--warm); box-shadow: none; color: #fff; }
+.mtk-band-steps li[data-s="now"] > * { background: #fff; color: #0E2A45; }
+.mtk-band-steps li[data-s="now"] a span { background: #0E2A45; color: #fff; box-shadow: none; }
+.mtk-band-off { opacity: .7; }
+.mtk-band-photo { position: relative; margin: 0; min-height: 170px; }
+.mtk-band-photo img { object-fit: cover; }
+.mtk-band-photo::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 48px; z-index: 1; background: linear-gradient(90deg, var(--glacier-900, #0E2A45), transparent); }
+@media (max-width: 640px) {
+  .mtk-band { grid-template-columns: minmax(0, 1fr); }
+  .mtk-band-photo { order: -1; min-height: 0; aspect-ratio: 16 / 9; }
+  .mtk-band-photo::before { inset: auto 0 0 0; width: auto; height: 48px; background: linear-gradient(0deg, var(--glacier-900, #0E2A45), transparent); }
+  .mtk-band-panel { padding: 4px 18px 18px; }
+}
+/* Summit type */
+.mtk-h1 { font-family: var(--font-display); font-weight: 800; letter-spacing: -.035em; }
+.mtk-h1 b { font-weight: 800; }
+.mtk-h2 { font-family: var(--font-display); font-weight: 750; }
+.mtk-card-v { font-family: var(--font-display); font-weight: 800; }
+.mtk-card, .mtk-prog, .mtk-preview { box-shadow: var(--sh-2); }

@@ -5,6 +5,7 @@ import type { CoursePageData } from "@/lib/loaders/course";
 import { MomPanel } from "./CoursePlayer";
 import { Back, Check, Clipboard, Lock } from "./glyphs";
 import "./course.css";
+import "../journey/accent.css";
 
 /** No access yet: the same frame with the overview, the outline and a way to choose access (legacy locked course). */
 export function CourseLocked({ data }: { data: CoursePageData }) {
@@ -12,10 +13,10 @@ export function CourseLocked({ data }: { data: CoursePageData }) {
   const multi = groups.length > 1;
   const lessons = groups.reduce((n, g) => n + g.sections.reduce((m, s) => m + s.lessons.length, 0), 0);
   return (
-    <div className="crs" data-focus="">
+    <div className="crs" data-shell-focus="" data-jy-theme={data.program.journey.theme} data-focus="">
       <Glass as="header" level="thick" className="crs-bar">
         <div className="crs-bar-row">
-          <Link href="/programs" className="crs-ghost" aria-label="Back to Programs"><Back /><span className="crs-sm">Programs</span></Link>
+          <Link href={`/programs/${data.program.slug}/course`} className="crs-ghost" aria-label={`Back to the ${data.program.name} overview`}><Back /><span className="crs-sm">Overview</span></Link>
           <p className="crs-bar-title crs-ellipsis">{data.program.name}</p>
           <span className="crs-ghost" aria-hidden><Lock /></span>
         </div>
@@ -25,9 +26,9 @@ export function CourseLocked({ data }: { data: CoursePageData }) {
         <main className="crs-main" id="main">
           <div className="crs-stage">
             <section className="crs-over" aria-labelledby="crs-over-h">
-              {data.program.image && (
+              {data.program.cover && (
                 <figure className="crs-over-art">
-                  <Image src={data.program.image} alt="" fill sizes="(min-width: 1024px) 760px, 100vw" priority />
+                  <Image src={data.program.cover.src} alt={data.program.cover.alt} fill sizes="(min-width: 1024px) 760px, 100vw" priority style={{ objectPosition: data.program.cover.focal }} />
                   {data.program.tagline && <figcaption>{data.program.tagline}</figcaption>}
                 </figure>
               )}
