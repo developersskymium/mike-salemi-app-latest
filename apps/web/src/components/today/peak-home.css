@@ -68,23 +68,25 @@
 .pk-tiles[data-n="1"] .pk-tile, .pk-tiles[data-n="2"] .pk-tile { aspect-ratio: 16 / 10; }
 .pk-tile:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(14, 27, 44, .55); }
 .pk-tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.pk-tile-ph { position: absolute; inset: 0; z-index: -1; }
+.pk-tile-ph { position: absolute; inset: 0; z-index: -2; } /* below the ::before scrim (same -1 layer put the photo on top of it) */
 .pk-tile-ph img { object-fit: cover; transition: transform .8s var(--curve-out, ease); }
 .pk-tile:hover .pk-tile-ph img { transform: scale(1.04); }
-.pk-tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6, 12, 22, .4) 0%, rgba(6, 12, 22, 0) 22%, rgba(6, 12, 22, .45) 44%, rgba(6, 12, 22, .88) 62%, rgba(6, 12, 22, .96) 100%); }
+.pk-tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6, 12, 22, .42) 0%, rgba(6, 12, 22, 0) 24%), linear-gradient(0deg, rgba(8, 14, 22, .92) 0%, rgba(8, 14, 22, .6) 35%, rgba(8, 14, 22, 0) 70%); }
 .pk-tile::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--pc); }
 .pk-tile-top { display: flex; justify-content: space-between; align-items: center; padding: 14px; }
 .pk-tile-chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px 6px 9px; border-radius: 99px; font: 600 12.5px/1 var(--font); background: rgba(10, 18, 30, .45); border: 1px solid rgba(255, 255, 255, .16); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .pk-tile-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 2px rgba(255, 255, 255, .25); }
 .pk-tile-done { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #1F9D6A; color: #fff; }
-.pk-tile-b { display: grid; gap: 6px; padding: 18px 18px 20px; text-shadow: 0 1px 12px rgba(0, 0, 0, .45); }
+.pk-tile-b { position: relative; display: grid; gap: 6px; padding: 18px 18px 20px; text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 1px 12px rgba(0, 0, 0, .35); }
+/* Scrim sized to the text block itself, so wide (16:10) tiles on light photos stay readable (WCAG AA on every line). */
+.pk-tile-b::before { content: ""; position: absolute; inset: -56px 0 0; z-index: -1; pointer-events: none; background: linear-gradient(0deg, rgba(8, 14, 22, .9) 0%, rgba(8, 14, 22, .78) 50%, rgba(8, 14, 22, .45) 78%, rgba(8, 14, 22, 0) 100%); }
 .pk-tile-t { font: 700 21px/1.1 var(--font-display); letter-spacing: -.015em; }
-.pk-tile-s { font: 500 13px/1.35 var(--font); color: rgba(255, 255, 255, .78); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pk-tile-s { font: 500 13px/1.35 var(--font); color: rgba(255, 255, 255, .9); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .pk-tile-m { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
 .pk-tile-bar { flex: 1; height: 5px; border-radius: 99px; background: rgba(255, 255, 255, .2); overflow: hidden; }
 .pk-tile-bar span { display: block; height: 100%; border-radius: inherit; background: var(--pc); filter: brightness(1.25) saturate(1.1); }
 .pk-tile-m b { font: 650 13px/1 var(--font); min-width: 3.4ch; text-align: right; }
-.pk-tile-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font: 650 13.5px/1 var(--font); color: #fff; opacity: .92; }
+.pk-tile-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font: 650 13.5px/1 var(--font); color: #fff; }
 
 @media (max-width: 719px) {
   .pk-tiles, .pk-tiles[data-n] { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 0 -16px; padding: 2px 16px 8px; scroll-padding-inline: 16px; scrollbar-width: none; }

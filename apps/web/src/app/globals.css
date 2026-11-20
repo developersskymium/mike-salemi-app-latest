@@ -168,3 +168,7 @@
 
 /* Client, Nov 20: no serif anywhere. Former serif-italic quotes/notes render in Instrument Sans, upright, medium. */
 .lq-serif, .lq-quote, .au-quote, .trn-cert-sig, .kd-notes p, [class*="quote"], [class*="mike-note"] { font-style: normal !important; font-weight: 500; letter-spacing: -0.01em; }
+
+/* Safety net: a next/image `fill` photo without its own object-fit rule would stretch to its box.
+   Zero specificity, so any component rule (e.g. object-fit: contain in a lightbox) still wins. */
+:where(img[data-nimg="fill"]) { object-fit: cover; }

@@ -4,7 +4,7 @@ import { fixture, MOCK } from "@/lib/mock";
 import { programPhoto, type ProgramPhoto } from "@/lib/program-photos";
 import { pickContinue } from "@/lib/continue";
 import { lessonHrefOf, programHref } from "@/lib/hrefs";
-import { introLessonIds } from "./intro-lessons";
+import { introLessonIds, labelPastIntro } from "./intro-lessons";
 import { streakCount, withTrainingDays } from "./day-progress";
 
 /* The member shell's data: the resume card and the "Your access" list from ONE cheap RPC
@@ -104,7 +104,7 @@ export async function loadShell(sb: DB): Promise<ShellData> {
     sb.from("user_roles").select("role").eq("role", "admin").limit(1).maybeSingle().then((r) => Boolean(r.data), () => false),
     introLessonIds(sb),
   ]);
-  return shapeShell(await withTrainingDays(rows), shop, admin, intro);
+  return shapeShell(await withTrainingDays(await labelPastIntro(sb, rows, intro)), shop, admin, intro);
 }
 
 /** The current streak (days), for the streak chip. Streams in after the shell. */

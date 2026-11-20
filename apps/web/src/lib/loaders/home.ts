@@ -3,7 +3,7 @@ import { getCatalog, myEnrollments, programOutlineStats, quote, type CatalogProg
 import { fixture, MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import { pickContinue } from "@/lib/continue";
-import { introLessonIds } from "./intro-lessons";
+import { introLessonIds, labelPastIntro } from "./intro-lessons";
 import { dayProgress, withTrainingDays } from "./day-progress";
 
 /* Home dashboard data (legacy /home): every program with the member's state, retreats, featured hero, journey. */
@@ -138,11 +138,11 @@ async function realHome(): Promise<HomeRaw> {
     sb.from("tool_results").select("id", { count: "exact", head: true }).eq("user_id", user.id),
     introLessonIds(sb),
   ]);
-  const [priceMap, path] = await Promise.all([prices(sb, catalog), journey(pickContinue(enrollments, intro))]);
+  const [priceMap, path, labelled] = await Promise.all([prices(sb, catalog), journey(pickContinue(enrollments, intro)), labelPastIntro(sb, enrollments, intro)]);
   return {
     settings: home,
     catalog,
-    enrollments,
+    enrollments: labelled,
     outline,
     introLessonIds: intro,
     prices: priceMap,
