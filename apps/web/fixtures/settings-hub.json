@@ -1,0 +1,29 @@
+{
+  "account": { "name": "Daniel Test", "firstName": "Daniel", "email": "member.test@example.com", "createdAt": "2026-03-02T09:00:00Z", "autoplay": true, "avatarUrl": null },
+  "profile": { "goal_kind": "strength", "days_per_week": 3, "training_days": [1, 3, 5], "session_minutes": 30, "equipment": ["Two kettlebells (a pair)", "Mat and floor space"], "bell_weights": "12 kg, 16 kg, 24 kg", "kb_experience": 1, "kb_level": "beginner", "limitations": "Left shoulder gets tight overhead" },
+  "profileSources": { "goal_kind": "goal-setting", "days_per_week": "kbl-intake", "equipment": "goal-setting", "kb_level": "kbl-intake", "limitations": "a4l-intake" },
+  "settings": { "units": "kg", "ownedBells": [12, 16, 24], "matrix": { "reminders": { "push": true, "email": true }, "streak": { "push": true, "email": false }, "recap": { "push": false, "email": true }, "new_content": { "push": false, "email": true }, "coaching": { "push": true, "email": true }, "offers": { "push": false, "email": true } }, "reducedMotion": false },
+  "reminders": { "time": "07:00:00", "quietStart": "21:30:00", "quietEnd": "07:00:00", "timezone": "Europe/London" },
+  "billing": {
+    "plan": { "id": "max", "name": "Max", "rank": 2 },
+    "status": "active",
+    "interval": "year",
+    "amountCents": 59000,
+    "currency": "usd",
+    "renewsOn": "2027-11-20T04:45:29Z",
+    "ending": false,
+    "provider": "stripe",
+    "paymentsLive": false,
+    "plans": [
+      { "id": "free", "name": "Free", "rank": 0, "monthCents": null, "yearCents": null },
+      { "id": "pro", "name": "Pro", "rank": 1, "monthCents": 2900, "yearCents": 29000 },
+      { "id": "max", "name": "Max", "rank": 2, "monthCents": 5900, "yearCents": 59000 }
+    ],
+    "invoices": [
+      { "id": "inv-3", "reference": "MS-24031", "date": "2026-11-20T04:45:29Z", "totalCents": 59000, "currency": "usd", "status": "paid", "label": "Max · yearly" },
+      { "id": "inv-2", "reference": "MS-22871", "date": "2026-07-04T10:12:00Z", "totalCents": 24900, "currency": "usd", "status": "paid", "label": "Athleticism 4 Life" },
+      { "id": "inv-1", "reference": "MS-20112", "date": "2026-03-02T09:00:00Z", "totalCents": 2900, "currency": "usd", "status": "refunded", "label": "Pro · monthly" }
+    ]
+  },
+  "requests": []
+}
