@@ -1,0 +1,471 @@
+{
+ "videos": [
+  {
+   "saved_at": "2026-11-16T12:59:11.788488+00:00",
+   "id": "a23341fe-b02c-4560-94c4-8dca86ce0b96",
+   "title": "*Preparation Plan [For Low BOLT Score]",
+   "duration_seconds": 272,
+   "thumbnail_url": "https://i.vimeocdn.com/video/1775862231-9802428b78a5a4ee3b75771e2f753af9b306adf8d50af59d3a3dcfacef093ab0-d_1280?region=us",
+   "category": null,
+   "level": null,
+   "embed": "https://player.vimeo.com/video/898803400?h=1cf2e9de3a&dnt=1&title=0&byline=0&portrait=0"
+  },
+  {
+   "saved_at": "2026-11-11T05:59:11.788488+00:00",
+   "id": "23375f1b-9ccb-4243-a001-f92ad2d28499",
+   "title": "Abdominal Roll Up",
+   "duration_seconds": 216,
+   "thumbnail_url": "/media/library/Abdominal-Roll-Up.png",
+   "category": "on-ramp",
+   "level": null,
+   "embed": "https://player.vimeo.com/video/399518035?h=85a6e6d56e&dnt=1&title=0&byline=0&portrait=0"
+  },
+  {
+   "saved_at": "2026-11-09T04:59:11.788488+00:00",
+   "id": "2cd41407-111c-48a2-b2b7-ceecf082d2ec",
+   "title": "Abdominals (Lower)",
+   "duration_seconds": 82,
+   "thumbnail_url": "https://i.vimeocdn.com/video/1774339187-1a70e2353a9757a0ca5a6e2eb860303d0911d6f798150c4eb47303a2e241729f-d_1280?region=us",
+   "category": null,
+   "level": null,
+   "embed": "https://player.vimeo.com/video/897957786?h=b30811fc8b&dnt=1&title=0&byline=0&portrait=0"
+  },
+  {
+   "saved_at": "2026-11-08T08:59:11.788488+00:00",
+   "id": "123f168e-cbe6-4671-b7d4-2b62c7c9b00f",
+   "title": "90/90 Hip Stretches",
+   "duration_seconds": 412,
+   "thumbnail_url": "/media/library/90_90-Hip-Stretches.png",
+   "category": "on-ramp",
+   "level": null,
+   "embed": "https://player.vimeo.com/video/399522521?h=022ad2e95b&dnt=1&title=0&byline=0&portrait=0"
+  }
+ ],
+ "tools": [
+  {
+   "id": "7f0c3e8e-2b8f-4f7e-9a51-3c0d7a1b2e01",
+   "tool_id": "stretch-test",
+   "tool_name": "Stretch Test",
+   "created_at": "2026-11-09T18:02:00+00:00",
+   "title": "Workable — train and maintain",
+   "summary": "You can train the full program safely with targeted maintenance work.",
+   "score": {
+    "value": 7,
+    "max": 15
+   },
+   "chips": [],
+   "answers": [
+    {
+     "question": "Standing with straight legs, how far do your hands reach?",
+     "answer": "Around my ankles"
+    },
+    {
+     "question": "Can you sit into a deep squat with heels down?",
+     "answer": "Briefly, with effort"
+    },
+    {
+     "question": "Lying on your back, can you press your arms overhead to the floor with ribs down?",
+     "answer": "Almost"
+    },
+    {
+     "question": "Knee-to-wall ankle test: how far from the wall is your toe?",
+     "answer": "5–10 cm / 2–4 in"
+    },
+    {
+     "question": "Seated, how freely can you rotate your upper back each way?",
+     "answer": "Reasonable, slightly uneven"
+    }
+   ]
+  },
+  {
+   "id": "3b2d6c1a-9e4f-4b8a-8d17-5a6e0f9c4d02",
+   "tool_id": "kettlebell-selector",
+   "tool_name": "Kettlebell Selector",
+   "created_at": "2026-10-24T19:10:00+00:00",
+   "title": "Start with 8 kg",
+   "summary": "Begin on the lightest bell and earn the next one. Technique first, load second.",
+   "score": null,
+   "chips": [
+    "8 kg",
+    "12 kg",
+    "16 kg"
+   ],
+   "answers": [
+    {
+     "question": "Which chart should we use?",
+     "answer": "Male"
+    },
+    {
+     "question": "Roughly where does your bodyweight sit?",
+     "answer": "Below 160lbs"
+    },
+    {
+     "question": "What's your kettlebell level?",
+     "answer": "Beginner"
+    },
+    {
+     "question": "How's your general fitness right now?",
+     "answer": "Low"
+    }
+   ]
+  }
+ ],
+ "plans": [
+  {
+   "id": "90d9d291-0255-4134-8bd2-06b302220d6e",
+   "created_at": "2026-11-19T07:40:00+00:00",
+   "lesson_id": "d3053bee-873f-4a1d-8aba-4e201f49d84d",
+   "lesson_title": "Day 23 - Workout II Day",
+   "section_title": "Phase 2",
+   "program_name": "Kettlebell Lifestyle",
+   "program_slug": "kettlebell-lifestyle",
+   "path_name": "Level I · Beginner",
+   "score": 0,
+   "band": "green",
+   "band_name": "Full Workout",
+   "outcome": "workout",
+   "table": {
+    "id": "33",
+    "title": "(#1 Full) Workout II, Level I, Phase II",
+    "notes": null,
+    "images": [],
+    "rows": [
+     {
+      "reps": "20s",
+      "rest": "30s",
+      "sets": "4",
+      "tempo": "Mod-Fast",
+      "circuit": "S1",
+      "restDir": "down",
+      "exercise": "Goblet Squat",
+      "intensity": "Moderate",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/s1.png"
+     },
+     {
+      "reps": "50s (20sL/20sR + 10s to Switch)",
+      "rest": "30s",
+      "sets": "4",
+      "tempo": "Moderate",
+      "circuit": "S2",
+      "restDir": "down",
+      "exercise": "Half Kneeling Overhead Press",
+      "intensity": "Moderate",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/s2.png"
+     },
+     {
+      "reps": "20s (10sL/10sR)",
+      "rest": "30s",
+      "sets": "4",
+      "tempo": "Fast",
+      "circuit": "S3",
+      "restDir": "down",
+      "exercise": "Single Arm Deadlift",
+      "intensity": "Moderate",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/s3.png"
+     },
+     {
+      "reps": "20s (10sL/10sR)",
+      "rest": "30s",
+      "sets": "4",
+      "tempo": "Mod/Rhythmic",
+      "circuit": "S4",
+      "restDir": "down",
+      "exercise": "Bent Over Row (supported)",
+      "intensity": "Moderate",
+      "restArrow": false,
+      "separator": "[1 min Rest Before Finisher]",
+      "circuitIcon": "/kbl/icons/s4.png"
+     },
+     {
+      "reps": "60s (30sL/30sR)",
+      "rest": "30s",
+      "sets": "2",
+      "tempo": "Hold",
+      "circuit": "S5",
+      "restDir": "down",
+      "exercise": "Side Plank Hold",
+      "intensity": "Bodyweight",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/s5.png"
+     }
+    ]
+   }
+  },
+  {
+   "id": "b627c4a2-7f46-4f45-968c-ed4974985bd6",
+   "created_at": "2026-11-15T07:40:00+00:00",
+   "lesson_id": "5174f4a2-9564-4096-94fd-5f3319a06754",
+   "lesson_title": "Day 21 - Workout I Day",
+   "section_title": "Phase 2",
+   "program_name": "Kettlebell Lifestyle",
+   "program_slug": "kettlebell-lifestyle",
+   "path_name": "Level I · Beginner",
+   "score": 0,
+   "band": "green",
+   "band_name": "Full Workout",
+   "outcome": "workout",
+   "table": {
+    "id": "29",
+    "title": "(#1 Full) Workout I, Level I, Phase II",
+    "notes": null,
+    "images": [],
+    "rows": [
+     {
+      "reps": "20s",
+      "rest": "20s",
+      "sets": "4",
+      "tempo": "Mod-Fast",
+      "circuit": "C1",
+      "restDir": "down",
+      "exercise": "Two Hand Deadlift",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "50s (20sL/20sR + 10s to Switch)",
+      "rest": "20s",
+      "sets": "4",
+      "tempo": "Hold Lower & Mod Upper",
+      "circuit": "C1",
+      "restDir": "down",
+      "exercise": "Modified Butterflies",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "50s (20sL/20sR + 10s to Switch)",
+      "rest": "20s",
+      "sets": "4",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "down",
+      "exercise": "Floor Press",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "50s (20sL/20sR + 10s to Switch)",
+      "rest": "20s",
+      "sets": "4",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "up",
+      "exercise": "Lunge Row (supported)",
+      "restIcon": "/kbl/icons/rest-up.png",
+      "intensity": "Moderate",
+      "restArrow": true,
+      "separator": "[1 min Rest Before Finisher]",
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "60s",
+      "rest": "30s",
+      "sets": "2",
+      "tempo": "Moderate",
+      "circuit": "S2",
+      "restDir": "down",
+      "exercise": "Glute Bridges",
+      "intensity": "Bodyweight",
+      "restArrow": false,
+      "circuitIcon": "/kbl/icons/s2.png"
+     }
+    ]
+   }
+  },
+  {
+   "id": "e2143a20-1526-4b6a-a007-4a6ba9b10f6a",
+   "created_at": "2026-11-12T07:40:00+00:00",
+   "lesson_id": "a2ee9c09-15a5-4f82-be94-bf12b9917f38",
+   "lesson_title": "Day 17 - Workout I Day",
+   "section_title": "Phase 1",
+   "program_name": "Kettlebell Lifestyle",
+   "program_slug": "kettlebell-lifestyle",
+   "path_name": "Level I · Beginner",
+   "score": 30,
+   "band": "amber",
+   "band_name": "Chart 2 Modification",
+   "outcome": "workout",
+   "table": {
+    "id": "16",
+    "title": "(#2 Modified) Workout A, Level I, Phase I",
+    "notes": "Note:\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+     {
+      "alt": "Exercise variation from the program notes",
+      "url": "/kbl/source/db1f335cb7740ed5.png"
+     }
+    ],
+    "rows": [
+     {
+      "reps": "30s",
+      "rest": "10s",
+      "sets": "2",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "down",
+      "exercise": "Squat (Bodyweight)*",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "30s",
+      "rest": "30s",
+      "sets": "2",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "up",
+      "exercise": "Scapula Push Ups",
+      "restIcon": "/kbl/icons/rest-up.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "separator": "[30 sec Rest Before Next Circuit]",
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "10s",
+      "sets": "2",
+      "tempo": "Moderate",
+      "circuit": "C2",
+      "restDir": "down",
+      "exercise": "Romanian Deadlift",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Light-Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "10s",
+      "sets": "2",
+      "tempo": "Moderate/Rhythmic",
+      "circuit": "C2",
+      "restDir": "down",
+      "exercise": "Abdominal Roll Ups",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "30s",
+      "sets": "2",
+      "tempo": "Hold",
+      "circuit": "C2",
+      "restDir": "up",
+      "exercise": "Eagle Hold",
+      "restIcon": "/kbl/icons/rest-up.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     }
+    ]
+   }
+  },
+  {
+   "id": "13c5ab52-a796-4b09-aee0-5266b8ef5f2b",
+   "created_at": "2026-11-07T07:40:00+00:00",
+   "lesson_id": "3917ed46-7595-4388-95eb-a5527b3b740c",
+   "lesson_title": "Day 12 - Workout I Day",
+   "section_title": "Phase 1",
+   "program_name": "Kettlebell Lifestyle",
+   "program_slug": "kettlebell-lifestyle",
+   "path_name": "Level I · Beginner",
+   "score": 0,
+   "band": "green",
+   "band_name": "Full Workout",
+   "outcome": "workout",
+   "table": {
+    "id": "15",
+    "title": "(#1 Full) Workout A, Level I, Phase I",
+    "notes": "Note:\nSquat: If/when you feel ready, you may progress to the loaded variation of this movement included below",
+    "images": [
+     {
+      "alt": "Exercise variation from the program notes",
+      "url": "/kbl/source/db1f335cb7740ed5.png"
+     }
+    ],
+    "rows": [
+     {
+      "reps": "30s",
+      "rest": "10s",
+      "sets": "3",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "down",
+      "exercise": "Squat (Bodyweight)",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "30s",
+      "rest": "30s",
+      "sets": "3",
+      "tempo": "Moderate",
+      "circuit": "C1",
+      "restDir": "up",
+      "exercise": "Scapula Push Ups",
+      "restIcon": "/kbl/icons/rest-up.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "separator": "[30 sec Rest Before Next Circuit]",
+      "circuitIcon": "/kbl/icons/c1.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "10s",
+      "sets": "3",
+      "tempo": "Moderate",
+      "circuit": "C2",
+      "restDir": "down",
+      "exercise": "Romanian Deadlift",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Light-Moderate",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "10s",
+      "sets": "3",
+      "tempo": "Moderate/Rhythmic",
+      "circuit": "C2",
+      "restDir": "down",
+      "exercise": "Abdominal Roll Ups",
+      "restIcon": "/kbl/icons/rest-down.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     },
+     {
+      "reps": "40s",
+      "rest": "30s",
+      "sets": "3",
+      "tempo": "Hold",
+      "circuit": "C2",
+      "restDir": "up",
+      "exercise": "Eagle Hold",
+      "restIcon": "/kbl/icons/rest-up.png",
+      "intensity": "Bodyweight",
+      "restArrow": true,
+      "circuitIcon": "/kbl/icons/c2.png"
+     }
+    ]
+   }
+  }
+ ]
+}

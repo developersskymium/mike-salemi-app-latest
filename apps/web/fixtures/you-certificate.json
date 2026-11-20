@@ -1,0 +1,15 @@
+{
+ "id": "preview",
+ "name": "Daniel Test",
+ "program": "Kettlebell Lifestyle",
+ "path": "Level I · Beginner",
+ "phases": [
+  "On Ramp Phase",
+  "Phase 1",
+  "Phase 2",
+  "Phase 3"
+ ],
+ "issuedAt": "2026-11-20T04:45:29.354933+00:00",
+ "run": 1,
+ "verifyCode": "PREVIEW1"
+}

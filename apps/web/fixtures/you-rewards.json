@@ -1,0 +1,293 @@
+{
+ "name": "Daniel Test",
+ "rewards": {
+  "level": 1,
+  "badges": [
+   {
+    "id": "streak-3",
+    "icon": "flame",
+    "name": "Momentum",
+    "tier": "bronze",
+    "earned_at": "2026-11-20T07:59:11.788488+00:00"
+   },
+   {
+    "id": "streak-7",
+    "icon": "flame",
+    "name": "Unbroken",
+    "tier": "silver",
+    "earned_at": "2026-11-20T07:59:11.788488+00:00"
+   },
+   {
+    "id": "tool-first",
+    "icon": "heart",
+    "name": "Self-Aware",
+    "tier": "bronze",
+    "earned_at": "2026-11-20T07:59:11.788488+00:00"
+   }
+  ],
+  "level_name": "Initiate",
+  "streak_best": 27,
+  "points_total": 50,
+  "next_level_at": 1000,
+  "streak_current": 27
+ },
+ "badges": [
+  {
+   "id": "first-day",
+   "name": "First Rep",
+   "tier": "bronze",
+   "icon": "sparkles",
+   "description": "Complete your first day",
+   "points": 0
+  },
+  {
+   "id": "day-7",
+   "name": "One Week In",
+   "tier": "bronze",
+   "icon": "calendar",
+   "description": "Complete 7 days",
+   "points": 0
+  },
+  {
+   "id": "day-30",
+   "name": "Thirty Deep",
+   "tier": "silver",
+   "icon": "dumbbell",
+   "description": "Complete 30 days",
+   "points": 0
+  },
+  {
+   "id": "on-ramp",
+   "name": "On Ramp Cleared",
+   "tier": "bronze",
+   "icon": "compass",
+   "description": "Finish the On Ramp phase",
+   "points": 0
+  },
+  {
+   "id": "phase-1",
+   "name": "Phase I Complete",
+   "tier": "silver",
+   "icon": "target",
+   "description": "Finish Phase I",
+   "points": 0
+  },
+  {
+   "id": "phase-2",
+   "name": "Phase II Complete",
+   "tier": "silver",
+   "icon": "target",
+   "description": "Finish Phase II",
+   "points": 0
+  },
+  {
+   "id": "phase-3",
+   "name": "Phase III Complete",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Finish Phase III",
+   "points": 0
+  },
+  {
+   "id": "streak-3",
+   "name": "Momentum",
+   "tier": "bronze",
+   "icon": "flame",
+   "description": "Train 3 days in a row",
+   "points": 0
+  },
+  {
+   "id": "streak-7",
+   "name": "Unbroken",
+   "tier": "silver",
+   "icon": "flame",
+   "description": "Train 7 days in a row",
+   "points": 0
+  },
+  {
+   "id": "streak-30",
+   "name": "Lifestyle",
+   "tier": "gold",
+   "icon": "flame",
+   "description": "Train 30 days in a row",
+   "points": 0
+  },
+  {
+   "id": "tool-first",
+   "name": "Self-Aware",
+   "tier": "bronze",
+   "icon": "heart",
+   "description": "Complete your first tool",
+   "points": 0
+  },
+  {
+   "id": "tool-all",
+   "name": "Fully Assessed",
+   "tier": "silver",
+   "icon": "heart",
+   "description": "Complete every assessment tool",
+   "points": 0
+  },
+  {
+   "id": "level-1",
+   "name": "Beginner Graduate",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Complete Level I",
+   "points": 0
+  },
+  {
+   "id": "level-2",
+   "name": "Intermediate Graduate",
+   "tier": "gold",
+   "icon": "trophy",
+   "description": "Complete Level II",
+   "points": 0
+  }
+ ],
+ "progress": [
+  {
+   "id": "first-day",
+   "earned": false,
+   "target": 1,
+   "current": 0
+  },
+  {
+   "id": "day-7",
+   "earned": false,
+   "target": 7,
+   "current": 0
+  },
+  {
+   "id": "day-30",
+   "earned": false,
+   "target": 30,
+   "current": 0
+  },
+  {
+   "id": "on-ramp",
+   "earned": false,
+   "target": 8,
+   "current": 8
+  },
+  {
+   "id": "phase-1",
+   "earned": false,
+   "target": 15,
+   "current": 15
+  },
+  {
+   "id": "phase-2",
+   "earned": false,
+   "target": 22,
+   "current": 4
+  },
+  {
+   "id": "phase-3",
+   "earned": false,
+   "target": 22,
+   "current": 0
+  },
+  {
+   "id": "streak-3",
+   "earned": true,
+   "target": 3,
+   "current": 3
+  },
+  {
+   "id": "streak-7",
+   "earned": true,
+   "target": 7,
+   "current": 7
+  },
+  {
+   "id": "streak-30",
+   "earned": false,
+   "target": 30,
+   "current": 27
+  },
+  {
+   "id": "tool-first",
+   "earned": true,
+   "target": 1,
+   "current": 1
+  },
+  {
+   "id": "tool-all",
+   "earned": false,
+   "target": 4,
+   "current": 2
+  },
+  {
+   "id": "level-1",
+   "earned": false,
+   "target": 67,
+   "current": 27
+  },
+  {
+   "id": "level-2",
+   "earned": false,
+   "target": 67,
+   "current": 0
+  }
+ ],
+ "ledger": [
+  {
+   "id": 135,
+   "amount": 25,
+   "reason": "tool",
+   "created_at": "2026-11-09T18:02:00+00:00"
+  },
+  {
+   "id": 136,
+   "amount": 25,
+   "reason": "tool",
+   "created_at": "2026-10-24T19:10:00+00:00"
+  }
+ ],
+ "levels": [
+  {
+   "pct": 40,
+   "done": 27,
+   "name": "Kettlebell Lifestyle",
+   "slug": "kettlebell-lifestyle",
+   "total": 67,
+   "phases": [
+    {
+     "pct": 100,
+     "done": 8,
+     "title": "On Ramp Phase",
+     "total": 8,
+     "section_id": "4ce6f008-7a2e-4c20-98e2-1e890920484d"
+    },
+    {
+     "pct": 100,
+     "done": 15,
+     "title": "Phase 1",
+     "total": 15,
+     "section_id": "b26bf84f-0520-42a6-bab0-e8de04175187"
+    },
+    {
+     "pct": 18,
+     "done": 4,
+     "title": "Phase 2",
+     "total": 22,
+     "section_id": "df188a11-d6e4-4f79-9bb2-e114037d511a"
+    },
+    {
+     "pct": 0,
+     "done": 0,
+     "title": "Phase 3",
+     "total": 22,
+     "section_id": "2d611df1-9ac1-47e1-9978-84e09f687e22"
+    }
+   ],
+   "minutes": 56,
+   "path_id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+   "path_name": "Level I · Beginner",
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739"
+  }
+ ],
+ "runs": [],
+ "certificates": []
+}

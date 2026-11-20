@@ -1,0 +1,69 @@
+/* W4 — Shop. Prefixed global CSS (shp-), tokens only. */
+.shp-page { position: relative; display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); padding-bottom: 96px; }
+@media (min-width: 1024px) { .shp-page { padding-bottom: 24px; } }
+.shp-page > * { min-width: 0; }
+.shp-lede { max-width: 52ch; margin: 2px 0 18px; padding: 0 2px; position: relative; }
+.shp-block { display: grid; gap: 12px; }
+.shp-h { padding: 0 4px; font-weight: 700; }
+.shp-filter { max-width: 420px; }
+.shp-preview { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; color: var(--label-2); }
+.shp-preview .lq-icon { flex: none; margin-top: 1px; }
+.shp-preview code { font-family: var(--font-code); font-size: .92em; }
+.shp-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .shp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .shp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.shp-card { display: grid; grid-template-rows: auto 1fr; border-radius: var(--r-card); overflow: hidden; color: inherit; text-decoration: none; transition: transform var(--dur-lift) var(--curve-spring); }
+.shp-card:hover { transform: translateY(var(--lift-y, -3px)); }
+.shp-card:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.shp-card-img { position: relative; aspect-ratio: 4 / 3; background: var(--fill); overflow: hidden; }
+.shp-card-img img { transition: transform 900ms var(--curve-out); }
+.shp-card:hover .shp-card-img img { transform: scale(1.04); }
+.shp-pill { position: absolute; left: 10px; top: 10px; padding: 4px 10px; border-radius: var(--r-pill); font: var(--t-12); font-weight: 700; letter-spacing: .04em; color: #fff; background: rgba(0, 0, 0, .42); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.shp-card-body { display: grid; gap: 3px; padding: 14px 16px 14px; align-content: start; }
+.shp-card-name { font-weight: 700; }
+.shp-card-line { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.shp-card-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.shp-trust { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .shp-trust { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.shp-trust-tile { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 14px 16px; align-items: center; }
+.shp-trust-tile > span:last-child { display: grid; }
+.shp-trust-ic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); }
+.shp-order-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.shp-stat { padding: 14px 16px; }
+
+.shp-ctx-wrap { position: sticky; top: calc(env(safe-area-inset-top) + 8px); z-index: 6; margin-bottom: 16px; }
+.shp-ctx { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 6px; }
+.shp-ctx-mid { display: grid; min-width: 0; }
+.shp-ctx-mid > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.shp-ctx-act { padding-right: 2px; }
+@media (max-width: 1023px) { .shp-ctx-act { display: none; } }
+.shp-product { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1024px) { .shp-product { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 24px; } }
+.shp-gallery { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r-hero); overflow: hidden; background: var(--fill); }
+@media (min-width: 1024px) { .shp-gallery { position: sticky; top: 84px; } }
+.shp-buy { border-radius: var(--r-hero); padding: 22px 20px; display: grid; gap: 12px; }
+.shp-eyebrow { display: block; font-weight: 600; color: var(--accent-ink); }
+.shp-name { font-weight: 700; }
+.shp-price { font-weight: 700; }
+.shp-bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.shp-bullets li { display: flex; gap: 8px; align-items: center; }
+.shp-bullets .lq-icon { color: var(--accent-ink); flex: none; }
+.shp-sizes { border: 0; padding: 0; margin: 4px 0 0; display: grid; gap: 8px; }
+.shp-sizes:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 8px; }
+.shp-size-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 1280px) { .shp-size-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.shp-size { appearance: none; border: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; display: grid; gap: 1px; padding: 10px 12px; border-radius: var(--r-control); background: var(--fill-2); box-shadow: inset 0 0 0 1px var(--sep); transition: box-shadow var(--dur-press) ease, background var(--dur-press) ease, transform var(--dur-press) var(--curve-spring); }
+.shp-size:hover { background: var(--fill); }
+.shp-size:active { transform: scale(var(--press-scale)); }
+.shp-size[aria-checked="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.shp-size:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.shp-action { margin-top: 4px; }
+.shp-chips { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid var(--sep); }
+.shp-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--r-pill); background: var(--fill-2); color: var(--label-2); font-weight: 600; }
+.shp-bar-wrap { position: fixed; left: 12px; right: 12px; bottom: calc(var(--tabbar-h, 64px) + var(--tabbar-bottom, 12px) + 10px + env(safe-area-inset-bottom)); z-index: var(--z-tabbar); }
+@media (min-width: 1024px) { .shp-bar-wrap { display: none; } }
+.shp-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 10px 10px 16px; border-radius: 22px; }
+.shp-bar-price { display: grid; min-width: 0; }
+.shp-bar-price > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.shp-bar-act .lq-btn { min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { .shp-card:hover, .shp-card:hover .shp-card-img img { transform: none; } }
