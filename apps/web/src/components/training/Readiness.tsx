@@ -45,12 +45,15 @@ export function ReadinessAssessment({
   initial,
   onDraft,
   onSubmit,
+  compact,
 }: {
   form: ReadinessForm;
   saved: Readiness | null;
   initial: Record<string, string>;
   onDraft?: (answers: Record<string, string>) => void;
   onSubmit: (answers: Record<string, string>, preview: ReadinessOutcome) => Promise<boolean>;
+  /** KBL day view: one small question card, answer pills side by side, tips folded away. */
+  compact?: boolean;
 }) {
   const qs = useMemo(() => sortQs(form), [form]);
   const [answers, setAnswers] = useState<Record<string, string>>(initial ?? {});
@@ -116,6 +119,72 @@ export function ReadinessAssessment({
     setBusy(false);
     if (ok) setRedo(false);
   }
+
+  const back = () => {
+    setDir(-1);
+    setStep(Math.max(0, index - 1));
+  };
+  const hasNote = Boolean(note && (note.title || note.body || note.points?.length));
+
+  if (compact)
+    return (
+      <div className="krq">
+        <div className="krq-top">
+          <span className="krq-dots" aria-hidden>
+            {qs.map((qq, i) => (
+              <i key={qq.key} data-state={answers[qq.key] ? "done" : i === index ? "now" : undefined} />
+            ))}
+          </span>
+          <span className="krq-n lq-num">
+            {index + 1} / {qs.length}
+          </span>
+        </div>
+        <div key={q.key} className="krq-q kd-q" data-dir={dir === 1 ? "fwd" : "back"}>
+          <h3 className="krq-prompt">{q.prompt}</h3>
+          <div className="krq-opts" role="radiogroup" aria-label={q.prompt}>
+            {q.options.map((o) => {
+              const on = answers[q.key] === o.value;
+              return (
+                <button key={o.value} type="button" role="radio" aria-checked={on} className="krq-opt lq-press" data-on={on ? "" : undefined} onClick={() => choose(o.value)}>
+                  {on && <Icon name="check" size="xs" />}
+                  {o.label}
+                </button>
+              );
+            })}
+          </div>
+          {hasNote && (
+            <details className="krq-tips">
+              <summary>
+                <Icon name="sparkle" size="xs" /> Tips
+              </summary>
+              {note!.title && <p className="krq-tips-h">{note!.title}</p>}
+              {note!.body && <p>{note!.body}</p>}
+              {note!.points && (
+                <ul>
+                  {note!.points.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              )}
+            </details>
+          )}
+        </div>
+        <div className="krq-foot">
+          {index > 0 ? (
+            <button type="button" className="krq-back" onClick={back}>
+              <Icon name="back" size="xs" /> Back
+            </button>
+          ) : (
+            <span />
+          )}
+          {all && (
+            <Button size="md" icon="kettlebell" aria-busy={busy || undefined} disabled={busy} onClick={submit}>
+              See my workout
+            </Button>
+          )}
+        </div>
+      </div>
+    );
 
   return (
     <div className="kd-ready">
