@@ -7,6 +7,7 @@ import { loadBoard } from "@/lib/loaders/selfguided";
 import { opensAsCourse } from "@/lib/course-types";
 import { KblHome } from "@/components/journeys/KblHome";
 import { loadIntakePage } from "@/lib/loaders/course";
+import { fixture, MOCK } from "@/lib/mock";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -29,6 +30,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
   const data = await loadProgramPage(slug, param(sp.path));
+  // Local preview: courses have course snapshots but no program-page snapshot; open their journey home.
+  if (!data && MOCK && (await fixture(`course-${slug}`).then(() => true, () => false))) redirect(`/programs/${slug}/course`);
   if (!data) notFound();
   // Courses and tools (the Roadmap) open their signature journey home, then lessons in the shared course player.
   if (opensAsCourse(data.program.type)) redirect(`/programs/${slug}/course`);

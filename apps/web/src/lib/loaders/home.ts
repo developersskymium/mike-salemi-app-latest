@@ -4,6 +4,7 @@ import { fixture, MOCK } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import { pickContinue } from "@/lib/continue";
 import { introLessonIds } from "./intro-lessons";
+import { dayProgress, withTrainingDays } from "./day-progress";
 
 /* Home dashboard data (legacy /home): every program with the member's state, retreats, featured hero, journey. */
 
@@ -112,33 +113,12 @@ async function runs(sb: DB): Promise<HomeRun[]> {
   }));
 }
 
-async function journey(sb: DB, e: Enrollment | undefined): Promise<HomeRaw["journey"]> {
+/** The Climb on Today: the shared training-day counts (lib/loaders/day-progress), per phase. */
+async function journey(e: Enrollment | undefined): Promise<HomeRaw["journey"]> {
   if (!e) return null;
-  const { data: progress } = await sb.rpc("curriculum_progress", { p_program: e.program_id, p_path: e.path_id ?? undefined });
-  const rows = progress ?? [];
-  if (!rows.length) return null;
-  const { data: lessons } = await sb.from("lessons").select("id, day_number, sections(id, title, position)").in("id", rows.map((r) => r.lesson_id));
-  const sec = new Map<string, { id: string; title: string; position: number }>();
-  const isDay = new Set<string>();
-  for (const l of lessons ?? []) {
-    const s = l.sections as unknown as { id: string; title: string; position: number } | null;
-    if (s) sec.set(l.id, s);
-    if ((l as { day_number?: number | null }).day_number != null) isDay.add(l.id);
-  }
-  const out = new Map<string, Required<JourneySection> & { position: number }>();
-  for (const r of rows) {
-    const s = sec.get(r.lesson_id);
-    if (!s) continue;
-    const j = out.get(s.id) ?? { title: s.title, total: 0, done: 0, days: 0, daysDone: 0, position: s.position };
-    j.total++;
-    if (r.complete) j.done++;
-    if (isDay.has(r.lesson_id)) {
-      j.days++;
-      if (r.complete) j.daysDone++;
-    }
-    out.set(s.id, j);
-  }
-  const sections = [...out.values()].sort((a, b) => a.position - b.position).map((j) => ({ title: j.title, total: j.total, done: j.done, days: j.days, daysDone: j.daysDone }));
+  const d = await dayProgress(e.program_id, e.path_id ?? null);
+  if (!d) return null;
+  const sections = d.sections.map((s) => ({ title: s.title, total: s.total, done: s.done, days: s.days, daysDone: s.daysDone }));
   return sections.length > 1 ? { enrollmentId: e.enrollment_id, sections } : null;
 }
 
@@ -148,7 +128,7 @@ async function realHome(): Promise<HomeRaw> {
   const sb = supabase as unknown as DB;
   const [catalog, enrollments, outline, home, runList, rr, np, intake, tools, intro] = await Promise.all([
     getCatalog(sb, { listedOnly: true }),
-    myEnrollments(sb),
+    myEnrollments(sb).then(withTrainingDays),
     programOutlineStats(sb),
     settings(sb),
     runs(sb),
@@ -158,7 +138,7 @@ async function realHome(): Promise<HomeRaw> {
     sb.from("tool_results").select("id", { count: "exact", head: true }).eq("user_id", user.id),
     introLessonIds(sb),
   ]);
-  const [priceMap, path] = await Promise.all([prices(sb, catalog), journey(sb, pickContinue(enrollments, intro))]);
+  const [priceMap, path] = await Promise.all([prices(sb, catalog), journey(pickContinue(enrollments, intro))]);
   return {
     settings: home,
     catalog,
@@ -179,6 +159,9 @@ async function realHome(): Promise<HomeRaw> {
 
 /** Home data. In preview mode `variant` "new" shows a member without programs (featured hero), "live" a real member's enrollments. */
 export async function loadHome(variant?: string): Promise<HomeRaw> {
-  if (MOCK) return fixture<HomeRaw>(variant === "new" ? "today-home-new" : variant === "live" ? "today-home-live" : "today-home");
+  if (MOCK) {
+    const raw = await fixture<HomeRaw>(variant === "new" ? "today-home-new" : variant === "live" ? "today-home-live" : "today-home");
+    return { ...raw, enrollments: await withTrainingDays(raw.enrollments) };
+  }
   return realHome();
 }

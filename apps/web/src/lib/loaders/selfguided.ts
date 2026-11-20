@@ -7,6 +7,7 @@ import { lessonIntent, type LessonIntent, type PoolItem, type VideoRef, type Wor
 import { fixture, MOCK, mockable } from "@/lib/mock";
 import { getUser } from "@/lib/supabase/server";
 import { loadLessonPage, type LessonPageData, type PlayerStep } from "@/lib/loaders/training";
+import { streakCount } from "./day-progress";
 
 /**
  * Advanced Self-Guided loaders. Preview fixtures (MOCK_DATA=1) live in apps/web/fixtures/selfguided-*.json
@@ -137,6 +138,13 @@ async function realBoard(sb: DB, userId: string, programId: string, pathId: stri
 
 /** Board data for one program path. Preview fixture: `selfguided-board-<slug>-<path key>` (falls back to `-default`). */
 export async function loadBoard(slug: string, pathKey: string | null, programId: string, pathId: string | null): Promise<BoardData | null> {
+  const [board, streak] = await Promise.all([boardOf(slug, pathKey, programId, pathId), streakCount()]);
+  // One streak everywhere (my_rewards): the top bar, Today, You and this board say the same number.
+  if (board?.stats) board.stats = { ...board.stats, streak: { current: streak.current, best: Math.max(streak.best, streak.current) } };
+  return board;
+}
+
+async function boardOf(slug: string, pathKey: string | null, programId: string, pathId: string | null): Promise<BoardData | null> {
   if (MOCK) {
     return fixture<BoardData>(`selfguided-board-${slugPart(slug)}-${slugPart(pathKey)}`).catch(() =>
       fixture<BoardData>(`selfguided-board-${slugPart(slug)}-default`).catch(() => null),
@@ -157,11 +165,17 @@ export const loadContinue = mockable("selfguided-continue", async (limit?: numbe
 });
 
 /** Training passport stats across programs (You). Fixture: `selfguided-stats`. */
-export const loadTrainingStats = mockable("selfguided-stats", async (weeks?: number): Promise<TrainingStatsDTO | null> => {
+const loadTrainingStatsRaw = mockable("selfguided-stats", async (weeks?: number): Promise<TrainingStatsDTO | null> => {
   const { supabase, user } = await getUser();
   if (!user) return null;
   return trainingStats(supabase, null, weeks ?? 26).catch(() => null);
 });
+
+/** Training passport stats across programs (You), with the shared streak (my_rewards). */
+export async function loadTrainingStats(weeks?: number): Promise<TrainingStatsDTO | null> {
+  const [stats, streak] = await Promise.all([loadTrainingStatsRaw(weeks), streakCount()]);
+  return stats ? { ...stats, streak: { current: streak.current, best: Math.max(streak.best, streak.current) } } : null;
+}
 
 /** Recent history across programs (You). Fixture: `selfguided-history`. */
 export const loadHistory = mockable("selfguided-history", async (limit?: number): Promise<HistoryRow[]> => {
