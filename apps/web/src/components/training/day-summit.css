@@ -288,3 +288,11 @@
 .kd-notes-md .crs-read figure { margin: 4px 0 0; border-radius: 14px; overflow: hidden; background: var(--surface-sunk); }
 .kd-notes-md .crs-read figure img { display: block; width: 100%; height: auto; }
 .kd-notes-md .crs-read blockquote { margin: 0; padding: 2px 0 2px 14px; border-left: 2px solid var(--accent); }
+
+/* Autoplay on phone and tablet: same toggle in the top bar, its word stacked small above it (mirrors Exit on the left). */
+@media (max-width: 1023px) {
+  .kd-top-a > .kd-auto { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 40px; padding: 0; }
+  .kd-auto .kd-auto-l { font: 600 10px/1 var(--font); letter-spacing: .02em; color: var(--label-2); }
+  .kd-auto[data-on] .kd-auto-l { color: var(--label); }
+  .kd-auto .lq-toggle { transform: scale(.66); margin: -6px -8px; }
+}
