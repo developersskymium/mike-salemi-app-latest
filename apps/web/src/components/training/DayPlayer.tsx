@@ -177,6 +177,11 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
     },
     [steps, isOpen, scrollToPlayer],
   );
+  // Latest `go` and active step for timers (the readiness auto-advance).
+  const goRef = useRef(go);
+  goRef.current = go;
+  const activeRef = useRef(active);
+  activeRef.current = active;
 
   /* ---------------------------------------------------------------- additional videos (playlist) */
   // Only while an additional video plays: the current step's additional videos, nothing else.
@@ -318,7 +323,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       return false;
     }
     if (r.ok) setReadiness({ ...local, score: r.result.score, band: r.result.band as Readiness["band"], name: r.result.band_name, outcome: r.result.outcome, tableId: r.result.table_id, message: r.result.message, saved: true });
-    toast(r.ok ? "Readiness logged — your workout table is ready." : "Today's table is ready. Your answers save when you're back online.");
+    toast(r.ok ? "Readiness logged. Your table is ready; next step in 3 seconds." : "Today's table is ready. Your answers save when you're back online.");
     const rStep = steps[readinessIdx];
     if (rStep && !completedRef.current.has(rStep.id)) {
       const after = new Set(completedRef.current).add(rStep.id);
@@ -326,6 +331,13 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       const finished = steps.every((x) => !x.isRequired || after.has(x.id));
       celebrate(readinessIdx, finished);
       if (finished) finishDay(r.ok ? r.result : undefined);
+    }
+    // Readiness done: move on to the next step after 3 seconds (unless the member has already moved).
+    if (readinessIdx + 1 < steps.length) {
+      const from = readinessIdx;
+      window.setTimeout(() => {
+        if (activeRef.current === from) goRef.current(from + 1);
+      }, 3000);
     }
     return true;
   }
@@ -890,7 +902,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
 
 /* ------------------------------------------------------------------ parts */
 
-const MORNING = photo("qiGong");
+const MORNING = photo("standing");
 
 /**
  * The readiness step's visual (it has no video): a calm morning photo with a gauge that fills as
