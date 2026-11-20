@@ -105,7 +105,6 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
 
   /* ---------------------------------------------------------------- playlist + autoplay */
   const [clipState, setClipState] = useState<{ step: string; id: string | null }>({ step: "", id: null });
-  const [autoStart, setAutoStart] = useState(false);
   const [autoplay, setAutoplay] = useState(data.autoplayNext);
   const [pendingState, setPendingState] = useState<null | { step: string; kind: "clip" | "step"; title: string; go: () => void }>(null);
   const clipId = clipState.step === step.id ? clipState.id : null;
@@ -141,7 +140,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
 
   /* ---------------------------------------------------------------- gates + celebration */
   const startEligible = !dayDone && doneCount === 0 && !lesson.pageType;
-  const [showStart, closeStart] = useSeenOnce(`gate:start:${lesson.id}`, startEligible);
+  const [showStart, closeStart, startSettled] = useSeenOnce(`gate:start:${lesson.id}`, startEligible);
   const [endKind, setEndKind] = useState<null | "day" | "phase" | "level">(null);
   const [certificateId, setCertificateId] = useState<string | null>(data.certificateId);
   const { burst, layer } = useConfetti();
@@ -165,9 +164,8 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
     }, 60);
   }, []);
   const go = useCallback(
-    (i: number, opts?: { auto?: boolean }) => {
+    (i: number) => {
       if (i < 0 || i >= steps.length || !isOpen(i)) return;
-      setAutoStart(opts?.auto !== false);
       setActive(i);
       scrollToPlayer();
     },
@@ -188,7 +186,6 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
   /** Back to the step's own lesson video; the playlist goes away. */
   const backToLesson = () => {
     setPendingState(null);
-    setAutoStart(false);
     setClipState({ step: step.id, id: null });
   };
 
@@ -201,7 +198,6 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
         return;
       }
       setPendingState(null);
-      setAutoStart(true);
       setActive(it.stepIndex);
       setClipState({ step: steps[it.stepIndex]!.id, id: it.clipId });
       scrollToPlayer();
@@ -253,7 +249,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
   }
 
   function toReadiness() {
-    if (readinessIdx >= 0 && readinessIdx !== active) go(readinessIdx, { auto: false });
+    if (readinessIdx >= 0 && readinessIdx !== active) go(readinessIdx);
     window.setTimeout(() => readyRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), readinessIdx === active ? 0 : 420);
   }
 
@@ -282,7 +278,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
     const n = i + 1;
     if (via === "watched") {
       if (autoplay && steps[n]) setPending({ kind: "step", title: steps[n]!.title, go: () => go(n) });
-    } else window.setTimeout(() => go(n, { auto: false }), 460);
+    } else window.setTimeout(() => go(n), 460);
   }
 
   async function uncomplete(i: number) {
@@ -493,7 +489,8 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       video={current}
       poster={summitPoster(current.thumbnailUrl ?? step.poster ?? null, step)}
       title={current.title ?? step.title}
-      autoStart={(autoStart || Boolean(clipId)) && !showStart}
+      // Autoplay on: every stage (day opened, step changed, additional video picked) starts itself.
+      autoStart={autoplay && startSettled && !showStart && !planOpen}
       resumeAt={initialSeconds[current.providerId] ?? 0}
       pauseRef={pauseStage}
       onProgress={(s) => {
@@ -511,7 +508,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
       }}
       onEnded={() => {
         const nc = playlist.nextClip;
-        if (nc) setPending({ kind: "clip", title: nc.title, go: () => setClipId(nc.providerId) });
+        if (nc && autoplay) setPending({ kind: "clip", title: nc.title, go: () => setClipId(nc.providerId) });
       }}
       overlay={stageOverlay}
     />
@@ -545,7 +542,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
         Answer below
       </Button>
     ) : isDone && nextIsReadiness ? (
-      <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={() => go(active + 1, { auto: false })}>
+      <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={() => go(active + 1)}>
         Start assessment
       </Button>
     ) : isDone ? (
@@ -637,7 +634,7 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
             <span className="kd-sm">Autoplay</span>
             <Toggle
               checked={autoplay}
-              label="Autoplay next"
+              label="Autoplay"
               onChange={(v) => {
                 setAutoplay(v);
                 if (!v && pending?.kind === "step") setPending(null);

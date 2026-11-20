@@ -15,11 +15,13 @@ import { markSeenAction } from "@/lib/actions/training";
  */
 export function useSeenOnce(key: string, enabled: boolean) {
   const [show, setShow] = useState(false);
+  const [settled, setSettled] = useState(false);
   const check = useCallback(async () => {
     const local = `trn-seen:${key}`;
     const r = await markSeenAction(key);
     if (r.ok) {
       if (r.first) setShow(true);
+      setSettled(true);
       try {
         localStorage.setItem(local, "1");
       } catch {}
@@ -31,13 +33,15 @@ export function useSeenOnce(key: string, enabled: boolean) {
       localStorage.setItem(local, "1");
     } catch {}
     if (!seen) setShow(true);
+    setSettled(true);
   }, [key]);
   useEffect(() => {
     // The check is async (server marker first); state only changes after it resolves.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (enabled) void check();
   }, [enabled, check]);
-  return [show, () => setShow(false)] as const;
+  /** Third value: the check has finished (or isn't needed), so `show` is final for now. */
+  return [show, () => setShow(false), settled || !enabled] as const;
 }
 
 /** Light, dismissible popup (bottom sheet on a phone, centred card on desktop). */

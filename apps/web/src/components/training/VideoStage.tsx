@@ -5,12 +5,15 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { embedUrl, isWatched, type VideoRef } from "@ms/core";
 import { Icon } from "@/components/ui";
 import { clock } from "./model";
+import { canAutoStart, overlayOpen, startPlayback, unmute } from "./autoplay";
 
 type VimeoPlayer = {
   on: (e: string, cb: (d: { seconds: number; duration: number; percent: number }) => void) => void;
   play: () => Promise<void>;
   pause: () => Promise<void>;
   setCurrentTime: (s: number) => Promise<number>;
+  setMuted: (m: boolean) => Promise<boolean>;
+  setVolume: (v: number) => Promise<number>;
   destroy: () => Promise<void>;
 };
 
@@ -19,7 +22,11 @@ export interface StageProps {
   video: (VideoRef & { title?: string }) | null;
   poster: string | null;
   title: string;
-  /** Start playing as soon as the stage mounts (moving between steps, autoplay-next, clip queue). */
+  /**
+   * Autoplay is on: start as soon as the stage mounts (opening the day, moving between steps,
+   * picking an additional video). Waits while the tab is hidden; never starts behind Workout mode.
+   * Tries sound first, falls back to muted with a "Tap to unmute" chip.
+   */
   autoStart?: boolean;
   /** Saved position for "Resume". */
   resumeAt?: number;
@@ -47,7 +54,9 @@ export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onPr
   const wrap = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLIFrameElement>(null);
   const player = useRef<VimeoPlayer | null>(null);
-  const [playing, setPlaying] = useState(Boolean(autoStart && video));
+  const [playing, setPlaying] = useState(false);
+  const [mutedStart, setMutedStart] = useState(false);
+  const started = useRef(false);
   const [showResume, setShowResume] = useState(resumeAt > 8);
   const [progress, setProgress] = useState(0);
   const watched = useRef(false);
@@ -55,6 +64,24 @@ export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onPr
   useEffect(() => {
     cb.current = { onProgress, onWatched, onEnded };
   });
+
+  // Autoplay: start once per stage (each step / additional video remounts it), only when visible.
+  useEffect(() => {
+    if (!autoStart || !video || started.current) return;
+    const tryStart = () => {
+      if (started.current) return;
+      if (!canAutoStart({ autoplay: true, hidden: document.visibilityState === "hidden", blocked: overlayOpen() })) return;
+      started.current = true;
+      setPlaying(true);
+    };
+    tryStart();
+    if (started.current || overlayOpen()) return;
+    const onVis = () => {
+      if (document.visibilityState === "visible") tryStart();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [autoStart, video]);
 
   useEffect(() => {
     if (!playing || !frame.current) return;
@@ -72,6 +99,10 @@ export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onPr
         }
       });
       p.on("ended", () => cb.current.onEnded?.());
+      // The embed carries autoplay=1; play() makes it explicit and tells us if sound was refused.
+      void startPlayback(p).then((how) => {
+        if (alive && how === "muted") setMutedStart(true);
+      });
     });
     return () => {
       alive = false;
@@ -116,7 +147,10 @@ export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onPr
       )}
 
       {video && !playing && (
-        <button type="button" className="kd-stage-cover" aria-label={`Play ${title}`} onClick={() => setPlaying(true)}>
+        <button type="button" className="kd-stage-cover" aria-label={`Play ${title}`} onClick={() => {
+            started.current = true;
+            setPlaying(true);
+          }}>
           <span className="kd-play lq-press">
             <Icon name="play" size="lg" />
           </span>
@@ -138,6 +172,21 @@ export function VideoStage({ video, poster, title, autoStart, resumeAt = 0, onPr
           }}
           onDismiss={() => setShowResume(false)}
         />
+      )}
+
+      {video && playing && mutedStart && (
+        <button
+          type="button"
+          className="kd-unmute lq-glass lq-press"
+          data-level="clear-deep"
+          onClick={() => {
+            setMutedStart(false);
+            if (player.current) void unmute(player.current).catch(() => {});
+          }}
+        >
+          <Icon name="speaker" size="sm" />
+          <span className="lq-t13">Tap to unmute</span>
+        </button>
       )}
 
       {video && playing && <i className="kd-stage-progress" aria-hidden style={{ transform: `scaleX(${progress})` }} />}
