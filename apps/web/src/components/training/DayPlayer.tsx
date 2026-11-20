@@ -1,6 +1,7 @@
 "use client";
 
 import { announceProgress } from "@/components/you/CelebrationHost";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -10,14 +11,18 @@ import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { completeStepAction, savePositionAction, setAutoplayAction, submitReadinessAction, uncompleteStepAction } from "@/lib/actions/training";
 import { lessonHref, lessonLabel, lessonName, minutesOf } from "./model";
+import { summitPoster } from "./model";
 import { UpNext, VideoStage } from "./VideoStage";
 import { ClipCards } from "./ClipRow";
-import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
+import { bandSummary, ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
+import { circuitsOf, circuitWord, estimateMinutes } from "./workout";
+import { MIKE_FACE } from "@/lib/program-photos";
 import { DayEnd, DayStart, useSeenOnce } from "./DayGates";
 import { Cheer, useCheer, useConfetti } from "./Celebrate";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
 import "./day.css";
+import "./day-summit.css";
 
 const ROMAN: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4 };
 const CHEERS = ["Nice work.", "Logged. Keep moving.", "That's one down.", "Strong. Next up.", "Locked in."];
@@ -44,6 +49,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const toast = useToast();
   const word = program.lessonLabel || "Day";
   const lockedOrder = data.state.lockedOrder;
+  const [now] = useState(() => Date.now());
 
   /* ---------------------------------------------------------------- progress */
   const [completed, setCompletedState] = useState(() => new Set(data.state.completedSteps));
@@ -285,6 +291,114 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
   const nextIsReadiness = steps[active + 1]?.special === "readiness";
   const clips = playlist.queue;
 
+  /* ---------------------------------------------------------------- Summit day parts */
+  const circuits = table ? circuitsOf(table) : [];
+  const bandWord = readiness ? (readiness.band === "green" ? "Sharp" : readiness.band === "amber" ? "Steady" : "Low") : null;
+  const stageChips = step.special === "workout" && table ? [`${step.title} · ${circuitWord(circuits)}`, ...(readiness ? [`Readiness ${readiness.score} · ${readiness.name}`] : [])] : [];
+  const phoneChips: { t: string; tone?: "ok" }[] = step.special === "workout" ? [...(readiness ? [{ t: `Readiness: ${bandWord}`, tone: "ok" as const }] : []), ...(table ? [{ t: circuitWord(circuits) }, { t: `~${estimateMinutes(table)} min` }] : [])] : [];
+  const notes = useMemo(() => {
+    const title = step.title.trim().toLowerCase();
+    const lines =
+      step.special === "completion"
+        ? []
+        : (step.body ?? "")
+            .replace(/^NOTES:\s*/i, "")
+            .split(/\n+/)
+            .map((l) => l.trim())
+            .filter((l) => l && l.toLowerCase() !== title);
+    return { lines, atts: step.attachments };
+  }, [step]);
+  const readinessCard =
+    workoutDay && form ? (
+      readiness ? (
+        <section className="kd-card kd-ready-card" aria-label="Today's readiness">
+          <p className="kd-eyebrow">Today&apos;s readiness</p>
+          <div className="kd-ready-row">
+            <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={String(readiness.score)} size={56} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
+            <div>
+              <b className="lq-t17">
+                {bandWord} — {readiness.outcome === "workout" ? (readiness.band === "green" ? "full workout" : "modified table") : "recovery"}
+              </b>
+              <p className="lq-t13 lq-c3">{bandSummary(readiness)}</p>
+            </div>
+          </div>
+          <div className="kd-ready-chips">
+            <span data-tone="ok">
+              <Icon name="check" size="xs" />
+              {readiness.name}
+            </span>
+            {readinessIdx >= 0 && (
+              <button type="button" onClick={toReadiness}>
+                Retake
+              </button>
+            )}
+          </div>
+        </section>
+      ) : (
+        <section className="kd-card kd-ready-card" aria-label="Today's readiness">
+          <p className="kd-eyebrow">Today&apos;s readiness</p>
+          <b className="lq-t17">Not checked yet</b>
+          <p className="lq-t13 lq-c3">Five quick questions pick today&apos;s table: full, modified or recovery.</p>
+          <div className="kd-ready-chips">
+            <button type="button" onClick={toReadiness}>
+              Check in now
+            </button>
+          </div>
+        </section>
+      )
+    ) : null;
+  const nextLocked = Boolean(nextLesson && !nextOpen);
+  const afterToday = nextLesson ? (
+    <Link href={nextOpen ? lessonHref(program.slug, nextLesson.key, nextLesson.id) : programHref} className="kd-after lq-press" aria-disabled={nextLocked || undefined}>
+      <span className="kd-after-h">
+        <span>After today</span>
+        {nextLocked ? <Icon name="lock" size="xs" /> : <Icon name="arrowRight" size="xs" />}
+      </span>
+      <b>
+        {lessonLabel(nextLesson, word)}
+        {nextLesson.dayNumber != null && nextLesson.dayType ? ` · ${nextLesson.dayType}` : ""}
+      </b>
+      <span className="lq-t13 lq-c3">{nextLocked ? "Unlocks when you finish today" : dayDone ? "Ready when you are" : "Open any time"}</span>
+    </Link>
+  ) : null;
+  const hardRow = table?.rows.find((r) => /row|press|swing|clean|snatch|get.?up|deadlift|squat/i.test(String(r.exercise ?? "")));
+  const helpCard =
+    hardRow && step.special === "workout" ? (
+      <Link href="/explore/mastering-the-kettlebell" className="kd-help lq-press">
+        <span className="kd-help-ph">
+          <Image src="/media/summit/mike-deadlift.jpg" alt="" fill sizes="64px" style={{ objectPosition: "50% 30%" }} />
+        </span>
+        <span className="kd-help-t">
+          <b>Struggling with the {String(hardRow.exercise).replace(/\(.*?\)/g, "").trim().split(" ").slice(-2).join(" ").toLowerCase()}?</b>
+          <span>Mike breaks it down frame by frame in Mastering the Kettlebell.</span>
+          <span className="kd-help-cta">
+            Watch a preview <Icon name="arrowRight" size="xs" />
+          </span>
+        </span>
+      </Link>
+    ) : null;
+
+  const endCtx = useMemo(() => {
+    const days = outline.filter((l) => l.dayNumber != null && !l.pageType);
+    const isDone = (id: string) => id === lesson.id || doneIds.has(id);
+    const secDays = days.filter((l) => l.sectionId === section.id);
+    const nx = nextLesson;
+    const nxType = nx?.dayType ?? "";
+    const photo = /recovery/i.test(nxType) ? "/media/summit/working-in.jpg" : /skill/i.test(nxType) ? "/media/summit/mike-getup.jpg" : "/media/summit/mike-windmill.jpg";
+    const tomorrow = new Date(now + 86400000).toLocaleDateString("en-US", { weekday: "short" });
+    return {
+      context: [path?.shortName, section.title].filter(Boolean).join(" · "),
+      dayNumber: lesson.dayNumber ?? null,
+      dayName: lesson.pageType ? lesson.title : lessonName(lesson),
+      minutes,
+      levelDays: days.length ? { done: days.filter((l) => isDone(l.id)).length, total: days.length } : null,
+      phase: secDays.length ? { title: section.title.replace(/\s+phase$/i, ""), done: secDays.filter((l) => isDone(l.id)).length, total: secDays.length } : null,
+      upNext: nx ? { eyebrow: `Tomorrow · ${tomorrow}`, title: `${lessonLabel(nx, word)}${nx.dayNumber != null && nxType ? ` · ${nxType.replace(/\s+day$/i, "")}` : ""}`, sub: [section.title, nxType].filter(Boolean).join(" · "), photo } : null,
+      getReady: program.slug === "kettlebell-lifestyle" && nx ? { eyebrow: `Get ready for ${lessonLabel(nx, word)}`, title: "Mike's technique breakdowns, step by step — from Mastering the Kettlebell.", href: "/explore/mastering-the-kettlebell", cta: "Preview" } : null,
+      homeHref: "/today",
+    };
+  }, [outline, lesson, doneIds, section, nextLesson, path, minutes, word, program.slug, now]);
+
   const stageOverlay = pending ? (
     <UpNext
       key={pending.title + pending.kind}
@@ -304,7 +418,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
       key={`${step.id}:${clipId ?? "lead"}`}
       flush
       video={current}
-      poster={current.thumbnailUrl ?? step.poster ?? null}
+      poster={summitPoster(current.thumbnailUrl ?? step.poster ?? null, step)}
       title={current.title ?? step.title}
       autoStart={(autoStart || Boolean(clipId)) && !showStart}
       resumeAt={initialSeconds[current.providerId] ?? 0}
@@ -333,7 +447,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     press.current = { x: e.clientX, y: e.clientY };
   };
 
-  const primary = (block?: boolean) =>
+  const primary = (block?: boolean, label = "Mark complete") =>
     step.special === "readiness" && !isDone ? (
       <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={toReadiness}>
         Start assessment
@@ -349,7 +463,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
     ) : (
       <span className="kd-cta-wrap" onPointerDown={capture}>
         <CompleteButton key={`${step.id}-${rev}`} block={block} size={block ? "lg" : "md"} doneLabel="Completed" onComplete={() => complete(active, "button", press.current)}>
-          Mark complete
+          {label}
         </CompleteButton>
       </span>
     );
@@ -385,13 +499,17 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
       <Cheer message={message} />
 
       {/* ---------------- top bar ---------------- */}
-      <header className="kd-top lq-glass" data-level="thick">
-        <Link href={programHref} className="kd-x lq-press" aria-label="Exit day">
-          <Icon name="close" size="sm" />
-        </Link>
+      <header className="kd-top">
+        <div className="kd-top-l">
+          <Link href={programHref} className="kd-x lq-press" aria-label="Exit day">
+            <Icon name="close" size="sm" />
+            <span className="kd-x-l">Exit</span>
+          </Link>
+          <span className="kd-top-p kd-ellipsis">{program.name}</span>
+        </div>
         <div className="kd-top-t">
           <p className="kd-eyebrow kd-ellipsis">{context}</p>
-          <h1 className="kd-ellipsis">{dayName}</h1>
+          <h1 className="kd-ellipsis">{dayName}{lesson.dayType && /day$/i.test(lesson.dayType) && !/day$/i.test(dayName) && !lesson.pageType ? " Day" : ""}</h1>
         </div>
         <div className="kd-top-a">
           <div className="kd-pills" role="tablist" aria-label="Steps in this day">
@@ -411,8 +529,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
             ))}
           </div>
           <label className="kd-auto" data-on={autoplay ? "" : undefined}>
-            <Icon name="play" size="xs" />
-            <span className="kd-sm">Autoplay next</span>
+            <span className="kd-sm">Autoplay</span>
             <Toggle
               checked={autoplay}
               label="Autoplay next"
@@ -425,7 +542,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           </label>
           {workoutDay && (
             <button type="button" className="kd-plan-btn lq-press" onClick={() => setPlanOpen(true)} aria-label="Session plan">
-              <Icon name="plan" size="xs" />
+              <Icon name="clipboard" size="sm" />
               <span className="kd-sm">Session plan</span>
             </button>
           )}
@@ -439,7 +556,25 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
       {/* ---------------- body ---------------- */}
       <div className="kd-body">
         <div className="kd-col" ref={stageCol}>
-          {stage && <div className="kd-stage-wrap">{stage}</div>}
+          <div className="kd-colin">
+          {stage && (
+            <div className="kd-stage-wrap">
+              {stage}
+              {stageChips.length > 0 && (
+                <div className="kd-stage-chips" aria-hidden>
+                  {stageChips.map((c) => (
+                    <span key={c}>{c}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="kd-dashes" aria-hidden>
+            {steps.map((s, i) => (
+              <i key={s.id} data-state={i === active ? "now" : completed.has(s.id) ? "done" : undefined} />
+            ))}
+          </div>
 
           <section className="kd-meta">
             <div className="kd-meta-t">
@@ -447,11 +582,24 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
                 Step {active + 1} of {steps.length}
                 {step.durationLabel ? ` · ${step.durationLabel}` : ""}
               </p>
-              <h2 key={step.id} className="kd-meta-title kd-ellipsis">
+              <h2 key={step.id} className="kd-meta-title">
                 {step.title}
               </h2>
-              {step.description && <p className="lq-t13 lq-c2 kd-ellipsis">{step.description}</p>}
+              {(step.description || lesson.focus) && <p className="kd-meta-d">{step.description || lesson.focus}</p>}
+              {phoneChips.length > 0 && (
+                <div className="kd-meta-chips">
+                  {phoneChips.map((c) => (
+                    <span key={c.t} data-tone={c.tone}>
+                      {c.tone === "ok" && <Icon name="check" size="xs" />}
+                      {c.t}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
+            <span className="kd-meta-ring" aria-hidden>
+              <MiniRing percent={percent} label={`${doneCount}/${steps.length}`} size={52} />
+            </span>
             <div className="kd-meta-a">
               <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
                 <Icon name="back" size="sm" />
@@ -463,8 +611,15 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
             </div>
           </section>
 
+          {(notes.lines.length > 0 || notes.atts.length > 0 || readinessCard) && (
+            <div className="kd-duo" data-single={!readinessCard || !(notes.lines.length || notes.atts.length) ? "" : undefined}>
+              {(notes.lines.length > 0 || notes.atts.length > 0) && <MikeNotes lines={notes.lines} attachments={notes.atts} dayLabel={lesson.pageType ? null : dayLabel} />}
+              {readinessCard}
+            </div>
+          )}
+
           {step.special === "readiness" && form && (
-            <section className="kd-sec kd-in" ref={readyRef} aria-labelledby="kd-ready-h">
+            <section className="kd-sec kd-card kd-in" ref={readyRef} aria-labelledby="kd-ready-h">
               <div className="kd-sec-in">
                 <p id="kd-ready-h" className="kd-eyebrow kd-eyebrow-now">
                   Training Readiness Assessment
@@ -484,10 +639,10 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
             </section>
           )}
 
-          <LessonDetails key={step.id} step={step} clips={clips} playingId={clipId ?? playlist.playingClipId} clipActive={Boolean(clipId)} onPlay={(id) => setClipId(id)} />
+          {clips.length > 0 && <ClipsSection key={step.id} clips={clips} playingId={clipId ?? playlist.playingClipId} clipActive={Boolean(clipId)} onPlay={(id) => setClipId(id)} />}
 
           {step.special === "completion" && (
-            <section className="kd-sec kd-done kd-in">
+            <section className="kd-sec kd-card kd-done kd-in">
               <Completion key={isDone ? "d" : "t"} variant="step" size={88} animated={isDone} />
               <p className="lq-t17">{step.body || "You've Crushed Another Day"}</p>
               <p className="lq-t13 lq-c2">Mark this step finished to complete today.</p>
@@ -495,38 +650,53 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           )}
 
           {step.special === "workout" && (form || table) && (
-            <section className="kd-sec kd-in" aria-labelledby="kd-table-h">
-              <div className="kd-sec-in kd-sec-wide">
-                <p id="kd-table-h" className="kd-eyebrow kd-eyebrow-now">
-                  Today&apos;s workout table
-                </p>
-                <p className="lq-t13 lq-c2 kd-sec-sub">
-                  {form ? "Built from the Training Readiness Assessment you completed at the start of today." : "Today's starter table from the program."}
-                </p>
-                <WorkoutTablePanel hasForm={Boolean(form)} readiness={readiness} table={table} onGoToAssessment={toReadiness} />
-              </div>
+            <section className="kd-in kd-workout" aria-label="Today's workout table">
+              <WorkoutTablePanel
+                full
+                hasForm={Boolean(form)}
+                readiness={readiness}
+                table={table}
+                onGoToAssessment={toReadiness}
+                onFinished={isDone ? undefined : () => void complete(active, "button")}
+                finishLabel={`Mark ${step.title} complete`}
+              />
             </section>
           )}
 
           {/* phone: the sequence under the content */}
           <div className="kd-phone-list">
             <div className="kd-rail-h">
-              <p className="kd-eyebrow kd-eyebrow-now">Today&apos;s sequence</p>
-              <p className="lq-t13 lq-c2">Complete each step to unlock the next.</p>
+              <h2 className="lq-d-sm">Today&apos;s sequence</h2>
+              <span className="lq-t13 lq-c3 lq-num">
+                {doneCount} of {steps.length} done
+              </span>
             </div>
-            {list}
+            <div className="kd-card kd-list-card">{list}</div>
+            {afterToday}
+            {helpCard}
             {footer}
+          </div>
           </div>
         </div>
 
         {/* desktop rail */}
         <aside className="kd-rail" aria-label="Today's sequence">
           <div className="kd-rail-h">
-            <p className="kd-eyebrow kd-eyebrow-now">Today&apos;s sequence</p>
-            <p className="lq-t13 lq-c2">Complete each step to unlock the next.</p>
+            <p className="kd-eyebrow">Today&apos;s sequence</p>
+            <h2 className="lq-d-sm lq-num">
+              {doneCount} of {steps.length} steps done
+            </h2>
+            <p className="lq-t13 lq-c3">{lockedOrder ? "Complete each step to unlock the next." : "Every step is open. Go in any order."}</p>
+            <span className="kd-rail-bar" aria-hidden>
+              <i style={{ width: `${percent}%` }} />
+            </span>
           </div>
-          <div className="kd-rail-list">{list}</div>
-          {footer}
+          <div className="kd-rail-list">
+            {list}
+            {afterToday}
+            {helpCard}
+            {footer}
+          </div>
         </aside>
       </div>
 
@@ -535,7 +705,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
         <button type="button" className="kd-stepbtn lq-press" aria-label="Previous step" disabled={active === 0} onClick={() => go(active - 1)}>
           <Icon name="back" size="sm" />
         </button>
-        <div className="kd-bar-main">{primary(true)}</div>
+        <div className="kd-bar-main">{primary(true, `Mark ${step.title} complete`)}</div>
         {dayDone && nextLesson && active >= steps.length - 1 ? (
           <Link href={lessonHref(program.slug, nextLesson.key, nextLesson.id)} className="kd-bar-next lq-press">
             {lessonLabel(nextLesson, word)}
@@ -588,6 +758,7 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           levelNumber={levelNumber}
           certificateHref={endKind === "level" && certificateId ? `/you/certificates/${certificateId}` : null}
           offer={endOffer}
+          ctx={endCtx}
         />
       )}
     </div>
@@ -596,19 +767,19 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
 
 /* ------------------------------------------------------------------ parts */
 
-function MiniRing({ percent }: { percent: number }) {
-  const size = 34;
-  const stroke = 3.5;
+
+function MiniRing({ percent, label, size = 34, tone }: { percent: number; label?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
+  const stroke = size > 40 ? 5 : 3.5;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.max(0, Math.min(100, percent));
   return (
-    <span className="kd-ring" role="img" aria-label={`${p}% of today done`}>
+    <span className="kd-ring" role="img" aria-label={label ? label : `${p}% of today done`} style={{ width: size, height: size }} data-tone={tone}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-track" strokeWidth={stroke} />
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-arc" strokeWidth={stroke} strokeDasharray={c} strokeDashoffset={c - (p / 100) * c} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
       </svg>
-      <span className="lq-num">{p}</span>
+      <span className="lq-num" data-big={size > 40 ? "" : undefined}>{label ?? ""}</span>
     </span>
   );
 }
@@ -657,7 +828,7 @@ function LessonList({
                           <Icon name="clock" size="xs" /> {s.durationLabel}
                         </>
                       )}
-                      {clips > 0 && <span>{`${s.durationLabel ? " · " : ""}${clips} clip${clips === 1 ? "" : "s"}`}</span>}
+                      {now && !done ? <span>{`${s.durationLabel ? " · " : ""}in progress`}</span> : clips > 0 && <span>{`${s.durationLabel ? " · " : ""}${clips} clip${clips === 1 ? "" : "s"}`}</span>}
                     </>
                   )}
                 </span>
@@ -672,9 +843,15 @@ function LessonList({
               aria-label={done ? `Mark ${s.title} not done` : `Mark ${s.title} complete`}
               onClick={(e) => onToggle(i, { x: e.clientX, y: e.clientY })}
             >
-              <svg viewBox="0 0 24 24" className="lq-icon lq-check" data-size="xs" data-draw={done ? "" : undefined} aria-hidden>
-                <path d="M5.5 12.5 10 17l8.5-9.5" />
-              </svg>
+              {done ? (
+                <span className="kd-li-done">Done</span>
+              ) : now ? (
+                <span className="kd-li-dot" aria-hidden />
+              ) : (
+                <svg viewBox="0 0 24 24" className="lq-icon lq-check" data-size="xs" aria-hidden>
+                  <path d="M5.5 12.5 10 17l8.5-9.5" />
+                </svg>
+              )}
             </button>
           </li>
         );
@@ -743,21 +920,18 @@ function DayFooter({
   );
 }
 
-/** Written notes, attachments and the step's clips (original LessonDetails). */
-function LessonDetails({ step, clips, playingId, clipActive, onPlay }: { step: PlayerStep; clips: PlayerStep["clips"]; playingId?: string | null; clipActive: boolean; onPlay: (id: string | null) => void }) {
-  const title = step.title.trim().toLowerCase();
-  const lines =
-    step.special === "completion"
-      ? []
-      : (step.body ?? "")
-          .replace(/^NOTES:\s*/i, "")
-          .split(/\n+/)
-          .map((l) => l.trim())
-          .filter((l) => l && l.toLowerCase() !== title);
-  if (!lines.length && !step.attachments.length && !clips.length) return null;
+/** Mike's written notes for the step (and its attachments), as the mockup's notes card. */
+function MikeNotes({ lines, attachments, dayLabel }: { lines: string[]; attachments: PlayerStep["attachments"]; dayLabel: string | null }) {
   return (
-    <section className="kd-sec kd-details kd-in" aria-label="Lesson details">
-      <div className="kd-sec-in">
+    <section className="kd-card kd-notes-card kd-in" aria-label="Mike's notes">
+      <span className="kd-notes-av" aria-hidden>
+        <Image src={MIKE_FACE} alt="" width={52} height={52} />
+      </span>
+      <div className="kd-notes-b">
+        <p className="kd-notes-h">
+          <b>Mike&apos;s notes</b>
+          {dayLabel && <span>{dayLabel}</span>}
+        </p>
         {lines.length > 0 && (
           <div className="kd-notes">
             {lines.map((l, i) => (
@@ -767,9 +941,9 @@ function LessonDetails({ step, clips, playingId, clipActive, onPlay }: { step: P
             ))}
           </div>
         )}
-        {step.attachments.length > 0 && (
+        {attachments.length > 0 && (
           <div className="kd-atts">
-            {step.attachments.map((a) => (
+            {attachments.map((a) => (
               <a key={a.url} href={a.url} target="_blank" rel="noreferrer" className="kd-att lq-press">
                 <Icon name="down" size="xs" />
                 {a.title}
@@ -777,25 +951,31 @@ function LessonDetails({ step, clips, playingId, clipActive, onPlay }: { step: P
             ))}
           </div>
         )}
-        {clips.length > 0 && (
-          <div className="kd-clips-sec" data-after={lines.length || step.attachments.length ? "" : undefined}>
-            <div className="kd-clips-h">
-              <p className="kd-eyebrow lq-num">
-                In this lesson · {clips.length} clip{clips.length === 1 ? "" : "s"}
-              </p>
-              {clipActive ? (
-                <button type="button" className="kd-link" onClick={() => onPlay(null)}>
-                  <Icon name="repeat" size="xs" />
-                  Back to lesson
-                </button>
-              ) : (
-                <span className="lq-t12 lq-c2">Plays through automatically</span>
-              )}
-            </div>
-            <ClipCards clips={clips} playingId={playingId} onPlay={(id) => onPlay(id)} />
-          </div>
+      </div>
+    </section>
+  );
+}
+
+/** "In this lesson": the step's clips (plays through automatically). */
+function ClipsSection({ clips, playingId, clipActive, onPlay }: { clips: PlayerStep["clips"]; playingId?: string | null; clipActive: boolean; onPlay: (id: string | null) => void }) {
+  return (
+    <section className="kd-clips-sec kd-in" aria-label="Clips in this lesson">
+      <div className="kd-clips-h">
+        <h3 className="lq-d-sm">
+          In this lesson <span className="kd-count-chip lq-num">{clips.length} clip{clips.length === 1 ? "" : "s"}</span>
+        </h3>
+        {clipActive ? (
+          <button type="button" className="kd-link" onClick={() => onPlay(null)}>
+            <Icon name="repeat" size="xs" />
+            Back to lesson
+          </button>
+        ) : (
+          <span className="lq-t13 lq-c3 kd-auto-note">
+            <Icon name="repeat" size="xs" /> Plays through automatically
+          </span>
         )}
       </div>
+      <ClipCards clips={clips} playingId={playingId} onPlay={(id) => onPlay(id)} />
     </section>
   );
 }

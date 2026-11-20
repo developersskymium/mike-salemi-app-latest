@@ -32,7 +32,7 @@ export function SelfGuidedHome({ data, offer }: { data: SelfGuidedHomeData; offe
           The same program as Immersion, without the fixed order. Open a level, go straight to any phase or day, and build a schedule that fits your week.
         </p>
         <div className="sg-hero-actions">
-          <Button icon="calendar" href="/plan">
+          <Button icon="calendar" href={`/programs/${slug}/session/wizard`}>
             Build a schedule
           </Button>
           <Button variant="glass" icon="library" href="/library">

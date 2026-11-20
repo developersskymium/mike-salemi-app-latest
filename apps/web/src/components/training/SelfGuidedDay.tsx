@@ -1,7 +1,9 @@
 "use client";
 
 import { announceProgress } from "@/components/you/CelebrationHost";
+import Image from "next/image";
 import Link from "next/link";
+import { MIKE_FACE } from "@/lib/program-photos";
 import { useEffect, useRef, useState } from "react";
 import { stagePlaylist, type ReadinessOutcome } from "@ms/core";
 import { Button, Icon, IconButton, useToast } from "@/components/ui";
@@ -9,11 +11,13 @@ import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { savePositionAction, submitReadinessAction } from "@/lib/actions/training";
 import { lessonHref, lessonLabel, lessonName } from "./model";
+import { summitPoster } from "./model";
 import { VideoStage } from "./VideoStage";
 import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
 import "./day.css";
+import "./day-summit.css";
 
 /**
  * Self-Guided day, as in the original app: a sticky context bar with a chip per lesson
@@ -79,7 +83,7 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
   return (
     <div className="kd-guide">
       <SessionAutoStart lessonId={lesson.id} />
-      <div className="kd-ctx lq-glass">
+      <div className="kd-ctx">
         <div className="kd-ctx-row">
           <IconButton icon="back" label={`Back to ${program.name}`} href={programHref} variant="fill" size="sm" iconSize="sm" />
           <div className="kd-ctx-t">
@@ -100,8 +104,8 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
       </div>
 
       <header className="kd-guide-intro">
-        <p className="kd-eyebrow">{[path?.shortName, section.title, lessonLabel(lesson, word)].filter(Boolean).join(" · ")}</p>
-        <h1 className="lq-t34">{dayName}</h1>
+        <p className="kd-eyebrow kd-eyebrow-now">{[path?.shortName, section.title, lessonLabel(lesson, word)].filter(Boolean).join(" · ")}</p>
+        <h1 className="lq-d-xl">{dayName}</h1>
         {lesson.focus && <p className="lq-t17 lq-c2 kd-lede">{lesson.focus}</p>}
         {lesson.intro && (
           <div className="kd-begin">
@@ -129,6 +133,7 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
             table={
               s.special === "workout" && (form || table) ? (
                 <WorkoutTablePanel
+                  full
                   hasForm={Boolean(form)}
                   readiness={ready}
                   table={table}
@@ -197,26 +202,40 @@ function GuideLesson({ step, index, total, readiness, table, completion }: { ste
   return (
     <section id={`lesson-${step.id}`} className="kd-gl" aria-labelledby={`h-${step.id}`}>
       <div className="kd-gl-meta">
-        <p className="kd-eyebrow lq-num">
-          {index + 1} of {total}
+        <p className="kd-eyebrow kd-eyebrow-now lq-num">
+          Step {index + 1} of {total}
           {step.durationLabel ? ` · ${step.durationLabel}` : ""}
         </p>
-        <h2 id={`h-${step.id}`} className="lq-t22">
+        <h2 id={`h-${step.id}`} className="lq-d-sm">
           {step.title}
         </h2>
         {!lines.length && step.description && step.special !== "completion" && <p className="lq-t15 lq-c2">{step.description}</p>}
       </div>
       <div className="kd-gl-body">
         {lines.length > 0 && (
-          <div className="kd-notes">
-            {lines.map((l, i) => (
-              <p key={i} className="lq-t15">
-                {l}
+          <div className="kd-card kd-notes-card">
+            <span className="kd-notes-av" aria-hidden>
+              <Image src={MIKE_FACE} alt="" width={52} height={52} />
+            </span>
+            <div className="kd-notes-b">
+              <p className="kd-notes-h">
+                <b>Mike&apos;s notes</b>
               </p>
-            ))}
+              <div className="kd-notes">
+                {lines.map((l, i) => (
+                  <p key={i} className="lq-t15">
+                    {l}
+                  </p>
+                ))}
+              </div>
+            </div>
           </div>
         )}
-        {pl.lead && <VideoStage video={pl.lead} poster={pl.lead.thumbnailUrl ?? step.poster ?? null} title={pl.lead.title ?? step.title} />}
+        {pl.lead && (
+          <div className="kd-stage-wrap">
+            <VideoStage flush video={pl.lead} poster={summitPoster(pl.lead.thumbnailUrl ?? step.poster ?? null, step)} title={pl.lead.title ?? step.title} />
+          </div>
+        )}
         {readiness}
         {table}
         {completion}
@@ -247,3 +266,4 @@ function GuideLesson({ step, index, total, readiness, table, completion }: { ste
     </section>
   );
 }
+

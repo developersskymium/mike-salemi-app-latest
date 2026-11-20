@@ -84,3 +84,14 @@ export function minutesOf(labels: (string | null | undefined)[]) {
 }
 
 export const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
+
+/** Library thumbnails carry baked-in titles: video posters show Mike's text-free photography instead. */
+export function summitPoster(src: string | null, step: { title: string; special?: string | null }): string | null {
+  if (src && !/\/media\/(library|l5e)\//.test(src)) return src;
+  const t = `${step.title} ${step.special ?? ""}`.toLowerCase();
+  if (step.special === "workout" || /workout|kettlebell prep/.test(t)) return "/media/summit/mike-coaching.jpg";
+  if (/stretch|mobility|recovery|working in/.test(t)) return "/media/summit/mike-windmill.jpg";
+  if (/readiness/.test(t)) return "/media/summit/working-in.jpg";
+  if (/warm/.test(t)) return "/media/summit/mike-squat.jpg";
+  return "/media/summit/mike-standing.jpg";
+}

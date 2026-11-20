@@ -6,6 +6,7 @@ import type { Enrollment, HomeRaw, HomeRun } from "@/lib/loaders/home";
 import type { TodayView } from "./buildToday";
 import { fmt, shortDate } from "./dates";
 import { lessonHref, plural, relDay, splitDayTitle } from "./model";
+import { PROGRAM_PHOTOS } from "@/lib/program-photos";
 
 /* Pure: turns Home + Today data into the dashboard model (legacy /home, src/hooks/use-home-programs.ts). */
 
@@ -16,12 +17,18 @@ export interface HomeItem {
   key: string;
   programId: string;
   pathId: string | null;
+  /** Level key ("beginner", "intermediate") for levelled programs. */
+  pathKey: string | null;
   slug: string;
   name: string;
+  /** Program type ("day_program", "course", "tool" …). */
+  type: string;
+  /** The member's learning mode when enrolled. */
+  mode: string | null;
   /** Short level/format line, e.g. "Level I · Immersion" or "Video course". */
   kicker: string | null;
   summary: string | null;
-  image: { src: string; alt: string } | null;
+  image: { src: string; alt: string; position?: string } | null;
   /** Graphic cover when there is no photography yet. */
   glyph: MoveName;
   access: "included" | "owned" | "free" | "locked" | "preview";
@@ -53,6 +60,8 @@ export interface ActivityTile {
   href: string;
   icon: IconName;
   now?: boolean;
+  /** ISO date for the date block, when the tile is dated. */
+  date?: string | null;
 }
 
 export interface RetreatCardModel {
@@ -77,7 +86,15 @@ const TRAINING_TYPES = new Set(["course", "day_program", "tool"]);
 const GLYPH: Record<string, MoveName> = { coaching: "press", challenge: "swing", live: "breathing", retreat: "walking", course: "getup", day_program: "swing", tool: "squat" };
 const DRAFTY = /await|concept|draft|tbc/i;
 
-function photoFor(p: CatalogProgram, pathKey?: string | null) {
+/** Summit cover: Mike's text-free photography with a focal point first (no baked-in titles), then the program's media. */
+function photoFor(p: CatalogProgram, pathKey?: string | null): HomeItem["image"] {
+  if (p.slug === "kettlebell-lifestyle" && pathKey && pathKey !== "beginner") return { src: "/media/summit/mike-getup.jpg", alt: "Mike Salemi in a Turkish get-up", position: "50% 25%" };
+  const ph = PROGRAM_PHOTOS[p.slug];
+  if (ph) return { src: ph.src, alt: ph.alt, position: ph.position };
+  return mediaFor(p, pathKey);
+}
+
+function mediaFor(p: CatalogProgram, pathKey?: string | null) {
   const byPath = pathKey ? p.media.find((m) => m.url.toLowerCase().includes(pathKey.toLowerCase())) : undefined;
   const m = byPath ?? p.media.find((x) => x.role === "card") ?? p.media.find((x) => x.role === "hero") ?? p.media[0];
   return m ? { src: m.url, alt: m.alt || p.name } : null;
@@ -136,7 +153,10 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
         key: `${p.id}:${t.pathId ?? ""}`,
         programId: p.id,
         pathId: t.pathId,
+        pathKey: t.pathKey,
         slug: p.slug,
+        type: p.type,
+        mode: e?.mode ?? null,
         name: t.label ? `${p.name} · ${t.label}` : p.name,
         kicker: [t.label ? (levels.length > 1 ? `${levels.length} levels` : null) : null, isDays ? "Day-by-day program" : p.type === "tool" ? "Free resource" : p.formatLabel ?? "Video course"]
           .filter(Boolean)
@@ -175,7 +195,10 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       key: p.id,
       programId: p.id,
       pathId: null,
+      pathKey: null,
       slug: p.slug,
+      type: p.type,
+      mode: null,
       name: p.name,
       kicker: p.type === "coaching" ? "Coaching" : p.type === "challenge" ? "Group challenge" : "Live program",
       summary: p.tagline ?? p.summary,
@@ -228,6 +251,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       href: e.href,
       icon: e.kind === "coaching" ? "people" : e.kind === "run" ? "mountain" : "calendar",
       now: e.when === "Now",
+      date: /^\d{4}-\d{2}-\d{2}/.test(e.when) ? e.when.slice(0, 10) : null,
     });
   }
   if (v.goal?.next) {
@@ -240,6 +264,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       href: n.lesson_id && n.program_slug ? lessonHref(n.program_slug, n.lesson_id) : `/plan?d=${n.on_date}`,
       icon: n.item_kind === "recovery" ? "leaf" : "kettlebell",
       now: n.on_date === v.today,
+      date: n.on_date,
     });
   }
   const openRun = raw.runs.find((r) => r.status === "open" || r.status === "waitlist");
@@ -252,6 +277,7 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
       line: [dateSpan(openRun.starts_at, openRun.ends_at), openRun.place].filter(Boolean).join(" · ") + (days > 0 ? ` · in ${days} days` : ""),
       href: `/programs/${openRun.program_slug}`,
       icon: "mountain",
+      date: openRun.starts_at.slice(0, 10),
     });
   }
   const coaching = raw.catalog.find((p) => p.type === "coaching" && p.slug === "coaching");
