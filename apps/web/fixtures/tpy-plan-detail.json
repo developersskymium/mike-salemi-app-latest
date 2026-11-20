@@ -1,0 +1,234 @@
+{
+ "today": "2026-11-20",
+ "plan": {
+  "id": "c2101e71-0822-498e-9df5-fb7cbcdcdaf0",
+  "name": "Kettlebell Strength Foundations",
+  "inputs": {
+   "days": [
+    2,
+    4,
+    6
+   ],
+   "template": "strength-foundations-6w"
+  },
+  "source": "template",
+  "status": "active",
+  "goal_id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
+  "overview": "Six weeks of the big strength patterns from Mastering the Kettlebell — deadlift, squat, press, row, lunge and get up — with a mobility or breathing session between every two lifting days.",
+  "starts_on": "2026-11-14",
+  "template_id": "740cd1fb-0117-473d-af4e-a32e218e9393"
+ },
+ "goal": {
+  "id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
+  "kind": "strength",
+  "title": "Get stronger",
+  "status": "active",
+  "approach": "guided",
+  "created_at": "2026-11-20T05:44:46.093978+00:00",
+  "program_ids": [
+   "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "354f9cf4-b33f-5a67-ba60-12e191a6933b"
+  ],
+  "target_date": "2027-01-29"
+ },
+ "items": [
+  {
+   "id": "24b44c02-d2b4-4643-9ea5-dbd5518c7681",
+   "on_date": "2026-11-14",
+   "kind": "training",
+   "title": "Two Hand Deadlift",
+   "lesson_id": "bb501a2a-44d0-4401-9d8e-44cd33b71769",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "7f0e56d5-74f1-412a-b2f7-225bc5c50a18",
+   "on_date": "2026-11-17",
+   "kind": "recovery",
+   "title": "Recovery #1",
+   "lesson_id": "fc98ea6e-2f4d-54cd-8c45-20a970210f41",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "138c1263-a417-433c-a6d7-b725fa9c9f4f",
+   "on_date": "2026-11-19",
+   "kind": "training",
+   "title": "Racked Front Squat",
+   "lesson_id": "2d8e585b-ed64-4b60-aeaf-b1dd9816befa",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "fc0e9f20-420c-4e8d-934e-f76bad442852",
+   "on_date": "2026-11-21",
+   "kind": "training",
+   "title": "Single Arm Overhead Press",
+   "lesson_id": "5d08b8ce-2bb0-4ce5-945f-716715efff73",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "bee09443-366a-4926-8603-77026ea684fa",
+   "on_date": "2026-11-24",
+   "kind": "recovery",
+   "title": "Hips",
+   "lesson_id": "3965df18-41c6-5f3d-9f44-454fa727fd87",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "4ff8709f-ef0e-4054-b357-d3c2688a9873",
+   "on_date": "2026-11-26",
+   "kind": "training",
+   "title": "Staggered  Stance Bent Over Row",
+   "lesson_id": "41d12446-69cb-4169-85fa-90285f635fe3",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "03f99841-3b2e-4cdd-b53e-690136e867cf",
+   "on_date": "2026-11-28",
+   "kind": "training",
+   "title": "Goblet Squat",
+   "lesson_id": "bb77ae14-83da-45cc-bfcc-bc28ebd42280",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "32650454-a36e-41b7-bdd1-8dbd445d4226",
+   "on_date": "2026-12-01",
+   "kind": "recovery",
+   "title": "Recovery #2",
+   "lesson_id": "bebfd6cc-ad43-570f-8316-c3581fb79022",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "0077ea5a-99f5-4e1a-95ab-2aaf0edd78e7",
+   "on_date": "2026-12-03",
+   "kind": "training",
+   "title": "Romanian Deadlift",
+   "lesson_id": "3a0209af-4b08-4dcf-a2cd-79e8826dbb92",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "540c1b28-74c8-433b-bf77-8d26f5da16b4",
+   "on_date": "2026-12-05",
+   "kind": "training",
+   "title": "Reverse Lunge",
+   "lesson_id": "216f98d4-6c66-4f8e-8daf-5730b919d3e8",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "ddf856dc-52e7-409b-a344-abbb4e8e3320",
+   "on_date": "2026-12-08",
+   "kind": "recovery",
+   "title": "Shoulders",
+   "lesson_id": "045e2ac1-a612-50da-8a08-99c3567e1051",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "6299dc50-6a5f-4eae-aca8-62f56fdd7c88",
+   "on_date": "2026-12-10",
+   "kind": "training",
+   "title": "Turkish Get Up",
+   "lesson_id": "27ecef6e-c1e6-4641-8fb8-79bbb6bae598",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "92a39096-1174-4805-ac3e-0a1d8cd5b78a",
+   "on_date": "2026-12-12",
+   "kind": "training",
+   "title": "Practice",
+   "lesson_id": "6d829272-daae-4c59-aff4-46b8f2ee3eac",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "7afc5115-ae66-4f5d-8e3d-56ac3fa415ea",
+   "on_date": "2026-12-15",
+   "kind": "recovery",
+   "title": "Breathe Light",
+   "lesson_id": "4daa5bdd-b0b1-5091-8300-1840cd9c9a5c",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "87b9b4d0-acf6-4623-bedb-e5317960d654",
+   "on_date": "2026-12-17",
+   "kind": "training",
+   "title": "Bulgarian Split Squat Multi-Grip",
+   "lesson_id": "e09d720e-91d7-497c-bca0-0c4b3fb5fe4a",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "ce3b79d9-a875-4be3-814e-238840b954c9",
+   "on_date": "2026-12-19",
+   "kind": "training",
+   "title": "Single-Arm Single-Leg Deadlift",
+   "lesson_id": "6aa1afbd-4eee-40de-9495-4bbfd67669bb",
+   "program_slug": "mastering-the-kettlebell",
+   "program_name": "Mastering the Kettlebell",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "4809fe24-907c-4a3c-ba6f-93c2a1a6cf8c",
+   "on_date": "2026-12-22",
+   "kind": "recovery",
+   "title": "Spine",
+   "lesson_id": "384d6de1-1722-5239-ab04-8c9c200b99ce",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  },
+  {
+   "id": "b1d38b76-5aec-4c92-99d0-3341c56f88d1",
+   "on_date": "2026-12-24",
+   "kind": "training",
+   "title": "Push Press",
+   "lesson_id": "d626cde8-d31c-5102-8778-5d7584d33c0d",
+   "program_slug": "athleticism-4-life",
+   "program_name": "Athleticism 4 Life",
+   "done": false,
+   "skipped": false
+  }
+ ]
+}

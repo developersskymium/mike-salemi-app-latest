@@ -1,0 +1,16 @@
+{
+ "goal_id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
+ "approach": "guided",
+ "form_key": "goal-setting",
+ "goal_kind": "strength",
+ "response_id": "b59a1b8f-ebb6-4e83-8a27-21100c4bd969",
+ "days_per_week": "3",
+ "suggested_template": {
+  "id": "740cd1fb-0117-473d-af4e-a32e218e9393",
+  "name": "Kettlebell Strength Foundations",
+  "slug": "strength-foundations-6w",
+  "weeks": 6,
+  "description": "Six weeks of the big strength patterns from Mastering the Kettlebell — deadlift, squat, press, row, lunge and get up — with a mobility or breathing session between every two lifting days.",
+  "days_per_week": 3
+ }
+}

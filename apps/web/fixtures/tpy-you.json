@@ -1,0 +1,80 @@
+{
+ "profile": {
+  "id": "eb15689c-9b3e-463c-93df-44c4a6519999",
+  "email": "member.test@example.com",
+  "firstName": "Daniel",
+  "displayName": "Daniel Test",
+  "avatarUrl": null,
+  "timezone": "UTC",
+  "createdAt": "2026-11-20T04:45:18.98218+00:00",
+  "preferences": {},
+  "onboarding": {}
+ },
+ "enrollments": [
+  {
+   "enrollment_id": "c37b911b-c9d9-4a12-b731-7f74ea620f23",
+   "program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "program_slug": "kettlebell-lifestyle",
+   "program_name": "Kettlebell Lifestyle",
+   "program_type": "day_program",
+   "path_id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+   "path_name": "Level I · Beginner",
+   "mode": "immersion",
+   "pace": "scheduled",
+   "run_number": 1,
+   "lessons_total": 67,
+   "lessons_done": 27,
+   "steps_total": 369,
+   "steps_done": 141,
+   "current_lesson_id": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+   "current_lesson_title": "Day 24 - Recovery Day",
+   "current_section_title": "Phase 2",
+   "last_active_at": "2026-11-20T04:45:29.354933+00:00",
+   "completed_at": null
+  }
+ ],
+ "rewards": {
+  "level": 1,
+  "badges": [
+   {
+    "id": "streak-3",
+    "icon": "flame",
+    "name": "Momentum",
+    "tier": "bronze",
+    "earned_at": "2026-11-20T05:45:42.215476+00:00"
+   },
+   {
+    "id": "streak-7",
+    "icon": "flame",
+    "name": "Unbroken",
+    "tier": "silver",
+    "earned_at": "2026-11-20T05:45:42.215476+00:00"
+   }
+  ],
+  "level_name": "Initiate",
+  "streak_best": 27,
+  "points_total": 0,
+  "next_level_at": 1000,
+  "streak_current": 27
+ },
+ "certificates": [],
+ "counts": {
+  "saves": 0,
+  "toolResults": 0,
+  "readiness": 0,
+  "referrals": 0
+ },
+ "goal": {
+  "id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
+  "kind": "strength",
+  "title": "Get stronger",
+  "status": "active",
+  "approach": "guided",
+  "created_at": "2026-11-20T05:44:46.093978+00:00",
+  "program_ids": [
+   "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "354f9cf4-b33f-5a67-ba60-12e191a6933b"
+  ],
+  "target_date": "2027-01-29"
+ }
+}

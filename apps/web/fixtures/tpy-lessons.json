@@ -1,0 +1,351 @@
+{
+ "programs": [
+  {
+   "id": "5944a03d-94be-5595-b9da-b212edfdc892",
+   "slug": "athleticism-4-life",
+   "name": "Athleticism 4 Life",
+   "lessons": [
+    {
+     "id": "66c41991-4d37-51d9-ba76-aa699712d451",
+     "title": "Philosophy & Fundamentals",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "5ddf8175-0734-5800-81fc-284302aae25b",
+     "title": "Training Schedule",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "52576dc6-1545-5a5f-848b-a39ee466076d",
+     "title": "BOLT Test",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "86b85223-3e48-5550-a947-4f95244d8d9d",
+     "title": "*Preparation Plan [For Low BOLT Score]",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "c5603a99-a88a-5af6-a6fb-687982ba1685",
+     "title": "Choosing Your Bulgarian Bag",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "22f24411-9574-53fc-8f44-5a176d084a4a",
+     "title": "Anatomy of the Bulgarian Bag",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "fac2adeb-6588-57b3-b759-2d4f977ce2b7",
+     "title": "Safety & Clothing",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "e0091a2a-1404-5a1e-ae73-aab5d85be827",
+     "title": "Let's Go!",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "d1a2af7a-c4bd-58f3-bf69-1e5a2c0d08ec",
+     "title": "Overview",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "dbee5ce5-f43d-5636-bb66-560d8df0b8ed",
+     "title": "Day 1",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "15ef9490-c64c-5b7d-8715-3983b12ddd98",
+     "title": "Day 2",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "b00db853-4a63-5ce0-b8e6-adf4c025f516",
+     "title": "Day 3",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "2d943d27-6311-5f14-a030-ad279ccba660",
+     "title": "Day 4",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "fa5e0df7-b1c4-53dd-850e-6eb3ac02bba1",
+     "title": "Day 5",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    },
+    {
+     "id": "1c164a08-c3cc-5947-b7e1-1d1999f648d2",
+     "title": "Day 6",
+     "section": "Week 1: Foundations",
+     "dayType": null
+    }
+   ]
+  },
+  {
+   "id": "d2c5a572-cecc-52a8-b130-6f9c80e13b7f",
+   "slug": "free-6-video-kettlebell-mini-series",
+   "name": "Free 6 Video Kettlebell Mini Series",
+   "lessons": [
+    {
+     "id": "15a124c5-3c01-5d09-9f00-65d2d79f5d69",
+     "title": "#1 Kettlebell Swing Big Mistake",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    },
+    {
+     "id": "5a94a0ce-c015-5472-ba4e-7dcac9b2c972",
+     "title": "#2 Developing Your Coaching Eye",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    },
+    {
+     "id": "854d9679-ea17-5de1-8648-daa142bde4b0",
+     "title": "#3 Bottoms Up Pressing Prep",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    },
+    {
+     "id": "73e4da78-4bb0-50db-a6ad-bfa53b029652",
+     "title": "#4 Reaction Training - Swing",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    },
+    {
+     "id": "bef1a491-2bf5-5426-b958-c23a2f78d6df",
+     "title": "#5 Avoiding Kettlebell Snatch Dangers",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    },
+    {
+     "id": "fdb726ba-fc47-57b4-8f26-7e9685017699",
+     "title": "#6 Integrated Tension - Turkish Get Up",
+     "section": "Kettlebell Mini Series",
+     "dayType": null
+    }
+   ]
+  },
+  {
+   "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "slug": "kettlebell-lifestyle",
+   "name": "Kettlebell Lifestyle",
+   "lessons": [
+    {
+     "id": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+     "title": "Day 24 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    },
+    {
+     "id": "f8e6d15d-c05d-4a20-b8ef-f1eb43d23e24",
+     "title": "Day 25 - Workout III Day",
+     "section": "Phase 2",
+     "dayType": "Workout III Day"
+    },
+    {
+     "id": "35b2dd80-2d66-4897-9850-d300aefbc391",
+     "title": "Day 26 - Skill Development Day",
+     "section": "Phase 2",
+     "dayType": "Skill Development Day"
+    },
+    {
+     "id": "41ac001f-96e5-40ae-85eb-093991a8f280",
+     "title": "Day 27 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    },
+    {
+     "id": "8c85b4c0-818e-4357-8135-b181d845d1f4",
+     "title": "Day 28 - Workout I Day",
+     "section": "Phase 2",
+     "dayType": "Workout I Day"
+    },
+    {
+     "id": "59b70f3c-7ce9-4986-b869-9a9d7062aecd",
+     "title": "Day 29 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    },
+    {
+     "id": "a16dc6dc-013f-4696-a0c5-887efb373151",
+     "title": "Day 30 - Workout II Day",
+     "section": "Phase 2",
+     "dayType": "Workout II Day"
+    },
+    {
+     "id": "101d453f-73c4-4b8f-9c94-7356cb2a60c1",
+     "title": "Day 31 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    },
+    {
+     "id": "814b590d-5a1a-4ea9-95de-bbe7ef7f00c2",
+     "title": "Day 32 - Workout III Day",
+     "section": "Phase 2",
+     "dayType": "Workout III Day"
+    },
+    {
+     "id": "3721c0c0-d6eb-4e49-b17a-d5588c993b51",
+     "title": "Day 33 - Skill Development Day",
+     "section": "Phase 2",
+     "dayType": "Skill Development Day"
+    },
+    {
+     "id": "ee69a6ce-4c78-425e-87a4-91a266219592",
+     "title": "Day 34 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    },
+    {
+     "id": "031c7826-9b6c-4b87-a40e-e60c90294fa2",
+     "title": "Day 35 - Workout I Day",
+     "section": "Phase 2",
+     "dayType": "Workout I Day"
+    },
+    {
+     "id": "49b69249-93f2-4483-8d6b-ebe1e5baa143",
+     "title": "Day 36 - Recovery Day",
+     "section": "Phase 2",
+     "dayType": "Recovery Day"
+    }
+   ]
+  },
+  {
+   "id": "354f9cf4-b33f-5a67-ba60-12e191a6933b",
+   "slug": "mastering-the-kettlebell",
+   "name": "Mastering the Kettlebell",
+   "lessons": [
+    {
+     "id": "a7b32fef-c769-4d30-95d3-d0c7482260d7",
+     "title": "Weights to Choose",
+     "section": "Starting Up",
+     "dayType": null
+    },
+    {
+     "id": "2c2fbeb4-075e-42c1-9471-409c7b2518d2",
+     "title": "Kettlebell Types",
+     "section": "Starting Up",
+     "dayType": null
+    },
+    {
+     "id": "934df761-da4b-45b2-9b31-a36a91c562f3",
+     "title": "Safety, Clothing, and Chalking",
+     "section": "Starting Up",
+     "dayType": null
+    },
+    {
+     "id": "bab1e330-e441-46ac-abef-58a23419b021",
+     "title": "Kettlebell History and Benefits",
+     "section": "Starting Up",
+     "dayType": null
+    },
+    {
+     "id": "c7a55dc2-0e6d-438d-a7d0-91383f23b0f6",
+     "title": "Pre-Training Warm Up",
+     "section": "Starting Up",
+     "dayType": null
+    },
+    {
+     "id": "b38b3778-ec31-4780-84ba-408466ae22dd",
+     "title": "Hook Grip",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "a7cfb8c8-6143-4bf5-968e-d0c46f7b5ef0",
+     "title": "Goblet Grip",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "36ea694e-d3e9-49b2-a5f3-513cf816f238",
+     "title": "Crush Grip",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "044e2c83-d523-4d09-b4c6-aef4e0ef1a39",
+     "title": "Rack Position",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "ed7745dc-3dfa-4c2b-8edf-cbdb137a66ad",
+     "title": "Overhead Lockout Position",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "96b828e8-db97-4e01-b7e3-cfb5b25ff6e1",
+     "title": "Bottoms Up",
+     "section": "Grips and Positions",
+     "dayType": null
+    },
+    {
+     "id": "b841aef0-da51-4c8c-92a5-83b8a871a2fa",
+     "title": "Introduction",
+     "section": "Deadlift Pre-Check",
+     "dayType": null
+    },
+    {
+     "id": "0c9cf4af-a62d-40f8-82a3-b15ec0fe45b9",
+     "title": "Step 1 - Watch Demonstration",
+     "section": "Deadlift Pre-Check",
+     "dayType": null
+    },
+    {
+     "id": "f41df83b-85a9-4a1e-8e68-0c05ea2b79fc",
+     "title": "Step 2 - Perform Yourself",
+     "section": "Deadlift Pre-Check",
+     "dayType": null
+    },
+    {
+     "id": "81eacc0a-8daa-41e8-b682-1220907a8dd3",
+     "title": "Step 3 - Common Faults",
+     "section": "Deadlift Pre-Check",
+     "dayType": null
+    }
+   ]
+  },
+  {
+   "id": "1d12a627-c7c8-5be5-8a08-daf3762e26f1",
+   "slug": "working-in",
+   "name": "Working-In with Paul Chek & Mike Salemi",
+   "lessons": [
+    {
+     "id": "8b8781d1-b2bc-582f-8deb-aa50cb9b73e4",
+     "title": "Understanding Working In",
+     "section": "Getting Started",
+     "dayType": null
+    },
+    {
+     "id": "8b2da57b-7b84-5b54-b04e-be29e047c49d",
+     "title": "Working Out and Working In",
+     "section": "Working In and Athletic Performance",
+     "dayType": null
+    },
+    {
+     "id": "ff049d49-bcaf-51d7-b074-c305c2d6cf91",
+     "title": "Energy Push",
+     "section": "Energy Push - Explained and Demonstrated",
+     "dayType": null
+    }
+   ]
+  }
+ ]
+}

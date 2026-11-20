@@ -1,0 +1,296 @@
+{
+ "today": "2026-11-20",
+ "firstName": "Daniel",
+ "form": {
+  "id": "25e86073-d373-4a77-a0a4-3e8697154252",
+  "key": "goal-setting",
+  "programId": null,
+  "title": "Set your goal",
+  "introduction": "A few questions so we can point you at the right plan. You can change your answers any time.",
+  "version": 1,
+  "steps": [
+   {
+    "id": "goal",
+    "title": "What do you want most right now?",
+    "eyebrow": "Step 01",
+    "questions": [
+     {
+      "id": "goal_kind",
+      "type": "single",
+      "label": "Choose your main goal",
+      "options": [
+       {
+        "label": "Get stronger",
+        "value": "strength",
+        "description": "Build real strength with the big kettlebell lifts."
+       },
+       {
+        "label": "Sharpen my technique",
+        "value": "technique",
+        "description": "Cleaner swings, cleans, snatches and presses."
+       },
+       {
+        "label": "Move better",
+        "value": "mobility",
+        "description": "Mobility, flexibility and joints that feel good."
+       },
+       {
+        "label": "Build conditioning",
+        "value": "conditioning",
+        "description": "Engine, work capacity and fat loss."
+       },
+       {
+        "label": "Mindset and calm",
+        "value": "mindset",
+        "description": "Breath, presence and handling stress."
+       },
+       {
+        "label": "Prepare for a retreat",
+        "value": "retreat_prep",
+        "description": "Get body and mind ready for Men of Movement."
+       }
+      ],
+      "required": true
+     },
+     {
+      "id": "target_date",
+      "help": "Optional — a retreat, an event, a birthday.",
+      "type": "date",
+      "label": "Is there a date you are working towards?"
+     }
+    ]
+   },
+   {
+    "id": "programs",
+    "title": "Which programs interest you?",
+    "eyebrow": "Step 02",
+    "questions": [
+     {
+      "id": "programs",
+      "help": "Select all that apply. Leave empty and we will choose.",
+      "type": "multi",
+      "label": "Programs you want in your plan",
+      "options": [
+       {
+        "label": "Kettlebell Lifestyle",
+        "value": "kettlebell-lifestyle",
+        "description": "Nine weeks to a kettlebell you can trust, at two levels"
+       },
+       {
+        "label": "Mastering the Kettlebell",
+        "value": "mastering-the-kettlebell"
+       },
+       {
+        "label": "Athleticism 4 Life",
+        "value": "athleticism-4-life"
+       },
+       {
+        "label": "The Path to Inspired Action",
+        "value": "the-path-to-inspired-action"
+       },
+       {
+        "label": "Working-In with Paul Chek & Mike Salemi",
+        "value": "working-in"
+       },
+       {
+        "label": "Men of Movement: Preparation",
+        "value": "men-of-movement"
+       },
+       {
+        "label": "Zen Savage Challenge",
+        "value": "zen-savage",
+        "description": "A possible next chapter in group coaching"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "approach",
+    "title": "How do you want to be guided?",
+    "eyebrow": "Step 03",
+    "questions": [
+     {
+      "id": "approach",
+      "type": "single",
+      "label": "Choose an approach",
+      "options": [
+       {
+        "label": "Guide me",
+        "value": "guided",
+        "description": "Start from one of Mike's plans and follow it."
+       },
+       {
+        "label": "Build it with me",
+        "value": "custom",
+        "description": "Shape your own plan from the lessons you choose."
+       }
+      ],
+      "required": true
+     }
+    ]
+   },
+   {
+    "id": "schedule",
+    "title": "Your week",
+    "eyebrow": "Step 04",
+    "questions": [
+     {
+      "id": "days_per_week",
+      "type": "single",
+      "label": "How many days a week can you train?",
+      "options": [
+       {
+        "label": "2",
+        "value": "2"
+       },
+       {
+        "label": "3",
+        "value": "3"
+       },
+       {
+        "label": "4",
+        "value": "4"
+       },
+       {
+        "label": "5",
+        "value": "5"
+       }
+      ],
+      "required": true
+     },
+     {
+      "id": "session_length",
+      "type": "single",
+      "label": "How long is a typical session?",
+      "options": [
+       {
+        "label": "About 15 minutes",
+        "value": "15"
+       },
+       {
+        "label": "About 30 minutes",
+        "value": "30"
+       },
+       {
+        "label": "About 45 minutes",
+        "value": "45"
+       },
+       {
+        "label": "An hour or more",
+        "value": "60"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "setup",
+    "title": "Your setup",
+    "eyebrow": "Step 05",
+    "questions": [
+     {
+      "id": "equipment",
+      "help": "Select all that apply.",
+      "type": "multi",
+      "label": "What equipment do you have?",
+      "options": [
+       {
+        "label": "One kettlebell",
+        "value": "One kettlebell"
+       },
+       {
+        "label": "Two kettlebells (a pair)",
+        "value": "Two kettlebells (a pair)"
+       },
+       {
+        "label": "Several kettlebells",
+        "value": "Several kettlebells"
+       },
+       {
+        "label": "Pull-up bar",
+        "value": "Pull-up bar"
+       },
+       {
+        "label": "Mat and floor space",
+        "value": "Mat and floor space"
+       },
+       {
+        "label": "Full gym",
+        "value": "Full gym"
+       }
+      ]
+     },
+     {
+      "id": "injuries",
+      "help": "Optional.",
+      "type": "text",
+      "label": "Any injuries or limits we should know about?"
+     }
+    ]
+   }
+  ]
+ },
+ "templates": [
+  {
+   "id": "740cd1fb-0117-473d-af4e-a32e218e9393",
+   "slug": "strength-foundations-6w",
+   "name": "Kettlebell Strength Foundations",
+   "goal_kind": "strength",
+   "weeks": 6,
+   "days_per_week": 3,
+   "description": "Six weeks of the big strength patterns from Mastering the Kettlebell — deadlift, squat, press, row, lunge and get up — with a mobility or breathing session between every two lifting days.",
+   "sessions": 18
+  },
+  {
+   "id": "b44a8b30-54ad-4491-b68b-05f333e08df0",
+   "slug": "swing-clean-snatch-6w",
+   "name": "Swing, Clean & Snatch Technique",
+   "goal_kind": "technique",
+   "weeks": 6,
+   "days_per_week": 3,
+   "description": "Six weeks through the ballistic pre-checks and lifts: perform, correct the common faults, then practise. Flexibility work from each pre-check fills the days between.",
+   "sessions": 18
+  },
+  {
+   "id": "2076be22-31b0-45e2-85dd-de07a04e4272",
+   "slug": "mobility-joint-care-4w",
+   "name": "Mobility & Joint Care",
+   "goal_kind": "mobility",
+   "weeks": 4,
+   "days_per_week": 3,
+   "description": "Four weeks of joint-by-joint mobility from Athleticism 4 Life and the flexibility checks from Mastering the Kettlebell, with a full stretching or ELDOA session each week.",
+   "sessions": 12
+  },
+  {
+   "id": "c5d1f235-6b62-4c30-96f3-d11c813c17dd",
+   "slug": "conditioning-engine-6w",
+   "name": "Conditioning Engine",
+   "goal_kind": "conditioning",
+   "weeks": 6,
+   "days_per_week": 4,
+   "description": "Six weeks, four sessions a week: Athleticism 4 Life workouts and Kettlebell Lifestyle workout days, each followed by a breathing, Working In or stretching session.",
+   "sessions": 24
+  },
+  {
+   "id": "8a21cb79-49fa-4377-a456-fbd0707e28aa",
+   "slug": "mindset-presence-8w",
+   "name": "Mindset & Presence",
+   "goal_kind": "mindset",
+   "weeks": 8,
+   "days_per_week": 3,
+   "description": "Eight weeks of The Path to Inspired Action — each week's call and playwork — with a breath or Working In practice between them.",
+   "sessions": 24
+  },
+  {
+   "id": "1d145e53-c58e-4aa1-82ea-e79448eaf00f",
+   "slug": "retreat-preparation-4w",
+   "name": "Retreat Preparation",
+   "goal_kind": "retreat_prep",
+   "weeks": 4,
+   "days_per_week": 3,
+   "description": "Four weeks to arrive ready for Men of Movement: the preparation practices, breath capacity (BOLT), Working In and simple movement prep, with a meditation or breath day between sessions.",
+   "sessions": 12
+  }
+ ]
+}
