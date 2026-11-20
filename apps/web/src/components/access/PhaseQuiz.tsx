@@ -73,7 +73,7 @@ export function PhaseQuiz({ open, onClose, programs }: { open: boolean; onClose:
               </div>
             )}
             <h3 className="lq-d-md">{prog?.name ?? res.slug}</h3>
-            <p className="lq-t15 lq-c2">Because {res.why.charAt(0).toLowerCase() + res.why.slice(1)}</p>
+            <p className="lq-t15 lq-c2">{res.why}</p>
             {prog && <ProgramCta access={prog.access} program={prog} size="lg" block />}
             <Button variant="ghost" size="sm" onClick={() => { setStep(0); setA({}); }}>Retake</Button>
           </div>
