@@ -34,6 +34,9 @@ export interface JourneySection {
   title: string;
   total: number;
   done: number;
+  /** Training days (lessons with a day number) in the section, and how many are done (The Climb). */
+  days?: number;
+  daysDone?: number;
 }
 
 export interface HomeRaw {
@@ -110,22 +113,28 @@ async function journey(sb: DB, e: Enrollment | undefined): Promise<HomeRaw["jour
   const { data: progress } = await sb.rpc("curriculum_progress", { p_program: e.program_id, p_path: e.path_id ?? undefined });
   const rows = progress ?? [];
   if (!rows.length) return null;
-  const { data: lessons } = await sb.from("lessons").select("id, sections(id, title, position)").in("id", rows.map((r) => r.lesson_id));
+  const { data: lessons } = await sb.from("lessons").select("id, day_number, sections(id, title, position)").in("id", rows.map((r) => r.lesson_id));
   const sec = new Map<string, { id: string; title: string; position: number }>();
+  const isDay = new Set<string>();
   for (const l of lessons ?? []) {
     const s = l.sections as unknown as { id: string; title: string; position: number } | null;
     if (s) sec.set(l.id, s);
+    if ((l as { day_number?: number | null }).day_number != null) isDay.add(l.id);
   }
-  const out = new Map<string, JourneySection & { position: number }>();
+  const out = new Map<string, Required<JourneySection> & { position: number }>();
   for (const r of rows) {
     const s = sec.get(r.lesson_id);
     if (!s) continue;
-    const j = out.get(s.id) ?? { title: s.title, total: 0, done: 0, position: s.position };
+    const j = out.get(s.id) ?? { title: s.title, total: 0, done: 0, days: 0, daysDone: 0, position: s.position };
     j.total++;
     if (r.complete) j.done++;
+    if (isDay.has(r.lesson_id)) {
+      j.days++;
+      if (r.complete) j.daysDone++;
+    }
     out.set(s.id, j);
   }
-  const sections = [...out.values()].sort((a, b) => a.position - b.position).map((j) => ({ title: j.title, total: j.total, done: j.done }));
+  const sections = [...out.values()].sort((a, b) => a.position - b.position).map((j) => ({ title: j.title, total: j.total, done: j.done, days: j.days, daysDone: j.daysDone }));
   return sections.length > 1 ? { enrollmentId: e.enrollment_id, sections } : null;
 }
 

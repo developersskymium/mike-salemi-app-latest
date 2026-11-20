@@ -19,7 +19,7 @@
    "program_name": "Kettlebell Lifestyle",
    "program_type": "day_program",
    "path_id": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
-   "path_name": "Level I · Beginner",
+   "path_name": "Level I \u00b7 Beginner",
    "mode": "immersion",
    "pace": "scheduled",
    "run_number": 1,
@@ -41,25 +41,32 @@
   "steps": [
    {
     "title": "Morning Routine",
-    "done": false
+    "done": false,
+    "duration": "8 min"
    },
    {
     "title": "Bodyweight Warm Up",
-    "done": false
+    "done": false,
+    "duration": "7 min"
    },
    {
     "title": "Working In",
-    "done": false
+    "done": false,
+    "duration": "10 min"
    },
    {
     "title": "Stretching",
-    "done": false
+    "done": false,
+    "duration": "7 min"
    },
    {
     "title": "Completion",
-    "done": false
+    "done": false,
+    "duration": "2 min"
    }
-  ]
+  ],
+  "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+  "minutes": 34
  },
  "entries": [
   {
@@ -121,7 +128,7 @@
    "on_date": "2026-11-20",
    "starts_at": null,
    "title": "Day 24 - Recovery Day",
-   "subtitle": "Kettlebell Lifestyle · Level I",
+   "subtitle": "Kettlebell Lifestyle \u00b7 Level I",
    "plan_id": "0ea206b2-9933-44a3-b9bb-7ecd85a344df",
    "plan_item_id": "f4bc3137-dd13-4854-ae28-1dcd1da67853",
    "item_kind": "training",
@@ -183,13 +190,13 @@
    "source": "template",
    "status": "active",
    "goal_id": "30c6e187-fdf1-4271-b864-abb31aeccbf7",
-   "overview": "Six weeks of the big strength patterns from Mastering the Kettlebell — deadlift, squat, press, row, lunge and get up — with a mobility or breathing session between every two lifting days.",
+   "overview": "Six weeks of the big strength patterns from Mastering the Kettlebell \u2014 deadlift, squat, press, row, lunge and get up \u2014 with a mobility or breathing session between every two lifting days.",
    "starts_on": "2026-11-14",
    "template_id": "740cd1fb-0117-473d-af4e-a32e218e9393"
   },
   {
    "id": "0ea206b2-9933-44a3-b9bb-7ecd85a344df",
-   "name": "Kettlebell Lifestyle · Level I",
+   "name": "Kettlebell Lifestyle \u00b7 Level I",
    "inputs": {
     "days": [
      1,

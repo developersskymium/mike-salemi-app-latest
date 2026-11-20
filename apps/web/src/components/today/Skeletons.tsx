@@ -1,31 +1,22 @@
 import { Glass, Skeleton, SkeletonText } from "@/components/ui";
 import "./tpy.css";
 import "./home.css";
+import "./summit-home.css";
 
 export function TodaySkeleton() {
   return (
-    <div aria-busy="true" aria-label="Loading Today">
-      <div className="tpy-title" style={{ paddingTop: 56, marginBottom: 12 }}>
-        <Skeleton shape="text" width={160} />
-        <Skeleton shape="title" width={140} style={{ marginTop: 8 }} />
+    <div className="sh" aria-busy="true" aria-label="Loading Home">
+      <Skeleton shape="card" height={520} style={{ borderRadius: "var(--r-hero)" }} />
+      <div className="sh-grid">
+        <Skeleton shape="card" height={420} />
+        <Skeleton shape="card" height={420} />
       </div>
-      <div className="w1-home">
-        <Skeleton shape="card" height={460} glass style={{ borderRadius: "var(--r-hero)" }} />
-        <div className="w1-pulse">
-          <Glass radius="card" className="tpy-pad" style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Skeleton shape="circle" width={104} />
-            <div style={{ flex: 1 }}><SkeletonText lines={3} /></div>
-          </Glass>
-          <Glass radius="card" className="tpy-pad"><Skeleton shape="block" height={104} /></Glass>
-          <Glass radius="card" className="tpy-pad"><Skeleton shape="block" height={104} /></Glass>
-        </div>
-        <div>
-          <Skeleton shape="title" width={180} />
-          <div style={{ display: "flex", gap: 14, marginTop: 14, overflow: "hidden" }}>
-            {[0, 1, 2, 3].map((i) => (
-              <Skeleton key={i} glass shape="card" height={300} style={{ flex: "0 0 17rem" }} />
-            ))}
-          </div>
+      <div style={{ display: "grid", gap: 14 }}>
+        <Skeleton shape="title" width={200} />
+        <div style={{ display: "flex", gap: 16, overflow: "hidden" }}>
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} shape="card" height={320} style={{ flex: "0 0 17.5rem" }} />
+          ))}
         </div>
       </div>
     </div>

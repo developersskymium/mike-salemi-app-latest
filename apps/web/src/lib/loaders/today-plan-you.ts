@@ -174,7 +174,10 @@ export interface CurrentLesson {
   lessonId: string;
   dayType: string | null;
   sectionTitle: string | null;
-  steps: { title: string; done: boolean }[];
+  steps: { title: string; done: boolean; duration?: string | null }[];
+  /** The day's focus line (shown as Mike's note on Home). */
+  focus?: string | null;
+  minutes?: number | null;
 }
 
 export interface TodayRaw {
@@ -194,9 +197,9 @@ export interface TodayRaw {
 
 async function currentLesson(sb: DB, userId: string, lessonId: string | null): Promise<CurrentLesson | null> {
   if (!lessonId) return null;
-  const { data } = await sb.from("lessons").select("id, day_type, sections(title), steps(id, title, position)").eq("id", lessonId).maybeSingle();
+  const { data } = await sb.from("lessons").select("id, day_type, focus, estimated_minutes, sections(title), steps(id, title, position, duration_label)").eq("id", lessonId).maybeSingle();
   if (!data) return null;
-  const steps = [...((data.steps ?? []) as { id: string; title: string; position: number }[])].sort((a, b) => a.position - b.position);
+  const steps = [...((data.steps ?? []) as { id: string; title: string; position: number; duration_label: string | null }[])].sort((a, b) => a.position - b.position);
   const { data: done } = steps.length
     ? await sb.from("step_progress").select("step_id").eq("user_id", userId).in("step_id", steps.map((s) => s.id))
     : { data: [] as { step_id: string }[] };
@@ -205,7 +208,9 @@ async function currentLesson(sb: DB, userId: string, lessonId: string | null): P
     lessonId: data.id,
     dayType: data.day_type,
     sectionTitle: (data.sections as unknown as { title: string } | null)?.title ?? null,
-    steps: steps.map((s) => ({ title: s.title, done: doneSet.has(s.id) })),
+    steps: steps.map((s) => ({ title: s.title, done: doneSet.has(s.id), duration: s.duration_label })),
+    focus: data.focus,
+    minutes: data.estimated_minutes,
   };
 }
 

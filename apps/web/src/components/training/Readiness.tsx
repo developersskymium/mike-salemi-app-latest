@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { isFormComplete, resolveOutcome, scoreForm, type ReadinessForm, type ReadinessOutcome, type WorkoutTable } from "@ms/core";
 import { Button, Icon, haptic } from "@/components/ui";
 import { CircuitTable } from "./CircuitTable";
+import { WorkoutCard } from "./WorkoutCard";
 
 /** Today's saved (or optimistic) readiness result. */
 export type Readiness = {
@@ -273,14 +274,23 @@ export function WorkoutTablePanel({
   readiness,
   table,
   onGoToAssessment,
+  full,
+  onFinished,
+  finishLabel,
 }: {
   hasForm: boolean;
   readiness: Readiness | null;
   table: WorkoutTable | null;
   onGoToAssessment?: () => void;
+  /** The Summit "Session plan" card (chips, print, phone cards, Workout mode) around the same table. */
+  full?: boolean;
+  /** Workout mode finished: e.g. mark the workout step complete. */
+  onFinished?: () => void;
+  finishLabel?: string;
 }) {
-  if (!hasForm) return table ? <CircuitTable table={table} /> : null;
+  const show = (t: WorkoutTable) => (full ? <WorkoutCard table={t} chosenFromReadiness={hasForm} onRetake={onGoToAssessment} onFinished={onFinished} finishLabel={finishLabel} /> : <CircuitTable table={t} />);
+  if (!hasForm) return table ? show(table) : null;
   if (!readiness) return <TableLocked onGo={onGoToAssessment} />;
   if (readiness.outcome !== "workout" || !table) return <RecoveryNotice name={readiness.name} message={readiness.message} />;
-  return <CircuitTable table={table} />;
+  return show(table);
 }

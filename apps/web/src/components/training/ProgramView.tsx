@@ -5,26 +5,25 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type ReactNode } from "react";
 import type { LearningMode } from "@ms/core";
-import { AmbientBackdrop, Button, Glass, Icon, IconButton, Segmented, useToast } from "@/components/ui";
+import { Button, Glass, Icon, ProgressBar, Segmented, Sheet, Tag, useToast } from "@/components/ui";
+import { Climb, PhotoHero, type ClimbPhase } from "@/components/signature";
 import type { LessonLite, ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
 import { enrollAction } from "@/lib/actions/training";
+import { programPhoto } from "@/lib/program-photos";
 import { Curriculum } from "@/components/selfguided/Curriculum";
 import { RepeatList, SelfGuidedBoard } from "@/components/selfguided/Board";
 import { TrainingPanel } from "@/components/selfguided/TrainingPanel";
-import { currentFrom, dayTypeShort, lessonHref, lessonLabel, WEEKDAYS } from "./model";
+import { PlanWizard } from "@/components/selfguided/PlanWizard";
+import { currentFrom, dayTypeShort, lessonHref, lessonLabel, lessonName, WEEKDAYS } from "./model";
 import { VideoStage } from "./VideoStage";
 import { ScheduleSheet } from "./ScheduleSheet";
 import { RestartSheet } from "./RestartSheet";
 import "./training.css";
 import "@/components/selfguided/selfguided.css";
+import "./program-summit.css";
 
 type TrainMode = "immersion" | "self_guided";
-
-const MODE_COPY: Record<TrainMode, { title: string; line: string }> = {
-  immersion: { title: "Immersion", line: "Follow the program day by day. Each day opens the next." },
-  self_guided: { title: "Self-Guided", line: "Every phase and day open. Train what suits your body today." },
-};
 
 const HOW = [
   { icon: "lock" as const, title: "Nothing is locked", body: "Every phase and day is open from the start. Train what suits your body today." },
@@ -32,12 +31,26 @@ const HOW = [
   { icon: "calendar" as const, title: "Your own calendar", body: "Drop days onto a schedule, set reminders and choose what happens if you miss one." },
 ];
 
+const NUM_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
+const words = (n: number) => NUM_WORDS[n] ?? String(n);
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const shortSection = (t: string) => t.replace(/\s+phase$/i, "");
+const hm = (m: number) => (m >= 60 ? `${Math.floor(m / 60)}h ${m % 60 ? `${String(m % 60).padStart(2, "0")}m` : ""}`.trim() : `${m}m`);
+
+/** One-line route headline per camp ("Phase 2 is where it clicks."). */
+function routeHeadline(phase: string, index: number, total: number, finished: boolean) {
+  if (finished) return "You reached the summit.";
+  if (index === 0) return `The ${phase} sets your foundation.`;
+  if (index === total - 1) return `${phase} is the push to the summit.`;
+  if (index === 1) return `${phase} builds the base.`;
+  return `${phase} is where it clicks.`;
+}
+
 /**
- * Program page in the original layouts: the Immersion home / level page (L4 + L5) and the
- * Self-Guided level page (L8) share one structure — context bar, level switch, split hero with
- * the intro video, then the curriculum (phase tabs, search, day rows) beside the sidebar, then
- * progress, past runs and "About this level". Self-Guided adds its board (Continue, Up next,
- * Quick session) under the hero; Immersion keeps the plan, pace and phase-guide sidebar.
+ * Program page (Summit, mockup 03) in the original layout (Immersion home L4 + level page L5,
+ * Self-Guided level page L8): photo hero with the mode switch, the level switch, Your route
+ * (The Climb + stats), then the curriculum (phase tabs, day rows) beside the sidebar (today,
+ * pace, phase guides, quick links), progress, past runs, about, and the path after this level.
  */
 export function ProgramView({ data, board, offer, initialMode }: { data: ProgramPageData; board?: BoardData | null; offer?: ReactNode; initialMode?: TrainMode | null }) {
   const { program, path, paths, sections, lessons, progress, enrollment, resources, locked, certificateId } = data;
@@ -54,25 +67,33 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
   );
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [restartOpen, setRestartOpen] = useState(false);
+  const [wizardOpen, setWizardOpen] = useState(false);
   const [intro, setIntro] = useState(false);
+  const [now] = useState(() => Date.now());
 
   const sg = mode === "self_guided";
   const current = currentFrom(lessons, progress);
   const doneIds = useMemo(() => new Set(progress.filter((p) => p.complete).map((p) => p.lessonId)), [progress]);
-  const totalDays = lessons.filter((l) => l.dayNumber != null).length;
-  const doneDays = lessons.filter((l) => l.dayNumber != null && doneIds.has(l.id)).length;
+  const dayLessons = lessons.filter((l) => l.dayNumber != null && !l.pageType);
+  const totalDays = dayLessons.length;
+  const doneDays = dayLessons.filter((l) => doneIds.has(l.id)).length;
   const pathDone = lessons.length > 0 && doneIds.size >= lessons.length;
   const started = progress.some((p) => p.doneSteps > 0);
-  const pct = lessons.length ? Math.round((doneIds.size / lessons.length) * 100) : 0;
   const word = program.lessonLabel || "Day";
   const sectionWord = program.sectionLabel || "Phase";
   const levelPaths = paths.length > 1;
-  const image = path?.image ?? program.media[0]?.url ?? null;
-  const streak = board?.stats?.streak.current ?? 0;
+  const stats = board?.stats ?? null;
+  const streak = stats?.streak.current ?? 0;
   const currentSection = sections.find((s) => s.id === current?.sectionId) ?? null;
   const lockedProgram = locked || program.access === "locked";
   const orderLocked = !sg && enrollment?.mode === "immersion";
   const pathQ = path?.key ? `path=${encodeURIComponent(path.key)}` : "";
+  const levelName = path?.shortName ?? program.name;
+  const pathIndex = paths.findIndex((p) => p.id === path?.id);
+  const nextPath = pathIndex >= 0 ? paths[pathIndex + 1] ?? null : null;
+  const kbl = program.slug === "kettlebell-lifestyle";
+  const hero = programPhoto(program.slug);
+  const heroImage = kbl ? { src: "/media/summit/mike-windmill.jpg", alt: "Mike Salemi holding a kettlebell overhead in the gym", focal: "64% 30%", focalPhone: "58% 20%" } : { src: hero.src, alt: hero.alt, focal: hero.position, focalPhone: hero.position };
 
   const openHref = (lessonId: string, key: string | null) => `/programs/${program.slug}/session/open?lesson=${lessonId}&key=${encodeURIComponent(key ?? lessonId)}`;
   const dayHref = (l: LessonLite) => (sg ? openHref(l.id, l.key) : lessonHref(program.slug, l.key, l.id, orderLocked && !progress.find((p) => p.lessonId === l.id)?.unlocked ? "self_guided" : "immersion"));
@@ -104,157 +125,196 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
     });
   }
 
+  /* ---------------------------------------------------------------- the climb */
+  const camps: ClimbPhase[] = [];
+  for (const s of sections) {
+    const ds = dayLessons.filter((l) => l.sectionId === s.id).map((l) => l.dayNumber!);
+    if (ds.length) camps.push({ label: shortSection(s.title), from: Math.min(...ds), to: Math.max(...ds) });
+  }
+  const campIndex = Math.max(0, sections.filter((s) => camps.some((c) => c.label === shortSection(s.title))).findIndex((s) => s.id === currentSection?.id));
+  const cleared = sections.filter((s) => {
+    const ds = dayLessons.filter((l) => l.sectionId === s.id);
+    return ds.length > 0 && ds.every((l) => doneIds.has(l.id));
+  });
+  const leftInPhase = currentSection ? dayLessons.filter((l) => l.sectionId === currentSection.id && !doneIds.has(l.id)).length : 0;
+  const workoutsDone = dayLessons.filter((l) => doneIds.has(l.id) && (board?.lessons[l.id]?.intent ?? (/workout|challenge/i.test(l.dayType ?? "") ? "workout" : "")) === "workout").length;
+  const pct = totalDays ? Math.round((doneDays / totalDays) * 100) : 0;
+  const summitDay = camps.length ? camps[camps.length - 1]!.to : totalDays;
+
   /* ---------------------------------------------------------------- primary action */
-  const resumeLabel = current ? `${started && (enrollment || sg) ? "Resume" : "Start"} ${lessonLabel(current, word)}${current.dayType && current.dayNumber != null ? ` · ${dayTypeShort(current.dayType)}` : ""}` : "";
+  const resumeLabel = current ? `${started && (enrollment || sg) ? "Resume" : "Start"} ${lessonLabel(current, word)}` : "";
   let cta: ReactNode = null;
   if (lockedProgram) {
     cta = (
-      <Button icon="lock" href={`/explore/${program.slug}`}>
+      <Button icon="lock" href={`/explore/${program.slug}`} size="lg">
         Unlock {program.name}
       </Button>
     );
   } else if (pathDone) {
     cta = certificateId ? (
-      <Button icon="sparkle" href={`/you/certificates/${certificateId}`}>
+      <Button icon="sparkle" href={`/you/certificates/${certificateId}`} size="lg">
         Get your certificate
       </Button>
     ) : (
-      <Button icon="repeat" onClick={() => setRestartOpen(true)}>
+      <Button icon="repeat" onClick={() => setRestartOpen(true)} size="lg">
         Run {path?.shortName ?? "it"} again
       </Button>
     );
   } else if (current) {
     cta = (
-      <Button icon="play" onClick={begin} aria-busy={pending || undefined}>
+      <Button icon="play" onClick={begin} aria-busy={pending || undefined} size="lg">
         {resumeLabel}
       </Button>
     );
   }
-
-  const meta = [
-    `${sections.length} ${sectionWord.toLowerCase()}${sections.length === 1 ? "" : "s"}`,
-    `${totalDays} ${word.toLowerCase()}s`,
-    path?.shortName,
-    streak > 0 ? `${streak} day streak` : null,
-  ].filter(Boolean) as string[];
 
   const phaseStats = sections.map((s) => {
     const ls = lessons.filter((l) => l.sectionId === s.id);
     return { title: s.title, done: ls.filter((l) => doneIds.has(l.id)).length, total: ls.length };
   });
   const ex = board?.extras;
+  const nextDay = current ? dayLessons.find((l) => (l.dayNumber ?? 0) > (current.dayNumber ?? 0) && /workout/i.test(l.dayType ?? "")) ?? null : null;
+  const perWeek = enrollment?.trainingDays.length ?? 0;
+  const finishOn = enrollment?.pace === "scheduled" && perWeek > 0 ? new Date(now + Math.ceil((totalDays - doneDays) / perWeek) * 7 * 86400000) : null;
+  const curExtra = current ? board?.lessons[current.id] : undefined;
+  const todayPhoto = curExtra?.intent === "recovery" || curExtra?.intent === "mobility" ? programPhoto("working-in") : curExtra?.intent === "skill" ? programPhoto("athleticism-4-life") : programPhoto("free-6-video-kettlebell-mini-series");
 
   return (
-    <div className="sg-page">
-      {image && <AmbientBackdrop src={image} fixed position="50% 40%" />}
-
-      {/* ---------------------------------------------------------- context bar */}
-      <Glass radius="panel" className="sg-ctx">
-        <div className="sg-ctx-row">
-          <IconButton icon="back" label="All programs" href="/programs" variant="fill" size="sm" iconSize="sm" />
-          <div className="sg-ctx-t">
-            <p className="lq-t15 sg-ellipsis" style={{ fontWeight: 650 }}>
-              {program.name}
-            </p>
-            <p className="lq-t12 lq-c2 sg-ellipsis">
-              {sg
-                ? `${sections.length} ${sectionWord.toLowerCase()}s · ${totalDays} training ${word.toLowerCase()}s · overviews and preparation included`
-                : `${path?.shortName ?? program.name} · ${pct}% complete`}
-            </p>
-            {!sg && !lockedProgram && (
-              <span className="sg-ctx-bar" aria-hidden>
-                <i style={{ transform: `scaleX(${pct / 100})` }} />
-              </span>
-            )}
-          </div>
-          <div className="sg-ctx-a">
-            {sg && levelPaths ? (
-              <nav className="sg-levels" aria-label="Level">
-                {paths.map((p) => (
-                  <Link key={p.id} href={levelHref(p.key, p.id)} scroll={false} replace className="sg-level" aria-current={p.id === path?.id ? "page" : undefined}>
-                    {(p.shortName ?? p.name).replace(/^level\s*/i, "L")}
-                  </Link>
-                ))}
-              </nav>
-            ) : (
-              current &&
-              !lockedProgram &&
-              !pathDone && (
-                <Button size="sm" icon="play" onClick={begin} className="sg-hide-phone">
-                  {started ? "Resume" : "Start"}
-                </Button>
-              )
-            )}
-          </div>
+    <div className="pv">
+      {/* ---------------------------------------------------------- hero */}
+      <PhotoHero
+        className="pv-hero"
+        image={heroImage}
+        minHeight={520}
+        priority
+        overlay={
+          trainModes.length > 1 && !lockedProgram ? (
+            <div className="pv-modes" role="radiogroup" aria-label="How you train">
+              {trainModes.map((m) => (
+                <button key={m} type="button" role="radio" aria-checked={m === mode} className="pv-mode lq-press" onClick={() => chooseMode(m)}>
+                  <Icon name={m === "immersion" ? "compass" : "filter"} size="sm" />
+                  {m === "immersion" ? "Immersion" : "Self-Guided"}
+                </button>
+              ))}
+            </div>
+          ) : null
+        }
+      >
+        <Tag tone="light">{kbl ? "Mike Salemi · Flagship program" : program.formatLabel ?? "Program"}</Tag>
+        <h1 className="lq-d-xxl pv-title">{program.name}</h1>
+        {(path?.tagline || program.summary) && <p className="pv-lede">{kbl && path?.key === "beginner" ? "Sixty-one days that rebuild how you move, train and recover — one guided day at a time." : path?.tagline ?? program.summary}</p>}
+        <p className="pv-caps">
+          <span>
+            <b>{sections.length}</b> {sectionWord.toLowerCase()}s
+          </span>
+          <span>
+            <b>{totalDays}</b> {word.toLowerCase()}s
+          </span>
+          {path?.shortName && (
+            <span>
+              <b>{path.shortName}</b>
+            </span>
+          )}
+          {streak > 0 && (
+            <span className="pv-caps-streak">
+              <Icon name="flame" size="xs" />
+              {streak} day streak
+            </span>
+          )}
+          {sg && <span>Self-Guided</span>}
+        </p>
+        <div className="pv-actions">
+          {cta}
+          {sg && !lockedProgram && (
+            <Button variant="onphoto" size="lg" icon="calendar" onClick={() => setWizardOpen(true)}>
+              Plan my weeks
+            </Button>
+          )}
+          {ex?.heroVideo && (
+            <Button variant="onphoto" size="lg" icon={intro ? "close" : "play"} onClick={() => setIntro((v) => !v)} aria-expanded={intro} className={sg ? "pv-hide-phone" : undefined}>
+              {intro ? "Close intro" : "Watch intro"}
+            </Button>
+          )}
         </div>
-      </Glass>
-
-      {/* ---------------------------------------------------------- level tabs (Immersion) */}
-      {!sg && levelPaths && (
-        <div className="sg-levels-row">
-          <Glass radius="pill" className="sg-levels" as="nav" aria-label="Level">
-            {paths.map((p) => (
-              <Link key={p.id} href={levelHref(p.key, p.id)} scroll={false} replace className="sg-level" aria-current={p.id === path?.id ? "page" : undefined}>
-                {p.name.replace("·", "·")}
-              </Link>
-            ))}
-          </Glass>
+        {!lockedProgram && totalDays > 0 && (
+          <div className="pv-prog">
+            <ProgressBar value={doneDays / totalDays} tone="white" size="thin" label={`${pct}% of ${levelName}`} />
+            <b className="lq-num">
+              {doneDays} / {totalDays} {word.toLowerCase()}s · {pct}%
+            </b>
+          </div>
+        )}
+      </PhotoHero>
+      {intro && ex?.heroVideo && (
+        <div className="pv-intro sg-in">
+          <VideoStage video={ex.heroVideo} poster={heroImage.src} title={`${program.name} introduction`} autoStart />
         </div>
       )}
 
-      {/* ---------------------------------------------------------- hero split */}
-      <header className="sg-hero">
-        <div className="sg-hero-t">
-          <p className="sg-eyebrow">
-            {sg ? `${path?.shortName ? `${path.shortName} · ` : ""}Self-guided` : `${path?.shortName ? `${path.shortName} · ` : ""}${sections.length} ${sectionWord.toLowerCase()}s · ${totalDays} training ${word.toLowerCase()}s`}
-          </p>
-          <h1 className="lq-t34">{program.name}</h1>
-          {(path?.tagline || program.tagline) && <p className="lq-t17 lq-c2">{path?.tagline ?? program.tagline}</p>}
-          <p className="sg-hero-meta lq-t12 lq-c2">
-            {meta.map((m, i) => (
-              <span key={m} className="sg-num">
-                {i === meta.length - 1 && streak > 0 ? <Icon name="flame" /> : null}
-                {m}
-              </span>
-            ))}
-          </p>
-          <div className="sg-hero-actions">
-            {cta}
-            {sg && !lockedProgram && (
-              <Button variant="glass" size="md" icon="calendar" href={`/programs/${program.slug}/session/plan`}>
-                Schedule this level
-              </Button>
-            )}
-            {ex?.heroVideo && (
-              <Button variant="glass" size="md" icon={intro ? "close" : "play"} onClick={() => setIntro((v) => !v)} aria-expanded={intro}>
-                {intro ? "Close intro" : "Watch intro"}
-              </Button>
-            )}
-          </div>
-          {!lockedProgram && (
-            <div className="sg-hero-prog">
-              <div className="sg-row" style={{ justifyContent: "space-between" }}>
-                <span className="lq-t13 lq-c2 sg-num">
-                  {doneIds.size} of {lessons.length} lessons complete
-                </span>
-                <b className="lq-t13 sg-num">{pct}%</b>
-              </div>
-              <span className="lq-progress" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={`${pct}% complete`}>
-                <i style={{ display: "block", height: "100%", width: `${pct}%`, background: "var(--accent)", borderRadius: 3 }} />
-              </span>
-            </div>
+      {/* ---------------------------------------------------------- level switch */}
+      {levelPaths && (
+        <div className="pv-levels">
+          <nav className="pv-levels-seg" aria-label="Level">
+            {paths.map((p, i) => {
+              const ahead = pathIndex >= 0 && i > pathIndex && !pathDone && enrollment?.mode === "immersion";
+              return (
+                <Link key={p.id} href={levelHref(p.key, p.id)} scroll={false} replace className="pv-level lq-press" aria-current={p.id === path?.id ? "page" : undefined}>
+                  {ahead && <Icon name="flag" size="xs" />}
+                  {p.name}
+                </Link>
+              );
+            })}
+          </nav>
+          {nextPath && !lockedProgram && (
+            <p className="lq-t13 lq-c3 pv-levels-note">
+              {nextPath.shortName ?? nextPath.name} {pathDone ? "is open — your next climb." : `comes after the ${word} ${summitDay} summit — it's included in your plan.`}
+            </p>
           )}
         </div>
-        {image && (
-          <div className="sg-hero-img">
-            <Image src={image} alt={`${program.name} ${path?.shortName ?? ""}`.trim()} fill sizes="(min-width: 900px) 45vw, 100vw" priority />
+      )}
+
+      {/* ---------------------------------------------------------- your route */}
+      {!lockedProgram && camps.length > 1 && (
+        <Glass as="section" radius="card" className="pv-route" aria-labelledby="pv-route-h">
+          <div className="pv-route-t">
+            <p className="lq-eyebrow" data-tone="accent">
+              Your route · {levelName}
+            </p>
+            <h2 id="pv-route-h" className="lq-d-lg">
+              {routeHeadline(camps[campIndex]?.label ?? "This phase", campIndex, camps.length, pathDone)}
+            </h2>
+            <p className="lq-t15 lq-c2 pv-route-p">
+              {pathDone
+                ? `Every ${word.toLowerCase()} of ${levelName} is done. ${nextPath ? `${nextPath.shortName ?? nextPath.name} is your next climb.` : "Run it again any time."}`
+                : doneDays === 0
+                  ? `${cap(words(totalDays))} ${word.toLowerCase()}s, ${words(camps.length)} camps, one summit. Start at the On Ramp and climb one guided ${word.toLowerCase()} at a time.`
+                  : `${cleared.length ? `You've cleared ${cleared.map((s) => (s.title.match(/^on ramp/i) ? "the On Ramp" : shortSection(s.title))).join(" and ")}. ` : ""}${cap(words(leftInPhase))} ${word.toLowerCase()}${leftInPhase === 1 ? "" : "s"} of ${shortSection(currentSection?.title ?? "this phase")} left, then the push to the ${word} ${summitDay} summit.`}
+            </p>
+            <dl className="pv-stats">
+              <div>
+                <dt>{word}s done</dt>
+                <dd className="lq-dnum">{doneDays}</dd>
+              </div>
+              <div>
+                <dt>Workouts</dt>
+                <dd className="lq-dnum">{workoutsDone}</dd>
+              </div>
+              {stats && (
+                <div>
+                  <dt>Time trained</dt>
+                  <dd className="lq-dnum">{hm(stats.minutes)}</dd>
+                </div>
+              )}
+              {stats && (
+                <div>
+                  <dt>Best streak</dt>
+                  <dd className="lq-dnum">{stats.streak.best}</dd>
+                </div>
+              )}
+            </dl>
           </div>
-        )}
-      </header>
-      {intro && ex?.heroVideo && (
-        <div className="sg-hero-video sg-in">
-          <VideoStage video={ex.heroVideo} poster={image} title={`${program.name} introduction`} autoStart />
-        </div>
+          <Climb id="pv-climb" phases={camps} done={doneDays} total={summitDay} member={{ name: "You" }} height={300} className="pv-climb" />
+        </Glass>
       )}
 
       {/* ---------------------------------------------------------- Self-Guided board */}
@@ -272,8 +332,8 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
       )}
 
       {/* ---------------------------------------------------------- curriculum + sidebar */}
-      <div className="sg-body">
-        <div className="sg-main">
+      <div className="pv-body">
+        <div className="pv-main">
           <Curriculum
             slug={program.slug}
             mode={sg ? "self_guided" : "immersion"}
@@ -290,84 +350,106 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
             orderLocked={orderLocked}
             dayHref={dayHref}
           />
+
+          {kbl && nextDay && !lockedProgram && (
+            <Link href="/explore/mastering-the-kettlebell" className="pv-pair lq-press">
+              <span className="pv-pair-ph">
+                <Image src="/media/summit/mike-deadlift.jpg" alt="" fill sizes="180px" style={{ objectPosition: "50% 30%" }} />
+              </span>
+              <span className="pv-pair-t">
+                <Tag tone="accent">Pairs with {lessonLabel(nextDay, word)}</Tag>
+                <b className="lq-d-sm">Your {dayTypeShort(nextDay.dayType) || lessonName(nextDay)} lifts, frame by frame</b>
+                <span className="lq-t13 lq-c2">
+                  {lessonLabel(nextDay, word)} brings the next {dayTypeShort(nextDay.dayType).toLowerCase() || "workout"}. Mastering the Kettlebell has Mike&apos;s full breakdown of every lift in {shortSection(currentSection?.title ?? "this phase")}.
+                </span>
+              </span>
+              <span className="pv-pair-a">
+                <span className="lq-btn" data-variant="secondary" data-size="sm">
+                  <span>Preview a lesson</span>
+                </span>
+                <span className="lq-t12 lq-c3">Mike&apos;s technique library</span>
+              </span>
+            </Link>
+          )}
         </div>
 
-        <aside className="sg-side" aria-label="Plan and options">
+        <aside className="pv-side" aria-label="Plan and options">
           {!lockedProgram && current && !sg && (
-            <Link href={currentHref ?? "#"} className="sg-today sg-press" style={{ textDecoration: "none" }}>
-              <p className="sg-eyebrow">{enrollment?.pace === "scheduled" ? "On the plan today" : "Next on your plan"}</p>
-              <p className="lq-t13" style={{ opacity: 0.75 }}>
-                {new Date().toLocaleDateString("en-GB", { weekday: "long" })}
-              </p>
-              <p className="lq-t17" style={{ fontWeight: 650 }}>
-                {lessonLabel(current, word)} · {[path?.shortName, currentSection?.title].filter(Boolean).join(" · ")}
-              </p>
+            <Link href={currentHref ?? "#"} className="pv-today lq-press">
+              <span className="pv-today-ph">
+                <Image src={todayPhoto.src} alt="" fill sizes="320px" style={{ objectPosition: todayPhoto.position }} />
+              </span>
+              <span className="pv-today-t">
+                <span className="lq-eyebrow" data-tone="warm">
+                  {enrollment?.pace === "scheduled" ? "On the plan today" : "Next on your plan"} · {new Date().toLocaleDateString("en-US", { weekday: "long" })}
+                </span>
+                <b className="lq-d-sm">
+                  {lessonLabel(current, word)}
+                  {current.dayNumber != null ? ` · ${lessonName(current)}${/day$/i.test(current.dayType ?? "") ? " Day" : ""}` : ""}
+                </b>
+                <span className="lq-t13">
+                  {[path?.shortName, currentSection ? shortSection(currentSection.title) : null, curExtra?.minutes ? `${curExtra.minutes} min` : null].filter(Boolean).join(" · ")}
+                </span>
+                <span className="lq-btn pv-today-go" data-variant="warm" data-size="md">
+                  <Icon name="play" size="xs" />
+                  <span>{started ? "Start today's session" : "Start"}</span>
+                </span>
+              </span>
             </Link>
           )}
 
-          {trainModes.length > 0 && !lockedProgram && (
-            <section className="sg-stack" style={{ gap: 8 }} aria-labelledby="sg-mode-h">
-              <h2 id="sg-mode-h" className="lq-t17" style={{ margin: 0 }}>
-                How you train
-              </h2>
-              <Glass radius="card" role="radiogroup" aria-label="Training mode" style={{ padding: 4 }}>
-                {trainModes.map((m) => (
-                  <button key={m} type="button" role="radio" aria-checked={m === mode} className="sg-mode" onClick={() => chooseMode(m)}>
-                    <span className="sg-mode-ic" aria-hidden>
-                      <Icon name={m === "immersion" ? "steps" : "compass"} />
-                    </span>
-                    <span style={{ display: "grid", gap: 1, minWidth: 0 }}>
-                      <b className="lq-t15">{MODE_COPY[m].title}</b>
-                      <span className="lq-t12 lq-c2">{MODE_COPY[m].line}</span>
-                    </span>
-                    <span className="sg-radio" aria-hidden>
-                      {m === mode && <Icon name="check" size="xs" />}
-                    </span>
-                  </button>
-                ))}
-              </Glass>
-            </section>
+          {sg && !lockedProgram && (
+            <Glass radius="card" className="pv-card">
+              <p className="lq-d-xs">Plan your weeks</p>
+              <p className="lq-t13 lq-c2">Pick your days and a start date. We lay out {levelName}&apos;s real day order as your schedule.</p>
+              <Button size="md" icon="calendar" onClick={() => setWizardOpen(true)}>
+                Plan my weeks
+              </Button>
+            </Glass>
           )}
 
           {!sg && enrollment?.mode === "immersion" && (
-            <Glass radius="card" className="sg-card">
-              <p className="lq-t15" style={{ fontWeight: 650 }}>
-                Pace
-              </p>
-              <p className="lq-t13 lq-c2">
-                {enrollment.pace === "scheduled" ? "Your training days land on your calendar for the next 4 weeks." : "Train the next day whenever you're ready — no dates."}
-              </p>
-              <Segmented
-                label="Immersion pace"
-                variant="fill"
-                size="sm"
-                options={[
-                  { value: "free", label: "Free schedule" },
-                  { value: "scheduled", label: "Create schedule" },
-                ]}
-                value={enrollment.pace === "scheduled" ? "scheduled" : "free"}
-                onChange={(v) => (v === "scheduled" ? setScheduleOpen(true) : router.push("/plan"))}
-              />
-              {enrollment.pace === "scheduled" && (
-                <div className="sg-row" style={{ justifyContent: "space-between" }}>
-                  <span className="sg-weekdays" aria-label="Training days">
-                    {WEEKDAYS.map((d, i) => (
-                      <span key={d} data-on={enrollment.trainingDays.includes(i) ? "" : undefined}>
-                        {d.slice(0, 1)}
-                      </span>
-                    ))}
+            <Glass radius="card" className="pv-card">
+              <div className="pv-card-h">
+                <p className="lq-d-xs">Your pace</p>
+                <Segmented
+                  label="Immersion pace"
+                  variant="fill"
+                  size="sm"
+                  options={[
+                    { value: "free", label: "Free" },
+                    { value: "scheduled", label: "Scheduled" },
+                  ]}
+                  value={enrollment.pace === "scheduled" ? "scheduled" : "free"}
+                  onChange={(v) => (v === "scheduled" ? setScheduleOpen(true) : router.push("/plan"))}
+                />
+              </div>
+              <span className="pv-weekdays" aria-label="Training days">
+                {[1, 2, 3, 4, 5, 6, 0].map((i) => (
+                  <span key={i} data-on={enrollment.trainingDays.includes(i) ? "" : undefined}>
+                    {WEEKDAYS[i]!.slice(0, 1)}
                   </span>
-                  <Link href="/plan" className="sg-link lq-t13">
-                    View schedule <Icon name="chevron" size="xs" />
-                  </Link>
-                </div>
-              )}
+                ))}
+              </span>
+              <p className="lq-t13 lq-c2">
+                {enrollment.pace === "scheduled" && finishOn
+                  ? `${perWeek} days a week · finish ${levelName} on ${finishOn.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+                  : "Train the next day whenever you're ready — no dates."}
+              </p>
+              <div className="pv-card-a">
+                <Button size="sm" variant="secondary" icon="calendar" href="/plan/calendar.ics">
+                  Sync calendar
+                </Button>
+                <Link href="/plan" className="lq-link">
+                  View schedule
+                </Link>
+              </div>
             </Glass>
           )}
 
           {sg && board && (board.favourites.length > 0 || board.history.some((h) => h.items > 0)) && (
-            <section className="sg-stack" style={{ gap: 8 }} aria-labelledby="sg-rep-h">
-              <h2 id="sg-rep-h" className="lq-t17" style={{ margin: 0 }}>
+            <section className="pv-stack" aria-labelledby="sg-rep-h">
+              <h2 id="sg-rep-h" className="lq-d-xs">
                 Repeat a favourite
               </h2>
               <RepeatList
@@ -379,60 +461,52 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
             </section>
           )}
 
-          {offer && <div className="sg-offer">{offer}</div>}
-
           {resources.length > 0 && (
-            <section className="sg-stack" style={{ gap: 8 }} aria-labelledby="sg-res-h">
-              <h2 id="sg-res-h" className="lq-t17" style={{ margin: 0 }}>
+            <Glass radius="card" className="pv-card pv-guides" as="section" aria-labelledby="pv-res-h">
+              <h2 id="pv-res-h" className="lq-d-xs">
                 {sectionWord} guides
               </h2>
-              <Glass radius="card" className="sg-list">
-                {resources.map((r) => (
-                  <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="sg-li">
-                    <span className="sg-li-ic" aria-hidden>
-                      <Icon name="down" />
-                    </span>
-                    <span className="sg-li-t">
-                      <span className="lq-t15 sg-ellipsis" style={{ fontWeight: 600 }}>
-                        {r.title}
-                      </span>
-                      <span className="lq-t12 lq-c2">
-                        {r.kind.toUpperCase()} · {sections.find((s) => s.id === r.sectionId)?.subtitle ?? "Printable"}
-                      </span>
-                    </span>
-                    <Icon name="chevron" />
-                  </a>
-                ))}
-              </Glass>
-            </section>
+              {resources.map((r) => (
+                <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="pv-guide lq-press">
+                  <span className="pv-pdf" aria-hidden>
+                    {r.kind.toUpperCase().slice(0, 3)}
+                  </span>
+                  <span className="pv-guide-t">
+                    <b>{r.title}</b>
+                    <span>{sections.find((s) => s.id === r.sectionId)?.subtitle ?? "Printable"}</span>
+                  </span>
+                  <Icon name="download" size="sm" className="lq-c3" />
+                </a>
+              ))}
+            </Glass>
           )}
 
-          <Glass radius="card" className="sg-list" as="nav" aria-label="Quick links">
+          {offer && <div className="pv-offer">{offer}</div>}
+
+          <Glass radius="card" className="pv-card pv-links" as="nav" aria-label="Quick links">
             {(sg
               ? [
                   { href: `/programs/${program.slug}/session/home${pathQ ? `?${pathQ}` : ""}`, icon: "compass" as const, t: "Self-Guided home", s: "Levels, every program, how it works" },
-                  ...(program.slug === "kettlebell-lifestyle" ? [{ href: `/programs/${program.slug}/session/average-day`, icon: "sun" as const, t: "An average day", s: "One full day, start to finish" }] : []),
-                  { href: `/programs/${program.slug}/session/plan`, icon: "sparkle" as const, t: "Create my plan", s: "A multi-week path from real lessons" },
+                  ...(kbl ? [{ href: `/programs/${program.slug}/session/average-day`, icon: "sun" as const, t: "An average day", s: "One full day, start to finish" }] : []),
+                  { href: `/programs/${program.slug}/session/plan`, icon: "sparkle" as const, t: "Create my plan", s: "Mix programs into a multi-week path" },
                   { href: "/library", icon: "library" as const, t: "Video library", s: "Every movement, searchable" },
                 ]
               : [
-                  { href: `/programs/${program.slug}?${[pathQ, "mode=self-guided"].filter(Boolean).join("&")}`, icon: "compass" as const, t: "Self-Guided mode", s: "Every day open, any order" },
-                  ...(program.slug === "kettlebell-lifestyle" ? [{ href: `/programs/${program.slug}/session/average-day`, icon: "sun" as const, t: "An average day", s: "See how a full day runs" }] : []),
-                  { href: "/library", icon: "library" as const, t: "Video library", s: "Every movement, searchable" },
-                  { href: "/tools", icon: "kettlebell" as const, t: "Tools", s: "Kettlebell selector, stretch test" },
+                  { href: `/programs/${program.slug}?${[pathQ, "mode=self-guided"].filter(Boolean).join("&")}`, icon: "filter" as const, t: "Self-Guided mode", s: "Train any day, in any order" },
+                  ...(kbl ? [{ href: `/programs/${program.slug}/session/average-day`, icon: "grid" as const, t: "An average day", s: "See how a full day runs" }] : []),
+                  { href: "/library", icon: "library" as const, t: "Video library", s: "Every movement with Mike" },
+                  { href: "/tools", icon: "tools" as const, t: "Tools", s: "Kettlebell selector & more" },
                 ]
             ).map((q) => (
-              <Link key={q.href} href={q.href} className="sg-li">
-                <span className="sg-li-ic" aria-hidden>
-                  <Icon name={q.icon} />
+              <Link key={q.href} href={q.href} className="pv-link lq-press">
+                <span className="pv-link-ic" aria-hidden>
+                  <Icon name={q.icon} size="sm" />
                 </span>
-                <span className="sg-li-t">
-                  <span className="lq-t15" style={{ fontWeight: 600 }}>
-                    {q.t}
-                  </span>
-                  <span className="lq-t12 lq-c2">{q.s}</span>
+                <span className="pv-link-t">
+                  <b>{q.t}</b>
+                  <span>{q.s}</span>
                 </span>
-                <Icon name="chevron" />
+                <Icon name="chevron" size="sm" className="lq-c3" />
               </Link>
             ))}
           </Glass>
@@ -441,17 +515,16 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
 
       {/* ---------------------------------------------------------- progress */}
       {board?.stats && !lockedProgram && (
-        <>
-          <hr className="sg-rule" />
+        <section className="pv-sec">
           <TrainingPanel stats={board.stats} history={board.history.slice(0, 10)} slug={program.slug} lessonWord={word} phases={phaseStats} />
-        </>
+        </section>
       )}
 
       {/* ---------------------------------------------------------- past runs + restart */}
       {(ex?.pastRuns.length || (enrollment && started)) && !lockedProgram ? (
-        <section className="sg-stack" style={{ marginTop: "var(--s-6)" }} aria-labelledby="sg-runs-h">
-          <div className="sg-sec-h">
-            <h2 id="sg-runs-h" className="lq-t17">
+        <section className="pv-sec pv-stack" aria-labelledby="sg-runs-h">
+          <div className="pv-sec-h">
+            <h2 id="sg-runs-h" className="lq-d-xs">
               Past runs
             </h2>
             {enrollment && started && (
@@ -461,22 +534,21 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
             )}
           </div>
           {ex?.pastRuns.length ? (
-            <Glass radius="card" className="sg-list">
+            <Glass radius="card" className="pv-card">
               {ex.pastRuns.map((r) => (
-                <div key={r.runNumber} className="sg-li">
-                  <span className="sg-li-ic" aria-hidden>
-                    <Icon name={r.completed ? "check" : "repeat"} />
+                <div key={r.runNumber} className="pv-link">
+                  <span className="pv-link-ic" aria-hidden>
+                    <Icon name={r.completed ? "check" : "repeat"} size="sm" />
                   </span>
-                  <span className="sg-li-t">
-                    <span className="lq-t15" style={{ fontWeight: 600 }}>
+                  <span className="pv-link-t">
+                    <b>
                       Run {r.runNumber}
                       {r.completed ? " · completed" : ""}
-                    </span>
-                    <span className="lq-t12 lq-c2 sg-num">
+                    </b>
+                    <span className="lq-num">
                       {r.lessonsCompleted} lessons · archived {new Date(r.archivedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                     </span>
                   </span>
-                  <span />
                 </div>
               ))}
             </Glass>
@@ -490,60 +562,57 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
 
       {/* ---------------------------------------------------------- about this level */}
       {path && (path.outcomes.length > 0 || path.format.length > 0 || path.whatsNeeded.length > 0 || (ex?.contributors.length ?? 0) > 0) && (
-        <>
-          <hr className="sg-rule" />
-          <section className="sg-stack sg-measure" style={{ maxWidth: "52rem" }} aria-labelledby="sg-about-h">
-            <h2 id="sg-about-h" className="lq-t22" style={{ margin: 0 }}>
-              About this {path.kind === "level" ? "level" : "course"}
-            </h2>
-            <Glass radius="card" className="sg-disc">
-              {[
-                { t: "What you'll be able to do", items: path.outcomes, open: true },
-                { t: "How it's delivered", items: path.format },
-                { t: "What you need", items: path.whatsNeeded },
-                { t: "Expert contributors", items: (ex?.contributors ?? []).map((c) => (c.credential ? `${c.name} — ${c.credential}` : c.name)) },
-              ]
-                .filter((d) => d.items.length)
-                .map((d) => (
-                  <details key={d.t} open={d.open}>
-                    <summary>
-                      {d.t}
-                      <Icon name="chevron" />
-                    </summary>
-                    <ul>
-                      {d.items.map((i) => (
-                        <li key={i}>{i}</li>
-                      ))}
-                    </ul>
-                  </details>
-                ))}
-            </Glass>
-            {path.description && <p className="lq-t15 lq-c2" style={{ margin: 0 }}>{path.description}</p>}
-          </section>
-        </>
+        <section className="pv-sec pv-stack pv-about" aria-labelledby="sg-about-h">
+          <h2 id="sg-about-h" className="lq-d-sm">
+            About this {path.kind === "level" ? "level" : "course"}
+          </h2>
+          <Glass radius="card" className="sg-disc">
+            {[
+              { t: "What you'll be able to do", items: path.outcomes, open: true },
+              { t: "How it's delivered", items: path.format },
+              { t: "What you need", items: path.whatsNeeded },
+              { t: "Expert contributors", items: (ex?.contributors ?? []).map((c) => (c.credential ? `${c.name} — ${c.credential}` : c.name)) },
+            ]
+              .filter((d) => d.items.length)
+              .map((d) => (
+                <details key={d.t} open={d.open}>
+                  <summary>
+                    {d.t}
+                    <Icon name="chevron" />
+                  </summary>
+                  <ul>
+                    {d.items.map((i) => (
+                      <li key={i}>{i}</li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
+          </Glass>
+          {path.description && <p className="lq-t15 lq-c2" style={{ margin: 0 }}>{path.description}</p>}
+        </section>
       )}
 
       {sg && (
-        <>
-          <hr className="sg-rule" />
-          <section className="sg-stack" aria-labelledby="sg-how-h">
-            <h2 id="sg-how-h" className="lq-t22" style={{ margin: 0 }}>
-              How self-guided works
-            </h2>
-            <div className="sg-how">
-              {HOW.map((h) => (
-                <Glass key={h.title} radius="card">
-                  <Icon name={h.icon} />
-                  <h3 className="lq-t15" style={{ fontWeight: 650 }}>
-                    {h.title}
-                  </h3>
-                  <p className="lq-t13 lq-c2">{h.body}</p>
-                </Glass>
-              ))}
-            </div>
-          </section>
-        </>
+        <section className="pv-sec pv-stack" aria-labelledby="sg-how-h">
+          <h2 id="sg-how-h" className="lq-d-sm">
+            How self-guided works
+          </h2>
+          <div className="sg-how">
+            {HOW.map((h) => (
+              <Glass key={h.title} radius="card">
+                <Icon name={h.icon} />
+                <h3 className="lq-t15" style={{ fontWeight: 650 }}>
+                  {h.title}
+                </h3>
+                <p className="lq-t13 lq-c2">{h.body}</p>
+              </Glass>
+            ))}
+          </div>
+        </section>
       )}
+
+      {/* ---------------------------------------------------------- the path after this level */}
+      {kbl && <PathAfter levelName={levelName} pct={pct} nextPath={nextPath} slug={program.slug} pathDone={pathDone} summitDay={summitDay} word={word} />}
 
       {enrollment && (
         <ScheduleSheet open={scheduleOpen} onClose={() => setScheduleOpen(false)} enrollmentId={enrollment.id} initialDays={enrollment.trainingDays} slug={program.slug} />
@@ -558,6 +627,76 @@ export function ProgramView({ data, board, offer, initialMode }: { data: Program
         done={doneDays}
         onDone={() => router.refresh()}
       />
+      {!lockedProgram && (
+        <Sheet open={wizardOpen} onClose={() => setWizardOpen(false)} title="Plan your weeks" description={`${program.name} already has a day-by-day plan. Pick your days and we lay it out on your calendar.`} detents={["large"]}>
+          {wizardOpen && <PlanWizard data={data} board={board ?? null} onDone={() => setWizardOpen(false)} />}
+        </Sheet>
+      )}
     </div>
+  );
+}
+
+function PathAfter({ levelName, pct, nextPath, slug, pathDone, summitDay, word }: { levelName: string; pct: number; nextPath: ProgramPageData["paths"][number] | null; slug: string; pathDone: boolean; summitDay: number; word: string }) {
+  const steps = [
+    { t: levelName, s: `You are here · ${pct}%`, now: true },
+    ...(nextPath ? [{ t: nextPath.shortName ?? nextPath.name, s: "Intermediate · included", now: false }] : []),
+    { t: "Mastering the Kettlebell", s: "Technique, 400+ videos", now: false },
+    { t: "Men of Movement", s: "In person, Mount Shasta", now: false },
+  ];
+  const cards = [
+    ...(nextPath
+      ? [{ href: `/programs/${slug}?path=${nextPath.key ?? nextPath.id}`, img: "/media/summit/mike-getup.jpg", pos: "50% 25%", tag: pathDone ? "Open now" : `Unlocks at ${word} ${summitDay}`, light: true, t: nextPath.name, s: nextPath.tagline ?? "Four new phases: heavier bells, complexes and flows. Included in your plan.", cta: `Preview ${nextPath.shortName ?? "the next level"}` }]
+      : []),
+    { href: "/explore/mastering-the-kettlebell", img: "/media/summit/mike-deadlift.jpg", pos: "50% 30%", tag: "Best next step", light: false, t: "Mastering the Kettlebell", s: "Mike's complete technique library — mapped to every lift in Levels I and II.", cta: "See what's inside" },
+    { href: "/experiences", img: "/media/summit/fire.jpg", pos: "50% 50%", tag: "Retreats", light: true, t: "Men of Movement retreats", s: "Days with Mike on Mount Shasta. A small group of men, by application.", cta: "Apply" },
+  ];
+  return (
+    <section className="pv-sec pv-path" aria-labelledby="pv-path-h">
+      <div className="pv-sec-h">
+        <div>
+          <p className="lq-eyebrow" data-tone="accent">
+            When you&apos;re ready for more
+          </p>
+          <h2 id="pv-path-h" className="lq-d-lg">
+            The path Mike built after {levelName}
+          </h2>
+        </div>
+        <Link href="/programs" className="lq-link">
+          All programs <Icon name="arrowRight" size="xs" />
+        </Link>
+      </div>
+      <Glass radius="card" className="pv-path-card">
+        <ol className="pv-path-steps">
+          {steps.map((s, i) => (
+            <li key={s.t} data-now={s.now ? "" : undefined}>
+              <span className="pv-path-n" aria-hidden>
+                {s.now ? <i /> : i + 1}
+              </span>
+              <b>{s.t}</b>
+              <span>{s.s}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="pv-path-cards">
+          {cards.map((c) => (
+            <Link key={c.href} href={c.href} className="pv-path-c lq-press">
+              <span className="pv-path-ph">
+                <Image src={c.img} alt="" fill sizes="(min-width: 900px) 360px, 100vw" style={{ objectPosition: c.pos }} />
+                <Tag tone={c.light ? "light" : "accent"} className="pv-path-tag">
+                  {c.tag}
+                </Tag>
+              </span>
+              <span className="pv-path-t">
+                <b>{c.t}</b>
+                <span>{c.s}</span>
+                <span className="pv-path-cta">
+                  {c.cta} <Icon name="arrowRight" size="xs" />
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Glass>
+    </section>
   );
 }

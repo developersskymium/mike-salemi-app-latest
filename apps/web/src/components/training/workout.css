@@ -1,0 +1,103 @@
+/* Today's workout card + Workout mode (prefixes wk-, wm-). */
+.wk { border-radius: 22px; background: var(--surface); box-shadow: var(--sh-2); overflow: hidden; min-width: 0; }
+.wk-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 22px 22px 16px; }
+.wk-head h3 { margin-top: 6px; }
+.wk-head-a { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.wk-chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 99px; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--font); color: var(--label-2); }
+.wk-link { all: unset; cursor: pointer; white-space: nowrap; font: 650 13px/1 var(--font); color: var(--accent-ink); }
+.wk-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.wk .kd-ct { border-radius: 0; box-shadow: none; border-top: 1px solid var(--line); }
+.wk .kd-ct-foot { justify-content: flex-start; padding: 2px 16px; }
+.wk-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 22px 16px; border-top: 1px solid var(--line); font: 500 12.5px/1.3 var(--font); color: var(--label-3); }
+.wk-legend { display: flex; gap: 18px; flex-wrap: wrap; }
+.wk-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.wk-arrow { width: 12px; height: 16px; fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.wk-arrow[data-up] { stroke: var(--accent); }
+
+.wk-phone, .wk-phone-i { display: none; }
+.wk-cards { display: none; }
+@media (max-width: 719px) {
+  .wk { background: transparent; box-shadow: none; overflow: visible; border-radius: 0; }
+  .wk-head { padding: 0 2px 12px; align-items: center; flex-wrap: nowrap; }
+  .wk-head .lq-eyebrow { display: none; }
+  .wk-head h3 { margin: 0; font-size: 22px; white-space: nowrap; }
+  .wk-head-a { flex-wrap: nowrap; gap: 12px; }
+  .wk-desk, .wk-desk-i { display: none !important; }
+  .wk-phone { display: inline; }
+  .wk-phone-i { display: inline-flex; }
+  .wk-table[data-view="cards"] { display: none; }
+  .wk-table[data-view="table"] { border-radius: 18px; overflow: hidden; box-shadow: var(--sh-2); }
+  .wk-table .kd-ct { border-top: 0; }
+  .wk-cards[data-view="cards"] { display: grid; gap: 12px; }
+  .wk-foot { padding: 12px 2px 0; border-top: 0; }
+}
+.wk-c { border-radius: 20px; background: var(--surface); box-shadow: var(--sh-2); overflow: hidden; }
+.wk-c > header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.wk-c > header b { font: 700 15.5px/1.2 var(--font-display); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wk-c .kd-ct-badge { height: 32px; }
+.wk-move { padding: 14px 16px; display: grid; gap: 10px; }
+.wk-move + .wk-move { border-top: 1px solid var(--line); }
+.wk-move > b { font: 650 15px/1.3 var(--font); }
+.wk-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.wk-tag { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 11px; border-radius: 99px; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--font); color: var(--label-2); white-space: nowrap; }
+.wk-tag[data-tone="light"] { background: var(--accent-soft); color: var(--accent-ink); box-shadow: none; }
+.wk-tag[data-tone="lm"], .wk-tag[data-tone="mod"] { background: var(--warm-soft); color: var(--warm-ink); box-shadow: none; }
+.wk-tag[data-tone="heavy"] { background: var(--warm); color: #fff; box-shadow: none; }
+
+/* print just the table */
+@media print {
+  html[data-printing="workout"] body * { visibility: hidden !important; }
+  html[data-printing="workout"] .wk, html[data-printing="workout"] .wk * { visibility: visible !important; }
+  html[data-printing="workout"] .wk { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+  html[data-printing="workout"] .wk-head-a, html[data-printing="workout"] .wk-cards { display: none !important; }
+  html[data-printing="workout"] .wk-table { display: block !important; }
+}
+
+/* ---------------------------------------------------------------- Workout mode */
+.wm {
+  position: fixed; inset: 0; z-index: calc(var(--z-sheet, 900) + 20); display: flex; flex-direction: column; overflow-y: auto;
+  background: radial-gradient(120% 80% at 50% 0%, #1B2430, #0B0F14 70%); color: #fff;
+  padding: max(10px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+@media (prefers-reduced-motion: no-preference) { .wm { animation: wm-in .35s var(--curve-out) both; } }
+@keyframes wm-in { from { opacity: 0; transform: translateY(16px); } }
+.wm-top { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 10px; max-width: 760px; width: 100%; margin: 0 auto; }
+.wm-top-t { text-align: center; min-width: 0; }
+.wm-top-t p { margin: 0; font: 700 11px/1 var(--font); letter-spacing: .12em; text-transform: uppercase; color: var(--ember-300); }
+.wm-top-t b { display: block; margin-top: 4px; font: 650 14px/1.2 var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(255, 255, 255, .85); }
+.wm-x { position: relative; width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(255, 255, 255, .1); color: #fff; cursor: pointer; }
+.wm-mute { position: absolute; width: 22px; height: 2px; background: #fff; transform: rotate(-45deg); border-radius: 2px; }
+.wm-prog { max-width: 760px; width: 100%; margin: 14px auto 0; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .12); overflow: hidden; }
+.wm-prog i { display: block; height: 100%; background: var(--warm); border-radius: 4px; transition: width .4s var(--curve-out); }
+.wm-main { flex: 1; display: grid; justify-items: center; align-content: center; gap: 16px; text-align: center; padding: 18px 0; }
+.wm-where { margin: 0; font: 700 12px/1 var(--font); letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+.wm-dial { position: relative; width: min(64vw, 280px); aspect-ratio: 1; }
+.wm-dial svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wm-dial-t { fill: none; stroke: rgba(255, 255, 255, .1); stroke-width: 10; }
+.wm-dial-a { fill: none; stroke: var(--accent); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset .25s linear; }
+.wm-main[data-kind="rest"] .wm-dial-a { stroke: var(--ok); }
+.wm-dial-c { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 6px; }
+.wm-kind { font: 700 12px/1 var(--font); letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+.wm-dial-c b { font: 800 clamp(40px, 12vw, 64px)/1 var(--font-display); letter-spacing: -.03em; max-width: 220px; }
+.wm-sw { font: 600 14px/1 var(--font); color: rgba(255, 255, 255, .6); }
+.wm-move { display: grid; justify-items: center; gap: 10px; max-width: 560px; }
+.wm-move h2 { color: #fff; text-wrap: balance; }
+.wm-move .kd-ct-badge { height: 40px; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .3)); }
+.wm-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.wm-tags span { padding: 7px 12px; border-radius: 99px; background: rgba(255, 255, 255, .1); font: 600 13px/1 var(--font); }
+.wm-next { margin: 0; font: 500 14px/1.3 var(--font); color: rgba(255, 255, 255, .65); }
+.wm-ctl { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 10px 0 18px; }
+.wm-btn { width: 56px; height: 56px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(255, 255, 255, .1); color: #fff; cursor: pointer; }
+.wm-btn:disabled { opacity: .35; cursor: default; }
+.wm-go { display: inline-flex; align-items: center; gap: 10px; height: 64px; padding: 0 30px; border-radius: 99px; border: 0; background: var(--accent); color: #fff; font: 700 17px/1 var(--font); box-shadow: var(--sh-accent); cursor: pointer; min-width: 170px; justify-content: center; }
+.wm-list { list-style: none; margin: 0 auto; padding: 0; max-width: 760px; width: 100%; display: grid; gap: 6px; }
+.wm-list li { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: rgba(255, 255, 255, .05); font: 500 13px/1.3 var(--font); color: rgba(255, 255, 255, .7); }
+.wm-list li[data-now] { background: rgba(255, 255, 255, .12); color: #fff; box-shadow: inset 3px 0 0 var(--warm); }
+.wm-list li[data-done] { opacity: .45; }
+.wm-list .kd-ct-badge { height: 28px; }
+.wm-list small { display: block; margin-top: 2px; color: rgba(255, 255, 255, .5); }
+.wm-done { flex: 1; display: grid; justify-items: center; align-content: center; gap: 14px; text-align: center; padding: 24px 0; }
+.wm-done h2 { color: #fff; }
+.wm-done p { margin: 0; max-width: 34ch; color: rgba(255, 255, 255, .7); }
+.wm-done-ic { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: var(--ok); color: #fff; }
+.wm-link { all: unset; cursor: pointer; font: 600 14px/1 var(--font); color: rgba(255, 255, 255, .75); padding: 10px; }

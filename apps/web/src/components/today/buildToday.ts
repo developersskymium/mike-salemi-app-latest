@@ -203,6 +203,8 @@ export function buildToday(raw: TodayRaw) {
     needsOnboarding: !goalRow && !raw.profile.onboarding.goal_skipped,
     next,
     primary: primary ?? null,
+    /** The primary enrollment's current day (steps with durations, focus). */
+    currentLesson: raw.currentLesson,
     week,
     weekSummary: { planned: weekPlanned, done: weekDone },
     missed,

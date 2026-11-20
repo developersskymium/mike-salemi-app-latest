@@ -876,22 +876,30 @@
    {
     "title": "On Ramp Phase",
     "total": 8,
-    "done": 8
+    "done": 8,
+    "days": 7,
+    "daysDone": 7
    },
    {
     "title": "Phase 1",
     "total": 15,
-    "done": 15
+    "done": 15,
+    "days": 13,
+    "daysDone": 13
    },
    {
     "title": "Phase 2",
     "total": 22,
-    "done": 4
+    "done": 4,
+    "days": 20,
+    "daysDone": 3
    },
    {
     "title": "Phase 3",
     "total": 22,
-    "done": 0
+    "done": 0,
+    "days": 21,
+    "daysDone": 0
    }
   ]
  },

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { INTENT_LABEL, lessonMatchesFilter, type Intent } from "@ms/core";
-import { Glass, Icon } from "@/components/ui";
+import { Glass, Icon, type IconName } from "@/components/ui";
 import type { LessonLite, ProgressRow, ResourceInfo, SectionLite } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
-import { dayTypeShort, lessonLabel, lessonName } from "@/components/training/model";
+import { lessonName } from "@/components/training/model";
 import { IntentTag } from "./parts";
 import { DaySheet } from "./DaySheet";
 
@@ -90,107 +90,148 @@ export function Curriculum(p: CurriculumProps) {
     setIntent("all");
   };
 
+  const [showAll, setShowAll] = useState(false);
+  const FOLD = 11;
+
   return (
-    <section className="sg-stack" aria-labelledby="sg-cur-h">
-      <div className="sg-sec-h">
-        <h2 id="sg-cur-h" className="lq-t22">
+    <section className="cv" aria-labelledby="sg-cur-h">
+      <div className="cv-head">
+        <h2 id="sg-cur-h" className="lq-d-sm">
           {mode === "self_guided" ? "Start anywhere" : "Curriculum"}
         </h2>
-        <span className="lq-t13 lq-c2 sg-num">
-          {mode === "self_guided" ? "Every day is open. Pick by phase, type or search." : `${progress.filter((r) => r.complete).length} of ${lessons.length} complete`}
-        </span>
+        <span className="lq-t13 lq-c3">{mode === "self_guided" ? "Every day is open. Pick by phase, type or search." : `One ${p.sectionWord.toLowerCase()} at a time · tap a ${p.lessonWord.toLowerCase()} to open it`}</span>
       </div>
 
-      <Glass radius="panel" className="sg-tabsbar">
-        <div className="sg-tabs" role="toolbar" aria-label={`${p.sectionWord}s`}>
+      <div className="cv-bar">
+        <div className="cv-tabs" role="toolbar" aria-label={`${p.sectionWord}s`}>
           {sections.map((s) => {
             const n = lessons.filter((l) => l.sectionId === s.id).length;
             const on = !filtering && s.id === tab;
+            const v = pct(s.id);
             return (
               <button
                 key={s.id}
                 type="button"
-                className="sg-tab"
+                className="cv-tab lq-press"
                 aria-pressed={on}
                 data-now={s.id === currentSection ? "" : undefined}
                 onClick={() => {
                   reset();
+                  setShowAll(false);
                   setTab(s.id);
                 }}
               >
-                {s.title}
-                <small>{mode === "immersion" && !p.lockedProgram ? `${pct(s.id)}%` : n}</small>
+                {mode === "immersion" && !p.lockedProgram && v >= 100 && <Icon name="check" size="xs" />}
+                {s.title.replace(/\s+phase$/i, "")}
+                <small>{mode === "immersion" && !p.lockedProgram ? `${v}%` : n}</small>
               </button>
             );
           })}
         </div>
-        <label className="sg-search">
-          <Icon name="search" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search all ${p.lessonWord.toLowerCase()}s`} aria-label={`Search ${p.lessonWord.toLowerCase()}s`} />
+        <label className="cv-search">
+          <Icon name="search" size="sm" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search ${p.lessonWord.toLowerCase()}s`} aria-label={`Search ${p.lessonWord.toLowerCase()}s`} />
           {query && (
             <button type="button" onClick={() => setQuery("")} aria-label="Clear search">
-              <Icon name="close" />
+              <Icon name="close" size="xs" />
             </button>
           )}
         </label>
-      </Glass>
+      </div>
 
-      {!p.lockedProgram && (
-        <div className="sg-filters" role="group" aria-label="Filter days">
+      {!p.lockedProgram && (mode === "self_guided" || filtering) && (
+        <div className="cv-filters" role="group" aria-label="Filter days">
           {STATUS.map(([v, label]) => (
-            <button key={v} type="button" className="sg-chip" aria-pressed={status === v} onClick={() => setStatus(v)}>
+            <button key={v} type="button" className="cv-chip" aria-pressed={status === v} onClick={() => setStatus(v)}>
               {label}
             </button>
           ))}
           {mode === "self_guided" && (
             <>
-              <span className="sg-filters-sep" aria-hidden />
+              <span className="cv-filters-sep" aria-hidden />
               {(["workout", "recovery", "skill", "mobility"] as Intent[]).map((i) => (
-                <button key={i} type="button" className="sg-chip" aria-pressed={intent === i} onClick={() => setIntent(intent === i ? "all" : i)}>
+                <button key={i} type="button" className="cv-chip" aria-pressed={intent === i} onClick={() => setIntent(intent === i ? "all" : i)}>
                   {INTENT_LABEL[i]}
                 </button>
               ))}
             </>
           )}
           {filtering && (
-            <button type="button" className="sg-chip" onClick={reset} style={{ marginLeft: "auto" }}>
-              <Icon name="close" /> Reset · {total} {total === 1 ? p.lessonWord.toLowerCase() : `${p.lessonWord.toLowerCase()}s`}
+            <button type="button" className="cv-chip" onClick={reset} style={{ marginLeft: "auto" }}>
+              <Icon name="close" size="xs" /> Reset · {total} {total === 1 ? p.lessonWord.toLowerCase() : `${p.lessonWord.toLowerCase()}s`}
             </button>
           )}
         </div>
       )}
 
       {groups.length === 0 ? (
-        <Glass radius="card" className="sg-empty">
+        <Glass radius="card" className="cv-empty">
           <p className="lq-t17">{q ? `No ${p.lessonWord.toLowerCase()}s match “${query}”` : "No days match those filters"}</p>
           <p className="lq-t13 lq-c2">Try a different phase or type, or clear the search to see the whole level again.</p>
-          <button type="button" className="sg-chip" onClick={reset} aria-pressed="true">
+          <button type="button" className="cv-chip" onClick={reset} aria-pressed="true">
             Reset filters
           </button>
         </Glass>
       ) : (
         groups.map(({ s, days }) => {
           const all = lessons.filter((l) => l.sectionId === s.id);
-          const training = all.filter((l) => l.dayNumber != null).length;
-          const pages = all.length - training;
+          const trainingDays = all.filter((l) => l.dayNumber != null);
+          const training = trainingDays.length;
+          const doneDays = trainingDays.filter((l) => byLesson.get(l.id)?.complete).length;
           const res = p.resources.find((r) => r.sectionId === s.id);
           const here = s.id === currentSection && mode === "immersion";
+          const first = trainingDays[0]?.dayNumber;
+          const last = trainingDays[trainingDays.length - 1]?.dayNumber;
+          const kinds = new Map<string, number>();
+          for (const l of trainingDays) {
+            const k = extra[l.id]?.intent ?? "workout";
+            kinds.set(k, (kinds.get(k) ?? 0) + 1);
+          }
+          const folded = !filtering && !showAll && days.length > FOLD + 2;
+          const visible = folded ? days.slice(0, FOLD) : days;
+          const hidden = days.slice(FOLD).filter((l) => l.dayNumber != null);
+          const r = 26;
+          const c = 2 * Math.PI * r;
           return (
-            <div key={s.id} className="sg-phase sg-in">
-              <div className="sg-phase-h sg-measure">
-                {s.subtitle && <p className="sg-eyebrow">{s.subtitle}</p>}
-                <h3 className="lq-t22">
-                  {s.title}
-                  {here && <span className="sg-here">You&apos;re here</span>}
-                </h3>
-                {board?.sections[s.id]?.description && <p className="lq-t15 lq-c2">{board.sections[s.id]!.description}</p>}
-                <p className="lq-t13 lq-c2 sg-num">
-                  {training} training {training === 1 ? "day" : "days"}
-                  {pages > 0 ? ` · ${pages} overview and preparation ${pages === 1 ? "page" : "pages"}` : ""} · {pct(s.id)}% complete
-                </p>
+            <div key={s.id} className="cv-phase sg-in">
+              <div className="cv-phase-h">
+                <div className="cv-phase-t">
+                  <p className="lq-eyebrow" data-tone="warm">
+                    {[first != null && last != null ? `${p.lessonWord}s ${first}–${last}` : null, s.subtitle].filter(Boolean).join(" · ")}
+                  </p>
+                  <h3 className="lq-d-md">
+                    {s.title}
+                    {here && <span className="cv-here">You&apos;re here</span>}
+                  </h3>
+                  {board?.sections[s.id]?.description && <p className="lq-t15 lq-c2">{board.sections[s.id]!.description}</p>}
+                  <div className="cv-kinds">
+                    {[...kinds.entries()]
+                      .filter(([k]) => k !== "overview")
+                      .map(([k, n]) => (
+                        <span key={k} className="cv-kind" data-i={k}>
+                          <Icon name={KIND_ICON[k] ?? "kettlebell"} size="xs" />
+                          {n} {(INTENT_LABEL[k as Intent] ?? k).toLowerCase()} {n === 1 ? "day" : "days"}
+                        </span>
+                      ))}
+                  </div>
+                </div>
+                {training > 0 && (
+                  <div className="cv-phase-ring" role="img" aria-label={`${doneDays} of ${training} ${p.lessonWord.toLowerCase()}s done in ${s.title}`}>
+                    <svg viewBox="0 0 64 64" aria-hidden>
+                      <circle cx="32" cy="32" r={r} className="cv-ring-t" />
+                      <circle cx="32" cy="32" r={r} className="cv-ring-a" strokeDasharray={c} strokeDashoffset={c * (1 - doneDays / training)} transform="rotate(-90 32 32)" />
+                    </svg>
+                    <b className="lq-num">
+                      {doneDays}/{training}
+                    </b>
+                    <span>
+                      {p.lessonWord.toLowerCase()}s in {s.title.replace(/\s+phase$/i, "")}
+                    </span>
+                  </div>
+                )}
               </div>
-              <Glass radius="card" className="sg-days" role="list" aria-label={`${s.title} days`}>
-                {days.map((l) => (
+              <div className="cv-days" role="list" aria-label={`${s.title} days`}>
+                {visible.map((l) => (
                   <DayRow
                     key={l.id}
                     l={l}
@@ -201,15 +242,19 @@ export function Curriculum(p: CurriculumProps) {
                     onMore={() => setSheet(l)}
                   />
                 ))}
-              </Glass>
+                {folded && (
+                  <button type="button" className="cv-more" onClick={() => setShowAll(true)}>
+                    Show {hidden.length ? `${p.lessonWord.toLowerCase()}s ${hidden[0]!.dayNumber}–${hidden[hidden.length - 1]!.dayNumber}` : `${days.length - FOLD} more`}
+                    <Icon name="chevronDown" size="xs" />
+                  </button>
+                )}
+              </div>
               {res && (
-                <Glass as="a" radius="pill" interactive href={res.url} target="_blank" rel="noreferrer" className="sg-dl">
-                  <Icon name="down" />
+                <a href={res.url} target="_blank" rel="noreferrer" className="cv-dl lq-press">
+                  <Icon name="down" size="sm" />
                   Download {s.title} plan
-                  <span className="lq-c2" style={{ fontWeight: 500 }}>
-                    {res.kind.toUpperCase()}
-                  </span>
-                </Glass>
+                  <span className="lq-c3">{res.kind.toUpperCase()}</span>
+                </a>
               )}
             </div>
           );
@@ -232,6 +277,8 @@ export function Curriculum(p: CurriculumProps) {
   );
 }
 
+const KIND_ICON: Record<string, IconName> = { workout: "dumbbell", recovery: "leaf", skill: "compass", mobility: "wind" };
+
 function DayRow({ l, p, pr, count, hasNote, onMore }: { l: LessonLite; p: CurriculumProps; pr: ProgressRow | undefined; count: number; hasNote: boolean; onMore: () => void }) {
   const done = Boolean(pr?.complete);
   const part = !done && (pr?.doneSteps ?? 0) > 0;
@@ -239,59 +286,70 @@ function DayRow({ l, p, pr, count, hasNote, onMore }: { l: LessonLite; p: Curric
   const next = p.mode === "self_guided" && l.id === p.nextId;
   const locked = p.lockedProgram || (p.orderLocked && pr ? !pr.unlocked : false);
   const ex = p.board?.lessons[l.id];
-  const badge = l.dayNumber != null ? String(l.dayNumber) : l.pageType === "transition" ? "→" : "i";
-  const title = l.pageType || l.dayNumber == null ? l.title : `${lessonLabel(l, p.lessonWord)} · ${lessonName(l)}`;
-  const sub = [l.dayType && l.dayNumber != null ? dayTypeShort(l.dayType) : null, ex?.minutes ? `${ex.minutes} min` : null, pr ? `${pr.totalSteps} ${pr.totalSteps === 1 ? "step" : "steps"}` : null]
-    .filter(Boolean)
-    .join(" · ");
+  const isDay = l.dayNumber != null && !l.pageType;
+  const label = isDay ? `${p.lessonWord} ${l.dayNumber}` : l.pageType === "transition" ? "Next" : "Guide";
+  const title = isDay ? lessonName(l) + (/day$/i.test(l.dayType ?? "") && !/day$/i.test(lessonName(l)) ? " Day" : "") : l.title;
+  const intent = ex?.intent ?? (isDay ? "workout" : "overview");
+  const intentWord = isDay ? (intent === "workout" ? "Strength" : INTENT_LABEL[intent]) : "Overview";
+  const sub = [pr ? `${pr.totalSteps} ${pr.totalSteps === 1 ? "step" : "steps"}` : null, ex?.minutes ? `${ex.minutes} min` : null, now && part && pr ? `Step ${pr.doneSteps + 1} of ${pr.totalSteps}` : null].filter(Boolean).join(" · ");
+  const state = done ? "done" : now ? "now" : next ? "next" : part ? "part" : locked ? "locked" : "todo";
+  const right =
+    now && !done && p.mode === "immersion" ? (
+      <span className="lq-btn cv-go" data-variant="warm" data-size="sm">
+        <Icon name="play" size="xs" />
+        <span>{part ? "Resume" : "Start"}</span>
+      </span>
+    ) : next ? (
+      <span className="cv-pill" data-tone="next">Up next</span>
+    ) : done ? (
+      <span className="cv-status">{count > 1 ? `Completed ×${count}` : "Completed"}</span>
+    ) : part && pr ? (
+      <span className="cv-status lq-num">
+        {pr.doneSteps}/{pr.totalSteps}
+      </span>
+    ) : locked ? (
+      <Icon name="lock" size="sm" className="cv-lock" />
+    ) : p.mode === "self_guided" ? (
+      <IntentTag intent={ex?.intent} />
+    ) : null;
   const body = (
     <>
-      <span className="sg-badge" data-state={done ? "done" : now || next ? "now" : part ? "part" : undefined} aria-hidden>
-        {done ? <Icon name="check" /> : locked ? <Icon name="lock" /> : badge}
-        {count > 1 && <span className="sg-badge-rep">×{count}</span>}
+      <span className="cv-dot" data-state={state} aria-hidden>
+        {done ? <Icon name="check" size="xs" /> : now ? <Icon name="play" size="xs" /> : !isDay ? <Icon name="info" size="xs" /> : null}
       </span>
-      <span className="sg-day-t">
+      <span className="cv-day-n lq-num">{label}</span>
+      <span className="cv-day-t">
         <b>
           <span>{title}</span>
-          {now && !done && p.mode === "immersion" && <span className="sg-pill" data-tone="now">{part ? "Resume" : "Up next"}</span>}
-          {next && <span className="sg-pill" data-tone="now">Up next</span>}
-          {now && p.mode === "self_guided" && !next && part && <span className="sg-pill" data-tone="soft">Resume</span>}
+          {now && !done && p.mode === "immersion" && <span className="cv-here">You&apos;re here</span>}
+          {now && p.mode === "self_guided" && !next && part && <span className="cv-pill">Resume</span>}
         </b>
-        <span className="sg-day-sub">
-          {sub || ex?.focus || ""}
-          {sub && ex?.focus ? <span className="lq-c3"> · {ex.focus}</span> : null}
+        <span className="cv-day-sub">
+          <span className="cv-intent" data-i={intent}>
+            <Icon name={KIND_ICON[intent] ?? "info"} size="xs" />
+            {intentWord}
+          </span>
+          {sub && <span>{sub}</span>}
+          {!sub && ex?.focus && <span className="cv-focus">{ex.focus}</span>}
         </span>
       </span>
-      <span className="sg-day-r">
-        {p.mode === "immersion" && pr ? (
-          <>
-            <span>
-              {pr.doneSteps}/{pr.totalSteps}
-            </span>
-            <span className="sg-day-bar" aria-hidden>
-              <i style={{ width: `${pr.totalSteps ? (pr.doneSteps / pr.totalSteps) * 100 : 0}%` }} />
-            </span>
-          </>
-        ) : (
-          ex && <IntentTag intent={ex.intent} />
-        )}
-      </span>
+      <span className="cv-day-r">{right}</span>
     </>
   );
-  const aria = `${title}${done ? ", done" : part ? ", in progress" : ""}${count > 1 ? `, completed ${count} times` : ""}${locked ? ", locked" : ""}`;
+  const aria = `${isDay ? `${label}, ` : ""}${title}${done ? ", done" : part ? ", in progress" : ""}${count > 1 ? `, completed ${count} times` : ""}${locked ? ", locked" : ""}`;
   return (
-    <div role="listitem" className="sg-day" data-locked={locked ? "" : undefined}>
+    <div role="listitem" className="cv-day" data-state={state} data-locked={locked ? "" : undefined}>
       {p.lockedProgram ? (
-        <span className="sg-day-link" aria-label={aria}>
+        <span className="cv-day-link" aria-label={aria}>
           {body}
         </span>
       ) : (
-        <Link href={p.dayHref(l)} className="sg-day-link" aria-label={aria} prefetch={false}>
+        <Link href={p.dayHref(l)} className="cv-day-link" aria-label={aria} prefetch={now || next ? true : null}>
           {body}
         </Link>
       )}
       {!p.lockedProgram && (
-        <button type="button" className="sg-day-more" data-note={hasNote ? "" : undefined} aria-label={`Notes and history for ${title}`} onClick={onMore}>
+        <button type="button" className="cv-day-more lq-press" data-note={hasNote ? "" : undefined} aria-label={`Notes and history for ${title}`} onClick={onMore}>
           <Icon name="more" size="sm" />
         </button>
       )}
