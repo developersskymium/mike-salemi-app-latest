@@ -14,6 +14,7 @@ import { MomentsWithMike } from "@/components/badges/MomentsWithMike";
 import { PerksList } from "@/components/badges/PerksList";
 import type { BadgesData } from "@/lib/loaders/badges";
 import type { YouExtras } from "@/lib/loaders/you-extras";
+import type { SavedList } from "@/lib/loaders/saved-lists";
 import { PastRuns, ProgressByLevel, SeeAll } from "./Progress";
 import { Journal, SavedLists, StrengthLog, StretchHistory } from "./YouExtras";
 import { YouHeader } from "./YouHeader";
@@ -67,7 +68,7 @@ function BlockHead({ id, title, lede, action }: { id: string; title: string; led
 }
 
 /** You: the training passport header, then the legacy account tabs. */
-export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false }, badges, extras }: { d: PassportData; tab: YouTab; shop?: { enabled: boolean; isAdmin: boolean }; badges?: BadgesData | null; extras?: YouExtras | null }) {
+export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false }, badges, extras, lists = [] }: { d: PassportData; tab: YouTab; shop?: { enabled: boolean; isAdmin: boolean }; badges?: BadgesData | null; extras?: YouExtras | null; lists?: SavedList[] }) {
   const active = [...d.enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""))[0];
   const earned = badges?.earned ?? Object.fromEntries(d.rewards.badges.map((b) => [b.id, b.earned_at]));
   const s = d.saves;
@@ -78,7 +79,7 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false }, b
         <StrengthLog lifts={extras?.lifts ?? []} />
         <StretchHistory list={extras?.stretch ?? []} />
         <Journal entries={extras?.journal ?? []} />
-        <SavedLists plans={s.plans.length} tools={s.tools.length} videos={s.videos.length} />
+        <SavedLists plans={s.plans.length} tools={s.tools.length} videos={s.videos.length} lists={lists} />
       </div>
       <div className="yu-grid2">
         <DetailsCard name={d.profile.displayName} email={d.profile.email} level={active?.path_name ? `${active.path_name.replace("·", "—")}` : null} />

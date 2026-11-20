@@ -35,13 +35,15 @@ export interface LibState {
   level: string;
   saved: boolean;
   inProgram: boolean;
+  /** A named saved list id ("Morning mobility"), or undefined / "all". */
+  list?: string;
 }
 
-export const EMPTY: LibState = { q: "", program: "all", type: "all", move: "all", len: "all", level: "all", saved: false, inProgram: false };
+export const EMPTY: LibState = { q: "", program: "all", type: "all", move: "all", len: "all", level: "all", saved: false, inProgram: false, list: "all" };
 
 /** Filters other than the program chips and search (the count shown on "Clear"). */
 export const activeFilters = (s: LibState) =>
-  [s.type !== "all", s.move !== "all", s.len !== "all", s.level !== "all", s.saved, s.inProgram].filter(Boolean).length;
+  [s.type !== "all", s.move !== "all", s.len !== "all", s.level !== "all", s.saved, s.inProgram, Boolean(s.list && s.list !== "all")].filter(Boolean).length;
 
 /* ------------------------------------------------------------ movement index (signature) */
 
@@ -156,12 +158,13 @@ export function lengthOf(d: number | null | undefined): Length | null {
   return d < 300 ? "short" : d < 900 ? "medium" : "long";
 }
 
-export function filterVideos(videos: LibraryIndexVideo[], s: LibState, names: Map<string, string>, programId: string | null, savedOverride: Record<string, boolean>) {
+export function filterVideos(videos: LibraryIndexVideo[], s: LibState, names: Map<string, string>, programId: string | null, savedOverride: Record<string, boolean>, listMembers?: Set<string> | null) {
   const tokens = s.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
   return videos
     .filter((v) => {
       if (programId && !v.pr.includes(programId)) return false;
       if (s.saved && !(savedOverride[v.id] ?? v.s)) return false;
+      if (listMembers && !listMembers.has(v.id)) return false;
       if (s.type !== "all" && typeOf(v) !== s.type) return false;
       if (s.len !== "all" && lengthOf(v.d) !== s.len) return false;
       if (s.level !== "all" && !levelsOf(v).includes(s.level)) return false;
@@ -188,6 +191,7 @@ export function fromParams(sp: Record<string, string | undefined>): LibState {
     level: sp.level?.replace(/^level:/, "").slice(0, 40) || "all",
     saved: sp.saved === "1",
     inProgram: sp.inprog === "1",
+    list: sp.list && /^[0-9a-f-]{36}$/i.test(sp.list) ? sp.list : "all",
   };
 }
 
@@ -201,6 +205,7 @@ export function toQuery(s: LibState, playing: string | null) {
   if (s.q.trim()) sp.set("q", s.q.trim());
   if (s.saved) sp.set("saved", "1");
   if (s.inProgram) sp.set("inprog", "1");
+  if (s.list && s.list !== "all") sp.set("list", s.list);
   if (playing) sp.set("v", playing);
   return sp.toString();
 }

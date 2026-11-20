@@ -6,6 +6,7 @@ import { LibrarySkeleton } from "@/components/discover/library/LibrarySkeleton";
 import { LibraryView } from "@/components/discover/library/LibraryView";
 import { fromParams, type LibState } from "@/components/discover/library/model";
 import { loadLibraryPage, loadLibraryPicks } from "@/lib/loaders/discover";
+import { loadSavedLists } from "@/lib/loaders/saved-lists";
 import { getUser } from "@/lib/supabase/server";
 import "@/components/discover/discover.css";
 import "@/components/discover/library/library.css";
@@ -34,8 +35,11 @@ async function LibraryContent({ state, playing }: { state: LibState; playing: st
   const { supabase, user } = await getUser();
   const data = await loadLibraryPage(supabase, user!.id).catch(() => null);
   if (data) {
-    const picks = await loadLibraryPicks(supabase, data.index.videos.map((v) => v.id)).catch(() => []);
-    return <LibraryView data={data} initial={state} initialPlaying={playing} picks={picks} />;
+    const [picks, lists] = await Promise.all([
+      loadLibraryPicks(supabase, data.index.videos.map((v) => v.id)).catch(() => []),
+      loadSavedLists(data.index.videos.slice(0, 5).map((v) => v.id)),
+    ]);
+    return <LibraryView data={data} initial={state} initialPlaying={playing} picks={picks} lists={lists} />;
   }
   return (
     <div className="w1-lib">

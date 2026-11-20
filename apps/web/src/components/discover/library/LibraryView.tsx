@@ -9,6 +9,8 @@ import { Rail } from "@/components/today/Rail";
 import { lessonHrefOf } from "@/lib/hrefs";
 import type { LibraryPage } from "@/lib/loaders/discover";
 import { toggleSaveVideo } from "@/lib/actions/discover";
+import type { SavedList } from "@/lib/loaders/saved-lists";
+import { ListsMenu } from "../ListsMenu";
 import { ActiveChip, ChipBtn, LibraryHeader, ProgramChips, SearchField, SelectPill } from "./chips";
 import { LibraryPlayer } from "./LibraryPlayer";
 import { SearchSuggest, type Suggestion } from "./SearchSuggest";
@@ -26,8 +28,9 @@ const PAGE = 48;
  * Library: program names on top, filters that work across every program, then one grid of videos.
  * Everything is client-side over the loaded index (instant, no reload) and mirrored in the URL.
  */
-export function LibraryView({ data, initial, initialPlaying, picks = [] }: { data: LibraryPage; initial: LibState; initialPlaying: string | null; picks?: string[] }) {
+export function LibraryView({ data, initial, initialPlaying, picks = [], lists: initialLists = [] }: { data: LibraryPage; initial: LibState; initialPlaying: string | null; picks?: string[]; lists?: SavedList[] }) {
   const toast = useToast();
+  const [lists, setLists] = useState<SavedList[]>(initialLists);
   const [s, setS] = useState<LibState>(initial);
   const [playing, setPlaying] = useState<string | null>(initialPlaying);
   const [resume, setResume] = useState<Record<string, number>>({});
@@ -52,7 +55,9 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
   const program = programs.find((p) => p.slug === s.program) ?? null;
   const programId = program?.id ?? null;
 
-  const results = useMemo(() => filterVideos(videos, s, names, programId, saved), [videos, s, names, programId, saved]);
+  const list = s.list && s.list !== "all" ? lists.find((l) => l.id === s.list) ?? null : null;
+  const listMembers = useMemo(() => (list ? new Set(list.videoIds) : null), [list]);
+  const results = useMemo(() => filterVideos(videos, s, names, programId, saved, listMembers), [videos, s, names, programId, saved, listMembers]);
   const moveCounts = useMemo(() => {
     const c = new Map<MoveKey, number>();
     for (const v of videos) for (const k of movesOf(v)) c.set(k, (c.get(k) ?? 0) + 1);
@@ -111,6 +116,7 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
     ...(s.len !== "all" ? [{ key: "len", label: LENGTHS.find((o) => o.value === s.len)?.label ?? s.len, clear: () => set({ len: "all" }) }] : []),
     ...(s.level !== "all" ? [{ key: "level", label: levelOpts.find((o) => o.value === s.level)?.label ?? s.level, clear: () => set({ level: "all" }) }] : []),
     ...(s.saved ? [{ key: "saved", label: "Saved", clear: () => set({ saved: false }) }] : []),
+    ...(list ? [{ key: "list", label: list.name, clear: () => set({ list: "all" }) }] : []),
     ...(s.q.trim() ? [{ key: "q", label: `“${s.q.trim()}”`, clear: () => set({ q: "" }) }] : []),
   ];
   const meta = (v: LibraryIndexVideo) => `${programName(v)} · ${TYPE_ONE[typeOf(v)]}`;
@@ -182,6 +188,9 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
           <ChipBtn on={s.saved} icon="bookmark" onClick={() => set({ saved: !s.saved })}>
             Saved{savedCount ? <span className="lq-num l2-drop-n"> {savedCount}</span> : null}
           </ChipBtn>
+          {lists.length > 0 && (
+            <SelectPill label="My lists" value={s.list ?? "all"} onChange={(v) => set({ list: v })} all="My lists" options={lists.map((l) => ({ value: l.id, label: `${l.name} (${l.videoIds.length})` }))} />
+          )}
         </div>
       </div>
       {(actives.length > 0 || program) && (
@@ -230,6 +239,7 @@ export function LibraryView({ data, initial, initialPlaying, picks = [] }: { dat
                   aria-pressed={saved[current.id] ?? current.s}
                   onClick={() => toggleSave(current)}
                 />
+                <ListsMenu trigger="icon" videoId={current.id} title={cleanTitle(current.t)} lists={lists} onChange={setLists} />
                 <IconButton icon="close" label="Close player" variant="plain" onClick={() => setPlaying(null)} />
               </div>
             </div>

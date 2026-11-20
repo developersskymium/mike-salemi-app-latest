@@ -6,6 +6,7 @@ import { EmptyScene } from "@/components/graphics";
 import { VideoView } from "@/components/discover/VideoView";
 import { programPhoto } from "@/components/discover/access";
 import { loadProgramsTab, loadVideo } from "@/lib/loaders/discover";
+import { loadSavedLists } from "@/lib/loaders/saved-lists";
 import { getUser } from "@/lib/supabase/server";
 import "@/components/discover/discover.css";
 
@@ -23,9 +24,10 @@ export default async function VideoPage({ params }: { params: Promise<{ video: s
 
 async function VideoContent({ id }: { id: string }) {
   const { supabase, user } = await getUser();
-  let page, tab;
+  let page, tab, lists;
   try {
     [page, tab] = await Promise.all([loadVideo(supabase, user!.id, id), loadProgramsTab(supabase)]);
+    lists = await loadSavedLists([id]);
   } catch {
     return (
       <EmptyState
@@ -54,7 +56,7 @@ async function VideoContent({ id }: { id: string }) {
   return (
     <>
       {page.video.thumbnail_url && <AmbientBackdrop src={page.video.thumbnail_url} fixed />}
-      <VideoView video={page.video} related={page.related} collections={page.collections} programPhotos={photos} />
+      <VideoView video={page.video} related={page.related} collections={page.collections} programPhotos={photos} lists={lists} />
     </>
   );
 }
