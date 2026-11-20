@@ -10,7 +10,7 @@ import { FirstWeekChecklist, InstallPrompt, ResumeDraftCard, WelcomeVideo } from
 export async function FirstWeekHost() {
   const [fw, vimeo] = await Promise.all([loadFirstWeek().catch(() => null), loadWelcomeVideo()]);
   if (!fw) return null;
-  const p = surfacePhoto("authHero");
+  const p = surfacePhoto("homeEmpty");
   return (
     <>
       {fw.showWelcome && <WelcomeVideo vimeoId={vimeo} photo={{ src: p.src, position: p.focal }} />}
