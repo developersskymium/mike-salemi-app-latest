@@ -9,7 +9,8 @@ import type { BadgeDefinition, MikeNote } from "@ms/api";
 import type { SuggestedProgram } from "@/lib/settings/suggestions";
 import { PHOTO, photoByFile, programCover, surfacePhoto, type Photo, type PhotoName } from "@/lib/photos";
 import { programHref } from "@/lib/hrefs";
-import type { HomeItem, HomeView } from "./buildHome";
+import type { HomeItem, HomeView, PlanPanel, PlanRow } from "./buildHome";
+import { programColor } from "@/components/plan/programColor";
 import type { TodayView } from "./buildToday";
 import { JoinButton } from "./JoinButton";
 import { dayKindLabel, dayNumberOf, phaseLabel, plural, splitDayTitle } from "./model";
@@ -44,19 +45,30 @@ function localHour(now: number, tz: string | null | undefined) {
  * The retreat card appears only when the member has a retreat application or booking (`retreat`).
  * New members get one welcoming start state with the recommended first program.
  */
-export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, firstWeek, suggested = [], now = 0 }: { v: TodayView; /** Onboarding suggestions, shown until the member joins a program. */ suggested?: SuggestedProgram[]; /** First-week host (welcome video, checklist, resume draft, install prompt); one card shows at a time. */ firstWeek?: React.ReactNode; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
+export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote, firstWeek, suggested = [], plans = null, now = 0 }: { v: TodayView; /** Active plans with an open session: the hero takes a third and this panel the rest (desktop). */ plans?: PlanPanel | null; /** Onboarding suggestions, shown until the member joins a program. */ suggested?: SuggestedProgram[]; /** First-week host (welcome video, checklist, resume draft, install prompt); one card shows at a time. */ firstWeek?: React.ReactNode; home: HomeView | null; homeError?: boolean; /** The member's retreat journey card (streams in; renders nothing without a retreat). */ retreat?: React.ReactNode; /** Earned in the last 48 hours, else null (Home #9). */ latestBadge?: LatestBadge | null; mikeNote?: MikeNote | null; now?: number }) {
   const cur = home?.continuing ?? null;
   const enrolled = home?.enrolled ?? [];
   const isNew = !!home && !cur && enrolled.length === 0;
   const badge = latestBadge ?? null;
   const today = v.week.find((d) => d.isToday);
   const restDay = !!today && today.state === "rest" && !isNew;
+  // With schedules the hero shrinks to a third and "Continue your plans" takes the rest; otherwise the full-width hero.
+  const split = !!plans && !(isNew && suggested.length > 0);
+  const hero =
+    home && cur ? <ContinueHero v={v} h={home} now={now} compact={split} /> : isNew && suggested.length ? <SuggestedHero v={v} s={suggested[0]!} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />;
 
   return (
     <div className="sh ch pk">
       <h1 className="lq-sr">Home</h1>
 
-      {home && cur ? <ContinueHero v={v} h={home} now={now} /> : isNew && suggested.length ? <SuggestedHero v={v} s={suggested[0]!} /> : isNew && home?.featured ? <WelcomeHero v={v} item={home.featured} /> : <EmptyHero v={v} />}
+      {split ? (
+        <div className="pk-top">
+          <div className="pk-top-hero">{hero}</div>
+          <PlansPanel p={plans!} />
+        </div>
+      ) : (
+        hero
+      )}
 
       {isNew && suggested.length > 0 && <SuggestedRow items={suggested} />}
 
@@ -111,7 +123,7 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
 
 /* ================================================================== heroes */
 
-function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number }) {
+function ContinueHero({ v, h, now, compact = false }: { v: TodayView; h: HomeView; now: number; /** A third of the row (plans beside it): no stat panel, the thin progress line instead. */ compact?: boolean }) {
   const item = h.continuing!;
   const p = v.primary;
   const same = p && p.program_slug === item.slug;
@@ -141,7 +153,7 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
   const sub = mode === "comeback" ? ["Easy restart, go at 70%", meta].filter(Boolean).join(" · ") : meta;
   const label = item.complete ? "Review" : mode === "comeback" ? "Restart easy" : mode === "tomorrow" ? "Preview tomorrow" : day ? `${started ? "Continue" : "Start"} Day ${day}` : action.label;
   return (
-    <PhotoHero className="sh-hero ch-hero pk-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={520} priority overlay={<HeroStat item={item} h={h} />}>
+    <PhotoHero className="sh-hero ch-hero pk-hero" image={{ src: photo.src, alt: photo.alt, focal: photo.focal, focalPhone: photo.focalPhone }} minHeight={compact ? 420 : 520} sizes={compact ? "(min-width: 1100px) 440px, (min-width: 720px) 50vw, 100vw" : undefined} priority overlay={compact ? undefined : <HeroStat item={item} h={h} />}>
       <p className="pk-hero-k">{item.name}</p>
       <Tag tone={mode === "tomorrow" ? "accent" : "warm"} size="lg">
         {mode === "tomorrow" ? <Icon name="check" size="xs" /> : null}
@@ -151,7 +163,7 @@ function ContinueHero({ v, h, now }: { v: TodayView; h: HomeView; now: number })
       {sub ? <p className="sh-hero-meta">{sub}</p> : null}
       <div className="ch-hero-prog pk-hero-prog">
         <ProgressBar value={item.percent / 100} tone="white" size="thin" label={`${item.name} progress`} />
-        <span className="lq-num">{item.percent}%</span>
+        <span className="lq-num">{compact ? item.progressLabel : `${item.percent}%`}</span>
       </div>
       <div className="sh-hero-actions">
         <Button icon={item.complete ? "repeat" : mode === "tomorrow" ? "calendar" : "play"} variant={mode === "tomorrow" ? "onphoto" : undefined} href={action.href} size="lg" className="sh-hero-go">
@@ -262,6 +274,104 @@ function EmptyHero({ v }: { v: TodayView }) {
         </Button>
       </div>
     </PhotoHero>
+  );
+}
+
+/* ================================================================== continue your plans */
+
+/** "Continue your plans": one row per active plan (or, with one plan, its next sessions), beside the one-third hero. */
+function PlansPanel({ p }: { p: PlanPanel }) {
+  const one = p.mode === "sessions" ? p.plan : null;
+  return (
+    <section className="pk-plans" aria-labelledby="pk-plans-t">
+      <header className="pk-plans-h">
+        <h2 id="pk-plans-t" className="pk-h3">
+          {one ? "Up next in your plan" : "Continue your plans"}
+        </h2>
+        <Link href="/plan?manage=1" className="lq-link ch-all">
+          All plans <Icon name="arrowRight" size="xs" />
+        </Link>
+      </header>
+      {one ? (
+        <>
+          <div className="pk-plan-one" style={{ ["--pc" as string]: programColor(one.slug) }}>
+            <PlanName r={one} />
+            <PlanProgress r={one} />
+          </div>
+          <ul className="pk-plans-list" role="list">
+            {p.sessions.map((s, n) => (
+              <li key={s.id}>
+                <Link href={s.href} className="pk-sess" data-today={s.isToday ? "" : undefined} style={{ ["--pc" as string]: programColor(s.slug) }}>
+                  <span className="pk-sess-when">{s.when}</span>
+                  <span className="pk-sess-b">
+                    <b>{s.title}</b>
+                    {s.meta && <span>{s.meta}</span>}
+                  </span>
+                  {n === 0 ? (
+                    <span className="pk-plan-go" data-primary="">
+                      <Icon name="play" size="xs" /> {one.cta}
+                    </span>
+                  ) : (
+                    <Icon name="chevron" size="sm" className="pk-sess-chev" />
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <ul className="pk-plans-list" role="list">
+          {p.rows.map((r, n) => (
+            <li key={r.id}>
+              <Link href={r.href} className="pk-plan" style={{ ["--pc" as string]: programColor(r.slug) }} aria-label={`${r.cta} ${r.name}${r.sub ? ` ${r.sub}` : ""}: ${r.when}, ${r.session}. ${r.done} of ${r.total} sessions done`}>
+                <span className="pk-plan-main">
+                  <PlanName r={r} />
+                  <span className="pk-plan-next" data-today={r.isToday ? "" : undefined}>
+                    <b>{r.isToday ? "Today" : r.undated ? "Next" : `Next: ${r.when}`}</b>
+                    {r.session ? ` · ${r.session}` : ""}
+                  </span>
+                  <PlanProgress r={r} />
+                </span>
+                <span className="pk-plan-go" data-primary={n === 0 || r.isToday ? "" : undefined}>
+                  {r.locked ? <Icon name="lock" size="xs" /> : <Icon name="play" size="xs" />} {r.cta}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      {p.more > 0 && (
+        <p className="pk-plans-more">
+          <Link href="/plan?manage=1" className="lq-link">
+            {p.more} more {p.more === 1 ? "plan" : "plans"} <Icon name="arrowRight" size="xs" />
+          </Link>
+        </p>
+      )}
+    </section>
+  );
+}
+
+function PlanName({ r }: { r: PlanRow }) {
+  return (
+    <span className="pk-plan-name">
+      <i aria-hidden />
+      <b>{r.name}</b>
+      {r.sub && <span className="pk-plan-sub">{r.sub}</span>}
+      {r.undated && <span className="pk-plan-tag">Undated</span>}
+    </span>
+  );
+}
+
+function PlanProgress({ r }: { r: PlanRow }) {
+  return (
+    <span className="pk-plan-prog">
+      <span className="pk-plan-bar" aria-hidden>
+        <span style={{ width: `${r.total ? Math.max(2, (r.done / r.total) * 100) : 0}%` }} />
+      </span>
+      <span className="lq-num">
+        {r.done} of {plural(r.total, "session")}
+      </span>
+    </span>
   );
 }
 

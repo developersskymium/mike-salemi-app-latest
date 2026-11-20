@@ -3,11 +3,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { RetreatJourney } from "@/components/experiences/RetreatJourney";
 import { FirstWeekHost } from "@/components/onboarding/FirstWeekHost";
-import { buildHome } from "@/components/today/buildHome";
+import { buildHome, buildPlanPanel } from "@/components/today/buildHome";
 import { buildToday } from "@/components/today/buildToday";
 import { TodayScreen } from "@/components/today/TodayScreen";
 import { fixture, MOCK } from "@/lib/mock";
 import { loadHome } from "@/lib/loaders/home";
+import { loadSchedule } from "@/lib/loaders/plan";
 import { loadToday, type TodayRaw } from "@/lib/loaders/today-plan-you";
 import { loadBadges } from "@/lib/loaders/badges";
 import { loadMikeNote } from "@/lib/loaders/mike-note";
@@ -20,11 +21,12 @@ export const metadata: Metadata = { title: "Today" };
 export default async function TodayPage({ searchParams }: { searchParams: Promise<{ preview?: string }> }) {
   const { preview } = await searchParams;
   // Preview: `?preview=live` uses a real member's enrollments (fixtures/*-live.json), `?preview=new` a new member.
-  const [raw, homeRaw, badges, note] = await Promise.all([
+  const [raw, homeRaw, badges, note, schedule] = await Promise.all([
     MOCK && preview === "live" ? fixture<TodayRaw>("tpy-today-live") : loadToday(),
     loadHome(MOCK ? preview : undefined).catch(() => null),
     loadBadges().catch(() => null),
     loadMikeNote().catch(() => null),
+    loadSchedule().catch(() => null),
   ]);
   const view = buildToday(raw);
   // First visit with no goal: the goal-setting onboarding (members can skip it once).
@@ -32,6 +34,18 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
   const home = homeRaw ? buildHome(homeRaw, view) : null;
   // Onboarding suggestions stay on Home as "Suggested for you" until the member joins a program.
   const suggested = home && home.enrolled.length === 0 ? (await loadSuggestions(raw.profile.onboarding).catch(() => [])).filter((s) => !s.enrolled) : [];
+  // Active plans with an open session sit beside a one-third hero ("Continue your plans").
+  // Local preview only: ?preview=noplans shows a member with no schedules, ?preview=oneplan one dated plan.
+  const noPlans = MOCK && (preview === "noplans" || preview === "new" || preview === "live");
+  const typeOf = (slug: string) => raw.enrollments.find((e) => e.program_slug === slug)?.program_type;
+  const plans = noPlans ? null : buildPlanPanel(
+        raw.plans,
+        raw.planCounts,
+        MOCK && preview === "oneplan" && schedule ? { items: schedule.items.filter((i) => i.plan_id === schedule.items[0]?.plan_id), queues: [] } : schedule,
+        raw.today,
+        typeOf,
+        home?.continuing && home.heroAction ? { slug: home.continuing.slug, name: home.continuing.name, href: home.heroAction.href } : null,
+      );
   const now = requestTime();
   // Latest badge, shown for 48 hours after it is earned (spec 12, Home #9).
   const latest = badges
@@ -52,6 +66,7 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
       now={now}
       latestBadge={latest}
       suggested={suggested}
+      plans={plans}
       mikeNote={note}
       firstWeek={
         <Suspense fallback={null}>

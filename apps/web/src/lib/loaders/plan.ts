@@ -42,6 +42,8 @@ export interface PlanQueue {
   next: { title: string; lesson_id: string | null; minutes: number | null } | null;
   left: number;
   total: number;
+  /** The next few open sessions in order (the first is `next`), for Home's "this week" list. */
+  upcoming?: { title: string; lesson_id: string | null; minutes: number | null }[];
   /** The member lost access to this program. */
   locked?: boolean;
 }
@@ -87,6 +89,7 @@ const loadScheduleRaw = mockable("plan-schedule", async (): Promise<ScheduleData
     return {
       plan_id: id, name: ((meta?.inputs ?? {}) as { name?: string }).name ?? nx?.program_name ?? "Self-Guided", program_slug: list[0]?.program_slug ?? null, program_name: list[0]?.program_name ?? null,
       next: nx ? { title: nx.title, lesson_id: nx.lesson_id, minutes: nx.minutes } : null, left: open.length, total: list.length,
+      upcoming: open.slice(0, 4).map((i) => ({ title: i.title, lesson_id: i.lesson_id, minutes: i.minutes })),
     };
   });
   return { rules, days, queues, items: all.filter((i) => !undated.has(i.plan_id)) };

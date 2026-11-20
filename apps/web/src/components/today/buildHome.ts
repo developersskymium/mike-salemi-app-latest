@@ -1,5 +1,5 @@
 import type { CatalogProgram } from "@ms/api";
-import { daysBetween, type IsoDate } from "@ms/core";
+import { addDays, daysBetween, weekday, type IsoDate } from "@ms/core";
 import type { MoveName } from "@/components/graphics";
 import type { IconName } from "@/components/ui";
 import type { Enrollment, HomeRaw, HomeRun } from "@/lib/loaders/home";
@@ -369,3 +369,143 @@ export function buildHome(raw: HomeRaw, v: TodayView) {
 }
 
 export type HomeView = ReturnType<typeof buildHome>;
+
+/* ------------------------------------------------------------ "Continue your plans" (Home top row) */
+
+/** One active plan as the Home plans panel shows it. */
+export interface PlanRow {
+  id: string;
+  /** "Kettlebell Lifestyle" (the plan name before " · "). */
+  name: string;
+  /** "Level II", or the program the plan trains when the plan has its own name. */
+  sub: string | null;
+  undated: boolean;
+  /** "Today", "Wed 25 Nov" or "Next in order". */
+  when: string;
+  isToday: boolean;
+  /** "Day 4 · Strength day · 32 min" */
+  session: string;
+  done: number;
+  total: number;
+  cta: string;
+  href: string;
+  slug: string | null;
+  locked: boolean;
+}
+
+/** One upcoming session of the member's only plan (one plan: the panel lists its next sessions instead). */
+export interface PlanSession {
+  id: string;
+  when: string;
+  isToday: boolean;
+  title: string;
+  meta: string | null;
+  href: string;
+  slug: string | null;
+}
+
+export interface PlanPanel {
+  /** "plans": one row per plan. "sessions": the only plan's next few sessions. */
+  mode: "plans" | "sessions";
+  rows: PlanRow[];
+  /** The only plan (mode "sessions"). */
+  plan: PlanRow | null;
+  sessions: PlanSession[];
+  /** Active plans beyond the rows shown. */
+  more: number;
+}
+
+type PanelPlan = { id: string; name: string; inputs: Record<string, unknown> };
+type PanelItem = { id: string; plan_id: string; on_date: string; kind: string; title: string; lesson_id: string | null; program_slug: string | null; program_name: string | null; minutes: number | null; done: boolean; skipped: boolean; locked?: boolean };
+type PanelQueue = { plan_id: string; name: string; program_slug: string | null; program_name: string | null; next: { title: string; lesson_id: string | null; minutes: number | null } | null; upcoming?: { title: string; lesson_id: string | null; minutes: number | null }[]; left: number; total: number; locked?: boolean };
+
+/** "Day 24 - Recovery Day" + 30 → "Day 24 · Recovery day · 30 min"; "Two Hand Deadlift" stays. */
+function sessionLine(title: string, minutes: number | null) {
+  const { day, name } = splitDayTitle(title);
+  const nm = day && /\bday$/i.test(name) ? `${name.replace(/\s+day$/i, "")} day` : name;
+  return [day ? `Day ${day}` : null, nm || null, minutes ? `${minutes} min` : null].filter(Boolean).join(" · ");
+}
+
+const whenOf = (d: string, today: string) => (d === today ? "Today" : fmt(d as IsoDate, { weekday: "short", day: "numeric", month: "short" }));
+
+/**
+ * Pure: the member's active plans (dated plans from plan_items, Self-Guided undated plans as "next in order")
+ * for the panel beside a one-third hero. Null when no plan has an open session to continue.
+ */
+export function buildPlanPanel(
+  plans: PanelPlan[],
+  counts: { plan_id: string; total: number; done: number }[],
+  schedule: { items: PanelItem[]; queues?: PanelQueue[] } | null,
+  today: string,
+  typeOf: (slug: string) => string | null | undefined = () => null,
+  /** The hero's program and next lesson, so a one-plan panel doesn't repeat the hero's session. */
+  hero: { slug: string; name: string; href: string } | null = null,
+  max = 4,
+): PlanPanel | null {
+  if (!schedule) return null;
+  const href = (slug: string | null, lessonId: string | null) => (slug ? lessonHref(slug, lessonId, { type: typeOf(slug) }) : "/plan");
+  const open = (i: PanelItem) => i.kind !== "rest" && !i.done && !i.skipped && !i.locked;
+  const split = (n: string) => {
+    const [a, ...b] = n.split(" · ");
+    return { name: a!.trim(), level: b.join(" · ").trim() || null };
+  };
+  const rows: (PlanRow & { sort: string })[] = [];
+  const dated = new Map<string, PanelItem[]>();
+  for (const i of schedule.items) dated.set(i.plan_id, [...(dated.get(i.plan_id) ?? []), i]);
+
+  for (const [planId, list] of dated) {
+    const nx = list.filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date))[0];
+    if (!nx) continue;
+    const meta = plans.find((p) => p.id === planId);
+    const prog = list.find((i) => i.program_name)?.program_name ?? null;
+    const { name, level } = split(meta?.name ?? prog ?? "Your plan");
+    const c = counts.find((x) => x.plan_id === planId);
+    const total = c?.total ?? list.filter((i) => i.kind !== "rest").length;
+    const done = c?.done ?? list.filter((i) => i.kind !== "rest" && i.done).length;
+    const isToday = nx.on_date === today;
+    rows.push({
+      id: planId, name, sub: level ?? (prog && prog !== name ? prog : null), undated: false,
+      when: whenOf(nx.on_date, today), isToday, session: sessionLine(nx.title, nx.minutes), done, total,
+      cta: done ? "Continue" : "Start", href: href(nx.program_slug, nx.lesson_id), slug: nx.program_slug, locked: false,
+      sort: `${nx.on_date}`,
+    });
+  }
+  for (const q of schedule.queues ?? []) {
+    if (!q.next && !q.locked) continue;
+    const { name, level } = split(q.name);
+    const done = q.total - q.left;
+    rows.push({
+      id: q.plan_id, name, sub: level ?? (q.program_name && q.program_name !== name ? q.program_name : null), undated: true,
+      when: "Next in order", isToday: false, session: q.next ? sessionLine(q.next.title, q.next.minutes) : "", done, total: q.total,
+      cta: q.locked ? "Unlock" : done ? "Continue" : "Start",
+      href: q.locked && q.program_slug ? `/programs/${q.program_slug}/unlock` : href(q.program_slug, q.next?.lesson_id ?? null), slug: q.program_slug, locked: !!q.locked,
+      // Undated plans sit after today's sessions, before later dated ones.
+      sort: `${today}~`,
+    });
+  }
+  if (!rows.length) return null;
+  rows.sort((a, b) => Number(b.isToday) - Number(a.isToday) || a.sort.localeCompare(b.sort));
+  const all: PlanRow[] = rows.map((r) => ({ ...r, sort: undefined }) as PlanRow & { sort?: string });
+  if (all.length > 1) return { mode: "plans", rows: all.slice(0, max), plan: null, sessions: [], more: Math.max(0, all.length - max) };
+
+  // One plan: its next few sessions (this week first), so the panel never repeats the hero as a lone row.
+  const heroLike = (r: PlanRow) => !!hero && (r.href === hero.href || (r.slug === hero.slug && [r.name, r.sub].filter(Boolean).join(" · ") === hero.name));
+  const only = all[0]!;
+  let sessions: PlanSession[];
+  if (only.undated) {
+    const q = (schedule.queues ?? []).find((x) => x.plan_id === only.id);
+    const list = q?.upcoming?.length ? q.upcoming : q?.next ? [q.next] : [];
+    sessions = list.slice(0, 4).map((s, n) => ({ id: `${only.id}-${n}`, when: n === 0 ? "Next" : "Then", isToday: false, title: sessionLine(s.title, null), meta: s.minutes ? `${s.minutes} min` : null, href: href(q?.program_slug ?? null, s.lesson_id), slug: q?.program_slug ?? null }));
+  } else {
+    const ahead = (dated.get(only.id) ?? []).filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date));
+    const weekEnd = addDays(today as IsoDate, 6 - ((weekday(today as IsoDate) + 6) % 7));
+    const thisWeek = ahead.filter((i) => i.on_date <= weekEnd);
+    sessions = (thisWeek.length >= 2 ? thisWeek : ahead).slice(0, 4).map((i) => ({
+      id: i.id, when: whenOf(i.on_date, today), isToday: i.on_date === today, title: sessionLine(i.title, null), meta: i.minutes ? `${i.minutes} min` : i.kind === "recovery" ? "Recovery" : null, href: href(i.program_slug, i.lesson_id), slug: i.program_slug,
+    }));
+  }
+  // The hero's plan: skip the session the hero already offers.
+  if (heroLike(only) && sessions.length > 1 && hero && sessions[0]!.href === hero.href) sessions = sessions.slice(1);
+  return { mode: "sessions", rows: [only], plan: only, sessions, more: 0 };
+}
+
