@@ -398,3 +398,8 @@ a.exp-fact:hover { background: var(--fill); }
 @media (min-width: 1024px) { .exp-people { grid-template-columns: repeat(3, 1fr); } }
 .coa-pkg2 > .com-between { min-height: 30px; align-items: center; }
 @media (max-width: 640px) { .coa-tile { padding: var(--s-3); } .coa-tile-n { font: var(--t-28); } .coa-tile-l { font-size: 10px; letter-spacing: .06em; } }
+@media (max-width: 639px) {
+  .exp-factgrid[data-n="3"] .exp-fact:nth-child(3) { grid-column: 1 / -1; border-left: 0; }
+  .exp-notice .exp-note-art { display: none; }
+}
+.exp-l3-hero::after { background: linear-gradient(180deg, rgba(8,8,8,.18) 0%, rgba(8,8,8,.05) 28%, rgba(8,8,8,.55) 62%, rgba(8,8,8,.82) 100%); }
