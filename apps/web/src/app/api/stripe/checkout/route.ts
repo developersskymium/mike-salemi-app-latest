@@ -26,6 +26,8 @@ interface ServerQuote {
   currency: string;
   base_cents: number;
   discount_cents: number;
+  /** Purchase credit (0041): taken off the first payment only, after the discount. Absent before 0041 is applied. */
+  credit_cents?: number;
   amount_cents: number;
   stripe_price_id: string | null;
 }
@@ -116,6 +118,11 @@ export async function POST(request: Request) {
   const customer = await ensureStripeCustomer(stripe, admin, user);
   const metadata = { order_id: orderId, user_id: user.id, kind, ref: q.ref };
 
+  // Purchase credit is a first-payment credit: the line item is priced before it, and the credit goes on as a
+  // single-use, one-time ("once") coupon so renewals bill the normal price. Only plans carry a credit.
+  const credit = isPlan ? Math.max(0, Math.min(q.credit_cents ?? 0, q.amount_cents + (q.credit_cents ?? 0) - 50)) : 0;
+  const beforeCredit = q.amount_cents + credit;
+
   // Use the catalog Stripe price only when nothing was discounted; otherwise charge exactly the quoted amount.
   const lineItem: Stripe.Checkout.SessionCreateParams.LineItem =
     q.stripe_price_id && q.discount_cents === 0
@@ -124,7 +131,7 @@ export async function POST(request: Request) {
           quantity: 1,
           price_data: {
             currency: q.currency,
-            unit_amount: q.amount_cents,
+            unit_amount: beforeCredit,
             product_data: { name: q.name ?? q.kind, metadata: { kind, ref: q.ref } },
             ...(isPlan ? { recurring: { interval: q.interval === "year" ? "year" : "month" } } : {}),
           },
@@ -132,12 +139,21 @@ export async function POST(request: Request) {
 
   let session: Stripe.Checkout.Session;
   try {
+    let discounts: Stripe.Checkout.SessionCreateParams.Discount[] | undefined;
+    if (credit > 0) {
+      const coupon = await stripe.coupons.create(
+        { amount_off: credit, currency: q.currency, duration: "once", max_redemptions: 1, name: "Credit for recent purchases", metadata: { order_id: orderId } },
+        { idempotencyKey: `credit:${orderId}` },
+      );
+      discounts = [{ coupon: coupon.id }];
+    }
     session = await stripe.checkout.sessions.create(
       {
         mode: isPlan ? "subscription" : "payment",
         customer,
         client_reference_id: orderId,
         line_items: [lineItem],
+        ...(discounts ? { discounts } : {}),
         metadata,
         ...(isPlan ? { subscription_data: { metadata } } : { payment_intent_data: { metadata } }),
         success_url: `${origin}/checkout/success?order=${orderId}&session_id={CHECKOUT_SESSION_ID}`,
