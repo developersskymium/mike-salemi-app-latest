@@ -7,6 +7,7 @@ import { addDays, type IsoDate } from "@ms/core";
 import { defaultDays, startOfWeek } from "@/components/today/dates";
 import { lessonHref, plural, splitDayTitle } from "@/components/today/model";
 import { PlanBoard } from "./PlanBoard";
+import { ManagePlanActions } from "./ManagePlanActions";
 import { WeekView } from "./WeekView";
 import { PrefsAsk, PrefsChip } from "./WeekPrefs";
 import { programColor } from "./programColor";
@@ -17,6 +18,7 @@ import { BehindBanner, GuidedPatterns, MissedDayCard, RemindersCard, type Rule }
 import "./week.css";
 import "@/components/today/tpy.css";
 import "./pln.css";
+import "./manage.css";
 
 const SOURCE: Record<string, string> = { template: "Mike's plan", immersion_schedule: "Program schedule", custom: "Your own", ai: "Created for you" };
 
@@ -75,10 +77,10 @@ function summary(items: ScheduleItem[], today: string, ws: string) {
  * behind "Manage plans" (?manage=1), still one tap away.
  */
 export function PlanScreen({
-  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, manage = false,
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, manage = false, tab,
 }: {
   raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
-  selectedId?: string; origin?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; manage?: boolean;
+  selectedId?: string; origin?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; manage?: boolean; tab?: ManageTab;
 }) {
   const today = raw.today;
   const plans = raw.plans;
@@ -102,7 +104,7 @@ export function PlanScreen({
     return t ? `/plan?${t}` : "/plan";
   };
 
-  if (manage || build || view === "month") return <Manage {...{ raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, items, plans, today }} />;
+  if (manage || build || view === "month") return <Manage {...{ raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, plans, today, tab }} />;
 
   const primary = todayItem ? (
     <Button icon="play" size="md" href={lessonHref(todayItem.program_slug, todayItem.lesson_id)}>Start today&apos;s session</Button>
@@ -129,7 +131,7 @@ export function PlanScreen({
         </div>
       </header>
 
-      {prefDays.length ? <PrefsChip days={prefDays} minutes={minutes} editHref="/plan?manage=1#prefs" /> : <PrefsAsk />}
+      {prefDays.length ? <PrefsChip days={prefDays} minutes={minutes} editHref="/plan?manage=1&tab=prefs" /> : <PrefsAsk />}
 
       {queues.map((q) => (
         <Link key={q.plan_id} href={q.next ? lessonHref(q.program_slug, q.next.lesson_id) : `/plan/${q.plan_id}`} className="wk-queue lq-press" style={{ ["--pc" as string]: programColor(q.program_slug) }}>
@@ -147,113 +149,156 @@ export function PlanScreen({
   );
 }
 
-/** Everything that used to crowd the schedule: plan list, month / build board, catch-up, pace, reminders, sync. */
+export type ManageTab = "plans" | "calendar" | "prefs" | "sync";
+const TABS: { id: ManageTab; label: string }[] = [
+  { id: "plans", label: "Plans" },
+  { id: "calendar", label: "Calendar" },
+  { id: "prefs", label: "Preferences" },
+  { id: "sync", label: "Reminders & sync" },
+];
+const WD_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+/**
+ * Manage plans (client note, Nov 21: "too long — tabbed, easier to understand"). Four short tabs, URL-synced
+ * (?manage=1&tab=plans|calendar|prefs|sync): your plans as cards · the month / build board (+ clash and catch-up
+ * notices only when relevant) · training profile, how often and missed days · reminders and calendar sync.
+ */
 function Manage({
-  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, items, plans, today,
+  raw, catalog, schedule, n, anchor, view, build, selectedId, program, feedUrl, profile, plans, today, tab,
 }: {
   raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
-  selectedId?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; items: ScheduleItem[]; plans: PlanRaw["plans"]; today: string;
+  selectedId?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; plans: PlanRaw["plans"]; today: string; tab?: ManageTab;
 }) {
   const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped;
+  const active: ManageTab = tab ?? (build || view === "month" ? "calendar" : "plans");
   const clash = program ? null : findClashes(schedule.items, plans, today);
   const behind = plans
     .map((pl) => ({ pl, missed: schedule.items.filter((i) => i.plan_id === pl.id && open(i) && i.on_date < today) }))
     .find((x) => x.missed.length > 0 && (!program || x.missed.some((m) => m.program_slug === program)));
   const selected = plans.find((p) => p.id === selectedId) ?? plans[0] ?? null;
   const rule = ((selected ? schedule.rules[selected.id] : "shift") ?? "shift") as Rule;
-  void items;
+  const href = (t: ManageTab, extra: Record<string, string> = {}) => {
+    const u = new URLSearchParams({ manage: "1", tab: t, ...extra });
+    if (program) u.set("program", program);
+    return `/plan?${u}`;
+  };
+  const google = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(feedUrl.replace(/^https?:/, "webcal:"))}`;
+
   return (
-    <div className="pln-page pln-calm wk-page">
+    <div className="pln-page pln-calm wk-page mng-page">
       <header className="wk-head">
         <div className="wk-head-main">
           <Link href="/plan" className="wk-back"><Icon name="back" size="xs" /> Your week</Link>
           <h1 className="lq-d-lg pln-h1">Manage plans</h1>
-        </div>
-        <div className="wk-head-acts">
-          <Button icon="plus" size="md" href="/plan/new">Add a plan</Button>
-          <MoreMenu
-            items={[
-              { label: "Create my plan", href: "/plan/create", icon: "sparkle" },
-              { label: "Build my own week", href: "/plan?build=1", icon: "plan" },
-              { label: "Month view", href: "/plan?view=month", icon: "calendar" },
-              { label: "Download .ics", href: "/plan/calendar.ics", icon: "down", download: true },
-            ]}
-          />
+          <p className="wk-sum">Your plans, calendar and preferences.</p>
         </div>
       </header>
 
-      {plans.length > 0 && (
-        <section aria-labelledby="pln-plans-t" className="pln-onsched">
-          <h2 id="pln-plans-t" className="pln-h2s">Your plans</h2>
-          <Glass radius="card" className="pln-planlist">
+      <nav className="mng-tabs" aria-label="Manage plans">
+        {TABS.map((t) => (
+          <Link key={t.id} href={href(t.id)} scroll={false} replace className="mng-tab" aria-current={t.id === active ? "page" : undefined}>{t.label}</Link>
+        ))}
+      </nav>
+
+      {active === "plans" && (
+        <section aria-label="Your plans" className="mng-sec">
+          <div className="mng-row">
+            <p className="mng-lede">{plans.length ? `You have ${plural(plans.length, "active plan")}.` : "No plans yet. Add one and we'll put it on your training days."}</p>
+            <div className="mng-row-acts">
+              <Button icon="plus" size="md" href="/plan/new">New plan</Button>
+              <MoreMenu items={[{ label: "Create my plan", href: "/plan/create", icon: "sparkle" }, { label: "Build my own week", href: href("calendar", { build: "1" }), icon: "plan" }]} />
+            </div>
+          </div>
+          <div className="mng-cards">
             {plans.map((pl) => {
               const c = raw.planCounts.find((x) => x.plan_id === pl.id);
-              const slug = schedule.items.find((i) => i.plan_id === pl.id && i.program_slug)?.program_slug ?? null;
-              const nx = schedule.items.find((i) => i.plan_id === pl.id && open(i) && i.on_date >= today);
+              const mine = schedule.items.filter((i) => i.plan_id === pl.id);
+              const prog = mine.find((i) => i.program_name);
+              const nx = mine.find((i) => open(i) && i.on_date >= today);
               const undated = (pl.inputs as { undated?: boolean }).undated === true;
+              const soon = mine.filter((i) => i.kind !== "rest" && i.on_date >= today && i.on_date < addDays(today, 14));
+              const wd = [...new Set(soon.map((i) => new Date(`${i.on_date}T12:00:00Z`).getUTCDay()))].sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7));
               return (
-                <Link key={pl.id} href={`/plan/${pl.id}`} className="pln-planrow">
-                  <i className="pln-dot pln-dot-lg" style={{ background: programColor(slug) }} aria-hidden />
-                  <span className="pln-planrow-main">
-                    <span className="pln-planrow-t">{pl.name}</span>
-                    <span className="pln-sub lq-num">
-                      {undated ? "Self-Guided, no dates" : SOURCE[pl.source] ?? "Plan"}
-                      {c ? `, ${c.done} of ${plural(c.total, "session")} done` : ""}
-                      {undated ? "" : nx ? `, next ${dayLabel(nx.on_date)}` : ", all done"}
-                    </span>
-                  </span>
-                  {c && c.total > 0 && <ProgressBar value={c.done / c.total} label={`${pl.name} progress`} size="thin" className="pln-planrow-bar" />}
-                  <Icon name="chevron" size="sm" className="tpy-chev" />
-                </Link>
+                <article key={pl.id} className="mng-card" style={{ ["--pc" as string]: programColor(prog?.program_slug ?? null) }}>
+                  <div className="mng-card-top">
+                    <Link href={`/plan/${pl.id}`} className="mng-card-t">{pl.name}</Link>
+                    <span className="mng-card-k">{undated ? "Self-Guided" : SOURCE[pl.source] ?? "Plan"}</span>
+                  </div>
+                  <dl className="mng-facts">
+                    <div><dt>Program</dt><dd>{prog?.program_name ?? "Mixed"}</dd></div>
+                    <div><dt>Days</dt><dd>{undated ? "Any day" : wd.length ? wd.map((d) => WD_SHORT[d]).join(", ") : "—"}</dd></div>
+                    <div><dt>Next</dt><dd className="lq-num">{nx ? (undated ? title(nx.title) : `${dayLabel(nx.on_date)} · ${title(nx.title)}`) : "All done"}</dd></div>
+                  </dl>
+                  {c && c.total > 0 && (
+                    <div className="mng-prog">
+                      <ProgressBar value={c.done / c.total} label={`${pl.name} progress`} size="thin" />
+                      <span className="lq-num">{c.done} of {plural(c.total, "session")} done</span>
+                    </div>
+                  )}
+                  <ManagePlanActions planId={pl.id} name={pl.name} status={pl.status} />
+                </article>
               );
             })}
-          </Glass>
+          </div>
         </section>
       )}
 
-      {clash && <ConflictCard c={clash} />}
-      {!clash && behind && (
-        <BehindBanner planId={behind.pl.id} count={behind.missed.length} rule={(schedule.rules[behind.pl.id] ?? "shift") as Rule} missed={behind.missed.map((m) => ({ title: title(m.title), date: m.on_date }))} />
+      {active === "calendar" && (
+        <section aria-label="Calendar" className="mng-sec">
+          {clash && <ConflictCard c={clash} />}
+          {!clash && behind && (
+            <BehindBanner planId={behind.pl.id} count={behind.missed.length} rule={(schedule.rules[behind.pl.id] ?? "shift") as Rule} missed={behind.missed.map((m) => ({ title: title(m.title), date: m.on_date }))} />
+          )}
+          <PlanBoard today={today as IsoDate} from={raw.from} to={raw.to} anchor={anchor} initialView={build ? view : "month"} entries={raw.entries} plans={raw.plans} catalog={catalog} build={build} program={program} />
+          {!build && <p className="pln-help">Want to place sessions yourself? <Link href={href("calendar", { build: "1" })} className="lq-ink">Build my own week</Link></p>}
+        </section>
       )}
 
-      {(build || view === "month") && (
-        <PlanBoard today={today as IsoDate} from={raw.from} to={raw.to} anchor={anchor} initialView={view} entries={raw.entries} plans={raw.plans} catalog={catalog} build={build} program={program} />
-      )}
-
-      <div className="pln-settings-body">
-        {profile && (
-          <Glass as="section" radius="card" className="ntf-card" aria-label="Training days" id="prefs">
-            <TrainingProfileEditor initial={profile} title="Your training days and session length" />
-          </Glass>
-        )}
-        {selected && (
-          <Glass as="section" radius="card" className="ntf-card" aria-label="How often">
-            {plans.length > 1 && (
-              <nav className="pln-pills" aria-label="Plans">
-                {plans.map((pl) => (
-                  <Link key={pl.id} href={`/plan?manage=1&plan=${pl.id}`} scroll={false} className="pln-pill" aria-current={pl.id === selected.id ? "true" : undefined}>{pl.name}</Link>
-                ))}
-              </nav>
-            )}
-            <GuidedPatterns key={selected.id} planId={selected.id} current={schedule.days[selected.id]} />
-            <p className="pln-help">Pick how often, and the rest of <b>{selected.name}</b> moves to those days from today, in order.</p>
-          </Glass>
-        )}
-        <div className="ntf-grid">
-          <RemindersCard prefs={n.prefs} timezone={n.timezone} today={today} now={n.now} />
+      {active === "prefs" && (
+        <section aria-label="Preferences" className="mng-sec pln-settings-body">
+          {profile && (
+            <Glass as="section" radius="card" className="ntf-card" aria-label="Training days" id="prefs">
+              <TrainingProfileEditor initial={profile} title="Your training days and session length" />
+            </Glass>
+          )}
+          {selected && (
+            <Glass as="section" radius="card" className="ntf-card" aria-label="How often">
+              <h2 className="ntf-title">How often</h2>
+              {plans.length > 1 && (
+                <nav className="pln-pills" aria-label="Plans">
+                  {plans.map((pl) => (
+                    <Link key={pl.id} href={href("prefs", { plan: pl.id })} scroll={false} replace className="pln-pill" aria-current={pl.id === selected.id ? "true" : undefined}>{pl.name}</Link>
+                  ))}
+                </nav>
+              )}
+              <GuidedPatterns key={selected.id} planId={selected.id} current={schedule.days[selected.id]} />
+              <p className="pln-help">Pick how often, and the rest of <b>{selected.name}</b> moves to those days from today, in order.</p>
+            </Glass>
+          )}
           {selected && <MissedDayCard key={selected.id} planId={selected.id} planName={selected.name} rule={rule} />}
-        </div>
-        <Glass as="section" radius="card" className="ntf-card" aria-labelledby="pln-sync-t">
-          <header className="ntf-head">
-            <span className="ntf-ic" aria-hidden><Icon name="calendar" size="sm" /></span>
-            <div>
-              <h2 id="pln-sync-t" className="ntf-title">Add to your calendar app</h2>
-              <p className="ntf-sub">A private link that keeps Apple, Google or Outlook in step with your week. Don&apos;t share it.</p>
+          {!profile && !selected && <p className="mng-lede">Add a plan first, then set how often you train here.</p>}
+        </section>
+      )}
+
+      {active === "sync" && (
+        <section aria-label="Reminders and sync" className="mng-sec pln-settings-body">
+          <RemindersCard prefs={n.prefs} timezone={n.timezone} today={today} now={n.now} />
+          <Glass as="section" radius="card" className="ntf-card" aria-labelledby="pln-sync-t">
+            <header className="ntf-head">
+              <span className="ntf-ic" aria-hidden><Icon name="calendar" size="sm" /></span>
+              <div>
+                <h2 id="pln-sync-t" className="ntf-title">Add to your calendar app</h2>
+                <p className="ntf-sub">A private link that keeps Apple, Google or Outlook in step with your week. Don&apos;t share it.</p>
+              </div>
+            </header>
+            <SubscribeRow url={feedUrl} />
+            <div className="mng-row-acts">
+              <Button size="sm" variant="secondary" href={google} target="_blank" rel="noreferrer">Add to Google Calendar</Button>
+              <a href="/plan/calendar.ics" download className="lq-ink mng-dl">Download .ics file</a>
             </div>
-          </header>
-          <SubscribeRow url={feedUrl} />
-        </Glass>
-      </div>
+          </Glass>
+        </section>
+      )}
     </div>
   );
 }

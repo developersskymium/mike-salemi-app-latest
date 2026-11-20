@@ -12,6 +12,7 @@ export const metadata: Metadata = { title: "Schedule" };
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
 const UUID = /^[0-9a-f-]{36}$/i;
+const TAB = new Set(["plans", "calendar", "prefs", "sync"]);
 const SLUG = /^[a-z0-9-]{2,80}$/;
 
 /** The one schedule. `?program=<slug>` filters it to one program (program schedule screens land here). */
@@ -33,7 +34,7 @@ export default async function PlanPage({ searchParams }: { searchParams: Promise
   return (
     <PlanScreen
       raw={empty ? { ...raw, plans: [], entries: [] } : raw} catalog={catalog} schedule={empty ? { items: [], rules: {}, days: {}, queues: [] } : schedule} n={n} anchor={d ?? raw.today} view={sp.view === "month" ? "month" : "week"}
-      build={sp.build === "1"} manage={sp.manage === "1"} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={empty ? {} : profile}
+      build={sp.build === "1"} manage={sp.manage === "1"} tab={TAB.has(sp.tab as string) ? (sp.tab as "plans") : undefined} selectedId={plan} origin={origin} program={program} feedUrl={feedUrl} profile={empty ? {} : profile}
     />
   );
 }
