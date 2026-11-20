@@ -1,5 +1,9 @@
 # Spec 05 — Screens (starts after Ahmed picks a design direction)
 
+**Approved direction: "Liquid"** (Apple Liquid Glass inspired) with Ahmed's changes: accent **glacier blue** only for the primary action and "now" states; otherwise near-monochrome glass where colour comes from photography; almost NO drop shadows (depth from blur, 1px specular rim, hairlines, layering); rich signature micro-interactions and custom graphics everywhere (from `apps/web/src/components/graphics/` — movement figures, day-type glyphs, phase landscape ridge, readiness dial, rings, completion moments, streak flame, medals, empty states). Primitives live in `apps/web/src/components/ui/`; see `docs/design/system.md` and the hidden gallery route. Never re-style primitives locally.
+
+**Test member** for local screenshots: credentials are `E2E_EMAIL` / `E2E_PASSWORD` in `apps/web/.env.local` (never print them). The member has a Max membership (all programs open) and KBL Level I progress through Day 23 (next: Day 24, Workout II). Sign in through `/signin` on `http://localhost:3000` (the Discover agent builds that page; until it exists, sign in programmatically in your Playwright/puppeteer script with `@supabase/ssr` cookies or by calling the `signInWithPassword` server action through a temporary local-only page in your own folder that you delete before reporting).
+
 All screens follow the approved design system: tokens in `packages/tokens`, primitives in `apps/web/src/components/ui`, rules in `docs/design/system.md`, reference artboards in `/home/claude/design/directions/<chosen>/`. Never invent new colours, type sizes, radii or shadows; if a primitive is missing, build it in your own folder following the system and tell the lead.
 
 ## Shared rules
