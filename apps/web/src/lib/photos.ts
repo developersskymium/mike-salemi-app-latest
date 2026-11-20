@@ -33,6 +33,8 @@ const S = (f: string) => `/media/summit/${f}`;
 const R = (f: string) => `/media/retreats/${f}`;
 const L = (f: string) => `/media/retreats/live/${f}`;
 const E = (id: string, f: string) => `/media/l5e/${id}/${f}`;
+/** Mike's own site (mikesalemi.io) media CDN — served through next/image (remotePatterns). */
+const W = (f: string) => `https://assets.cdn.filesafe.space/UighMD1kAbJoZtbTe7zW/media/${f}`;
 
 /** The library: one entry per distinct photograph (duplicates in /public are aliased in covers.ts). */
 export const PHOTO = {
@@ -64,6 +66,15 @@ export const PHOTO = {
   meals: { src: L("shared-meals.png"), alt: "Shared meals at the retreat", focal: "50% 30%", focalPhone: "50% 32%", aspect: 1.5 },
   fire: { src: L("fire.jpg"), alt: "Men around the fire at night", focal: "50% 55%", focalPhone: "50% 55%", aspect: 1.33 },
   maloca: { src: L("maloca.jpg"), alt: "Inside the maloca at the retreat venue", focal: "50% 55%", focalPhone: "50% 55%", aspect: 0.75 },
+  // From mikesalemi.io (Nov 20): training, coaching and retreat moments not in the old app.
+  bagSpin: { src: W("692854bb354d2b20f4843699.jpg"), alt: "Mike Salemi spinning a Bulgarian bag in the gym", focal: "52% 30%", focalPhone: "52% 30%", aspect: 1.5, fallback: E("f9cc9459-fd95-4602-9ba0-1137217fdbfa", "athleticism-4-life.png") },
+  certificate: { src: W("6929df9a999333197b0ec84b.jpg"), alt: "Mike Salemi presenting a certificate to a coach", focal: "48% 24%", focalPhone: "56% 22%", aspect: 1.5, fallback: S("mike-coaching.jpg") },
+  overlook: { src: W("67fc786971384b2381b4546b.jpeg"), alt: "Two men watching the sun set over the high desert", focal: "45% 55%", focalPhone: "45% 55%", aspect: 0.75, fallback: L("facing-shasta.png") },
+  celebration: { src: W("69196d5b12b5eb1378df1576.jpg"), alt: "Men celebrating together at a Men of Movement retreat", focal: "45% 30%", focalPhone: "40% 28%", aspect: 1.5, fallback: L("group-tims-land.jpg") },
+  groupGrass: { src: W("6a0a414eea36308bcf882705.jpg"), alt: "The Men of Movement group together on the grass", focal: "50% 48%", focalPhone: "50% 48%", aspect: 1.33, fallback: L("group-tims-land.jpg") },
+  lodge: { src: W("6a0a0a870a69f1e766ce6a3a.jpg"), alt: "The men gathered inside the round lodge", focal: "50% 50%", focalPhone: "50% 50%", aspect: 0.75, fallback: L("maloca.jpg") },
+  forestWalk: { src: W("6a0b71b42e98e28fa1ad5cbb.jpg"), alt: "Men walking barefoot along a forest trail", focal: "50% 45%", focalPhone: "50% 45%", aspect: 0.75, fallback: L("tims-land.jpg") },
+  brothers: { src: W("6942ff803bbe75e93d1190b9.png"), alt: "Mike Salemi smiling with men from the retreat", focal: "50% 35%", focalPhone: "50% 35%", aspect: 1.5, fallback: L("group-tims-land.jpg") },
 } satisfies Record<string, Photo>;
 
 export type PhotoName = keyof typeof PHOTO;
@@ -75,18 +86,18 @@ export type PhotoName = keyof typeof PHOTO;
 export const PROGRAM_COVER: Record<string, PhotoName> = {
   "kettlebell-lifestyle": "standing",
   "mastering-the-kettlebell": "squat",
-  "athleticism-4-life": "bag",
+  "athleticism-4-life": "bagSpin",
   "working-in": "workingIn",
   "zen-savage": "getup",
   "the-path-to-inspired-action": "valley",
   "the-grounded-king": "breathwork",
-  "men-of-movement": "walk",
+  "men-of-movement": "forestWalk",
   "men-of-movement-retreats": "summitGroup",
   "free-6-video-kettlebell-mini-series": "swingGym",
   "what-your-kettlebell-swing-is-missing": "hinge",
   "kettlebell-roadmap": "goblet",
   coaching: "coaching",
-  "executive-edge": "conversation",
+  "executive-edge": "overlook",
 };
 
 /** Surfaces that are not a single program. Different from each other and from the covers they sit next to. */
@@ -96,11 +107,11 @@ export const SURFACE: Record<"authHero" | "homeHero" | "homeEmpty" | "retreats" 
   homeEmpty: "press",
   retreats: "summitGroup",
   coaching: "coaching",
-  executiveEdge: "conversation",
-  you: "groupLand",
+  executiveEdge: "overlook",
+  you: "celebration",
   empty: "facingShasta",
   error: "ridgeCircle",
-  rewards: "sweatLodge",
+  rewards: "certificate",
 };
 
 export const photo = (name: PhotoName): Photo => PHOTO[name];
