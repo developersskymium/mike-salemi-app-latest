@@ -524,14 +524,14 @@ export interface PhaseSession {
   checks: { rule: string; ok: boolean }[];
 }
 
-export type ReadinessOutcome = "workout" | "recovery" | "rest" | null;
+export type RoadmapReadiness = "workout" | "recovery" | "rest" | null;
 
 /**
  * The rules-built follow-along (v1, no AI). Warm-up (KBL) → breath training → 2–4 movement blocks from
  * the member's open nodes in the current phase (two tracks, Level I / Level II) → decompression.
  * Today's KBL readiness carries over: a Recovery (or rest) day is breath + decompression only.
  */
-export function buildPhaseSession(cat: RoadmapCatalog, nodes: NodeInfo[], readiness: ReadinessOutcome = null): PhaseSession {
+export function buildPhaseSession(cat: RoadmapCatalog, nodes: NodeInfo[], readiness: RoadmapReadiness = null): PhaseSession {
   const phase = currentPhase(nodes);
   const recovery = readiness === "recovery" || readiness === "rest";
   const T = SESSION_TIMING;
