@@ -75,6 +75,8 @@ const browser = await puppeteer.launch({
   executablePath: process.env.CHROME || "/usr/bin/google-chrome",
   args: ["--no-sandbox", "--disable-dev-shm-usage"],
   defaultViewport: { width: WIDTH, height: 900 },
+  timeout: 180000,
+  protocolTimeout: 240000,
 });
 let failed = 0;
 const report = [];
