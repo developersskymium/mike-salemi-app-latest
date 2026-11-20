@@ -2,6 +2,7 @@ import type Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { getStripe, paymentsNotConfigured, stripeConfigured } from "@/lib/stripe";
 import { subscriptionSnapshot, syncSubscription } from "@/lib/commerce/subscriptions";
+import { billingEmailsFor } from "@/lib/email/billing";
 
 type Admin = ReturnType<typeof createServiceClient>;
 
@@ -36,6 +37,7 @@ export async function POST(request: Request) {
 
   try {
     await handle(event, stripe, admin);
+    await billingEmailsFor(event, admin); // receipts and plan emails (queued; never throws)
     await admin.from("payment_events").update({ processed_at: new Date().toISOString(), error: null }).eq("id", event.id);
     return Response.json({ received: true });
   } catch (e) {
