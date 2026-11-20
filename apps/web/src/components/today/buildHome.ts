@@ -385,12 +385,28 @@ export interface PlanRow {
   isToday: boolean;
   /** "Day 4 · Strength day · 32 min" */
   session: string;
+  /** "Day 4 · Strength day" (no minutes). */
+  title: string;
+  minutes: number | null;
+  /** The next session's kind ("training", "recovery"). */
+  kind: string;
+  /** This week, Monday to Sunday (dated plans only). */
+  week: WeekDot[] | null;
   done: number;
   total: number;
   cta: string;
   href: string;
   slug: string | null;
   locked: boolean;
+}
+
+/** One day of a plan's week strip. */
+export interface WeekDot {
+  date: string;
+  /** "M", "T" … */
+  d: string;
+  state: "done" | "missed" | "today" | "planned" | "none";
+  isToday: boolean;
 }
 
 /** One upcoming session of the member's only plan (one plan: the panel lists its next sessions instead). */
@@ -402,6 +418,9 @@ export interface PlanSession {
   meta: string | null;
   href: string;
   slug: string | null;
+  kind: string;
+  /** The raw lesson title, for picking a photo ("Goblet Squat"). */
+  raw: string;
 }
 
 export interface PlanPanel {
@@ -440,7 +459,7 @@ export function buildPlanPanel(
   typeOf: (slug: string) => string | null | undefined = () => null,
   /** The hero's program and next lesson, so a one-plan panel doesn't repeat the hero's session. */
   hero: { slug: string; name: string; href: string } | null = null,
-  max = 4,
+  max = 8,
 ): PlanPanel | null {
   if (!schedule) return null;
   const href = (slug: string | null, lessonId: string | null) => (slug ? lessonHref(slug, lessonId, { type: typeOf(slug) }) : "/plan");
@@ -452,6 +471,23 @@ export function buildPlanPanel(
   const rows: (PlanRow & { sort: string })[] = [];
   const dated = new Map<string, PanelItem[]>();
   for (const i of schedule.items) dated.set(i.plan_id, [...(dated.get(i.plan_id) ?? []), i]);
+
+  const monday = addDays(today as IsoDate, -((weekday(today as IsoDate) + 6) % 7));
+  const weekOf = (list: PanelItem[]): WeekDot[] =>
+    Array.from({ length: 7 }, (_, n) => {
+      const date = addDays(monday, n) as string;
+      const day = list.filter((i) => i.on_date === date && i.kind !== "rest");
+      const state: WeekDot["state"] = day.some((i) => i.done)
+        ? "done"
+        : day.some((i) => !i.skipped)
+          ? date < today
+            ? "missed"
+            : date === today
+              ? "today"
+              : "planned"
+          : "none";
+      return { date, d: "MTWTFSS"[n]!, state, isToday: date === today };
+    });
 
   for (const [planId, list] of dated) {
     const nx = list.filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date))[0];
@@ -465,7 +501,7 @@ export function buildPlanPanel(
     const isToday = nx.on_date === today;
     rows.push({
       id: planId, name, sub: level ?? (prog && prog !== name ? prog : null), undated: false,
-      when: whenOf(nx.on_date, today), isToday, session: sessionLine(nx.title, nx.minutes), done, total,
+      when: whenOf(nx.on_date, today), isToday, session: sessionLine(nx.title, nx.minutes), title: sessionLine(nx.title, null), minutes: nx.minutes, kind: nx.kind, week: weekOf(list), done, total,
       cta: done ? "Continue" : "Start", href: href(nx.program_slug, nx.lesson_id), slug: nx.program_slug, locked: false,
       sort: `${nx.on_date}`,
     });
@@ -476,7 +512,7 @@ export function buildPlanPanel(
     const done = q.total - q.left;
     rows.push({
       id: q.plan_id, name, sub: level ?? (q.program_name && q.program_name !== name ? q.program_name : null), undated: true,
-      when: "Next in order", isToday: false, session: q.next ? sessionLine(q.next.title, q.next.minutes) : "", done, total: q.total,
+      when: "Next in order", isToday: false, session: q.next ? sessionLine(q.next.title, q.next.minutes) : "", title: q.next ? sessionLine(q.next.title, null) : "", minutes: q.next?.minutes ?? null, kind: "training", week: null, done, total: q.total,
       cta: q.locked ? "Unlock" : done ? "Continue" : "Start",
       href: q.locked && q.program_slug ? `/programs/${q.program_slug}/unlock` : href(q.program_slug, q.next?.lesson_id ?? null), slug: q.program_slug, locked: !!q.locked,
       // Undated plans sit after today's sessions, before later dated ones.
@@ -485,23 +521,25 @@ export function buildPlanPanel(
   }
   if (!rows.length) return null;
   rows.sort((a, b) => Number(b.isToday) - Number(a.isToday) || a.sort.localeCompare(b.sort));
-  const all: PlanRow[] = rows.map((r) => ({ ...r, sort: undefined }) as PlanRow & { sort?: string });
+  const heroLike = (r: PlanRow) => !!hero && (r.href === hero.href || (r.slug === hero.slug && [r.name, r.sub].filter(Boolean).join(" · ") === hero.name));
+  // The hero already shows its plan's session: lead the panel with the other plans, the hero's plan last.
+  const ordered = [...rows.filter((r) => !heroLike(r)), ...rows.filter((r) => heroLike(r))];
+  const all: PlanRow[] = ordered.map((r) => ({ ...r, sort: undefined }) as PlanRow & { sort?: string });
   if (all.length > 1) return { mode: "plans", rows: all.slice(0, max), plan: null, sessions: [], more: Math.max(0, all.length - max) };
 
   // One plan: its next few sessions (this week first), so the panel never repeats the hero as a lone row.
-  const heroLike = (r: PlanRow) => !!hero && (r.href === hero.href || (r.slug === hero.slug && [r.name, r.sub].filter(Boolean).join(" · ") === hero.name));
   const only = all[0]!;
   let sessions: PlanSession[];
   if (only.undated) {
     const q = (schedule.queues ?? []).find((x) => x.plan_id === only.id);
     const list = q?.upcoming?.length ? q.upcoming : q?.next ? [q.next] : [];
-    sessions = list.slice(0, 4).map((s, n) => ({ id: `${only.id}-${n}`, when: n === 0 ? "Next" : "Then", isToday: false, title: sessionLine(s.title, null), meta: s.minutes ? `${s.minutes} min` : null, href: href(q?.program_slug ?? null, s.lesson_id), slug: q?.program_slug ?? null }));
+    sessions = list.slice(0, 4).map((s, n) => ({ id: `${only.id}-${n}`, when: n === 0 ? "Next" : "Then", isToday: false, title: sessionLine(s.title, null), meta: s.minutes ? `${s.minutes} min` : null, href: href(q?.program_slug ?? null, s.lesson_id), slug: q?.program_slug ?? null, kind: "training", raw: s.title }));
   } else {
     const ahead = (dated.get(only.id) ?? []).filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date));
     const weekEnd = addDays(today as IsoDate, 6 - ((weekday(today as IsoDate) + 6) % 7));
     const thisWeek = ahead.filter((i) => i.on_date <= weekEnd);
     sessions = (thisWeek.length >= 2 ? thisWeek : ahead).slice(0, 4).map((i) => ({
-      id: i.id, when: whenOf(i.on_date, today), isToday: i.on_date === today, title: sessionLine(i.title, null), meta: i.minutes ? `${i.minutes} min` : i.kind === "recovery" ? "Recovery" : null, href: href(i.program_slug, i.lesson_id), slug: i.program_slug,
+      id: i.id, when: whenOf(i.on_date, today), isToday: i.on_date === today, title: sessionLine(i.title, null), meta: i.minutes ? `${i.minutes} min` : i.kind === "recovery" ? "Recovery" : null, href: href(i.program_slug, i.lesson_id), slug: i.program_slug, kind: i.kind, raw: i.title,
     }));
   }
   // The hero's plan: skip the session the hero already offers.

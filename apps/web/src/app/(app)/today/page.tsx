@@ -17,6 +17,12 @@ import { loadSuggestions } from "@/lib/settings/suggestions";
 
 export const metadata: Metadata = { title: "Today" };
 
+/** Mock preview only (?preview=manyplans): two extra Self-Guided plans, so the panel shows its scroller. */
+const MANY_PLANS = [
+  { plan_id: "mock-many-1", name: "Athleticism 4 Life", program_slug: "athleticism-4-life", program_name: "Athleticism 4 Life", next: { title: "Hips", lesson_id: null, minutes: 20 }, left: 30, total: 36 },
+  { plan_id: "mock-many-2", name: "Zen Savage", program_slug: "zen-savage", program_name: "Zen Savage", next: { title: "Turkish Get Up", lesson_id: null, minutes: 25 }, left: 18, total: 24 },
+];
+
 /** Home (calm, spec 11): continue hero, your programs, this week, one offer, latest badge; retreat card only with an application/booking. */
 export default async function TodayPage({ searchParams }: { searchParams: Promise<{ preview?: string }> }) {
   const { preview } = await searchParams;
@@ -35,13 +41,17 @@ export default async function TodayPage({ searchParams }: { searchParams: Promis
   // Onboarding suggestions stay on Home as "Suggested for you" until the member joins a program.
   const suggested = home && home.enrolled.length === 0 ? (await loadSuggestions(raw.profile.onboarding).catch(() => [])).filter((s) => !s.enrolled) : [];
   // Active plans with an open session sit beside a one-third hero ("Continue your plans").
-  // Local preview only: ?preview=noplans shows a member with no schedules, ?preview=oneplan one dated plan.
+  // Local preview only: ?preview=noplans shows a member with no schedules, ?preview=oneplan one dated plan, ?preview=manyplans five.
   const noPlans = MOCK && (preview === "noplans" || preview === "new" || preview === "live");
   const typeOf = (slug: string) => raw.enrollments.find((e) => e.program_slug === slug)?.program_type;
   const plans = noPlans ? null : buildPlanPanel(
         raw.plans,
         raw.planCounts,
-        MOCK && preview === "oneplan" && schedule ? { items: schedule.items.filter((i) => i.plan_id === schedule.items[0]?.plan_id), queues: [] } : schedule,
+        MOCK && preview === "oneplan" && schedule
+          ? { items: schedule.items.filter((i) => i.plan_id === schedule.items[0]?.plan_id), queues: [] }
+          : MOCK && preview === "manyplans" && schedule
+            ? { ...schedule, queues: [...(schedule.queues ?? []), ...MANY_PLANS] }
+            : schedule,
         raw.today,
         typeOf,
         home?.continuing && home.heroAction ? { slug: home.continuing.slug, name: home.continuing.name, href: home.heroAction.href } : null,

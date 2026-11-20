@@ -64,7 +64,7 @@ export function TodayScreen({ v, home, homeError, retreat, latestBadge, mikeNote
       {split ? (
         <div className="pk-top">
           <div className="pk-top-hero">{hero}</div>
-          <PlansPanel p={plans!} />
+          <PlansPanel p={plans!} avoid={home?.continuing ? framed(home.continuing.image?.src, home.continuing.slug).src : null} />
         </div>
       ) : (
         hero
@@ -279,11 +279,55 @@ function EmptyHero({ v }: { v: TodayView }) {
 
 /* ================================================================== continue your plans */
 
-/** "Continue your plans": one row per active plan (or, with one plan, its next sessions), beside the one-third hero. */
-function PlansPanel({ p }: { p: PlanPanel }) {
+/** Photos for plan cards and session thumbnails: the program cover first, then the move or kind of day, never twice. */
+const MOVE_PHOTO: [RegExp, PhotoName][] = [
+  [/get ?up/i, "getup"],
+  [/windmill/i, "windmill"],
+  [/press|overhead/i, "press"],
+  [/goblet/i, "goblet"],
+  [/squat|lunge/i, "squat"],
+  [/deadlift|hinge|row/i, "deadlift"],
+  [/swing/i, "swingGym"],
+  [/bag/i, "bagSpin"],
+  [/breath/i, "breathwork"],
+];
+// Mike training alone, calmer frames for recovery days (retreat photos stay on retreat surfaces).
+const RECOVERY_POOL: PhotoName[] = ["getup", "windmill", "standing", "coaching"];
+const TRAINING_POOL: PhotoName[] = ["press", "windmill", "deadlift", "goblet", "getup", "hinge", "swingGym", "squat", "bagSpin"];
+
+function photoPicker(avoid: string | null) {
+  const used = new Set<string>(avoid ? [avoid] : []);
+  const take = (p: Photo | null | undefined) => (p && !used.has(p.src) ? (used.add(p.src), p) : null);
+  const pool = (kind: string) => (kind === "recovery" || /recovery|mobility|breath/i.test(kind) ? RECOVERY_POOL : TRAINING_POOL);
+  const byMove = (title: string) => MOVE_PHOTO.filter(([re]) => re.test(title)).map(([, n]) => PHOTO[n]);
+  const pick = (cands: (Photo | null | undefined)[], kind: string): Photo => {
+    for (const c of cands) {
+      const t = take(c);
+      if (t) return t;
+    }
+    for (const n of pool(kind)) {
+      const t = take(PHOTO[n]);
+      if (t) return t;
+    }
+    return PHOTO[pool(kind)[0]!];
+  };
+  return {
+    /** A plan card: its program cover, else the session's move, else a photo of the kind of day. */
+    plan: (r: PlanRow) => pick([programCover(r.slug), ...byMove(r.title)], /recovery/i.test(r.title) ? "recovery" : r.kind),
+    /** A session thumbnail: the move first (Goblet Squat → goblet), then the kind of day. */
+    session: (raw: string, kind: string) => pick(byMove(raw), kind === "recovery" || /recovery/i.test(raw) ? "recovery" : kind),
+  };
+}
+
+/** "Continue your plans" beside the one-third hero: the plan due first as a large photo card, the rest as compact cards.
+ *  One plan: "Up next in your plan" with its week and the next few sessions as photo tiles. */
+function PlansPanel({ p, avoid }: { p: PlanPanel; /** The hero's photo, so the panel never repeats it. */ avoid: string | null }) {
+  const pick = photoPicker(avoid);
   const one = p.mode === "sessions" ? p.plan : null;
+  const [lead, ...rest] = p.rows;
+  const scroll = rest.length > 2;
   return (
-    <section className="pk-plans" aria-labelledby="pk-plans-t">
+    <section className="pk-plans" aria-labelledby="pk-plans-t" data-mode={one ? "one" : "many"}>
       <header className="pk-plans-h">
         <h2 id="pk-plans-t" className="pk-h3">
           {one ? "Up next in your plan" : "Continue your plans"}
@@ -293,85 +337,179 @@ function PlansPanel({ p }: { p: PlanPanel }) {
         </Link>
       </header>
       {one ? (
-        <>
-          <div className="pk-plan-one" style={{ ["--pc" as string]: programColor(one.slug) }}>
-            <PlanName r={one} />
-            <PlanProgress r={one} />
-          </div>
-          <ul className="pk-plans-list" role="list">
-            {p.sessions.map((s, n) => (
-              <li key={s.id}>
-                <Link href={s.href} className="pk-sess" data-today={s.isToday ? "" : undefined} style={{ ["--pc" as string]: programColor(s.slug) }}>
-                  <span className="pk-sess-when">{s.when}</span>
-                  <span className="pk-sess-b">
-                    <b>{s.title}</b>
-                    {s.meta && <span>{s.meta}</span>}
-                  </span>
-                  {n === 0 ? (
-                    <span className="pk-plan-go" data-primary="">
-                      <Icon name="play" size="xs" /> {one.cta}
-                    </span>
-                  ) : (
-                    <Icon name="chevron" size="sm" className="pk-sess-chev" />
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
+        <OnePlan r={one} sessions={p.sessions} pick={pick} />
       ) : (
-        <ul className="pk-plans-list" role="list">
-          {p.rows.map((r, n) => (
-            <li key={r.id}>
-              <Link href={r.href} className="pk-plan" style={{ ["--pc" as string]: programColor(r.slug) }} aria-label={`${r.cta} ${r.name}${r.sub ? ` ${r.sub}` : ""}: ${r.when}, ${r.session}. ${r.done} of ${r.total} sessions done`}>
-                <span className="pk-plan-main">
-                  <PlanName r={r} />
-                  <span className="pk-plan-next" data-today={r.isToday ? "" : undefined}>
-                    <b>{r.isToday ? "Today" : r.undated ? "Next" : `Next: ${r.when}`}</b>
-                    {r.session ? ` · ${r.session}` : ""}
-                  </span>
-                  <PlanProgress r={r} />
-                </span>
-                <span className="pk-plan-go" data-primary={n === 0 || r.isToday ? "" : undefined}>
-                  {r.locked ? <Icon name="lock" size="xs" /> : <Icon name="play" size="xs" />} {r.cta}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-      {p.more > 0 && (
-        <p className="pk-plans-more">
-          <Link href="/plan?manage=1" className="lq-link">
-            {p.more} more {p.more === 1 ? "plan" : "plans"} <Icon name="arrowRight" size="xs" />
-          </Link>
-        </p>
+        <>
+          {lead && <LeadPlan r={lead} photo={pick.plan(lead)} />}
+          {rest.length > 0 && (
+            <ul className="pk-pc-row" role="list" data-scroll={scroll ? "" : undefined} data-n={rest.length}>
+              {rest.map((r) => (
+                <li key={r.id}>
+                  <CompactPlan r={r} photo={pick.plan(r)} />
+                </li>
+              ))}
+              {(scroll || p.more > 0) && (
+                <li>
+                  <Link href="/plan?manage=1" className="pk-pc-all">
+                    <span className="pk-pc-all-i">
+                      <Icon name="grid" size="sm" />
+                    </span>
+                    <b>All plans</b>
+                    <span>{p.more > 0 ? `${p.more} more` : "Manage and reschedule"}</span>
+                  </Link>
+                </li>
+              )}
+            </ul>
+          )}
+        </>
       )}
     </section>
   );
 }
 
-function PlanName({ r }: { r: PlanRow }) {
+const planLabel = (r: PlanRow) => [r.name, r.sub].filter(Boolean).join(" · ");
+const whenLabel = (r: PlanRow) => (r.isToday ? "Today" : r.undated ? "Next in order" : `Next · ${r.when}`);
+
+/** The plan due first: a photo block, the session title large, the week, progress and a solid Start. */
+function LeadPlan({ r, photo }: { r: PlanRow; photo: Photo }) {
   return (
-    <span className="pk-plan-name">
-      <i aria-hidden />
-      <b>{r.name}</b>
-      {r.sub && <span className="pk-plan-sub">{r.sub}</span>}
-      {r.undated && <span className="pk-plan-tag">Undated</span>}
+    <Link href={r.href} className="pk-lead" style={{ ["--pc" as string]: programColor(r.slug) }} aria-label={`${r.cta} ${planLabel(r)}: ${r.when}, ${r.session}. ${r.done} of ${r.total} sessions done`}>
+      <span className="pk-lead-ph">
+        <Image src={photo.src} alt="" fill sizes="(min-width: 1100px) 260px, (min-width: 720px) 300px, 100vw" loading="eager" style={{ objectPosition: photo.focal }} />
+        <span className="pk-lead-when" data-today={r.isToday ? "" : undefined}>
+          {r.isToday && <i aria-hidden />}
+          {whenLabel(r)}
+        </span>
+      </span>
+      <span className="pk-lead-b">
+        <span className="pk-lead-prog">{planLabel(r)}</span>
+        <b className="pk-lead-t">{r.title || "Your next session"}</b>
+        {(r.minutes || r.undated) && <span className="pk-lead-meta">{[r.minutes ? `${r.minutes} min` : null, r.undated ? "Self-guided" : null].filter(Boolean).join(" · ")}</span>}
+        {r.week ? <WeekDots week={r.week} labels /> : <span className="pk-order">Next in order, at your own pace</span>}
+        <span className="pk-lead-foot">
+          <ProgressFigure r={r} ring />
+          <span className="pk-lead-go">
+            <Icon name={r.locked ? "lock" : "play"} size="xs" /> {r.cta}
+          </span>
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+/** Another active plan: thumbnail, when, session, a mini week and the count. The whole card opens the session. */
+function CompactPlan({ r, photo }: { r: PlanRow; photo: Photo }) {
+  return (
+    <Link href={r.href} className="pk-pc" style={{ ["--pc" as string]: programColor(r.slug) }} aria-label={`${r.cta} ${planLabel(r)}: ${r.when}, ${r.session}. ${r.done} of ${r.total} sessions done`}>
+      <span className="pk-pc-ph">
+        <Image src={photo.src} alt="" fill sizes="96px" style={{ objectPosition: photo.focal }} />
+        {r.locked && (
+          <span className="pk-pc-lock">
+            <Icon name="lock" size="xs" />
+          </span>
+        )}
+      </span>
+      <span className="pk-pc-b">
+        <span className="pk-pc-when" data-today={r.isToday ? "" : undefined}>
+          {whenLabel(r)}
+        </span>
+        <b className="pk-pc-t">{r.title || r.cta}</b>
+        <span className="pk-pc-prog">{planLabel(r)}</span>
+        <span className="pk-pc-foot">
+          {r.week ? <WeekDots week={r.week} /> : <span className="pk-pc-order">At your own pace</span>}
+          <ProgressFigure r={r} />
+        </span>
+      </span>
+      <span className="pk-pc-go" aria-hidden>
+        <Icon name="arrowRight" size="xs" />
+      </span>
+    </Link>
+  );
+}
+
+/** Monday to Sunday: done (filled), today (ring), planned (outline), missed (soft dash), nothing (faint). */
+function WeekDots({ week, labels = false }: { week: NonNullable<PlanRow["week"]>; labels?: boolean }) {
+  const words = { done: "done", missed: "missed", today: "today", planned: "planned", none: "no session" } as const;
+  return (
+    <span className="pk-wk" data-labels={labels ? "" : undefined} role="img" aria-label={`This week: ${week.map((w) => `${w.d} ${words[w.state]}`).join(", ")}`}>
+      {week.map((w) => (
+        <span key={w.date} className="pk-wk-d" data-s={w.state} data-today={w.isToday ? "" : undefined}>
+          {labels && <span className="pk-wk-l">{w.d}</span>}
+          <i>{w.state === "done" && <Icon name="check" size="xs" />}</i>
+        </span>
+      ))}
     </span>
   );
 }
 
-function PlanProgress({ r }: { r: PlanRow }) {
-  return (
-    <span className="pk-plan-prog">
-      <span className="pk-plan-bar" aria-hidden>
-        <span style={{ width: `${r.total ? Math.max(2, (r.done / r.total) * 100) : 0}%` }} />
+function ProgressFigure({ r, ring = false }: { r: PlanRow; ring?: boolean }) {
+  const pct = r.total ? r.done / r.total : 0;
+  if (!ring)
+    return (
+      <span className="pk-fig lq-num">
+        <b>{r.done}</b>/{r.total}
       </span>
-      <span className="lq-num">
-        {r.done} of {plural(r.total, "session")}
+    );
+  const C = 2 * Math.PI * 19;
+  return (
+    <span className="pk-ring-w">
+      <svg className="pk-ring" viewBox="0 0 44 44" aria-hidden>
+        <circle cx="22" cy="22" r="19" />
+        <circle cx="22" cy="22" r="19" strokeDasharray={`${Math.max(pct * C, pct ? 2 : 0)} ${C}`} />
+      </svg>
+      <span className="pk-ring-t">
+        <b className="lq-num">
+          {r.done} <span>of {r.total}</span>
+        </b>
+        <span>sessions done</span>
       </span>
     </span>
+  );
+}
+
+/** One plan: its name, week and progress, then the next sessions as photo tiles (the first one starts). */
+function OnePlan({ r, sessions, pick }: { r: PlanRow; sessions: PlanPanel["sessions"]; pick: ReturnType<typeof photoPicker> }) {
+  return (
+    <div className="pk-one" style={{ ["--pc" as string]: programColor(r.slug) }}>
+      <div className="pk-one-sum">
+        <span className="pk-one-name">
+          <b>{r.name}</b>
+          {r.sub && <span>{r.sub}</span>}
+        </span>
+        {r.week ? <WeekDots week={r.week} labels /> : <span className="pk-order">Next in order, at your own pace</span>}
+        <ProgressFigure r={r} ring />
+      </div>
+      <ul className="pk-up" role="list" data-n={sessions.length}>
+        {sessions.map((s, n) => {
+          const ph = pick.session(s.raw, s.kind);
+          return (
+            <li key={s.id}>
+              <Link href={s.href} className="pk-up-c" data-today={s.isToday ? "" : undefined} data-first={n === 0 ? "" : undefined}>
+                <span className="pk-up-ph">
+                  <Image src={ph.src} alt="" fill sizes="(min-width: 720px) 200px, 88px" style={{ objectPosition: ph.focal }} />
+                  <span className="pk-up-when" data-today={s.isToday ? "" : undefined}>
+                    {s.when}
+                  </span>
+                  {n === 0 && (
+                    <span className="pk-up-play" aria-hidden>
+                      <Icon name="play" size="xs" />
+                    </span>
+                  )}
+                </span>
+                <span className="pk-up-b">
+                  <span className="pk-up-when2" data-today={s.isToday ? "" : undefined}>
+                    {s.when}
+                  </span>
+                  <b>{s.title}</b>
+                  <span>{s.meta ?? (s.kind === "recovery" ? "Recovery" : "Training")}</span>
+                </span>
+                <Icon name="chevron" size="sm" className="pk-up-chev" />
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
