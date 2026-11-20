@@ -63,7 +63,7 @@ export function competitionColour(kg: number) {
 }
 
 export function Kettlebell(props: KettlebellProps) {
-  if (props.variant === "competition") return <CompetitionBell {...props} />;
+  if (props.variant === "competition" || (props.variant !== "line" && (props.weight !== undefined || props.colorCoded))) return <CompetitionBell {...props} />;
   return <ClassicBell {...props} />;
 }
 
