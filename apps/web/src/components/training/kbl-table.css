@@ -1,0 +1,40 @@
+/* The original 7-column KBL table (Type | Exercise | Rest | Intensity | Reps | Sets | Tempo),
+   set compact: small tabular type, tight rows, sensible column widths, hairlines, no shadows.
+   On a phone it scrolls sideways with Type + Exercise pinned. Overrides the base rules in day.css. */
+.kd-ct { border-radius: 14px; box-shadow: inset 0 0 0 1px var(--line); }
+.kd-ct .kd-ct-table { min-width: 620px; table-layout: auto; font: 500 13px/18px var(--font); font-variant-numeric: tabular-nums; color: var(--text); }
+.kd-ct .kd-ct-col-type { width: 52px; }
+.kd-ct .kd-ct-col-ex { width: 32%; }
+.kd-ct .kd-ct-table th { padding: 8px 10px; font: 600 10.5px/14px var(--font); letter-spacing: .06em; color: var(--text-3); background: var(--surface-sunk, color-mix(in srgb, var(--label) 4%, var(--bg-elev))); border-bottom: 1px solid var(--line); }
+.kd-ct .kd-ct-table td { padding: 6px 10px; border-top: 0; border-bottom: 1px solid var(--line); color: var(--text-2); }
+.kd-ct .kd-ct-table tbody tr:last-child td { border-bottom: 0; }
+.kd-ct .kd-ct-table tr[data-alt] td { background: color-mix(in srgb, var(--label) 2.5%, var(--bg-elev)); }
+.kd-ct .kd-ct-ex { font-weight: 600; color: var(--text); min-width: 9rem; white-space: normal; }
+.kd-ct .kd-ct-type { width: 52px; padding-right: 4px; }
+.kd-ct .kd-ct-badge { height: 28px; width: auto; }
+.kd-ct .kd-ct-badge-t { font: 700 12px/1 var(--font); color: var(--text-2); }
+.kd-ct .kd-ct-rest > span { gap: 4px; font-weight: 600; color: var(--text); }
+.kd-ct .kd-ct-arrow { width: 14px; height: 14px; object-fit: contain; }
+.kd-ct .kd-ct-note { margin-top: 1px; font: 500 12px/16px var(--font); color: var(--text-3); }
+.kd-ct .kd-ct-sep td { font: 600 11.5px/15px var(--font); color: var(--text-2); background: color-mix(in srgb, var(--accent) 5%, var(--bg-elev)); }
+.kd-ct .kd-ct-sep td > span { padding: 6px 12px; }
+.kd-ct .kd-ct-notes { padding: 10px 12px; font: 500 13px/19px var(--font); color: var(--text-2); border-top: 1px solid var(--line); }
+.kd-ct .kd-ct-img { margin: 12px; max-width: calc(100% - 24px); }
+.kd-ct .kd-ct-foot { border-top: 1px solid var(--line); }
+.kd-ct .kw { margin-top: 3px; }
+.kd-ct-demo {
+  all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--text);
+  text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px;
+}
+.kd-ct-demo .lq-icon { color: var(--accent); flex: none; }
+.kd-ct-demo:hover { color: var(--accent-ink); text-decoration-color: currentColor; }
+.kd-ct-demo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 719px) {
+  .kd-ct .kd-ct-table { min-width: 560px; font-size: 12.5px; }
+  .kd-ct .kd-ct-table :is(th:nth-child(1), td.kd-ct-type) { min-width: 48px; width: 48px; padding: 6px 4px 6px 8px; background: var(--bg-elev); }
+  .kd-ct .kd-ct-table thead th:nth-child(1) { background: var(--surface-sunk, var(--bg-elev)); }
+  .kd-ct .kd-ct-table :is(th:nth-child(2), td.kd-ct-ex) { left: 48px; min-width: 8.5rem; max-width: 8.5rem; padding-left: 6px; background: var(--bg-elev); }
+  .kd-ct .kd-ct-table thead th:nth-child(2) { background: var(--surface-sunk, var(--bg-elev)); }
+  .kd-ct .kd-ct-table tr[data-alt] :is(td.kd-ct-type, td.kd-ct-ex) { background: color-mix(in srgb, var(--label) 2.5%, var(--bg-elev)); }
+  .kd-ct .kd-ct-badge { height: 24px; }
+}
