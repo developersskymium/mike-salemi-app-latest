@@ -10,7 +10,7 @@
 .tpe-chip[aria-checked="true"], .tpe-chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
 .tpe-days { display: grid; grid-template-columns: repeat(7, minmax(40px, 48px)); gap: 6px; }
 .tpe-day { appearance: none; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font: 650 14px/1 var(--font); color: var(--text-2); cursor: pointer; }
-.tpe-day[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tpe-day[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .tpe-input { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-sunk); font: 450 15px/21px var(--font); color: var(--text); }
 .tpe-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .tpe-text { min-height: 80px; resize: vertical; }

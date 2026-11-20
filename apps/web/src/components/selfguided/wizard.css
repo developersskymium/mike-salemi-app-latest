@@ -51,12 +51,12 @@
 .wz-num { display: grid; justify-items: center; gap: 2px; padding: 12px 0 10px; border-radius: 12px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--text); cursor: pointer; }
 .wz-num b { font: 600 24px/1 var(--font-display); }
 .wz-num span { font: 500 11.5px/1 var(--font); color: var(--label-3); }
-.wz-num[aria-checked="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+.wz-num[aria-checked="true"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 .wz-num[aria-checked="true"] span { color: rgba(255, 255, 255, .8); }
 .wz-sub { margin-top: 6px !important; }
 .wz-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; max-width: 420px; }
 .wz-wd { aspect-ratio: 1; border-radius: 12px; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 13.5px/1 var(--font); color: var(--label-2); cursor: pointer; }
-.wz-wd[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+.wz-wd[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 
 .wz-date { display: grid; gap: 6px; max-width: 260px; }
 .wz-date input { height: 48px; padding: 0 14px; border-radius: 12px; border: 0; background: var(--surface); box-shadow: var(--sh-control); font: 450 15px/1 var(--font); color: var(--text); color-scheme: light dark; outline: 0; }

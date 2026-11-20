@@ -65,7 +65,7 @@
 .fm-chips[data-size="sm"] .fm-chip { min-height: 40px; padding: 0 13px; font-size: 13.5px; }
 .fm-chip:hover { border-color: var(--line-strong); }
 .fm-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.fm-chip[aria-checked="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.fm-chip[aria-checked="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 /* Slider */
 .fm-slider { display: grid; gap: 10px; }

@@ -86,7 +86,7 @@
 .pub-hero-badge { position: absolute; right: max(40px, calc((100vw - 1240px) / 2 + 40px)); bottom: 120px; display: flex; align-items: center; gap: 14px; padding: 14px 18px 14px 14px; border-radius: 20px; background: var(--clear-fill, rgba(20,24,30,.42)); -webkit-backdrop-filter: var(--clear-filter, blur(18px) saturate(1.4)); backdrop-filter: var(--clear-filter, blur(18px) saturate(1.4)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); color: #fff; max-width: 330px; }
 .pub-hero-badge b { display: block; font: 600 15px/1.25 var(--font-display); }
 .pub-hero-badge span { display: block; font: 500 12.5px/1.35 var(--font); color: rgba(255,255,255,.78); margin-top: 3px; }
-.pub-hero-badge i { width: 46px; height: 46px; border-radius: 14px; flex: none; display: grid; place-items: center; background: var(--warm); color: #fff; font: 600 18px/1 var(--font-display); font-style: normal; }
+.pub-hero-badge i { width: 46px; height: 46px; border-radius: 14px; flex: none; display: grid; place-items: center; background: var(--warm); color: var(--on-warm, #fff); font: 600 18px/1 var(--font-display); font-style: normal; }
 @media (max-width: 1023px) { .pub-hero-badge { display: none; } }
 @media (max-width: 719px) {
   .pub-hero { min-height: 0; align-items: flex-end; padding-top: 380px; }
@@ -147,7 +147,7 @@
 .pub-ladder-route { position: absolute; top: 18px; left: calc(16.66% - 6px); right: calc(16.66% - 6px); height: 2px; background-image: linear-gradient(90deg, var(--warm) 50%, transparent 0); background-size: 10px 2px; opacity: .55; }
 .pub-step { position: relative; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
 .pub-step-camp { position: absolute; top: -56px; left: 50%; transform: translateX(-50%); width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 2px solid var(--warm); color: var(--warm-ink); display: grid; place-items: center; font: 600 15px/1 var(--font-display); box-shadow: 0 0 0 6px var(--bg); }
-.pub-step[data-summit] .pub-step-camp { background: var(--warm); color: #fff; }
+.pub-step[data-summit] .pub-step-camp { background: var(--warm); color: var(--on-warm, #fff); }
 .pub-step-card { flex: 1; display: flex; flex-direction: column; background: var(--surface); border-radius: 26px; overflow: hidden; box-shadow: var(--sh-2); border: 1px solid var(--line); transition: transform .3s var(--curve-out), box-shadow .3s; }
 .pub-step:hover .pub-step-card { transform: translateY(-4px); box-shadow: var(--sh-hover); }
 .pub-step-card > .pub-photo { aspect-ratio: 4 / 3.4; }

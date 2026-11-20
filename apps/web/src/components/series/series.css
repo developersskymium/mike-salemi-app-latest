@@ -91,8 +91,8 @@
 .sr-card-thumb::after { content: ""; position: absolute; inset: 0; background: var(--scrim-bottom, linear-gradient(transparent 55%, rgba(0, 0, 0, .35))); pointer-events: none; }
 .sr-badge { position: absolute; z-index: 1; left: 10px; top: 10px; padding: 4px 8px; border-radius: 99px; font: 650 10.5px/1 var(--font); letter-spacing: .06em; text-transform: uppercase; background: rgba(255, 255, 255, .92); color: #1b1d21; }
 .sr-badge[data-kind="bonus"] { background: var(--gold); }
-.sr-badge[data-kind="reflection"] { background: var(--accent); color: #fff; }
-.sr-badge[data-kind="welcome"] { background: var(--warm); color: #fff; }
+.sr-badge[data-kind="reflection"] { background: var(--accent); color: var(--on-accent); }
+.sr-badge[data-kind="welcome"] { background: var(--warm); color: var(--on-warm, #fff); }
 .sr-card-state { position: absolute; z-index: 1; right: 10px; bottom: 10px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .92); color: #111; }
 .sr-card[data-done] .sr-card-state { background: var(--ok); color: #fff; }
 .sr-card-body { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px 14px; }
@@ -135,7 +135,7 @@
 .srp-clip:hover { background: var(--surface-sunk); }
 .srp-clip[aria-current="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 650; }
 .srp-clip-n { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 650; color: var(--text-3); background: var(--surface-sunk); }
-.srp-clip[aria-current="true"] .srp-clip-n { background: var(--accent); color: #fff; }
+.srp-clip[aria-current="true"] .srp-clip-n { background: var(--accent); color: var(--on-accent); }
 .srp-chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
 .srp-chips::-webkit-scrollbar { display: none; }
 .srp-chip { flex: none; height: 32px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--sr-line); background: none; color: var(--text-2); font: 600 13px/1 var(--font); cursor: pointer; }
@@ -294,7 +294,7 @@
 .srp-ctl-main span { overflow: hidden; text-overflow: ellipsis; }
 .srp-ctl-main svg { color: var(--ok); flex: none; }
 .srp-ctl-main:not(:disabled):hover { box-shadow: inset 0 0 0 1.5px var(--ok); }
-.srp-ctl-main[data-tone="go"] { background: var(--accent); color: #fff; box-shadow: none; }
+.srp-ctl-main[data-tone="go"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
 .srp-ctl-main[data-tone="go"] svg { color: inherit; }
 .srp-ctl-main[data-tone="go"]:hover { filter: brightness(1.06); box-shadow: none; }
 .srp-ctl-main[data-done] { background: color-mix(in srgb, var(--ok) 14%, transparent); box-shadow: inset 0 0 0 1.5px var(--ok); }

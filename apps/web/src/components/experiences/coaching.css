@@ -58,7 +58,7 @@
 .ch-what-body li .lq-icon { flex: none; color: var(--ok); margin-top: 3px; }
 .ch-how { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .ch-how li { display: flex; gap: 12px; padding: 16px; border-radius: var(--r-lg); background: var(--surface-2); border: 1px solid var(--line); }
-.ch-how li > span { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font: 650 13px/1 var(--font); }
+.ch-how li > span { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font: 650 13px/1 var(--font); }
 .ch-how li > div { display: flex; flex-direction: column; gap: 2px; font: 400 13.5px/1.4 var(--font); }
 .ch-how b { font-weight: 650; font-size: 14.5px; }
 

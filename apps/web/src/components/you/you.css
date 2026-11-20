@@ -414,5 +414,5 @@
 .yu-ref-hero-lede { margin: 0; color: rgba(255, 255, 255, .86); max-width: 44ch; }
 .yu-ref-steps { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .yu-ref-steps li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; background: var(--clear-fill, rgba(10, 18, 30, .45)); -webkit-backdrop-filter: var(--clear-filter, blur(12px)); backdrop-filter: var(--clear-filter, blur(12px)); color: #fff; font: 600 13px/1.2 var(--font); }
-.yu-ref-steps b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--warm); color: #fff; font: 600 12px/1 var(--font-display); }
+.yu-ref-steps b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--warm); color: var(--on-warm, #fff); font: 600 12px/1 var(--font-display); }
 .yu-ref-code { background: var(--surface) !important; }

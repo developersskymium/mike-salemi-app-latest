@@ -20,7 +20,7 @@
 .shp-hero-lede { color: rgba(255, 255, 255, .86); margin: 0; max-width: 44ch; }
 .shp-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 @media (max-width: 767px) { .shp-hero { min-height: 500px; } .shp-hero-lede { display: none; } .shp-hero h1 { font-size: 36px; line-height: 1.04; } }
-.shp-cartbtn-n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--warm); color: #fff; font: 600 12px/1 var(--font); }
+.shp-cartbtn-n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--warm); color: var(--on-warm, #fff); font: 600 12px/1 var(--font); }
 
 /* category chips */
 .shp-toolbar { position: sticky; top: calc(var(--topbar-h, 60px) + 8px); z-index: 4; margin: -6px 0; }

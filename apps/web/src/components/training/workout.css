@@ -42,7 +42,7 @@
 .wk-tag { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 11px; border-radius: 99px; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font: 600 12.5px/1 var(--font); color: var(--label-2); white-space: nowrap; }
 .wk-tag[data-tone="light"] { background: var(--accent-soft); color: var(--accent-ink); box-shadow: none; }
 .wk-tag[data-tone="lm"], .wk-tag[data-tone="mod"] { background: var(--warm-soft); color: var(--warm-ink); box-shadow: none; }
-.wk-tag[data-tone="heavy"] { background: var(--warm); color: #fff; box-shadow: none; }
+.wk-tag[data-tone="heavy"] { background: var(--warm); color: var(--on-warm, #fff); box-shadow: none; }
 
 /* print just the table */
 @media print {
@@ -89,7 +89,7 @@
 .wm-ctl { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 10px 0 18px; }
 .wm-btn { width: 56px; height: 56px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(255, 255, 255, .1); color: #fff; cursor: pointer; }
 .wm-btn:disabled { opacity: .35; cursor: default; }
-.wm-go { display: inline-flex; align-items: center; gap: 10px; height: 64px; padding: 0 30px; border-radius: 99px; border: 0; background: var(--accent); color: #fff; font: 600 17px/1 var(--font); box-shadow: var(--sh-accent); cursor: pointer; min-width: 170px; justify-content: center; }
+.wm-go { display: inline-flex; align-items: center; gap: 10px; height: 64px; padding: 0 30px; border-radius: 99px; border: 0; background: var(--accent); color: var(--on-accent); font: 600 17px/1 var(--font); box-shadow: var(--sh-accent); cursor: pointer; min-width: 170px; justify-content: center; }
 .wm-list { list-style: none; margin: 0 auto; padding: 0; max-width: 760px; width: 100%; display: grid; gap: 6px; }
 .wm-list li { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: rgba(255, 255, 255, .05); font: 500 13px/1.3 var(--font); color: rgba(255, 255, 255, .7); }
 .wm-list li[data-now] { background: rgba(255, 255, 255, .12); color: #fff; box-shadow: inset 3px 0 0 var(--warm); }

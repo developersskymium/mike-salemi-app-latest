@@ -56,7 +56,7 @@
 .sm-resume-tx { min-width: 0; flex: 1; }
 .sm-resume-k { display: block; font: 450 11px/1.2 var(--font); color: var(--label-3); }
 .sm-resume-title { display: block; font: 600 14px/1.25 var(--font-display); letter-spacing: -.01em; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sm-resume-go { width: 26px; height: 26px; border-radius: 99px; display: grid; place-items: center; background: var(--accent); color: #fff; flex: none; box-shadow: 0 2px 6px -2px rgba(26, 133, 214, .5); }
+.sm-resume-go { width: 26px; height: 26px; border-radius: 99px; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); flex: none; box-shadow: 0 2px 6px -2px rgba(26, 133, 214, .5); }
 .sm-resume-go .lq-icon { width: 12px; height: 12px; margin-left: 1px; }
 .sm-resume-pr { display: flex; align-items: center; gap: 8px; font: 450 11px/1 var(--font); color: var(--label-3); }
 .sm-resume-pr b { font: 600 11px/1 var(--font); color: var(--label); font-variant-numeric: tabular-nums; }
@@ -82,7 +82,7 @@
 .sm-navgroup { margin-top: 18px; flex: none; }
 .sm-navgroup-h {
   display: flex; width: 100%; justify-content: space-between; align-items: center; padding: 0 10px 6px;
-  font: 500 11.5px/1.2 var(--font); letter-spacing: .005em; color: var(--text-4);
+  font: 500 11.5px/1.2 var(--font); letter-spacing: .005em; color: var(--text-3);
   background: none; border: 0; text-align: left;
 }
 button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
@@ -120,7 +120,7 @@ button.sm-navgroup-h .lq-icon { transition: transform .25s var(--curve-out); }
   border-bottom: 1px solid var(--line);
 }
 .sm-announce strong { font-weight: 600; color: var(--label); }
-.sm-announce .lq-tag { height: auto; background: var(--warm); color: #fff; box-shadow: none; font: 650 10px/1 var(--font); letter-spacing: .08em; text-transform: uppercase; padding: 4px 7px; border-radius: 5px; }
+.sm-announce .lq-tag { height: auto; background: var(--warm); color: var(--on-warm, #fff); box-shadow: none; font: 650 10px/1 var(--font); letter-spacing: .08em; text-transform: uppercase; padding: 4px 7px; border-radius: 5px; }
 .sm-announce .lq-tag::before { display: none; }
 .sm-announce-a { font-weight: 600; display: inline-flex; gap: 4px; align-items: center; color: var(--accent-ink); text-decoration: none; white-space: nowrap; }
 .sm-announce-a:hover { text-decoration: underline; text-underline-offset: 3px; }

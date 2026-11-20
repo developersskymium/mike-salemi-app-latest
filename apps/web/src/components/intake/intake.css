@@ -164,7 +164,7 @@ html:has(.itk) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !import
   .itk-photo-steps li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: center; font: 500 13.5px/1.3 var(--font); color: rgba(255, 255, 255, .62); }
   .itk-photo-steps li span { width: 24px; height: 24px; border-radius: 99px; display: grid; place-items: center; font: 600 11px/1 var(--font-display); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .3); }
   .itk-photo-steps li[data-s="done"] { color: rgba(255, 255, 255, .85); }
-  .itk-photo-steps li[data-s="done"] span { background: var(--warm); box-shadow: none; color: #fff; }
+  .itk-photo-steps li[data-s="done"] span { background: var(--warm); box-shadow: none; color: var(--on-warm, #fff); }
   .itk-photo-steps li[data-s="now"] { color: #fff; font-weight: 650; }
   .itk-photo-steps li[data-s="now"] span { background: #fff; color: var(--hero-ink, #0E1013); box-shadow: 0 0 0 4px rgba(255, 255, 255, .18); }
 }
