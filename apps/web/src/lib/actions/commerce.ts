@@ -79,12 +79,17 @@ export async function toggleChecklistAction(runId: string, itemKey: string, done
 }
 
 const Application = z.object({
-  why: z.string().trim().min(10, "Tell Mike a little more (a sentence or two).").max(4000),
-  where: z.string().trim().max(4000).optional().default(""),
-  experience: z.enum(["new", "some", "returning"]),
-  health: z.string().trim().max(2000).optional().default(""),
-  phone: z.string().trim().max(40).optional().default(""),
-  heard: z.string().trim().max(200).optional().default(""),
+  intention: z.string().trim().min(1, "Choose what you're coming for.").max(200),
+  calling: z.string().trim().min(10, "Tell Mike a little more about what's calling you (a sentence or two).").max(4000),
+  experience: z.string().trim().min(1, "Choose where you're starting from.").max(200),
+  health: z.string().trim().max(2000).default(""),
+  diet: z.string().trim().max(500).default(""),
+  sweatLodgeOk: z.literal(true, "Please confirm you understand the practices."),
+  fullAttendance: z.literal(true, "Please confirm you can attend the full retreat."),
+  agreements: z.literal(true, "Please agree to the circle agreements."),
+  phone: z.string().trim().min(7, "Add a phone number so the team can reach you.").max(40),
+  emergencyName: z.string().trim().min(2, "Add an emergency contact.").max(120),
+  emergencyPhone: z.string().trim().min(7, "Add your emergency contact's phone.").max(40),
 });
 export type ApplicationAnswers = z.input<typeof Application>;
 

@@ -1,0 +1,116 @@
+{
+  "orgs": [
+    {
+      "id": "00000000-0000-4000-8000-00000000a0a0",
+      "slug": "preview-team",
+      "name": "Preview Team",
+      "logo_url": null,
+      "status": "active",
+      "seats": 10,
+      "role": "owner",
+      "joined_at": "2026-11-01T10:00:00+00:00"
+    }
+  ],
+  "overview": {
+    "org": {
+      "id": "00000000-0000-4000-8000-00000000a0a0",
+      "name": "Preview Team",
+      "slug": "preview-team",
+      "logo_url": null,
+      "status": "active",
+      "grace_until": null,
+      "plan_id": "max",
+      "seats_total": 10,
+      "seats_used": 4
+    },
+    "viewer_role": "owner",
+    "members": [
+      {
+        "user_id": "00000000-0000-4000-8000-000000000001",
+        "role": "owner",
+        "coach_id": null,
+        "joined_at": "2026-11-01T10:00:00+00:00",
+        "name": "Daniel Test",
+        "avatar_url": null,
+        "current_program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "current_program": "Kettlebell Lifestyle",
+        "current_program_slug": "kettlebell-lifestyle",
+        "current_lesson_id": null,
+        "current_lesson": "Day 24 \u00b7 Workout II",
+        "lessons_done": 23,
+        "last_active_at": "2026-11-20T07:10:00+00:00",
+        "streak": 12,
+        "readiness_band_name": "Ready",
+        "readiness_band": "green",
+        "readiness_at": "2026-11-20T07:10:00+00:00"
+      },
+      {
+        "user_id": "00000000-0000-4000-8000-00000000c0c1",
+        "role": "coach",
+        "coach_id": null,
+        "joined_at": "2026-11-01T10:00:00+00:00",
+        "name": "Preview coach",
+        "avatar_url": null,
+        "current_program_id": null,
+        "current_program": null,
+        "current_program_slug": null,
+        "current_lesson_id": null,
+        "current_lesson": null,
+        "lessons_done": 0,
+        "last_active_at": null,
+        "streak": 0,
+        "readiness_band_name": null,
+        "readiness_band": null,
+        "readiness_at": null
+      },
+      {
+        "user_id": "00000000-0000-4000-8000-00000000c0d1",
+        "role": "member",
+        "coach_id": "00000000-0000-4000-8000-00000000c0c1",
+        "joined_at": "2026-11-01T10:00:00+00:00",
+        "name": "Preview member A",
+        "avatar_url": null,
+        "current_program_id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+        "current_program": "Kettlebell Lifestyle",
+        "current_program_slug": "kettlebell-lifestyle",
+        "current_lesson_id": null,
+        "current_lesson": "Day 3 \u00b7 Workout I",
+        "lessons_done": 2,
+        "last_active_at": "2026-11-17T07:10:00+00:00",
+        "streak": 0,
+        "readiness_band_name": "Go easy",
+        "readiness_band": "amber",
+        "readiness_at": "2026-11-17T07:10:00+00:00"
+      },
+      {
+        "user_id": "00000000-0000-4000-8000-00000000c0d2",
+        "role": "member",
+        "coach_id": null,
+        "joined_at": "2026-11-01T10:00:00+00:00",
+        "name": "Preview member B",
+        "avatar_url": null,
+        "current_program_id": null,
+        "current_program": null,
+        "current_program_slug": null,
+        "current_lesson_id": null,
+        "current_lesson": null,
+        "lessons_done": 0,
+        "last_active_at": null,
+        "streak": 0,
+        "readiness_band_name": null,
+        "readiness_band": null,
+        "readiness_at": null
+      }
+    ]
+  },
+  "invites": [
+    {
+      "id": "00000000-0000-4000-8000-00000000e001",
+      "email": "invitee@example.com",
+      "role": "member",
+      "expires_at": "2026-12-04T10:00:00+00:00"
+    }
+  ],
+  "myCoach": null,
+  "joinLink": "/join/000000000000000000000000"
+}

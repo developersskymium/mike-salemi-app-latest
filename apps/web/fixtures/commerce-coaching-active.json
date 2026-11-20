@@ -1,0 +1,190 @@
+{
+  "packages": [
+    {
+      "id": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
+      "name": "Single session",
+      "description": "One hour with Mike on the thing that is actually holding you back.\n\n- 60-minute video call\n- Technique review on your footage\n- Written notes afterwards",
+      "sessions": 1,
+      "duration_minutes": 60,
+      "requires_application": false,
+      "price": {
+        "amountCents": 18000,
+        "currency": "usd",
+        "label": "Single session",
+        "draftNote": "Legacy price; awaiting Mike"
+      }
+    },
+    {
+      "id": "9b9b7e4b-0fa2-e35a-00cc-ca46e4bcc650",
+      "name": "Deep dive",
+      "description": "A longer session for a full movement screen and a rebuilt training block.\n\n- 90-minute video call\n- Full movement screen\n- Four-week block written for you\n- Follow-up message thread",
+      "sessions": 1,
+      "duration_minutes": 90,
+      "requires_application": false,
+      "price": {
+        "amountCents": 25000,
+        "currency": "usd",
+        "label": "Deep dive (recommended)",
+        "draftNote": "Price awaiting Mike"
+      }
+    },
+    {
+      "id": "adb8cfe4-ee9c-7e99-b197-05bed0c63166",
+      "name": "Four-session block",
+      "description": "A month of weekly calls with programming adjusted between each one.\n\n- 4 × 60-minute calls\n- Programming adjusted weekly\n- Unlimited footage review\n- Priority scheduling",
+      "sessions": 4,
+      "duration_minutes": 60,
+      "requires_application": false,
+      "price": {
+        "amountCents": 64000,
+        "currency": "usd",
+        "label": "Four-session block",
+        "draftNote": "Price awaiting Mike"
+      }
+    },
+    {
+      "id": "bc54154e-efac-d20f-4597-aa1a3ab4c42d",
+      "name": "Executive Edge",
+      "description": "Eight weeks: daily five-minute practices plus three to four direct coaching interactions. By application.",
+      "sessions": 4,
+      "duration_minutes": 60,
+      "requires_application": true,
+      "price": null
+    }
+  ],
+  "credits": 3,
+  "slots": [
+    {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "starts_at": "2026-11-23T17:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000502",
+      "starts_at": "2026-11-23T19:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000503",
+      "starts_at": "2026-11-24T18:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000504",
+      "starts_at": "2026-11-24T20:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000505",
+      "starts_at": "2026-11-24T22:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000506",
+      "starts_at": "2026-11-26T18:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000507",
+      "starts_at": "2026-11-26T20:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000508",
+      "starts_at": "2026-11-26T22:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000509",
+      "starts_at": "2026-11-30T18:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000510",
+      "starts_at": "2026-11-30T20:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000511",
+      "starts_at": "2026-11-30T22:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000512",
+      "starts_at": "2026-12-01T17:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000513",
+      "starts_at": "2026-12-01T19:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000514",
+      "starts_at": "2026-12-03T17:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000515",
+      "starts_at": "2026-12-03T19:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000516",
+      "starts_at": "2026-12-07T17:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000517",
+      "starts_at": "2026-12-07T19:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000518",
+      "starts_at": "2026-12-09T17:00:00+00:00",
+      "duration_minutes": 60
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000519",
+      "starts_at": "2026-12-09T19:00:00+00:00",
+      "duration_minutes": 60
+    }
+  ],
+  "upcoming": [
+    {
+      "id": "00000000-0000-4000-8000-0000000006a1",
+      "starts_at": "2026-11-21T18:00:00+00:00",
+      "duration_minutes": 60,
+      "status": "booked",
+      "meeting_url": "https://zoom.us/j/0000000000",
+      "member_note": null,
+      "coach_note": null,
+      "can_cancel_with_refund": false,
+      "package": "Four-session block"
+    },
+    {
+      "id": "00000000-0000-4000-8000-0000000006a2",
+      "starts_at": "2026-11-28T18:00:00+00:00",
+      "duration_minutes": 60,
+      "status": "booked",
+      "meeting_url": null,
+      "member_note": null,
+      "coach_note": null,
+      "can_cancel_with_refund": true,
+      "package": "Four-session block"
+    }
+  ],
+  "past": [
+    {
+      "id": "00000000-0000-4000-8000-0000000006a0",
+      "starts_at": "2026-11-14T18:00:00+00:00",
+      "duration_minutes": 60,
+      "status": "completed",
+      "meeting_url": null,
+      "member_note": null,
+      "coach_note": null,
+      "can_cancel_with_refund": false,
+      "package": "Four-session block"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "packages": [
+    {
+      "id": "287ef59c-a4c4-4f12-99f0-f4799b3dbb79",
+      "name": "Single session",
+      "description": "One hour with Mike on the thing that is actually holding you back.\n\n- 60-minute video call\n- Technique review on your footage\n- Written notes afterwards",
+      "sessions": 1,
+      "duration_minutes": 60,
+      "requires_application": false,
+      "price": {
+        "amountCents": 18000,
+        "currency": "usd",
+        "label": "Single session",
+        "draftNote": "Legacy price; awaiting Mike"
+      }
+    },
+    {
+      "id": "9b9b7e4b-0fa2-e35a-00cc-ca46e4bcc650",
+      "name": "Deep dive",
+      "description": "A longer session for a full movement screen and a rebuilt training block.\n\n- 90-minute video call\n- Full movement screen\n- Four-week block written for you\n- Follow-up message thread",
+      "sessions": 1,
+      "duration_minutes": 90,
+      "requires_application": false,
+      "price": {
+        "amountCents": 25000,
+        "currency": "usd",
+        "label": "Deep dive (recommended)",
+        "draftNote": "Price awaiting Mike"
+      }
+    },
+    {
+      "id": "adb8cfe4-ee9c-7e99-b197-05bed0c63166",
+      "name": "Four-session block",
+      "description": "A month of weekly calls with programming adjusted between each one.\n\n- 4 × 60-minute calls\n- Programming adjusted weekly\n- Unlimited footage review\n- Priority scheduling",
+      "sessions": 4,
+      "duration_minutes": 60,
+      "requires_application": false,
+      "price": {
+        "amountCents": 64000,
+        "currency": "usd",
+        "label": "Four-session block",
+        "draftNote": "Price awaiting Mike"
+      }
+    },
+    {
+      "id": "bc54154e-efac-d20f-4597-aa1a3ab4c42d",
+      "name": "Executive Edge",
+      "description": "Eight weeks: daily five-minute practices plus three to four direct coaching interactions. By application.",
+      "sessions": 4,
+      "duration_minutes": 60,
+      "requires_application": true,
+      "price": null
+    }
+  ],
+  "credits": 0,
+  "slots": [],
+  "upcoming": [],
+  "past": []
+}

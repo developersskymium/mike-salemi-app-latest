@@ -1,0 +1,21 @@
+{
+  "orgs": [
+    {
+      "id": "00000000-0000-4000-8000-00000000a0a0",
+      "slug": "preview-team",
+      "name": "Preview Team",
+      "logo_url": null,
+      "status": "active",
+      "seats": 10,
+      "role": "member",
+      "joined_at": "2026-11-01T10:00:00+00:00"
+    }
+  ],
+  "overview": null,
+  "invites": [],
+  "myCoach": {
+    "name": "Preview coach",
+    "avatar_url": null
+  },
+  "joinLink": null
+}

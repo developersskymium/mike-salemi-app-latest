@@ -46,8 +46,7 @@
 }
 
 /* ------------------------------------------------------- Shared page bits */
-.com-page { position: relative; padding: 0 var(--s-4) calc(var(--s-12) * 2); max-width: 1080px; margin: 0 auto; }
-@media (min-width: 1024px) { .com-page { padding: 0 var(--s-8) var(--s-12); } }
+.com-page { position: relative; }
 .com-stack { display: flex; flex-direction: column; gap: var(--s-4); }
 .com-section { margin-top: var(--s-8); }
 .com-section > h2 { margin: 0 4px var(--s-3); }
@@ -86,10 +85,30 @@ textarea.com-input { min-height: 112px; resize: vertical; }
 .com-result-card .lq-btn { margin-top: var(--s-2); }
 
 /* Billing */
-.com-plan-hero { padding: var(--s-6); display: grid; gap: var(--s-4); }
-@media (min-width: 900px) { .com-plan-hero { grid-template-columns: auto 1fr auto; align-items: center; } }
+.com-plan-hero { padding: var(--s-5); display: grid; gap: var(--s-4) var(--s-4); grid-template-columns: auto 1fr; align-items: center; }
+.com-plan-hero > .com-plan-actions { grid-column: 1 / -1; }
+@media (min-width: 900px) { .com-plan-hero { padding: var(--s-6); grid-template-columns: auto 1fr auto; } .com-plan-hero > .com-plan-actions { grid-column: auto; } }
 .com-plan-medal { width: 84px; height: 84px; }
 .com-renew { display: flex; flex-direction: column; gap: 2px; }
 .com-order { display: grid; grid-template-columns: 1fr auto; gap: 2px var(--s-3); padding: var(--s-3) 0; }
 .com-order details summary { cursor: pointer; list-style: none; }
 .com-order details summary::-webkit-details-marker { display: none; }
+
+.com-payoff { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-3) var(--s-4); margin-top: var(--s-3); text-align: left; animation: com-rise var(--dur-sheet) var(--curve-spring) both; }
+.com-payoff > .lq-icon { margin-top: 2px; flex: none; color: var(--label-2); }
+@keyframes com-rise { from { opacity: 0; transform: translateY(6px) scale(.98); } }
+@media (prefers-reduced-motion: reduce) { .com-payoff { animation: none; } }
+
+.com-billing-hero { margin-top: var(--s-2); }
+.com-plan-medal-wrap { display: grid; place-items: center; width: 76px; }
+@media (min-width: 900px) { .com-plan-medal-wrap { width: 104px; } }
+.com-plan-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: flex-start; }
+@media (min-width: 900px) { .com-plan-actions { flex-direction: column; align-items: stretch; } }
+.com-billing-foot { display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: var(--s-8); }
+.com-order-sum { cursor: pointer; list-style: none; }
+.com-order-sum::-webkit-details-marker { display: none; }
+.com-order-items { display: grid; gap: 6px; padding: 0 0 var(--s-3); }
+.com-receipt { width: 100%; display: grid; gap: 8px; padding: var(--s-4) 0; margin: var(--s-2) 0; border-block: 1px solid var(--sep); text-align: left; }
+.com-cancel-mark { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--label-2); margin-bottom: var(--s-2); animation: com-rise var(--dur-sheet) var(--curve-spring) both; }
+@media (prefers-reduced-motion: reduce) { .com-cancel-mark { animation: none; } }
+.com-page > :not(.lq-ambient) { position: relative; }
