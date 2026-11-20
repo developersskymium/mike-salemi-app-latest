@@ -1,0 +1,50 @@
+/* Mount Shasta sky. Each time of day reads its palette from --gfx-sky-<time>-* hooks. */
+.gfx-shasta-sky { display: block; overflow: hidden; }
+.gfx-shasta-dawn {
+  --sk-top: var(--gfx-sky-dawn-top, #C9D8EC); --sk-mid: var(--gfx-sky-dawn-mid, #E9E7EE); --sk-low: var(--gfx-sky-dawn-low, #F6E7E0);
+  --sk-orb: var(--gfx-sky-dawn-sun, #FFF6EE); --sk-glow: var(--gfx-sky-dawn-glow, #FFE6D4);
+  --sk-mtn: var(--gfx-sky-dawn-mountain, #7C8799); --sk-mtn-lo: var(--gfx-sky-dawn-mountain-low, #9AA4B4);
+  --sk-lit: var(--gfx-sky-dawn-alpenglow, #F3D9D2); --sk-snow: var(--gfx-sky-dawn-snow, #FFF4EF);
+  --sk-ridge: var(--gfx-sky-dawn-ridge, #4E5868);
+}
+.gfx-shasta-day {
+  --sk-top: var(--gfx-sky-day-top, #8DB8EA); --sk-mid: var(--gfx-sky-day-mid, #C6DCF5); --sk-low: var(--gfx-sky-day-low, #E8F1FB);
+  --sk-orb: var(--gfx-sky-day-sun, #FFFFFF); --sk-glow: var(--gfx-sky-day-glow, #FFFFFF);
+  --sk-mtn: var(--gfx-sky-day-mountain, #6E7F96); --sk-mtn-lo: var(--gfx-sky-day-mountain-low, #93A3B8);
+  --sk-lit: var(--gfx-sky-day-light, #DCE7F4); --sk-snow: var(--gfx-sky-day-snow, #FFFFFF);
+  --sk-ridge: var(--gfx-sky-day-ridge, #3F4C5E);
+}
+.gfx-shasta-dusk {
+  --sk-top: var(--gfx-sky-dusk-top, #4E5D80); --sk-mid: var(--gfx-sky-dusk-mid, #9C9BB8); --sk-low: var(--gfx-sky-dusk-low, #E6C9C4);
+  --sk-orb: var(--gfx-sky-dusk-sun, #FFE9DA); --sk-glow: var(--gfx-sky-dusk-glow, #F7C9B4);
+  --sk-mtn: var(--gfx-sky-dusk-mountain, #464C66); --sk-mtn-lo: var(--gfx-sky-dusk-mountain-low, #5F6580);
+  --sk-lit: var(--gfx-sky-dusk-alpenglow, #E7B6B4); --sk-snow: var(--gfx-sky-dusk-snow, #F4DCE0);
+  --sk-ridge: var(--gfx-sky-dusk-ridge, #2B3045);
+}
+.gfx-shasta-night {
+  --sk-top: var(--gfx-sky-night-top, #050912); --sk-mid: var(--gfx-sky-night-mid, #0E1A2E); --sk-low: var(--gfx-sky-night-low, #1C2B44);
+  --sk-orb: var(--gfx-sky-night-moon, #E9F1FF); --sk-glow: var(--gfx-sky-night-glow, #7FA6DB);
+  --sk-mtn: var(--gfx-sky-night-mountain, #18233A); --sk-mtn-lo: var(--gfx-sky-night-mountain-low, #233150);
+  --sk-lit: var(--gfx-sky-night-light, #3A507A); --sk-snow: var(--gfx-sky-night-snow, #A9BEDD);
+  --sk-ridge: var(--gfx-sky-night-ridge, #070C16);
+}
+.gfx-shasta-top { stop-color: var(--sk-top); }
+.gfx-shasta-mid { stop-color: var(--sk-mid); }
+.gfx-shasta-low { stop-color: var(--sk-low); }
+.gfx-shasta-glowA { stop-color: var(--sk-glow); stop-opacity: .7; }
+.gfx-shasta-glowB { stop-color: var(--sk-glow); stop-opacity: 0; }
+.gfx-shasta-disc { fill: var(--sk-orb); }
+.gfx-shasta-mtnHi { stop-color: var(--sk-mtn); }
+.gfx-shasta-mtnLo { stop-color: var(--sk-mtn-lo); }
+.gfx-shasta-litA { stop-color: var(--sk-lit); stop-opacity: .55; }
+.gfx-shasta-litB { stop-color: var(--sk-lit); stop-opacity: 0; }
+.gfx-shasta-snow { fill: var(--sk-snow); }
+.gfx-shasta-couloir { fill: none; stroke: var(--sk-snow); stroke-width: 1.3; stroke-linecap: round; opacity: .55; }
+.gfx-shasta-hazeA { stop-color: var(--sk-low); stop-opacity: 0; }
+.gfx-shasta-hazeB { stop-color: var(--sk-low); stop-opacity: .65; }
+.gfx-shasta-ridge, .gfx-shasta-pines { fill: var(--sk-ridge); }
+.gfx-shasta-stars circle { fill: var(--sk-orb); opacity: .8; }
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-shasta-animated .gfx-shasta-orb { animation: gfx-shasta-rise 1.6s var(--g-ease) both; }
+}
+@keyframes gfx-shasta-rise { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }

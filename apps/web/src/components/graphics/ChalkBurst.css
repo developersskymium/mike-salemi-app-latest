@@ -1,0 +1,28 @@
+/* Chalk: --gfx-chalk (dust), --gfx-chalk-edge (its shade on light grounds). */
+.gfx-chalk-burst {
+  --ch: var(--gfx-chalk, #FFFFFF);
+  --ch-edge: var(--gfx-chalk-edge, color-mix(in srgb, var(--g-fg) 22%, var(--g-bg-elev)));
+  overflow: visible;
+  pointer-events: none;
+}
+.gfx-chalk-puffA { stop-color: var(--ch); stop-opacity: .95; }
+.gfx-chalk-puffB { stop-color: var(--ch-edge); stop-opacity: .35; }
+.gfx-chalk-puffC { stop-color: var(--ch-edge); stop-opacity: 0; }
+.gfx-chalk-speck { fill: var(--ch-edge); transform: translate(var(--dx2), var(--dy2)); opacity: .8; }
+.gfx-chalk-speckAccent { fill: var(--g-accent-hi); }
+.gfx-chalk-puff { transform-box: fill-box; transform-origin: center; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-chalk-animated .gfx-chalk-puff { animation: gfx-chalk-puff 1100ms var(--g-ease) both; }
+  .gfx-chalk-animated .gfx-chalk-speck { animation: gfx-chalk-speck 900ms cubic-bezier(.15, .7, .3, 1) both; }
+}
+@keyframes gfx-chalk-puff {
+  0% { transform: scale(.2); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+@keyframes gfx-chalk-speck {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 6px)); opacity: 0; }
+}

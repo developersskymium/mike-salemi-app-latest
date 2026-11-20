@@ -12,20 +12,20 @@
 /* Sky: clear above, a cold glacier light at the horizon. */
 .gfx-phase-landscape-skyTop { stop-color: var(--g-accent-hi); stop-opacity: 0; }
 .gfx-phase-landscape-skyLow { stop-color: var(--g-accent-hi); stop-opacity: .14; }
-.gfx-phase-landscape-sunCore { stop-color: #fff; stop-opacity: .95; }
+.gfx-phase-landscape-sunCore { stop-color: var(--g-specular); stop-opacity: .95; }
 .gfx-phase-landscape-sunMid { stop-color: var(--g-accent-hi); stop-opacity: .32; }
 .gfx-phase-landscape-sunEdge { stop-color: var(--g-accent-hi); stop-opacity: 0; }
 
 .gfx-phase-landscape-farTop { stop-color: var(--g-accent-hi); stop-opacity: .26; }
 .gfx-phase-landscape-farLow { stop-color: var(--g-accent-hi); stop-opacity: .04; }
-.gfx-phase-landscape-snowFar { fill: #fff; opacity: .7; }
+.gfx-phase-landscape-snowFar { fill: var(--g-snow); opacity: .7; }
 .gfx-phase-landscape-mid { fill: color-mix(in srgb, var(--g-fg) 7%, color-mix(in srgb, var(--g-accent) 8%, transparent)); }
 
 .gfx-phase-landscape-mainA { stop-color: color-mix(in srgb, var(--g-accent) 7%, color-mix(in srgb, var(--g-fg) 15%, var(--g-bg))); stop-opacity: 1; }
 .gfx-phase-landscape-mainB { stop-color: color-mix(in srgb, var(--g-fg) 7%, var(--g-bg)); stop-opacity: 1; }
 .gfx-phase-landscape-strata path { fill: none; stroke: var(--g-fg); stroke-opacity: .07; stroke-width: 1.5; stroke-linecap: round; }
-.gfx-phase-landscape-snow { fill: #fff; stroke: color-mix(in srgb, var(--g-fg) 14%, transparent); stroke-width: 1; stroke-linejoin: round; }
-.gfx-phase-landscape-rim { fill: none; stroke: #fff; stroke-opacity: .55; stroke-width: 1.5; stroke-linejoin: round; }
+.gfx-phase-landscape-snow { fill: var(--g-snow); stroke: color-mix(in srgb, var(--g-fg) 14%, transparent); stroke-width: 1; stroke-linejoin: round; }
+.gfx-phase-landscape-rim { fill: none; stroke: var(--g-specular); stroke-opacity: .55; stroke-width: 1.5; stroke-linejoin: round; }
 
 /* Trail */
 .gfx-phase-landscape-ahead {
@@ -49,7 +49,7 @@
 .gfx-phase-landscape-walkB { stop-color: var(--g-accent-hi); }
 
 .gfx-phase-landscape-day { fill: var(--g-fg); opacity: .28; }
-.gfx-phase-landscape-dayDone { fill: #fff; opacity: .9; }
+.gfx-phase-landscape-dayDone { fill: var(--g-specular); opacity: .9; }
 
 .gfx-phase-landscape-tent path { fill: var(--g-bg-elev); stroke: var(--g-fg); stroke-opacity: .55; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
 .gfx-phase-landscape-tent .gfx-phase-landscape-tentDoor { fill: none; }
@@ -60,8 +60,8 @@
 .gfx-phase-landscape-flag path { stroke: var(--g-fg); stroke-width: 1.75; stroke-linecap: round; fill: none; }
 .gfx-phase-landscape-flag .gfx-phase-landscape-flagCloth { fill: var(--g-fg); stroke: none; opacity: .75; }
 
-.gfx-phase-landscape-here { fill: var(--g-accent); stroke: #fff; stroke-width: 3; }
-.gfx-phase-landscape-hereCore { fill: #fff; }
+.gfx-phase-landscape-here { fill: var(--g-accent); stroke: var(--g-specular); stroke-width: 3; }
+.gfx-phase-landscape-hereCore { fill: var(--g-specular); }
 .gfx-phase-landscape-pulse { fill: var(--g-accent); opacity: 0; transform-box: fill-box; transform-origin: center; }
 
 /* Labels (HTML, so they stay crisp at every width) */

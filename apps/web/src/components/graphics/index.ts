@@ -1,4 +1,5 @@
-export { MovementFigure, MOVE_NAMES, type MoveName, type MovementFigureProps } from "./MovementFigure";
+export { MovementFigure, type MovementFigureProps } from "./MovementFigure";
+export { MOVE_NAMES, type MoveName } from "./figures/moves";
 export { DayGlyph, DAY_TYPES, DAY_TYPE_LABEL, type DayType, type DayGlyphProps } from "./DayGlyph";
 export { PhaseLandscape, type PhaseLandscapeProps, type LandscapePhase } from "./PhaseLandscape";
 export { ReadinessDial, type ReadinessDialProps, type ReadinessBand, type DialZone } from "./ReadinessDial";
@@ -9,3 +10,7 @@ export { EmptyScene, EMPTY_SCENES, type EmptySceneName, type EmptySceneProps } f
 export { Medal, LevelEmblem, MEDAL_TIERS, type MedalTier, type MedalProps, type LevelEmblemProps } from "./Medal";
 export { Kettlebell, COMPETITION_COLOURS, type KettlebellProps } from "./Kettlebell";
 export { Grain, Aurora, type GrainProps, type AuroraProps } from "./Ambient";
+export { ChalkBurst, type ChalkBurstProps } from "./ChalkBurst";
+export { SwingArc, type SwingArcProps } from "./SwingArc";
+export { ShastaSky, SKY_TIMES, skyTimeFor, type ShastaSkyProps, type SkyTime } from "./ShastaSky";
+export { HeatmapCell, TrainingHeatmap, type HeatmapCellProps, type TrainingHeatmapProps, type HeatLevel } from "./Heatmap";

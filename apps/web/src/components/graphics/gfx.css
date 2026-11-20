@@ -22,6 +22,11 @@
   --g-shade: var(--gfx-shade, #000000);
   --g-figure: var(--gfx-figure, var(--g-fg));
   --g-figure-far: var(--gfx-figure-far-opacity, .3);
+  /* Rim light on the leading (upper front) edge of the figure, and shoe soles. */
+  --g-figure-rim: var(--gfx-figure-rim, rgba(255, 255, 255, .2));
+  --g-rim-dx: var(--gfx-rim-dx, -.75px);
+  --g-rim-dy: var(--gfx-rim-dy, .8px);
+  --g-sole: var(--gfx-sole, rgba(255, 255, 255, .34));
   --g-bell-hi: var(--gfx-bell-hi, var(--g-accent-hi));
   --g-bell: var(--gfx-bell, var(--g-accent));
   --g-bell-lo: var(--gfx-bell-lo, var(--g-accent-deep));
@@ -60,6 +65,10 @@
 /* Dark materials: smoked glass, a touch more depth on the far limbs. */
 :where([data-theme="dark"]) .gfx-root {
   --g-figure-far: var(--gfx-figure-far-opacity-dark, .36);
+  --g-figure-rim: var(--gfx-figure-rim-dark, rgba(0, 0, 0, .1));
+  --g-rim-dx: var(--gfx-rim-dx-dark, .75px);
+  --g-rim-dy: var(--gfx-rim-dy-dark, -.8px);
+  --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
   --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
   --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
   --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
@@ -68,6 +77,10 @@
 @media (prefers-color-scheme: dark) {
   :where([data-theme="system"]) .gfx-root {
     --g-figure-far: var(--gfx-figure-far-opacity-dark, .36);
+  --g-figure-rim: var(--gfx-figure-rim-dark, rgba(0, 0, 0, .1));
+  --g-rim-dx: var(--gfx-rim-dx-dark, .75px);
+  --g-rim-dy: var(--gfx-rim-dy-dark, -.8px);
+  --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
     --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
     --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
     --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);

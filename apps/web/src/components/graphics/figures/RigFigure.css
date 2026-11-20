@@ -1,7 +1,12 @@
-/* Movement figures on the rig: ink silhouette, far limbs a step back, the bell the one accent. */
+/* Movement figures on the rig: ink silhouette with a rim light, far limbs a step
+   back, shoe soles, a soft contact shadow, the kettlebell the one accent. */
 .gfx-rig-fig { color: var(--g-figure); }
 .gfx-rig-ink { fill: currentColor; }
 .gfx-rig-far { fill: currentColor; opacity: var(--g-figure-far); }
+.gfx-rig-farSole { opacity: .5; }
+.gfx-rig-sole { fill: var(--g-sole); }
+.gfx-rig-rim { fill: var(--g-figure-rim); }
+.gfx-rig-rimShift { transform: translate(var(--g-rim-dx), var(--g-rim-dy)); }
 
 .gfx-rig-bellHi { stop-color: var(--g-bell-hi); }
 .gfx-rig-bellMid { stop-color: var(--g-bell); }
@@ -21,14 +26,27 @@
   stroke-linecap: round;
 }
 
-.gfx-rig-shadow { fill: var(--g-figure); opacity: .07; }
+.gfx-rig-floorA { stop-color: var(--g-figure); stop-opacity: .09; }
+.gfx-rig-floorB { stop-color: var(--g-figure); stop-opacity: 0; }
+.gfx-rig-contact { fill: var(--g-figure); fill-opacity: .2; }
+.gfx-rig-contactFar { fill: var(--g-figure); fill-opacity: .1; }
 .gfx-rig-trace {
   fill: none;
   stroke: var(--g-bell);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-dasharray: .1 5;
+  opacity: .5;
+}
+.gfx-rig-orbit {
+  fill: none;
+  stroke: var(--g-bell);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: .1 4.4;
   opacity: .55;
 }
+.gfx-rig-breathOuter { fill: none; stroke: var(--g-bell); stroke-width: 1; opacity: .35; }
+.gfx-rig-breathInner { fill: var(--g-accent-soft); stroke: var(--g-bell); stroke-width: 1; stroke-opacity: .55; }
 .gfx-rig-debug circle { fill: #e33; }
 .gfx-rig-debug path { stroke: #e33; stroke-width: .5; fill: none; }

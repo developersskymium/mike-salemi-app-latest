@@ -1,17 +1,17 @@
 import type { CSSProperties } from "react";
 import "./gfx.css";
 import "./StreakFlame.css";
-import { cx, useGfxId, cls } from "./util";
+import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-streak-flame");
 
 export interface StreakFlameProps {
-  /** Height in px; width follows the 24:30 mark. */
+  /** Height in px; width follows 32:40. */
   size?: number;
-  /** An unlit flame (streak paused) draws as a quiet outline. */
+  /** Paused streaks show the unlit outline. */
   lit?: boolean;
-  /** Gentle flicker loop (off under reduced motion). */
+  /** Ignite once when it appears. */
   animated?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -19,17 +19,20 @@ export interface StreakFlameProps {
 }
 
 const OUTER =
-  "M12 1.6c1.3 4.2 6.9 7.5 6.9 15.7 0 5.6-3 10.3-6.9 10.3s-6.9-4.4-6.9-9.6c0-3.4 1.6-5.7 3.4-7.4.1 2.4 1 3.8 2.2 4.4-.6-4.6.4-10.2 1.3-13.4Z";
+  "M16 2.6C18.6 8.4 25.8 12.8 25.8 22.6C25.8 30.4 21.4 36.8 16 36.8S6.2 30.4 6.2 22.6C6.2 17.4 8.6 14 10.6 11.6C10.8 15.4 12.6 17.6 14.4 18.2C13.4 12.8 14 7.4 16 2.6Z";
 const INNER =
-  "M12.1 13.6c1.4 2.9 3.4 4.7 3.4 8.1 0 2.8-1.5 4.6-3.5 4.6s-3.4-1.7-3.4-4.2c0-2.4 1.8-3.6 2.3-5.4.7 1 1.2-1 1.2-3.1Z";
+  "M16.4 16.8C18.4 20.8 21.6 23.2 21.6 28.4C21.6 32.4 19.2 35.4 16 35.4S10.4 32.6 10.4 28.6C10.4 25.4 12.4 23.6 13.8 22.4C14 24.4 15 25.6 15.8 25.8C15.4 22.8 15.4 19.6 16.4 16.8Z";
 
-/** A small living flame for streaks: glacier-blue fire with a white-hot core. */
+/**
+ * Streak flame: a glass flame in glacier blue — deep outer flame, a brighter
+ * inner tongue and a white-hot core, with a specular edge. Unlit when paused.
+ */
 export function StreakFlame({ size = 28, lit = true, animated = true, className, style, title }: StreakFlameProps) {
   const id = useGfxId("flame");
   return (
     <svg
-      viewBox="0 0 24 30"
-      width={(size * 24) / 30}
+      viewBox="0 0 32 40"
+      width={(size * 32) / 40}
       height={size}
       role="img"
       aria-label={title ?? (lit ? "Streak" : "Streak paused")}
@@ -37,30 +40,29 @@ export function StreakFlame({ size = 28, lit = true, animated = true, className,
       style={style}
     >
       <defs>
-        <linearGradient id={`${id}-o`} x1="0" y1="1" x2="0" y2="0">
+        <linearGradient id={`${id}-o`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" className={s.o0} />
           <stop offset=".55" className={s.o1} />
           <stop offset="1" className={s.o2} />
         </linearGradient>
-        <linearGradient id={`${id}-i`} x1="0" y1="1" x2="0" y2="0">
+        <linearGradient id={`${id}-i`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" className={s.i0} />
           <stop offset="1" className={s.i1} />
         </linearGradient>
+        <radialGradient id={`${id}-c`} cx=".5" cy=".6" r=".5">
+          <stop offset="0" className={s.c0} />
+          <stop offset="1" className={s.c1} />
+        </radialGradient>
       </defs>
       {lit ? (
-        <>
-          <ellipse cx={12} cy={27.6} rx={7} ry={1.6} className={s.glow} />
-          <g className={s.outer}>
-            <path d={OUTER} fill={`url(#${id}-o)`} />
-          </g>
-          <g className={s.inner}>
-            <path d={INNER} fill={`url(#${id}-i)`} />
-          </g>
-          <circle cx={15.6} cy={9} r={0.8} className={s.ember} />
-          <circle cx={8.4} cy={12} r={0.6} className={cx(s.ember, s.ember2)} />
-        </>
+        <g className={s.body}>
+          <path d={OUTER} fill={`url(#${id}-o)`} />
+          <path d={INNER} fill={`url(#${id}-i)`} />
+          <ellipse cx={16} cy={30.6} rx={3.2} ry={4.2} fill={`url(#${id}-c)`} />
+          <path d="M9.2 18.6C8 21 7.8 24.6 8.6 27.6" className={s.spec} />
+        </g>
       ) : (
-        <path d={OUTER} className={s.outline} />
+        <path d={OUTER} className={s.out} />
       )}
     </svg>
   );

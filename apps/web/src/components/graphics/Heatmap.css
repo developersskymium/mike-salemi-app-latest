@@ -1,0 +1,27 @@
+/* Heatmap cells. Levels read --gfx-heat-0…4; today's ring --gfx-heat-ring. */
+.gfx-heat-cell {
+  --h0: var(--gfx-heat-0, var(--track, rgba(10, 10, 10, .08)));
+  --h1: var(--gfx-heat-1, color-mix(in srgb, var(--accent, #1A6FE0) 26%, transparent));
+  --h2: var(--gfx-heat-2, color-mix(in srgb, var(--accent, #1A6FE0) 48%, transparent));
+  --h3: var(--gfx-heat-3, color-mix(in srgb, var(--accent, #1A6FE0) 74%, transparent));
+  --h4: var(--gfx-heat-4, var(--accent, #1A6FE0));
+  display: inline-block;
+  inline-size: var(--heat-size, 14px);
+  block-size: var(--heat-size, 14px);
+  border-radius: calc(var(--heat-size, 14px) * .3);
+  background: var(--h0);
+  box-shadow: inset 0 0 0 .5px color-mix(in srgb, var(--fg, #0A0A0A) 6%, transparent);
+  vertical-align: middle;
+}
+.gfx-heat-cell[data-level="1"] { background: var(--h1); }
+.gfx-heat-cell[data-level="2"] { background: var(--h2); }
+.gfx-heat-cell[data-level="3"] {
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 22%, transparent), transparent 55%), var(--h3);
+}
+.gfx-heat-cell[data-level="4"] {
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 30%, transparent), transparent 55%), var(--h4);
+  box-shadow: inset 0 0 0 .5px color-mix(in srgb, #fff 30%, transparent);
+}
+.gfx-heat-future { background: transparent; box-shadow: inset 0 0 0 1px var(--h0); }
+.gfx-heat-today { outline: 1.5px solid var(--gfx-heat-ring, var(--accent, #1A6FE0)); outline-offset: 1.5px; }
+.gfx-heat-grid { display: inline-grid; grid-auto-flow: column; grid-auto-columns: max-content; }

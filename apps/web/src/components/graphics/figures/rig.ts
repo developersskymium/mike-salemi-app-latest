@@ -10,6 +10,8 @@
  * a jaw), built from Catmull-Rom curves.
  */
 
+import { BELL_BODY_CENTRE } from "./bell";
+
 export type V = readonly [number, number];
 
 export const GROUND = 232;
@@ -33,7 +35,7 @@ export const LEG = SEG.thigh + SEG.shin;
 
 export type HandKind = "fist" | "relaxed" | "flat";
 /** Painter's order for the near arm, the bell and the near leg. */
-export type Order = "out" | "over" | "between";
+export type Order = "out" | "over" | "between" | "behind";
 /** How an arm's [a, b] pair is read: polar from the shoulder in world or torso frame, or a world point. */
 export type ArmMode = "world" | "torso" | "point";
 
@@ -109,11 +111,11 @@ export interface RigConfig {
 }
 
 export interface Geo {
-  far: { upper: string; fore: string; hand: string; thigh: string; shin: string; foot: string };
+  far: { upper: string; fore: string; hand: string; thigh: string; shin: string; foot: string; sole: string };
   torso: string;
   neck: string;
   head: string;
-  legN: { thigh: string; shin: string; foot: string; thighCut: string };
+  legN: { thigh: string; shin: string; foot: string; sole: string; thighCut: string };
   armN: { upper: string; fore: string; upperCut: string };
   handN: string;
   /** Bell transform (translate/rotate), or null when there is no bell. */
@@ -122,6 +124,9 @@ export interface Geo {
   bellCentre: V | null;
   order: Order;
   shadow: { cx: number; rx: number };
+  /** Contact patches under each foot: [x centre, strength 0..1]. */
+  feet: [V, V];
+  breath: number;
   joints: Record<string, V>;
 }
 
@@ -226,9 +231,9 @@ function limb(A: V, B: V, prof: Profile, k: number, from = 0): string {
 /* ---------------------------------------------------------- profiles */
 
 const UPPER: Profile = [
-  [0, 7.0, 0],
-  [0.16, 6.8, 0.5],
-  [0.42, 5.9, 0.8],
+  [0, 7.3, 0],
+  [0.14, 7.2, 0.9],
+  [0.42, 5.9, 0.9],
   [0.72, 5.0, 0.4],
   [1, 4.3, 0],
 ];
@@ -282,15 +287,15 @@ const TORSO_FRONT: V[] = [
   [-8.5, 0.6],
 ];
 const TORSO_BACK: V[] = [
-  [-9.5, -3.2],
-  [-7.5, -8.8],
-  [-1.5, -11.2],
-  [6, -10.2],
+  [-9.5, -3.4],
+  [-8, -9.6],
+  [-2.5, -12.2],
+  [5, -10.6],
   [15, -8.4],
   [26, -9.8],
-  [38, -12],
-  [48, -12],
-  [55, -8.6],
+  [38, -12.2],
+  [47, -12.6],
+  [54, -9.6],
   [58.5, -4],
 ];
 
@@ -310,19 +315,32 @@ const HEAD: V[] = [
   [-7.6, -9.6],
 ];
 
-/* Foot outline, local: x towards the toes, y towards the sole; ankle joint at 0,0. */
+/* Shoe upper, local: x towards the toes, y towards the sole; ankle joint at 0,0. */
 const FOOT: V[] = [
   [-3.6, -3.6],
   [2.6, -3.4],
   [8.4, 0.4],
-  [16, 2.8],
-  [20.6, 4.4],
-  [20.4, 6.6],
-  [15, 7],
-  [4, 7],
-  [-4.6, 7],
-  [-6.6, 4.6],
+  [16, 2.6],
+  [20.2, 4],
+  [21, 5.3],
+  [15, 5.5],
+  [4, 5.5],
+  [-5, 5.5],
+  [-6.7, 3.8],
   [-5.4, 0.2],
+];
+/* Sole under the upper, with a little toe spring. */
+const SOLE: V[] = [
+  [-6.8, 5.3],
+  [4, 5.3],
+  [15, 5.3],
+  [21.2, 5.1],
+  [21.7, 6.1],
+  [19.6, 7.1],
+  [15, 7.2],
+  [4, 7.2],
+  [-4.8, 7.2],
+  [-6.9, 6.4],
 ];
 
 /* Fist, local: x along the hand from the wrist, y across. A rounded block the handle runs through. */
@@ -374,15 +392,13 @@ function spineFrame(H: V, W: V, S: V, pel: number, ch: number) {
   };
 }
 
-const BELL_SCALE = 1.08;
+const BELL_SCALE = 1.04;
 /** Where each hand holds the bell, in bell units (origin: centre of the handle's top bar). */
 const GRIPS: Record<"bar" | "bar2" | "horns", { near: V; far: V | null }> = {
   bar: { near: [0, 0], far: null },
-  bar2: { near: [-3.2, 0], far: [3.2, 0] },
-  horns: { near: [-6.9, 6.4], far: [6.9, 6.4] },
+  bar2: { near: [-3.4, -0.4], far: [3.4, -0.4] },
+  horns: { near: [-10.5, 6.6], far: [10.5, 6.6] },
 };
-/** Handle top to the centre of the bell body (bell units). */
-export const BELL_BODY_CENTRE = 20;
 
 export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
   const k = cfg.weight ?? 1;
@@ -471,8 +487,11 @@ export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
     const [K, A] = ik(hip, ankle, SEG.thigh * scale, SEG.shin * scale, -1);
     const toe: V = [Math.cos(rad(foot)), Math.sin(rad(foot))];
     const sole: V = [-toe[1], toe[0]];
-    const footPts = FOOT.map(([x, y]) => add(add(A, toe, x), sole, y * (0.94 + 0.06 * k)));
-    return { K, A, foot: closed(footPts) };
+    const map = ([x, y]: V) => add(add(A, toe, x), sole, y * (0.94 + 0.06 * k));
+    // Contact strength: how flat and how close to the floor the sole is.
+    const low = Math.max(0, 1 - Math.max(0, GROUND - SEG.ankle - A[1]) / 10);
+    const flat = Math.max(0, Math.cos(rad(foot)));
+    return { K, A, foot: closed(FOOT.map(map)), sole: closed(SOLE.map(map)), contact: [A[0] + 7 * toe[0], low * (0.35 + 0.65 * flat)] as V };
   };
   const lN = solveLeg(H, p.ankleN, p.legNs ?? 1, p.footN ?? 0);
   const lF = solveLeg(hipF, p.ankleF, p.legFs ?? 1, p.footF ?? 0);
@@ -510,6 +529,7 @@ export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
       thigh: limb(hipF, lF.K, THIGH, k),
       shin: limb(lF.K, lF.A, SHIN, k),
       foot: lF.foot,
+      sole: lF.sole,
     },
     torso,
     neck,
@@ -518,6 +538,7 @@ export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
       thigh: limb(H, lN.K, THIGH, k),
       shin: limb(lN.K, lN.A, SHIN, k),
       foot: lN.foot,
+      sole: lN.sole,
       thighCut: limb(H, lN.K, THIGH, k, 0.42),
     },
     armN: {
@@ -531,6 +552,8 @@ export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
     bellCentre,
     order: disc.order ?? "out",
     shadow: { cx: (lo + hi) / 2, rx: (hi - lo) / 2 + 6 },
+    feet: [lN.contact, lF.contact],
+    breath,
     joints: {
       hip: H,
       waist: W,
@@ -543,6 +566,7 @@ export function solve(p: Pose, disc: Discrete, cfg: RigConfig): Geo {
       kneeF: lF.K,
       elbowF: aF.E,
       head: headC,
+      belly: at(15, 15),
     },
   };
 }
@@ -567,6 +591,8 @@ export interface MoveDef {
   still: number;
   /** Show the bell's path as a dotted trace. */
   trace?: boolean;
+  /** A quiet accent extra: the breath ring, or the halo's orbit. */
+  extra?: "breath" | "orbit";
   /** Square view box [x, y, size]. */
   view?: readonly [number, number, number];
 }
