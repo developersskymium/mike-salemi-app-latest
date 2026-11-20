@@ -14,7 +14,15 @@ export function YouHeader({ d }: { d: PassportData }) {
       <div className="yc-head-b">
         <h1 className="lq-d-md">{d.profile.displayName}</h1>
         <p className="lq-t15 lq-c2">
-          Training since {since} · <b className="lq-num">{sessions}</b> {sessions === 1 ? "session" : "sessions"} · <Icon name="flame" size="xs" className="yc-flame" /> <b className="lq-num">{streak}</b>-day streak
+          <span>Training since {since}</span>
+          <span aria-hidden>·</span>
+          <span>
+            <b className="lq-num">{sessions}</b> {sessions === 1 ? "session" : "sessions"}
+          </span>
+          <span aria-hidden>·</span>
+          <span className="yc-nowrap">
+            <Icon name="flame" size="xs" className="yc-flame" /> <b className="lq-num">{streak}</b>-day streak
+          </span>
         </p>
       </div>
       <Link href="/you/settings" className="yc-head-set" aria-label="Settings">

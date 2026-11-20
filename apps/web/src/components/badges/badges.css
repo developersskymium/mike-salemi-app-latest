@@ -55,3 +55,4 @@
 .bd-pb-row { list-style: none; margin: 0; padding: 0; display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; }
 .bd-pb-item { display: grid; justify-items: center; gap: 4px; min-width: 64px; color: var(--text-3); }
 .bd-pb-item[data-earned] { color: var(--text); }
+.bd-rest { margin: 2px 4px 0; }
