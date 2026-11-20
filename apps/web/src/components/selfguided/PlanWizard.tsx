@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { Button, Icon, useToast } from "@/components/ui";
 import type { ProgramPageData } from "@/lib/loaders/training";
 import type { BoardData } from "@/lib/loaders/selfguided";
 import type { TrainingProfile } from "@ms/api";
 import { savePlanAction } from "@/lib/actions/selfguided";
-import { wizardLevelAction } from "@/lib/actions/wizard";
+import { otherLevelPlansAction, wizardLevelAction, type OtherLevelPlan } from "@/lib/actions/wizard";
+import { updatePlanStatus } from "@/lib/actions/today-plan-you";
 import { buildWizardPlan, defaultWeekdays, FOCUS_COPY, intentOf, type WizardDay, type WizardFocus } from "./wizardPlan";
 import { levelLong, levelOf } from "./level";
 import "./wizard.css";
@@ -80,6 +81,28 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
   /** After saving: the plan's page and the first session (D20: a clear next step, not a spinner). */
   const [saved, setSaved] = useState<{ planHref: string; count: number } | null>(null);
   const [allWeeks, setAllWeeks] = useState(false);
+  /** Active plans on another level of this program (Level I while starting Level II): offer to replace them. */
+  const [others, setOthers] = useState<{ key: string | null; plans: OtherLevelPlan[] }>({ key: null, plans: [] });
+  const [replace, setReplace] = useState(false);
+  const multiLevel = data.paths.length > 1;
+  useEffect(() => {
+    if (!multiLevel) return;
+    let live = true;
+    otherLevelPlansAction(data.program.slug, pathKey).then((plans) => live && setOthers({ key: pathKey, plans }));
+    return () => {
+      live = false;
+    };
+  }, [multiLevel, data.program.slug, pathKey]);
+  const otherPlans = others.key === pathKey ? others.plans : [];
+  const otherLevel = otherPlans[0]?.level ?? null;
+
+  /** After a save: end the other level's plans if the member chose Replace (same as Remove on Manage plans). */
+  async function archiveOthers() {
+    if (!replace || !otherPlans.length) return;
+    const results = await Promise.all(otherPlans.map((p) => updatePlanStatus(p.id, "archived")));
+    if (results.some((r) => !r.ok)) toast(`Couldn't end your ${otherLevel} schedule. You can remove it from Manage plans.`);
+    else router.refresh();
+  }
 
   const days = levelDays[pathKey ?? ""] ?? [];
   // Level I and Level II both start at Day 1: name the level wherever a day is named.
@@ -130,6 +153,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
           ordered.map((i) => ({ date: i.date, lessonId: i.day.id, kind: i.kind, note: "Next in Mike's order." })),
         );
         if (!r.ok) return void toast(r.message);
+        await archiveOthers();
         toast(`Saved — ${ordered.length} sessions in order, no dates.`, { tone: "success" });
         setSaved({ planHref: "/plan", count: ordered.length });
       });
@@ -148,6 +172,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
         toast(r.message);
         return;
       }
+      await archiveOthers();
       toast(`Plan saved — ${plan.items.length} sessions are on your schedule.`, { tone: "success" });
       setSaved({ planHref: r.planId && r.planId !== "preview" ? `/plan/${r.planId}` : "/plan", count: plan.items.length });
     });
@@ -258,6 +283,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
             <p className="lq-t13 lq-c2">
               <b className="lq-num">{ordered.length}</b> sessions, {levelName}. No dates: your week shows what&apos;s next, and you do it whenever you&apos;re ready.
             </p>
+            {otherLevel && replace && <p className="lq-t13 lq-c2 wz-replace-note">Saving ends your {otherLevel} schedule.</p>}
             <ol className="wz-queue">
               {ordered.slice(0, allWeeks ? undefined : 8).map((i, n) => (
                 <li key={i.day.id}>
@@ -306,6 +332,22 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
               </div>
             )}
             {loading && <p className="lq-t13 lq-c3">Loading the level…</p>}
+            {otherLevel && !loading && (
+              <div className="wz-replace" role="group" aria-labelledby="wz-rp">
+                <p id="wz-rp" className="lq-t15">
+                  <b>Replace your {otherLevel} schedule?</b>
+                  <span className="lq-t13 lq-c2"> It&apos;s still on your calendar. Lessons you finished stay finished.</span>
+                </p>
+                <div className="wz-row" role="radiogroup" aria-labelledby="wz-rp">
+                  <button type="button" role="radio" aria-checked={replace} className="wz-chip lq-press" onClick={() => setReplace(true)}>
+                    Replace
+                  </button>
+                  <button type="button" role="radio" aria-checked={!replace} className="wz-chip lq-press" onClick={() => setReplace(false)}>
+                    Keep both
+                  </button>
+                </div>
+              </div>
+            )}
           </section>
         )}
 
@@ -388,6 +430,7 @@ export function PlanWizard({ data, board, onDone, profile }: { data: ProgramPage
               {plan.endsOn ? ` · finishes ${nice(plan.endsOn, { month: "short", day: "numeric", year: "numeric" })}` : ""}
               {plan.skipped ? ` · ${plan.skipped} recovery days left open` : ""}
             </p>
+            {otherLevel && replace && <p className="lq-t13 lq-c2 wz-replace-note">Saving ends your {otherLevel} schedule.</p>}
             <div className="wz-mix" aria-hidden>
               {plan.items.map((i) => (
                 <i key={i.date} data-i={i.day.intent} />
