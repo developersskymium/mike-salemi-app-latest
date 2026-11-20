@@ -1,0 +1,57 @@
+/* Badges & rewards (0023) and Moments with Mike. Calm: hairlines, no resting shadows. Prefix bd-. */
+.bd-fams { display: grid; gap: 28px; }
+.bd-fam { display: grid; gap: 14px; }
+.bd-fam-h { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+.bd-fam-h h3 { margin: 0; }
+.bd-fam-h p { margin: 2px 0 0; }
+.bd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+.bd-tile { position: relative; display: grid; justify-items: center; align-content: start; gap: 6px; padding: 14px 8px 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: inherit; font: inherit; cursor: pointer; text-align: center; min-height: 140px; }
+.bd-tile:hover { border-color: var(--line-strong); }
+.bd-tile:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.bd-tile-n { font: 600 12.5px/1.25 var(--font); color: var(--text); }
+.bd-tile:not([data-earned]) .bd-tile-n { color: var(--text-2); }
+.bd-tile small { font: 500 11.5px/1.2 var(--font); color: var(--text-3); }
+.bd-tile-bar { width: 56px; height: 4px; border-radius: 4px; background: var(--surface-sunk); overflow: hidden; }
+.bd-tile-bar i { display: block; height: 100%; background: var(--warm); border-radius: inherit; }
+.bd-perk-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+
+.bd-progs { display: grid; gap: 10px; }
+.bd-prog { display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center; gap: 14px; padding: 10px 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); border-left: 4px solid var(--bd-c, var(--line-strong)); }
+.bd-prog-n { font: 650 14.5px/1.25 var(--font-display); }
+.bd-prog-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.bd-prog-row .bd-tile { border: 0; min-height: 0; padding: 6px 4px; min-width: 84px; background: transparent; }
+@media (max-width: 719px) { .bd-prog { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+
+.bd-detail { display: grid; justify-items: center; gap: 12px; text-align: center; padding: 8px 4px 16px; }
+.bd-detail p { margin: 0; }
+.bd-detail-prog { display: grid; gap: 6px; width: min(320px, 100%); }
+.bd-detail-perk { display: grid; justify-items: center; gap: 4px; padding: 14px 16px; border-radius: 16px; background: var(--warm-soft); width: min(360px, 100%); }
+
+/* Moments with Mike */
+.bd-moments { display: grid; gap: 14px; }
+.bd-mgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.bd-moment { height: 100%; display: grid; align-content: start; gap: 6px; padding: 14px; border-radius: 18px; border: 1px dashed var(--line-strong); background: transparent; color: inherit; text-decoration: none; }
+.bd-moment[data-earned] { border-style: solid; border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); background: var(--surface); }
+.bd-moment:hover { border-color: var(--text-3); }
+.bd-moment-ic { position: relative; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--surface-sunk); color: var(--text-3); }
+.bd-moment[data-earned] .bd-moment-ic { background: var(--gold-50); color: #9A6B00; }
+.bd-moment-ok { position: absolute; right: -5px; bottom: -5px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--ok); color: #fff; border: 2px solid var(--surface); }
+.bd-moment-t { font: 650 14.5px/1.25 var(--font-display); }
+.bd-moment-go { margin-top: auto; padding-top: 4px; display: inline-flex; align-items: center; gap: 4px; font: 650 12.5px/1 var(--font); color: var(--accent-ink); }
+
+/* Perks */
+.bd-perks { display: grid; gap: 10px; }
+.bd-perks h3 { margin: 0; }
+.bd-perks ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.bd-perk { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); }
+.bd-perk[data-used] { opacity: .6; }
+.bd-perk-ic { width: 36px; height: 36px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--warm-soft); color: var(--warm-ink); }
+.bd-perk-b { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.bd-code { flex: none; font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; padding: 8px 10px; border-radius: 10px; background: var(--surface-sunk); border: 1px dashed var(--line-strong); user-select: all; }
+
+/* <ProgramBadges> on program pages */
+.bd-pb { display: grid; gap: 10px; padding: 16px 18px; border-radius: 20px; border: 1px solid var(--line); background: var(--surface); }
+.bd-pb-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.bd-pb-row { list-style: none; margin: 0; padding: 0; display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; }
+.bd-pb-item { display: grid; justify-items: center; gap: 4px; min-width: 64px; color: var(--text-3); }
+.bd-pb-item[data-earned] { color: var(--text); }
