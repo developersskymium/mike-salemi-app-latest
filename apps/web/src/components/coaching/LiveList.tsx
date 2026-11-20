@@ -49,7 +49,7 @@ export function LiveList({ lives }: { lives: CoachingLive[] }) {
               <span>{client ? fmt(l.starts_at, { month: "short" }) : ""}</span>
             </div>
             <div>
-              <h3>{l.title} {i === 0 && <Chip variant={live ? "warm" : "fill"} size="sm" dot={live}>{live ? "Live now" : "Next"}</Chip>}</h3>
+              <h3>{l.title} {l.draft_note ? <Chip variant="fill" size="sm">Date to be confirmed</Chip> : i === 0 && <Chip variant={live ? "warm" : "fill"} size="sm" dot={live}>{live ? "Live now" : "Next"}</Chip>}</h3>
               <p>{client ? `${fmt(l.starts_at, { weekday: "long", hour: "numeric", minute: "2-digit", timeZoneName: "short" })} · ${l.duration_minutes} min` : " "}{l.summary ? ` · ${l.summary}` : ""}</p>
             </div>
             <div className="co-acts" style={{ justifyContent: "flex-end" }}>
