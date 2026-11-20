@@ -1,0 +1,30 @@
+[
+ {
+  "kind": "lesson",
+  "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "programSlug": "kettlebell-lifestyle",
+  "programName": "Kettlebell Lifestyle",
+  "programType": "day_program",
+  "mode": "self_guided",
+  "pathId": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+  "pathName": "Level I · Beginner",
+  "lessonId": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+  "lessonKey": "l1-phase-2-d24",
+  "lessonTitle": "Day 24 - Recovery Day",
+  "dayNumber": 24,
+  "dayType": "Recovery Day",
+  "sectionTitle": "Phase 2",
+  "sessionId": null,
+  "sessionTitle": null,
+  "stepId": "ef784a76-83a3-4101-b917-199fa2a2dc22",
+  "stepTitle": "Morning Routine",
+  "stepIndex": 0,
+  "stepCount": 5,
+  "stepsDone": 0,
+  "videoProviderId": "414027277",
+  "videoSeconds": 252,
+  "videoDuration": 613,
+  "poster": "https://i.vimeocdn.com/video/887589736-5c6880c8ea3dd2596482fb5ed1646b53a34fd2044f7bc25da80398d95d15cd8e-d_1280?region=us",
+  "updatedAt": "2026-11-20T04:45:29Z"
+ }
+]

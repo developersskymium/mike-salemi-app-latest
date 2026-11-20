@@ -1,0 +1,398 @@
+{
+ "today": "2026-11-20",
+ "from": "2026-05-23",
+ "timezone": "UTC",
+ "minutes": 1263,
+ "sessions": 32,
+ "completions": 28,
+ "activeDays": 27,
+ "week": {
+  "minutes": 211,
+  "sessions": 7,
+  "starts": "2026-11-16"
+ },
+ "streak": {
+  "current": 27,
+  "best": 27
+ },
+ "heatmap": [
+  {
+   "date": "2026-10-25",
+   "minutes": 0,
+   "sessions": 1,
+   "steps": 1
+  },
+  {
+   "date": "2026-10-26",
+   "minutes": 54,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-10-27",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-10-28",
+   "minutes": 54,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-10-29",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-10-30",
+   "minutes": 54,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-10-31",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-01",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-02",
+   "minutes": 0,
+   "sessions": 1,
+   "steps": 1
+  },
+  {
+   "date": "2026-11-03",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-04",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-05",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-06",
+   "minutes": 88,
+   "sessions": 2,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-07",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-08",
+   "minutes": 79,
+   "sessions": 2,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-09",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-10",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-11",
+   "minutes": 34,
+   "sessions": 1,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-12",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-13",
+   "minutes": 44,
+   "sessions": 2,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-14",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-15",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-16",
+   "minutes": 31,
+   "sessions": 2,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-17",
+   "minutes": 0,
+   "sessions": 1,
+   "steps": 1
+  },
+  {
+   "date": "2026-11-18",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  },
+  {
+   "date": "2026-11-19",
+   "minutes": 54,
+   "sessions": 2,
+   "steps": 5
+  },
+  {
+   "date": "2026-11-20",
+   "minutes": 63,
+   "sessions": 1,
+   "steps": 7
+  }
+ ],
+ "programs": [
+  {
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "slug": "kettlebell-lifestyle",
+   "name": "Kettlebell Lifestyle",
+   "pathId": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+   "pathName": "Level I · Beginner",
+   "done": 27,
+   "total": 67,
+   "pct": 40,
+   "minutes": 1263,
+   "phases": [
+    {
+     "sectionId": "4ce6f008-7a2e-4c20-98e2-1e890920484d",
+     "title": "On Ramp Phase",
+     "done": 8,
+     "total": 8,
+     "pct": 100
+    },
+    {
+     "sectionId": "b26bf84f-0520-42a6-bab0-e8de04175187",
+     "title": "Phase 1",
+     "done": 15,
+     "total": 15,
+     "pct": 100
+    },
+    {
+     "sectionId": "df188a11-d6e4-4f79-9bb2-e114037d511a",
+     "title": "Phase 2",
+     "done": 4,
+     "total": 22,
+     "pct": 18
+    },
+    {
+     "sectionId": "2d611df1-9ac1-47e1-9978-84e09f687e22",
+     "title": "Phase 3",
+     "done": 0,
+     "total": 22,
+     "pct": 0
+    }
+   ]
+  }
+ ],
+ "completionsByLesson": {
+  "134f4dc4-ed7c-455b-bf9c-9af918685018": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "38dcffd7-7ccd-458e-81b5-1dbcfd795d00": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "2c788986-306e-4600-98a6-9f42de652640": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "a5384bec-3b67-4643-a49c-27c89224d70f": {
+   "count": 2,
+   "lastAt": "2026-11-04T05:10:00Z"
+  },
+  "0d1a8c9a-8044-4132-a347-2fbb8a890ee1": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "c34a6f5f-11d7-4226-8225-ce2acb981bfe": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "4f36e603-5cdf-4c4e-b2d0-a90cacc9e102": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "9912fa5e-519f-4f81-9d11-606ddc5afac2": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "b277a2f0-24ac-4823-9a76-da13a2d4a7c2": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "5ac88604-f54c-40c2-83c0-e0781e97c9f2": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "d8743187-086c-4097-bac5-4b1b67816466": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "16fb09b0-ab1c-4f28-83cb-0ffafd7b21fb": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "3917ed46-7595-4388-95eb-a5527b3b740c": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "c9c1dda6-bbd3-47c7-a18e-4a03dc2fe8c7": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "1325c465-c5e0-4b38-a37a-cc49619782b0": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "d6f1512f-dcff-4afd-90ba-e488b223efb6": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "cf8ebd49-342f-41e2-b65a-77ad05950628": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "a2ee9c09-15a5-4f82-be94-bf12b9917f38": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "9faf99d0-823a-4f47-97af-f58ceb4f04f6": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "018136a7-666c-4b54-8fdb-bc259859b6f0": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "04887477-47c4-434c-94c6-f7be54151dc8": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "bdf5f4e4-0d66-4dda-956b-5a119e4b06f5": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "2b4abc8e-8aee-43bd-be92-b467535e5d01": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "5174f4a2-9564-4096-94fd-5f3319a06754": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  },
+  "d3053bee-873f-4a1d-8aba-4e201f49d84d": {
+   "count": 1,
+   "lastAt": "2026-11-10T05:00:00Z"
+  }
+ },
+ "readiness": [
+  {
+   "at": "2026-11-03T04:38:29Z",
+   "band": "amber",
+   "score": 35,
+   "bandName": "Chart 3 Modification"
+  },
+  {
+   "at": "2026-11-05T04:38:29Z",
+   "band": "green",
+   "score": 9,
+   "bandName": "Full Workout"
+  },
+  {
+   "at": "2026-11-07T04:38:29Z",
+   "band": "green",
+   "score": 14,
+   "bandName": "Full Workout"
+  },
+  {
+   "at": "2026-11-10T04:38:29Z",
+   "band": "green",
+   "score": 20,
+   "bandName": "Full Workout"
+  },
+  {
+   "at": "2026-11-12T04:38:29Z",
+   "band": "amber",
+   "score": 28,
+   "bandName": "Chart 2 Modification"
+  },
+  {
+   "at": "2026-11-14T04:38:29Z",
+   "band": "green",
+   "score": 10,
+   "bandName": "Full Workout"
+  },
+  {
+   "at": "2026-11-15T04:38:29Z",
+   "band": "amber",
+   "score": 35,
+   "bandName": "Chart 3 Modification"
+  },
+  {
+   "at": "2026-11-18T04:38:29Z",
+   "band": "amber",
+   "score": 24,
+   "bandName": "Chart 2 Modification"
+  },
+  {
+   "at": "2026-11-20T04:38:29Z",
+   "band": "green",
+   "score": 8,
+   "bandName": "Full Workout"
+  }
+ ],
+ "intents": {
+  "skill": 1,
+  "workout": 18,
+  "mobility": 1,
+  "overview": 4,
+  "recovery": 8
+ }
+}

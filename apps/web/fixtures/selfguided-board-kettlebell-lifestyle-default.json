@@ -1,0 +1,1690 @@
+{
+ "next": {
+  "lessonId": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+  "key": "l1-phase-2-d24",
+  "title": "Day 24 - Recovery Day",
+  "dayNumber": 24,
+  "dayType": "Recovery Day",
+  "pageType": null,
+  "sectionTitle": "Phase 2",
+  "intent": "recovery",
+  "kind": "rotation",
+  "reason": "You did a workout day last. A recovery day keeps the week balanced.",
+  "want": "recovery",
+  "lastIntent": "workout",
+  "completions": 0,
+  "readiness": {
+   "score": 8,
+   "band": "green",
+   "bandName": "Full Workout"
+  }
+ },
+ "continue": {
+  "kind": "lesson",
+  "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+  "programSlug": "kettlebell-lifestyle",
+  "programName": "Kettlebell Lifestyle",
+  "programType": "day_program",
+  "mode": "self_guided",
+  "pathId": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+  "pathName": "Level I · Beginner",
+  "lessonId": "44acb741-ba78-47f0-8f8a-80569ab637fd",
+  "lessonKey": "l1-phase-2-d24",
+  "lessonTitle": "Day 24 - Recovery Day",
+  "dayNumber": 24,
+  "dayType": "Recovery Day",
+  "sectionTitle": "Phase 2",
+  "sessionId": null,
+  "sessionTitle": null,
+  "stepId": "ef784a76-83a3-4101-b917-199fa2a2dc22",
+  "stepTitle": "Morning Routine",
+  "stepIndex": 0,
+  "stepCount": 5,
+  "stepsDone": 0,
+  "videoProviderId": "414027277",
+  "videoSeconds": 252,
+  "videoDuration": 613,
+  "poster": "https://i.vimeocdn.com/video/887589736-5c6880c8ea3dd2596482fb5ed1646b53a34fd2044f7bc25da80398d95d15cd8e-d_1280?region=us",
+  "updatedAt": "2026-11-20T04:45:29Z"
+ },
+ "stats": {
+  "today": "2026-11-20",
+  "from": "2026-05-23",
+  "timezone": "UTC",
+  "minutes": 1263,
+  "sessions": 32,
+  "completions": 28,
+  "activeDays": 27,
+  "week": {
+   "minutes": 211,
+   "sessions": 7,
+   "starts": "2026-11-16"
+  },
+  "streak": {
+   "current": 27,
+   "best": 27
+  },
+  "heatmap": [
+   {
+    "date": "2026-10-25",
+    "minutes": 0,
+    "sessions": 1,
+    "steps": 1
+   },
+   {
+    "date": "2026-10-26",
+    "minutes": 54,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-10-27",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-10-28",
+    "minutes": 54,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-10-29",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-10-30",
+    "minutes": 54,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-10-31",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-01",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-02",
+    "minutes": 0,
+    "sessions": 1,
+    "steps": 1
+   },
+   {
+    "date": "2026-11-03",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-04",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-05",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-06",
+    "minutes": 88,
+    "sessions": 2,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-07",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-08",
+    "minutes": 79,
+    "sessions": 2,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-09",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-10",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-11",
+    "minutes": 34,
+    "sessions": 1,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-12",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-13",
+    "minutes": 44,
+    "sessions": 2,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-14",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-15",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-16",
+    "minutes": 31,
+    "sessions": 2,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-17",
+    "minutes": 0,
+    "sessions": 1,
+    "steps": 1
+   },
+   {
+    "date": "2026-11-18",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   },
+   {
+    "date": "2026-11-19",
+    "minutes": 54,
+    "sessions": 2,
+    "steps": 5
+   },
+   {
+    "date": "2026-11-20",
+    "minutes": 63,
+    "sessions": 1,
+    "steps": 7
+   }
+  ],
+  "programs": [
+   {
+    "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+    "slug": "kettlebell-lifestyle",
+    "name": "Kettlebell Lifestyle",
+    "pathId": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+    "pathName": "Level I · Beginner",
+    "done": 27,
+    "total": 67,
+    "pct": 40,
+    "minutes": 1263,
+    "phases": [
+     {
+      "sectionId": "4ce6f008-7a2e-4c20-98e2-1e890920484d",
+      "title": "On Ramp Phase",
+      "done": 8,
+      "total": 8,
+      "pct": 100
+     },
+     {
+      "sectionId": "b26bf84f-0520-42a6-bab0-e8de04175187",
+      "title": "Phase 1",
+      "done": 15,
+      "total": 15,
+      "pct": 100
+     },
+     {
+      "sectionId": "df188a11-d6e4-4f79-9bb2-e114037d511a",
+      "title": "Phase 2",
+      "done": 4,
+      "total": 22,
+      "pct": 18
+     },
+     {
+      "sectionId": "2d611df1-9ac1-47e1-9978-84e09f687e22",
+      "title": "Phase 3",
+      "done": 0,
+      "total": 22,
+      "pct": 0
+     }
+    ]
+   }
+  ],
+  "completionsByLesson": {
+   "134f4dc4-ed7c-455b-bf9c-9af918685018": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "38dcffd7-7ccd-458e-81b5-1dbcfd795d00": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "2c788986-306e-4600-98a6-9f42de652640": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "a5384bec-3b67-4643-a49c-27c89224d70f": {
+    "count": 2,
+    "lastAt": "2026-11-04T05:10:00Z"
+   },
+   "0d1a8c9a-8044-4132-a347-2fbb8a890ee1": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "c34a6f5f-11d7-4226-8225-ce2acb981bfe": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "4f36e603-5cdf-4c4e-b2d0-a90cacc9e102": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "9912fa5e-519f-4f81-9d11-606ddc5afac2": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "b277a2f0-24ac-4823-9a76-da13a2d4a7c2": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "5ac88604-f54c-40c2-83c0-e0781e97c9f2": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "d8743187-086c-4097-bac5-4b1b67816466": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "16fb09b0-ab1c-4f28-83cb-0ffafd7b21fb": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "3917ed46-7595-4388-95eb-a5527b3b740c": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "c9c1dda6-bbd3-47c7-a18e-4a03dc2fe8c7": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "1325c465-c5e0-4b38-a37a-cc49619782b0": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "d6f1512f-dcff-4afd-90ba-e488b223efb6": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "cf8ebd49-342f-41e2-b65a-77ad05950628": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "a2ee9c09-15a5-4f82-be94-bf12b9917f38": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "9faf99d0-823a-4f47-97af-f58ceb4f04f6": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "018136a7-666c-4b54-8fdb-bc259859b6f0": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "04887477-47c4-434c-94c6-f7be54151dc8": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "bdf5f4e4-0d66-4dda-956b-5a119e4b06f5": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "2b4abc8e-8aee-43bd-be92-b467535e5d01": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "5174f4a2-9564-4096-94fd-5f3319a06754": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   },
+   "d3053bee-873f-4a1d-8aba-4e201f49d84d": {
+    "count": 1,
+    "lastAt": "2026-11-10T05:00:00Z"
+   }
+  },
+  "readiness": [
+   {
+    "at": "2026-11-03T04:38:29Z",
+    "band": "amber",
+    "score": 35,
+    "bandName": "Chart 3 Modification"
+   },
+   {
+    "at": "2026-11-05T04:38:29Z",
+    "band": "green",
+    "score": 9,
+    "bandName": "Full Workout"
+   },
+   {
+    "at": "2026-11-07T04:38:29Z",
+    "band": "green",
+    "score": 14,
+    "bandName": "Full Workout"
+   },
+   {
+    "at": "2026-11-10T04:38:29Z",
+    "band": "green",
+    "score": 20,
+    "bandName": "Full Workout"
+   },
+   {
+    "at": "2026-11-12T04:38:29Z",
+    "band": "amber",
+    "score": 28,
+    "bandName": "Chart 2 Modification"
+   },
+   {
+    "at": "2026-11-14T04:38:29Z",
+    "band": "green",
+    "score": 10,
+    "bandName": "Full Workout"
+   },
+   {
+    "at": "2026-11-15T04:38:29Z",
+    "band": "amber",
+    "score": 35,
+    "bandName": "Chart 3 Modification"
+   },
+   {
+    "at": "2026-11-18T04:38:29Z",
+    "band": "amber",
+    "score": 24,
+    "bandName": "Chart 2 Modification"
+   },
+   {
+    "at": "2026-11-20T04:38:29Z",
+    "band": "green",
+    "score": 8,
+    "bandName": "Full Workout"
+   }
+  ],
+  "intents": {
+   "skill": 1,
+   "workout": 18,
+   "mobility": 1,
+   "overview": 4,
+   "recovery": 8
+  }
+ },
+ "history": [
+  {
+   "sessionId": "2cd04fda-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 23 - Workout II Day",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "d3053bee-873f-4a1d-8aba-4e201f49d84d",
+   "lessonKey": "l1-phase-2-d23",
+   "lessonTitle": "Day 23 - Workout II Day",
+   "dayNumber": 23,
+   "startedAt": "2026-11-20T04:36:29Z",
+   "endedAt": "2026-11-20T04:36:29Z",
+   "minutes": 63,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": {
+    "score": 8,
+    "band": "green",
+    "name": "Full Workout"
+   }
+  },
+  {
+   "sessionId": "beaf96e6-0000-4000-8000-000000000000",
+   "source": "quick",
+   "title": "20-minute mobility",
+   "intent": "mobility",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-19T04:42:49Z",
+   "endedAt": "2026-11-19T04:42:49Z",
+   "minutes": 20,
+   "plannedMinutes": 20,
+   "items": 3,
+   "itemsDone": 3,
+   "notes": "Hips opened up nicely.",
+   "favourite": false,
+   "dayCompleted": false,
+   "readiness": null
+  },
+  {
+   "sessionId": "56531ec8-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 22 - Recovery Day",
+   "intent": "recovery",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c",
+   "lessonKey": "l1-phase-2-d22",
+   "lessonTitle": "Day 22 - Recovery Day",
+   "dayNumber": 22,
+   "startedAt": "2026-11-19T04:36:29Z",
+   "endedAt": "2026-11-19T04:36:29Z",
+   "minutes": 34,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": null
+  },
+  {
+   "sessionId": "14f0962b-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 21 - Workout I Day",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "5174f4a2-9564-4096-94fd-5f3319a06754",
+   "lessonKey": "l1-phase-2-d21",
+   "lessonTitle": "Day 21 - Workout I Day",
+   "dayNumber": 21,
+   "startedAt": "2026-11-18T04:36:29Z",
+   "endedAt": "2026-11-18T04:36:29Z",
+   "minutes": 63,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": {
+    "score": 24,
+    "band": "amber",
+    "name": "Chart 2 Modification"
+   }
+  },
+  {
+   "sessionId": "34ed7ad0-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Phase 2 Overview",
+   "intent": "overview",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "2b4abc8e-8aee-43bd-be92-b467535e5d01",
+   "lessonKey": "l1-phase-2-overview",
+   "lessonTitle": "Phase 2 Overview",
+   "dayNumber": null,
+   "startedAt": "2026-11-17T04:36:29Z",
+   "endedAt": "2026-11-17T04:36:29Z",
+   "minutes": 4,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": null
+  },
+  {
+   "sessionId": "30d92d06-0000-4000-8000-000000000000",
+   "source": "quick",
+   "title": "30-minute workout",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-16T04:42:49Z",
+   "endedAt": "2026-11-16T04:42:49Z",
+   "minutes": 30,
+   "plannedMinutes": 30,
+   "items": 3,
+   "itemsDone": 3,
+   "notes": null,
+   "favourite": true,
+   "dayCompleted": false,
+   "readiness": null
+  },
+  {
+   "sessionId": "0d076cfe-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 20 - Workout I Day",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "04887477-47c4-434c-94c6-f7be54151dc8",
+   "lessonKey": "l1-phase-1-d20",
+   "lessonTitle": "Day 20 - Workout I Day",
+   "dayNumber": 20,
+   "startedAt": "2026-11-15T04:36:29Z",
+   "endedAt": "2026-11-15T04:36:29Z",
+   "minutes": 63,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": "Went up to the 16kg on swings.",
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": {
+    "score": 35,
+    "band": "amber",
+    "name": "Chart 3 Modification"
+   }
+  },
+  {
+   "sessionId": "1bc769b1-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 19 - Workout II Day",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "018136a7-666c-4b54-8fdb-bc259859b6f0",
+   "lessonKey": "l1-phase-1-d19",
+   "lessonTitle": "Day 19 - Workout II Day",
+   "dayNumber": 19,
+   "startedAt": "2026-11-14T04:36:29Z",
+   "endedAt": "2026-11-14T04:36:29Z",
+   "minutes": 63,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": {
+    "score": 10,
+    "band": "green",
+    "name": "Full Workout"
+   }
+  },
+  {
+   "sessionId": "5bc21989-0000-4000-8000-000000000000",
+   "source": "quick",
+   "title": "10-minute recovery",
+   "intent": "recovery",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-13T04:42:49Z",
+   "endedAt": "2026-11-13T04:42:49Z",
+   "minutes": 10,
+   "plannedMinutes": 10,
+   "items": 2,
+   "itemsDone": 2,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": false,
+   "readiness": null
+  },
+  {
+   "sessionId": "96afa01d-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 18 - Recovery Day",
+   "intent": "recovery",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "9faf99d0-823a-4f47-97af-f58ceb4f04f6",
+   "lessonKey": "l1-phase-1-d18",
+   "lessonTitle": "Day 18 - Recovery Day",
+   "dayNumber": 18,
+   "startedAt": "2026-11-13T04:36:29Z",
+   "endedAt": "2026-11-13T04:36:29Z",
+   "minutes": 34,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": null
+  },
+  {
+   "sessionId": "d3e30b29-0000-4000-8000-000000000000",
+   "source": "day",
+   "title": "Day 17 - Workout I Day",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "a2ee9c09-15a5-4f82-be94-bf12b9917f38",
+   "lessonKey": "l1-phase-1-d17",
+   "lessonTitle": "Day 17 - Workout I Day",
+   "dayNumber": 17,
+   "startedAt": "2026-11-12T04:36:29Z",
+   "endedAt": "2026-11-12T04:36:29Z",
+   "minutes": 63,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": null,
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": {
+    "score": 28,
+    "band": "amber",
+    "name": "Chart 2 Modification"
+   }
+  },
+  {
+   "sessionId": "c1b0f6a2-0000-4000-8000-000000000000",
+   "source": "custom",
+   "title": "Swing clinic",
+   "intent": "skill",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-08T05:12:00Z",
+   "endedAt": "2026-11-08T05:12:00Z",
+   "minutes": 45,
+   "plannedMinutes": 45,
+   "items": 4,
+   "itemsDone": 4,
+   "notes": "Built my own: two skill blocks and a long stretch.",
+   "favourite": true,
+   "dayCompleted": false,
+   "readiness": null
+  },
+  {
+   "sessionId": "a5d3c0e1-0000-4000-8000-000000000000",
+   "source": "repeat",
+   "title": "Day 3",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": "a5384bec-3b67-4643-a49c-27c89224d70f",
+   "lessonKey": "l1-on-ramp-d3",
+   "lessonTitle": "Day 3",
+   "dayNumber": 3,
+   "startedAt": "2026-11-04T04:50:00Z",
+   "endedAt": "2026-11-04T04:50:00Z",
+   "minutes": 54,
+   "plannedMinutes": null,
+   "items": 0,
+   "itemsDone": 0,
+   "notes": "Second time through: smoother hinge, heavier bell.",
+   "favourite": false,
+   "dayCompleted": true,
+   "readiness": null
+  }
+ ],
+ "favourites": [
+  {
+   "sessionId": "30d92d06-0000-4000-8000-000000000000",
+   "source": "quick",
+   "title": "30-minute workout",
+   "intent": "workout",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-16T04:42:49Z",
+   "endedAt": "2026-11-16T04:42:49Z",
+   "minutes": 30,
+   "plannedMinutes": 30,
+   "items": 3,
+   "itemsDone": 3,
+   "notes": null,
+   "favourite": true,
+   "dayCompleted": false,
+   "readiness": null
+  },
+  {
+   "sessionId": "c1b0f6a2-0000-4000-8000-000000000000",
+   "source": "custom",
+   "title": "Swing clinic",
+   "intent": "skill",
+   "programId": "0df5408b-c9b8-4482-91f1-1226dc673739",
+   "programSlug": "kettlebell-lifestyle",
+   "programName": "Kettlebell Lifestyle",
+   "lessonId": null,
+   "lessonKey": null,
+   "lessonTitle": null,
+   "dayNumber": null,
+   "startedAt": "2026-11-08T05:12:00Z",
+   "endedAt": "2026-11-08T05:12:00Z",
+   "minutes": 45,
+   "plannedMinutes": 45,
+   "items": 4,
+   "itemsDone": 4,
+   "notes": "Built my own: two skill blocks and a long stretch.",
+   "favourite": true,
+   "dayCompleted": false,
+   "readiness": null
+  }
+ ],
+ "notes": {
+  "a5384bec-3b67-4643-a49c-27c89224d70f": {
+   "body": "Left hip tight on the hinge. Elevate the bell next time.",
+   "updatedAt": "2026-11-17T05:00:00Z"
+  },
+  "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c": {
+   "body": "Went to 16kg for the swings. Grip held.",
+   "updatedAt": "2026-11-17T05:00:00Z"
+  },
+  "d3053bee-873f-4a1d-8aba-4e201f49d84d": {
+   "body": "Recovery felt great after 8 hours sleep.",
+   "updatedAt": "2026-11-17T05:00:00Z"
+  }
+ },
+ "pool": [
+  {
+   "stepId": "4039765d-0000-4000-8000-000000000000",
+   "lessonId": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 1",
+   "lessonKey": "l1-on-ramp-d1",
+   "ord": 1
+  },
+  {
+   "stepId": "a52f3b4a-0000-4000-8000-000000000000",
+   "lessonId": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Starter Workout",
+   "lessonTitle": "Day 1",
+   "lessonKey": "l1-on-ramp-d1",
+   "ord": 2
+  },
+  {
+   "stepId": "01b0afa7-0000-4000-8000-000000000000",
+   "lessonId": "38dcffd7-7ccd-458e-81b5-1dbcfd795d00",
+   "role": "mobility",
+   "minutes": 9,
+   "title": "Stretching",
+   "lessonTitle": "Day 1",
+   "lessonKey": "l1-on-ramp-d1",
+   "ord": 3
+  },
+  {
+   "stepId": "9f33846f-0000-4000-8000-000000000000",
+   "lessonId": "2c788986-306e-4600-98a6-9f42de652640",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 2",
+   "lessonKey": "l1-on-ramp-d2",
+   "ord": 4
+  },
+  {
+   "stepId": "ffdb623d-0000-4000-8000-000000000000",
+   "lessonId": "2c788986-306e-4600-98a6-9f42de652640",
+   "role": "recovery",
+   "minutes": 6,
+   "title": "Working In",
+   "lessonTitle": "Day 2",
+   "lessonKey": "l1-on-ramp-d2",
+   "ord": 5
+  },
+  {
+   "stepId": "07f93281-0000-4000-8000-000000000000",
+   "lessonId": "0d1a8c9a-8044-4132-a347-2fbb8a890ee1",
+   "role": "recovery",
+   "minutes": 6,
+   "title": "Working In",
+   "lessonTitle": "Day 4",
+   "lessonKey": "l1-on-ramp-d4",
+   "ord": 6
+  },
+  {
+   "stepId": "19c6001f-0000-4000-8000-000000000000",
+   "lessonId": "4f36e603-5cdf-4c4e-b2d0-a90cacc9e102",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Training Preparation",
+   "lessonTitle": "Day 6",
+   "lessonKey": "l1-on-ramp-d6",
+   "ord": 7
+  },
+  {
+   "stepId": "6bba0cce-0000-4000-8000-000000000000",
+   "lessonId": "9912fa5e-519f-4f81-9d11-606ddc5afac2",
+   "role": "mobility",
+   "minutes": 9,
+   "title": "Testing Stretches",
+   "lessonTitle": "Day 7",
+   "lessonKey": "l1-on-ramp-d7",
+   "ord": 8
+  },
+  {
+   "stepId": "cd9984d3-0000-4000-8000-000000000000",
+   "lessonId": "5ac88604-f54c-40c2-83c0-e0781e97c9f2",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 8 - Workout I Day",
+   "lessonKey": "l1-phase-1-d8",
+   "ord": 9
+  },
+  {
+   "stepId": "e7ee3146-0000-4000-8000-000000000000",
+   "lessonId": "5ac88604-f54c-40c2-83c0-e0781e97c9f2",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 8 - Workout I Day",
+   "lessonKey": "l1-phase-1-d8",
+   "ord": 10
+  },
+  {
+   "stepId": "d85bac69-0000-4000-8000-000000000000",
+   "lessonId": "5ac88604-f54c-40c2-83c0-e0781e97c9f2",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout I",
+   "lessonTitle": "Day 8 - Workout I Day",
+   "lessonKey": "l1-phase-1-d8",
+   "ord": 11
+  },
+  {
+   "stepId": "c6829b06-0000-4000-8000-000000000000",
+   "lessonId": "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 10 - Workout II Day",
+   "lessonKey": "l1-phase-1-d10",
+   "ord": 12
+  },
+  {
+   "stepId": "6628030e-0000-4000-8000-000000000000",
+   "lessonId": "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout II",
+   "lessonTitle": "Day 10 - Workout II Day",
+   "lessonKey": "l1-phase-1-d10",
+   "ord": 13
+  },
+  {
+   "stepId": "bc366cdf-0000-4000-8000-000000000000",
+   "lessonId": "3917ed46-7595-4388-95eb-a5527b3b740c",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 12 - Workout I Day",
+   "lessonKey": "l1-phase-1-d12",
+   "ord": 14
+  },
+  {
+   "stepId": "2f58f6e0-0000-4000-8000-000000000000",
+   "lessonId": "d6f1512f-dcff-4afd-90ba-e488b223efb6",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 15 - Workout II Day",
+   "lessonKey": "l1-phase-1-d15",
+   "ord": 15
+  },
+  {
+   "stepId": "01bc8afb-0000-4000-8000-000000000000",
+   "lessonId": "5174f4a2-9564-4096-94fd-5f3319a06754",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 21 - Workout I Day",
+   "lessonKey": "l1-phase-2-d21",
+   "ord": 16
+  },
+  {
+   "stepId": "965b1900-0000-4000-8000-000000000000",
+   "lessonId": "5174f4a2-9564-4096-94fd-5f3319a06754",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 21 - Workout I Day",
+   "lessonKey": "l1-phase-2-d21",
+   "ord": 17
+  },
+  {
+   "stepId": "8ed461dc-0000-4000-8000-000000000000",
+   "lessonId": "5174f4a2-9564-4096-94fd-5f3319a06754",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout I",
+   "lessonTitle": "Day 21 - Workout I Day",
+   "lessonKey": "l1-phase-2-d21",
+   "ord": 18
+  },
+  {
+   "stepId": "f8845d07-0000-4000-8000-000000000000",
+   "lessonId": "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c",
+   "role": "recovery",
+   "minutes": 6,
+   "title": "Working In",
+   "lessonTitle": "Day 22 - Recovery Day",
+   "lessonKey": "l1-phase-2-d22",
+   "ord": 19
+  },
+  {
+   "stepId": "aeb97121-0000-4000-8000-000000000000",
+   "lessonId": "d3053bee-873f-4a1d-8aba-4e201f49d84d",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 23 - Workout II Day",
+   "lessonKey": "l1-phase-2-d23",
+   "ord": 20
+  },
+  {
+   "stepId": "c69c122b-0000-4000-8000-000000000000",
+   "lessonId": "d3053bee-873f-4a1d-8aba-4e201f49d84d",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout II",
+   "lessonTitle": "Day 23 - Workout II Day",
+   "lessonKey": "l1-phase-2-d23",
+   "ord": 21
+  },
+  {
+   "stepId": "dac20017-0000-4000-8000-000000000000",
+   "lessonId": "f8e6d15d-c05d-4a20-b8ef-f1eb43d23e24",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 25 - Workout III Day",
+   "lessonKey": "l1-phase-2-d25",
+   "ord": 22
+  },
+  {
+   "stepId": "a9588420-0000-4000-8000-000000000000",
+   "lessonId": "f8e6d15d-c05d-4a20-b8ef-f1eb43d23e24",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout III",
+   "lessonTitle": "Day 25 - Workout III Day",
+   "lessonKey": "l1-phase-2-d25",
+   "ord": 23
+  },
+  {
+   "stepId": "6a5f7aba-0000-4000-8000-000000000000",
+   "lessonId": "35b2dd80-2d66-4897-9850-d300aefbc391",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Day 26 - Skill Development Day",
+   "lessonKey": "l1-phase-2-d26",
+   "ord": 24
+  },
+  {
+   "stepId": "59b66e43-0000-4000-8000-000000000000",
+   "lessonId": "b10de06c-279c-43a1-9604-4bea9949e48f",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 41 - Workout I Day",
+   "lessonKey": "l1-phase-3-d41",
+   "ord": 25
+  },
+  {
+   "stepId": "3502413c-0000-4000-8000-000000000000",
+   "lessonId": "b10de06c-279c-43a1-9604-4bea9949e48f",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 41 - Workout I Day",
+   "lessonKey": "l1-phase-3-d41",
+   "ord": 26
+  },
+  {
+   "stepId": "2a45e528-0000-4000-8000-000000000000",
+   "lessonId": "b10de06c-279c-43a1-9604-4bea9949e48f",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout I",
+   "lessonTitle": "Day 41 - Workout I Day",
+   "lessonKey": "l1-phase-3-d41",
+   "ord": 27
+  },
+  {
+   "stepId": "11cb3095-0000-4000-8000-000000000000",
+   "lessonId": "26477131-a059-4495-835b-4313f7a6b7d7",
+   "role": "recovery",
+   "minutes": 6,
+   "title": "Working In",
+   "lessonTitle": "Day 42 - Recovery Day",
+   "lessonKey": "l1-phase-3-d42",
+   "ord": 28
+  },
+  {
+   "stepId": "9d644ee5-0000-4000-8000-000000000000",
+   "lessonId": "df38ee3b-7250-40c8-989e-ccf9c9607030",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Kettlebell Preparation",
+   "lessonTitle": "Day 43 - Workout II Day",
+   "lessonKey": "l1-phase-3-d43",
+   "ord": 29
+  },
+  {
+   "stepId": "d5529cc4-0000-4000-8000-000000000000",
+   "lessonId": "df38ee3b-7250-40c8-989e-ccf9c9607030",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Workout II",
+   "lessonTitle": "Day 43 - Workout II Day",
+   "lessonKey": "l1-phase-3-d43",
+   "ord": 30
+  },
+  {
+   "stepId": "3d786a32-0000-4000-8000-000000000000",
+   "lessonId": "9ef6f2bb-4a9b-438b-aa22-373298f2c3c5",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 46 - Skill Development Day",
+   "lessonKey": "l1-phase-3-d46",
+   "ord": 31
+  },
+  {
+   "stepId": "3347188c-0000-4000-8000-000000000000",
+   "lessonId": "9ef6f2bb-4a9b-438b-aa22-373298f2c3c5",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Day 46 - Skill Development Day",
+   "lessonKey": "l1-phase-3-d46",
+   "ord": 32
+  },
+  {
+   "stepId": "547beabf-0000-4000-8000-000000000000",
+   "lessonId": "d4aa9479-74a2-4b42-91be-dcb25e8bc775",
+   "role": "warmup",
+   "minutes": 10,
+   "title": "Bodyweight Warm Up",
+   "lessonTitle": "Day 53 - Skill Development Day",
+   "lessonKey": "l1-phase-3-d53",
+   "ord": 33
+  },
+  {
+   "stepId": "4d4fcc43-0000-4000-8000-000000000000",
+   "lessonId": "d4aa9479-74a2-4b42-91be-dcb25e8bc775",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Day 53 - Skill Development Day",
+   "lessonKey": "l1-phase-3-d53",
+   "ord": 34
+  },
+  {
+   "stepId": "62913e64-0000-4000-8000-000000000000",
+   "lessonId": "c5abcbc0",
+   "role": "workout",
+   "minutes": 26,
+   "title": "Starter Workout",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 35
+  },
+  {
+   "stepId": "0ab99602-0000-4000-8000-000000000000",
+   "lessonId": "d11a012b",
+   "role": "warmup",
+   "minutes": 6,
+   "title": "Training Preparation",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 36
+  },
+  {
+   "stepId": "d5b91d17-0000-4000-8000-000000000000",
+   "lessonId": "92fde282",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 37
+  },
+  {
+   "stepId": "8e2c3fd7-0000-4000-8000-000000000000",
+   "lessonId": "4ce2472c",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 38
+  },
+  {
+   "stepId": "8bbda9c4-0000-4000-8000-000000000000",
+   "lessonId": "4247b7f8",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 39
+  },
+  {
+   "stepId": "5d673641-0000-4000-8000-000000000000",
+   "lessonId": "7adbdc92",
+   "role": "skill",
+   "minutes": 14,
+   "title": "Skill Development",
+   "lessonTitle": "Level II day",
+   "lessonKey": null,
+   "ord": 40
+  }
+ ],
+ "lessons": {
+  "134f4dc4-ed7c-455b-bf9c-9af918685018": {
+   "intent": "overview",
+   "focus": "Watch the phase overview and review its schedule before you begin.",
+   "minutes": null
+  },
+  "38dcffd7-7ccd-458e-81b5-1dbcfd795d00": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 54
+  },
+  "2c788986-306e-4600-98a6-9f42de652640": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 34
+  },
+  "a5384bec-3b67-4643-a49c-27c89224d70f": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 54
+  },
+  "0d1a8c9a-8044-4132-a347-2fbb8a890ee1": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 34
+  },
+  "c34a6f5f-11d7-4226-8225-ce2acb981bfe": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 54
+  },
+  "4f36e603-5cdf-4c4e-b2d0-a90cacc9e102": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 34
+  },
+  "9912fa5e-519f-4f81-9d11-606ddc5afac2": {
+   "intent": "workout",
+   "focus": "Positions before load — movement prep, breathing and lifestyle habits.",
+   "minutes": 34
+  },
+  "b277a2f0-24ac-4823-9a76-da13a2d4a7c2": {
+   "intent": "overview",
+   "focus": "Watch the phase overview and review its schedule before you begin.",
+   "minutes": null
+  },
+  "5ac88604-f54c-40c2-83c0-e0781e97c9f2": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "d8743187-086c-4097-bac5-4b1b67816466": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "de6773e8-1d6c-4feb-8fde-7c5aa8d9d51c": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "16fb09b0-ab1c-4f28-83cb-0ffafd7b21fb": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "3917ed46-7595-4388-95eb-a5527b3b740c": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "c9c1dda6-bbd3-47c7-a18e-4a03dc2fe8c7": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "1325c465-c5e0-4b38-a37a-cc49619782b0": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "d6f1512f-dcff-4afd-90ba-e488b223efb6": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "cf8ebd49-342f-41e2-b65a-77ad05950628": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "a2ee9c09-15a5-4f82-be94-bf12b9917f38": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "9faf99d0-823a-4f47-97af-f58ceb4f04f6": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "018136a7-666c-4b54-8fdb-bc259859b6f0": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "04887477-47c4-434c-94c6-f7be54151dc8": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "bdf5f4e4-0d66-4dda-956b-5a119e4b06f5": {
+   "intent": "overview",
+   "focus": "Retest your stretches and prepare for the next phase.",
+   "minutes": null
+  },
+  "2b4abc8e-8aee-43bd-be92-b467535e5d01": {
+   "intent": "overview",
+   "focus": "Watch the phase overview and review its schedule before you begin.",
+   "minutes": null
+  },
+  "5174f4a2-9564-4096-94fd-5f3319a06754": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "df5d49ba-ed9c-41df-a3ae-6b8fef09f05c": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "d3053bee-873f-4a1d-8aba-4e201f49d84d": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "44acb741-ba78-47f0-8f8a-80569ab637fd": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "f8e6d15d-c05d-4a20-b8ef-f1eb43d23e24": {
+   "intent": "workout",
+   "focus": "Third session of the block — density and capacity focus.",
+   "minutes": 63
+  },
+  "35b2dd80-2d66-4897-9850-d300aefbc391": {
+   "intent": "skill",
+   "focus": "Dedicated technique practice with the common faults called out.",
+   "minutes": 42
+  },
+  "41ac001f-96e5-40ae-85eb-093991a8f280": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "8c85b4c0-818e-4357-8135-b181d845d1f4": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "59b70f3c-7ce9-4986-b869-9a9d7062aecd": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "a16dc6dc-013f-4696-a0c5-887efb373151": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "101d453f-73c4-4b8f-9c94-7356cb2a60c1": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "814b590d-5a1a-4ea9-95de-bbe7ef7f00c2": {
+   "intent": "workout",
+   "focus": "Third session of the block — density and capacity focus.",
+   "minutes": 63
+  },
+  "3721c0c0-d6eb-4e49-b17a-d5588c993b51": {
+   "intent": "skill",
+   "focus": "Dedicated technique practice with the common faults called out.",
+   "minutes": 42
+  },
+  "ee69a6ce-4c78-425e-87a4-91a266219592": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "031c7826-9b6c-4b87-a40e-e60c90294fa2": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "49b69249-93f2-4483-8d6b-ebe1e5baa143": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "33a2a857-e42a-46ab-99f5-a937d7634f0d": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "0bf0212c-ccd0-41ca-928b-3a32411da822": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "2fb2b659-d9ff-4244-8621-8070bf6be6da": {
+   "intent": "workout",
+   "focus": "Third session of the block — density and capacity focus.",
+   "minutes": 63
+  },
+  "6b4a09f5-86a2-44dd-8500-b4d69f7923f9": {
+   "intent": "skill",
+   "focus": "Dedicated technique practice with the common faults called out.",
+   "minutes": 42
+  },
+  "54935482-ceda-4a95-84a3-34432e76cd95": {
+   "intent": "overview",
+   "focus": "Retest your stretches and prepare for the next phase.",
+   "minutes": null
+  },
+  "8c624f90-94ec-4994-9e08-90f8e41f6890": {
+   "intent": "overview",
+   "focus": "Watch the phase overview and review its schedule before you begin.",
+   "minutes": null
+  },
+  "b10de06c-279c-43a1-9604-4bea9949e48f": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "26477131-a059-4495-835b-4313f7a6b7d7": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "df38ee3b-7250-40c8-989e-ccf9c9607030": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "013cb6fa-c902-4f84-987b-114ce8a2100c": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "b0272fa7-23ba-46da-9766-8359b9354cdd": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "9ef6f2bb-4a9b-438b-aa22-373298f2c3c5": {
+   "intent": "skill",
+   "focus": "Dedicated technique practice with the common faults called out.",
+   "minutes": 42
+  },
+  "3fdb3344-dd69-4042-93cf-d54d6bfc6ab3": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "c1319661-3157-4b42-b00b-7f350fe6fd13": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "f3f831bd-a677-4c24-a6cc-f0254fde8fc6": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "47e9b7fe-039a-4d42-8318-470696410175": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "d9bde7e4-bb87-49db-9a11-51c54f83fb97": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "5c79e05d-da1a-4efc-af02-431effb90933": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "d4aa9479-74a2-4b42-91be-dcb25e8bc775": {
+   "intent": "skill",
+   "focus": "Dedicated technique practice with the common faults called out.",
+   "minutes": 42
+  },
+  "e05865f0-cf18-4720-af02-31738cf03153": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "cb590ce7-4714-4e43-9bbd-37dfbfa1a197": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "8d939ab4-095c-41c0-b060-c0827417a228": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "fbfda01c-83b7-4a80-859d-c65082098156": {
+   "intent": "workout",
+   "focus": "Second workout of the block — different pattern emphasis, same standards.",
+   "minutes": 63
+  },
+  "d5c940d3-ac7b-4f04-a496-e58569ae9cfd": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "717c68b0-d23c-44be-8b77-b56e76ad3c84": {
+   "intent": "workout",
+   "focus": "Follow-along strength and ballistic work — the primary session of the block.",
+   "minutes": 63
+  },
+  "916b9252-3bac-43bf-a155-52af5512fbf5": {
+   "intent": "recovery",
+   "focus": "Low-intensity restoration: mobility, breathing and your personalised stretch plan.",
+   "minutes": 34
+  },
+  "39468300-f47b-4bba-aece-f0ecd309b5f4": {
+   "intent": "workout",
+   "focus": "The benchmark session that closes the level out.",
+   "minutes": 60
+  }
+ },
+ "sections": {
+  "4ce6f008-7a2e-4c20-98e2-1e890920484d": {
+   "description": "Seven days of movement and lifestyle work that get you ready to load. Positions first, load second."
+  },
+  "b26bf84f-0520-42a6-bab0-e8de04175187": {
+   "description": "Groove the core lifts with honest volume, alternating workout and recovery days."
+  },
+  "df188a11-d6e4-4f79-9bb2-e114037d511a": {
+   "description": "Three workouts per block plus a dedicated skill development day."
+  },
+  "2d611df1-9ac1-47e1-9978-84e09f687e22": {
+   "description": "The final block — heavier work, skill sessions and the Challenge Day that closes the level."
+  }
+ },
+ "extras": {
+  "heroVideo": {
+   "providerId": "398409642",
+   "privacyHash": "f4e1f0e247",
+   "title": "Kettlebell Lifestyle — introduction"
+  },
+  "contributors": [
+   {
+    "name": "Mark England"
+   },
+   {
+    "name": "Paul Chek"
+   },
+   {
+    "name": "Dr. Drew Vercellino"
+   },
+   {
+    "name": "Dr. Josh Moreali"
+   },
+   {
+    "name": "Dr. Joey Salgado"
+   },
+   {
+    "name": "Chris Chamberlin"
+   },
+   {
+    "name": "Jator Pierre"
+   },
+   {
+    "name": "Stefanie Obregozo"
+   },
+   {
+    "name": "Brooks Meadows",
+    "credential": "Recess Founder, GMB Fitness Coach"
+   },
+   {
+    "name": "Danielle Cook Kawash",
+    "credential": "MS, RD, NBC-HWC"
+   },
+   {
+    "name": "Warren Williams",
+    "credential": "C.H.E.K Lv. 4 & H.L.C Lv. 3"
+   }
+  ],
+  "pastRuns": [],
+  "levels": [
+   {
+    "pathId": "4f6a5c90-6188-4e58-a8d7-b2f0459a9cdf",
+    "key": "beginner",
+    "name": "Level I · Beginner",
+    "shortName": "Level I",
+    "tagline": "Nine weeks to a kettlebell you can trust",
+    "image": "/media/l5e/096aef51-f111-494d-8704-b233b6929a34/beginner.png",
+    "phases": [
+     {
+      "title": "On Ramp Phase",
+      "subtitle": "Week 0"
+     },
+     {
+      "title": "Phase 1",
+      "subtitle": "Weeks 1–3"
+     },
+     {
+      "title": "Phase 2",
+      "subtitle": "Weeks 4–6"
+     },
+     {
+      "title": "Phase 3",
+      "subtitle": "Weeks 7–9"
+     }
+    ],
+    "days": 61,
+    "lessons": 67,
+    "steps": 369
+   },
+   {
+    "pathId": "c831fcd1-4e02-4a0e-8e22-9424916b8d57",
+    "key": "intermediate",
+    "name": "Level II · Intermediate",
+    "shortName": "Level II",
+    "tagline": "Heavier bells, longer chains, real capacity",
+    "image": "/media/l5e/36633af8-0e2b-452d-baec-df7c0c1709ee/intermediate.png",
+    "phases": [
+     {
+      "title": "On Ramp Phase",
+      "subtitle": "Week 0"
+     },
+     {
+      "title": "Phase 1",
+      "subtitle": "Weeks 1–3"
+     },
+     {
+      "title": "Phase 2",
+      "subtitle": "Weeks 4–6"
+     },
+     {
+      "title": "Phase 3",
+      "subtitle": "Weeks 7–9"
+     }
+    ],
+    "days": 61,
+    "lessons": 67,
+    "steps": 371
+   }
+  ]
+ }
+}
