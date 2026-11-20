@@ -12,6 +12,7 @@ import { PhotoTour } from "./PhotoTour";
 import { byDay, DayCards, dayTitle, Facilitators, photoFor, ROMAN } from "./RetreatPage";
 import { RetreatSteps } from "./RetreatSteps";
 import { Faq } from "./RunParts";
+import { requestTime } from "@/lib/request-time";
 
 function Sec({ id, eyebrow, title, aside, children }: { id: string; eyebrow?: string; title: string; aside?: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -59,7 +60,7 @@ function Help({ hub, live }: { hub: RunHub; live?: boolean }) {
 }
 
 /** Booked member's retreat hub: countdown + preparation before, today's plan while live, integration after. */
-export function RetreatHub({ hub, stage, now = Date.now() }: { hub: RunHub; stage: Extract<RetreatStage, "booked" | "live" | "after">; now?: number }) {
+export function RetreatHub({ hub, stage, now = requestTime() }: { hub: RunHub; stage: Extract<RetreatStage, "booked" | "live" | "after">; now?: number }) {
   const { run } = hub;
   const d = run.details;
   const photos = run.gallery.filter((g) => !g.stock);

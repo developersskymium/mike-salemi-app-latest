@@ -18,6 +18,8 @@ import {
 } from "@ms/api";
 import { addDays, isoDate, type IsoDate } from "@ms/core";
 import { mockable } from "@/lib/mock";
+import { pickContinue } from "@/lib/continue";
+import { introLessonIds } from "./intro-lessons";
 import { getUser } from "@/lib/supabase/server";
 import { startOfWeek } from "@/components/today/dates";
 
@@ -193,6 +195,8 @@ export interface TodayRaw {
   rewards: Rewards;
   experiences: MyExperiences;
   openRuns: OpenRun[];
+  /** Lessons in intro sections (0015), so "Continue" skips them; absent in older preview fixtures. */
+  introLessonIds?: string[] | null;
 }
 
 async function currentLesson(sb: DB, userId: string, lessonId: string | null): Promise<CurrentLesson | null> {
@@ -219,7 +223,7 @@ export const loadToday = mockable("tpy-today", async (): Promise<TodayRaw> => {
   const profile = await loadProfile(sb, user);
   const today = memberToday(profile.timezone);
   const ws = startOfWeek(today);
-  const [enrollments, entries, goals, plans, rewards, experiences, runs] = await Promise.all([
+  const [enrollments, entries, goals, plans, rewards, experiences, runs, intro] = await Promise.all([
     myEnrollments(sb),
     myWeek(sb, addDays(ws, -14), addDays(ws, 6)),
     myGoals(sb, user.id) as Promise<Goal[]>,
@@ -227,10 +231,11 @@ export const loadToday = mockable("tpy-today", async (): Promise<TodayRaw> => {
     myRewards(sb),
     myExperiences(sb) as Promise<MyExperiences>,
     openRuns(sb),
+    introLessonIds(sb),
   ]);
-  const active = [...enrollments].filter((e) => !e.completed_at).sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""));
-  const [current, counts] = await Promise.all([currentLesson(sb, user.id, active[0]?.current_lesson_id ?? null), planCounts(sb, plans.map((p) => p.id))]);
-  return { today, profile, enrollments, currentLesson: current, entries: entries ?? [], goals, plans, planCounts: counts, rewards, experiences, openRuns: runs };
+  const primary = pickContinue(enrollments, intro);
+  const [current, counts] = await Promise.all([currentLesson(sb, user.id, primary?.current_lesson_id ?? null), planCounts(sb, plans.map((p) => p.id))]);
+  return { today, profile, enrollments, currentLesson: current, entries: entries ?? [], goals, plans, planCounts: counts, rewards, experiences, openRuns: runs, introLessonIds: intro };
 });
 
 /* ============================================================== Onboarding */

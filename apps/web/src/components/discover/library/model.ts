@@ -226,12 +226,13 @@ export function toQuery(s: LibState, playing: string | null) {
 /* ------------------------------------------------------------ posters */
 
 /**
- * The cover to show for a video. Featured library images (/media/library/*) have the title and a play
- * button baked into the artwork, so they are never used as covers: the card draws a designed,
- * text-free movement cover instead. Real video frames (Vimeo posters) are used as they are.
+ * The cover to show for a video: the real photographic Vimeo thumbnail whenever there is one. The
+ * designed, text-free movement cover is only the fallback: no thumbnail, a featured library image
+ * (/media/library/*, title and play button baked into the artwork), or a thumbnail flagged in the
+ * Studio as a title card with words on it (`videos.meta.cover_has_text`, passed as `hasText`).
  */
-export function coverOf(th: string | null | undefined): string | null {
-  if (!th) return null;
+export function coverOf(th: string | null | undefined, hasText = false): string | null {
+  if (!th || hasText) return null;
   if (th.startsWith("/media/library/")) return null;
   return th;
 }

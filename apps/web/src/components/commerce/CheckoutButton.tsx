@@ -27,7 +27,7 @@ const REASONS: Record<string, string> = {
   invalid_request: "Something about this purchase isn't right. Refresh and try again.",
   already_owned: "You already have this.",
   included: "This is already included in your membership.",
-  application_required: "This one needs an accepted application first.",
+  application_required: "Apply first — Mike reviews every application.",
   run_not_open: "Bookings for this date aren't open.",
   invalid_coupon: "That code isn't valid.",
   no_price: "This isn't for sale yet.",
@@ -51,12 +51,12 @@ export function CheckoutButton({ kind, refId, interval, coupon, offerId, label, 
         body: JSON.stringify({ kind, ref: refId, interval, coupon: coupon ?? null, offer_id: offerId ?? null }),
       });
       if (res.status === 503) return setStatus({ kind: "off" });
-      const body = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      const body = (await res.json().catch(() => ({}))) as { url?: string; error?: string; message?: string };
       if (res.status === 401) {
         window.location.href = `/signin?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         return;
       }
-      if (!res.ok || !body.url) return setStatus({ kind: "error", message: REASONS[body.error ?? ""] ?? "Checkout didn't start. Try again." });
+      if (!res.ok || !body.url) return setStatus({ kind: "error", message: REASONS[body.error ?? ""] ?? body.message ?? "Checkout didn't start. Try again." });
       window.location.assign(body.url);
     } catch {
       setStatus({ kind: "error", message: "You seem to be offline. Check your connection and try again." });

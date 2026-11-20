@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useIsClient } from "@/lib/hooks/clock";
 import { haptic } from "@/components/ui";
 
 export interface PickSlot { id: string; starts_at: string; duration_minutes: number }
@@ -12,9 +13,7 @@ const dayKey = (iso: string) => {
 };
 
 export function useMounted() {
-  const [m, setM] = useState(false);
-  useEffect(() => setM(true), []);
-  return m;
+  return useIsClient();
 }
 
 export function slotWhen(iso: string, o: Intl.DateTimeFormatOptions = { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) {

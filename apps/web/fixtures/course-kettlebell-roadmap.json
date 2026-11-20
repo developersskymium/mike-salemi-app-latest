@@ -120,5 +120,48 @@
   "lastLessonId": "0b6e5731-d184-5908-bc56-490b0fb25ab5",
   "intake": null,
   "mtk": null,
-  "lessons": {}
+  "lessons": {
+    "9eb219a1-dc30-5619-a774-b9e3d929e384": {
+      "id": "9eb219a1-dc30-5619-a774-b9e3d929e384",
+      "title": "Home",
+      "sectionId": "f76e2fc2-0122-56fb-af01-e4b4a1f1d76f",
+      "isIntro": true,
+      "steps": [
+        {
+          "id": "97f56ea7-6054-5366-94bb-1c988177e845",
+          "title": "Home",
+          "required": true,
+          "done": false,
+          "video": null,
+          "poster": null,
+          "clips": [],
+          "body": "![](/media/ext/d11n7da8rpqbjy/mikesalemi/29566101_16586046324fIEbook_Sample_Cover_and_Body_Designs_1.png)\n\n---\n\n**YOUR ROADMAP TO KETTLEBELL PROGRESSION**\n\nIdentify where you are on this roadmap and train accordingly.\n\nBeginners should start at phase 1. If you’ve been training for a while, scan through and see which phase suits you best. I’ve included links to short video demonstrations of many of these movements.",
+          "description": null,
+          "attachments": []
+        }
+      ],
+      "videoSeconds": {}
+    },
+    "0b6e5731-d184-5908-bc56-490b0fb25ab5": {
+      "id": "0b6e5731-d184-5908-bc56-490b0fb25ab5",
+      "title": "Phase 1",
+      "sectionId": "a12dbb63-6411-59c3-8425-aed7df48eef2",
+      "isIntro": false,
+      "steps": [
+        {
+          "id": "a8f246f1-6541-53c8-998d-b73ebce69a27",
+          "title": "Phase 1",
+          "required": true,
+          "done": false,
+          "video": null,
+          "poster": null,
+          "clips": [],
+          "body": "![](/media/ext/d11n7da8rpqbjy/mikesalemi/29554765_1658532062MwiEbook_Sample_Cover_and_Body_Designs.png)\n\nIn this phase, you develop what I call body integrity. Body integrity is the ability to feel where your body is in space and maintain safe positions throughout the exercise. In other words, it's the foundation.\n\n**Skills**\n\n- Postural awareness\n- Breathing Bodyweight control\n- Grips Positions Warmups/cool downs\n- Training barefoot\n\n**Movements**\n\n- Goblet Squat\n- Deadlift\n- Half Kneeling Overhead Press OR Halo (if mobility doesn’t allow for quality overhead movements)\n- Single Arm Row\n\n**Benchmarks**\n\n- 20 spinal roll ups\n- Glute bridges 30 without feeling it in your back\n- 30 bodyweight squats\n- For the 4 KB movements: 15 reps with a light KB hitting the standards of quality, *reuse the material from KBL + add in quantity, be able to stay nasal breathing during 15-20 min walk/30 squats/easy workout",
+          "description": null,
+          "attachments": []
+        }
+      ],
+      "videoSeconds": {}
+    }
+  }
 }

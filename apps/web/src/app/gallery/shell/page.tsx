@@ -23,6 +23,7 @@ const SHELL = {
     { href: "/programs/working-in", title: "Working In", sub: "Mind-body course", photo: programPhoto("working-in"), slug: "working-in" },
   ],
   shop: false,
+  shopAdmin: false,
 };
 
 const STEPS = [["Morning Routine", "8 min"], ["Bodyweight Warm Up", "7 min"], ["Working In", "10 min"], ["Stretching", "7 min"], ["Completion", "2 min"]];

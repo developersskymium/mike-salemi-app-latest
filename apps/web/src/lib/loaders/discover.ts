@@ -112,11 +112,13 @@ export const loadLibraryPage = mockable("discover-library-index", async (sb: DB,
     listCollections(sb, userId),
     sb.from("program_paths").select("id, name, short_name").eq("kind", "level"),
   ]);
+  // Continue-watching rows carry no meta: take the title-card flag from the index (same videos).
+  const hasText = new Set(index.videos.filter((v) => v.ct).map((v) => v.id));
   return {
     index,
     total: index.videos.length,
     paths: Object.fromEntries((paths.data ?? []).map((p) => [p.id, p.short_name ?? p.name])),
-    continue: cont,
+    continue: hasText.size ? cont.map((c) => (hasText.has(c.video_id) ? { ...c, cover_has_text: true } : c)) : cont,
     collections,
   };
 });

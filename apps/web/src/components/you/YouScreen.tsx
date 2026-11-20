@@ -80,7 +80,7 @@ export function YouScreen({ d, tab, shop = { enabled: false, isAdmin: false } }:
           <Thing href="/you/saves" icon="bookmark" title="Saves" detail={savesCount ? [s.plans.length && plural(s.plans.length, "session plan"), s.tools.length && plural(s.tools.length, "tool result"), s.videos.length && plural(s.videos.length, "video")].filter(Boolean).join(" · ") : "Session plans, tool results and videos"} />
           <Thing href="/you/rewards" icon="medal" tone="warm" title="Rewards" detail={`${plural(d.rewards.badges.length, "medal")} · ${d.rewards.points_total.toLocaleString("en-GB")} points`} />
           <Thing href="/you?tab=achievements" icon="trophy" tone="warm" title="Certificates" detail={d.certificates.length ? plural(d.certificates.length, "certificate") : "Finish a level to earn one"} />
-          <Thing href="/you/referrals" icon="gift" title="Referrals" badge="Give 1 month" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Invite a friend to train with you"} />
+          <Thing href="/you/referrals" icon="gift" title="Referrals" badge="Earn a free month" detail={d.referrals ? `${plural(d.referrals, "friend")} joined` : "Invite a friend to train with you"} />
           <Thing href="/you/settings#notifications" icon="bell" title="Notifications" detail="Reminders, quiet hours, channels" />
           <Thing href="/you/settings" icon="settings" title="Settings" detail="Profile, playback, appearance" />
           <Thing href="/you/billing" icon="ring" title="Membership and billing" detail="Plan, invoices, payment method" />

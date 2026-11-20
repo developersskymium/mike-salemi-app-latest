@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { useBrowserValue } from "@/lib/hooks/clock";
 import type { ShareChannel } from "@ms/api";
 import { EmptyScene } from "@/components/graphics";
 import { PhotoHero } from "@/components/signature";
@@ -25,10 +26,9 @@ const Glyph: Record<"whatsapp" | "email" | "x", ReactNode> = {
 
 /** Referrals (legacy layout): head, code card with share channels and tier progress, funnel stats, tiers, invite tracking. */
 export function ReferralsView({ d }: { d: ReferralsV2 }) {
-  const [origin, setOrigin] = useState("");
+  const origin = useBrowserValue(() => window.location.origin, "");
   const [copied, setCopied] = useState(false);
   const toast = useToast();
-  useEffect(() => setOrigin(window.location.origin), []);
   const link = `${origin}/signup?ref=${d.code}`;
   const msg = `I'm training with Mike Salemi — join me: ${link}`;
 
@@ -82,7 +82,7 @@ export function ReferralsView({ d }: { d: ReferralsV2 }) {
         className="yu-ref-hero"
         as="section"
       >
-        <p className="lq-eyebrow yu-ref-hero-eyebrow">Give 1 month</p>
+        <p className="lq-eyebrow yu-ref-hero-eyebrow">Earn a free month</p>
         <h2 className="lq-d-lg">Bring someone up the mountain</h2>
         <p className="lq-lede yu-ref-hero-lede">Share your link. When a friend joins and their first order goes through, a month of Pro is added to your account.</p>
         <ol className="yu-ref-steps">

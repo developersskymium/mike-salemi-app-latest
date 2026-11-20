@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useNow } from "@/lib/hooks/clock";
 import { Chip } from "@/components/ui";
 
 function parts(ms: number) {
@@ -12,12 +12,7 @@ function parts(ms: number) {
 export function Countdown({ startsAt, endsAt }: { startsAt: string; endsAt: string | null }) {
   const start = new Date(startsAt).getTime();
   const end = endsAt ? new Date(endsAt).getTime() : start + 86400000;
-  const [now, setNow] = useState<number | null>(null);
-  useEffect(() => {
-    setNow(Date.now());
-    const t = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(t);
-  }, []);
+  const now = useNow(1000);
   const t = now ?? start - 1;
   if (now !== null && t >= start && t < end) {
     return (

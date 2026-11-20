@@ -4,6 +4,7 @@ import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { ProgramView } from "@/components/training/ProgramView";
 import { loadProgramPage } from "@/lib/loaders/training";
 import { loadBoard } from "@/lib/loaders/selfguided";
+import { opensAsCourse } from "@/lib/course-types";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -27,8 +28,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   const sp = await searchParams;
   const data = await loadProgramPage(slug, param(sp.path));
   if (!data) notFound();
-  // Courses open their signature journey home, then lessons in the shared course player.
-  if (data.program.type === "course") redirect(`/programs/${slug}/course`);
+  // Courses and tools (the Roadmap) open their signature journey home, then lessons in the shared course player.
+  if (opensAsCourse(data.program.type)) redirect(`/programs/${slug}/course`);
   // Experiences (coaching, retreats, live programs, challenges) have their own program pages.
   if (["coaching", "live", "challenge", "retreat"].includes(data.program.type)) redirect(`/experiences/programs/${slug}`);
   const board = data.program.access === "locked" ? null : await loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button, Icon, Sheet, useToast } from "@/components/ui";
 import type { LessonLite, ProgressRow } from "@/lib/loaders/training";
 import type { LessonExtra } from "@/lib/loaders/selfguided";
@@ -27,7 +27,13 @@ export function DaySheet({
   const [body, setBody] = useState(note);
   const [saving, start] = useTransition();
   const [logging, startLog] = useTransition();
-  useEffect(() => setBody(note), [note, lesson?.id]);
+  // A new day or a saved note elsewhere resets the draft (adjusted during render, not in an effect).
+  const draftKey = `${lesson?.id ?? ""}\u0000${note}`;
+  const [draftFor, setDraftFor] = useState(draftKey);
+  if (draftFor !== draftKey) {
+    setDraftFor(draftKey);
+    setBody(note);
+  }
   if (!lesson) return <Sheet open={false} onClose={onClose} title="Day" />;
   const done = Boolean(progress?.complete);
   const title = lesson.pageType || lesson.dayNumber == null ? lesson.title : `${lessonLabel(lesson, lessonWord)} · ${lessonName(lesson)}`;

@@ -8,6 +8,7 @@ import { loadOrgBySlug } from "@/lib/loaders/commerce";
 import "@/components/commerce/commerce.css";
 import "@/components/experiences/experiences.css";
 import "@/components/orgs/orgs.css";
+import { requestTime } from "@/lib/request-time";
 
 export const metadata: Metadata = { title: "Coach view" };
 
@@ -20,7 +21,7 @@ export default async function OrgCoachView(props: PageProps<"/org/[slug]">) {
   const { user } = await getUser();
   const me = user?.id ?? "";
   const people = ov.members.filter((m) => m.user_id !== me && (ov.viewer_role !== "coach" || m.coach_id === me));
-  const active7 = people.filter((m) => m.last_active_at && Date.now() - new Date(m.last_active_at).getTime() < 7 * 86400000).length;
+  const active7 = people.filter((m) => m.last_active_at && requestTime() - new Date(m.last_active_at).getTime() < 7 * 86400000).length;
   const ready = people.filter((m) => m.readiness_band === "green").length;
   const nameOf = (id: string | null) => ov.members.find((m) => m.user_id === id)?.name ?? null;
 

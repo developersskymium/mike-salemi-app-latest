@@ -8,7 +8,7 @@ import { haptic } from "@/components/ui/motion";
 import type { SavedTool, SavedVideo, SessionPlan } from "@/lib/loaders/you";
 import { lessonHref } from "@/components/today/model";
 import { fmtLong, splitDay } from "./format";
-import "@/components/training/day.css";
+import "@/components/training/day-styles";
 
 export type SaveItem =
   | { kind: "tool"; id: string; date: string; title: string; source: string; tool: SavedTool }

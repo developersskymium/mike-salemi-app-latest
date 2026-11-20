@@ -11,13 +11,13 @@ import { Completion } from "@/components/graphics";
 import type { LessonPageData, PlayerStep } from "@/lib/loaders/training";
 import { savePositionAction, submitReadinessAction } from "@/lib/actions/training";
 import { lessonHref, lessonLabel, lessonName } from "./model";
+import { hasNotes, NotesBody } from "./NotesBody";
 import { summitPoster } from "./model";
 import { VideoStage } from "./VideoStage";
 import { ReadinessAssessment, WorkoutTablePanel, type Readiness } from "./Readiness";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import "./training.css";
-import "./day.css";
-import "./day-summit.css";
+import "./day-styles";
 
 /**
  * Self-Guided day, as in the original app: a sticky context bar with a chip per lesson
@@ -191,14 +191,8 @@ export function SelfGuidedDay({ data }: { data: LessonPageData }) {
 
 function GuideLesson({ step, index, total, readiness, table, completion }: { step: PlayerStep; index: number; total: number; readiness: React.ReactNode; table: React.ReactNode; completion: React.ReactNode }) {
   const pl = stagePlaylist(step, null);
-  const lines =
-    step.special === "completion"
-      ? []
-      : (step.body ?? "")
-          .replace(/^NOTES:\s*/i, "")
-          .split(/\n+/)
-          .map((l) => l.trim())
-          .filter((l) => l && l.toLowerCase() !== step.title.trim().toLowerCase());
+  const body = step.special === "completion" ? null : step.body;
+  const notes = hasNotes(body, step.title);
   return (
     <section id={`lesson-${step.id}`} className="kd-gl" aria-labelledby={`h-${step.id}`}>
       <div className="kd-gl-meta">
@@ -209,10 +203,10 @@ function GuideLesson({ step, index, total, readiness, table, completion }: { ste
         <h2 id={`h-${step.id}`} className="lq-d-sm">
           {step.title}
         </h2>
-        {!lines.length && step.description && step.special !== "completion" && <p className="lq-t15 lq-c2">{step.description}</p>}
+        {!notes && step.description && step.special !== "completion" && <p className="lq-t15 lq-c2">{step.description}</p>}
       </div>
       <div className="kd-gl-body">
-        {lines.length > 0 && (
+        {notes && (
           <div className="kd-card kd-notes-card">
             <span className="kd-notes-av" aria-hidden>
               <Image src={MIKE_FACE} alt="" width={52} height={52} />
@@ -221,13 +215,7 @@ function GuideLesson({ step, index, total, readiness, table, completion }: { ste
               <p className="kd-notes-h">
                 <b>Mike&apos;s notes</b>
               </p>
-              <div className="kd-notes">
-                {lines.map((l, i) => (
-                  <p key={i} className="lq-t15">
-                    {l}
-                  </p>
-                ))}
-              </div>
+              <NotesBody body={body} title={step.title} />
             </div>
           </div>
         )}

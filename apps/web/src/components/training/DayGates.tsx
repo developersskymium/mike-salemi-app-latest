@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button, Icon, IconButton, Tag } from "@/components/ui";
 import { CLIMB_LAYERS } from "@/components/signature";
 import { MIKE_FACE } from "@/lib/program-photos";
-import { LevelEmblem } from "@/components/graphics";
+import { LevelEmblem, MovementFigure } from "@/components/graphics";
 import { markSeenAction } from "@/lib/actions/training";
 
 /**
@@ -275,7 +275,7 @@ export function DayEnd({
   );
 }
 
-/** Flat daytime scene: the Climb's mountain layers with a kettlebell figure (illustrator-owned art). */
+/** Flat daytime scene (mockup 07): the Climb's mountain layers, the swinging figure on the trail, Mike cheering from the corner. */
 function EndScene() {
   const H = 560;
   const outline = `M0 ${H - 18} C 40 ${H - 22}, 70 ${H - 26}, 96 ${H - 30} C 160 ${H - 40}, 210 ${H - 50}, 262 ${H - 62} C 330 ${H - 80}, 390 ${H - 92}, 436 ${H - 108} C 500 ${H - 128}, 560 ${H - 146}, 612 ${H - 160} C 650 ${H - 170}, 660 ${H - 186}, 676 ${H - 182} C 700 ${H - 176}, 740 ${H - 196}, 800 34 C 850 50, 900 ${H - 160}, 1000 ${H - 128}`;
@@ -290,6 +290,9 @@ function EndScene() {
         {CLIMB_LAYERS.ground(a)}
         {CLIMB_LAYERS.trees(a)}
       </svg>
+      <span className="kd-end-mover">
+        <MovementFigure move="swing" size={176} animated trace={false} />
+      </span>
       <span className="kd-end-fig">
         <Image src={MIKE_FACE} alt="" width={120} height={120} />
       </span>

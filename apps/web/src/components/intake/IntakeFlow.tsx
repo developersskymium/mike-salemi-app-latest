@@ -82,7 +82,8 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
   const [restored, setRestored] = useState(false);
   const title = useRef<HTMLHeadingElement>(null);
 
-  // Resume a draft from this device.
+  // Resume a draft from this device. This must run after hydration (the server has no localStorage) and
+  // before the draft-saving effect below overwrites it, so it stays a mount effect on purpose.
   useEffect(() => {
     if (view.kind !== "flow") return;
     try {
@@ -90,6 +91,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
       if (!raw) return;
       const d = JSON.parse(raw) as { answers: Answers; step: number };
       if (d && Object.keys(d.answers ?? {}).length) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time restore from browser storage after hydration
         setAnswers(d.answers);
         setStep(Math.min(Math.max(0, d.step | 0), steps.length - 1));
         setRestored(true);

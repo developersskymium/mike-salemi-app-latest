@@ -178,6 +178,8 @@ export interface LibraryIndexVideo {
   ip: boolean;
   /** program order rank (program, section, lesson, step) */
   o: number;
+  /** The thumbnail is a title card with words on it (videos.meta.cover_has_text): use the designed cover. */
+  ct?: boolean;
 }
 
 export interface LibraryIndex {
@@ -210,6 +212,8 @@ export interface ContinueWatching {
   lesson_title: string | null;
   program_slug: string | null;
   program_name: string | null;
+  /** Added by the web loader from videos.meta.cover_has_text (see LibraryIndexVideo.ct). */
+  cover_has_text?: boolean;
 }
 
 /** Videos started but not finished (library plays and program lessons), most recent first. */

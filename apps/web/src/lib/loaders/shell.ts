@@ -2,6 +2,8 @@ import "server-only";
 import { myEnrollments, myRewards, type DB } from "@ms/api";
 import { fixture, MOCK } from "@/lib/mock";
 import { programPhoto, type ProgramPhoto } from "@/lib/program-photos";
+import { pickContinue } from "@/lib/continue";
+import { introLessonIds } from "./intro-lessons";
 
 /* The member shell's data: the resume card and the "Your access" list from ONE cheap RPC
    (my_enrollments), plus the shop flag. The streak loads separately inside a Suspense boundary. */
@@ -34,7 +36,10 @@ export interface ShellAccess {
 export interface ShellData {
   resume: ShellResume | null;
   access: ShellAccess[];
+  /** Show "Shop" under Additional: the shop is enabled, or the viewer is an admin (to preview it). */
   shop: boolean;
+  /** Shown only because the viewer is an admin while the shop is still off (the rail marks it "Admin"). */
+  shopAdmin: boolean;
 }
 
 const lessonHref = (e: Enrollment) =>
@@ -52,10 +57,11 @@ const levelOf = (path: string | null) => (path ?? "").split("·")[0]!.trim() || 
 
 const KIND: Record<string, string> = { day_program: "Program", course: "Course", series: "Video series", experience: "Experience", retreat: "Retreat" };
 
-export function shapeShell(rows: Enrollment[], shop: boolean): ShellData {
+export function shapeShell(rows: Enrollment[], shopEnabled: boolean, admin = false, introIds?: string[] | null): ShellData {
   const live = rows.filter((e) => !e.completed_at);
   const sorted = [...live].sort((a, b) => (b.last_active_at ?? "").localeCompare(a.last_active_at ?? ""));
-  const top = sorted[0];
+  // The resume card follows "Continue training": the main program, never a tool or an intro lesson.
+  const top = pickContinue(rows, introIds);
   let resume: ShellResume | null = null;
   if (top) {
     const { day, title } = splitLesson(top.current_lesson_title);
@@ -80,7 +86,7 @@ export function shapeShell(rows: Enrollment[], shop: boolean): ShellData {
     const sub = e.completed_at ? "Completed" : [level, e.mode === "self_guided" ? "Self-guided" : level ? "Immersion" : KIND[e.program_type] ?? "Program"].filter(Boolean).join(" · ");
     access.push({ href: `/programs/${e.program_slug}`, title: e.program_name, sub, photo: programPhoto(e.program_slug), slug: e.program_slug });
   }
-  return { resume, access: access.slice(0, 4), shop };
+  return { resume, access: access.slice(0, 4), shop: shopEnabled || admin, shopAdmin: !shopEnabled && admin };
 }
 
 export async function loadShell(sb: DB): Promise<ShellData> {
@@ -88,11 +94,14 @@ export async function loadShell(sb: DB): Promise<ShellData> {
     const raw = await fixture<{ enrollments: Enrollment[] }>("today-home").catch(() => ({ enrollments: [] as Enrollment[] }));
     return shapeShell(raw.enrollments, true);
   }
-  const [rows, shop] = await Promise.all([
+  const [rows, shop, admin, intro] = await Promise.all([
     myEnrollments(sb).catch(() => [] as Enrollment[]),
     sb.from("site_settings").select("value").eq("key", "shop").maybeSingle().then((r) => Boolean((r.data?.value as { enabled?: boolean } | null)?.enabled), () => false),
+    // Members read only their own roles, so any admin row here is the viewer's.
+    sb.from("user_roles").select("role").eq("role", "admin").limit(1).maybeSingle().then((r) => Boolean(r.data), () => false),
+    introLessonIds(sb),
   ]);
-  return shapeShell(rows, shop);
+  return shapeShell(rows, shop, admin, intro);
 }
 
 /** The current streak (days), for the streak chip. Streams in after the shell. */

@@ -54,32 +54,37 @@ export function CourseNav({ data, groups, done, href, planMode, onPick, searchRe
   const planIds = useMemo(() => new Set(data.mtk?.plan?.lessonIds ?? []), [data.mtk]);
   const bucket = !data.mtk?.plan ? data.mtk?.pathBucket ?? null : null;
 
-  // The active group and section open themselves.
-  useEffect(() => {
+  // The active group and section open themselves (adjusted during render when the active lesson moves).
+  const openFor = `${activeGroup?.name ?? ""}\u0000${activeSection?.id ?? ""}`;
+  const [openedFor, setOpenedFor] = useState<string | null>(null);
+  if (openedFor !== openFor) {
+    setOpenedFor(openFor);
     if (activeGroup) setOpenG((s) => (s.has(activeGroup.name) ? s : new Set(s).add(activeGroup.name)));
     if (activeSection) setOpenS((s) => (s.has(activeSection.id) ? s : new Set(s).add(activeSection.id)));
-  }, [activeGroup, activeSection]);
+  }
   useEffect(() => {
-    mem.groups = openG;
-    mem.sections = openS;
-    mem.q = q;
-  }, [openG, openS, q, mem]);
+    const m = navMemory(slug);
+    m.groups = openG;
+    m.sections = openS;
+    m.q = q;
+  }, [openG, openS, q, slug]);
 
   // Keep the scroll position, and bring the current lesson into view the first time.
   useEffect(() => {
     const el = list.current;
     if (!el) return;
-    if (mem.scroll) el.scrollTop = mem.scroll;
+    const m = navMemory(slug);
+    if (m.scroll) el.scrollTop = m.scroll;
     const cur = el.querySelector<HTMLElement>('[aria-current="page"]');
     if (cur) {
       const r = cur.getBoundingClientRect();
       const b = el.getBoundingClientRect();
       if (r.top < b.top + 40 || r.bottom > b.bottom - 40) cur.scrollIntoView({ block: "center" });
     }
-    const save = () => (mem.scroll = el.scrollTop);
+    const save = () => (m.scroll = el.scrollTop);
     el.addEventListener("scroll", save, { passive: true });
     return () => el.removeEventListener("scroll", save);
-  }, [mem]);
+  }, [slug]);
 
   const total = all.length;
   const doneN = all.filter((l) => done.has(l.id)).length;

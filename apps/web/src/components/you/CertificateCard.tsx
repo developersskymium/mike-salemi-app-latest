@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useBrowserValue } from "@/lib/hooks/clock";
 import { Icon, IconButton, ProgressBar, useToast } from "@/components/ui";
 import { haptic } from "@/components/ui/motion";
 import { qrPath, verifyUrl } from "@/lib/certificates/qr";
@@ -9,9 +10,7 @@ import type { Certificate, Enrollment } from "@/lib/loaders/today-plan-you";
 import { fmtLong, levelShort } from "./format";
 
 function useOrigin() {
-  const [o, setO] = useState("https://app.mikesalemi.com");
-  useEffect(() => setO(window.location.origin), []);
-  return o;
+  return useBrowserValue(() => window.location.origin, "https://app.mikesalemi.com");
 }
 
 function Qr({ text, size = 64 }: { text: string; size?: number }) {

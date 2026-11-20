@@ -4,7 +4,7 @@ import { announceProgress } from "@/components/you/CelebrationHost";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { parseLessonBody, type VideoRef } from "@ms/core";
 import { Glass, useToast } from "@/components/ui";
 import { completeLessonAction, touchLessonAction, uncompleteLessonAction } from "@/lib/actions/course";
@@ -20,6 +20,30 @@ type Mode = "plan" | "full" | null;
 
 const FOCUS_KEY = "crs-focus";
 
+/* Focus mode lives in localStorage; read it as an external store (the server renders it off). */
+const focusListeners = new Set<() => void>();
+const focusStore = {
+  subscribe(cb: () => void) {
+    focusListeners.add(cb);
+    return () => void focusListeners.delete(cb);
+  },
+  get() {
+    try {
+      return window.localStorage.getItem(FOCUS_KEY) === "1";
+    } catch {
+      return memoryFocus;
+    }
+  },
+  set(on: boolean) {
+    memoryFocus = on;
+    try {
+      window.localStorage.setItem(FOCUS_KEY, on ? "1" : "0");
+    } catch {}
+    focusListeners.forEach((l) => l());
+  },
+};
+let memoryFocus = false;
+
 /**
  * Course player (legacy Template 2): sticky glass bar · grouped curriculum (300px, own scroll) ·
  * lesson stage (≤760px). Phone: Lessons drawer. Lesson-level complete, last-lesson memory,
@@ -32,7 +56,7 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   const groups = data.groups;
   const all = useMemo(() => groups.flatMap((g) => g.sections.flatMap((s) => s.lessons)), [groups]);
   const [done, setDone] = useState(() => new Set(all.filter((l) => l.done).map((l) => l.id)));
-  const [focus, setFocus] = useState(false);
+  const focus = useSyncExternalStore(focusStore.subscribe, focusStore.get, () => false);
   const [drawer, setDrawer] = useState<"open" | "closing" | null>(null);
   const [busy, setBusy] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -71,11 +95,6 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
 
   /* ---------------- persistence: focus, last lesson, cross-device position */
   useEffect(() => {
-    try {
-      setFocus(window.localStorage.getItem(FOCUS_KEY) === "1");
-    } catch {}
-  }, []);
-  useEffect(() => {
     if (!lesson) return;
     try {
       window.localStorage.setItem(`course-last-lesson:${slug}`, isIntro ? "intro" : lesson.id);
@@ -98,33 +117,27 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
   useEffect(() => () => saveSeconds(true), [saveSeconds]);
 
   /* ---------------- complete */
-  const markDone = useCallback(
-    async (via: "button" | "watched") => {
-      if (!node || done.has(node.id)) return true;
-      setDone((s) => new Set(s).add(node.id));
-      const r = await completeLessonAction(data.program.id, node.id, via); announceProgress();
-      if (!r.ok && r.code !== "offline") {
-        setDone((s) => {
-          const n = new Set(s);
-          n.delete(node.id);
-          return n;
-        });
-        toast(r.message);
-        return false;
-      }
-      if (!r.ok) toast(r.message);
-      return true;
-    },
-    [node, done, data.program.id, toast],
-  );
+  const markDone = async (via: "button" | "watched") => {
+    if (!node || done.has(node.id)) return true;
+    setDone((s) => new Set(s).add(node.id));
+    const r = await completeLessonAction(data.program.id, node.id, via); announceProgress();
+    if (!r.ok && r.code !== "offline") {
+      setDone((s) => {
+        const n = new Set(s);
+        n.delete(node.id);
+        return n;
+      });
+      toast(r.message);
+      return false;
+    }
+    if (!r.ok) toast(r.message);
+    return true;
+  };
 
-  const go = useCallback(
-    (id: string) => {
-      setDrawer(null);
-      router.push(href(id), { scroll: false });
-    },
-    [router, href],
-  );
+  const go = (id: string) => {
+    setDrawer(null);
+    router.push(href(id), { scroll: false });
+  };
 
   const primary = async () => {
     if (busy) return;
@@ -165,6 +178,12 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
     if (ok) toast("Marked complete", { tone: "success", action: { label: "Undo", onClick: () => void undo() } });
   };
 
+  const toggleFocus = () => focusStore.set(!focus);
+  const closeDrawer = () => {
+    setDrawer("closing");
+    window.setTimeout(() => setDrawer(null), 240);
+  };
+
   /* ---------------- keyboard: ← → prev/next, F focus, / search, Esc */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -188,19 +207,6 @@ export function CoursePlayer({ data, mode }: { data: CoursePageData; mode: Mode 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
-
-  const toggleFocus = () => {
-    setFocus((f) => {
-      try {
-        window.localStorage.setItem(FOCUS_KEY, f ? "0" : "1");
-      } catch {}
-      return !f;
-    });
-  };
-  const closeDrawer = () => {
-    setDrawer("closing");
-    window.setTimeout(() => setDrawer(null), 240);
-  };
 
   /* ---------------- lesson content */
   const steps = lesson?.steps ?? [];

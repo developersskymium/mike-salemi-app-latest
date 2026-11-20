@@ -12,7 +12,7 @@ import { VideoStage, UpNext } from "@/components/training/VideoStage";
 import { ClipCards } from "@/components/training/ClipRow";
 import { CircuitTable } from "@/components/training/CircuitTable";
 import { IntentTag } from "./parts";
-import "@/components/training/day.css";
+import "@/components/training/day-styles";
 import "./selfguided.css";
 
 const SLOT = { warmup: "Warm-up", main: "Main", stretch: "Stretch" } as const;
@@ -40,8 +40,9 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
   const [finish, setFinish] = useState(false);
   const [ended, setEnded] = useState<null | { minutes: number; streak: number }>(session.endedAt ? { minutes: session.minutes ?? 0, streak: 0 } : null);
   const [fav, setFav] = useState(session.favourite);
-  const startedAt = useRef(Date.parse(session.startedAt));
   const seconds = useRef<Record<string, number>>({ ...session.progress.seconds });
+  // Where each video was left, as of the last switch: a stage reads it when it mounts (the ref keeps the live value).
+  const [resume, setResume] = useState<Record<string, number>>(() => ({ ...session.progress.seconds }));
   const lastSave = useRef(0);
   const step = steps[active]!;
   const pl = stagePlaylist(step, clip);
@@ -67,9 +68,15 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
     return () => window.removeEventListener("pagehide", flush);
   }, [video?.providerId, step.id, save]);
 
+  /** Switch the playing clip (null = the item's lead video), keeping where every video was left. */
+  const pickClip = (id: string | null) => {
+    setResume({ ...seconds.current });
+    setClip(id);
+  };
+
   const go = (i: number, autoplay = false) => {
     if (i < 0 || i >= steps.length) return;
-    setClip(null);
+    pickClip(null);
     setUpNext(false);
     setAutoStart(autoplay);
     setActive(i);
@@ -85,13 +92,15 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
   };
 
   const onEnded = () => {
-    if (pl.nextClip) return setClip(pl.nextClip.providerId);
+    if (pl.nextClip) return pickClip(pl.nextClip.providerId);
     complete(step, true);
     if (auto && active < steps.length - 1) setUpNext(true);
   };
 
-  const elapsed = Math.max(1, Math.round((Date.now() - startedAt.current) / 60000));
-  const [minutes, setMinutes] = useState(() => Math.min(180, elapsed > 2 && elapsed < 180 ? elapsed : planned));
+  const [minutes, setMinutes] = useState(() => {
+    const elapsed = Math.max(1, Math.round((Date.now() - Date.parse(session.startedAt)) / 60000));
+    return Math.min(180, elapsed > 2 && elapsed < 180 ? elapsed : planned);
+  });
   const [notes, setNotes] = useState(session.notes ?? "");
   const [saving, start] = useTransition();
 
@@ -156,7 +165,7 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
               poster={video?.thumbnailUrl ?? step.poster ?? program.image}
               title={video?.title ?? step.title}
               autoStart={autoStart || Boolean(clip)}
-              resumeAt={video ? seconds.current[video.providerId] ?? 0 : 0}
+              resumeAt={video ? resume[video.providerId] ?? 0 : 0}
               flush
               onProgress={(s) => {
                 if (!video) return;
@@ -196,12 +205,12 @@ export function SessionPlayer({ data }: { data: SessionPlayerData }) {
                   In this part · {pl.queue.length} clips
                 </p>
                 {clip && (
-                  <button type="button" className="sg-chip" onClick={() => setClip(null)}>
+                  <button type="button" className="sg-chip" onClick={() => pickClip(null)}>
                     Back to the main video
                   </button>
                 )}
               </div>
-              <ClipCards clips={pl.queue} playingId={clip ?? pl.playingClipId} onPlay={setClip} />
+              <ClipCards clips={pl.queue} playingId={clip ?? pl.playingClipId} onPlay={pickClip} />
             </section>
           )}
           {step.table && (

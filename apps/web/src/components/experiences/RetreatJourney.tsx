@@ -6,6 +6,7 @@ import { loadRetreatJourney } from "@/lib/loaders/experiences";
 import { retreatStage, retreatSteps, runDay } from "@/lib/retreat-stage";
 import { RetreatSteps } from "./RetreatSteps";
 import "./retreat.css";
+import { requestTime } from "@/lib/request-time";
 
 /**
  * Home: the member's retreat in one card — the three sign-up steps while applying, the countdown and
@@ -14,7 +15,7 @@ import "./retreat.css";
 export async function RetreatJourney() {
   const j = await loadRetreatJourney();
   if (!j) return null;
-  const now = Date.now();
+  const now = requestTime();
   const stage = retreatStage({ runStatus: j.runStatus, startsAt: j.startsAt, endsAt: j.endsAt, application: j.application }, now);
   if (stage === "declined" || stage === "closed" || stage === "sales") return null;
   const days = Math.max(0, Math.floor((Date.parse(j.startsAt) - now) / 86400000));

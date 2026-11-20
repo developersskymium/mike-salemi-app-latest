@@ -68,7 +68,12 @@ export function SearchSuggest({
     return [...moves, ...terms, ...vids];
   }, [q, index.tags, videos, moveCounts]);
 
-  useEffect(() => setActive(0), [q]);
+  // A new query highlights the first row again (adjusted during render).
+  const [activeFor, setActiveFor] = useState(q);
+  if (activeFor !== q) {
+    setActiveFor(q);
+    setActive(0);
+  }
 
   useEffect(() => {
     const el = input.current;

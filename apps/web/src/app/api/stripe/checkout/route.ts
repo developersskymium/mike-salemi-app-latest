@@ -5,6 +5,8 @@ import { createServiceClient } from "@/lib/supabase/admin";
 import { getStripe, paymentsNotConfigured, siteOrigin, stripeConfigured } from "@/lib/stripe";
 import { ensureStripeCustomer } from "@/lib/commerce/customers";
 
+const APPLY_FIRST = "Apply first — Mike reviews every application.";
+
 /** The browser says only what it wants; every amount comes from `quote` on the server. */
 const Body = z.object({
   kind: z.enum(["plan", "program", "bundle", "run", "coaching"]),
@@ -58,6 +60,10 @@ export async function POST(request: Request) {
     return Response.json({ error: "order_failed" }, { status: 500 });
   }
   const pending = data as PendingOrder;
+  // Packages and programs flagged requires_application (Executive Edge) sell only after Mike accepts the
+  // application; the database refuses the order, this names the reason for the member.
+  if (pending.error && (pending.quote as ServerQuote & { reason?: string | null })?.reason === "application_required")
+    return Response.json({ error: "application_required", message: APPLY_FIRST, quote: pending.quote }, { status: 403 });
   if (pending.error) return Response.json({ error: pending.error, quote: pending.quote }, { status: 409 });
   const orderId = pending.order_id!;
   const origin = siteOrigin(request);

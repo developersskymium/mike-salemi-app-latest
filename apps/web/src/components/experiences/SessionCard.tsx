@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
+import { useNow } from "@/lib/hooks/clock";
 import { Button, Chip, Glass, Icon, Sheet, haptic, useToast } from "@/components/ui";
 import { cancelCoachingAction, rescheduleCoachingAction, saveCoachingPrepAction } from "@/lib/actions/commerce";
 import type { CoachingSessionView } from "@/lib/loaders/commerce";
@@ -21,12 +22,7 @@ export function SessionCard({ s, slots, primary }: { s: CoachingSessionView; slo
   const mounted = useMounted();
   const router = useRouter();
   const toast = useToast();
-  const [now, setNow] = useState(0);
-  useEffect(() => {
-    setNow(Date.now());
-    const t = window.setInterval(() => setNow(Date.now()), 30000);
-    return () => window.clearInterval(t);
-  }, []);
+  const now = useNow(30000) ?? 0;
   const [goals, setGoals] = useState(s.prep?.goals ?? s.member_note ?? "");
   const [footage, setFootage] = useState(s.prep?.footage_url ?? "");
   const [savedAt, setSavedAt] = useState<boolean>(Boolean(s.prep));

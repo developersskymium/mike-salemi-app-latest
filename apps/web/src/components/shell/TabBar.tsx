@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
-import { ADDITIONAL, activeHref, NAV, PHONE_TABS, SHOP, type NavItem } from "@/lib/nav";
+import { useState, type ReactNode } from "react";
+import { ADDITIONAL, activeHref, NAV, PHONE_TABS, SHOP, SHOP_ADMIN, type NavItem } from "@/lib/nav";
 import { Icon } from "../ui/Icon";
 import { Sheet } from "../ui/Sheet";
 import { haptic } from "../ui/motion";
 import { ThemeSwitch } from "./ThemeSwitch";
 
 /** Everything that isn't a tab, for the More sheet. */
-function moreItems(shop: boolean): NavItem[] {
+function moreItems(shop: boolean, shopAdmin = false): NavItem[] {
   const tabs = new Set(PHONE_TABS.map((t) => t.href));
-  return [...NAV.filter((n) => !tabs.has(n.href)), ...ADDITIONAL, ...(shop ? [SHOP] : [])];
+  return [...NAV.filter((n) => !tabs.has(n.href)), ...ADDITIONAL, ...(shop ? [shopAdmin ? SHOP_ADMIN : SHOP] : [])];
 }
 
 /**
@@ -20,14 +20,19 @@ function moreItems(shop: boolean): NavItem[] {
  * Profile and More. More opens a sheet with Retreats, Library, Schedule, Tools, Coaching,
  * Referrals (and Shop) plus the appearance switch.
  */
-export function TabBar({ active: activeProp, more, shop = false }: { active?: number; more?: ReactNode; shop?: boolean }) {
+export function TabBar({ active: activeProp, more, shop = false, shopAdmin = false }: { active?: number; more?: ReactNode; shop?: boolean; shopAdmin?: boolean }) {
   const pathname = usePathname();
-  const extra = moreItems(shop);
+  const extra = moreItems(shop, shopAdmin);
   const forced = activeProp !== undefined && activeProp >= 0 ? PHONE_TABS[activeProp]?.href ?? null : null;
   const on = forced ?? activeHref([...PHONE_TABS, ...extra], pathname);
   const moreOn = !!on && extra.some((x) => x.href === on);
   const [open, setOpen] = useState(false);
-  useEffect(() => setOpen(false), [pathname]);
+  // Navigating closes the More sheet (adjusted during render when the path changes).
+  const [openAt, setOpenAt] = useState(pathname);
+  if (openAt !== pathname) {
+    setOpenAt(pathname);
+    setOpen(false);
+  }
 
   return (
     <>
