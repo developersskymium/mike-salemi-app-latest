@@ -10,6 +10,7 @@ import { MOCK } from "@/lib/mock";
 import { loadShell, loadStreak } from "@/lib/loaders/shell";
 import { CelebrationHost } from "@/components/you/CelebrationHost";
 import { NotificationsHost } from "@/components/notifications/NotificationsHost";
+import { ReducedMotionSync } from "@/components/settings/ReducedMotionSync";
 
 /**
  * Member app frame (Summit shell, legacy L0): the original rail on desktop (resume card, nav,
@@ -51,7 +52,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       streak={<Suspense fallback={<StreakSlot />}><ShellStreak days={streak} /></Suspense>}
       streakPhone={<Suspense fallback={<StreakSlot compact />}><ShellStreak days={streak} compact /></Suspense>}
       announcement={announcement}
-      overlays={<><CelebrationHost /><NotificationsHost /></>}
+      overlays={<><CelebrationHost /><NotificationsHost /><ReducedMotionSync /></>}
     >
       {children}
     </AppShell>
