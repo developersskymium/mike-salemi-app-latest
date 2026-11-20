@@ -5,7 +5,7 @@
   --font: var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-text: var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: var(--ff-serif, "Instrument Serif"), "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-serif: var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-code: ui-monospace, "SF Mono", Menlo, monospace;
   --t-display: 600 48px/50px var(--font-display);
   --t-display-track: -0.04em;

@@ -20,8 +20,8 @@ export const font = {
   stack: 'var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
   /** Headlines and numbers: the same family at 600 with tight tracking. */
   display: 'var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
-  /** Mike's notes and quotes only: Instrument Serif, italic. */
-  serif: 'var(--ff-serif, "Instrument Serif"), "Instrument Serif", Georgia, "Times New Roman", serif',
+  /** Mike's notes and quotes: Instrument Sans like everything else (client, Nov 20: no serif). Name kept for compatibility. */
+  serif: 'var(--ff-sans, "Instrument Sans"), "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
   mono: 'ui-monospace, "SF Mono", Menlo, monospace',
   features: '"kern" 1',
   /** Self-hosted from @fontsource (latin), loaded and preloaded by next/font/local in app/layout. */

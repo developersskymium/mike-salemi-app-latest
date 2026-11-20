@@ -165,3 +165,6 @@
     :where(button, [role="button"], [role="tab"], summary):active { transform: none; }
   }
 }
+
+/* Client, Nov 20: no serif anywhere. Former serif-italic quotes/notes render in Instrument Sans, upright, medium. */
+.lq-serif, .lq-quote, .au-quote, .trn-cert-sig, .kd-notes p, [class*="quote"], [class*="mike-note"] { font-style: normal !important; font-weight: 500; letter-spacing: -0.01em; }
