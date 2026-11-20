@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatWorkoutCsv, workoutCsvFilename, type WorkoutRow, type WorkoutTable } from "@ms/core";
 import { Icon } from "@/components/ui";
 import { TempoPulse, WeightChip, usesBell } from "./TableBits";
+import { useDayMemory } from "./DayMemory";
 import "./circuit.css";
 import "./kbl-table.css";
 
@@ -73,7 +74,10 @@ export function downloadWorkoutCsv(table: WorkoutTable) {
  * `demoFor` returns a player action for an exercise that has a demo video today; `training` adds the
  * weight memory chip and tempo pulse (day view).
  */
-export function CircuitTable({ table, csv = true, demoFor, training }: { table: WorkoutTable; csv?: boolean; demoFor?: (exercise: string) => (() => void) | null; training?: boolean }) {
+export function CircuitTable({ table, csv = true, demoFor, training: trainingProp }: { table: WorkoutTable; csv?: boolean; demoFor?: (exercise: string) => (() => void) | null; training?: boolean }) {
+  // Inside a day (DayMemoryProvider) the table is a training table: bell chips saved to the account, tempo pulse.
+  const memory = useDayMemory();
+  const training = trainingProp ?? Boolean(memory);
   const lines = tableLines(table);
   const scroller = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);

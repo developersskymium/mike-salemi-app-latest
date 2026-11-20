@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui";
 import { MIKE_FACE } from "@/lib/program-photos";
+import { setDayFeelAction } from "@/lib/actions/gaps";
+import { useDayMemory } from "./DayMemory";
 
 const SECONDS = 5;
 
@@ -122,6 +124,8 @@ export function CompletionMoment({
         )}
       </ul>
 
+      <FeelPicker />
+
       <div className="kcm-mike">
         <span className="kcm-av">
           <Image src={MIKE_FACE} alt="" width={40} height={40} />
@@ -151,5 +155,50 @@ export function CompletionMoment({
         <p className="kcm-state">Paused. Mark this step complete when you&apos;re ready.</p>
       ) : null}
     </section>
+  );
+}
+
+const FEELS = [
+  { v: "easy", label: "Easy" },
+  { v: "right", label: "Just right" },
+  { v: "hard", label: "Tough" },
+] as const;
+type Feel = (typeof FEELS)[number]["v"];
+
+/** "How did today feel?" — saved to the account (day_feels + the session's progress.feel); this device keeps a copy. */
+function FeelPicker() {
+  const memory = useDayMemory();
+  const lessonId = memory?.lessonId ?? null;
+  const key = lessonId ? `kbl-feel:${lessonId}` : null;
+  const [feel, setFeel] = useState<Feel | null>(memory?.feel ?? null);
+  useEffect(() => {
+    if (!key || memory?.feel) return;
+    try {
+      const v = localStorage.getItem(key) as Feel | null;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (v) setFeel(v);
+    } catch {}
+  }, [key, memory?.feel]);
+  if (!lessonId) return null;
+  return (
+    <div className="kf-feel kcm-feel" role="group" aria-label="How did today feel?">
+      <span>How did today feel?</span>
+      {FEELS.map((f) => (
+        <button
+          key={f.v}
+          type="button"
+          aria-pressed={feel === f.v}
+          onClick={() => {
+            setFeel(f.v);
+            try {
+              localStorage.setItem(`kbl-feel:${lessonId}`, f.v);
+            } catch {}
+            void setDayFeelAction(lessonId, f.v);
+          }}
+        >
+          {f.label}
+        </button>
+      ))}
+    </div>
   );
 }

@@ -55,10 +55,17 @@ type Raw = {
   sessions: { id: string; started_at: string; title: string | null; notes: string | null; lesson_id: string | null; program_slug: string | null; progress: Record<string, unknown> | null }[];
   dayNotes: { lesson_id: string; body: string; updated_at: string; title: string | null; program_slug: string | null }[];
   stretch: { id: string; created_at: string; result: { score?: number; max?: number; title?: string; headline?: string; tests?: StretchTest[] } | null }[];
+  /** Bells logged from the day table (0036 exercise_weights); days already in a session's progress.weights are skipped. */
+  weights?: { exercise: string; kg: number; created_at: string }[];
 };
 
 export function buildExtras(raw: Raw): YouExtras {
-  const lifts = buildLifts(raw.sessions.map((s) => ({ at: s.started_at, lifts: liftsFrom(s.notes, (s.progress?.weights ?? null) as Record<string, unknown> | null) })));
+  const sessionRows = raw.sessions.map((s) => ({ at: s.started_at, lifts: liftsFrom(s.notes, (s.progress?.weights ?? null) as Record<string, unknown> | null) }));
+  const seen = new Set(sessionRows.flatMap((r) => r.lifts.map((l) => `${r.at.slice(0, 10)}:${l.lift}`)));
+  const logRows = (raw.weights ?? [])
+    .map((w) => ({ at: w.created_at, lifts: liftsFrom(null, { [w.exercise]: Number(w.kg) }) }))
+    .filter((r) => r.lifts.length && !r.lifts.some((l) => seen.has(`${r.at.slice(0, 10)}:${l.lift}`)));
+  const lifts = buildLifts([...sessionRows, ...logRows]);
   const stretch = raw.stretch
     .filter((t) => t.result && typeof t.result.score === "number")
     .map((t) => ({ id: t.id, at: t.created_at, score: t.result!.score!, max: t.result!.max ?? 15, title: t.result!.headline ?? t.result!.title ?? "Stretch Test", tests: t.result!.tests ?? [] }))
@@ -75,7 +82,7 @@ export const loadYouExtras = cache(
     const { supabase, user } = await getUser();
     if (!user) return { lifts: [], stretch: [], journal: [] };
     const sb = supabase as unknown as DB;
-    const [sessions, notes, stretch] = await Promise.all([
+    const [sessions, notes, stretch, weights] = await Promise.all([
       sb
         .from("training_sessions")
         .select("id, started_at, title, notes, lesson_id, progress, programs(slug)")
@@ -91,6 +98,13 @@ export const loadYouExtras = cache(
         .limit(60)
         .then((r) => r.data ?? []),
       sb.from("tool_results").select("id, created_at, result").eq("user_id", user.id).eq("tool_id", "stretch-test").order("created_at", { ascending: false }).limit(12).then((r) => r.data ?? []),
+      (sb as unknown as { from: (t: string) => any }) // eslint-disable-line @typescript-eslint/no-explicit-any
+        .from("exercise_weights")
+        .select("exercise, kg, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(300)
+        .then((r: { data: unknown[] | null }) => (r.data ?? []) as { exercise: string; kg: number; created_at: string }[]),
     ]);
     return buildExtras({
       sessions: sessions.map((s) => ({ ...s, program_slug: (s.programs as unknown as { slug: string } | null)?.slug ?? null, progress: (s.progress ?? null) as Record<string, unknown> | null })),
@@ -99,6 +113,7 @@ export const loadYouExtras = cache(
         return { lesson_id: n.lesson_id, body: n.body, updated_at: n.updated_at, title: l?.title ?? null, program_slug: l?.programs?.slug ?? null };
       }),
       stretch: stretch as Raw["stretch"],
+      weights,
     });
   }),
 );

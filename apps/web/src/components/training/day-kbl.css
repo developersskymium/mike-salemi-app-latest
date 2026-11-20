@@ -278,3 +278,10 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
   :root .kd-day .krq-sec > .kd-sec-in { grid-row: 2; padding: 16px; }
   .krq-gauge { bottom: 10px; }
 }
+
+/* "How did today feel?" on the completion card (saved to the account) */
+.kcm-feel { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; font: 500 13px/1 var(--font); color: var(--text-2); }
+.kcm-feel > span { margin-right: 4px; }
+.kcm-feel button { all: unset; cursor: pointer; padding: 8px 13px; border-radius: 99px; font: 600 13px/1 var(--font); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.kcm-feel button[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+.kcm-feel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

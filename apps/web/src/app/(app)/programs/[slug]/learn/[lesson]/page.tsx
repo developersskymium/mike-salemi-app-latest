@@ -4,6 +4,8 @@ import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { DayPlayer } from "@/components/training/DayPlayer";
 import { ChooseNextStep } from "@/components/access/ChooseNextStep";
 import { LockedDay } from "@/components/training/LockedDay";
+import { DayMemoryProvider } from "@/components/training/DayMemory";
+import { loadDayMemory } from "@/lib/loaders/day-memory";
 import { loadLessonPage } from "@/lib/loaders/training";
 import { loadCourseOutline } from "@/lib/loaders/course";
 import { opensAsCourse } from "@/lib/course-types";
@@ -30,12 +32,15 @@ export default async function LearnPage({ params }: Props) {
   if (opensAsCourse(data.program.type)) redirect(`/programs/${slug}/course/${data.lesson.id}`);
   if (!data.state.access) return <LockedDay data={data} reason="access" />;
   if (data.state.lockedOrder && !data.state.unlocked) return <LockedDay data={data} />;
+  const memory = await loadDayMemory(data.lesson.id);
   return (
-    <DayPlayer
-      key={data.lesson.id}
-      data={data}
-      endOffer={<OfferSlot placement="day_complete" variant="compact" />}
-      levelOffer={<ChooseNextStep program={slug} />}
-    />
+    <DayMemoryProvider value={memory}>
+      <DayPlayer
+        key={data.lesson.id}
+        data={data}
+        endOffer={<OfferSlot placement="day_complete" variant="compact" />}
+        levelOffer={<ChooseNextStep program={slug} />}
+      />
+    </DayMemoryProvider>
   );
 }
