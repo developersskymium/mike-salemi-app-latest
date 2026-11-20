@@ -291,7 +291,8 @@ const MOVE_PHOTO: [RegExp, PhotoName][] = [
   [/bag/i, "bagSpin"],
   [/breath/i, "breathwork"],
 ];
-const RECOVERY_POOL: PhotoName[] = ["qiGong", "breathwork", "walk", "facingShasta", "valley"];
+// Mike training alone, calmer frames for recovery days (retreat photos stay on retreat surfaces).
+const RECOVERY_POOL: PhotoName[] = ["getup", "windmill", "standing", "coaching"];
 const TRAINING_POOL: PhotoName[] = ["press", "windmill", "deadlift", "goblet", "getup", "hinge", "swingGym", "squat", "bagSpin"];
 
 function photoPicker(avoid: string | null) {

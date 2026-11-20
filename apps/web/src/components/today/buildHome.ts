@@ -521,11 +521,13 @@ export function buildPlanPanel(
   }
   if (!rows.length) return null;
   rows.sort((a, b) => Number(b.isToday) - Number(a.isToday) || a.sort.localeCompare(b.sort));
-  const all: PlanRow[] = rows.map((r) => ({ ...r, sort: undefined }) as PlanRow & { sort?: string });
+  const heroLike = (r: PlanRow) => !!hero && (r.href === hero.href || (r.slug === hero.slug && [r.name, r.sub].filter(Boolean).join(" · ") === hero.name));
+  // The hero already shows its plan's session: lead the panel with the other plans, the hero's plan last.
+  const ordered = [...rows.filter((r) => !heroLike(r)), ...rows.filter((r) => heroLike(r))];
+  const all: PlanRow[] = ordered.map((r) => ({ ...r, sort: undefined }) as PlanRow & { sort?: string });
   if (all.length > 1) return { mode: "plans", rows: all.slice(0, max), plan: null, sessions: [], more: Math.max(0, all.length - max) };
 
   // One plan: its next few sessions (this week first), so the panel never repeats the hero as a lone row.
-  const heroLike = (r: PlanRow) => !!hero && (r.href === hero.href || (r.slug === hero.slug && [r.name, r.sub].filter(Boolean).join(" · ") === hero.name));
   const only = all[0]!;
   let sessions: PlanSession[];
   if (only.undated) {
