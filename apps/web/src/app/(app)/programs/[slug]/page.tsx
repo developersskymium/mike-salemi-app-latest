@@ -29,6 +29,8 @@ export default async function ProgramPage({ params, searchParams }: Props) {
   if (!data) notFound();
   // Courses open in the course player (legacy Template 2), not the day-program page.
   if (data.program.type === "course") redirect(`/programs/${slug}/course/resume`);
+  // Experiences (coaching, retreats, live programs, challenges) have their own program pages.
+  if (["coaching", "live", "challenge", "retreat"].includes(data.program.type)) redirect(`/experiences/programs/${slug}`);
   const board = data.program.access === "locked" ? null : await loadBoard(slug, data.path?.key ?? null, data.program.id, data.path?.id ?? null).catch(() => null);
   return <ProgramView data={data} board={board} initialMode={modeParam(param(sp.mode))} offer={<OfferSlot placement="program_page" />} />;
 }
