@@ -376,3 +376,27 @@ begin
   ) into res;
   return res;
 end $function$;
+
+-- =====================================================================================================
+-- B. Paused subscriptions
+-- Stripe's pause_collection keeps the subscription "active" in Stripe and keeps moving its period end while
+-- no invoices are collected. The webhook (apps/web/src/lib/commerce/subscriptions.ts) now records the pause
+-- here and FREEZES current_period_end at the last paid period, so access runs to the end of what was paid
+-- and then stops through the existing rules (has_access / member_plan / access_states are unchanged).
+-- Resuming clears these columns and stores Stripe's new period end, which restores access.
+-- =====================================================================================================
+
+alter table public.subscriptions add column if not exists paused_at timestamptz;
+alter table public.subscriptions add column if not exists resumes_at timestamptz;
+comment on column public.subscriptions.paused_at is 'Set while Stripe pause_collection (or status paused) is on; null when billing runs normally.';
+comment on column public.subscriptions.resumes_at is 'When Stripe will resume billing on its own (pause_collection.resumes_at); null = until the member resumes.';
+
+-- =====================================================================================================
+-- C. "I'm 18 or older"
+-- Recorded when the member confirms it on a coaching booking, a coaching application or a retreat
+-- application (the same wording the Swing Set-Up Coach uses). Written by the server with the service role.
+-- =====================================================================================================
+
+alter table public.coaching_bookings add column if not exists adult_confirmed_at timestamptz;
+alter table public.coaching_applications add column if not exists adult_confirmed_at timestamptz;
+alter table public.run_applications add column if not exists adult_confirmed_at timestamptz;

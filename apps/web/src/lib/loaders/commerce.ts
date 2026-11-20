@@ -146,6 +146,8 @@ export interface BillingData {
   orders: Order[];
   /** True when the member has a Stripe billing account (portal is useful). */
   provider: string | null;
+  /** Set while billing is paused in Stripe (0041). `resumesAt` null = until the member resumes. */
+  paused?: { planName: string; planRank: number; interval: "month" | "year"; pausedAt: string; resumesAt: string | null; accessUntil: string | null } | null;
 }
 
 async function realBilling(): Promise<BillingData> {
@@ -162,7 +164,39 @@ async function realBilling(): Promise<BillingData> {
     if (price) planPrice = { amountCents: price.amount_cents, currency: price.currency, interval: price.interval, draftNote: price.draft_note };
     planDraftNote = plan?.draft_note ?? null;
   }
-  return { subscription, planPrice, planDraftNote, orders, provider: subscription?.provider ?? null };
+  const paused = await pausedSubscription(sb, user.id);
+  return { subscription, planPrice, planDraftNote, orders, provider: subscription?.provider ?? paused?.provider ?? null, paused: paused?.info ?? null };
+}
+
+/** A paused Stripe subscription, if any. Returns null before migration 0041 (no paused_at column) or on any error. */
+async function pausedSubscription(sb: Awaited<ReturnType<typeof getUser>>["supabase"], userId: string) {
+  try {
+    const { data, error } = await (sb as unknown as { from: (t: string) => any }) // eslint-disable-line @typescript-eslint/no-explicit-any
+      .from("subscriptions")
+      .select("interval, current_period_end, paused_at, resumes_at, provider, plans(name, rank)")
+      .eq("user_id", userId)
+      .not("paused_at", "is", null)
+      .in("status", ["trialing", "active", "past_due"])
+      .order("paused_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error || !data) return null;
+    const row = data as { interval: string; current_period_end: string | null; paused_at: string; resumes_at: string | null; provider: string; plans: { name: string; rank: number } | { name: string; rank: number }[] | null };
+    const plan = Array.isArray(row.plans) ? row.plans[0] : row.plans;
+    return {
+      provider: row.provider,
+      info: {
+        planName: plan?.name ?? "Your plan",
+        planRank: plan?.rank ?? 0,
+        interval: (row.interval === "year" ? "year" : "month") as "month" | "year",
+        pausedAt: row.paused_at,
+        resumesAt: row.resumes_at,
+        accessUntil: row.current_period_end,
+      },
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function loadBilling(): Promise<BillingData> {

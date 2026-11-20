@@ -44,17 +44,47 @@ export function subscriptionSnapshot(sub: Stripe.Subscription) {
  * Always updates the one row keyed by the Stripe subscription id, so a plan change never adds a row.
  * Pass `stripe` so inline prices (no catalog price id) can be mapped back to a plan through their product.
  */
-export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscription, deleted: boolean, stripe?: Stripe) {
+export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscription, deleted: boolean, stripe?: Stripe): Promise<SyncResult> {
   const end = periodEnd(sub);
   const patch: Record<string, unknown> = {
     status: deleted ? "expired" : mapStripeStatus(sub.status),
     cancel_at_period_end: sub.cancel_at_period_end,
     updated_at: new Date().toISOString(),
   };
+
+  // Our row as it was (pause columns arrive with migration 0041; before that, pauses aren't tracked).
+  const before = await admin
+    .from("subscriptions")
+    .select("user_id, current_period_end, cancel_at_period_end, paused_at")
+    .eq("provider", "stripe")
+    .eq("provider_ref", sub.id)
+    .maybeSingle();
+  const pauseColumns = !before.error;
+  const fallback = pauseColumns
+    ? null
+    : await admin.from("subscriptions").select("user_id, current_period_end, cancel_at_period_end").eq("provider", "stripe").eq("provider_ref", sub.id).maybeSingle();
+  const prev = ((pauseColumns ? before.data : fallback?.data) ?? null) as { user_id: string | null; current_period_end: string | null; cancel_at_period_end: boolean | null; paused_at: string | null } | null;
+  const paused = !deleted && isPaused(sub);
+  const wasPaused = Boolean(prev?.paused_at);
+
   if (deleted) {
     patch.current_period_end = new Date((sub.ended_at ?? Math.floor(Date.now() / 1000)) * 1000).toISOString();
+  } else if (paused && pauseColumns) {
+    // Paused: keep the period end of the last paid period (Stripe keeps advancing it while nothing is collected),
+    // so access runs out with what was paid. Only set it if we never stored one.
+    if (!prev?.current_period_end && end) patch.current_period_end = new Date(end * 1000).toISOString();
   } else if (end) {
     patch.current_period_end = new Date(end * 1000).toISOString();
+  }
+  if (pauseColumns) {
+    if (paused) {
+      patch.paused_at = prev?.paused_at ?? new Date().toISOString();
+      const resumes = sub.pause_collection?.resumes_at;
+      patch.resumes_at = resumes ? new Date(resumes * 1000).toISOString() : null;
+    } else {
+      patch.paused_at = null;
+      patch.resumes_at = null;
+    }
   }
 
   // Plan changes made in the customer portal use catalog prices: map them back through prices.stripe_price_id.
@@ -88,7 +118,30 @@ export async function syncSubscription(admin: SupabaseClient, sub: Stripe.Subscr
     .eq("provider_ref", sub.id)
     .select("id");
   if (error) throw new Error(`subscriptions update: ${error.message}`);
-  return data?.length ?? 0;
+  return {
+    updated: data?.length ?? 0,
+    userId: prev?.user_id ?? null,
+    paused,
+    pausedNow: paused && !wasPaused,
+    resumedNow: !paused && wasPaused && !deleted,
+    endingNow: !deleted && sub.cancel_at_period_end && prev?.cancel_at_period_end === false,
+  };
+}
+
+export interface SyncResult {
+  updated: number;
+  /** The member on our row (null when we have no row for this subscription). */
+  userId: string | null;
+  paused: boolean;
+  /** This change started a pause / ended one / turned on "cancel at period end". */
+  pausedNow: boolean;
+  resumedNow: boolean;
+  endingNow: boolean;
+}
+
+/** Paused in Stripe: collection paused (`pause_collection`), or the subscription status itself is `paused`. */
+export function isPaused(sub: Stripe.Subscription) {
+  return Boolean(sub.pause_collection) || sub.status === "paused";
 }
 
 /** The plan id stored on the subscription item's product (`metadata.kind = plan`, `metadata.ref = <plan id>`), if any. */
