@@ -14,6 +14,7 @@ import type { LessonCatalog, MemberPlan } from "@/lib/loaders/today-plan-you";
 import { dayNum, dayShort, fmt, longDay, monthGrid, monthName, startOfWeek, weekDates, weekRange } from "@/components/today/dates";
 import { dayTypeOf, entryHref, plural, relDay, splitDayTitle } from "@/components/today/model";
 import { LessonPicker, type PickedLesson } from "./LessonPicker";
+import { programColor } from "./programColor";
 import "@/components/today/tpy.css";
 
 type View = "week" | "month";
@@ -29,6 +30,8 @@ type Props = {
   plans: MemberPlan[];
   catalog: LessonCatalog;
   build: boolean;
+  /** Program filter (slug): the one schedule, showing only this program's sessions. */
+  program?: string | null;
 };
 
 const offline = (r: ActionResult<unknown>) => !r.ok && r.error === "offline";
@@ -40,7 +43,8 @@ export function PlanBoard(p: Props) {
   const [month, setMonth] = useState(p.anchor.slice(0, 7));
   const [picked, setPicked] = useState<IsoDate>(p.anchor);
   // The "Days to place" tray is open on desktop by default (original layout: calendar | tray).
-  const [building, setBuilding] = useState(true);
+  // Calm default: the tray opens on demand ("Add lessons"), or straight away for "Build my own".
+  const [building, setBuilding] = useState(p.build);
   const [addTo, setAddTo] = useState<IsoDate | null>(null);
   const [open, setOpen] = useState<WeekEntry | null>(null);
   const [over, setOver] = useState<IsoDate | null>(null);
@@ -51,9 +55,21 @@ export function PlanBoard(p: Props) {
 
   const byDate = useMemo(() => {
     const m = new Map<IsoDate, WeekEntry[]>();
-    for (const e of entries) m.set(e.on_date, [...(m.get(e.on_date) ?? []), e]);
+    for (const e of entries) {
+      if (p.program && e.kind === "plan" && e.program_slug !== p.program) continue;
+      m.set(e.on_date, [...(m.get(e.on_date) ?? []), e]);
+    }
     return m;
-  }, [entries]);
+  }, [entries, p.program]);
+  /** Days with more than one main session (from different plans) — the one-schedule rule is one a day. */
+  const clash = useMemo(() => {
+    const m = new Map<IsoDate, Set<string>>();
+    for (const e of entries) {
+      if (e.kind !== "plan" || e.item_kind === "rest" || e.done || e.skipped || e.on_date < p.today) continue;
+      m.set(e.on_date, (m.get(e.on_date) ?? new Set()).add(e.plan_id ?? "own"));
+    }
+    return new Set([...m].filter(([, v]) => v.size > 1).map(([d]) => d));
+  }, [entries, p.today]);
   const planName = (id: string | null) => p.plans.find((x) => x.id === id)?.name ?? null;
 
   /** Navigate within the loaded window; outside it, reload the page around the new date. */
@@ -157,7 +173,7 @@ export function PlanBoard(p: Props) {
           <IconButton icon="chevron" label={view === "week" ? "Next week" : "Next month"} size="sm" variant="plain" onClick={() => (view === "week" ? goWeek(addDays(week, 7)) : goMonth(1))} />
         </div>
         <Button size="sm" variant={building ? "fill" : "glass"} icon={building ? "check" : "plus"} onClick={() => setBuilding((b) => !b)} className="tpy-desk-inline">
-          {building ? "Hide lessons" : "Days to place"}
+          {building ? "Done adding" : "Add lessons"}
         </Button>
       </div>
 
@@ -173,6 +189,7 @@ export function PlanBoard(p: Props) {
                     <span>
                       <b>{dayShort(d)} {dayNum(d)}</b>
                       {isToday && <span className="lq-t13 lq-ink" style={{ marginLeft: 6, fontWeight: 600 }}>Today</span>}
+                      {clash.has(d) && <span className="pln-clash" title="Two main sessions on this day">2 sessions</span>}
                     </span>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
                       {!es.length && <span className="lq-t13 lq-c3 tpy-phone">Rest</span>}
@@ -197,7 +214,10 @@ export function PlanBoard(p: Props) {
                       />
                     ))
                   ) : (
-                    <div className="tpy-empty-day tpy-desk-block">Rest day</div>
+                    <div className="tpy-empty-day tpy-desk-block">
+                      <Icon name="moon" size="xs" /> Rest day
+                      {d >= p.today && <Link href="/programs/working-in" className="pln-restlink">Optional: Working-In</Link>}
+                    </div>
                   )}
                 </Glass>
               );
@@ -284,7 +304,10 @@ function EntryRow({ e, today, dragging, onOpen, onDragStart, onDragEnd }: {
       </span>
       <span className="tpy-row-main">
         <span className="lq-t15 tpy-entry-t" style={{ fontWeight: 600 }}>{day ? `Day ${day} · ${name}` : name}</span>
-        <span className="lq-t13 lq-c2">{e.skipped ? "Skipped" : isMissed ? "Missed" : e.program_name ?? e.subtitle}</span>
+        <span className="lq-t13 lq-c2 pln-entry-sub">
+          {e.kind === "plan" && <i className="pln-dot" style={{ background: programColor(e.program_slug) }} aria-hidden />}
+          {e.skipped ? "Skipped" : isMissed ? "Missed" : e.program_name ?? e.subtitle}
+        </span>
       </span>
     </button>
   );
@@ -322,7 +345,7 @@ function MonthView({ month, today, byDate, picked, setPicked, onOpen, onAdd }: {
                 <span>{dayNum(d)}</span>
                 <span className="tpy-dots" aria-hidden>
                   {list.slice(0, 3).map((e, i) => (
-                    <i key={i} data-k={e.done ? "done" : e.kind !== "plan" ? "event" : e.on_date < today && !e.skipped ? "missed" : undefined} />
+                    <i key={i} data-k={e.done ? "done" : e.kind !== "plan" ? "event" : e.on_date < today && !e.skipped ? "missed" : undefined} style={e.kind === "plan" && !e.done && !(e.on_date < today) ? { background: programColor(e.program_slug) } : undefined} />
                   ))}
                 </span>
               </button>
@@ -414,9 +437,23 @@ function EntrySheet({ entry, today, planName, onClose, onDone, onSkip, onMove, o
               </button>
             </Glass>
           )}
-          {!isPlan && e.kind !== "plan" && <p className="lq-t15 lq-c2">{e.subtitle}</p>}
+          {!isPlan && e.kind !== "plan" && (
+            <>
+              <p className="lq-t15 lq-c2">{e.subtitle}</p>
+              <Button variant="secondary" size="md" icon="calendar" href={eventCalUrl(e)} target="_blank" rel="noreferrer">Add to Google Calendar</Button>
+            </>
+          )}
         </div>
       )}
     </Sheet>
   );
+}
+
+/** Google Calendar "add event" link for a coaching call or retreat/live session (spec 12 Plan #5). */
+function eventCalUrl(e: WeekEntry) {
+  const z = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  const start = e.starts_at ? new Date(e.starts_at) : null;
+  const dates = start ? `${z(start)}/${z(new Date(start.getTime() + 45 * 60000))}` : `${e.on_date.replace(/-/g, "")}/${addDays(e.on_date, 1).replace(/-/g, "")}`;
+  const q = new URLSearchParams({ action: "TEMPLATE", text: e.title, dates, details: e.subtitle ?? "" });
+  return `https://calendar.google.com/calendar/render?${q.toString()}`;
 }

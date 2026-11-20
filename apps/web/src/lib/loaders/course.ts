@@ -1,6 +1,7 @@
 import "server-only";
 import {
-  getLesson, getProgram, getIntakeForm, intakeHistory, mtkPlans, programIntake, type DB, type IntakeForm, type IntakeResult,
+  getLesson, getProgram, getIntakeForm, intakeHistory, mtkPlans, myTrainingProfile, prefillIntake, programIntake,
+  type DB, type IntakeAnswers, type IntakeForm, type IntakeResult, type Prefill, type TrainingProfile,
 } from "@ms/api";
 import { MTK_SLUG, type MtkPathId, type MtkPlanDay, type VideoRef } from "@ms/core";
 import { coverFor, type Cover } from "@/lib/covers";
@@ -341,20 +342,28 @@ export interface IntakePageData {
   kind: "kbl" | "mtk" | "program";
   latest: IntakeAttempt | null;
   attempts: number;
+  /** Answers prefilled from the member's training profile (+ earlier intakes); only the rest is asked. */
+  prefill?: Prefill | null;
 }
 
-/** Program intake by program slug. Preview fixtures: `fixtures/intake-<slug>.json`. */
+/** Program intake by program slug. Preview fixtures: `fixtures/intake-<slug>.json` + `fixtures/training-profile.json`. */
 export async function loadIntakePage(slug: string): Promise<IntakePageData | null> {
-  if (MOCK) return fixture<IntakePageData>(`intake-${slug}`).catch(() => null);
+  if (MOCK) {
+    const d = await fixture<IntakePageData>(`intake-${slug}`).catch(() => null);
+    if (!d) return null;
+    const profile = await fixture<TrainingProfile>("training-profile").catch(() => ({}));
+    return { ...d, prefill: prefillIntake(d.form, profile, d.latest?.answers as IntakeAnswers | undefined) };
+  }
   const { supabase: sb, user } = await getUser();
   if (!user) return null;
   const program = await getProgram(sb, slug);
   if (!program) return null;
   const form = slug === MTK_SLUG ? await getIntakeForm(sb, "mtk-intake") : await programIntake(sb, program.id);
   if (!form) return null;
-  const history = await intakeHistory(sb, user.id, form.id);
+  const [history, profile] = await Promise.all([intakeHistory(sb, user.id, form.id), myTrainingProfile(sb, user.id).catch(() => ({}) as TrainingProfile)]);
   const h = history[0];
   return {
+    prefill: prefillIntake(form, profile, (h?.answers ?? null) as IntakeAnswers | null),
     program: {
       id: program.id, slug: program.slug, name: program.name, type: program.type,
       image: coverFor(program.slug, program.media.find((m) => m.role === "hero")?.url ?? program.media[0]?.url ?? null, program.cover).src,

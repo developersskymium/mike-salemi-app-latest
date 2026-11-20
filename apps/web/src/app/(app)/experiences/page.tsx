@@ -89,7 +89,7 @@ export default async function RetreatsPage() {
       </section>
 
       <section className="rt-sec" aria-labelledby="up">
-        <header className="rt-sec-head"><div><div className="lq-eyebrow" data-tone="accent">Upcoming</div><h2 id="up" className="lq-d-md">Choose your dates</h2></div><span className="lq-t13 lq-c2 lq-num">{upcoming.length} upcoming · {past.length} past</span></header>
+        <header className="rt-sec-head"><div><div className="lq-eyebrow" data-tone="accent">Upcoming</div><h2 id="up" className="lq-d-md">Choose your dates</h2></div><span className="lq-t13 lq-c2 lq-num">{upcoming.length} upcoming</span></header>
         {upcoming.length ? (
           <div className="rt-listings" data-feature={upcoming.length === 1 ? "" : undefined}>{upcoming.map((r, i) => <ListingCard key={r.id} r={r} priority={i === 0} />)}</div>
         ) : (
