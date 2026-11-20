@@ -37,7 +37,7 @@ const Errs = ({ err }: { err: string | null }) => (err ? <div className="st-errs
 
 // ------------------------------------------------------------------ Home: Mike's weekly note
 
-export function MikeNoteForm({ note, photos }: { note: { text: string; photo: string; week_of: string; enabled: boolean }; photos: { key: string; src: string; alt: string }[] }) {
+export function MikeNoteForm({ note, photos }: { note: { text: string; photo: string; week_of: string; enabled: boolean }; photos: { key: string; src: string; alt: string; fallback?: string }[] }) {
   const [v, setV] = useState(note);
   const { save, pending, err } = useSave();
   return (
@@ -58,7 +58,7 @@ export function MikeNoteForm({ note, photos }: { note: { text: string; photo: st
           {photos.map((p) => (
             <button key={p.key} type="button" role="radio" aria-checked={v.photo === p.key} className="st-photo" onClick={() => setV({ ...v, photo: p.key })} title={p.alt}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.src} alt={p.alt} loading="lazy" />
+              <img src={p.src} alt={p.alt} loading="lazy" onError={(e) => { if (p.fallback && !e.currentTarget.src.endsWith(p.fallback)) e.currentTarget.src = p.fallback; }} />
               <span>{p.key}</span>
             </button>
           ))}

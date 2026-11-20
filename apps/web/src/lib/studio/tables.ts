@@ -190,7 +190,7 @@ export const TABLES = {
   coaching_live_sessions: {
     label: "Live session", pk: ["id"], title: "title",
     fields: [
-      t("title", "Title", { required: true }), dt("starts_at", "Starts", { required: true, help: "Your local time." }), int("duration_minutes", "Minutes", { required: true }),
+      t("title", "Title", { required: true }), dt("starts_at", "Starts", { required: true, help: "UTC, like the rest of Studio." }), int("duration_minutes", "Minutes", { required: true }),
       t("series", "Series", { required: true, notNull: true, help: "zen-savage" }), long("summary", "Summary"),
       t("join_url", "Join link", { wide: true }), t("replay_url", "Replay URL", { wide: true }), t("replay_thumb", "Replay thumbnail URL", { wide: true }),
       bool("is_published", "Published"), long("draft_note", "Draft note", { help: "Shown to admins only. Clear it to confirm the date." }),

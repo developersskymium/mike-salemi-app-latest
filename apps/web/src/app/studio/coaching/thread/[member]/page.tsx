@@ -17,7 +17,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ member:
   return (
     <>
       <PageHead eyebrow={[{ label: "Coaching", href: "/studio/coaching" }, { label: "Inbox", href: "/studio/coaching" }]} title={d.who}
-        sub={`${d.messages.length} messages${unread ? ` · ${unread} unread` : ""}`}
+        sub={`${d.messages.length} message${d.messages.length === 1 ? "" : "s"}${unread ? ` · ${unread} unread` : ""}`}
         actions={unread ? <ActionButton variant="glass" action={markThreadRead.bind(null, member)} ok="Marked read">Mark read</ActionButton> : undefined} />
       <Panel title="Thread">
         {d.messages.length ? (

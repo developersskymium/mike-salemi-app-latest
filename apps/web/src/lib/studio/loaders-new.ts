@@ -27,7 +27,7 @@ export const loadCoachingAdmin = studioLoader("studio-coaching-admin", async (db
   const [messages, bookings, live, podcast] = await Promise.all([
     rows(db.from("coaching_messages").select("id,member_id,from_coach,body,created_at,read_at").order("created_at", { ascending: false }).limit(500)),
     rows(db.from("coaching_bookings").select("id,user_id,starts_at,status,homework,coach_note").order("starts_at", { ascending: false }).limit(200)),
-    rows(db.from("coaching_live_sessions").select("*").order("starts_at", { ascending: false })),
+    rows(db.from("coaching_live_sessions").select("*").order("starts_at")),
     rows(db.from("podcast_episodes").select("*").order("position").order("published_on", { ascending: false })),
   ]);
   const people = await profileNames(db, [...messages.map((m) => m.member_id), ...bookings.map((b) => b.user_id)]);

@@ -9,7 +9,7 @@ export const metadata = { title: "Home content" };
 export default async function HomeContentPage() {
   await studioAdmin();
   const d = await loadHomeContent();
-  const photos = Object.entries(PHOTO).map(([key, p]) => ({ key, src: p.src, alt: p.alt }));
+  const photos = Object.entries(PHOTO).map(([key, p]) => ({ key, src: p.src, alt: p.alt, fallback: "fallback" in p ? p.fallback : undefined }));
   return (
     <>
       <PageHead title="Home content" sub="What members see change week to week: Mike's note on Home and the “Mike's picks” shelf in the Library." />
