@@ -2,8 +2,15 @@
 
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { after } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { deliverWelcomeNow, sendBrandedReset } from "@/lib/email/notify";
+
+/** First sign-in queues the welcome email (DB trigger); send it right after the response. */
+function welcomeAfter(userId: string | undefined) {
+  if (userId) after(() => deliverWelcomeNow(userId));
+}
 
 export type AuthState = { error?: string; message?: string } | undefined;
 
@@ -30,8 +37,9 @@ export async function signInWithPassword(_: AuthState, form: FormData): Promise<
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message };
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) return { error: "That email and password don't match." };
+  welcomeAfter(data.user?.id);
   redirect(safeNext(form.get("next")));
 }
 
@@ -64,14 +72,18 @@ export async function signUp(_: AuthState, form: FormData): Promise<AuthState> {
   });
   if (error) return { error: error.message };
   if (!data.session) return { message: "Check your email to confirm your account." };
+  welcomeAfter(data.user?.id);
   redirect(safeNext(form.get("next")));
 }
 
 export async function requestPasswordReset(_: AuthState, form: FormData): Promise<AuthState> {
   const parsed = email.safeParse(form.get("email"));
   if (!parsed.success) return { error: parsed.error.issues[0]?.message };
-  const supabase = await createClient();
-  await supabase.auth.resetPasswordForEmail(parsed.data, { redirectTo: `${await origin()}/auth/callback?next=/you/settings?reset=1` });
+  // Branded email through our Resend account; Supabase's built-in email until Resend is configured.
+  if (!(await sendBrandedReset(parsed.data))) {
+    const supabase = await createClient();
+    await supabase.auth.resetPasswordForEmail(parsed.data, { redirectTo: `${await origin()}/auth/callback?next=/you/settings?reset=1` });
+  }
   return { message: "If that email has an account, a reset link is on its way." };
 }
 

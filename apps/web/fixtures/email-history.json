@@ -1,0 +1,101 @@
+{
+ "timezone": "UTC",
+ "events": [
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000001",
+   "kind": "training_reminder",
+   "channel": "in_app",
+   "status": "snoozed",
+   "title": "Reminders snoozed",
+   "body": "Reminders are back on at 08:50.",
+   "detail": "Snoozed 1 hour",
+   "error": null,
+   "created_at": "2026-11-20T07:50:16Z",
+   "opened_at": null
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000002",
+   "kind": "training_reminder",
+   "channel": "email",
+   "status": "failed",
+   "title": "Time to train",
+   "body": "Day 24 \u00b7 Recovery Day \u00b7 Kettlebell Lifestyle",
+   "detail": null,
+   "error": "Email isn't set up yet",
+   "created_at": "2026-11-20T07:00:04Z",
+   "opened_at": null
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000003",
+   "kind": "training_reminder",
+   "channel": "in_app",
+   "status": "opened",
+   "title": "Time to train",
+   "body": "Day 24 \u00b7 Recovery Day \u00b7 Kettlebell Lifestyle",
+   "detail": null,
+   "error": null,
+   "created_at": "2026-11-20T07:00:04Z",
+   "opened_at": "2026-11-20T07:12:40Z"
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000004",
+   "kind": "streak_nudge",
+   "channel": "in_app",
+   "status": "sent",
+   "title": "Don't break the chain",
+   "body": "Your 27-day streak ends tonight. A short session keeps it alive.",
+   "detail": null,
+   "error": null,
+   "created_at": "2026-11-19T18:00:03Z",
+   "opened_at": null
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000005",
+   "kind": "streak_nudge",
+   "channel": "email",
+   "status": "failed",
+   "title": "Don't break the chain",
+   "body": "Your 27-day streak ends tonight. A short session keeps it alive.",
+   "detail": null,
+   "error": "Email isn't set up yet",
+   "created_at": "2026-11-19T18:00:03Z",
+   "opened_at": null
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000006",
+   "kind": "training_reminder",
+   "channel": "in_app",
+   "status": "skipped",
+   "title": "Today's reminder skipped",
+   "body": "Your schedule is untouched \u2014 reminders resume tomorrow.",
+   "detail": "Skipped today's reminder",
+   "error": null,
+   "created_at": "2026-11-19T06:41:22Z",
+   "opened_at": null
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000007",
+   "kind": "training_reminder",
+   "channel": "in_app",
+   "status": "opened",
+   "title": "Time to train",
+   "body": "Two Hand Deadlift \u00b7 Mastering the Kettlebell",
+   "detail": null,
+   "error": null,
+   "created_at": "2026-11-18T07:00:02Z",
+   "opened_at": "2026-11-18T07:31:09Z"
+  },
+  {
+   "id": "6f1c2a10-0000-4000-8000-000000000008",
+   "kind": "weekly_summary",
+   "channel": "email",
+   "status": "failed",
+   "title": "Your week in training",
+   "body": "7 days, 7 lessons this week.",
+   "detail": null,
+   "error": "Email isn't set up yet",
+   "created_at": "2026-11-15T18:00:05Z",
+   "opened_at": null
+  }
+ ]
+}

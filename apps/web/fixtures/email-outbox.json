@@ -1,0 +1,68 @@
+[
+ {
+  "id": "a1",
+  "kind": "reward",
+  "status": "not_configured",
+  "subject": "You just earned new rewards",
+  "to_email": "member.test@example.com",
+  "last_error": "Email isn't set up yet (RESEND_API_KEY is not set).",
+  "attempts": 1,
+  "created_at": "2026-11-20T07:50:16Z",
+  "sent_at": null
+ },
+ {
+  "id": "a2",
+  "kind": "tool_result",
+  "status": "not_configured",
+  "subject": "Your Kettlebell Selector results",
+  "to_email": "member.test@example.com",
+  "last_error": "Email isn't set up yet (RESEND_API_KEY is not set).",
+  "attempts": 1,
+  "created_at": "2026-11-20T07:50:16Z",
+  "sent_at": null
+ },
+ {
+  "id": "a3",
+  "kind": "schedule_created",
+  "status": "not_configured",
+  "subject": "Your training schedule starts Friday, November 20",
+  "to_email": "member.test@example.com",
+  "last_error": "Email isn't set up yet (RESEND_API_KEY is not set).",
+  "attempts": 1,
+  "created_at": "2026-11-20T07:50:15Z",
+  "sent_at": null
+ },
+ {
+  "id": "a4",
+  "kind": "training_reminder",
+  "status": "not_configured",
+  "subject": "Today: Day 24 \u00b7 Recovery Day",
+  "to_email": "member.test@example.com",
+  "last_error": "Email isn't set up yet (RESEND_API_KEY is not set).",
+  "attempts": 1,
+  "created_at": "2026-11-20T07:00:04Z",
+  "sent_at": null
+ },
+ {
+  "id": "a5",
+  "kind": "welcome",
+  "status": "not_configured",
+  "subject": "Welcome to Kettlebell Lifestyle \u2014 start here",
+  "to_email": "member.test@example.com",
+  "last_error": "Email isn't set up yet (RESEND_API_KEY is not set).",
+  "attempts": 1,
+  "created_at": "2026-11-20T04:45:20Z",
+  "sent_at": null
+ },
+ {
+  "id": "a6",
+  "kind": "streak_nudge",
+  "status": "skipped",
+  "subject": null,
+  "to_email": "coach.test@example.com",
+  "last_error": "Email is switched off in the member's settings",
+  "attempts": 0,
+  "created_at": "2026-11-19T18:00:03Z",
+  "sent_at": null
+ }
+]

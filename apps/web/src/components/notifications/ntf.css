@@ -1,0 +1,99 @@
+/* W3 notifications: reminder cards, channels, quiet hours, history. Global classes prefixed ntf-. Tokens only. */
+
+.ntf-grid { position: relative; display: grid; gap: 12px; align-items: start; }
+.ntf-col { display: grid; gap: 12px; align-content: start; }
+@media (min-width: 1024px) {
+  .ntf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .ntf-col { gap: 20px; }
+}
+
+.ntf-card { padding: 18px 18px 16px; display: grid; gap: 14px; align-content: start; scroll-margin-top: 80px; }
+.ntf-head { display: flex; gap: 12px; align-items: center; }
+.ntf-ic { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--fill); color: var(--label); flex: none; }
+.ntf-title { font: var(--t-17); letter-spacing: var(--t-17-track); font-weight: 600; }
+.ntf-sub { font: var(--t-13); color: var(--label-2); margin-top: 1px; font-variant-numeric: tabular-nums; }
+
+.ntf-rows { display: grid; }
+.ntf-rows > * + * { border-top: 1px solid var(--sep); }
+.ntf-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 12px 0; min-height: 52px; }
+.ntf-row-main { display: grid; gap: 2px; min-width: 0; }
+.ntf-row-label { font: var(--t-15); color: var(--label); }
+.ntf-row-hint { font: var(--t-13); color: var(--label-2); }
+.ntf-row-ctl { display: flex; align-items: center; gap: 8px; }
+.ntf-stack { display: grid; gap: 10px; padding: 14px 0; transition: opacity var(--dur-press) var(--curve-out); }
+.ntf-stack[data-off], .ntf-timing[data-off] { opacity: .45; pointer-events: none; }
+.ntf-label { font: var(--t-13); font-weight: 600; color: var(--label-2); }
+.ntf-foot { font: var(--t-13); color: var(--label-2); padding-top: 12px; }
+.ntf-foot b { color: var(--label); font-weight: 600; }
+.ntf-link, .ntf-textbtn { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+.ntf-textbtn { border: 0; background: none; font: var(--t-13); font-weight: 600; cursor: pointer; padding: 6px 4px; border-radius: 8px; }
+.ntf-link:hover, .ntf-textbtn:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ntf-textbtn:focus-visible, .ntf-link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* time chips + inputs */
+.ntf-times { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ntf-chip { min-height: 36px; padding: 0 14px; border-radius: var(--r-pill); border: 0; background: var(--fill); color: var(--label); font: var(--t-13); font-weight: 600; cursor: pointer; transition: transform var(--dur-press) var(--curve-spring), background var(--dur-press), color var(--dur-press); }
+.ntf-chip:active { transform: scale(.95); }
+.ntf-chip[aria-pressed="true"] { background: var(--label); color: var(--bg); }
+.ntf-chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.ntf-time, .ntf-select { min-height: 36px; padding: 0 12px; border-radius: var(--r-pill); border: 0; background: var(--fill); color: var(--label); font: var(--t-13); font-weight: 600; font-variant-numeric: tabular-nums; }
+.ntf-time:disabled { opacity: .4; }
+.ntf-select { width: 100%; min-height: 44px; border-radius: var(--r-control); font-weight: 500; }
+.ntf-time:focus-visible, .ntf-select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.ntf-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.ntf-days button { min-height: 40px; border-radius: 12px; border: 0; background: var(--fill); color: var(--label-2); font: var(--t-13); font-weight: 600; cursor: pointer; transition: transform var(--dur-press) var(--curve-spring), background var(--dur-press); }
+.ntf-days button:active { transform: scale(.94); }
+.ntf-days button[aria-pressed="true"] { background: var(--label); color: var(--bg); }
+.ntf-days button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* full timing (Plan › Reminders) */
+.ntf-timing { display: grid; gap: 10px; transition: opacity var(--dur-press); }
+.ntf-block { display: grid; gap: 10px; padding: 14px; border-radius: var(--r-panel); background: var(--fill-2); }
+.ntf-blockhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; font: var(--t-12); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--label-2); }
+.ntf-blockhead > span, .ntf-blockhead:not(:has(> span)) { display: inline-flex; align-items: center; gap: 6px; }
+.ntf-blockhead .ntf-textbtn { text-transform: none; letter-spacing: 0; }
+.ntf-perday { list-style: none; display: grid; gap: 4px; }
+.ntf-perday li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 6px 6px 6px 8px; border-radius: 12px; transition: background var(--dur-press); }
+.ntf-perday li[data-on] { background: var(--fill); }
+.ntf-dayname { font: var(--t-15); color: var(--label-2); }
+.ntf-perday li[data-on] .ntf-dayname { color: var(--label); font-weight: 500; }
+.ntf-check { width: 24px; height: 24px; border-radius: 8px; border: 1.5px solid var(--label-3); background: none; color: var(--bg); display: grid; place-items: center; cursor: pointer; padding: 0; }
+.ntf-check[aria-pressed="true"] { background: var(--label); border-color: var(--label); }
+.ntf-check:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.ntf-note { display: flex; gap: 8px; align-items: flex-start; font: var(--t-13); color: var(--label-2); padding: 10px 12px; border-radius: var(--r-inner); background: var(--fill-2); }
+.ntf-note > svg { flex: none; margin-top: 2px; }
+.ntf-actions { display: grid; gap: 6px; }
+
+/* ---------------------------------------------------------------- reminder history (L19) */
+.ntf-page { position: relative; display: grid; gap: 16px; }
+.ntf-lede { font: var(--t-15); color: var(--label-2); max-width: 52ch; padding: 0 4px; margin-top: -6px; }
+.ntf-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 640px) { .ntf-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; } }
+.ntf-stat { padding: 14px 16px; display: grid; gap: 8px; }
+.ntf-stat .ntf-ic { width: 32px; height: 32px; border-radius: 10px; }
+.ntf-stat b { font: var(--t-28); letter-spacing: var(--t-28-track); font-variant-numeric: tabular-nums; }
+.ntf-stat > span:last-child { font: var(--t-13); color: var(--label-2); }
+.ntf-events { list-style: none; display: grid; padding: 4px 0; }
+.ntf-events > li + li { border-top: 1px solid var(--sep); }
+.ntf-event { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 16px; animation: ntf-in var(--dur-page) var(--curve-out) both; }
+.ntf-event .ntf-ic { width: 36px; height: 36px; border-radius: 50%; }
+.ntf-event[data-status="failed"] .ntf-ic { color: var(--label); box-shadow: inset 0 0 0 1.5px var(--label); background: none; }
+.ntf-event[data-status="opened"] .ntf-ic { background: var(--label); color: var(--bg); }
+.ntf-event[data-status="sent"] .ntf-ic, .ntf-event[data-status="queued"] .ntf-ic { background: var(--accent-soft); color: var(--accent-ink); }
+.ntf-ev-main { display: grid; gap: 2px; min-width: 0; }
+.ntf-ev-title { font: var(--t-15); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ntf-ev-body { font: var(--t-13); color: var(--label-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ntf-ev-meta { font: var(--t-12); color: var(--label-3); display: flex; flex-wrap: wrap; gap: 2px 6px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.ntf-ev-meta > span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.ntf-pill { font: var(--t-12); font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill); background: var(--fill); color: var(--label-2); white-space: nowrap; }
+.ntf-pill[data-status="sent"], .ntf-pill[data-status="queued"] { background: var(--accent-soft); color: var(--accent-ink); }
+.ntf-pill[data-status="opened"] { background: var(--label); color: var(--bg); }
+.ntf-pill[data-status="failed"] { background: none; box-shadow: inset 0 0 0 1px var(--label-2); color: var(--label); }
+.ntf-day { font: var(--t-12); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--label-3); padding: 12px 16px 2px; }
+@keyframes ntf-in { from { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) {
+  .ntf-event { animation: none; }
+  .ntf-chip, .ntf-days button { transition: none; }
+}

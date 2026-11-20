@@ -1,0 +1,36 @@
+{
+ "email": "member.test@example.com",
+ "timezone": "UTC",
+ "today": "2026-11-20",
+ "now": "07:50",
+ "prefs": {
+  "email_enabled": true,
+  "push_enabled": false,
+  "in_app_enabled": true,
+  "reminders_enabled": true,
+  "frequency": "custom_days",
+  "reminder_time": "07:00",
+  "reminder_days": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "reminder_times": {
+   "6": "09:30"
+  },
+  "quiet_start": null,
+  "quiet_end": null,
+  "streak_nudge": true,
+  "weekly_recap": true,
+  "offers_email": true,
+  "new_content": true,
+  "announcements": true,
+  "snoozed_until": null,
+  "skip_date": null
+ },
+ "emailReady": false,
+ "pushKey": null,
+ "isAdmin": true
+}
