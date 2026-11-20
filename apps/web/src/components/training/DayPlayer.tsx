@@ -317,12 +317,13 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
         <section className="kd-card kd-ready-card" aria-label="Today's readiness">
           <p className="kd-eyebrow">Today&apos;s readiness</p>
           <div className="kd-ready-row">
-            <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={String(readiness.score)} size={56} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
+            <MiniRing percent={Math.round((1 - Math.min(1, readiness.score / (form.maxScore || 60))) * 100)} label={bandWord ?? ""} aria={`Readiness ${bandWord}, fatigue score ${readiness.score}`} size={56} tone={readiness.band === "green" ? "ok" : readiness.band === "amber" ? "warm" : "red"} />
             <div>
               <b className="lq-t17">
                 {bandWord} — {readiness.outcome === "workout" ? (readiness.band === "green" ? "full workout" : "modified table") : "recovery"}
               </b>
               <p className="lq-t13 lq-c3">{bandSummary(readiness)}</p>
+              <p className="lq-t12 lq-c3 lq-num">Fatigue score {readiness.score} · lower is better</p>
             </div>
           </div>
           <div className="kd-ready-chips">
@@ -342,11 +343,13 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
           <p className="kd-eyebrow">Today&apos;s readiness</p>
           <b className="lq-t17">Not checked yet</b>
           <p className="lq-t13 lq-c3">Five quick questions pick today&apos;s table: full, modified or recovery.</p>
-          <div className="kd-ready-chips">
-            <button type="button" onClick={toReadiness}>
-              Check in now
-            </button>
-          </div>
+          {readinessIdx !== active && (
+            <div className="kd-ready-chips">
+              <button type="button" onClick={toReadiness}>
+                Check in now
+              </button>
+            </div>
+          )}
         </section>
       )
     ) : null;
@@ -452,8 +455,9 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
 
   const primary = (block?: boolean, label = "Mark complete") =>
     step.special === "readiness" && !isDone ? (
-      <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={toReadiness}>
-        Start assessment
+      // The questions are inline below: one way in, the button just scrolls there (D18).
+      <Button block={block} size={block ? "lg" : "md"} variant="secondary" icon="down" onClick={toReadiness}>
+        Answer below
       </Button>
     ) : isDone && nextIsReadiness ? (
       <Button block={block} size={block ? "lg" : "md"} icon="steps" onClick={() => go(active + 1, { auto: false })}>
@@ -771,18 +775,18 @@ export function DayPlayer({ data, endOffer }: { data: LessonPageData; endOffer?:
 /* ------------------------------------------------------------------ parts */
 
 
-function MiniRing({ percent, label, size = 34, tone }: { percent: number; label?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
+function MiniRing({ percent, label, aria, size = 34, tone }: { percent: number; label?: string; aria?: string; size?: number; tone?: "ok" | "warm" | "red" }) {
   const stroke = size > 40 ? 5 : 3.5;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.max(0, Math.min(100, percent));
   return (
-    <span className="kd-ring" role="img" aria-label={label ? label : `${p}% of today done`} style={{ width: size, height: size }} data-tone={tone}>
+    <span className="kd-ring" role="img" aria-label={aria ?? (label ? label : `${p}% of today done`)} style={{ width: size, height: size }} data-tone={tone}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-track" strokeWidth={stroke} />
         <circle cx={size / 2} cy={size / 2} r={r} className="kd-ring-arc" strokeWidth={stroke} strokeDasharray={c} strokeDashoffset={c - (p / 100) * c} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
       </svg>
-      <span className="lq-num" data-big={size > 40 ? "" : undefined}>{label ?? ""}</span>
+      <span className="lq-num" data-big={size > 40 ? "" : undefined} data-word={label && /[a-z]/i.test(label) ? "" : undefined}>{label ?? ""}</span>
     </span>
   );
 }

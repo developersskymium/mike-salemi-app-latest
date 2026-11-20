@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { THEME_SCRIPT } from "@/components/shell/theme";
+import { VT_GUARD_SCRIPT } from "@/components/shell/vt-guard";
 import "./globals.css";
 
 /*
@@ -49,6 +50,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         {/* Applies the saved theme before first paint (no flash). */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Aborted page transitions (viewport resize, hidden tab) skip quietly instead of throwing. */}
+        <script dangerouslySetInnerHTML={{ __html: VT_GUARD_SCRIPT }} />
       </head>
       <body>{children}</body>
     </html>
