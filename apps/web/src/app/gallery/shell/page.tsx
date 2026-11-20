@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import { AppShell } from "@/components/shell/AppShell";
-import { SidebarGroup } from "@/components/shell/Sidebar";
-import { UserButton } from "@/components/shell/ShellUser";
-import { Button, Glass, ProgressBar, StatTile } from "@/components/ui";
-import { LightPill, PhotoGrade, SnowContours, StarTrails, StretchNumber, SwingRibbon, TraceLine, WeekTrace } from "@/components/signature";
-import { BELL_PATHS, IMG } from "../_parts/images";
-import { WEEK } from "../_parts/Week";
+import { Avatar, Button, Chip, Glass, Icon, ProgressBar, Rings, StepSegments, Tag } from "@/components/ui";
+import { BeyondTheSummit, Climb, PhotoHero, StreakChip, WeekDots } from "@/components/signature";
+import { programPhoto } from "@/lib/program-photos";
+import { IMG } from "../_parts/images";
+import "../gallery.css";
 
 export const metadata: Metadata = { title: "Shell", robots: { index: false, follow: false } };
 
@@ -17,228 +16,135 @@ const PHASES = [
   { label: "Phase 3", from: 41, to: 61 },
 ];
 
-const MTN = "M0 410 C40 404 80 396 110 388 C130 382 142 372 152 366 C158 362 164 362 170 364 C178 354 190 336 202 322 C210 312 216 308 222 310 C230 314 244 332 260 350 C280 372 310 388 350 396 C370 400 384 402 390 404";
+const SHELL = {
+  resume: { href: "/today", eyebrow: "Up next · Level I", title: "Recovery Day", meta: "Phase 2 · 5 steps · 34 min", day: "Day 24 of 61", progress: 0.38, photo: programPhoto("working-in") },
+  access: [
+    { href: "/programs/kettlebell-lifestyle", title: "Kettlebell Lifestyle", sub: "Level I · Immersion", photo: programPhoto("kettlebell-lifestyle"), slug: "kettlebell-lifestyle" },
+    { href: "/programs/working-in", title: "Working In", sub: "Mind-body course", photo: programPhoto("working-in"), slug: "working-in" },
+  ],
+  shop: false,
+};
 
-/** The training resume card for the rail (legacy L0 slot). */
-function Resume() {
-  return (
-    <Glass radius="inner" leak interactive className="sg-resume">
-      <div className="lq-t12 lq-c3">Continue training</div>
-      <div className="lq-t15" style={{ fontWeight: 600, marginTop: 2 }}>Kettlebell Lifestyle I</div>
-      <div className="lq-t12 lq-c2" style={{ fontWeight: 500 }}>Phase 2 · Day 24</div>
-      <div style={{ marginTop: 10 }}><ProgressBar value={23 / 61} label="23 of 61 days" /></div>
-    </Glass>
-  );
-}
+const STEPS = [["Morning Routine", "8 min"], ["Bodyweight Warm Up", "7 min"], ["Working In", "10 min"], ["Stretching", "7 min"], ["Completion", "2 min"]];
 
-/** The app shell with mock data and a Today composition (legacy Home order), for screenshot QA (no auth). */
+/** The Summit shell with the approved Home composition (mockup 01), static data, no auth — for screenshot QA. */
 export default function ShellGallery() {
   return (
     <AppShell
-      user={{ name: "Daniel Reyes", subtitle: "Level I · Immersion" }}
+      user={{ name: "Daniel Reyes", subtitle: "Member since Sep 2026" }}
+      shell={SHELL}
       activeTab={0}
-      sidebarResume={<Resume />}
-      sidebarExtra={
-        <SidebarGroup
-          title="Unlocked"
-          items={[
-            { href: "/programs", label: "Mastering the Kettlebell", icon: "programs", meta: "Technique course" },
-            { href: "/experiences", label: "The Breakthrough", icon: "mountain", meta: "May 13–16, 2027" },
-          ]}
-        />
+      streak={<StreakChip days={12} />}
+      streakPhone={<StreakChip days={12} compact />}
+      announcement={
+        <p>
+          <span className="lq-tag" data-tone="warm">New</span>
+          <span className="sm-announce-t">Men of Movement · <strong>The Breakthrough</strong> — applications open for May 13–16, 2027 on Mount Shasta</span>
+          <Link href="/experiences" className="sm-announce-a">Apply <Icon name="arrowRight" size="xs" /></Link>
+        </p>
       }
     >
-      <div className="sg">
-        {/* (1) Hero: continue training, drawn as today's swing */}
-        <section className="sg-expo" data-rise="" style={{ ["--i" as string]: 0 }}>
-          <div className="sg-sky sg-sky-dark"><StarTrails count={170} /></div>
-          <div className="sg-sky sg-sky-light"><SnowContours count={24} /></div>
-          <svg className="sg-mtn" viewBox="0 0 390 468" preserveAspectRatio="xMidYMid slice" aria-hidden>
-            <path d={`${MTN} L390 468 L0 468Z`} className="sg-mtn-fill" transform="translate(0,36)" />
-            <path d={MTN} className="sg-mtn-line" transform="translate(0,36)" />
-          </svg>
-          <div className="sg-top">
-            <div>
-              <div className="lq-t13 lq-c2">Friday 20 November</div>
-              <div className="sg-hello">Morning, Daniel</div>
-            </div>
-            <span className="sg-phone"><UserButton /></span>
-          </div>
-          <TraceLine
-            className="sg-gauge"
-            d="M34 70 A190 190 0 0 0 356 70"
-            viewBox="0 0 390 330"
-            width={3.4}
-            progress={0.25}
-            nodes={[0, 0.25, 0.5, 0.75, 1]}
-            nodeR={5}
-            animate
-            duration={1800}
-            delay={400}
-            floor={0.04}
-            label="2 of 5 steps today"
-          />
-          <div className="sg-daynum">
-            <div className="lq-t13 lq-c2">Day</div>
-            <StretchNumber value={24} duration={1300} size={132} className="sg-n" />
-          </div>
-          <div className="sg-caps"><span>Morning Routine</span><span><b>2 of 5</b> steps today</span><span>Completion</span></div>
-        </section>
-
-        <section className="sg-action" data-rise="" style={{ ["--i" as string]: 1 }}>
-          <div className="lq-t13 lq-c2">Continue training</div>
-          <div className="sg-kind">Recovery</div>
-          <div className="lq-t13 lq-c2" style={{ marginTop: 8 }}>Kettlebell Lifestyle Level I · 5 steps · 34 min</div>
-          <LightPill block href="/programs" style={{ marginTop: 18 }}>Resume step 3</LightPill>
-          <div className="lq-t12 lq-c3" style={{ marginTop: 10, fontWeight: 500 }}>Up next: Bodyweight Warm Up, 10 min</div>
-        </section>
-
-        {/* v2 extras inside the legacy order: stats + this week */}
-        <div className="sg-row2" data-rise="" style={{ ["--i" as string]: 2 }}>
-          <Glass as="section" radius="card" leak className="sg-stats">
-            <div className="sg-stats-r">
-              <StatTile value={23} unit="/61" label="program days" />
-              <StatTile value={2} unit="/5" label="steps today" />
-              <StatTile value={12} label="day streak" />
-            </div>
-            <div style={{ marginTop: 14 }}><SwingRibbon total={61} done={23} phases={PHASES} size="compact" labels={false} /></div>
+      <PhotoHero
+        image={{ src: IMG.mtk, alt: "Mike Salemi in the gym", focal: "78% 30%", focalPhone: "60% 22%" }}
+        minHeight={420}
+        priority
+        overlay={
+          <Glass level="clear" radius={20} className="g-quote">
+            <Avatar name="Mike Salemi" src="/media/summit/mike-face.png" size="lg" />
+            <p className="lq-t13">“Recovery is where yesterday&apos;s work turns into strength. Breathe slow, move easy — and show up.”<small>MIKE · NOTE FOR DAY 24</small></p>
           </Glass>
-          <section>
-            <div className="sg-h"><h2 className="lq-t17">This week</h2><a className="sg-link" href="/plan">Week 4 of 9</a></div>
-            <Glass radius="card" style={{ padding: "10px 6px" }}><WeekTrace days={WEEK} /></Glass>
-          </section>
+        }
+      >
+        <div className="g-row" style={{ gap: 8 }}>
+          <Tag tone="warm" size="lg">Continue training</Tag>
+          <Chip variant="clear">Day 24 of 61</Chip>
         </div>
-
-        {/* (3) Your programs */}
-        <section data-rise="" style={{ ["--i" as string]: 3 }}>
-          <div className="sg-h"><h2 className="lq-t17">Your programs</h2><a className="sg-link" href="/programs">See all</a></div>
-          <div className="sg-rail">
-            <Glass radius="card" interactive className="sg-pcard">
-              <PhotoGrade className="sg-art" grade="night" vignette={false}>
-                <Image src={IMG.squat} alt="" fill sizes="280px" style={{ objectPosition: "50% 25%", objectFit: "cover" }} />
-              </PhotoGrade>
-              <div className="sg-pin">
-                <div className="sg-nm">Kettlebell Lifestyle · Level I</div>
-                <div className="sg-meter"><ProgressBar value={0.38} label="38%" /><b className="lq-dnum">38%</b></div>
-                <div className="lq-t12 lq-c3">23 of 61 days</div>
-                <div className="lq-t13 lq-c2">Up next · Day 24, Recovery</div>
-                <a className="sg-link" href="/programs">Resume</a>
-              </div>
-            </Glass>
-            <Glass radius="card" interactive className="sg-pcard">
-              <PhotoGrade className="sg-art" grade="night" vignette={false}>
-                <Image src={IMG.redgym} alt="" fill sizes="280px" style={{ objectPosition: "60% 35%", objectFit: "cover" }} />
-                <span className="sg-badge">Completed</span>
-              </PhotoGrade>
-              <div className="sg-pin">
-                <div className="sg-nm">Free 6-video mini-series</div>
-                <div className="sg-meter"><ProgressBar value={1} label="100%" /><b className="lq-dnum">100%</b></div>
-                <div className="lq-t12 lq-c3">6 of 6 videos</div>
-                <div className="lq-t13 lq-c2">Watch again any time</div>
-                <a className="sg-link" href="/programs">Review</a>
-              </div>
-            </Glass>
-            <Glass radius="card" interactive className="sg-pcard">
-              <PhotoGrade className="sg-art" grade="night" vignette={false} trace={{ ...BELL_PATHS.press, width: 10 }}>
-                <Image src={IMG.press} alt="" fill sizes="280px" style={{ objectFit: "cover" }} />
-              </PhotoGrade>
-              <div className="sg-pin">
-                <div className="sg-nm">Mastering the Kettlebell</div>
-                <div className="lq-t13 lq-c2">Swing, clean, press and get-up, rep by rep</div>
-                <Button size="sm" style={{ marginTop: 8, alignSelf: "start" }}>Join the course</Button>
-              </div>
-            </Glass>
+        <h1 className="lq-d-xxl" style={{ marginTop: 18 }}>Recovery Day</h1>
+        <p className="lq-t15" style={{ color: "rgba(255,255,255,.75)", marginTop: 10 }}>Kettlebell Lifestyle · Level I · Phase 2 · 5 steps · 34 min</p>
+        <div className="sg-steps">
+          <StepSegments total={5} done={0} current={0} onPhoto />
+          <div className="sg-steps-l">
+            {STEPS.map(([t, m]) => (
+              <span key={t}><b>{t}</b>{m}</span>
+            ))}
           </div>
-        </section>
+        </div>
+        <div className="g-row" style={{ marginTop: 26 }}>
+          <Button icon="play" href="/today">Start Day 24</Button>
+          <Button variant="onphoto" href="/programs/kettlebell-lifestyle">View the program</Button>
+        </div>
+        <div className="g-row sg-level">
+          <span>Level I</span>
+          <ProgressBar value={0.38} tone="white" size="thin" label="Level I" style={{ width: 220 }} />
+          <b>23 / 61 days · 38%</b>
+        </div>
+      </PhotoHero>
 
-        {/* (4) Upcoming activity */}
-        <section data-rise="" style={{ ["--i" as string]: 4 }}>
-          <div className="sg-h"><h2 className="lq-t17">Upcoming activity</h2></div>
-          <div className="sg-upcoming">
-            <Glass radius="hero" className="sg-retreat">
-              <PhotoGrade className="sg-retreat-img" grade="auto">
-                <Image src={IMG.summit} alt="Men of Movement on a ridge facing Mount Shasta" fill sizes="(min-width: 1024px) 600px, 100vw" style={{ objectFit: "cover", objectPosition: "50% 30%" }} />
-                <div className="sg-retreat-cap">
-                  <div className="lq-t13" style={{ color: "#B9D8EA" }}>Retreat · Spring</div>
-                  <div className="sg-retreat-t">The Breakthrough</div>
-                </div>
-              </PhotoGrade>
-              <div className="sg-retreat-b">
-                <div className="sg-facts">
-                  <div><b>Mount Shasta</b>N. California</div>
-                  <div><b>May 13–16</b>2027 · 4 days</div>
-                  <div><b>20 men</b>by application</div>
-                </div>
-                <p className="lq-t13 lq-c2">Four days in Mount Shasta. Breathwork, ceremony, fire and sweat lodge, every meal by Lauren Salemi.</p>
-                <Button variant="ghost" block>Apply for May 13–16, 2027</Button>
+      <div className="sg-grid">
+        <Glass radius="card" className="sg-climb">
+          <div className="g-between" style={{ alignItems: "flex-start", padding: "0 26px" }}>
+            <div>
+              <div className="lq-eyebrow" data-tone="accent">Your climb · Kettlebell Lifestyle Level I</div>
+              <h2 className="lq-d-md" style={{ marginTop: 6 }}>You&apos;re 38% of the way up.</h2>
+            </div>
+            <div className="g-row" style={{ gap: 16 }}>
+              <div style={{ textAlign: "right" }}>
+                <div className="lq-dnum" style={{ fontSize: 26 }}>23<span className="lq-c3" style={{ fontSize: 16 }}>/61</span></div>
+                <div className="lq-t12 lq-c3">days complete</div>
               </div>
-            </Glass>
-            <div className="sg-tiles">
-              <Glass radius="inner" className="sg-tile"><span className="sg-tag">Live call · Preview</span><b>Monthly Q&amp;A with Mike</b><span className="lq-t12 lq-c3">Date to be announced</span></Glass>
-              <Glass radius="inner" className="sg-tile"><span className="sg-tag">Invitation · Preview</span><b>Community workout drop</b><span className="lq-t12 lq-c3">Date to be announced</span></Glass>
+              <Rings size={58} stroke={6} rings={[{ value: 0.38, tone: 1 }]} label="38%"><span>38%</span></Rings>
             </div>
           </div>
-        </section>
+          <Climb id="sg-climb" phases={PHASES} done={23} member={{ name: "Daniel Reyes" }} style={{ marginTop: 12 }} />
+          <div style={{ padding: "18px 26px 0" }}>
+            <BeyondTheSummit
+              sub="Where members go after Level I — picked for your pace and goals."
+              more={{ href: "/programs", label: "See your full path" }}
+              peaks={[
+                { title: "Level II · Intermediate", sub: "Unlocks when you reach the Day 61 summit.", href: "/programs/kettlebell-lifestyle", cta: "Preview Level II", image: { src: IMG.getup, alt: "", position: "50% 25%" }, badge: { label: "Included", kind: "badge" }, locked: true },
+                { title: "Mastering the Kettlebell", sub: "Technique for every Phase 2 lift · $297", href: "/programs/mastering-the-kettlebell", cta: "See what's inside", image: { src: IMG.deadlift, alt: "", position: "50% 30%" }, badge: { label: "Best next step" } },
+                { title: "The Breakthrough retreat", sub: "Train with Mike on Mount Shasta · May 13–16", href: "/experiences", cta: "Apply", image: { src: IMG.summit, alt: "", position: "50% 40%" }, badge: { label: "Applications open", kind: "badge" } },
+              ]}
+            />
+          </div>
+        </Glass>
+
+        <Glass radius="card" className="sg-week">
+          <div className="lq-eyebrow" data-tone="warm">This week</div>
+          <div className="g-row" style={{ gap: 14, marginTop: 12 }}>
+            <span className="g-flame"><Icon name="flame" /></span>
+            <div>
+              <div className="lq-dnum" style={{ fontSize: 40, lineHeight: 0.9 }}>12 <span style={{ fontSize: 18 }}>days</span></div>
+              <div className="lq-t13 lq-c2" style={{ marginTop: 4 }}>Your longest streak yet</div>
+            </div>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <WeekDots days={[{ label: "M", state: "done" }, { label: "T", state: "done" }, { label: "W", state: "done" }, { label: "T", state: "done" }, { label: "F", state: "today", date: 24 }, { label: "S", state: "ahead" }, { label: "S", state: "ahead" }]} />
+          </div>
+          <hr className="lq-hair" style={{ margin: "20px 0 16px" }} />
+          <div className="lq-t13" style={{ fontWeight: 650 }}>2 days to your 14-day badge</div>
+          <div className="lq-t12 lq-c3" style={{ marginTop: 4, fontWeight: 500 }}>Finish today and tomorrow to earn <b className="lq-c2">Fortnight Strong</b>.</div>
+          <div className="g-between lq-t12 lq-c3" style={{ marginTop: 16 }}><span>Badge progress</span><b className="lq-c2">12 / 14</b></div>
+          <ProgressBar value={12 / 14} tone="warm" size="thin" label="Badge progress" style={{ marginTop: 6 }} />
+          <hr className="lq-hair" style={{ margin: "20px 0 16px" }} />
+          <div className="lq-t12 lq-c3">Trained this week</div>
+          <div className="lq-dnum" style={{ fontSize: 24, marginTop: 4 }}>2h 41m</div>
+          <div className="lq-t12" style={{ marginTop: 4, color: "var(--ok)", fontWeight: 650 }}>↑ 18% on last week</div>
+        </Glass>
       </div>
-      <style>{CSS}</style>
+
+      <style>{`
+        .sg-steps { margin-top: 22px; max-width: 700px; }
+        .sg-steps-l { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; margin-top: 8px; font: 500 11.5px/1.25 var(--font); color: rgba(255,255,255,.7); }
+        .sg-steps-l b { display: block; color: #fff; font-weight: 650; }
+        .sg-level { margin-top: 26px; gap: 14px; font: 500 13px/1 var(--font); color: rgba(255,255,255,.75); }
+        .sg-level b { color: #fff; }
+        .sg-grid { display: grid; gap: 20px; margin-top: 20px; }
+        @media (min-width: 1180px) { .sg-grid { grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr); } }
+        .sg-climb { padding: 24px 0 22px; overflow: hidden; }
+        .sg-week { padding: 24px; }
+        @media (max-width: 719px) { .sg-steps-l, .sg-level { display: none; } }
+      `}</style>
     </AppShell>
   );
 }
-
-const CSS = `
-.sg { display: grid; gap: 30px; }
-.sg > *, .sg-row2 > * { min-width: 0; }
-.sg-expo { position: relative; height: 468px; margin: 0 -16px; overflow: hidden; }
-.sg-sky { position: absolute; inset: 0; -webkit-mask: radial-gradient(ellipse 150px 95px at 50% 45%, rgba(0,0,0,.12) 40%, #000 100%); mask: radial-gradient(ellipse 150px 95px at 50% 45%, rgba(0,0,0,.12) 40%, #000 100%); }
-.sg-sky .tr-sky { background: var(--exposure); }
-.sg-sky-dark { display: var(--living-stars); }
-.sg-sky-light { display: var(--living-snow); }
-.sg-expo::after { content: ""; position: absolute; inset: auto 0 0 0; height: 60px; background: linear-gradient(transparent, var(--ground)); }
-.sg-mtn { position: absolute; inset: 0; width: 100%; height: 100%; }
-.sg-mtn-fill { fill: var(--night-mountain); display: var(--living-stars); }
-.sg-mtn-line { fill: none; stroke: color-mix(in srgb, var(--trace) 45%, transparent); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.sg-top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 18px 22px 0; }
-.sg-hello { font: 600 22px/1.15 var(--font-display); font-stretch: 130%; letter-spacing: -.02em; margin-top: 2px; }
-.sg-gauge { position: absolute; left: 50%; top: 156px; width: 390px; height: 330px; transform: translateX(-50%); z-index: 1; }
-.sg-daynum { position: absolute; left: 0; right: 0; top: 130px; text-align: center; z-index: 2; }
-.sg-n { margin-top: 4px; }
-[data-theme="dark"] .sg-n { text-shadow: 0 0 40px rgba(92, 200, 245, .25); }
-.sg-caps { position: absolute; left: 0; right: 0; top: 410px; z-index: 2; display: flex; justify-content: space-between; padding: 0 30px; font-size: 12px; color: var(--ink-3); max-width: 420px; margin: 0 auto; }
-.sg-caps b { color: var(--ink); font-weight: 600; }
-.sg-action { position: relative; text-align: center; margin-top: -40px; padding: 0 6px; max-width: 520px; justify-self: center; width: 100%; }
-.sg-kind { font: 700 38px/1 var(--font-display); font-stretch: 140%; letter-spacing: -.035em; margin-top: 6px; }
-.sg-row2 { display: grid; gap: 22px; }
-.sg-stats { padding: 18px; }
-.sg-stats-r { display: grid; grid-template-columns: repeat(3, 1fr); }
-.sg-h { display: flex; justify-content: space-between; align-items: baseline; padding: 0 6px 12px; }
-.sg-link { font: 600 13px/1 var(--font); color: var(--accent-ink); text-decoration: none; }
-.sg-rail { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 0 16px 6px; scrollbar-width: none; scroll-snap-type: x mandatory; }
-.sg-pcard { flex: none; width: 272px; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; }
-.sg-art { aspect-ratio: 16 / 10; }
-.sg-pin { padding: 12px 14px 14px; display: grid; gap: 4px; }
-.sg-nm { font: 650 15px/1.15 var(--font-display); font-stretch: 106%; letter-spacing: -.02em; }
-.sg-meter { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin-top: 4px; }
-.sg-meter b { font-size: 13px; }
-.sg-badge { position: absolute; left: 10px; top: 10px; z-index: 5; font: 600 11.5px/1 var(--font); padding: 5px 9px; border-radius: 99px; background: var(--trace); color: var(--on-accent); }
-.sg-upcoming { display: grid; gap: 10px; }
-.sg-retreat { overflow: hidden; }
-.sg-retreat-img { height: 250px; }
-.sg-retreat-cap { position: absolute; left: 20px; right: 20px; bottom: 18px; color: #fff; }
-.sg-retreat-t { font: 700 28px/1 var(--font-display); font-stretch: 128%; letter-spacing: -.03em; margin-top: 6px; }
-.sg-retreat-b { padding: 16px 20px 20px; display: grid; gap: 14px; }
-.sg-facts { display: flex; gap: 22px; font-size: 12.5px; color: var(--ink-3); }
-.sg-facts b { display: block; font: 600 15px/1.3 var(--font-display); font-stretch: 105%; color: var(--ink); letter-spacing: -.01em; }
-.sg-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.sg-tile { padding: 14px; display: grid; gap: 4px; }
-.sg-tile b { font-size: 14px; font-weight: 600; line-height: 1.25; }
-.sg-tag { font-size: 11.5px; color: var(--accent-ink); font-weight: 500; }
-.sg-resume { padding: 12px 14px; display: block; }
-@media (min-width: 1024px) {
-  .sg-phone { display: none; }
-  .sg-expo { margin: 0; border-radius: 30px; height: 480px; }
-  .sg-row2 { grid-template-columns: 1fr 1.1fr; align-items: end; }
-  .sg-rail { margin: 0; padding: 0 0 6px; }
-  .sg-upcoming { grid-template-columns: 1.4fr 1fr; align-items: start; }
-  .sg-tiles { grid-template-columns: 1fr; }
-}
-`;

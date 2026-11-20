@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import type { ReactNode } from "react";
-import { palette, type } from "@ms/tokens";
+import { palette } from "@ms/tokens";
 import {
   Avatar, Button, Card, Chip, EmptyState, ExerciseRow, Glass, Icon, ICON_NAMES, IconButton, Poster, ProgressBar, RestRow, Rings,
-  Skeleton, SkeletonText, StatTile, StepSegments, WorkoutTable,
+  Skeleton, SkeletonText, StatTile, StepSegments, Tag, WorkoutTable,
 } from "@/components/ui";
 import { ToastProvider } from "@/components/ui/Toast";
-import { FxLayer } from "@/components/ui/FxLayer";
 import { ThemeSwitch } from "@/components/shell/ThemeSwitch";
 import {
-  Flare, LightPill, MovementTrace, MOVEMENTS, MOVEMENT_LABEL, OrbitLoader, PhotoGrade, SnowContours, StarTrails, StretchNumber, SwingRibbon,
-  TraceDash, TraceLine, TraceRule, WeekTrace,
+  BeyondTheSummit, Climb, Flare, LightPill, NextStepCard, OrbitLoader, PhotoHero, StreakChip, SwingRibbon, WeekDots, WeekTrace,
 } from "@/components/signature";
-import { BELL_PATHS, IMG } from "./_parts/images";
+import { IMG } from "./_parts/images";
 import { ControlsDemo, Replay, SheetDemo, StretchDemo, ToastDemo } from "./_parts/Interactive";
-import { Lazy } from "./_parts/Lazy";
 import { WEEK } from "./_parts/Week";
+import "./gallery.css";
 
-export const metadata: Metadata = { title: "Trace design system", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Summit design system", robots: { index: false, follow: false } };
 
 const PHASES = [
   { label: "On Ramp", from: 1, to: 7 },
@@ -27,564 +24,389 @@ const PHASES = [
   { label: "Phase 3", from: 41, to: 61 },
 ];
 
-const MOVE_NOTE: Record<string, string> = {
-  swing: "Pendulum arc", press: "Straight up", halo: "Loop round the head", getup: "Rising S",
-  clean: "Hook to the rack", squat: "Down and up", deadlift: "Floor to hip", rest: "A rest wave",
-};
+const PRINCIPLES: [string, string][] = [
+  ["Mike leads", "Full-colour, warm photography of Mike on every key surface. Never tinted, never desaturated."],
+  ["Daylight surfaces", "Warm chalk ground, crisp white cards, three levels of depth, generous space."],
+  ["Bold, legible type", "Archivo 800 for confident headlines and numbers, Inter for everything you read."],
+  ["Glacier + Ember", "Glacier blue means act. Ember means progress, streaks and achievement. Ink for text."],
+  ["The Climb", "Progress is a route up Mount Shasta: phases are camps, levels are summits."],
+  ["One next step", "Every screen has one obvious primary action — usually “start” or “resume”."],
+  ["Offers as the next camp", "Upgrades appear where they help your progress, with real value. Never as ads."],
+];
 
-function Sec({ title, note, children, id, lazy = 0 }: { title: string; note: string; children: ReactNode; id?: string; lazy?: number }) {
+function Sec({ title, note, children, id }: { title: string; note?: string; children: ReactNode; id?: string }) {
   return (
     <section className="g-sec" id={id}>
-      <h2 className="g-sec-h">
-        {title}
-        <small>{note}</small>
-      </h2>
-      <div className="g-sec-b">{lazy ? <Lazy minHeight={lazy}>{children}</Lazy> : children}</div>
+      <div className="g-sec-h">
+        <h2 className="lq-d-lg">{title}</h2>
+        {note && <p className="lq-t13 lq-c2">{note}</p>}
+      </div>
+      {children}
     </section>
   );
 }
 
-function Tile({ title, note, children, className, leak }: { title?: string; note?: string; children: ReactNode; className?: string; leak?: boolean }) {
+function Tile({ title, note, children, className }: { title?: string; note?: string; children: ReactNode; className?: string }) {
   return (
-    <Glass as="div" radius="card" leak={leak} interactive className={className ? `g-tile ${className}` : "g-tile"}>
-      {title && <h3 className="lq-t17">{title}</h3>}
-      {note && <p className="lq-t13 lq-c2" style={{ marginTop: 4 }}>{note}</p>}
+    <Glass as="div" radius="card" className={className ? `g-tile ${className}` : "g-tile"}>
+      {title && <h3 className="lq-eyebrow">{title}</h3>}
+      {note && <p className="lq-t13 lq-c2" style={{ marginTop: 6 }}>{note}</p>}
       <div style={{ marginTop: title || note ? 16 : 0 }}>{children}</div>
     </Glass>
   );
 }
 
-function Hero() {
-  return (
-    <div className="g-hero lq-night">
-      <StarTrails mountain count={110} />
-      <TraceLine
-        className="g-hero-trace"
-        d="M640 120 C700 380 820 470 960 470 C1100 470 1210 380 1250 150"
-        viewBox="0 0 1312 560"
-        width={4.5}
-        ahead={false}
-        segments={50}
-        floor={0.02}
-        fullTail
-        nodes={[0.12, 0.32, 0.5, 0.68, 0.88]}
-        nodeR={5}
-        animate
-        duration={2200}
-        delay={300}
-        preserveAspectRatio="xMaxYMid slice"
-      />
-      <div className="g-hero-copy">
-        <p className="lq-t13" style={{ color: "#A3B2C0", fontWeight: 600 }}>Mike Salemi · design system</p>
-        <div className="g-hero-name">Trace</div>
-        <p className="g-hero-lede">
-          <b>Every rep leaves a mark.</b> Leave a shutter open while Mike swings and the bell paints an arc of light. Your training is drawn as
-          glacier light with a hot head and a fading tail. Dark is a night exposure under Mount Shasta; light is the same mountain in daylight,
-          drawn as glacier contour lines on snow.
-        </p>
-        <div className="g-hero-cta" data-rise="" style={{ ["--i" as string]: 2 }}>
-          <LightPill icon="play" href="#motion">See it move</LightPill>
-          <Button variant="white" href="/gallery/shell">Open the shell</Button>
-        </div>
-      </div>
-    </div>
-  );
-}
+const SWATCHES: { name: string; keys: string[] }[] = [
+  { name: "Glacier — brand & action", keys: ["glacier-50", "glacier-100", "glacier-200", "glacier-300", "glacier-400", "glacier-500", "glacier-600", "glacier-700", "glacier-900"] },
+  { name: "Ember — energy, streaks, achievement", keys: ["ember-50", "ember-100", "ember-200", "ember-300", "ember-400", "ember-500", "ember-600", "ember-700", "gold"] },
+  { name: "Ink & chalk — warm neutrals", keys: ["ink-900", "ink-700", "ink-500", "ink-400", "chalk-300", "chalk-200", "chalk-100", "chalk-50", "chalk-0"] },
+];
 
-function Section({ theme }: { theme?: "light" | "dark" }) {
-  const dark = theme === "dark";
+export default function Gallery() {
+  const pal = palette as Record<string, string>;
   return (
-    <div data-theme={theme} className="g-theme">
-      <div className="g-wrap">
-        <header className="g-head">
+    <ToastProvider>
+      <main className="g">
+        <header className="g-top">
           <div>
-            <p className="lq-t13 lq-c2" style={{ fontWeight: 600 }}>Trace · {theme ? (dark ? "Night exposure" : "Snow exposure") : "Night and snow exposures"}</p>
-            <h1 className="lq-t34">{theme ? (dark ? "Dark" : "Light") : "Design system"}</h1>
+            <div className="lq-eyebrow" data-tone="accent">Mike Salemi app · Direction 3</div>
+            <h1 className="lq-d-xxl" style={{ marginTop: 10 }}>Summit</h1>
+            <p className="lq-lede" style={{ maxWidth: 520, marginTop: 14 }}>
+              A daylight, photo-led system for training with Mike. Strong type, real colour, and progress you can see — every member is on a climb.
+            </p>
+            <div className="g-row" style={{ marginTop: 22 }}>
+              <LightPill href="/gallery/shell" icon="play">Open the shell</LightPill>
+              <Button variant="glass" href="#climb">The Climb</Button>
+            </div>
           </div>
-          <div style={{ width: 300 }}>
+          <div className="g-top-r">
             <ThemeSwitch persist={false} size="sm" />
+            <div className="g-top-photos">
+              <Poster image={{ src: IMG.mtk, alt: "Mike Salemi with a kettlebell", position: "62% 30%", priority: true, sizes: "(min-width: 900px) 240px, 50vw" }} className="g-ph1" />
+              <Poster image={{ src: IMG.summit, alt: "Men of Movement on Mount Shasta", position: "50% 40%", sizes: "(min-width: 900px) 220px, 50vw" }} className="g-ph2" />
+              <Poster image={{ src: IMG.coaching, alt: "Mike coaching", position: "50% 30%", sizes: "(min-width: 900px) 220px, 50vw" }} className="g-ph3" />
+            </div>
           </div>
         </header>
 
-        <Hero />
-
-        <Sec title="Colour" note="Glacier is the light source. Everything else is night or snow, so the light has somewhere to glow.">
-          <div className="g-swatches">
-            <div className="g-sw g-sw-glacier"><b>Glacier light</b>{palette.glacier} · head {palette.glacierHot}</div>
-            <div className="g-sw" style={{ background: palette.glacierInk, color: "#fff" }}><b>Glacier ink</b>{palette.glacierInk} · on snow</div>
-            <div className="g-sw lq-night"><b>Night</b>{palette.night} · dark ground</div>
-            <div className="g-sw" style={{ background: palette.nightFilm, color: "#EEF4F8", boxShadow: "inset 0 0 0 1px rgba(150,200,235,.12)" }}><b>Film</b>{palette.nightFilm} · dark surfaces</div>
-            <div className="g-sw" style={{ background: palette.snow, color: "#0B1A28", boxShadow: "inset 0 0 0 1px rgba(20,90,140,.14)" }}><b>Snow</b>{palette.snow} · light ground</div>
-            <div className="g-sw" style={{ background: palette.snowFilm, color: "#0B1A28", boxShadow: "inset 0 0 0 1px rgba(20,90,140,.12)" }}><b>Snow film</b>{palette.snowFilm} · light surfaces</div>
-          </div>
-          <div className="g-roles">
-            {(["ground", "film", "film-2", "ink", "ink-2", "ink-3", "trace", "trace-hot", "accent", "accent-ink"] as const).map((k) => (
-              <div key={k}><i style={{ background: `var(--${k})` }} /><span className="lq-t12">--{k}</span></div>
-            ))}
-          </div>
-          <p className="g-note">Light only comes from traces, the primary pill and real light in photos (fire, dawn). The night is blue-black because a long exposure of the sky is blue-black. No pink, no decorative gradients. Shadows are glow from a light source, never grey drop shadows.</p>
-        </Sec>
-
-        <Sec title="Type" note="Anybody, a variable face with a width axis from 50 to 150. Width is motion: type stretches while it moves and settles wide. Hanken Grotesk for text.">
-          <div className="g-type">
-            <Glass radius="card" className="g-spec">
-              <div className="g-who"><b>Anybody</b><span>Display · width 50–150 · weight 200–700</span></div>
-              <div className="g-widths">
-                <div style={{ fontStretch: "60%" }}>Swing <small>width 60</small></div>
-                <div style={{ fontStretch: "100%" }}>Swing <small>width 100</small></div>
-                <div style={{ fontStretch: "150%" }}>Swing <small>width 150</small></div>
-              </div>
-              <div className="lq-thin-num g-thin">24 · 61</div>
-            </Glass>
-            <Glass radius="card" className="g-spec">
-              <div className="g-who"><b>Hanken Grotesk</b><span>Text · 400–700</span></div>
-              <div style={{ font: "500 22px/1.4 var(--font)" }}>Keep every swing crisp: hike, snap, float.</div>
-              <p className="lq-t15 lq-c2" style={{ marginTop: 12 }}>A quiet, warm grotesk for instructions, tables and notes. It stays out of the way of the wide display and the light.</p>
-              <div className="g-scale">
-                {(["display", "t34", "t28", "t22", "t17", "t15", "t13", "t11"] as const).map((k) => (
-                  <div key={k}>
-                    <span className={k === "display" ? "lq-display" : `lq-${k}`} style={k === "display" ? { fontSize: 30, lineHeight: "32px" } : undefined}>Day 24</span>
-                    <span className="lq-t11 lq-c3 lq-num">{k} · {type[k].size}/{type[k].line} · {type[k].weight}{"stretch" in type[k] ? ` · w${type[k].stretch}` : ""}</span>
-                  </div>
-                ))}
-              </div>
-            </Glass>
-          </div>
-        </Sec>
-
-        <Sec title="Surfaces" lazy={220} note="Matte film, not blurred glass. Edges catch light where a trace has passed (move the cursor over any plate).">
-          <div className="g-mats">
-            <div className="g-mat lq-night">
-              <TraceLine d="M20 40 C40 150 160 150 180 40" viewBox="0 0 200 200" width={3} progress={0.8} animate className="g-fill" preserveAspectRatio="xMidYMid meet" />
-              <div className="g-cap"><b>Night exposure</b>Heroes, video, completion</div>
-            </div>
-            <Glass radius="card" leak interactive className="g-mat"><div className="g-cap"><b>Film with light leak</b>Cards and panels</div></Glass>
-            <div className="g-mat" data-theme="light" style={{ background: "var(--ground)", color: "var(--ink)", boxShadow: "inset 0 0 0 1px var(--edge)" }}>
-              <SnowContours live={false} />
-              <div className="g-cap"><b>Snow contours</b>Light ground, living</div>
-            </div>
-            <Glass radius="card" interactive className="g-mat g-center"><LightPill>Continue</LightPill><div className="g-cap"><b>Light pill</b>The one primary action</div></Glass>
-            <Glass radius="card" interactive className="g-mat g-center"><span className="lq-thin-num" style={{ fontSize: 96 }}>25</span><div className="g-cap"><b>Thin wide numerals</b>Days, counts, time</div></Glass>
-          </div>
-        </Sec>
-
-        <Sec title="Signature: the Trace" lazy={340} note="One drawing rule for progress, loaders, dividers, heroes and icons. Each movement has its own shape.">
-          <div className="g-anat">
-            <div className="g-anat-a lq-night">
-              <TraceLine d="M40 70 C80 250 300 280 420 200 C480 160 500 120 520 80" viewBox="0 0 640 300" width={5} progress={0.78} segments={40} nodes={[0, 0.5, 1]} nodeR={6} animate>
-                {([[60, 250, "Tail: cools to 8% opacity"], [330, 268, "Glow: 3× width, blurred"], [512, 150, "Head: white-hot"], [520, 60, "Ahead: dotted"], [430, 230, "Node: a step"]] as const).map(([x, y, t]) => (
-                  <text key={t} x={x} y={y} fill="#A3B2C0" fontSize={13} fontFamily="var(--font)">{t}</text>
-                ))}
-              </TraceLine>
-            </div>
-            <div className="g-glyphs">
-              {MOVEMENTS.map((m, i) => (
-                <Glass key={m} radius="inner" className="g-gl">
-                  <MovementTrace move={m} size={64} animate delay={200 + i * 90} label="" />
-                  <b>{MOVEMENT_LABEL[m]}</b>
-                  <span>{MOVE_NOTE[m]}</span>
-                </Glass>
-              ))}
-            </div>
-          </div>
-        </Sec>
-
-        <Sec title="The program, as light" lazy={360} note="SwingRibbon: one swing per day, deeper each phase. Done days are lit, today is the head, the days ahead are dotted. WeekTrace draws each day as its movement.">
-          <div className="g-stack">
-            <Glass radius="hero" className="g-ribbon" leak>
-              <div className="g-ribbon-row"><span className="lq-t13 lq-c3"><b style={{ color: "var(--label)" }}>23 of 61</b> days complete · each day is one swing, deeper each phase</span><b className="lq-dnum">38%</b></div>
-              <SwingRibbon total={61} done={23} phases={PHASES} />
-            </Glass>
-            <div className="g-two">
-              <Glass radius="card" style={{ padding: "16px 10px 12px" }}>
-                <div className="g-row-h"><h3 className="lq-t17">This week</h3><span className="lq-t13" style={{ color: "var(--accent-ink)", fontWeight: 600 }}>Week 4 of 9</span></div>
-                <WeekTrace days={WEEK} />
+        <Sec title="Principles">
+          <div className="g-principles">
+            {PRINCIPLES.map(([t, d], i) => (
+              <Glass key={t} radius="card" className="g-principle">
+                <span className="lq-warm lq-t12">{String(i + 1).padStart(2, "0")}</span>
+                <b className="lq-d-xs">{t}</b>
+                <span className="lq-t12 lq-c2" style={{ fontWeight: 500, lineHeight: 1.45 }}>{d}</span>
               </Glass>
-              <Glass radius="card" style={{ padding: 18 }}>
-                <div className="g-row-h"><h3 className="lq-t17">On a card</h3><span className="lq-t13 lq-c3">compact</span></div>
-                <div className="lq-t15" style={{ fontWeight: 600 }}>Kettlebell Lifestyle · Level I</div>
-                <div style={{ marginTop: 10 }}><SwingRibbon total={61} done={23} phases={PHASES} size="compact" /></div>
-              </Glass>
-            </div>
-          </div>
-        </Sec>
-
-        <Sec title="Iconography" lazy={560} note="1.6 stroke, open shapes ending in a light point. The point is the only coloured part; active tabs light the stroke too.">
-          <div className="g-icons">
-            {ICON_NAMES.map((n) => (
-              <div key={n} className={n === "today" ? "g-ic g-ic-on" : "g-ic"}>
-                <Icon name={n} />
-                <span className="lq-t11 lq-c3" style={{ fontWeight: 500 }}>{n}</span>
-              </div>
             ))}
           </div>
         </Sec>
 
-        <Sec title="Photography" lazy={290} note="Exposure grade: monochrome under night blue, highlights lifted, with a trace along the real path of the bell. Fire stays warm. Daylight grade for light screens.">
-          <div className="g-photo">
-            <figure className="g-fig"><Image src={IMG.press} alt="Mike pressing a kettlebell overhead" fill sizes="(min-width: 1024px) 320px, 50vw" /><figcaption><b>Original</b>As shot</figcaption></figure>
-            <PhotoGrade as="figure" className="g-fig" grade="night" trace={{ ...BELL_PATHS.press, width: 6 }}>
-              <Image src={IMG.press} alt="The same press, graded, the bell's path drawn as light" fill sizes="(min-width: 1024px) 320px, 50vw" />
-              <figcaption><b>Exposure grade + trace</b>The press, drawn as light</figcaption>
-            </PhotoGrade>
-            <PhotoGrade as="figure" className="g-fig" grade="warm">
-              <Image src={IMG.fire} alt="Men around a fire at a retreat" fill sizes="(min-width: 1024px) 320px, 50vw" style={{ objectPosition: "50% 60%" }} />
-              <figcaption><b>Fire stays warm</b>Retreats and brotherhood</figcaption>
-            </PhotoGrade>
-            <PhotoGrade as="figure" className="g-fig" grade="day">
-              <Image src={IMG.summit} alt="Men of Movement on a ridge facing Mount Shasta" fill sizes="(min-width: 1024px) 320px, 50vw" />
-              <figcaption><b>Daylight grade</b>High key, cool</figcaption>
-            </PhotoGrade>
-          </div>
-        </Sec>
-
-        <Sec id="motion" title="Motion" lazy={260} note="Light is exposed, never faded. Every animation is a path being drawn, a shutter closing, or type stretching with speed. Tap ↻ to replay.">
-          <div className="g-motion">
-            <Glass radius="card" className="g-mt">
-              <Replay><TraceLine d="M10 20 C30 110 170 110 190 20" viewBox="0 0 200 120" width={3} progress={0.7} segments={26} animate className="g-demo" /></Replay>
-              <div><b>Expose</b><p>Progress draws along its path, the head leading and the tail cooling behind it.</p><code>1.4s · ease-out cubic</code></div>
-            </Glass>
-            <Glass radius="card" className="g-mt">
-              <div className="g-demo g-center"><StretchDemo /></div>
-              <div><b>Stretch</b><p>Numbers squeeze narrow while counting and spring back wide when they land.</p><code>font-stretch 150 → 55 → 150</code></div>
-            </Glass>
-            <Glass radius="card" className="g-mt">
-              <div className="g-demo g-center"><OrbitLoader size={96} /></div>
-              <div><b>Orbit</b><p>The loader is a halo: a short trace circling, the same shape as the halo move.</p><code>1.6s · linear · infinite</code></div>
-            </Glass>
-            <Glass radius="card" className="g-mt">
-              <div className="g-demo g-center"><LightPill style={{ width: 168 }}>Complete</LightPill></div>
-              <div><b>Streak</b><p>Primary pills carry a passing streak of light; presses scale to 96%.</p><code>4.5s streak · 80ms press</code></div>
-            </Glass>
-            <div className="g-mt lq-night">
-              <Replay>
-                <div className="g-demo" style={{ position: "relative" }}>
-                  <TraceLine d="M10 20 C30 110 170 110 186 30" viewBox="0 0 200 120" width={3} segments={26} floor={0.02} fullTail ahead={false} animate duration={1100} />
-                  <Flare size={64} delay={1000} style={{ left: "93%", top: "25%" }} />
+        <Sec title="Colour" note="Glacier is action (~60% of accent use), ember is progress (~25%), gold is for medals, green for done. Everything else is ink, chalk and photography.">
+          <div className="g-colour">
+            {SWATCHES.map((g) => (
+              <div key={g.name}>
+                <div className="lq-eyebrow">{g.name}</div>
+                <div className="g-swatches">
+                  {g.keys.map((k) => (
+                    <div key={k} className="g-sw">
+                      <i style={{ background: pal[k] }} />
+                      <b>{k.replace(/-(\d+)$/, " $1")}</b>
+                      <span>{pal[k]}</span>
+                    </div>
+                  ))}
                 </div>
-              </Replay>
-              <div><b>Flare</b><p>Completing a day ends the swing in a starburst: the shutter closes on it.</p><code>spring 1.4 · 1.2s</code></div>
+              </div>
+            ))}
+            <div className="g-share">
+              <span style={{ flex: 6, background: "var(--accent)" }}>Act · 60%</span>
+              <span style={{ flex: 2.5, background: "var(--warm)" }}>Progress · 25%</span>
+              <span style={{ flex: 0.8, background: "var(--gold)", color: "#3A2A00" }}>Win</span>
+              <span style={{ flex: 1.2, background: "var(--ok)" }}>Done</span>
             </div>
           </div>
         </Sec>
 
-        <Sec title="Completion" lazy={640} note="Seven steps, one exposure: the day's swing drawn across the screen, a Flare at its end, the day number stretching from 24 to 25.">
-          <Replay label="Replay completion">
-            <div className="g-complete lq-night">
-              <StarTrails mountain count={100} seed={5} live={false} />
-              <TraceLine
-                className="g-complete-swing"
-                d="M-20 170 C10 340 90 440 195 440 C300 440 372 340 368 176"
-                viewBox="0 0 390 640"
-                width={4}
-                nodes={[0.07, 0.2, 0.34, 0.5, 0.66, 0.8, 0.93]}
-                nodeR={4.5}
-                animate
-                duration={1700}
-                delay={200}
-                segments={50}
-                floor={0.02}
-                fullTail
-                ahead={false}
-              />
-              <Flare size={120} delay={1750} style={{ left: `${(368 / 390) * 100}%`, top: `${(176 / 640) * 100}%` }} />
-              <div className="g-complete-day">
-                <div className="lq-t13" style={{ color: "#A3B2C0" }}>Day</div>
-                <StretchNumber value={25} from={24} delay={1900} duration={500} size={128} />
-              </div>
-              <div className="g-complete-words" data-rise="" style={{ ["--i" as string]: 20 }}>
-                <div className="lq-t28">Day 25, complete</div>
-                <p className="lq-t15" style={{ color: "#A3B2C0", marginTop: 8 }}>Seven steps, one exposure. Phase 2 is a quarter done.</p>
-              </div>
+        <Sec title="Type" note="Archivo 800 at normal width for headlines and numbers (−3% tracking); Inter 400–700 for text. Captions and labels 12–13px; eyebrows are 11.5px caps.">
+          <Tile>
+            <div className="lq-eyebrow">Display · Archivo 800</div>
+            <div className="lq-d-xl" style={{ marginTop: 10 }}>Recovery Day</div>
+            <div className="lq-d-lg" style={{ marginTop: 6 }}>You&apos;re 38% of the way up.</div>
+            <div className="lq-d-md" style={{ marginTop: 6 }}>Phase 2 · Adding Complexity</div>
+            <div className="lq-d-sm" style={{ marginTop: 6 }}>Mastering the Kettlebell</div>
+            <hr className="lq-hair" style={{ margin: "20px 0" }} />
+            <div className="lq-eyebrow">Text · Inter</div>
+            <p className="lq-lede" style={{ marginTop: 8 }}>Recovery is where yesterday&apos;s work turns into strength. Breathe slow, move easy — and show up.</p>
+            <p className="lq-t13 lq-c3" style={{ marginTop: 6 }}>Captions, meta and labels sit at 12–13px in ink 500.</p>
+            <hr className="lq-hair" style={{ margin: "20px 0" }} />
+            <div className="g-nums">
+              <span><StretchDemo /><small className="lq-t12 lq-c3">Numerals are heroes</small></span>
+              <span><b className="lq-dnum lq-warm" style={{ fontSize: 56 }}>12</b><small className="lq-t12 lq-c3">day streak</small></span>
+              <span><b className="lq-dnum" style={{ fontSize: 56 }}>2h 41m</b><small className="lq-t12 lq-c3">this week</small></span>
             </div>
-          </Replay>
+          </Tile>
         </Sec>
 
-        <Sec title="Primitives" lazy={2400} note="Every component in @/components/ui, restyled to Trace with its API unchanged.">
-          <div className="g-grid">
-            <Tile title="Buttons" note="The light pill is the one primary action per screen. Ghost and fill are secondary; white sits on photos.">
-              <div className="g-row">
-                <Button icon="play">Resume Day 24</Button>
-                <Button variant="ghost" icon="play">Watch intro</Button>
-              </div>
-              <div className="g-row" style={{ marginTop: 12 }}>
-                <Button size="md" variant="fill">Switch level</Button>
-                <Button size="sm" variant="tint" icon="play">Follow along</Button>
-                <Button size="sm" variant="plain">See all</Button>
-                <Button size="sm" disabled>Locked</Button>
-              </div>
-              <div className="g-row" style={{ marginTop: 14 }}>
-                <IconButton icon="back" label="Back" />
-                <IconButton icon="search" label="Search" />
-                <IconButton icon="bell" label="Notifications" />
-                <IconButton icon="close" label="Close" variant="fill" size="sm" iconSize="sm" />
-                <ToastDemo />
-                <SheetDemo />
-              </div>
-            </Tile>
+        <Sec title="Surfaces & depth" note="Radius 12 · 16 · 20 · 26 · 28. Shadows are soft and short; hairlines do most of the work. Glass only for small overlays.">
+          <div className="g-depth">
+            <div className="lq-sunk g-dp"><b>Sunk</b><span>Inputs, stat wells, tracks</span></div>
+            <div className="lq-surface g-dp" data-depth="1"><b>Level 1 · Flat</b><span>Lists, tiles, activity</span></div>
+            <div className="lq-surface g-dp"><b>Level 2 · Card</b><span>Program cards, panels</span></div>
+            <div className="lq-surface g-dp" data-depth="3"><b>Level 3 · Hero</b><span>Hero banners, players, sheets</span></div>
+            <Poster image={{ src: IMG.redgym, alt: "", position: "60% 40%" }} className="g-dp g-dp-photo">
+              <Glass level="clear" radius={14} className="g-glass-demo">
+                <b>Glass · overlays only</b>
+                <span>Tab bar, player controls, photo badges</span>
+              </Glass>
+            </Poster>
+          </div>
+        </Sec>
 
-            <Tile title="Controls" note="Segmented on a light track; toggles with a light head; Complete draws its check and flares.">
-              <ControlsDemo />
-            </Tile>
-
-            <Tile title="Trace arcs" note="Rings, redrawn as light: each arc exposes from the top, staggered. Numbers count with Stretch." leak>
-              <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
-                <Rings size={124} stroke={12} label="23 of 61 days, 2 of 5 steps, 12 day streak" rings={[{ value: 23 / 61, tone: 1 }, { value: 2 / 5, tone: 2 }, { value: 12 / 14, tone: 3 }]} />
-                <div className="lq-legend">
-                  <StatTile swatch={1} value={23} unit="/61" label="program days" />
-                  <StatTile swatch={2} value={2} unit="/5" label="steps today" />
-                  <StatTile swatch={3} value={12} label="day streak" />
-                </div>
-              </div>
-            </Tile>
-
-            <Tile title="Progress" note="Straight traces and steps on one line.">
-              <div style={{ display: "grid", gap: 14 }}>
-                <div className="g-meter"><ProgressBar value={0.38} label="Program progress" /><b className="lq-dnum">38%</b></div>
-                <div className="g-meter"><ProgressBar value={1} label="Mini-series" /><b className="lq-dnum">100%</b></div>
-                <StepSegments total={7} done={2} current={4} currentProgress={0} />
-                <TraceRule />
-                <ul className="g-list">
-                  <li><TraceDash /> One bell you can press 8 times with good form</li>
-                  <li><TraceDash /> A heavier bell for swings and deadlifts</li>
-                </ul>
-              </div>
-            </Tile>
-
-            <Tile title="Stats" note="Display numerals in Anybody; captions in Hanken.">
-              <div className="g-stats">
-                <StatTile value={23} unit="/61" label="program days" size="lg" />
-                <StatTile value={2} unit="/5" label="steps today" size="lg" />
-                <StatTile value={12} label="day streak" size="lg" />
-              </div>
-              <div style={{ marginTop: 14 }}><ProgressBar value={23 / 61} label="23 of 61 days" /></div>
-            </Tile>
-
-            <Tile title="Chips and avatars">
-              <div className="g-row">
-                <Chip>Level I</Chip>
-                <Chip variant="fill" icon="clock">34 min</Chip>
-                <Chip variant="tint" dot>Live now</Chip>
-                <Chip variant="outline">Phase 3 · 0%</Chip>
-                <Chip variant="fill" selected>Phase 2 · 15%</Chip>
-                <Chip score={14}>Chart 2</Chip>
-              </div>
-              <div className="g-row" style={{ marginTop: 14 }}>
-                <Avatar name="Daniel Reyes" size="sm" />
-                <Avatar name="Daniel Reyes" size="md" variant="solid" />
-                <Avatar name="Daniel Reyes" />
-                <Avatar name="Mike Salemi" src={IMG.wideStance.src} />
-                <Avatar name="Daniel Reyes" size="xl" />
-              </div>
-            </Tile>
-
-            <Card
-              className="g-span2"
-              height={300}
-              grade="night"
-              image={{ src: IMG.summit, alt: "Men of Movement on a ridge facing Mount Shasta", position: "50% 40%" }}
-              footer={
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                  <div>
-                    <div className="lq-t13" style={{ color: "#B9D8EA" }}>Retreat · Spring</div>
-                    <div className="lq-t22">The Breakthrough</div>
-                    <div className="lq-t13" style={{ opacity: 0.9 }}>Mount Shasta · May 13–16, 2027</div>
-                  </div>
-                  <Button variant="white" size="sm" href="/explore">Apply</Button>
-                </div>
-              }
-            />
-
-            <Tile title="Poster" note="Video poster, graded, with the bell's path and a halo play button.">
-              <Poster image={{ src: IMG.redgym, alt: "Mike in a windmill at the gym", position: "60% 40%" }} aspect="16 / 10" glyph={<span className="g-play"><OrbitLoader size={112} label="" /><IconButton icon="play" label="Play main video" variant="clear" size="lg" iconSize="lg" /></span>}>
-                <Chip variant="clear" style={{ position: "absolute", left: 12, top: 12, height: 28 }}>Main video</Chip>
-                <div style={{ position: "absolute", left: 16, right: 16, bottom: 12, color: "#fff" }}>
-                  <ProgressBar value={0.31} tone="white" label="Video position" />
-                  <div className="lq-t11 lq-num" style={{ display: "flex", justifyContent: "space-between", marginTop: 4, opacity: 0.9 }}><span>5:36</span><span>18:02</span></div>
+        <Sec title="Buttons" note="Glacier solid is the one primary action. Ember resumes progress. Secondary is white with a hairline; ghost is text.">
+          <Tile>
+            <div className="g-row">
+              <Button icon="play">Start Day 24</Button>
+              <Button variant="warm" icon="play">Resume</Button>
+              <Button variant="glass">Session plan</Button>
+              <Button variant="tint" icon="plus">Join program</Button>
+              <Button variant="ink">Apply</Button>
+              <Button variant="ghost" iconAfter="arrowRight">See all</Button>
+            </div>
+            <div className="g-row" style={{ marginTop: 14 }}>
+              <Button size="md">Medium</Button>
+              <Button size="sm" variant="glass">Small</Button>
+              <Button size="xs" variant="fill">Extra small</Button>
+              <Button size="md" variant="plain">Plain link</Button>
+              <Button size="md" disabled>Disabled</Button>
+              <IconButton icon="bell" label="Notifications" />
+              <IconButton icon="settings" label="Settings" variant="fill" />
+              <IconButton icon="play" label="Play" variant="accent" />
+            </div>
+            <div className="g-onphoto">
+              <Poster image={{ src: IMG.squat, alt: "", position: "50% 30%" }} className="g-onphoto-ph">
+                <div className="g-row" style={{ padding: 18 }}>
+                  <Button variant="white" size="md">White</Button>
+                  <Button variant="onphoto" size="md">View the program</Button>
+                  <IconButton icon="close" label="Close" variant="clear" />
                 </div>
               </Poster>
-            </Tile>
+              <SheetDemo />
+              <ToastDemo />
+            </div>
+          </Tile>
+        </Sec>
 
-            <Glass as="section" radius="card" className="g-tile g-span2" leak>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 14 }}>
-                <div><h3 className="lq-t22">Circuit 1</h3><div className="lq-t13 lq-c3">3 rounds · about 14 min</div></div>
-                <Button variant="tint" size="sm" icon="play">Follow along</Button>
-              </div>
-              <WorkoutTable label="Circuit 1">
-                <ExerciseRow name="Two Hand (Russian) Swing" load="moderate" loadLabel="Moderate" reps={15} sets={3} tempo="Explosive" />
-                <RestRow>Straight into the next</RestRow>
-                <ExerciseRow name="Half Kneeling Overhead Press" load="moderate" loadLabel="Moderate" reps={8} repsNote="each side" sets={3} tempo="2-1-2" />
-                <RestRow>Straight into the next</RestRow>
-                <ExerciseRow name="Romanian Deadlift" load="heavy" loadLabel="Heavy" reps={10} sets={3} tempo="3-1-1" />
-                <RestRow end>Rest 45 sec, then repeat</RestRow>
-              </WorkoutTable>
-            </Glass>
-
-            <Tile title="Loading" note="Orbit for waits; light passes over unexposed plates.">
-              <div aria-busy="true" style={{ display: "grid", gap: 12 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                  <OrbitLoader size={40} />
-                  <div style={{ flex: 1 }}><SkeletonText lines={2} /></div>
-                </div>
-                <Skeleton shape="card" height={96} glass />
-                <Skeleton shape="title" width="60%" />
+        <Sec title="Chips, tags & controls">
+          <div className="g-grid2">
+            <Tile title="Chips & tags">
+              <div className="g-row">
+                <Tag>Best next step</Tag>
+                <Tag tone="warm">Continue</Tag>
+                <Tag tone="gold">New badge</Tag>
+                <Tag tone="light">Course</Tag>
+                <Chip variant="tint" icon="dumbbell">Strength</Chip>
+                <Chip variant="ok" icon="check">Done</Chip>
+                <Chip variant="warm" icon="flame">12 days</Chip>
+                <Chip icon="clock">34 min</Chip>
+                <Chip variant="ink">All programs</Chip>
+                <Chip variant="tint" dot>Live</Chip>
+                <Chip score={14}>Readiness</Chip>
               </div>
             </Tile>
-
-            <Tile title="Empty state" note="One action fixes the emptiness.">
-              <EmptyState
-                illustration={<MovementTrace move="rest" size={120} weight={2.4} progress={0.6} animate label="" />}
-                title="Nothing saved yet"
-                body="Save a video or a tool result and it lands here."
-                action={<Button size="md" variant="ghost" href="/library">Browse the library</Button>}
-              />
+            <Tile title="Segmented · toggle · complete">
+              <ControlsDemo />
             </Tile>
           </div>
         </Sec>
-      </div>
-    </div>
-  );
-}
 
-/**
- * Hidden reference page: the whole Trace system (screenshot QA, other agents).
- * Default: one copy that follows the theme (switch it in the header). `?only=light|dark` forces one,
- * `?both=1` renders both side by side in the page.
- */
-export default async function GalleryPage({ searchParams }: { searchParams: Promise<{ only?: string; both?: string }> }) {
-  const { only, both } = await searchParams;
-  const forced = only === "light" || only === "dark" ? only : undefined;
-  return (
-    <ToastProvider>
-      <FxLayer />
-      <style>{GALLERY_CSS}</style>
-      {both ? (
-        <>
-          <Section theme="light" />
-          <Section theme="dark" />
-        </>
-      ) : (
-        <Section theme={forced} />
-      )}
+        <Sec title="Progress" note="Glacier for days and programs, ember for streaks and steps, green for done. Bars, rings and routes fill to their value on view (700ms).">
+          <div className="g-grid2">
+            <Tile title="Rings · bars · step dots">
+              <div className="g-row" style={{ gap: 18 }}>
+                <Rings size={64} stroke={7} rings={[{ value: 0.38, tone: 1 }]} label="38%"><span>38%</span></Rings>
+                <Rings size={64} stroke={7} rings={[{ value: 4 / 7, tone: 2 }]} label="4 of 7"><span>4/7</span></Rings>
+                <Rings size={92} stroke={9} rings={[{ value: 0.38, tone: 1 }, { value: 0.57, tone: 2 }, { value: 0.8, tone: 3 }]} label="Days, steps, sessions" />
+                <OrbitLoader size={34} />
+              </div>
+              <div style={{ display: "grid", gap: 14, marginTop: 20 }}>
+                <div>
+                  <div className="g-between lq-t12 lq-c3"><span>Level I</span><b className="lq-c2">23 / 61</b></div>
+                  <ProgressBar value={23 / 61} label="Level I" style={{ marginTop: 6 }} />
+                </div>
+                <div>
+                  <div className="g-between lq-t12 lq-c3"><span>Badge</span><b className="lq-c2">12 / 14</b></div>
+                  <ProgressBar value={12 / 14} tone="warm" size="thin" label="Badge" style={{ marginTop: 6 }} />
+                </div>
+                <div className="g-row" style={{ gap: 12 }}>
+                  <StepSegments total={7} done={4} className="g-steps" />
+                  <span className="lq-t12 lq-c3">Step dots</span>
+                </div>
+              </div>
+            </Tile>
+            <Tile title="This week · streak">
+              <div className="g-row" style={{ gap: 14 }}>
+                <span className="g-flame"><Icon name="flame" /></span>
+                <div>
+                  <div className="lq-dnum" style={{ fontSize: 40, lineHeight: 0.9 }}>12 <span style={{ fontSize: 18 }}>days</span></div>
+                  <div className="lq-t13 lq-c2" style={{ marginTop: 4 }}>Your longest streak yet</div>
+                </div>
+                <span style={{ marginLeft: "auto" }}><StreakChip days={12} /></span>
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <WeekDots days={[{ label: "M", state: "done" }, { label: "T", state: "done" }, { label: "W", state: "done" }, { label: "T", state: "done" }, { label: "F", state: "today", date: 24 }, { label: "S", state: "ahead" }, { label: "S", state: "ahead" }]} />
+              </div>
+              <div style={{ marginTop: 18 }}>
+                <WeekTrace days={WEEK} />
+              </div>
+            </Tile>
+          </div>
+          <Tile title="Day progress through a program (SwingRibbon)">
+            <SwingRibbon total={61} done={23} phases={PHASES} />
+          </Tile>
+        </Sec>
+
+        <Sec id="climb" title="The Climb" note="The signature progress map: a level drawn as a route up Mount Shasta, phases as camps, the member marked on it. Art layers are swappable (CLIMB_LAYERS / art prop).">
+          <Glass radius="card" className="g-climb">
+            <div className="g-between" style={{ alignItems: "flex-start", padding: "0 26px" }}>
+              <div>
+                <div className="lq-eyebrow" data-tone="accent">Your climb · Kettlebell Lifestyle Level I</div>
+                <h3 className="lq-d-md" style={{ marginTop: 6 }}>You&apos;re 38% of the way up.</h3>
+              </div>
+              <div className="g-row" style={{ gap: 16 }}>
+                <div style={{ textAlign: "right" }}>
+                  <div className="lq-dnum" style={{ fontSize: 26 }}>23<span className="lq-c3" style={{ fontSize: 16 }}>/61</span></div>
+                  <div className="lq-t12 lq-c3">days complete</div>
+                </div>
+                <Rings size={58} stroke={6} rings={[{ value: 0.38, tone: 1 }]} label="38%"><span>38%</span></Rings>
+              </div>
+            </div>
+            <Climb id="g-climb" phases={PHASES} done={23} member={{ name: "Daniel Reyes" }} style={{ marginTop: 12 }} />
+            <div style={{ padding: "18px 26px 0" }}>
+              <BeyondTheSummit
+                sub="Where members go after Level I — picked for your pace and goals."
+                more={{ href: "/programs", label: "See your full path" }}
+                peaks={[
+                  { title: "Level II · Intermediate", sub: "Unlocks when you reach the Day 61 summit.", href: "/programs/kettlebell-lifestyle", cta: "Preview Level II", image: { src: IMG.getup, alt: "", position: "50% 25%" }, badge: { label: "Included", kind: "badge" }, locked: true },
+                  { title: "Mastering the Kettlebell", sub: "Technique for every Phase 2 lift · $297", href: "/programs/mastering-the-kettlebell", cta: "See what's inside", image: { src: IMG.deadlift, alt: "", position: "50% 30%" }, badge: { label: "Best next step" } },
+                  { title: "The Breakthrough retreat", sub: "Train with Mike on Mount Shasta · May 13–16", href: "/experiences", cta: "Apply", image: { src: IMG.summit, alt: "", position: "50% 40%" }, badge: { label: "Applications open", kind: "badge" } },
+                ]}
+              />
+            </div>
+          </Glass>
+          <div className="g-grid2">
+            <Tile title="Phone (no labels)">
+              <Climb id="g-climb-ph" phases={PHASES} done={23} labels={false} height={250} member={{ name: "Daniel Reyes" }} />
+            </Tile>
+            <Tile title="Summit reached · celebrate">
+              <div style={{ position: "relative" }}>
+                <Climb id="g-climb-done" phases={PHASES} done={61} member={{ name: "Daniel Reyes" }} labels={false} />
+                <Replay>
+                  <span style={{ position: "relative", display: "block", height: 110 }}>
+                    <Flare size={110} style={{ left: "50%", top: "50%" }} />
+                  </span>
+                </Replay>
+              </div>
+            </Tile>
+          </div>
+        </Sec>
+
+        <Sec title="Photography" note="Full colour, never graded. One ink scrim for legible type. A focal point keeps Mike's face in frame at every width; contain when a crop would cut it.">
+          <PhotoHero
+            image={{ src: IMG.mtk, alt: "Mike Salemi in the gym", focal: "78% 30%", focalPhone: "62% 20%" }}
+            minHeight={400}
+            overlay={
+              <Glass level="clear" radius={20} className="g-quote">
+                <Avatar name="Mike Salemi" src="/media/summit/mike-face.png" size="lg" />
+                <p className="lq-t13">“Recovery is where yesterday&apos;s work turns into strength. Breathe slow, move easy — and show up.”<small>MIKE · NOTE FOR DAY 24</small></p>
+              </Glass>
+            }
+          >
+            <div className="g-row" style={{ gap: 8 }}>
+              <Tag tone="warm" size="lg">Continue training</Tag>
+              <Chip variant="clear">Day 24 of 61</Chip>
+            </div>
+            <h2 className="lq-d-xxl" style={{ marginTop: 18 }}>Recovery Day</h2>
+            <p className="lq-t15" style={{ color: "rgba(255,255,255,.75)", marginTop: 10 }}>Kettlebell Lifestyle · Level I · Phase 2 · 5 steps · 34 min</p>
+            <StepSegments total={5} done={0} current={0} onPhoto className="g-hero-steps" />
+            <div className="g-row" style={{ marginTop: 22 }}>
+              <Button icon="play">Start Day 24</Button>
+              <Button variant="onphoto">View the program</Button>
+            </div>
+          </PhotoHero>
+          <div className="g-cards">
+            <Card image={{ src: IMG.summit, alt: "Men of Movement on Mount Shasta", position: "50% 40%" }} height={300} footer={<><div className="lq-eyebrow" style={{ color: "rgba(255,255,255,.8)" }}>Retreat · May 13–16</div><div className="lq-d-sm" style={{ marginTop: 6 }}>The Breakthrough</div></>} />
+            <Poster image={{ src: IMG.press, alt: "Mike pressing a kettlebell", position: "50% 25%" }} aspect="4/5" glyph={<IconButton icon="play" label="Play" variant="clear" size="lg" />}>
+              <Chip variant="clear" size="sm" style={{ position: "absolute", left: 12, top: 12 }}>8:12</Chip>
+            </Poster>
+            <NextStepCard
+              tag={{ label: "Best next step" }}
+              title="Mastering the Kettlebell"
+              meta="Technique for every Phase 2 lift — the 6-min row fix is in Module 3. $297."
+              href="/programs/mastering-the-kettlebell"
+              cta="See what's inside"
+              image={{ src: IMG.deadlift, alt: "", position: "50% 30%" }}
+              layout="stack"
+            />
+          </div>
+          <NextStepCard eyebrow="Up next · Level I" title="Day 25 · Workout III Day" meta="Phase 2 · 7 steps · 45 min" href="/today" cta="Resume" tone="ember" progress={0.38} image={{ src: IMG.mtk, alt: "", position: "62% 30%" }} />
+        </Sec>
+
+        <Sec title="Lists & tables">
+          <div className="g-grid2">
+            <Tile title="Workout table">
+              <WorkoutTable>
+                <ExerciseRow name="Two-hand swing" load="moderate" loadLabel="16 kg" reps={15} repsNote="40s" sets={2} tempo="Fast" />
+                <ExerciseRow name="Goblet squat" load="heavy" loadLabel="20 kg" reps={8} sets={2} tempo="3-1-1" />
+                <RestRow>Rest 60s</RestRow>
+                <RestRow end>Superset complete · 2 rounds</RestRow>
+              </WorkoutTable>
+            </Tile>
+            <Tile title="Stats · avatar · loading · empty">
+              <div className="g-row" style={{ gap: 28 }}>
+                <StatTile value={23} unit="/61" label="days complete" swatch={1} />
+                <StatTile value={12} label="day streak" swatch={2} />
+                <Avatar name="Daniel Reyes" />
+                <Avatar name="Mike Salemi" src="/media/summit/mike-face.png" />
+              </div>
+              <div style={{ display: "grid", gap: 10, marginTop: 20 }}>
+                <Skeleton shape="card" height={70} />
+                <SkeletonText lines={2} />
+              </div>
+              <EmptyState title="No saved videos yet" body="Tap the bookmark on any video to keep it here." icon="bookmark" action={<Button size="md" href="/library">Browse the library</Button>} />
+            </Tile>
+          </div>
+        </Sec>
+
+        <Sec title="Iconography" note="Lucide, 1.85 stroke, rounded caps — the same family as the original app — plus the kettlebell mark.">
+          <Tile>
+            <div className="g-icons">
+              {ICON_NAMES.map((n) => (
+                <span key={n} title={n}>
+                  <Icon name={n} />
+                  <small>{n}</small>
+                </span>
+              ))}
+            </div>
+          </Tile>
+        </Sec>
+
+        <Sec title="Motion" note="Static for screenshots, live in the browser; everything is off under reduced motion.">
+          <div className="g-motion">
+            {[
+              ["Rise", "600 ms · ease-out (.2,.8,.2,1)", "Content enters 10px up with a fade, staggered 40 ms."],
+              ["Fill", "700 ms · ease-out", "Bars, rings and the climb route draw to their value on view."],
+              ["Press", "80 ms in · spring back", "Every button, tab and card squeezes to 97% the moment it is touched."],
+              ["Celebrate", "1.2 s · spring (.34,1.56,.64,1)", "Confetti, an ember burst, the streak flame grows."],
+              ["Breathe", "4 s loop · ease-in-out", "The “you are here” pulse and Recovery Day scenes breathe slowly."],
+              ["Page", "220 ms view transition", "The old page fades out fast, the new one rises 6px in; the shell stays put."],
+            ].map(([t, m, d]) => (
+              <div key={t} className="lq-surface g-mo" data-depth="1">
+                <div className="g-between"><b className="lq-d-xs">{t}</b><Chip size="sm">{m}</Chip></div>
+                <p className="lq-t13 lq-c2" style={{ marginTop: 6 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </Sec>
+      </main>
     </ToastProvider>
   );
 }
-
-const GALLERY_CSS = `
-.g-theme { position: relative; isolation: isolate; background: var(--ground); color: var(--ink); }
-.g-wrap { position: relative; z-index: 1; max-width: 1312px; margin: 0 auto; padding: 40px 16px 72px; }
-.g-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-
-.g-hero { position: relative; height: 560px; border-radius: 34px; overflow: hidden; }
-.g-hero > .tr-sky { border-radius: inherit; }
-.g-hero-trace { position: absolute; inset: 0; width: 100%; height: 100%; }
-@media (max-width: 700px) { .g-hero { height: 620px; } .g-hero-trace { opacity: .5; } }
-.g-hero-copy { position: absolute; left: 24px; right: 24px; top: 36px; max-width: 560px; color: #EEF4F8; }
-.g-hero-name { font-family: var(--font-display); font-stretch: 150%; font-weight: 200; font-size: clamp(70px, 18vw, 168px); line-height: .8; letter-spacing: -.06em; margin-top: 10px; }
-.g-hero-lede { margin-top: 22px; font-size: 16px; line-height: 1.55; color: #A9BBCB; max-width: 46ch; }
-.g-hero-lede b { color: #fff; font-weight: 600; }
-.g-hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
-
-.g-sec { margin-top: 48px; display: grid; gap: 18px; }
-.g-sec-h { font: 700 22px/1.05 var(--font-display); font-stretch: 135%; letter-spacing: -.03em; }
-.g-sec-h small { display: block; font: 400 13.5px/1.5 var(--font); letter-spacing: 0; color: var(--ink-2); margin-top: 8px; max-width: 46ch; }
-@media (min-width: 1024px) {
-  .g-wrap { padding: 56px 64px 80px; }
-  .g-hero-copy { left: 60px; top: 56px; }
-  .g-hero-lede { font-size: 18px; }
-  .g-sec { grid-template-columns: 260px minmax(0, 1fr); gap: 40px; margin-top: 56px; }
-  .g-sec-h { font-size: 24px; }
-  .g-sec-h small { max-width: 30ch; }
-}
-.g-note { margin-top: 14px; font-size: 13.5px; color: var(--ink-2); max-width: 92ch; }
-
-.g-swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (min-width: 900px) { .g-swatches { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr; gap: 14px; } }
-.g-sw { height: 170px; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 12.5px; position: relative; overflow: hidden; }
-.g-sw b { font: 650 18px/1.05 var(--font-display); font-stretch: 130%; letter-spacing: -.02em; display: block; margin-bottom: 4px; }
-.g-sw-glacier { background: radial-gradient(circle at 70% 30%, #E6F8FF 0, #5CC8F5 30%, #1478BC 80%); color: #04182A; box-shadow: 0 18px 40px -20px rgba(92,200,245,.8); }
-.g-roles { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 16px; }
-.g-roles > div { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
-.g-roles i { width: 18px; height: 18px; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--edge); }
-
-.g-type { display: grid; gap: 16px; }
-@media (min-width: 1024px) { .g-type { grid-template-columns: 1.4fr 1fr; } }
-.g-spec { padding: 26px 28px; overflow: hidden; }
-.g-who { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--ink-3); margin-bottom: 18px; }
-.g-who b { color: var(--ink); font-weight: 600; }
-.g-widths { display: grid; gap: 2px; }
-.g-widths div { font: 600 46px/1 var(--font-display); letter-spacing: -.03em; white-space: nowrap; display: flex; align-items: baseline; gap: 16px; }
-.g-widths small { font: 400 12px/1 var(--font); color: var(--ink-3); letter-spacing: 0; }
-.g-thin { font-size: clamp(56px, 6.2vw, 96px); margin-top: 18px; white-space: nowrap; }
-.g-scale { display: grid; gap: 6px; margin-top: 18px; }
-.g-scale > div > span:first-child { white-space: nowrap; }
-.g-scale > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
-
-.g-mats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (min-width: 900px) { .g-mats { grid-template-columns: repeat(5, 1fr); gap: 14px; } }
-.g-mat { height: 210px; border-radius: 22px; position: relative; overflow: hidden; }
-.g-center { display: grid; place-items: center; }
-.g-fill { position: absolute; inset: 0; width: 100%; height: 100%; }
-.g-cap { position: absolute; left: 16px; bottom: 14px; right: 16px; font-size: 12.5px; color: var(--ink-2); z-index: 5; }
-.g-cap b { display: block; color: var(--ink); font-weight: 600; font-size: 14px; }
-
-.g-anat { display: grid; gap: 14px; }
-@media (min-width: 1024px) { .g-anat { grid-template-columns: 1.3fr 1fr; } }
-.g-anat-a { border-radius: 22px; padding: 22px; display: grid; align-items: center; }
-.g-anat-a .tr-svg { width: 100%; height: auto; }
-.g-glyphs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.g-gl { padding: 12px 8px 12px; display: grid; justify-items: center; gap: 4px; font-size: 12px; color: var(--ink-2); text-align: center; }
-.g-gl b { color: var(--ink); font-weight: 600; font-size: 13px; }
-
-.g-stack { display: grid; gap: 14px; }
-.g-two { display: grid; gap: 14px; }
-@media (min-width: 900px) { .g-two { grid-template-columns: 1.2fr 1fr; } }
-.g-ribbon { padding: 24px 22px 18px; }
-@media (min-width: 1024px) { .g-ribbon { padding: 30px 40px 22px; } }
-.g-ribbon-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
-.g-row-h { display: flex; justify-content: space-between; align-items: baseline; padding: 0 6px 12px; }
-
-.g-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
-.g-ic { aspect-ratio: 1; border-radius: 18px; display: grid; place-items: center; align-content: center; gap: 8px; background: var(--film); box-shadow: inset 0 0 0 1px var(--edge); }
-.g-ic-on { --icon-lit: var(--trace); }
-
-.g-photo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (min-width: 1024px) { .g-photo { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
-.g-fig { margin: 0; border-radius: 22px; overflow: hidden; height: 280px; position: relative; }
-.g-fig img { object-fit: cover; }
-.g-fig figcaption { position: absolute; left: 16px; bottom: 12px; color: #fff; font-size: 12.5px; z-index: 6; }
-.g-fig figcaption b { display: block; font-size: 14px; }
-
-.g-motion { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (min-width: 1100px) { .g-motion { grid-template-columns: repeat(5, 1fr); gap: 14px; } }
-.g-mt { border-radius: 22px; padding: 18px; min-height: 250px; display: grid; grid-template-rows: 120px auto; gap: 14px; }
-.g-mt b { font: 650 18px/1.1 var(--font-display); font-stretch: 130%; letter-spacing: -.02em; display: block; }
-.g-mt p { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
-.g-mt code { font-family: var(--font); font-size: 11.5px; color: var(--ink-3); display: block; margin-top: 8px; }
-.g-demo { width: 100%; height: 120px; }
-.g-replay { position: relative; height: 100%; }
-.g-replay-stage { height: 100%; }
-.g-replay-btn { position: absolute; right: -6px; top: -6px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: var(--ink-3); background: none; border: 0; cursor: pointer; z-index: 8; }
-.g-replay-btn:hover { color: var(--trace); }
-.g-stretch { background: none; border: 0; color: inherit; cursor: pointer; }
-
-.g-complete { position: relative; height: 640px; max-width: 390px; margin: 0 auto 0 0; border-radius: 34px; overflow: hidden; }
-.g-replay:has(> .g-replay-stage > .g-complete) { max-width: 390px; }
-.g-complete-swing { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
-.g-complete-day { position: absolute; z-index: 3; left: 0; right: 0; top: 60px; text-align: center; color: #EEF4F8; }
-.g-complete-day .tr-num { text-shadow: 0 0 50px rgba(92, 200, 245, .35); margin-top: 4px; }
-.g-complete-words { position: absolute; z-index: 3; left: 20px; right: 20px; top: 488px; text-align: center; color: #EEF4F8; }
-.g-complete .tr-flare { z-index: 3; }
-
-.g-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
-@media (min-width: 900px) { .g-grid { grid-template-columns: 1fr 1fr; } .g-span2 { grid-column: 1 / -1; } }
-.g-tile { padding: 20px; }
-.g-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.g-meter { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
-.g-meter b { font-size: 13px; }
-.g-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: 14px; color: var(--ink-2); }
-.g-list li { display: flex; gap: 10px; align-items: center; }
-.g-stats { display: grid; grid-template-columns: repeat(3, 1fr); }
-.g-play { position: relative; display: grid; place-items: center; }
-.g-play > .tr-orbit { position: absolute; }
-`;

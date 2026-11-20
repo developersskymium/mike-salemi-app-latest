@@ -17,8 +17,8 @@ type Props = {
 };
 
 /**
- * iOS large title. On phone it collapses into a centred inline title over the scroll-edge
- * blur once it scrolls under the bar; on desktop it stays a plain page header.
+ * Large title. On phone it collapses into a centred inline title over the scroll edge once it
+ * scrolls away (the shell header owns the top until then); on desktop it stays a plain page header.
  */
 export function LargeTitle({ title, eyebrow, leading, trailing, onPhoto, className }: Props) {
   const big = useRef<HTMLHeadingElement>(null);
@@ -42,6 +42,7 @@ export function LargeTitle({ title, eyebrow, leading, trailing, onPhoto, classNa
       </div>
       <div className="lq-ltitle-row">
         <div className="lq-ltitle-big">
+          {leading && <div className="lq-ltitle-lead">{leading}</div>}
           {eyebrow && <div className="lq-t13" style={{ fontWeight: 600 }}>{eyebrow}</div>}
           <h1 ref={big} className="lq-t34">
             {title}

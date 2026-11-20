@@ -4,22 +4,10 @@
 @import "../components/signature/signature.css";
 @import "../components/shell/shell.css";
 
-/* TRACE type, self-hosted. Anybody: variable display face, width 50–150 (font-stretch) and
-   weight 100–900. Hanken Grotesk: text, 400–700. Preloaded in app/layout.tsx. */
-@font-face {
-  font-family: "Anybody";
-  src: url("/fonts/anybody-var.woff2") format("woff2-variations"), url("/fonts/anybody-var.woff2") format("woff2");
-  font-weight: 100 900;
-  font-stretch: 50% 150%;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-700.woff2") format("woff2"); font-weight: 700 900; font-style: normal; font-display: swap; }
+/* Summit type: Archivo + Inter, self-hosted with next/font/local in app/layout.tsx
+   (sets --ff-archivo and --ff-inter on <html>; tokens.css builds --font-display / --font on them). */
 
-/* Tailwind theme → Trace tokens (Liquid names kept). Utilities resolve to the live CSS variables, so
+/* Tailwind theme → Summit tokens (Liquid and Trace names kept). Utilities resolve to the live CSS variables, so
    they follow the theme and any token edit. Never add raw values here. */
 @theme inline {
   --font-sans: var(--font);
@@ -54,6 +42,19 @@
   --color-ring-1: var(--ring-1);
   --color-ring-2: var(--ring-2);
   --color-ring-3: var(--ring-3);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-warm: var(--warm);
+  --color-warm-ink: var(--warm-ink);
+  --color-warm-soft: var(--warm-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
 
   --text-display: var(--t-display-size);
   --text-display--line-height: var(--t-display-line);
@@ -104,6 +105,9 @@
   --radius-thumb: var(--r-thumb);
   --radius-control: var(--r-control);
 
+  --shadow-1: var(--sh-1);
+  --shadow-2: var(--sh-2);
+  --shadow-3: var(--sh-3);
   --shadow-float: var(--float-shadow);
   --shadow-glow: var(--glow);
   --shadow-glow-soft: var(--glow-soft);
@@ -123,20 +127,41 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
+    font-feature-settings: var(--font-features);
   }
   body {
     min-height: 100dvh;
-    font-family: var(--font);
     font: var(--t-15);
     letter-spacing: var(--t-15-track);
   }
   h1, h2, h3 { text-wrap: balance; }
+  img, video { max-width: 100%; }
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
     border-radius: 10px;
   }
   ::selection {
-    background: color-mix(in srgb, var(--trace) 30%, transparent);
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+}
+
+/* ---------------------------------------------------------------- press feedback
+   Every interactive element answers the finger at once: an 80ms squeeze that springs back
+   (buttons, tabs, cards marked .lq-press) or a quick dim (plain links). Hover lifts on desktop. */
+@layer base {
+  :where(button, [role="button"], [role="tab"], [role="radio"], [role="switch"], summary, select, label[for]) {
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform var(--dur-press) var(--curve-spring), opacity .15s var(--curve-out);
+  }
+  :where(button, [role="button"], [role="tab"], summary):not(:disabled):active {
+    transform: scale(var(--press-scale));
+    transition-duration: var(--dur-press-in);
+  }
+  :where(a[href]) { touch-action: manipulation; transition: opacity .15s var(--curve-out); }
+  :where(a[href]:not(.lq-press, .lq-btn, .lq-iconbtn, .lq-chip, [data-no-press])):active { opacity: .66; transition-duration: 40ms; }
+  @media (prefers-reduced-motion: reduce) {
+    :where(button, [role="button"], [role="tab"], summary):active { transform: none; }
   }
 }

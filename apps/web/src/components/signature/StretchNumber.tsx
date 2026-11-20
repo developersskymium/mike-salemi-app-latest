@@ -11,7 +11,7 @@ type Props = {
   duration?: number;
   /** ms */
   delay?: number;
-  /** thin: wide hairline numerals (days, counts, time). solid: stats. */
+  /** thin and solid are both Archivo 800 now (numerals are heroes). */
   variant?: "thin" | "solid";
   /** CSS font-size. */
   size?: number | string;
@@ -23,20 +23,12 @@ type Props = {
   style?: CSSProperties;
 };
 
-/**
- * Stretch: a number counts up squeezed narrow (motion blur in type) and springs back wide
- * when it lands. Anybody's width axis does the work; reduced motion shows the value.
- */
+/** A hero number (Archivo 800, tabular) that counts up to its value. Reduced motion shows the value. */
 export function StretchNumber({ value, from = 0, duration, delay, variant = "thin", size, decimals = 0, format, label, className, style }: Props) {
-  const [n, moving] = useStretchCount(value, { from, duration, delay, decimals });
+  const [n] = useStretchCount(value, { from, duration, delay, decimals });
   const text = format ? format(n) : n.toFixed(decimals);
   return (
-    <span
-      className={className ? `tr-num ${className}` : "tr-num"}
-      data-variant={variant}
-      data-moving={moving ? "" : undefined}
-      style={{ fontSize: size, ...style }}
-    >
+    <span className={className ? `tr-num ${className}` : "tr-num"} data-variant={variant} style={{ fontSize: size, ...style }}>
       <span className="lq-sr">{label ?? (format ? format(value) : value.toFixed(decimals))}</span>
       <span aria-hidden>{text}</span>
     </span>

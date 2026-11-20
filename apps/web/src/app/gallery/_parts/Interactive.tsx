@@ -16,7 +16,7 @@ export function SheetDemo({ startOpen = false }: { startOpen?: boolean }) {
   const [open, setOpen] = useState(startOpen);
   return (
     <>
-      <Button variant="ghost" size="md" icon="sparkle" onClick={() => setOpen(true)}>
+      <Button variant="glass" size="md" icon="sparkle" onClick={() => setOpen(true)}>
         Readiness sheet
       </Button>
       <Sheet
@@ -37,7 +37,7 @@ export function SheetDemo({ startOpen = false }: { startOpen?: boolean }) {
               <Segmented label={q} size="sm" defaultValue={opts[s]!} options={opts.map((o) => ({ value: o, label: o }))} />
             </div>
           ))}
-          <div className="lq-glass" data-leak="" style={{ marginTop: 6, padding: 16, borderRadius: "var(--r-panel)", display: "flex", gap: 16, alignItems: "center" }}>
+          <div className="lq-sunk" style={{ marginTop: 6, padding: 16, display: "flex", gap: 16, alignItems: "center" }}>
             <Rings size={76} stroke={8} rings={[{ value: 14 / 20, tone: 1 }]} label="Score 14 of 20">
               <span className="lq-dnum" style={{ fontSize: 22 }}>14</span>
             </Rings>
@@ -64,7 +64,7 @@ export function ToastDemo() {
 export function ControlsDemo() {
   return (
     <div style={{ display: "grid", gap: 14 }}>
-      <Segmented label="Level" options={[{ value: "1", label: "Level 1 · Beginner" }, { value: "2", label: "Level 2 · Intermediate" }]} />
+      <Segmented label="Level" options={[{ value: "1", label: "Level I · Beginner" }, { value: "2", label: "Level II · Intermediate" }]} />
       <Segmented label="Path" size="sm" options={[{ value: "i", label: "Immersion" }, { value: "s", label: "Self-Guided" }]} />
       <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
         <label style={{ display: "flex", gap: 12, alignItems: "center" }} className="lq-t13 lq-c2">
@@ -94,12 +94,12 @@ export function Replay({ children, label = "Replay" }: { children: ReactNode; la
   );
 }
 
-/** Stretch demo: re-counts on click. */
+/** A hero number that counts again on click. */
 export function StretchDemo() {
-  const [v, setV] = useState(24);
+  const [v, setV] = useState(23);
   return (
-    <button type="button" className="g-stretch" onClick={() => setV((x) => (x === 24 ? 61 : 24))} aria-label="Count again">
-      <StretchNumber value={v} from={v === 24 ? 0 : 24} size={64} variant="thin" />
+    <button type="button" className="g-stretch" onClick={() => setV((x) => (x === 23 ? 61 : 23))} aria-label="Count again">
+      <StretchNumber value={v} from={v === 23 ? 0 : 23} size={56} />
     </button>
   );
 }

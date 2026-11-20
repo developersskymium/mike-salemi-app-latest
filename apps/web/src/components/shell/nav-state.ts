@@ -1,6 +1,7 @@
-import { TABS } from "@/lib/nav";
+import { activeHref, NAV } from "@/lib/nav";
 
-/** Index of the tab that owns a path, or -1. */
+/** Index of the primary nav item that owns a path, or -1. */
 export function activeTab(pathname: string) {
-  return TABS.findIndex((t) => pathname === t.href || pathname.startsWith(`${t.href}/`));
+  const h = activeHref(NAV, pathname);
+  return h ? NAV.findIndex((t) => t.href === h) : -1;
 }

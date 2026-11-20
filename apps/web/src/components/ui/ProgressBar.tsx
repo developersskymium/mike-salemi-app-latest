@@ -4,20 +4,19 @@ import { cx } from "./cx";
 type Props = {
   /** 0–1 */
   value: number;
-  /** label (glacier trace, default), accent (same, brighter head), white (over video/photo). */
-  tone?: "label" | "accent" | "white";
+  /** label/accent = glacier (default), warm = ember (streaks, badges, progress), ok = done, white = over photos. */
+  tone?: "label" | "accent" | "warm" | "ok" | "white";
+  /** thin = 5px (rows, cards). */
+  size?: "thin" | "md";
   label?: string;
   className?: string;
   style?: CSSProperties;
-  /** Expose on first paint (default on). */
+  /** Fill on first paint (default on). */
   animate?: boolean;
 };
 
-/**
- * A straight trace: the travelled part is a tapered tail of glacier light ending in a hot head,
- * the rest a dotted path. Draws on first paint.
- */
-export function ProgressBar({ value, tone = "label", label, className, style, animate = true }: Props) {
+/** A Summit progress bar: a sunk track with a rounded gradient fill that draws in on view. */
+export function ProgressBar({ value, tone = "label", size = "md", label, className, style, animate = true }: Props) {
   const p = Math.max(0, Math.min(1, value));
   return (
     <div
@@ -27,7 +26,8 @@ export function ProgressBar({ value, tone = "label", label, className, style, an
       aria-valuemax={100}
       aria-valuenow={Math.round(p * 100)}
       className={cx("lq-progress", className)}
-      data-tone={tone === "label" ? undefined : tone}
+      data-tone={tone === "label" || tone === "accent" ? undefined : tone}
+      data-size={size === "thin" ? "thin" : undefined}
       data-anim={animate ? "" : undefined}
       data-empty={p === 0 ? "" : undefined}
       style={{ "--p": `${p * 100}%`, ...style } as CSSProperties}
@@ -37,20 +37,18 @@ export function ProgressBar({ value, tone = "label", label, className, style, an
   );
 }
 
-/** Steps strung on one trace: done steps lit, the current step is the head, the rest dotted. */
-export function StepSegments({ total, done, current = done, currentProgress = 0.34, label, className }: { total: number; done: number; current?: number; currentProgress?: number; label?: string; className?: string }) {
-  const lit = total > 1 ? Math.min(1, (Math.min(current, total - 1) + (current < total ? currentProgress : 0)) / (total - 1)) : 1;
+/** Step dots: one pill per step. Done steps green, the current step ember, the rest neutral. */
+export function StepSegments({ total, done, current = done, label, className, onPhoto }: { total: number; done: number; current?: number; /** Retired (Trace). */ currentProgress?: number; label?: string; className?: string; onPhoto?: boolean }) {
   return (
     <div
       className={cx("lq-segs", className)}
       role="progressbar"
-      aria-label={label ?? `Step ${current + 1} of ${total}`}
+      aria-label={label ?? `Step ${Math.min(current + 1, total)} of ${total}`}
       aria-valuemin={0}
       aria-valuemax={total}
       aria-valuenow={done}
-      style={{ "--p": `${lit * 100}%`, "--n": total } as CSSProperties}
+      data-on-photo={onPhoto ? "" : undefined}
     >
-      <b aria-hidden />
       {Array.from({ length: total }, (_, i) => (
         <i key={i} data-s={i < done ? "done" : i === current ? "now" : undefined} />
       ))}

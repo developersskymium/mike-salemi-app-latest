@@ -3,11 +3,15 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cx } from "./cx";
 import { Icon, type IconName } from "./Icon";
 
-export type ButtonVariant = "filled" | "glass" | "ghost" | "white" | "tint" | "fill" | "plain";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonVariant = "filled" | "warm" | "ink" | "secondary" | "glass" | "ghost" | "white" | "onphoto" | "tint" | "fill" | "plain";
+export type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 type Common = {
-  /** filled = the light pill, the one primary action (glacier). ghost/glass = secondary on film. glass/fill = secondary. white = over photos. tint/plain = tertiary. */
+  /**
+   * filled = glacier primary, the one obvious action. warm = ember (resume, progress). ink = strong neutral.
+   * secondary/glass = white with a hairline. ghost = accent text. white/onphoto = over photos.
+   * tint = accent wash. fill = sunk neutral. plain = a link with a tap target.
+   */
   variant?: ButtonVariant;
   size?: ButtonSize;
   icon?: IconName;
@@ -16,7 +20,7 @@ type Common = {
   block?: boolean;
   /** success: draws a check and flares (see CompleteButton). */
   state?: "idle" | "success";
-  /** Filled only: a streak of light passes across the pill every few seconds (default on). */
+  /** Retired (Trace streak). Accepted for compatibility, ignored. */
   streak?: boolean;
   children?: ReactNode;
   className?: string;
@@ -26,16 +30,14 @@ export type ButtonProps = Common &
   (({ href: string; prefetch?: boolean; target?: string } & Omit<ButtonHTMLAttributes<HTMLAnchorElement>, "type">) | ({ href?: undefined } & ButtonHTMLAttributes<HTMLButtonElement>));
 
 export function Button(props: ButtonProps) {
-  const { variant = "filled", size = "lg", icon, iconAfter, block, state = "idle", streak = true, children, className, ...rest } = props;
-  const iconSize = size === "sm" ? "xs" : "sm";
-  const cls = cx("lq-btn lq-fx lq-press", className);
+  const { variant = "filled", size = "lg", icon, iconAfter, block, state = "idle", streak: _streak, children, className, ...rest } = props;
+  const iconSize = size === "sm" || size === "xs" ? "xs" : "sm";
+  const cls = cx("lq-btn lq-press", className);
   const data = {
     "data-variant": variant,
     "data-size": size === "lg" ? undefined : size,
     "data-block": block ? "" : undefined,
     "data-state": state === "idle" ? undefined : state,
-    "data-streak": variant === "filled" && streak && state === "idle" ? "" : undefined,
-    "data-fx": "",
   };
   const inner = (
     <>

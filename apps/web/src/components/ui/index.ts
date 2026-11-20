@@ -4,7 +4,7 @@ export { Glass, type GlassLevel, type GlassProps } from "./Glass";
 export { Button, type ButtonProps, type ButtonVariant } from "./Button";
 export { IconButton } from "./IconButton";
 export { CompleteButton } from "./CompleteButton";
-export { Chip } from "./Chip";
+export { Chip, Tag, type ChipVariant } from "./Chip";
 export { Segmented, type SegmentedOption } from "./Segmented";
 export { Toggle } from "./Toggle";
 export { Rings, type Ring } from "./Rings";

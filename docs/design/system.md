@@ -1,116 +1,124 @@
-# Trace design system
+# Summit design system
 
-**Every rep leaves a mark.** Leave a camera shutter open while Mike swings and the bell paints an arc of light. Trace makes that the language of the app: training is drawn as **glacier light with a hot head and a fading tail**. Dark is a night exposure under Mount Shasta (blue-black ground, matte film, star trails); light is the same mountain in daylight, drawn as glacier contour lines on snow.
+**Daylight, photo-led training with Mike.** Warm chalk ground, crisp white cards with real depth, Mike in full colour on every key screen, strong Archivo headlines, glacier blue for "do this", ember for progress — and every member is on a climb up Mount Shasta. Approved Nov 20 (spec 10); it **replaces Trace** entirely (Trace was rejected as washed out, glassy and "cyber").
 
-Reference pages: `/gallery` (the whole system in both themes; `?only=light|dark` for one) and `/gallery/shell` (the shell with a Today composition in the legacy Home order). Concept (source of truth for the look): `docs/design/trace/concept/` and the `b-*.png` screenshots beside it. Layouts follow the original app (`docs/specs/08-legacy-parity.md` §L): Trace changes the visual language, never the page structure.
+Reference: `/gallery` (the whole system, light/dark switch at the top) and `/gallery/shell` (the shell with the approved Home composition). Approved mockups: `docs/design/summit/*.html` and `shots/*.png` (01 home desktop, 02 home phone, 03 program, 04 day (+dark), 05 catalog, 06 day phone, 07 day complete, 08 design system). Layouts follow the original app (`docs/specs/08-legacy-parity.md` §L); Summit is the visual language on top.
 
 ## Principles
-1. **Light has one source.** Glacier light comes only from traces, the primary pill and real light in photos (fire, dawn). Everything else is night or snow so the light has somewhere to glow.
-2. **Progress is drawn, not filled.** Any progress, loader, divider or hero trace follows one drawing rule (below). Each movement has its own shape.
-3. **Matte film, not glass.** Surfaces are opaque film. Edges catch light where a trace has passed (the light leak, and the rim under the cursor). Blur only on floating layers (tab bar, sheets) and over photos.
-4. **Width is motion.** Display type is Anybody with a width axis: it stretches wide at rest and squeezes narrow while it moves.
-5. **Shadows are glow.** No grey drop shadows on dark; glow from a light source (`--glow`). Light theme keeps one soft lift on film.
-6. **No pink, no decorative gradients.** The night is blue-black because a long exposure of the sky is blue-black. Gradients only model light (a tail cooling, a glow, a vignette).
+1. **Mike leads.** Full-colour, warm photos of Mike on every key screen. Never tinted, graded, desaturated or washed out. One ink scrim for legible type, nothing else.
+2. **Daylight surfaces.** Warm chalk ground, crisp white cards, three depth levels, strong contrast. Dark mode is warm ink and still photo-rich.
+3. **Glass only on small overlays**: the phone tab bar, video controls, photo badges. Everything else is solid.
+4. **Bold, legible type.** Archivo 800 at normal width for headlines and numbers; Inter for everything you read. Nothing stretched.
+5. **Glacier + Ember.** Glacier blue = act (primary actions, links, selection). Ember = progress, streaks, achievement. Gold = medals only. Green = done. Ink for text.
+6. **The Climb.** A level is a route up Mount Shasta: phases are camps, the last day is the summit, the member is marked on it.
+7. **One obvious next step per screen** (usually "Start" or "Resume").
+8. **Offers as the next camp.** Next programs appear tied to progress ("Beyond the summit"), with real value; contextual help can be a cross-sell. Never as ads.
 
 ## Tokens
-Source: `packages/tokens/src/tokens.ts` → `pnpm --filter @ms/tokens build:css` → `tokens.css`. Never edit `tokens.css` or put raw colours in components. Liquid token **names are kept** (pages use them) and now resolve to Trace values; Trace adds its own names alongside. No token was renamed.
+Source: `packages/tokens/src/tokens.ts` → `pnpm --filter @ms/tokens build:css` → `tokens.css`. Never edit `tokens.css` or put raw colours in components. **Old names keep working**: every Liquid/Trace variable (`--bg`, `--label*`, `--fill*`, `--sep`, `--film`, `--ink*`, `--trace*`, `--glass-*`, `--ring-*`, `--t-*`, `--r-*`, `--dur-*` …) now resolves to a Summit value, so existing pages restyle without edits. New pages should prefer the Summit names below.
 
 ### Colour roles
-| Role | Dark (night exposure) | Light (snow exposure) | Use |
+| Summit role | Light | Dark | Old names mapped onto it |
 | --- | --- | --- | --- |
-| `--ground` = `--bg` | `#070C17` | `#EEF3F6` | Page ground |
-| `--film` = `--bg-elev` = `--glass-fill` | `#0C1322` | `#FBFDFE` | Surfaces (cards, panels) |
-| `--film-2` = `--lens-fill` | `#111A2C` | `#F2F6F8` | Raised film, active segments |
-| `--edge` | `rgba(150,200,235,.12)` | `rgba(20,90,140,.13)` | 1px plate edge |
-| `--ink` / `--ink-2` / `--ink-3` = `--label*` | `#EEF4F8` / `#A3B2C0` / `#73879B` | `#0B1A28` / `#47596A` / `#5A6C7F` | Text (all AA on ground and film) |
-| `--rule` = `--sep` | 10% glacier | 11% ink | Hairlines |
-| `--trace` | `#5CC8F5` glacier light | `#1490D6` | The light |
-| `--trace-hot` | `#E6F8FF` | `#0A5E99` | The head of a trace, the light point of icons |
-| `--trace-dim` | 24% | 24% | Dotted path ahead, unlit nodes |
-| `--accent` | `#5CC8F5` (label `#04182A`, 9.4:1) | `#0C78BB` glacier ink (white label 4.8:1) | The light pill, selected chips |
-| `--accent-ink` | `#5CC8F5` | `#0B6FAD` (4.8:1) | Accent text, links |
-| `--lines` | 50% | 42% | Contour lines |
+| `--bg` | chalk `#F5F2EC` | warm ink `#101215` | `--ground`, `--exposure` |
+| `--surface` | `#FFFFFF` | `#181B20` | `--bg-elev`, `--film`, `--glass-fill` |
+| `--surface-2` | `#FBFAF7` | `#1D2127` | `--film-2` |
+| `--surface-sunk` | `#F1EDE6` | `#14171B` | `--fill` (inputs, wells, tracks) |
+| `--line` / `--line-strong` | `#E6E0D6` / `#D6CEC1` | `#2A2F37` / `#383E48` | `--sep`, `--rule`, `--edge`, `--trace-dim` |
+| `--text` / `--text-2` / `--text-3` | ink 900 / 600 / 500 | `#F5F2EC` / `#B3B9C2` / `#858D98` | `--label*`, `--ink*` |
+| `--accent` (glacier) | `#1A85D6` | `#3FA0E6` | `--trace`, `--ring-1`, `--focus` |
+| `--accent-strong` / `-soft` / `-ink` | `#146CB4` / `#EEF6FD` / `#135690` | `#62B4EE` / 13% / `#8CCBF5` | `--accent-deep`, `--accent-hi` |
+| `--warm` (ember) | `#F2632A` | `#FF7F3F` | `--ring-2` |
+| `--warm-soft` / `--warm-ink` | `#FFF3EC` / `#A93C12` | 13% / `#FFB58C` | |
+| `--ok` / `--ok-soft` | `#1F9D6A` / `#E5F5EE` | `#37C08A` / 14% | `--ring-3` |
+| `--gold` | `#E8B43C` | same | medals only |
 
-Recipes: `--glow` (pill glow), `--glow-soft`, `--glow-head`, `--leak` (light-leak gradient for plate edges), `--lift-shadow`, `--exposure` (page exposure gradient), `--night-ground` (night panel), `--grade-*` (photo grade per theme), `--trace-glow` (glow opacity). Rings: `--ring-1..3(-hi)` = glacier, ink, deep ice.
+Palette scales (theme-independent): `--glacier-50…900`, `--ember-50…700`, `--ink-400…900`, `--chalk-0…300`, `--gold`, `--gold-50`.
+Scrims (the only overlay on photos): `--scrim-left` (desktop heroes), `--scrim-bottom` (cards, phone), `--scrim-soft`. Photo glass: `--clear-fill`, `--clear-filter`. Tab bar glass: `--glass-bar`, `--glass-bar-edge`.
+Ink panel: `.lq-night` / `Glass level="night"` stays dark in both themes (resume card, video, completion).
+Illustration palette (flat daytime cut paper; owned by the illustrator, consumed by `components/graphics` and The Climb): `--fig-*`, `--sc-*` (sky, sun, mountain, snow, ridge, ground, tree) and the kept `--gfx-*` hooks.
 
-Night panel: `.lq-night` (or `Glass level="night"`) stays a night exposure in both themes and gets the dark roles (heroes, video, completion).
-
-Graphics hooks: the theme blocks define the `--gfx-*` custom properties that `components/graphics` reads (figure ink and far-side opacity, bell, glass/surface, glacier, flame, enamel, glyph, arc track, heat, glow, night skies; dawn and dusk skies kept cool, no pink). Graphics adopt Trace with no code change.
+### Elevation
+`--sh-1` flat (lists, tiles) · `--sh-2` card (program cards, panels; the default `Glass`) · `--sh-3` hero (heroes, players, sheets, modals). Soft, short, real shadows — never glow. Primary buttons carry a coloured lift: `--sh-accent`, `--sh-warm`. Dark mode swaps them for inset highlights + deep shadows.
 
 ### Type
-| Family | Use |
-| --- | --- |
-| **Anybody** (`--font-display`), variable width 50–150 (`font-stretch`), weight 100–900 | Titles, section heads, card names, numerals |
-| **Hanken Grotesk** (`--font` = `--font-text`), 400–700 | Body, instructions, tables, meta |
+Self-hosted variable files in `apps/web/src/app/fonts/` loaded with `next/font/local` (preloaded, metric-matched Arial fallbacks → no layout shift). Variables `--ff-archivo` / `--ff-inter`; tokens build `--font-display` and `--font` on them. Anybody and Hanken Grotesk are removed.
 
-Scale (classes `lq-display`, `lq-t34` … `lq-t10`, CSS `--t-*`, Tailwind `text-34` …): display 52/50 w145 · 34/36 w135 · 28/31 w132 · 22/26 w130 · 20/24 w128 · 17/21 w125 (all Anybody 650–700) · 15/22 body · 13.5/19 meta · 12 · 11 · 10.5 (Hanken). `--t-*-stretch` holds each width; the `font` shorthand carries the nearest keyword.
-Width presets `--w-squeeze 55 · narrow 60 · normal 100 · card 110 · headline 125 · title 135 · wide 145 · thin 150`.
-Numerals: `.lq-thin-num` (Anybody 200, width 150: days, counts, time), `.lq-dnum` (Anybody 600, width 125: stats, tables). `.lq-num` = tabular figures in any face.
-Fonts are self-hosted in `apps/web/public/fonts` and preloaded in `app/layout.tsx` (Anybody + Hanken 400/600).
+| Class | Spec | Use |
+| --- | --- | --- |
+| `.lq-d-xxl` | Archivo 800 64/63, −3.5% | Hero titles |
+| `.lq-d-xl` = `.lq-display` | 800 48/49, −3% | Page heroes |
+| `.lq-d-lg` | 800 36/38 | Section heads |
+| `.lq-d-md` | 750 26/29 | Card heads ("You're 38% of the way up.") |
+| `.lq-d-sm` | 700 20/24 | Card titles |
+| `.lq-d-xs` | 700 16/20 | Small titles |
+| `.lq-t34 … .lq-t17` | Archivo 800–700 | Old scale names, kept |
+| `.lq-lede` | Inter 16.5/26 | Intros |
+| `.lq-t15` / `.lq-t13` / `.lq-t12` | Inter 400 15/22, 500 13.5/19, 600 12/15 | Body, meta, captions |
+| `.lq-eyebrow` | Inter 650 11.5 caps, +9% | Eyebrows (`data-tone="accent|warm"`) |
+| `.lq-dnum` / `StretchNumber` | Archivo 800 tabular | Numbers are heroes |
 
-### Radii, spacing, layout
-Radii `--r-hero 30 · card 22 · panel 20 · inner 16 · thumb 14 · control 12 · sheet 32 · pill`. Spacing 4pt grid `--s-1..16`. Rail `--sidebar-w 256` (legacy 16rem), content `--content-max 1180`, tab bar 64 high, 22 inset.
+### Radii, space, layout
+Radii 8 · 12 · 16 · 20 · 26 · 32 (`--r-xs … --r-2xl`); role names kept (`--r-card` 20, `--r-hero` 28, `--r-sheet` 28, `--r-control` 12). 4pt spacing `--s-1…--s-18`. Rail 264px, top bar 60px, announcement 40px, content max 1240px, phone tab bar 68px floating 12px in.
 
 ### Motion
-Curves: `--curve-expose` (ease-out cubic: the head leads), `--curve-out` (the exposure curve), `--curve-spring` (1.4 overshoot: presses, flare), `--curve-spring-soft`, `--curve-in-out`. Durations `--dur-expose 1400 · ticker 1100 · stretch 500 · orbit 1600 · streak 4500 (+1200 delay) · flare 1200 · press 450 (in 80) · rise 1000 (+80 stagger) · sheet 480 · toast 360`. `--press-scale .96`.
-
-## The drawing rule (TraceLine)
-A trace is light travelling along a path: a **white-hot head** with a halo; a **tail** of slices widening from 25% to 100% and cooling to `floor` (8%) opacity; a **glow** 3.2× the width, blurred; a **dotted path ahead** (`1 7`); **nodes** for steps, lit once the head passes. Geometry is computed on the server (`signature/geometry.ts`); the tail is one `<path>` shown through dash windows, so markup stays small.
-
-## Primitives (`@/components/ui`) — API unchanged, props only added
-| Primitive | Trace treatment |
-| --- | --- |
-| `Glass` | Matte film plate with a 1px edge; the edge catches glacier light under the cursor (desktop). New: `leak` (light-leak edge), `level="night"`. `thick` = floating film with light blur; `clear` = night-tinted over photos. |
-| `Button` | `filled` = the **light pill**: glacier fill, glow, a streak of light passing every 4.5s, 96% press in 80ms with spring back. New variant `ghost` (= `glass`): edge outline on film. `white` over photos, `tint`, `fill`, `plain`. New prop `streak`. |
-| `CompleteButton` | Check draws itself, then a flare line and ring of light. |
-| `IconButton`, `Icon` | Round film control. Icons: 1.6 stroke, open shapes ending in a **light point** (`point` prop; off at xs). Active tabs also light the stroke (`--icon-lit`). New icons: `today` (swing arc), `programs` (pendulum). |
-| `Chip` | Film with edge; `selected` = lit trace fill with glow; `dot` = a live light point. |
-| `Segmented` | A light track; the lens is film outlined in glacier light with a glow; slides and stretches (`useLens`). |
-| `Toggle` | Off: a dim knob. On: lit track, a short tail, and the knob as a white-hot head with a halo. Squashes while pressed. |
-| `Rings` | **Trace arcs**: each ring exposes from the top with a head and cooling tail, dotted remainder, staggered. New prop `animate`. |
-| `ProgressBar`, `StepSegments` | Straight trace (tapered tail, head, dotted ahead) that exposes on load; steps strung on one trace (lit, head, dotted). |
-| `StatTile`, `Ticker` | Anybody numerals that **Stretch** while counting. `Ticker` gains `from`, `delay`, `duration`. |
-| `Card`, `Poster`, `HeroPhoto` | Photos get the **exposure grade** (new `grade` prop: `night` default for Card/Poster, `auto` for HeroPhoto; `none` to keep as shot); film rim lights under the cursor; night footer. |
-| `AmbientBackdrop` | A desaturated tonal field under the page wash. |
-| `LargeTitle` | Anybody title at width 135; on-photo titles glow faintly. |
-| `Sheet`, `Toast` | Film with a light-leak edge; the grabber is a short trace with a head. |
-| `Skeleton`, `EmptyState`, `Avatar`, `WorkoutTable` | Light passes over unexposed plates; avatars are graded grey; load is drawn as a short intensity trace; table numbers in Anybody. |
-
-## Signature components (`@/components/signature`)
-| Component | Use | Rules |
+| Name | Spec | Where |
 | --- | --- | --- |
-| `TraceLine` | Any path drawn as light (progress, heroes, overlays). `animate` = Expose (CSS tail reveal + SMIL head). | One focal trace per view. Animate only on first view; never loop. |
-| `SwingRibbon` | The program as a ribbon of swings, one per day, deeper each phase; done lit, today the head, ahead dotted. `size` wide/compact/responsive, phase labels. | Program pages, Today, program cards. Phases from the program data. |
-| `WeekTrace` | This week: each day drawn as its main movement. | Today, plan. `movementFor(name)` maps a day name to a shape. |
-| `MovementTrace` | Glyphs: swing, press, halo, get-up, clean, squat, deadlift, rest wave. | Day lists, week strip, empty states. Never decorative confetti. |
-| `StarTrails`, `SnowContours`, `LivingBackdrop` | Night sky / daylight contours, optional Mount Shasta, `live` light events (a meteor; a glint passing over snow). | Static SVG painted once, exposes on load; the live events are single composited elements. Off under reduced motion. The shell mounts `LivingBackdrop` behind every page. |
-| `OrbitLoader` | Loading: a short trace circling (the halo move). | Any wait over ~300ms. |
-| `Flare` | Completion starburst with a closing shutter ring. | Only at the end of a completion trace. Once. |
-| `StretchNumber` | Numbers that count squeezed narrow and spring back wide (`thin` / `solid`). | Day numbers, counts, time. |
-| `PhotoGrade` | CSS exposure grade (`night`, `day`, `warm`, `auto`, `none`) and an optional trace along the bell's real path (`trace={{ d, viewBox }}` in the photo's pixels). | Fire stays `warm`. Product shots and branded covers may use `none`. |
-| `LightPill` | The primary pill as its own component (`Button` filled + `streak`). | One per screen. |
-| `TraceRule`, `TraceDash` | A divider warming to a light point; the light dash for list items and active marks. | |
+| Press | 80ms squeeze to 97%, spring back (`--curve-spring`) | Every button, tab, card (`.lq-press` + a global rule for buttons; plain links dim) |
+| Rise | 600ms ease-out `(.2,.8,.2,1)`, 10px, 40ms stagger | `.lq-rise` / `[data-rise]` with `--i` |
+| Fill | 700ms ease-out | Bars, rings, the climb route |
+| Celebrate | 1.2s spring `(.34,1.56,.64,1)` | `Flare`, completion |
+| Breathe | 4s loop | The "You" pin on the climb |
+| Page | 220ms view transition | `PageTransition` (React `<ViewTransition>`): old page fades, new rises 6px; the shell stays |
+Everything is off under `prefers-reduced-motion`.
 
-## Shell
-`AppShell` keeps its structure and adds clean slots for the legacy L0 shell: `sidebarResume` (training resume card), `sidebarExtra` (Unlocked), `sidebarMore` (Tools, Coaching, Referrals), `announcement`, `statusBar`, `phoneHeader`, `tabBarMore` (a "More" trigger in the tab bar), `overlays` (More sheet, celebration), `backdrop` (`living` default). Desktop rail: wordmark (swing arc with a light point) → resume → nav (active item lit by a light dash that slides with the lens) → groups → member. Phone: film capsule tab bar; the active tab lights its icon and a light dash slides and stretches between tabs. Route progress is a trace across the top; page changes rise out of a soft blur.
+## Primitives (`components/ui`, APIs unchanged, props only added)
+- **Button** — `filled` glacier primary (the one action) · `warm` ember (resume/progress) · `ink` · `glass`/`secondary` white + hairline · `ghost` accent text · `tint` accent wash · `fill` sunk · `plain` link · `white`/`onphoto` over photos. Sizes `xs sm md lg`. `streak` is accepted and ignored.
+- **IconButton** — round white + hairline; `fill`, `plain`, `accent`, `clear` (glass on photos).
+- **Chip** — sunk + hairline; `tint/accent`, `warm`, `ok`, `solid`, `ink`, `outline`, `clear` (photo badge); `size="sm"`. **Tag** (new) — uppercase label: `CONTINUE` (warm), `BEST NEXT STEP` (accent), `NEW BADGE` (gold), `light`.
+- **Glass** — the Summit surface: `regular` white card (sh-2), `thick` floating panel (solid, sh-3), `clear`/`clear-deep` glass over photos, `night` ink panel.
+- **Segmented** — sunk track, white pill with sh-2. **Toggle** — glacier track, white knob.
+- **ProgressBar** — 8px sunk track, glacier gradient; `tone="warm|ok|white"`, `size="thin"`. **StepSegments** — step dots (done green, now ember). **Rings** — hairline track + round-capped arc; tones 1 glacier, 2 ember, 3 green; `onPhoto`.
+- **Card / Poster / HeroPhoto** — full colour (`grade="none"` default; every grade now renders as shot), ink scrim, white footer. **AmbientBackdrop** is retired (renders nothing).
+- **Sheet** — solid surface, sh-3, sunk grabber. **Toast** — ink pill. **Skeleton** — sunk with a soft shimmer; `shape="card"` is a white card.
+- **Icon** — Lucide geometry (same family as the original app) + the kettlebell; names stable, new: `home`, `account`, `retreats`, `tools`, `coaching`, `gift`, `shop`, `grid`, `arrowRight`, `chevronUp`, `trophy`, `medal`, `dumbbell` ….
 
-## Motion
-- **Expose** — progress draws along its path, head leading, tail cooling (1.4s ease-out cubic).
-- **Stretch** — numbers squeeze to width 55–60 while counting, spring back to their width.
-- **Orbit** — the loader circles (1.6s linear).
-- **Streak** — a streak of light passes the light pill every 4.5s; presses scale to 96% in 80ms and spring back.
-- **Flare** — a completed day ends in a starburst; the shutter closes on it (spring 1.4, 1.2s).
-- Entrances: `data-rise` (+ `--i` index) rises blocks out of a 4px blur, staggered 80ms.
-- `prefers-reduced-motion`: traces render drawn, numbers show their value, no streak, no sky events, no rise.
+## Signature (`components/signature`)
+- **Climb** — the Mount Shasta route: phases → camps, summit flag, dotted path ahead, "You · Day N" pin with a breathing ring, camp labels. Art is clean swappable SVG layers (`CLIMB_LAYERS`: sky, range, mountain, snow, ground, trees); the illustrator replaces any layer via the `art` prop without touching route/camps/labels.
+- **PhotoHero** — full-colour hero with one scrim (`left|bottom|soft|none`, phone override) and a **focal point** (`focal`, `focalPhone` → object-position; `fit="contain"` when a crop would cut a face). Fixed box → zero layout shift.
+- **NextStepCard** — one obvious next step (photo, tag, title, meta, optional progress, one CTA).
+- **BeyondTheSummit** — progress-tied next programs ("peaks": Level II, MTK, retreats) with tag/badge and quiet locked state.
+- **StreakChip**, **WeekDots** — ember streak chip; seven day dots (done ember ✓, today ember ring with date).
+- Trace names keep compiling, restyled: `TraceLine` (solid route + dotted ahead), `SwingRibbon` (day progress by phase), `WeekTrace` (day dots), `LightPill` (= primary Button; `tone="ember"`), `OrbitLoader` (spinner), `Flare` (ember burst), `StretchNumber` (Archivo 800 count-up), `PhotoGrade` (full colour), `TraceRule`/`TraceDash`. `StarTrails`, `SnowContours`, `LivingBackdrop` render nothing.
 
-## Do / don't
-- **Do** use one light pill per screen; everything else ghost, fill or plain.
-- **Do** draw progress as a trace (arc, line, ribbon, steps). **Don't** use filled bars or solid pie rings.
-- **Do** put heroes, video and completion on night panels. **Don't** put a night panel inside another.
-- **Do** grade photography; keep fire warm. **Don't** tint photos blue in light theme (use `day` / `auto`).
-- **Do** use Anybody for titles and numbers, Hanken for reading. **Don't** set paragraphs in Anybody or squeeze body text.
-- **Don't** add pink, purple or decorative gradients; **don't** use grey drop shadows on dark; **don't** loop traces or stack more than one blurred layer over another.
-- **Don't** animate a trace more than once per view or add motion that the member did not cause, beyond the streak and the sky's rare events.
+## Shell (`components/shell`, legacy L0)
+- **Desktop rail** (264px, white): wordmark (bell mark tile + MIKE SALEMI) → **resume card** (photo, "UP NEXT · LEVEL I", day title, meta, % ring) → Home `/today`, Programs `/programs`, Retreats `/experiences` (Apply chip), Library `/library`, Schedule `/plan`, Account `/you` → **Your access** (program thumbnails) → **Additional** (collapsible: Tools `/tools`, Coaching `/coaching`, Referrals `/you/referrals` "Give 1 month", Shop `/shop` when `site_settings.shop.enabled`) → member + theme toggle (sticky at the bottom).
+- **Top bar** (sticky, blurred chalk): avatar, greeting + date in the member's time, search (⌘K → Library search), streak chip, notifications. **Announcement bar** above it (first live `notices` banner).
+- **Phone**: header (bell mark, date over greeting, streak, avatar), the announcement as an ink card, and the floating **glass tab bar** Home / Programs / Profile / More (More opens a sheet with the rest + appearance).
+- **Data**: `lib/loaders/shell.ts` — the resume card and access list come from ONE RPC (`my_enrollments`) in parallel with the profile and the banner; the streak (`my_rewards`) streams in under `<Suspense>` with a reserved slot. Photos per program: `lib/program-photos.ts` (no baked-in text, focal points).
+- **Focus mode**: full-screen players (`.kd-day`, or any `[data-shell-focus]`) hide the rail, bars and header.
+- Navigation lists live in `lib/nav.ts` (`NAV`, `ADDITIONAL`, `SHOP`, `PHONE_TABS`, `activeHref`).
 
-## Accessibility
-Text roles pass AA on ground and film in both themes; the light pill passes AA with its label. Focus: 2px `--focus` (glacier) outline, 3px offset. Targets 44px (`--target`). Every trace that carries meaning has a `label` (or the component's `aria-label`); decorative traces are `aria-hidden`. Reduced transparency swaps blurred layers for solid film.
+## Smoothness
+- `loading.tsx` in every `(app)` segment (shared `PageSkeleton` in the shape of the coming page) → instant feedback on every tap.
+- All shell links `prefetch`; Library search prefetches on focus.
+- Press feedback on every interactive element (global rule + `.lq-press`); a 3px glacier route-progress bar while a route loads.
+- View transitions between pages (`PageTransition`); the shell never re-renders on navigation.
+- No layout shift: `next/font` fallbacks, fixed image boxes (`fill` in sized frames, `aspect-ratio`), reserved streak slot.
+
+## Rules for pages
+- One primary (glacier) action per screen; ember for resume/progress actions.
+- Photos: never grade, tint or blur; set a focal point; no cover images with baked-in text (use `lib/program-photos.ts`).
+- No glass except tab bar, video controls and photo badges. No glows. No stretched type.
+- Light + dark, phone (390) + desktop (1440) screenshots before shipping.
+
+## Measurements (Lighthouse, production build, Nov 20)
+Performance score · LCP · TBT · CLS, before (Trace, `v2` b55e533) → after (Summit). Mobile = Lighthouse default throttling.
+
+| Page | Desktop | Mobile |
+| --- | --- | --- |
+| `/gallery/shell` (shell + Home) | 98 · 1.1s · 60ms · 0.001 → **99 · 0.8s · 90ms · 0** | 57 · 4.3s · 1970ms · 0.006 → **91 · 3.1s · 190ms · 0** |
+| `/signin` | 100 · 0.7s · 0ms · 0 → **99 · 0.9s · 0ms · 0** | 91 · 3.3s · 130ms · 0 → **91 · 2.9s · 230ms · 0** |
+| `/gallery` | 100 · 0.7s · 60ms · 0 → **100 · 0.8s · 10ms · 0** | 96 · 2.4s · 160ms · 0 → **84 · 3.7s · 270ms · 0** (the new sheet leads with photography; LCP is Mike's photo instead of text) |
+
+Member pages need Supabase and cannot be measured in the sandbox; they share the shell measured on `/gallery/shell`.

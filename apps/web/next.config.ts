@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     ],
   },
   poweredByHeader: false,
+  // No floating dev badge over the rail (screenshots, design review).
+  devIndicators: false,
   // Tailwind v4 via its Turbopack loader (there is no PostCSS config).
   turbopack: {
     rules: {

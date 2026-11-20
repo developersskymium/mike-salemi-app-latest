@@ -1,67 +1,87 @@
 import type { ReactNode } from "react";
-import { LivingBackdrop } from "../signature/Sky";
-import { FxLayer } from "../ui/FxLayer";
+import type { ShellData } from "@/lib/loaders/shell";
 import { ToastProvider } from "../ui/Toast";
 import { PageTransition } from "./PageTransition";
 import { RouteProgress } from "./RouteProgress";
 import { ShellUserProvider, type ShellUser } from "./ShellUser";
-import { Sidebar } from "./Sidebar";
+import { BellMark, Sidebar } from "./Sidebar";
 import { TabBar } from "./TabBar";
 import { ThemeSync } from "./ThemeSwitch";
+import { PhoneHeader, TopBar } from "./TopBar";
 
 type Props = {
   user: ShellUser;
   themePreference?: string | null;
-  /** Desktop rail: the training resume card, under the wordmark (legacy L0). */
+  /** Resume card, "Your access" and the shop flag (lib/loaders/shell). */
+  shell?: ShellData;
+  /** The streak chip (usually a Suspense-wrapped server component). */
+  streak?: ReactNode;
+  /** Phone variant of the streak chip (number only). */
+  streakPhone?: ReactNode;
+  /** Desktop rail: a custom resume card (overrides shell.resume). */
   sidebarResume?: ReactNode;
-  /** Desktop rail: groups after the primary nav ("Unlocked", "Coming up"). */
+  /** Desktop rail: extra groups after "Your access". */
   sidebarExtra?: ReactNode;
-  /** Desktop rail: more destinations (Tools, Coaching, Referrals) before the member. */
+  /** Desktop rail: extra content before the member. */
   sidebarMore?: ReactNode;
   /** Full-width announcement bar at the top of the content column. */
   announcement?: ReactNode;
-  /** Status bar under the announcement: a centred context line and one action. */
+  /** Replaces the default top bar (greeting, search, streak, notifications). */
   statusBar?: ReactNode;
-  /** Phone only: a site header above the page (wordmark/greeting + menu). */
+  /** Replaces the default phone header (mark, greeting, streak, avatar). */
   phoneHeader?: ReactNode;
-  /** Phone tab bar: an extra trailing item (e.g. a "More" button that opens a sheet). */
+  /** Phone tab bar: replaces the More button. */
   tabBarMore?: ReactNode;
-  /** Overlays mounted with the shell (More sheet, celebration modal). */
+  /** Overlays mounted with the shell (celebration modal, notifications). */
   overlays?: ReactNode;
-  /** The living backdrop behind every page: star trails at night, contours on snow. */
+  /** Retired (Trace living backdrop). Accepted, ignored: the ground is warm chalk. */
   backdrop?: "living" | "none";
-  /** Force the active tab (gallery/screenshots); normally derived from the path. */
+  /** Force the active item (gallery/screenshots); normally derived from the path. */
   activeTab?: number;
+  /** Hide the phone header (full-screen flows). */
+  bare?: boolean;
   children: ReactNode;
 };
 
 /**
- * The app frame. Phone: content + floating film tab bar. Desktop (≥1024px): the left rail
- * (legacy layout), content centred. Behind everything: the living night/snow exposure.
+ * The Summit app frame (legacy L0). Desktop (≥1024px): the original left rail, an announcement
+ * bar and a sticky top bar over the page. Phone: a header (mark, greeting, streak, avatar), the
+ * announcement, the page, and a floating glass tab bar (Home / Programs / Profile / More).
  */
 export function AppShell({
-  user, themePreference, sidebarResume, sidebarExtra, sidebarMore, announcement, statusBar, phoneHeader, tabBarMore, overlays,
-  backdrop = "living", activeTab, children,
+  user, themePreference, shell, streak, streakPhone, sidebarResume, sidebarExtra, sidebarMore, announcement, statusBar, phoneHeader, tabBarMore, overlays,
+  activeTab, bare, children,
 }: Props) {
   return (
     <ShellUserProvider user={user}>
       <ToastProvider>
         <RouteProgress />
-        <FxLayer />
         <ThemeSync preference={themePreference} />
-        <div className="lq-shell">
-          {backdrop === "living" && <LivingBackdrop fixed />}
-          <Sidebar resume={sidebarResume} extra={sidebarExtra} more={sidebarMore} active={activeTab} />
-          <main id="main" className="lq-main">
-            {phoneHeader && <div className="lq-phone-header">{phoneHeader}</div>}
-            {announcement && <div className="lq-announce">{announcement}</div>}
-            {statusBar && <div className="lq-statusbar">{statusBar}</div>}
+        <div className="lq-shell sm-app">
+          <Sidebar resume={sidebarResume ? null : shell?.resume} access={shell?.access} shop={shell?.shop} extra={sidebarExtra} more={sidebarMore} active={activeTab} />
+          {sidebarResume && <div className="sm-rail-slot">{sidebarResume}</div>}
+          <main id="main" className="lq-main sm-main">
+            {announcement && <div className="lq-announce sm-announce">{announcement}</div>}
+            {!bare && (
+              <div className="lq-phone-header">
+                {phoneHeader ?? (
+                  <PhoneHeader
+                    streak={streakPhone}
+                    mark={
+                      <span className="sm-mark" aria-hidden>
+                        <BellMark />
+                      </span>
+                    }
+                  />
+                )}
+              </div>
+            )}
+            <div className="lq-statusbar">{statusBar ?? <TopBar streak={streak} />}</div>
             <PageTransition>
-              <div className="lq-page">{children}</div>
+              <div className="lq-page sm-page">{children}</div>
             </PageTransition>
           </main>
-          <div className="lq-edge lq-tabedge" data-side="bottom" aria-hidden />
-          <TabBar active={activeTab} more={tabBarMore} />
+          <TabBar active={activeTab} more={tabBarMore} shop={shell?.shop} />
           {overlays}
         </div>
       </ToastProvider>

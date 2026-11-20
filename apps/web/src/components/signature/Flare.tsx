@@ -3,19 +3,19 @@ import type { CSSProperties } from "react";
 type Props = {
   /** px */
   size?: number;
-  /** ms before the flare pops (sync it with the end of an Expose). */
+  /** ms before it pops (sync with the end of a fill). */
   delay?: number;
-  /** Diagonal rays as well as the cross. */
+  /** Ember sparks around the burst. */
   rays?: boolean;
-  /** Close the shutter: a ring that closes in on the star. */
+  /** A ring that expands and fades. */
   shutter?: boolean;
   className?: string;
   style?: CSSProperties;
 };
 
 /**
- * Flare: completing a day ends the swing in a starburst, the shutter closing on it.
- * Position it at the end of the trace (absolute, centred on its own middle).
+ * Celebrate: an ember burst that pops with a spring when a day or step completes.
+ * Position it absolutely (centred on its own middle).
  */
 export function Flare({ size = 120, delay = 0, rays = true, shutter = true, className, style }: Props) {
   return (
@@ -26,6 +26,7 @@ export function Flare({ size = 120, delay = 0, rays = true, shutter = true, clas
       style={{ width: size, height: size, "--flare-delay": `${delay}ms`, ...style } as CSSProperties}
     >
       {shutter && <b className="tr-flare-shutter" />}
+      {rays && Array.from({ length: 8 }, (_, i) => <i key={i} className="tr-flare-spark" style={{ "--a": `${i * 45}deg` } as CSSProperties} />)}
       <i className="tr-flare-core" />
     </span>
   );
