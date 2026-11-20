@@ -415,3 +415,4 @@ details[open] > summary .crs-chev { transform: rotate(0); }
 }
 .crs { grid-template-columns: minmax(0, 1fr); }
 .crs-stats a { white-space: nowrap; }
+@media (min-width: 1024px) { .crs[data-slim]:not([data-focus]) .crs-body { grid-template-columns: 340px minmax(0, 1fr); } }

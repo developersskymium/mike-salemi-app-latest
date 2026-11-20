@@ -13,7 +13,7 @@ import { CourseNav } from "./CourseNav";
 import { CourseVideo } from "./CourseVideo";
 import { Arrow, Back, Check, Clipboard, Info, ListTree, Lock, PanelClose, PanelOpen, Spark, X } from "./glyphs";
 import { AudioList, Clips, Downloads, Markdown } from "./LessonBody";
-import { LessonStrip, UnitList } from "@/components/journeys/LessonStrip";
+import { LessonSidebar, shelfLinks, type ShelfLink } from "@/components/journeys/LessonSidebar";
 import { a4lUnits, mtkUnits, unitOf } from "@/components/journeys/units";
 import { AudioOnlyToggle, DownloadChips, KeyPoints, LessonNotes, NextCountdown, Reflection, ResumedPill, keyPointsOf, reflectionFor } from "@/components/lesson/LessonExtras";
 import "./course.css";
@@ -108,6 +108,14 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
     return slim === "mtk" ? mtkUnits(live, href, nextOpen, new Set(data.mtk?.plan?.lessonIds ?? [])) : a4lUnits(live, href, nextOpen);
   }, [slim, data, groups, done, all, href]);
   const unit = slim ? unitOf(units, data.activeId) : null;
+  const shelf = useMemo<ShelfLink[]>(() => {
+    if (!slim) return [];
+    const out = shelfLinks(units);
+    if (slim === "mtk" && data.mtk?.plan) out.unshift({ id: "plan", label: "My Plan", sub: "Your days", href: "/mtk", icon: "calendarCheck" });
+    if (slim === "mtk" && data.intake) out.push({ id: "results", label: "Assessment", sub: data.intake.done ? "Your results" : "2 minutes", href: data.mtk && data.intake.done ? "/mtk/results" : `/intake/${slug}`, icon: "clipboard" });
+    out.push({ id: "library", label: "Library", sub: "All videos", href: "/library", icon: "library" });
+    return out;
+  }, [slim, units, data.mtk, data.intake, slug]);
   const pct = all.length ? Math.round((all.filter((l) => done.has(l.id)).length / all.length) * 100) : 0;
 
   /* ---------------- persistence: focus, last lesson, cross-device position */
@@ -259,7 +267,43 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
           ? { small: isDone ? `${group?.name} finished` : `Finish ${group?.name}`, main: `Then ${nextGroup?.name}: ${nextGroupFirst.title}`, phone: isDone ? "Next chapter" : `Finish ${group?.name}` }
           : { small: isDone ? (multi ? `${group?.name} finished` : "Course finished") : multi ? `Finish ${group?.name}` : "Finish course", main: isDone ? "All done" : "Mark this lesson complete", phone: isDone ? "All done" : "Mark complete" };
 
-  const nav = (onPick?: () => void) => (
+  /* Fixed controls (client: complete + next always in the same place): sidebar foot on desktop, bottom dock on phone. */
+  const nextTarget = next ?? nextGroupFirst;
+  const toggleDone = async () => {
+    if (busy || !node) return;
+    if (isDone) return void undo();
+    setBusy(true);
+    const ok = await markDone("button");
+    setBusy(false);
+    if (ok) toast("Marked complete", { tone: "success" });
+  };
+  const controls = (
+    <div className="jsb-ctl">
+      <button type="button" className="jsb-ctl-step" disabled={!prev || isIntro} onClick={() => prev && go(prev.id)} aria-label={prev ? `Previous: ${prev.title}` : "No previous lesson"}>
+        <Arrow dir="left" />
+      </button>
+      {isIntro ? (
+        <button type="button" className="jsb-ctl-main" data-tone="go" onClick={() => void primary()}>
+          <span>{done.size ? "Resume" : "Begin"}</span><Arrow />
+        </button>
+      ) : (
+        <button type="button" className="jsb-ctl-main" data-done={isDone ? "" : undefined} aria-pressed={isDone} aria-busy={busy || undefined} onClick={() => void toggleDone()}>
+          <Check /><span>{isDone ? "Completed" : "Mark complete"}</span>
+        </button>
+      )}
+      {planCtx && !next ? (
+        <Link href="/mtk" className="jsb-ctl-next"><span>My Plan</span><Arrow /></Link>
+      ) : (
+        <button type="button" className="jsb-ctl-next" disabled={!nextTarget || isIntro} onClick={() => nextTarget && go(nextTarget.id)} aria-label={nextTarget ? `Next: ${nextTarget.title}` : "No next lesson"}>
+          <span>Next</span><Arrow />
+        </button>
+      )}
+    </div>
+  );
+
+  const nav = (onPick?: () => void, footer?: ReactNode) => slim ? (
+    <LessonSidebar units={units} activeId={data.activeId} program={data.program.name} backHref={planMode ? "/mtk" : `/programs/${slug}/course`} backLabel={planMode ? "My Plan" : `${data.program.name} home`} pct={pct} shelf={shelf} onPick={onPick} footer={footer} />
+  ) : (
     <CourseNav data={data} groups={groups} done={done} href={(id) => (id === "start" ? `/programs/${slug}/course/start${qs}` : href(id))} planMode={planMode} onPick={onPick} searchRef={searchRef} />
   );
 
@@ -278,11 +322,9 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
           <button type="button" className="crs-ghost" aria-label="About this course" aria-pressed={overview} onClick={() => setOverview((v) => !v)}>
             <Info />
           </button>
-          {!slim && (
-            <button type="button" className="crs-ghost crs-only-phone" data-tone="accent" aria-label="Lessons" onClick={() => setDrawer("open")}>
-              <ListTree />
-            </button>
-          )}
+          <button type="button" className="crs-ghost crs-only-phone" data-tone="accent" aria-label="Lessons" onClick={() => setDrawer("open")}>
+            <ListTree />{slim && <span>Lessons</span>}
+          </button>
           <button type="button" className="crs-ghost crs-only-desk" aria-pressed={focus} aria-label={focus ? "Show lessons" : "Focus"} onClick={toggleFocus}>
             {focus ? <PanelOpen /> : <PanelClose />}
             <span className="crs-sm">{focus ? "Lessons" : "Focus"}</span>
@@ -292,11 +334,18 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
       </Glass>
 
       <div className="crs-body">
-        {!slim && <aside className="crs-side" aria-label="Curriculum" inert={focus || undefined}>{nav()}</aside>}
+        <aside className="crs-side" aria-label={slim ? "Lessons" : "Curriculum"} inert={focus || undefined}>{nav(undefined, slim && lesson ? controls : undefined)}</aside>
 
         <main className="crs-main" ref={main} id="main">
           <div className="crs-stage">
-            {slim && !focus && <LessonStrip units={units} unitId={unit?.id ?? null} prevHref={prev && !isIntro ? href(prev.id) : null} nextHref={next ? href(next.id) : nextGroupFirst ? href(nextGroupFirst.id) : null} />}
+            {slim && (
+              <button type="button" className="jsb-open" onClick={() => setDrawer("open")}>
+                <ListTree />
+                <b>{unit?.label ?? "Lessons"}</b>
+                <span className="lq-num">{unit ? `${unit.done} of ${unit.total} done` : ""}</span>
+                <span style={{ flex: "none", color: "var(--accent)", fontWeight: 650 }}>All lessons</span>
+              </button>
+            )}
             {planCtx && (
               <div className="crs-banner">
                 <b>My Plan · Day {planCtx.day}</b>
@@ -392,7 +441,13 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                 {slim ? <DownloadChips items={parsed.files} /> : <Downloads items={parsed.files} />}
                 {slim && !isIntro && <LessonNotes key={lesson.id} lessonId={lesson.id} />}
 
-                <Glass level="thick" float className="crs-next">
+                {slim && lesson && (
+                  <div className="jsb-dock" aria-label="Lesson controls">
+                    <button type="button" className="jsb-dock-list" aria-label="All lessons" onClick={() => setDrawer("open")}><ListTree /></button>
+                    {controls}
+                  </div>
+                )}
+                {!slim && <Glass level="thick" float className="crs-next">
                   {prev && !isIntro ? (
                     <>
                       <button type="button" className="crs-prev" onClick={() => go(prev.id)} aria-label={`Previous: ${prev.title}`}>
@@ -414,11 +469,10 @@ export function CoursePlayer({ data, mode, slim, nextStep }: { data: CoursePageD
                     <span className="crs-phone-label">{primaryLabel.phone}</span>
                     {next || isIntro || nextGroupFirst ? <Arrow /> : <Check />}
                   </button>
-                </Glass>
-                {isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
+                </Glass>}
+                {!slim && isDone && !isIntro && <button type="button" className="crs-undo" onClick={() => void undo()}>Mark as not done</button>}
                 {slim && isDone && !isIntro && <Reflection key={`r-${lesson.id}`} lessonId={lesson.id} lessonTitle={lesson.title} program={data.program.name} question={reflectionFor(data.program.name, lesson.title)} />}
                 {slim && isDone && !isIntro && !next && !planCtx && nextStep}
-                {slim && !focus && <UnitList unit={unit} activeId={data.activeId} />}
                 <p className="crs-keys" aria-hidden><span><kbd>←</kbd><kbd>→</kbd>Lessons</span><span><kbd>F</kbd>Focus</span><span><kbd>/</kbd>Search</span></p>
               </article>
             )}
