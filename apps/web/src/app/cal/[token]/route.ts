@@ -28,6 +28,9 @@ export async function GET(req: Request, ctx: { params: Promise<{ token: string }
     const sb = createServiceClient();
     const { data: plans } = await sb.from("member_plans").select("id").eq("user_id", userId).eq("status", "active");
     const ids = (plans ?? []).map((p) => p.id as string);
+    // Programs the member can no longer open (0040). Before that migration is applied the call fails and nothing is hidden.
+    const { data: lockedRows } = ids.length ? await sb.rpc("locked_program_slugs", { p_user: userId }) : { data: null };
+    const locked = new Set(Array.isArray(lockedRows) ? (lockedRows as unknown[]).map(String) : []);
     if (ids.length) {
       const { data } = await sb
         .from("plan_items")
@@ -39,10 +42,11 @@ export async function GET(req: Request, ctx: { params: Promise<{ token: string }
         .is("skipped_at", null)
         .order("on_date")
         .limit(500);
-      events = (data ?? []).map((i) => {
+      events = (data ?? []).flatMap((i) => {
         const l = i.lessons as unknown as { title: string; programs: { slug: string; name: string } | null } | null;
+        if (l?.programs?.slug && locked.has(l.programs.slug)) return [];
         const url = l?.programs?.slug ? `${origin}/programs/${l.programs.slug}${i.lesson_id ? `/learn/${i.lesson_id}` : ""}` : `${origin}/plan`;
-        return { uid: i.id as string, date: i.on_date as string, title: l?.title ?? (i.title as string) ?? "Training", detail: l?.programs?.name ?? "", url };
+        return [{ uid: i.id as string, date: i.on_date as string, title: l?.title ?? (i.title as string) ?? "Training", detail: l?.programs?.name ?? "", url }];
       });
     }
   }

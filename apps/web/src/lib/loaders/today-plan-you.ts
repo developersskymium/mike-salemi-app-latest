@@ -22,6 +22,7 @@ import { pickContinue } from "@/lib/continue";
 import { introLessonIds } from "./intro-lessons";
 import { withTrainingDays } from "./day-progress";
 import { getUser } from "@/lib/supabase/server";
+import { markLockedEntries } from "./locked";
 import { startOfWeek } from "@/components/today/dates";
 
 /* ============================================================== shared */
@@ -247,7 +248,8 @@ const loadTodayRaw = mockable("tpy-today", async (): Promise<TodayRaw> => {
 /** Today's data, with day programs counted in training days (one source with the rail and You). */
 export async function loadToday(): Promise<TodayRaw> {
   const raw = await loadTodayRaw();
-  return { ...raw, enrollments: await withTrainingDays(raw.enrollments) };
+  const [enrollments, entries] = await Promise.all([withTrainingDays(raw.enrollments), markLockedEntries(raw.entries)]);
+  return { ...raw, enrollments, entries };
 }
 
 /* ============================================================== Onboarding */
@@ -286,7 +288,7 @@ export interface PlanRaw {
 }
 
 /** Loads a window around `anchor` that covers its week, its month grid and the last two weeks (missed days). */
-export const loadPlan = mockable("tpy-plan", async (anchor?: IsoDate): Promise<PlanRaw> => {
+const loadPlanRaw = mockable("tpy-plan", async (anchor?: IsoDate): Promise<PlanRaw> => {
   const { sb, user } = await session();
   const profile = await loadProfile(sb, user);
   const today = memberToday(profile.timezone);
@@ -303,6 +305,12 @@ export const loadPlan = mockable("tpy-plan", async (anchor?: IsoDate): Promise<P
   ]);
   return { today, from, to, entries: entries ?? [], plans, pausedPlans, planCounts: await planCounts(sb, [...plans, ...pausedPlans].map((p) => p.id)), goals, templates: templates.map(toTemplate) };
 });
+
+/** The plan window, with sessions of programs the member can no longer open marked `locked`. */
+export async function loadPlan(anchor?: IsoDate): Promise<PlanRaw> {
+  const raw = await loadPlanRaw(anchor);
+  return { ...raw, entries: await markLockedEntries(raw.entries) };
+}
 
 export interface PlanDetail {
   today: IsoDate;

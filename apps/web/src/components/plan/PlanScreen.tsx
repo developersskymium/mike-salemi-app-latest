@@ -31,7 +31,7 @@ const dayLabel = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("e
 
 /** Days (today on) with more than one open main session from different plans, newest-plan first to move. */
 function findClashes(items: ScheduleItem[], plans: PlanRaw["plans"], today: string): Clash | null {
-  const open = items.filter((i) => i.kind !== "rest" && !i.done && !i.skipped && i.on_date >= today);
+  const open = items.filter((i) => i.kind !== "rest" && !i.done && !i.skipped && !i.locked && i.on_date >= today);
   const byDay = new Map<string, ScheduleItem[]>();
   for (const i of open) byDay.set(i.on_date, [...(byDay.get(i.on_date) ?? []), i]);
   const keep = new Set(plans.filter((p) => (p.inputs as { conflicts?: string }).conflicts === "keep").map((p) => p.id));
@@ -58,7 +58,7 @@ const WD_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday
 /** This week in one plain sentence. */
 function summary(items: ScheduleItem[], today: string, ws: string) {
   const we = addDays(ws, 6);
-  const week = items.filter((i) => i.kind !== "rest" && !i.skipped && i.on_date >= ws && i.on_date <= we);
+  const week = items.filter((i) => i.kind !== "rest" && !i.skipped && !i.locked && i.on_date >= ws && i.on_date <= we);
   if (!week.length) return null;
   const done = week.filter((i) => i.done).length;
   const left = week.filter((i) => !i.done && i.on_date >= today);
@@ -86,7 +86,7 @@ export function PlanScreen({
   const plans = raw.plans;
   const items = program ? schedule.items.filter((i) => i.program_slug === program) : schedule.items;
   const queues = (schedule.queues ?? []).filter((q) => !program || q.program_slug === program);
-  const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped;
+  const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped && !i.locked;
   const todayItem = items.find((i) => open(i) && i.on_date === today) ?? null;
   const nextItem = items.filter((i) => open(i) && i.on_date >= today).sort((a, b) => a.on_date.localeCompare(b.on_date))[0] ?? null;
   const programs = [...new Map(schedule.items.filter((i) => i.program_slug).map((i) => [i.program_slug!, i.program_name ?? i.program_slug!])).entries()];
@@ -95,7 +95,7 @@ export function PlanScreen({
   const sentence = summary(items, today, weekStart);
   const prefDays = profile?.training_days?.length ? profile.training_days : profile?.days_per_week ? defaultDays(profile.days_per_week) : [];
   const minutes = profile?.session_minutes ?? null;
-  const q0 = queues.find((q) => q.next) ?? null;
+  const q0 = queues.find((q) => q.next && !q.locked) ?? null;
   const qs = (extra: Record<string, string>) => {
     const u = new URLSearchParams();
     if (program) u.set("program", program);
@@ -134,10 +134,10 @@ export function PlanScreen({
       {prefDays.length ? <PrefsChip days={prefDays} minutes={minutes} editHref="/plan?manage=1&tab=prefs" /> : <PrefsAsk />}
 
       {queues.map((q) => (
-        <Link key={q.plan_id} href={q.next ? lessonHref(q.program_slug, q.next.lesson_id) : `/plan/${q.plan_id}`} className="wk-queue lq-press" style={{ ["--pc" as string]: programColor(q.program_slug) }}>
+        <Link key={q.plan_id} href={q.locked && q.program_slug ? `/programs/${q.program_slug}/unlock` : q.next ? lessonHref(q.program_slug, q.next.lesson_id) : `/plan/${q.plan_id}`} className="wk-queue lq-press" data-locked={q.locked ? "" : undefined} style={{ ["--pc" as string]: programColor(q.program_slug) }}>
           <span className="wk-queue-main">
             <span className="wk-queue-t">Self-Guided order{q.program_name ? `, ${q.program_name}` : ""}</span>
-            <span className="wk-queue-s">{q.next ? <>Next is <b>{title(q.next.title)}</b>. No dates — do it whenever you&apos;re ready.</> : "All done."}</span>
+            <span className="wk-queue-s">{q.locked ? <><Icon name="lock" size="xs" /> Locked · <span className="wk-unlock">Unlock</span></> : q.next ? <>Next is <b>{title(q.next.title)}</b>. No dates — do it whenever you&apos;re ready.</> : "All done."}</span>
           </span>
           <span className="wk-queue-n lq-num">{q.total - q.left}/{q.total}</span>
           <Icon name="chevron" size="sm" />
@@ -169,7 +169,7 @@ function Manage({
   raw: PlanRaw; catalog: LessonCatalog; schedule: ScheduleData; n: NotificationsData; anchor: string; view: "week" | "month"; build: boolean;
   selectedId?: string; program?: string | null; feedUrl: string; profile?: TrainingProfile | null; plans: PlanRaw["plans"]; today: string; tab?: ManageTab;
 }) {
-  const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped;
+  const open = (i: ScheduleItem) => i.kind !== "rest" && !i.done && !i.skipped && !i.locked;
   const active: ManageTab = tab ?? (build || view === "month" ? "calendar" : "plans");
   const clash = program ? null : findClashes(schedule.items, plans, today);
   const behind = plans

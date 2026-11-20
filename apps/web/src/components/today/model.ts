@@ -83,7 +83,7 @@ export function entryHref(e: WeekEntry, typeOf?: (slug: string) => string | null
 
 /** Plan items before today that were neither done nor skipped (rest days don't count). */
 export function missedEntries(entries: WeekEntry[], today: IsoDate) {
-  return entries.filter((e) => e.kind === "plan" && e.on_date < today && !e.done && !e.skipped && e.item_kind !== "rest");
+  return entries.filter((e) => e.kind === "plan" && e.on_date < today && !e.done && !e.skipped && !e.locked && e.item_kind !== "rest");
 }
 
 export function missedByPlan(entries: WeekEntry[], today: IsoDate) {

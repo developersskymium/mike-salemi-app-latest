@@ -69,6 +69,13 @@
 .wk-card[data-done] .wk-cm { color: var(--ok-ink, var(--ok)); }
 .wk-card[data-skipped] { opacity: .55; }
 .wk-card[data-missed] .wk-cm { color: var(--warm-ink, var(--warm)); }
+.wk-card[data-locked] { background: transparent; border: 1px dashed var(--line); border-left: 3px solid color-mix(in srgb, var(--pc, var(--accent)) 35%, transparent); }
+.wk-card[data-locked] .wk-ct { color: var(--label-3); font-weight: 500; }
+.wk-card[data-locked] .wk-cm { color: var(--label-3); }
+.wk-queue[data-locked] { background: transparent; border: 1px dashed var(--line); border-left: 4px solid color-mix(in srgb, var(--pc, var(--accent)) 35%, transparent); }
+.wk-queue[data-locked] .wk-queue-s { color: var(--label-3); }
+.wk-unlock { color: var(--accent); font-weight: 600; }
+.wk-card[data-locked]:hover .wk-unlock { text-decoration: underline; }
 
 @media (min-width: 900px) {
   .wk-days { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }

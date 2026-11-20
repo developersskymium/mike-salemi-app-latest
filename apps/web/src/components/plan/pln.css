@@ -282,3 +282,10 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 @media (max-width: 1023px) {
   .pln-calm .tpy-weekgrid > [data-today] { order: -1; }
 }
+
+/* Sessions of a program the member can no longer open: quiet, with an unlock link. */
+.tpy-entry[data-locked] .tpy-entry-t { color: var(--label-3); font-weight: 500 !important; }
+.tpy-entry[data-locked] .tpy-glyph { color: var(--label-3); }
+.tpy-entry[data-locked] .pln-dot { opacity: .35; }
+.tpy-dots i[data-k="locked"] { background: transparent; box-shadow: inset 0 0 0 1px var(--label-3); opacity: .6; }
+.wk-unlock { color: var(--accent); font-weight: 600; }

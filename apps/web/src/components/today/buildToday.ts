@@ -47,7 +47,7 @@ export function buildToday(raw: TodayRaw) {
   const typeOf = (slug: string) => raw.enrollments.find((e) => e.program_slug === slug)?.program_type;
   const ws = startOfWeek(today);
   const todays = raw.entries.filter((e) => e.on_date === today);
-  const todaysOpen = todays.filter((e) => !e.done && !e.skipped && e.item_kind !== "rest");
+  const todaysOpen = todays.filter((e) => !e.done && !e.skipped && !e.locked && e.item_kind !== "rest");
   // "Continue" is the main training program (KBL first), never a tool or a course's intro lesson.
   const primary: Enrollment | undefined = pickContinue(raw.enrollments, raw.introLessonIds);
 
@@ -130,13 +130,13 @@ export function buildToday(raw: TodayRaw) {
 
   /* ---------------------------------------------------------------- week */
   const week: WeekDay[] = weekDates(ws).map((date) => {
-    const es = raw.entries.filter((e) => e.on_date === date && e.kind === "plan" && e.item_kind !== "rest");
+    const es = raw.entries.filter((e) => e.on_date === date && e.kind === "plan" && e.item_kind !== "rest" && !e.locked);
     const done = es.filter((e) => e.done).length;
     const p = es.length ? done / es.length : 0;
     const state: DayState = !es.length ? "rest" : p >= 1 ? "done" : date < today ? (done ? "partial" : "missed") : done ? "partial" : "planned";
     return { date, isToday: date === today, state, progress: p, entries: raw.entries.filter((e) => e.on_date === date) };
   });
-  const weekPlanned = week.reduce((n, d) => n + d.entries.filter((e) => e.kind === "plan" && e.item_kind !== "rest").length, 0);
+  const weekPlanned = week.reduce((n, d) => n + d.entries.filter((e) => e.kind === "plan" && e.item_kind !== "rest" && !e.locked).length, 0);
   const weekDone = week.reduce((n, d) => n + d.entries.filter((e) => e.kind === "plan" && e.done).length, 0);
   const missed = missedByPlan(raw.entries, today);
 
@@ -155,14 +155,14 @@ export function buildToday(raw: TodayRaw) {
         planName: goalPlan?.name ?? null,
         done: counts?.done ?? 0,
         total: counts?.total ?? 0,
-        next: goalPlan ? raw.entries.find((e) => e.plan_id === goalPlan.id && e.on_date >= today && !e.done && !e.skipped) ?? null : null,
+        next: goalPlan ? raw.entries.find((e) => e.plan_id === goalPlan.id && e.on_date >= today && !e.done && !e.skipped && !e.locked) ?? null : null,
       }
     : null;
 
   /* ---------------------------------------------------------------- rings */
   const r = raw.rewards;
   const nextMilestone = STREAK_MILESTONES.find((m) => m > r.streak_current) ?? Math.max(r.streak_best, r.streak_current + 1);
-  const todayPlanned = todays.filter((e) => e.kind === "plan" && e.item_kind !== "rest");
+  const todayPlanned = todays.filter((e) => e.kind === "plan" && e.item_kind !== "rest" && !e.locked);
   const todayRing = todayPlanned.length
     ? { done: todayPlanned.filter((e) => e.done).length, total: todayPlanned.length, unit: "sessions" }
     : next?.steps

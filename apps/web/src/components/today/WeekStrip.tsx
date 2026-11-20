@@ -11,7 +11,7 @@ function dotsOf(d: WeekDay): { key: string; color: string; label: string }[] {
   for (const e of d.entries) {
     if (e.kind === "coaching") out.set("coaching", { key: "coaching", color: "var(--gold)", label: "Coaching" });
     else if (e.kind === "run_session") out.set("run", { key: "run", color: "var(--accent)", label: "Live session" });
-    else if (e.item_kind !== "rest" && e.program_slug) out.set(e.program_slug, { key: e.program_slug, color: PROGRAM_MEDAL[e.program_slug]?.color ?? "var(--text-3)", label: e.program_name ?? e.program_slug });
+    else if (e.item_kind !== "rest" && !e.locked && e.program_slug) out.set(e.program_slug, { key: e.program_slug, color: PROGRAM_MEDAL[e.program_slug]?.color ?? "var(--text-3)", label: e.program_name ?? e.program_slug });
   }
   return [...out.values()].slice(0, 3);
 }
@@ -43,7 +43,7 @@ function MiniRing({ p, tone }: { p: number; tone: "accent" | "label" }) {
 }
 
 function describe(d: WeekDay) {
-  const n = d.entries.filter((e) => e.kind === "plan" && e.item_kind !== "rest").length;
+  const n = d.entries.filter((e) => e.kind === "plan" && e.item_kind !== "rest" && !e.locked).length;
   const s = { rest: "rest day", done: "all done", partial: "partly done", missed: "missed", planned: plural(n, "session") }[d.state];
   return `${longDay(d.date)}${d.isToday ? ", today" : ""}: ${s}`;
 }

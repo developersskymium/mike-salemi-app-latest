@@ -32,13 +32,14 @@ export interface Candidate {
   local_time: string;
   local_dow: number;
   prefs: CandidatePrefs;
-  today_items: { id: string; title: string; kind: string; lesson_id: string | null; program_slug: string | null; program_name: string | null; minutes: number | null; done: boolean; plan_name: string | null }[];
+  /** `locked` (0040): the member can no longer open this program; such sessions are never reminded about. */
+  today_items: { id: string; title: string; kind: string; lesson_id: string | null; program_slug: string | null; program_name: string | null; minutes: number | null; done: boolean; plan_name: string | null; locked?: boolean }[];
   has_active_plan: boolean;
   enrollment: { program_name: string; program_slug: string } | null;
   streak: number;
   last_active: string | null;
   week: { days: number; lessons: number; minutes: number; badges: string[] };
-  next_up: { title: string; on_date: string } | null;
+  next_up: { title: string; on_date: string; locked?: boolean } | null;
   push_count: number;
 }
 
@@ -119,7 +120,7 @@ export function decide(c: Candidate, now: Date = new Date()): Decision[] {
 
   /* Training reminder — on scheduled days (or reminder days without a plan), at that day's time. */
   if (p.reminders_enabled && !skippedToday && activeDays(p).includes(c.local_dow) && inWindow(minutesOf(timeFor(p, c.local_dow)))) {
-    const open = c.today_items.filter((i) => !i.done);
+    const open = c.today_items.filter((i) => !i.done && !i.locked);
     const fallback = !c.has_active_plan && c.enrollment;
     if (open.length || fallback) {
       const first = open[0];
@@ -183,7 +184,7 @@ export function decide(c: Candidate, now: Date = new Date()): Decision[] {
         minutes: c.week.minutes || undefined,
         streakDays: c.streak || undefined,
         wins: c.week.badges.length ? c.week.badges.map((b) => `Earned ${b}`) : undefined,
-        nextUp: c.next_up ? `${cleanTitle(c.next_up.title)} — ${weekdayName(c.next_up.on_date)}` : undefined,
+        nextUp: c.next_up && !c.next_up.locked ? `${cleanTitle(c.next_up.title)} — ${weekdayName(c.next_up.on_date)}` : undefined,
       },
     });
   }

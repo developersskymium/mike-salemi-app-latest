@@ -101,6 +101,8 @@ export interface WeekEntry {
   done: boolean;
   skipped: boolean;
   sort_order: number;
+  /** Set by the web app (not the database): the member no longer has access to this program. */
+  locked?: boolean;
 }
 
 /** One calendar feed: plan items, booked live sessions and coaching between two dates (≤ 92 days). */

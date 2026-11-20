@@ -54,7 +54,13 @@ export function WeekView({
               </div>
               <div className="wk-items">
                 {list.length ? (
-                  list.map((i) => (
+                  list.map((i) =>
+                    i.locked ? (
+                      <Link key={i.id} href={`/programs/${i.program_slug}/unlock`} className="wk-card" data-locked="" style={{ ["--pc" as string]: programColor(i.program_slug) }} aria-label={`${cardTitle(i.title)}, locked. Unlock ${i.program_name ?? "this program"}`}>
+                        <span className="wk-ct">{cardTitle(i.title)}</span>
+                        <span className="wk-cm"><Icon name="lock" size="xs" /> Locked · <span className="wk-unlock">Unlock</span></span>
+                      </Link>
+                    ) : (
                     <Link key={i.id} href={lessonHref(i.program_slug, i.lesson_id)} className="wk-card" data-done={i.done ? "" : undefined} data-skipped={i.skipped ? "" : undefined} data-missed={past && !i.done && !i.skipped ? "" : undefined} style={{ ["--pc" as string]: programColor(i.program_slug) }}>
                       <span className="wk-ct">{cardTitle(i.title)}</span>
                       <span className="wk-cm lq-num">
@@ -62,7 +68,8 @@ export function WeekView({
                         {i.program_name ? <span className="wk-cp"> · {i.program_name}</span> : null}
                       </span>
                     </Link>
-                  ))
+                    ),
+                  )
                 ) : (
                   <span className="wk-rest">{pref && !past ? "Free training day" : "Rest"}</span>
                 )}
