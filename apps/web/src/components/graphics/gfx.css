@@ -49,7 +49,7 @@
   --g-night: #121A2E;
   --g-night-hi: #2A2F4E;
   --g-night-lo: #0B1020;
-  --g-night-ink: #F3EDE4;
+  --g-night-ink: #EEF2F6;
   --g-star: #FFF6E8;
   --g-snow-ground: var(--g-chalk);
   --g-film: #FFFFFF;
@@ -103,7 +103,7 @@
 
 /* Night exposure: glacier light at full strength, figures in snow-white ink. */
 :where([data-theme="dark"]) .gfx-root {
-  --g-figure: var(--gfx-figure-ink-dark, #EDE6DA);
+  --g-figure: var(--gfx-figure-ink-dark, #E6EBF1);
   --g-figure-lit: var(--gfx-figure-lit-dark, #FFFFFF);
   --g-figure-core: var(--gfx-figure-core-dark, #B9B0A2);
   --g-figure-far-ink: var(--gfx-figure-far-ink-dark, #8E8AA0);
@@ -116,7 +116,7 @@
   --g-trace-dim: var(--gfx-trace-dim-dark, rgba(255, 122, 56, .3));
   --g-lines: var(--gfx-lines-dark, rgba(243, 237, 228, .16));
   --g-film: #1A1F2B;
-  --g-ink: var(--gfx-ink-dark, #F3EDE4);
+  --g-ink: var(--gfx-ink-dark, #EEF2F6);
   --g-ink-2: var(--gfx-ink-2-dark, #C9C1B5);
   --g-path: var(--gfx-motion-path-dark, #FF7A38);
   --g-glass-opacity: .1;
@@ -126,7 +126,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :where([data-theme="system"]) .gfx-root {
-    --g-figure: var(--gfx-figure-ink-dark, #EDE6DA);
+    --g-figure: var(--gfx-figure-ink-dark, #E6EBF1);
     --g-figure-lit: var(--gfx-figure-lit-dark, #FFFFFF);
     --g-figure-core: var(--gfx-figure-core-dark, #B9B0A2);
     --g-figure-far-ink: var(--gfx-figure-far-ink-dark, #8E8AA0);
@@ -139,7 +139,7 @@
     --g-trace-dim: var(--gfx-trace-dim-dark, rgba(255, 122, 56, .3));
     --g-lines: var(--gfx-lines-dark, rgba(243, 237, 228, .16));
     --g-film: #1A1F2B;
-    --g-ink: var(--gfx-ink-dark, #F3EDE4);
+    --g-ink: var(--gfx-ink-dark, #EEF2F6);
     --g-ink-2: var(--gfx-ink-2-dark, #C9C1B5);
     --g-path: var(--gfx-motion-path-dark, #FF7A38);
     --g-glass-opacity: .1;

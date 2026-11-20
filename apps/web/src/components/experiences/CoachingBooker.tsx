@@ -77,7 +77,7 @@ export function CoachingBooker({ packages, slots, credits, recommended }: { pack
         <header className="ch-sec-head"><div><div className="lq-eyebrow" data-tone="accent">{credits > 0 ? "Book" : "Step two and three"}</div><h2 id="s2" className="lq-d-sm">Pick a time and your focus</h2></div></header>
         <div className="ch-book">
           <Glass radius="card" className="ch-book-pick">
-            <div className="lq-t15" style={{ fontWeight: 700 }}>Mike&rsquo;s coaching day is Tuesday</div>
+            <div className="lq-t15" style={{ fontWeight: 600 }}>Mike&rsquo;s coaching day is Tuesday</div>
             <SlotPicker slots={slots} value={pick?.id ?? null} onChange={setPick} />
             <label className="ch-field">
               <span>What do you want to work on?</span>

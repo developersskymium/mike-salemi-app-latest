@@ -4,25 +4,27 @@ import { THEME_SCRIPT } from "@/components/shell/theme";
 import "./globals.css";
 
 /*
- * Summit type, self-hosted and preloaded by next/font (no layout shift: next/font generates
- * metric-matched fallbacks, so text keeps its box while the files load).
- * Archivo (variable, 100–900) for headlines and numbers; Inter (variable) for text.
+ * Summit v4 type, self-hosted from @fontsource and preloaded by next/font (no layout shift:
+ * next/font generates size-matched Arial / Georgia fallbacks, so text keeps its box while the files load).
+ * Instrument Sans (variable, 400–700) for everything; Instrument Serif italic only for Mike's notes and quotes.
  */
-const archivo = localFont({
-  src: "./fonts/archivo-var.woff2",
-  variable: "--ff-archivo",
-  weight: "100 900",
+const sans = localFont({
+  src: "../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2",
+  variable: "--ff-sans",
+  weight: "400 700",
+  style: "normal",
   display: "swap",
   adjustFontFallback: "Arial",
   preload: true,
 });
-const inter = localFont({
-  src: "./fonts/inter-var.woff2",
-  variable: "--ff-inter",
-  weight: "100 900",
+const serif = localFont({
+  src: "../../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2",
+  variable: "--ff-serif",
+  weight: "400",
+  style: "italic",
   display: "swap",
-  adjustFontFallback: "Arial",
-  preload: true,
+  adjustFontFallback: "Times New Roman",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -36,14 +38,14 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F5F2EC" },
-    { media: "(prefers-color-scheme: dark)", color: "#101215" },
+    { media: "(prefers-color-scheme: light)", color: "#F6F7F9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B111A" },
   ],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="system" className={`${archivo.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" data-theme="system" className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         {/* Applies the saved theme before first paint (no flash). */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />

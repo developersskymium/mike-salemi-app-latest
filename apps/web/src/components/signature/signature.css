@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SUMMIT signature: The Climb, next steps, streaks, photo heroes.
+   SUMMIT v4 signature: The Climb, next steps, streaks, photo heroes.
    The Trace classes (tr-*) keep working, restyled to Summit.
    ========================================================================== */
 
@@ -21,7 +21,7 @@
 /* ---------------------------------------------------------------- day progress (SwingRibbon) */
 .tr-ribbon { position: relative; width: 100%; }
 .tr-ribbon-bar { display: flex; gap: 4px; }
-.tr-ribbon-seg { position: relative; flex-basis: 0; height: 6px; border-radius: 9px; background: var(--line-strong); overflow: hidden; min-width: 10px; }
+.tr-ribbon-seg { position: relative; flex-basis: 0; height: 3px; border-radius: 9px; background: var(--track); overflow: hidden; min-width: 10px; }
 .tr-ribbon-seg > i { position: absolute; inset: 0 auto 0 0; width: var(--f); border-radius: 9px; background: var(--warm); }
 .tr-ribbon-seg[data-done] > i { background: var(--warm); }
 .tr-ribbon[data-anim] .tr-ribbon-seg > i { animation: lq-fill-w var(--dur-fill) var(--curve-out) var(--tr-delay, 150ms) backwards; }
@@ -79,7 +79,7 @@
 @keyframes tr-shutter { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.4); } }
 
 /* ---------------------------------------------------------------- hero numbers (StretchNumber) */
-.tr-num { display: inline-block; font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -.03em; line-height: 1; }
+.tr-num { display: inline-block; font-family: var(--font-display); font-weight: 600; font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.035em; line-height: 1; }
 .tr-num[data-variant="thin"] { line-height: var(--num-thin-line); }
 
 /* ---------------------------------------------------------------- photos: full colour, one ink scrim */
@@ -93,10 +93,10 @@
 /* ---------------------------------------------------------------- week (WeekTrace) */
 .tr-week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
 .tr-week > li { display: grid; justify-items: center; gap: 5px; font: 600 11.5px/1.15 var(--font); color: var(--label-3); text-align: center; }
-.tr-week-dot { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 800 12px/1 var(--font-display); font-style: normal; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); }
+.tr-week-dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 600 11.5px/1 var(--font-display); font-style: normal; background: var(--surface-sunk); font-variant-numeric: tabular-nums; }
 .tr-week > li[data-state="done"] .tr-week-dot { background: var(--warm); color: #fff; box-shadow: none; }
 .tr-week > li[data-state="done"] .tr-week-dot .lq-icon { stroke-width: 3; }
-.tr-week > li[data-state="today"] .tr-week-dot { background: var(--surface); color: var(--warm-ink); box-shadow: inset 0 0 0 2px var(--warm); }
+.tr-week > li[data-state="today"] .tr-week-dot { background: var(--surface); color: var(--warm-ink); box-shadow: inset 0 0 0 1.5px var(--warm); }
 .tr-week > li[data-state="today"] { color: var(--warm-ink); }
 .tr-week > li[data-state="missed"] .tr-week-dot { box-shadow: inset 0 0 0 1px var(--line-strong); background: transparent; }
 .tr-week-mv { font-size: 10px; font-weight: 500; color: var(--label-3); }
@@ -133,14 +133,14 @@
 .cl-flag { fill: var(--warm); }
 .cl-summit > circle { fill: var(--surface); stroke: var(--text); stroke-width: 2.4; }
 .cl-lab { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; pointer-events: none; }
-.cl-lab b { display: block; font: 700 12.5px/1.2 var(--font-display); color: var(--ink-700); }
+.cl-lab b { display: block; font: 600 12.5px/1.2 var(--font-display); letter-spacing: -.005em; color: var(--ink-700); }
 .cl-lab span { display: block; font: 500 11px/1.3 var(--font); color: var(--ink-500); }
 [data-theme="dark"] .cl-lab b { color: var(--text-2); }
 [data-theme="dark"] .cl-lab span { color: var(--text-3); }
 .cl-lab[data-state="done"] b { color: var(--text); }
 .cl-lab[data-state="next"] b { color: var(--warm-ink); }
 .cl-you { position: absolute; transform: translate(-50%, -100%); margin-top: -14px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.cl-you em { font: 700 11px/1 var(--font); font-style: normal; background: var(--text); color: var(--bg); padding: 5px 8px; border-radius: 99px; white-space: nowrap; }
+.cl-you em { font: 600 11px/1 var(--font); font-style: normal; background: var(--text); color: var(--bg); padding: 5px 9px; border-radius: 99px; white-space: nowrap; }
 .cl-you-pin { position: relative; display: inline-flex; border-radius: 50%; box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--warm); }
 .cl-you-pin::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; box-shadow: 0 0 0 2px var(--warm); opacity: .5; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cl-lab b { color: var(--text-2); } }
@@ -148,7 +148,8 @@
 /* ==========================================================================
    Photo hero
    ========================================================================== */
-.sm-hero { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-hero); color: #fff; box-shadow: var(--sh-3); background: var(--hero-ink); display: flex; flex-direction: column; justify-content: center; }
+.sm-hero { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-hero); color: #fff; box-shadow: 0 1px 2px rgba(14, 27, 44, .08), 0 24px 48px -28px rgba(14, 27, 44, .45); background: var(--hero-ink); display: flex; flex-direction: column; justify-content: center; }
+.sm-hero > .sm-hero-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); pointer-events: none; }
 .sm-hero-photo { position: absolute; inset: 0; z-index: 0; }
 .sm-hero-photo img { object-fit: cover; object-position: var(--focal); }
 .sm-hero-photo[data-fit="contain"] img { object-fit: contain; }
@@ -170,18 +171,19 @@
 /* ==========================================================================
    Streak chip, week dots
    ========================================================================== */
-.sm-streak { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 6px; border-radius: 999px; background: var(--warm-soft); color: var(--warm-ink); font: 700 13px/1 var(--font); text-decoration: none; white-space: nowrap; }
-.sm-streak-fl { width: 22px; height: 22px; border-radius: 99px; background: var(--warm); display: grid; place-items: center; color: #fff; }
-.sm-streak-fl .lq-icon { width: 13px; height: 13px; stroke-width: 2.4; }
-.sm-streak[data-compact] { height: 36px; padding: 0 12px 0 6px; font: 800 14px/1 var(--font-display); }
+.sm-streak { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 14px 0 8px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--label); font: 600 13.5px/1 var(--font); font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }
+.sm-streak:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.sm-streak-fl { width: 24px; height: 24px; border-radius: 99px; background: var(--warm-soft); display: grid; place-items: center; color: var(--warm); }
+.sm-streak-fl .lq-icon { width: 14px; height: 14px; stroke-width: 2; }
+.sm-streak[data-compact] { height: 36px; padding: 0 12px 0 6px; font: 600 14px/1 var(--font-display); }
 
 .sm-week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
 .sm-week > li { display: grid; justify-items: center; gap: 6px; font: 600 11.5px/1 var(--font); color: var(--label-3); }
-.sm-week i { width: 34px; height: 34px; border-radius: 99px; display: grid; place-items: center; background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--line); font-style: normal; font: 800 12px/1 var(--font-display); }
+.sm-week i { width: 32px; height: 32px; border-radius: 99px; display: grid; place-items: center; background: var(--surface-sunk); font-style: normal; font: 600 11.5px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .sm-week[data-size="sm"] i { width: 28px; height: 28px; }
 .sm-week > li[data-state="done"] i { background: var(--warm); box-shadow: none; color: #fff; }
 .sm-week > li[data-state="done"] .lq-icon { stroke-width: 3; }
-.sm-week > li[data-state="today"] i { background: var(--surface); box-shadow: inset 0 0 0 2px var(--warm); color: var(--warm-ink); }
+.sm-week > li[data-state="today"] i { background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--warm); color: var(--warm-ink); }
 .sm-week > li[data-state="today"] { color: var(--warm-ink); }
 .sm-week > li[data-state="missed"] i { background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
 .sm-week > li[data-state="rest"] i { background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
@@ -189,16 +191,17 @@
 /* ==========================================================================
    Next step card
    ========================================================================== */
-.sm-next { display: grid; grid-template-columns: 200px minmax(0, 1fr); background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--sh-2); overflow: hidden; color: inherit; text-decoration: none; }
-.sm-next:hover { box-shadow: var(--sh-3); }
+.sm-next { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 6px; padding: 6px; background: var(--surface); border-radius: var(--r-card); box-shadow: var(--sh-2); overflow: hidden; color: inherit; text-decoration: none; }
+.sm-next:hover { box-shadow: var(--sh-hover); }
 .sm-next[data-layout="stack"] { grid-template-columns: 1fr; }
-.sm-next-photo { position: relative; min-height: 150px; background: #1A1D22; }
+.sm-next-photo { position: relative; min-height: 150px; background: #1A1D22; border-radius: var(--r-inner); overflow: hidden; }
+.sm-next-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(14, 27, 44, .08); pointer-events: none; }
 .sm-next[data-layout="stack"] .sm-next-photo { aspect-ratio: 16 / 9; min-height: 0; }
 .sm-next-photo img { object-fit: cover; }
 .sm-next-tag { position: absolute; left: 12px; top: 12px; z-index: 2; }
-.sm-next-body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 20px 20px; min-width: 0; }
+.sm-next-body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 14px 12px; min-width: 0; }
 .sm-next-title { font: var(--d-sm); letter-spacing: var(--d-sm-track); }
-.sm-next-meta { font: 500 13px/1.45 var(--font); color: var(--label-2); }
+.sm-next-meta { font: 450 13px/1.45 var(--font); color: var(--label-3); }
 .sm-next .lq-progress { align-self: stretch; }
 .sm-next-cta { margin-top: auto; padding-top: 0; }
 .sm-next-body > .sm-next-cta { margin-top: 10px; }
@@ -211,18 +214,19 @@
    Beyond the summit
    ========================================================================== */
 .sm-beyond-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.sm-beyond-sub { margin: 4px 0 0; font: 500 12.5px/1.4 var(--font); color: var(--label-3); }
+.sm-beyond-sub { margin: 4px 0 0; font: 450 13px/1.4 var(--font); color: var(--label-3); }
 .sm-beyond-head .lq-link { font-size: 13.5px; white-space: nowrap; }
 .sm-peaks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
-.sm-peak { border-radius: 16px; overflow: hidden; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); display: flex; flex-direction: column; color: inherit; text-decoration: none; }
-.sm-peak:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--sh-1); }
-.sm-peak-th { position: relative; height: 92px; overflow: hidden; background: #1A1D22; }
+.sm-peak { border-radius: 16px; padding: 5px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+.sm-peak:hover { box-shadow: var(--sh-hover); }
+.sm-peak-th { position: relative; height: 92px; overflow: hidden; background: #1A1D22; border-radius: 11px; }
+.sm-peak-th::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(14, 27, 44, .08); pointer-events: none; }
 .sm-peak-th img { object-fit: cover; }
 .sm-peak-badge { position: absolute; left: 10px; top: 10px; z-index: 2; }
-.sm-peak-tx { padding: 11px 13px 13px; display: flex; flex-direction: column; flex: 1; }
-.sm-peak-tx > b { font: 700 14.5px/1.2 var(--font-display); letter-spacing: -.01em; }
+.sm-peak-tx { padding: 10px 9px 8px; display: flex; flex-direction: column; flex: 1; }
+.sm-peak-tx > b { font: 600 14.5px/1.2 var(--font-display); letter-spacing: -.01em; }
 .sm-peak-s { font: 500 12px/1.35 var(--font); color: var(--label-3); margin-top: 4px; }
-.sm-peak-cta { margin-top: auto; padding-top: 8px; font: 650 12.5px/1 var(--font); color: var(--accent-ink); display: inline-flex; gap: 4px; align-items: center; }
+.sm-peak-cta { margin-top: auto; padding-top: 10px; font: 600 12.5px/1 var(--font); color: var(--accent-ink); display: inline-flex; gap: 4px; align-items: center; }
 .sm-peak[data-locked] .sm-peak-cta { color: var(--label-3); }
 @media (max-width: 719px) {
   .sm-peaks { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; margin-right: -16px; padding-right: 16px; }

@@ -11,5 +11,5 @@
 .gfx-kettlebell-spec { fill: none; stroke: var(--g-specular); stroke-opacity: .45; stroke-width: 1.3; stroke-linecap: round; }
 .gfx-kettlebell-sheen { fill: none; stroke: var(--g-specular); stroke-opacity: .35; stroke-width: .8; stroke-linecap: round; }
 .gfx-kettlebell-weight { fill: var(--kb-ink); }
-.gfx-kettlebell-num { font-size: 12px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.gfx-kettlebell-num { font-size: 12px; font-weight: 600; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .gfx-kettlebell-unit { font-size: 6.5px; font-weight: 600; opacity: .8; }

@@ -1,7 +1,7 @@
 /* Workstream D — organizations. Global classes prefixed org-. Tokens only. */
 .org-hero { padding: var(--s-5); display: grid; gap: var(--s-4); grid-template-columns: auto 1fr; align-items: center; }
 @media (min-width: 900px) { .org-hero { grid-template-columns: auto 1fr auto; padding: var(--s-6); } }
-.org-logo { width: 64px; height: 64px; border-radius: var(--r-inner); background: var(--label); color: var(--bg); display: grid; place-items: center; font: var(--t-28); font-weight: 700; overflow: hidden; position: relative; }
+.org-logo { width: 64px; height: 64px; border-radius: var(--r-inner); background: var(--label); color: var(--bg); display: grid; place-items: center; font: var(--t-28); font-weight: 600; overflow: hidden; position: relative; }
 .org-seats { display: flex; align-items: center; gap: var(--s-3); grid-column: 1 / -1; }
 @media (min-width: 900px) { .org-seats { grid-column: auto; } }
 .org-members { display: grid; gap: 0; }
@@ -27,7 +27,7 @@
 .org-card { padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-3); }
 .org-card-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); }
 .org-stat { padding: 10px; border-radius: var(--r-control); background: var(--fill); display: flex; flex-direction: column; gap: 2px; }
-.org-stat b { font: var(--t-17); font-weight: 700; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 4px; }
+.org-stat b { font: var(--t-17); font-weight: 600; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 4px; }
 .org-banner { display: flex; gap: var(--s-3); align-items: center; padding: var(--s-3) var(--s-4); margin-bottom: var(--s-4); }
 .org-join-mark { width: 88px; height: 88px; border-radius: 28px; display: grid; place-items: center; background: var(--fill); color: var(--label); margin-bottom: var(--s-2); }
 @media (max-width: 899px) { .org-hide-phone { display: none !important; } }

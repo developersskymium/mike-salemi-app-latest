@@ -235,7 +235,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
           <Section id="fit" eyebrow="Before you apply" title="Who it’s for, and what it isn’t">
             <div className="rt-fit">
               <div className="rt-fit-col" data-tone="ok">
-                <div className="lq-t15" style={{ fontWeight: 700 }}>It&rsquo;s for you if</div>
+                <div className="lq-t15" style={{ fontWeight: 600 }}>It&rsquo;s for you if</div>
                 <ul role="list">
                   <li>You need four days away from everything, with the right men around you</li>
                   <li>You&rsquo;re new to this work. About half the men are</li>
@@ -244,7 +244,7 @@ export function RetreatPage({ hub, stage }: { hub: RunHub; stage: RetreatStage }
                 </ul>
               </div>
               <div className="rt-fit-col" data-tone="no">
-                <div className="lq-t15" style={{ fontWeight: 700 }}>What it isn&rsquo;t</div>
+                <div className="lq-t15" style={{ fontWeight: 600 }}>What it isn&rsquo;t</div>
                 <ul role="list">
                   <li>No performance. Everything is scaled to meet you where you are</li>
                   <li>No forcing. You decide how far you go</li>

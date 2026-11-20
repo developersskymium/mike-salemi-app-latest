@@ -3,7 +3,7 @@ import Link from "next/link";
 import { daysBetween, type IsoDate } from "@ms/core";
 import { OfferSlot } from "@/components/commerce/OfferSlot";
 import { BeyondTheSummit, Climb, PhotoHero, WeekDots, type ClimbPhase, type Peak, type WeekDot } from "@/components/signature";
-import { Avatar, Button, Chip, Glass, Icon, ProgressBar, Rings, StepSegments, Tag } from "@/components/ui";
+import { Avatar, Button, CardHead, Chip, Glass, Icon, ProgressBar, Rings, StepSegments, Tag } from "@/components/ui";
 import { MIKE_FACE, programPhoto } from "@/lib/program-photos";
 import type { ActivityTile, HomeItem, HomeView, RetreatCardModel } from "./buildHome";
 import { money } from "./buildHome";
@@ -132,12 +132,17 @@ export function TodayScreen({ v, home, homeError, retreat }: { v: TodayView; hom
       <div className="sh-grid" data-rise style={{ ["--i" as string]: 1 }}>
         {climb && cur ? (
           <Glass as="section" radius="card" className="sh-climb" aria-labelledby="sh-climb-t">
-            <div className="sh-climb-head">
-              <div>
-                <p className="lq-eyebrow" data-tone="accent">
+            <CardHead
+              className="sh-ch"
+              label={
+                <>
                   Your climb · <span className="sh-desk-in">{cur.name.replace(" · ", " ")}</span>
                   <span className="sh-phone-in">{level ?? cur.name}</span>
-                </p>
+                </>
+              }
+            />
+            <div className="sh-climb-head">
+              <div>
                 <h2 id="sh-climb-t" className="lq-d-md">
                   <span className="sh-desk-in">You&apos;re {pct(climb.done, climb.total)}% of the way up.</span>
                   <span className="sh-phone-in">{pct(climb.done, climb.total)}% of the way up</span>
@@ -293,8 +298,9 @@ function ContinueHero({ v, h, climb }: { v: TodayView; h: HomeView; climb: Retur
         cl?.focus ? (
           <Glass level="clear" radius={20} className="sh-quote">
             <Avatar name="Mike Salemi" src={MIKE_FACE} size="lg" />
-            <p className="lq-t13">
-              “{cl.focus}”<small>Mike · note for {day ? `Day ${day}` : "today"}</small>
+            <p>
+              <q className="lq-quote">{cl.focus}</q>
+              <small>Mike · note for {day ? `Day ${day}` : "today"}</small>
             </p>
           </Glass>
         ) : null
@@ -406,12 +412,7 @@ function WeekCard({ v }: { v: TodayView }) {
   const planned = v.weekSummary.planned;
   return (
     <Glass as="section" radius="card" className="sh-week" aria-labelledby="sh-week-t">
-      <div className="sh-between">
-        <p id="sh-week-t" className="lq-eyebrow" data-tone="warm">
-          This week
-        </p>
-        <span className="lq-t12 lq-c3 sh-phone-in lq-num">{planned ? `${v.weekSummary.done} of ${plural(planned, "session")}` : ""}</span>
-      </div>
+      <CardHead tone="warm" label={<span id="sh-week-t">This week</span>} meta={planned ? `${v.weekSummary.done} of ${plural(planned, "session")}` : undefined} />
       <div className="sh-streak sh-desk-f">
         <span className="sh-flame" aria-hidden>
           <Icon name="flame" />
@@ -484,9 +485,7 @@ function WizardCard() {
         <Image src={ph.src} alt="" fill sizes="(min-width: 1180px) 420px, 100vw" style={{ objectPosition: ph.position }} />
       </div>
       <div className="sh-wizard-t">
-        <p className="lq-eyebrow" data-tone="accent">
-          Self-Guided
-        </p>
+        <CardHead label="Self-Guided" className="sh-wizard-ch" />
         <h2 id="sh-wiz-t" className="lq-d-md">
           Plan your weeks in four taps.
         </h2>

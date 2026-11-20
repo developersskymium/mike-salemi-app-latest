@@ -15,7 +15,7 @@ export function Photo({ p, sizes, priority, className, style, children }: { p: P
   );
 }
 
-/** Public wordmark: the bell in an ink tile, MIKE SALEMI, a small caps line. */
+/** Public wordmark: the bell in an ink tile, "Mike Salemi", a quiet sub line. */
 export function PubWordmark({ onPhoto, href = "/" }: { onPhoto?: boolean; href?: string }) {
   return (
     <Link href={href} className="pub-wordmark" data-on-photo={onPhoto ? "" : undefined} aria-label="Mike Salemi, home">
@@ -23,14 +23,14 @@ export function PubWordmark({ onPhoto, href = "/" }: { onPhoto?: boolean; href?:
         <BellMark />
       </span>
       <span>
-        <b>MIKE SALEMI</b>
+        <b>Mike Salemi</b>
         <small>Kettlebell · Movement</small>
       </span>
     </Link>
   );
 }
 
-/** Section head: eyebrow, Archivo title, optional lede and a right-side action. */
+/** Section head: eyebrow, display title, optional lede and a right-side action. */
 export function SectionHead({ eyebrow, title, lede, action, id, tone = "accent", center }: { eyebrow?: string; title: ReactNode; lede?: ReactNode; action?: ReactNode; id?: string; tone?: "accent" | "warm"; center?: boolean }) {
   return (
     <header className="pub-sechead" data-center={center ? "" : undefined}>

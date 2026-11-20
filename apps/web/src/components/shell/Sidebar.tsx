@@ -24,7 +24,7 @@ export function BellMark({ color = "#fff" }: { color?: string }) {
   );
 }
 
-/** The wordmark: the bell in an ink tile, MIKE SALEMI, and a small caps line. */
+/** The wordmark: the bell in an ink tile, "Mike Salemi", and a quiet sub line. */
 export function Wordmark({ sub = "Kettlebell · Movement", compact }: { sub?: string; compact?: boolean }) {
   return (
     <Link href="/today" className="sm-wordmark" aria-label="Mike Salemi — Home" prefetch>
@@ -33,7 +33,7 @@ export function Wordmark({ sub = "Kettlebell · Movement", compact }: { sub?: st
       </span>
       {!compact && (
         <span>
-          <b>MIKE SALEMI</b>
+          <b>Mike Salemi</b>
           <small>{sub}</small>
         </span>
       )}
@@ -41,30 +41,37 @@ export function Wordmark({ sub = "Kettlebell · Movement", compact }: { sub?: st
   );
 }
 
-/** The resume card under the wordmark: photo, "UP NEXT · LEVEL I", day title, meta and a ring. */
+/** "Up next · Level I" → "Level I" (the progress line's label). */
+function levelLabel(eyebrow: string) {
+  const m = eyebrow.match(/Level\s+[IVX\d]+/i);
+  return m ? m[0] : null;
+}
+
+/**
+ * The slim resume card under the wordmark (v4): a small thumbnail, "Up next · Day N", the title,
+ * a glacier play button and a 3px ember progress line.
+ */
 export function ResumeCard({ r }: { r: ShellResume }) {
-  const R = 19.5;
-  const C = 2 * Math.PI * R;
-  const pct = Math.round(r.progress * 100);
+  const pct = Math.round(Math.max(0, Math.min(1, r.progress)) * 100);
+  const level = levelLabel(r.eyebrow);
   return (
-    <Link href={r.href} className="sm-resume lq-press" prefetch>
-      <span className="sm-resume-photo">
-        <Image src={r.photo.src} alt="" fill sizes="232px" style={{ objectPosition: r.photo.position }} />
-      </span>
-      {r.day && <span className="lq-chip sm-resume-chip" data-level="clear" data-size="sm"><span>{r.day}</span></span>}
-      <span className="sm-resume-body">
-        <span style={{ minWidth: 0, flex: 1 }}>
-          <span className="sm-resume-eyebrow">{r.eyebrow}</span>
+    <Link href={r.href} className="sm-resume lq-press" prefetch aria-label={`${r.day ? `Up next, ${r.day}: ` : "Up next: "}${r.title}. ${pct}% complete`}>
+      <span className="sm-resume-top">
+        <span className="sm-resume-th">
+          <Image src={r.photo.src} alt="" fill sizes="40px" style={{ objectPosition: r.photo.position }} />
+        </span>
+        <span className="sm-resume-tx">
+          <span className="sm-resume-k">{r.day ? `Up next · ${r.day}` : r.eyebrow}</span>
           <b className="sm-resume-title">{r.title}</b>
-          <span className="sm-resume-meta">{r.meta}</span>
         </span>
-        <span className="sm-resume-ring" role="img" aria-label={`${pct}% complete`}>
-          <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden>
-            <circle cx="23" cy="23" r={R} fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="5" />
-            <circle cx="23" cy="23" r={R} fill="none" stroke="#5DB4F0" strokeWidth="5" strokeLinecap="round" strokeDasharray={`${((C * pct) / 100).toFixed(1)} ${C.toFixed(1)}`} transform="rotate(-90 23 23)" />
-          </svg>
-          <span>{pct}%</span>
+        <span className="sm-resume-go" aria-hidden>
+          <Icon name="play" size="xs" />
         </span>
+      </span>
+      <span className="sm-resume-pr" aria-hidden>
+        <span>{level ?? "Progress"}</span>
+        <span className="sm-resume-bar"><i style={{ width: `${pct}%` }} /></span>
+        <b>{pct}%</b>
       </span>
     </Link>
   );
@@ -82,7 +89,7 @@ function NavLink({ it, on }: { it: NavItem; on: boolean }) {
 }
 
 /**
- * Desktop rail (the original sidebar, legacy L0): wordmark → resume card → Home, Programs,
+ * Desktop rail (v4: on the ground colour, regular-weight nav, a white active pill): wordmark → resume card → Home, Programs,
  * Retreats, Library, Schedule, Account → "Your access" (program thumbnails) → "Additional"
  * (Tools, Coaching, Referrals, Shop when enabled; collapsible) → the member with the theme toggle.
  */
@@ -110,14 +117,12 @@ export function Sidebar({ resume, access = [], shop, extra, more, active: active
             {access.map((a) => {
               const cur = pathname === a.href || pathname.startsWith(`${a.href}/`);
               return (
-                <Link key={a.href} href={a.href} prefetch aria-current={cur ? "page" : undefined}>
+                <Link key={a.href} href={a.href} prefetch aria-current={cur ? "page" : undefined} title={`${a.title} · ${a.sub}`}>
                   <span className="sm-access-ico">
-                    <Image src={a.photo.src} alt="" width={30} height={30} sizes="30px" style={{ objectPosition: a.photo.position }} />
+                    <Image src={a.photo.src} alt="" width={20} height={20} sizes="20px" style={{ objectPosition: a.photo.position }} />
                   </span>
-                  <span style={{ minWidth: 0 }}>
-                    <span className="sm-access-t">{a.title}</span>
-                    <span className="sm-access-s">{a.sub}</span>
-                  </span>
+                  <span className="sm-access-t">{a.title}</span>
+                  {a.sub === "Completed" ? <Icon name="check" size="sm" className="sm-access-done" label="Completed" /> : <span className="lq-sr">{a.sub}</span>}
                 </Link>
               );
             })}
@@ -127,7 +132,7 @@ export function Sidebar({ resume, access = [], shop, extra, more, active: active
       {extra}
       <div className="sm-navgroup" data-open={open ? "" : undefined}>
         <button type="button" className="sm-navgroup-h" aria-expanded={open} onClick={() => setOpen(!open)}>
-          Additional <Icon name="chevronUp" size="xs" />
+          <span>Additional</span> <Icon name="chevronUp" size="xs" />
         </button>
         {open && (
           <nav className="sm-nav" aria-label="Additional">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { Button, Icon, useToast } from "@/components/ui";
@@ -9,6 +10,14 @@ import { savePlanAction } from "@/lib/actions/selfguided";
 import { wizardLevelAction } from "@/lib/actions/wizard";
 import { buildWizardPlan, defaultWeekdays, FOCUS_COPY, intentOf, type WizardDay, type WizardFocus } from "./wizardPlan";
 import "./wizard.css";
+
+/** A small photo per level on the level choice rows (v4 forms: choices carry a photo, not a box). */
+const LEVEL_PHOTOS = [
+  { src: "/media/summit/mike-standing.jpg", position: "62% 24%" },
+  { src: "/media/summit/mike-deadlift.jpg", position: "50% 30%" },
+  { src: "/media/summit/mike-getup.jpg", position: "50% 25%" },
+  { src: "/media/summit/mike-press.jpg", position: "50% 25%" },
+];
 
 const STEPS = ["Level", "Days", "Start", "Focus", "Preview"] as const;
 const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -135,8 +144,11 @@ export function PlanWizard({ data, board, onDone }: { data: ProgramPageData; boa
             </h3>
             <p className="lq-t13 lq-c2">Each level is a full day-by-day plan: {data.sections.length} phases, workout, recovery and skill days in Mike&apos;s order.</p>
             <div className="wz-opts">
-              {(data.paths.length ? data.paths : [{ id: "only", key: null, name: data.program.name, shortName: null, tagline: data.program.tagline }]).map((p) => (
-                <button key={p.id} type="button" className="wz-opt lq-press" aria-pressed={(p.key ?? null) === pathKey} onClick={() => pickLevel(p.key ?? null)}>
+              {(data.paths.length ? data.paths : [{ id: "only", key: null, name: data.program.name, shortName: null, tagline: data.program.tagline }]).map((p, i) => (
+                <button key={p.id} type="button" className="wz-opt lq-press" data-thumb="" aria-pressed={(p.key ?? null) === pathKey} onClick={() => pickLevel(p.key ?? null)}>
+                  <span className="wz-th" aria-hidden>
+                    <Image src={LEVEL_PHOTOS[i % LEVEL_PHOTOS.length]!.src} alt="" fill sizes="56px" style={{ objectPosition: LEVEL_PHOTOS[i % LEVEL_PHOTOS.length]!.position }} />
+                  </span>
                   <b>{p.name}</b>
                   <span>{p.tagline ?? ""}</span>
                   <i aria-hidden>{(p.key ?? null) === pathKey && <Icon name="check" size="xs" />}</i>

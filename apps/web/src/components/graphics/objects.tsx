@@ -239,7 +239,7 @@ export function Pennant({ x, y, k = 1, text, flip }: { x: number; y: number; k?:
       <path d="M1-45C10-44 18-42 26-37C18-32 10-30 1-29Z" className={w.ember} />
       <path d="M1-37C10-36 18-37 26-37C18-32 10-30 1-29Z" className={w.emberLo} opacity={0.4} />
       {text ? (
-        <text x={9} y={-33.5} fontSize={9} fontWeight={800} fill="#fff" textAnchor="middle" fontFamily="var(--font-display, Archivo, system-ui)" transform={flip ? "scale(-1 1) translate(-18 0)" : undefined}>
+        <text x={9} y={-33.5} fontSize={9} fontWeight={600} fill="#fff" textAnchor="middle" fontFamily="var(--font-display, 'Instrument Sans', system-ui)" transform={flip ? "scale(-1 1) translate(-18 0)" : undefined}>
           {text}
         </text>
       ) : null}

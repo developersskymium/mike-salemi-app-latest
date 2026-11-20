@@ -5,7 +5,7 @@
   -webkit-font-smoothing: antialiased;
 }
 .gfx-pv-header { padding: 48px 48px 28px; background: #F3F3F3; color: #0A0A0A; }
-.gfx-pv-header h1 { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -.026em; margin: 0; }
+.gfx-pv-header h1 { font-size: 34px; line-height: 41px; font-weight: 600; letter-spacing: -.026em; margin: 0; }
 .gfx-pv-header p { margin: 6px 0 0; max-width: 64ch; color: #545454; font-size: 15px; line-height: 21px; }
 .gfx-pv-header a { color: #1667D9; }
 
