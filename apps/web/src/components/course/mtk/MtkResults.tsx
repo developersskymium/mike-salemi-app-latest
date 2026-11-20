@@ -177,7 +177,7 @@ export function MtkResults({ data }: { data: MtkResultsData }) {
           )}
         </Glass>
         <div className="mtk-acts">
-          <Button onClick={() => void create()} disabled={unrealistic || saving} iconAfter="next" aria-busy={saving || undefined}>
+          <Button onClick={() => void create()} disabled={unrealistic || saving} aria-busy={saving || undefined}>
             {samePlan ? "Update my plan" : data.activePlan ? "Create my new plan" : "Create my plan"}
           </Button>
           <Button variant="glass" href={`${courseHref}/resume?mode=full`}>Browse the full curriculum</Button>

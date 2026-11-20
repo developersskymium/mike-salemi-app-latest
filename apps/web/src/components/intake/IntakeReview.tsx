@@ -66,7 +66,7 @@ export function IntakeReview({ data, attempt, attempts, onReview, onFresh }: Pro
         ) : null}
         {r.caution && <p className="itk-keep"><b>Keep in mind:</b> {r.caution}</p>}
         <div className="itk-acts">
-          <Button href={open} iconAfter="next">Open program</Button>
+          <Button href={open}>Open program</Button>
           <Button variant="glass" icon="repeat" onClick={onReview}>Review answers</Button>
           <Button variant="plain" onClick={onFresh}>Start fresh</Button>
         </div>
@@ -99,7 +99,7 @@ export function KblResult({ data, attempt, attempts, onReview, onFresh }: Props)
         {r.summary && <p className="itk-sub">{r.summary as string}</p>}
         {notes.length > 0 && <ul className="itk-list">{notes.map((p) => <li key={p}><Tick />{p}</li>)}</ul>}
         <div className="itk-acts">
-          <Button href={`/programs/${data.program.slug}?path=${encodeURIComponent(key)}`} iconAfter="next">Start Level {level === 2 ? "II" : "I"}</Button>
+          <Button href={`/programs/${data.program.slug}?path=${encodeURIComponent(key)}`}>Start Level {level === 2 ? "II" : "I"}</Button>
           <Button variant="glass" icon="repeat" onClick={onReview}>Review answers</Button>
           <Button variant="plain" onClick={onFresh}>Start fresh</Button>
         </div>

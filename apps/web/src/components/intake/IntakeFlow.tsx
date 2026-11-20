@@ -262,7 +262,7 @@ export function IntakeFlow({ data, start }: { data: IntakePageData; start: "flow
 
       <Glass as="footer" level="thick" className="itk-foot">
         <div className="itk-col">
-          <Button block onClick={next} disabled={saving} iconAfter={last ? "check" : "next"} aria-busy={saving || undefined}>
+          <Button block onClick={next} disabled={saving} iconAfter={last ? "check" : undefined} aria-busy={saving || undefined}>
             {last ? (data.kind === "kbl" ? "See my plan" : data.kind === "mtk" ? "See my results" : "Save my intake") : "Continue"}
           </Button>
         </div>
