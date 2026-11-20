@@ -1,0 +1,136 @@
+{
+ "ticks": {},
+ "messages": [],
+ "lives": [
+  {
+   "id": "00000000-0000-4000-8000-000000000801",
+   "title": "Breath before battle",
+   "summary": "Box breathing, then a 10-minute swing ladder.",
+   "starts_at": "2026-11-05T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": "https://vimeo.com/",
+   "replay_thumb": "/media/summit/breathwork.jpg",
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000802",
+   "title": "Stillness that moves",
+   "summary": "Slow get-ups and the practice of staying.",
+   "starts_at": "2026-11-12T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": "https://vimeo.com/",
+   "replay_thumb": "/media/summit/mike-getup.jpg",
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000803",
+   "title": "The warrior's rest",
+   "summary": "Recovery as training: down-regulate on purpose.",
+   "starts_at": "2026-11-19T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": "https://vimeo.com/",
+   "replay_thumb": "/media/summit/fire.jpg",
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000804",
+   "title": "Grounded awareness: the morning reset",
+   "summary": "Breath, a short flow and one decision for the day.",
+   "starts_at": "2026-11-26T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000805",
+   "title": "Decisive action under pressure",
+   "summary": "Kettlebell complex, then the one thing you have been avoiding.",
+   "starts_at": "2026-12-03T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000806",
+   "title": "Antifragile: training the nervous system",
+   "summary": "Contrast work, breath holds and recovery you can repeat.",
+   "starts_at": "2026-12-10T17:00:00+00:00",
+   "duration_minutes": 60,
+   "join_url": null,
+   "replay_url": null,
+   "replay_thumb": null,
+   "draft_note": "Draft schedule; awaiting Mike",
+   "reminded": false
+  }
+ ],
+ "podcast": [
+  {
+   "id": "00000000-0000-4000-8000-000000000700",
+   "title": "The Truth About Health Habits for CEOs: Why Generic Advice Fails",
+   "published_on": "2026-03-26",
+   "url": "https://podcasts.apple.com/us/podcast/the-truth-about-health-habits-for-ceos-why-generic/id1643622665?i=1000757448739",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000701",
+   "title": "How Jason Olivea Discovered the Influence of Childhood Patterns to Deepen Connection",
+   "published_on": "2026-03-19",
+   "url": "https://podcasts.apple.com/us/podcast/how-jason-olivea-discovered-the-influence-of/id1643622665?i=1000756100623",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000702",
+   "title": "The Importance of Naming Your Real Needs in Breaking Free from Resentment",
+   "published_on": "2026-03-12",
+   "url": "https://podcasts.apple.com/us/podcast/the-importance-of-naming-your-real-needs-in/id1643622665?i=1000754811849",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000703",
+   "title": "How Preston Woody Discovered the Core 9 Framework to Achieve Life Balance",
+   "published_on": "2026-03-05",
+   "url": "https://podcasts.apple.com/us/podcast/how-preston-woody-discovered-the-core-9-framework-to/id1643622665?i=1000753185437",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000704",
+   "title": "The Importance of Modeling Repair in Transforming Family Dynamics with Stefanos Sifandos",
+   "published_on": "2026-02-26",
+   "url": "https://podcasts.apple.com/us/podcast/the-importance-of-modeling-repair-in-transforming/id1643622665?i=1000751717957",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000705",
+   "title": "Why Reconnecting With Physicality Holds the Key to Deeper Self-Trust with Marco Dinh",
+   "published_on": "2026-02-19",
+   "url": "https://podcasts.apple.com/us/podcast/why-reconnecting-with-physicality-holds-the-key-to/id1643622665?i=1000750456455",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000706",
+   "title": "Why Integrating Childhood Wounds Is a Must For Becoming a Present Partner",
+   "published_on": "2026-02-12",
+   "url": "https://podcasts.apple.com/us/podcast/153-why-integrating-childhood-wounds-is-a-must-for/id1643622665?i=1000749402703",
+   "image_url": null
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000707",
+   "title": "How Ani Manian Tapped into the Mathematics of the Universe to Overcome Burnout",
+   "published_on": "2026-02-05",
+   "url": "https://podcasts.apple.com/us/podcast/how-ani-manian-tapped-into-the-mathematics-of/id1643622665?i=1000748342679",
+   "image_url": null
+  }
+ ]
+}
