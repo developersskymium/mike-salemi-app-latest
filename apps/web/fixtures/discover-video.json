@@ -1,0 +1,235 @@
+{
+ "video": {
+  "id": "534a350b-b5dd-411b-9ca3-4fa60089d984",
+  "provider": "vimeo",
+  "provider_id": "395059275",
+  "privacy_hash": "b6e48b9d87",
+  "title": "Goblet Squat",
+  "description": null,
+  "duration_seconds": null,
+  "thumbnail_url": "/media/library/Goblet-Squat.png",
+  "level": null,
+  "category": "phase-1",
+  "programs": [
+   {
+    "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+    "name": "Kettlebell Lifestyle",
+    "slug": "kettlebell-lifestyle"
+   }
+  ],
+  "tags": [
+   {
+    "namespace": "category",
+    "slug": "phase-1",
+    "name": "Phase 1"
+   },
+   {
+    "namespace": "level",
+    "slug": "phase-1",
+    "name": "Phase 1"
+   },
+   {
+    "namespace": "topic",
+    "slug": "kettlebell-exercises",
+    "name": "Kettlebell Exercises"
+   },
+   {
+    "namespace": "topic",
+    "slug": "squat",
+    "name": "Squat"
+   }
+  ],
+  "saved": false,
+  "total_count": 720
+ },
+ "related": [
+  {
+   "id": "093ace55-5e67-4e2a-b872-98b875eeffea",
+   "provider": "vimeo",
+   "provider_id": "395325844",
+   "privacy_hash": "14f3473b02",
+   "title": "Alternating Halo – Modified Squat Combo",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Alternating-Halo-Modified-Squat-Combo.png",
+   "level": null,
+   "category": "phase-2",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "topic",
+     "slug": "halo",
+     "name": "Halo"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "squat",
+     "name": "Squat"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "901f1b04-508b-4608-be0f-d55883a39af8",
+   "provider": "vimeo",
+   "provider_id": "395286857",
+   "privacy_hash": "45ad95a699",
+   "title": "Split Squat – Overhead Press/Push Press",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Split-Squat-Overhead-Press_Push-Press.png",
+   "level": null,
+   "category": "phase-3",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-3",
+     "name": "Phase 3"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "push-press",
+     "name": "Push / Press"
+    },
+    {
+     "namespace": "topic",
+     "slug": "squat",
+     "name": "Squat"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "85fad459-7b2e-45a7-bf10-f131e5613891",
+   "provider": "vimeo",
+   "provider_id": "395315487",
+   "privacy_hash": "ab440bb6e9",
+   "title": "Split Squat (Bodyweight and Goblet Grip)",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Split-Squat-Bodyweight-and-Goblet-Grip.png",
+   "level": null,
+   "category": "phase-2",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-2",
+     "name": "Phase 2"
+    },
+    {
+     "namespace": "topic",
+     "slug": "bodyweight-exercises",
+     "name": "Bodyweight Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "kettlebell-exercises",
+     "name": "Kettlebell Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "squat",
+     "name": "Squat"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  },
+  {
+   "id": "f557a96b-4024-4f51-940a-986b2754a6a3",
+   "provider": "vimeo",
+   "provider_id": "395049805",
+   "privacy_hash": "f496ed85f2",
+   "title": "Squat (Bodyweight)",
+   "description": null,
+   "duration_seconds": null,
+   "thumbnail_url": "/media/library/Squat-Bodyweight.png",
+   "level": null,
+   "category": "phase-1",
+   "programs": [
+    {
+     "id": "0df5408b-c9b8-4482-91f1-1226dc673739",
+     "name": "Kettlebell Lifestyle",
+     "slug": "kettlebell-lifestyle"
+    }
+   ],
+   "tags": [
+    {
+     "namespace": "category",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "level",
+     "slug": "phase-1",
+     "name": "Phase 1"
+    },
+    {
+     "namespace": "topic",
+     "slug": "bodyweight-exercises",
+     "name": "Bodyweight Exercises"
+    },
+    {
+     "namespace": "topic",
+     "slug": "squat",
+     "name": "Squat"
+    }
+   ],
+   "saved": false,
+   "total_count": 720
+  }
+ ],
+ "collections": []
+}
