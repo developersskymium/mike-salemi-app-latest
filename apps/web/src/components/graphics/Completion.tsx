@@ -1,84 +1,42 @@
 import type { CSSProperties } from "react";
-import { Exposure, shastaPath } from "./exposure";
-import { Flare } from "./Flare";
 import "./gfx.css";
 import "./Completion.css";
-import { Line, smooth, traceGeo, type Pt } from "./trace";
-import { TraceMarks } from "./Trace";
+import { MomentScene } from "./Moment";
 import { cls, cx, useGfxId } from "./util";
 
 const g = cls("gfx");
 const s = cls("gfx-completion");
 
 export interface CompletionProps {
-  /** "step": a set or step done. "milestone": a day or phase finished, under the night sky. */
+  /** "step": a set or step done. "milestone": a day or phase finished (the day-complete scene). */
   variant?: "step" | "milestone";
   /** Width in px (step 120, milestone 320 by default). */
   size?: number;
-  /** Play the moment once: the trace exposes and ends in a Flare. Static under reduced motion. */
+  /** Play the moment once. Static under reduced motion. */
   animated?: boolean;
   label?: string;
   className?: string;
   style?: CSSProperties;
 }
 
-const CHECK = new Line([
-  [34, 62],
-  [50, 78],
-  [84, 42],
-]);
-const ARC_CTRL: Pt[] = [
-  [18, 92],
-  [52, 150],
-  [110, 184],
-  [176, 180],
-  [236, 140],
-  [276, 82],
-  [292, 34],
-];
-const ARC = new Line(smooth(ARC_CTRL, 14));
-const NODES = [0.18, 0.36, 0.54, 0.72, 0.88];
+const RAYS = Array.from({ length: 8 }, (_, i) => {
+  const a = (i * Math.PI) / 4 + Math.PI / 8;
+  const r0 = 50;
+  const r1 = i % 2 ? 56 : 59;
+  return `M${(60 + Math.cos(a) * r0).toFixed(1)} ${(60 + Math.sin(a) * r0).toFixed(1)}L${(60 + Math.cos(a) * r1).toFixed(1)} ${(60 + Math.sin(a) * r1).toFixed(1)}`;
+}).join("");
 
 /**
- * Completion moments in the Trace language. Step: the check is traced in
- * glacier light and ends in a Flare. Milestone: a night exposure over Mount
- * Shasta — the day's path, its steps as lit nodes, the Flare at the head.
+ * Completion moments in Summit. Step: an ember seal with its check drawn in,
+ * a burst of short rays and two glacier sparks. Milestone: the day-complete
+ * scene (MomentScene "day").
  */
 export function Completion({ variant = "step", size, animated = true, label, className, style }: CompletionProps) {
   const id = useGfxId("done");
   if (variant === "milestone") {
-    const w = size ?? 320;
-    const geo = traceGeo(ARC, 1, { width: 3.2, segments: 26, floor: 0.06, ahead: false, head: false });
-    return (
-      <svg
-        viewBox="0 0 320 220"
-        width={w}
-        height={(w * 220) / 320}
-        role="img"
-        aria-label={label ?? "Day complete"}
-        className={cx(g.root, s.done, s.milestone, animated && s.animated, className)}
-        style={style}
-      >
-        <defs>
-          <clipPath id={`${id}-panel`}>
-            <rect width={320} height={220} rx={26} />
-          </clipPath>
-        </defs>
-        <g clipPath={`url(#${id}-panel)`}>
-          <Exposure w={320} h={220} pole={[250, -30]} seed={7} night />
-          <path d={shastaPath(70, 222, 190, 92)} className={s.mtn} />
-          <path d={shastaPath(70, 222, 190, 92)} className={s.mtnRim} />
-          <g className={s.expose}>
-            <TraceMarks geo={geo} nodes={NODES.map((f) => [...ARC.at(ARC.total * f), true] as [number, number, boolean])} />
-          </g>
-          <Flare x={292} y={34} size={96} animated={animated} className={s.flare} />
-        </g>
-      </svg>
-    );
+    return <MomentScene kind="day" size={size ?? 320} animated={animated} label={label ?? "Day complete"} className={className} style={style} />;
   }
-
   const w = size ?? 120;
-  const geo = traceGeo(CHECK, 1, { width: 5, segments: 14, floor: 0.4, ahead: false, head: false });
   return (
     <svg
       viewBox="0 0 120 120"
@@ -89,11 +47,21 @@ export function Completion({ variant = "step", size, animated = true, label, cla
       className={cx(g.root, s.done, s.step, animated && s.animated, className)}
       style={style}
     >
-      <circle cx={60} cy={60} r={44} className={s.ring} />
-      <g className={s.expose}>
-        <TraceMarks geo={geo} />
-      </g>
-      <Flare x={84} y={42} size={74} animated={animated} className={s.flare} />
+      <defs>
+        <radialGradient id={`${id}-seal`} cx=".36" cy=".3" r=".8">
+          <stop offset="0" className={s.hi} />
+          <stop offset=".6" className={s.mid} />
+          <stop offset="1" className={s.lo} />
+        </radialGradient>
+      </defs>
+      <path d={RAYS} className={s.rays} />
+      <circle cx={60} cy={63} r={40} className={s.shadow} />
+      <circle cx={60} cy={60} r={40} fill={`url(#${id}-seal)`} className={s.seal} />
+      <circle cx={60} cy={60} r={34.5} className={s.inner} />
+      <path d="M42 60.5 54 72.5 79 47" className={s.check} pathLength={1} />
+      <path d="M33 44A30 30 0 0 1 50 30" className={s.gloss} />
+      <path d="M96 22l1.4 3.6 3.6 1.4-3.6 1.4L96 32l-1.4-3.6L91 27l3.6-1.4z" className={s.spark} />
+      <path d="M20 90l1 2.6 2.6 1-2.6 1L20 97.2l-1-2.6-2.6-1 2.6-1z" className={s.spark} />
     </svg>
   );
 }

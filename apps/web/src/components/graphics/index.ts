@@ -18,3 +18,7 @@ export { Flare, type FlareProps } from "./Flare";
 export { TraceMarks } from "./Trace";
 export { Line as TraceLine, traceGeo, smooth as smoothPath, type TraceGeo, type TraceOpts } from "./trace";
 export { StarTrails, Contours, shastaPath } from "./exposure";
+export { Climb, KBL_LEVEL_1, type ClimbProps, type ClimbPhase } from "./Climb";
+export { WORLD, type WorldTime } from "./world";
+export { MomentScene, MOMENT_KINDS, type MomentKind, type MomentSceneProps } from "./Moment";
+export { Spot, SPOTS, type SpotName, type SpotProps } from "./Spot";

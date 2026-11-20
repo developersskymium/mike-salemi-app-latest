@@ -1,0 +1,8 @@
+/* Milestone moments: one-shot entrance, the world settles, the athlete rises. */
+.gfx-moment-moment { display: block; max-width: 100%; height: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .gfx-moment-animated { animation: gfx-moment-in .7s cubic-bezier(.22, .8, .2, 1) both; }
+  .gfx-moment-animated .gfx-rig-fig { animation: gfx-moment-rise .8s cubic-bezier(.34, 1.56, .64, 1) .2s both; }
+}
+@keyframes gfx-moment-in { from { opacity: 0; transform: scale(.98); } }
+@keyframes gfx-moment-rise { from { opacity: 0; transform: translateY(10px); } }

@@ -1,112 +1,105 @@
-/* Medals and level emblems. Materials are custom properties: set --gfx-<tier>-hi/-/-lo/-deep,
-   --gfx-metal-* (all tiers), --gfx-enamel-* or --gfx-specular on any ancestor to re-skin. */
+/* Medals and level emblems as enamel pins. Re-skin with --gfx-<tier>-hi/-/-lo/-deep (metal),
+   --gfx-<tier>-enamel-hi/-/-lo (face) on any ancestor. */
 .gfx-medal-medal, .gfx-medal-emblem { overflow: visible; }
 .gfx-medal-bronze {
-  --g-metal-hi: var(--gfx-bronze-hi, #FBE0C8); --g-metal: var(--gfx-bronze, #C98A5B);
-  --g-metal-lo: var(--gfx-bronze-lo, #7A4626); --g-metal-deep: var(--gfx-bronze-deep, #4A2812);
+  --g-metal-hi: var(--gfx-bronze-hi, #FFE3C9); --g-metal: var(--gfx-bronze, #D08D5C);
+  --g-metal-lo: var(--gfx-bronze-lo, #8A4E2A); --g-metal-deep: var(--gfx-bronze-deep, #4E2A14);
+  --g-enamel-hi: var(--gfx-bronze-enamel-hi, #FF8F55); --g-enamel: var(--gfx-bronze-enamel, #E2551F); --g-enamel-lo: var(--gfx-bronze-enamel-lo, #A63612);
 }
 .gfx-medal-silver {
-  --g-metal-hi: var(--gfx-silver-hi, #FFFFFF); --g-metal: var(--gfx-silver, #CDD2D8);
-  --g-metal-lo: var(--gfx-silver-lo, #7C848E); --g-metal-deep: var(--gfx-silver-deep, #4A5059);
+  --g-metal-hi: var(--gfx-silver-hi, #FFFFFF); --g-metal: var(--gfx-silver, #D3D8DE);
+  --g-metal-lo: var(--gfx-silver-lo, #848C97); --g-metal-deep: var(--gfx-silver-deep, #4A515B);
+  --g-enamel-hi: var(--gfx-silver-enamel-hi, #4DA6EA); --g-enamel: var(--gfx-silver-enamel, #1A85D6); --g-enamel-lo: var(--gfx-silver-enamel-lo, #0F4E86);
 }
 .gfx-medal-gold {
-  --g-metal-hi: var(--gfx-gold-hi, #FFF4CF); --g-metal: var(--gfx-gold, #E3B54E);
-  --g-metal-lo: var(--gfx-gold-lo, #8D6115); --g-metal-deep: var(--gfx-gold-deep, #5A3C08);
+  --g-metal-hi: var(--gfx-gold-hi, #FFF3C4); --g-metal: var(--gfx-gold, #E8B43C);
+  --g-metal-lo: var(--gfx-gold-lo, #9A6A12); --g-metal-deep: var(--gfx-gold-deep, #5C3E06);
+  --g-enamel-hi: var(--gfx-gold-enamel-hi, #2F4B72); --g-enamel: var(--gfx-gold-enamel, #18304F); --g-enamel-lo: var(--gfx-gold-enamel-lo, #0C1A2E);
 }
 .gfx-medal-platinum {
-  --g-metal-hi: var(--gfx-platinum-hi, #FFFFFF); --g-metal: var(--gfx-platinum, #DCE3EA);
-  --g-metal-lo: var(--gfx-platinum-lo, #8794A3); --g-metal-deep: var(--gfx-platinum-deep, #4F5A67);
+  --g-metal-hi: var(--gfx-platinum-hi, #FFFFFF); --g-metal: var(--gfx-platinum, #E3E8EE);
+  --g-metal-lo: var(--gfx-platinum-lo, #8D99A8); --g-metal-deep: var(--gfx-platinum-deep, #515C6A);
+  --g-enamel-hi: var(--gfx-platinum-enamel-hi, #3E3352); --g-enamel: var(--gfx-platinum-enamel, #241C36); --g-enamel-lo: var(--gfx-platinum-enamel-lo, #130E1F);
 }
-/* Glacier glass crest (level emblem without a tier). */
-.gfx-medal-glacier {
-  --g-metal-hi: var(--gfx-glacier-hi, color-mix(in srgb, var(--g-accent-hi) 35%, #fff));
-  --g-metal: var(--gfx-glacier, var(--g-accent-hi));
-  --g-metal-lo: var(--gfx-glacier-lo, var(--g-accent-deep));
-  --g-metal-deep: var(--gfx-glacier-deep, color-mix(in srgb, var(--g-accent-deep) 60%, #000));
-}
-/* Not yet earned: unpainted, neutral strike. */
+/* Not yet earned: unpainted metal, empty enamel. */
 .gfx-medal-locked {
-  --g-metal-hi: color-mix(in srgb, var(--g-fg) 8%, var(--g-bg-elev));
-  --g-metal: color-mix(in srgb, var(--g-fg) 16%, var(--g-bg-elev));
-  --g-metal-lo: color-mix(in srgb, var(--g-fg) 30%, var(--g-bg-elev));
-  --g-metal-deep: color-mix(in srgb, var(--g-fg) 40%, var(--g-bg-elev));
-  --g-enamel-hi: color-mix(in srgb, var(--g-fg) 10%, var(--g-bg-elev));
-  --g-enamel: color-mix(in srgb, var(--g-fg) 14%, var(--g-bg-elev));
-  --g-enamel-lo: color-mix(in srgb, var(--g-fg) 22%, var(--g-bg-elev));
-  --g-relief-shadow: var(--g-fg);
-  opacity: .8;
+  --g-metal-hi: color-mix(in srgb, var(--g-fg) 6%, var(--g-bg-elev));
+  --g-metal: color-mix(in srgb, var(--g-fg) 14%, var(--g-bg-elev));
+  --g-metal-lo: color-mix(in srgb, var(--g-fg) 26%, var(--g-bg-elev));
+  --g-metal-deep: color-mix(in srgb, var(--g-fg) 34%, var(--g-bg-elev));
+  --g-enamel-hi: color-mix(in srgb, var(--g-fg) 8%, var(--g-bg-elev));
+  --g-enamel: color-mix(in srgb, var(--g-fg) 11%, var(--g-bg-elev));
+  --g-enamel-lo: color-mix(in srgb, var(--g-fg) 16%, var(--g-bg-elev));
 }
 
-.gfx-medal-hi { stop-color: var(--gfx-metal-hi, var(--g-metal-hi)); }
-.gfx-medal-mid { stop-color: var(--gfx-metal, var(--g-metal)); }
-.gfx-medal-lo { stop-color: var(--gfx-metal-lo, var(--g-metal-lo)); }
-.gfx-medal-deep { stop-color: var(--gfx-metal-deep, var(--g-metal-deep)); }
-.gfx-medal-spec0 { stop-color: var(--g-specular); stop-opacity: 0; }
-.gfx-medal-spec42 { stop-color: var(--g-specular); stop-opacity: .42; }
-.gfx-medal-spec55 { stop-color: var(--g-specular); stop-opacity: .55; }
+.gfx-medal-hi { stop-color: var(--g-metal-hi); }
+.gfx-medal-mid { stop-color: var(--g-metal); }
+.gfx-medal-lo { stop-color: var(--g-metal-lo); }
+.gfx-medal-deep { stop-color: var(--g-metal-deep); }
+.gfx-medal-spec0 { stop-color: #fff; stop-opacity: 0; }
+.gfx-medal-spec55 { stop-color: #fff; stop-opacity: .6; }
 .gfx-medal-enamelHi { stop-color: var(--g-enamel-hi); }
 .gfx-medal-enamelMid { stop-color: var(--g-enamel); }
 .gfx-medal-enamelLo { stop-color: var(--g-enamel-lo); }
+.gfx-medal-skyHi { stop-color: var(--gfx-crest-sky-hi, #2F86D2); }
+.gfx-medal-skyLo { stop-color: var(--gfx-crest-sky, #123F6E); }
 
-.gfx-medal-rimLine { fill: none; stroke: var(--g-specular); stroke-opacity: .5; stroke-width: .6; }
-.gfx-medal-reeds path { stroke: var(--gfx-metal-lo, var(--g-metal-lo)); stroke-width: .7; stroke-linecap: round; opacity: .55; }
-.gfx-medal-legend, .gfx-medal-legendLight {
-  font: 600 5.1px/1 -apple-system, "SF Pro Text", "Inter Liquid", system-ui, sans-serif;
-  letter-spacing: .9px;
+.gfx-medal-cast { fill: #0E1B2C; opacity: .14; }
+.gfx-medal-groove { fill: none; stroke: var(--g-metal-lo); stroke-width: .8; opacity: .7; }
+.gfx-medal-band { fill: var(--g-enamel-lo); }
+.gfx-medal-legend {
+  fill: var(--g-metal-hi);
+  font: 700 6.4px/1 var(--font-sans, Inter, system-ui, sans-serif);
+  letter-spacing: .5px;
 }
-.gfx-medal-legend { fill: var(--gfx-metal-deep, var(--g-metal-deep)); opacity: .72; }
-.gfx-medal-legendLight { fill: var(--g-specular); opacity: .7; }
-.gfx-medal-guilloche circle { fill: none; stroke: var(--g-specular); stroke-opacity: .09; stroke-width: .7; }
-.gfx-medal-innerEdge { fill: none; stroke: var(--g-shade); stroke-opacity: .22; stroke-width: 3.2; }
-.gfx-medal-reliefShadow { fill: var(--g-relief-shadow); opacity: .45; }
-.gfx-medal-reliefRim { fill: none; stroke: var(--gfx-metal-hi, var(--g-metal-hi)); stroke-width: .45; stroke-opacity: .9; }
-.gfx-medal-reliefSpec { fill: none; stroke: var(--g-specular); stroke-opacity: .85; stroke-width: 1.1; stroke-linecap: round; }
-.gfx-medal-spec { fill: none; stroke: var(--g-specular); stroke-opacity: .55; stroke-width: 1; stroke-linecap: round; }
-.gfx-medal-sweep { opacity: 0; }
+.gfx-medal-mtn { fill: var(--g-enamel-lo); opacity: .9; }
+.gfx-medal-snow { fill: #FFFFFF; opacity: .92; }
+.gfx-medal-cloison { fill: none; stroke: var(--g-metal); stroke-width: 1.1; stroke-linejoin: round; }
+.gfx-medal-relief, .gfx-medal-reliefShadow {
+  fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+}
+.gfx-medal-relief { stroke: var(--m); }
+.gfx-medal-relief * { stroke: var(--m); fill: none; }
+.gfx-medal-reliefShadow, .gfx-medal-reliefShadow * { stroke: #000; fill: none; opacity: .3; }
+.gfx-medal-relief .gfx-day-glyph-dot { fill: var(--m); stroke: none; }
+.gfx-medal-reliefShadow .gfx-day-glyph-dot { fill: #000; stroke: none; }
+.gfx-medal-bellShadow { fill: #000; opacity: .3; }
+.gfx-medal-bellSpec { fill: none; stroke: #fff; stroke-opacity: .8; stroke-width: 1.4; stroke-linecap: round; }
+.gfx-medal-gloss { fill: #fff; opacity: .2; }
+.gfx-medal-spec { fill: none; stroke: #fff; stroke-opacity: .7; stroke-width: 2; stroke-linecap: round; }
+.gfx-medal-glint { fill: #fff; }
+.gfx-medal-locked .gfx-medal-relief, .gfx-medal-locked .gfx-medal-relief * { stroke: var(--g-metal-lo); }
+.gfx-medal-locked .gfx-medal-legend { fill: var(--g-metal-lo); }
+.gfx-medal-locked .gfx-medal-cast { opacity: .06; }
+
+/* Level crest. */
+.gfx-medal-crest .gfx-medal-sun { fill: var(--g-ember); }
+.gfx-medal-crestMtn { fill: #6AAEE6; }
+.gfx-medal-crestSnow { fill: #FFFFFF; }
+.gfx-medal-crestHill { fill: #17304F; }
+.gfx-medal-innerLine { fill: none; stroke: var(--g-metal-lo); stroke-width: .8; opacity: .7; }
+.gfx-medal-num {
+  font: 800 34px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  letter-spacing: -.02em;
+  stroke: var(--g-metal-deep);
+  stroke-width: .7;
+  paint-order: stroke;
+}
+.gfx-medal-numShadow {
+  font: 800 34px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  letter-spacing: -.02em;
+  fill: #0C1A2E; opacity: .45;
+}
+.gfx-medal-ribbon { fill: var(--g-ember); }
+.gfx-medal-ribbonTail { fill: var(--g-ember-lo); }
+.gfx-medal-ribbonEdge { fill: none; stroke: #FFB98E; stroke-width: .8; opacity: .8; }
+.gfx-medal-ribbonText {
+  fill: #FFFFFF;
+  font: 800 7.6px/1 var(--font-display, Archivo, system-ui, sans-serif);
+  letter-spacing: .14em;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .gfx-medal-animated .gfx-medal-sweep { animation: gfx-medal-sweep 1.4s var(--g-ease) .2s both; transform-box: view-box; }
+  .gfx-medal-animated .gfx-medal-sweep { animation: gfx-medal-sweep 1.3s cubic-bezier(.4, 0, .2, 1) .35s both; }
 }
-@keyframes gfx-medal-sweep {
-  0% { opacity: 0; translate: 0 0; }
-  15% { opacity: 1; }
-  100% { opacity: 0; translate: 200px 0; }
-}
-
-/* Level emblem */
-.gfx-medal-eEdge { fill: var(--gfx-metal-deep, var(--g-metal-deep)); opacity: .9; }
-.gfx-medal-eOutline { fill: none; stroke: var(--g-specular); stroke-opacity: .5; stroke-width: .7; stroke-linejoin: round; }
-.gfx-medal-facet0 { fill: var(--g-specular); opacity: .38; }
-.gfx-medal-facet1 { fill: var(--g-specular); opacity: .12; }
-.gfx-medal-facet2 { fill: var(--g-shade); opacity: .12; }
-.gfx-medal-facet3 { fill: var(--g-shade); opacity: .26; }
-.gfx-medal-facet4 { fill: var(--g-shade); opacity: .1; }
-.gfx-medal-facet5 { fill: var(--g-specular); opacity: .28; }
-.gfx-medal-eRidge { fill: var(--g-shade); opacity: .24; }
-.gfx-medal-eSnow { fill: var(--g-snow); opacity: .85; }
-.gfx-medal-eLabel {
-  font: 700 6.6px/1 -apple-system, "SF Pro Text", "Inter Liquid", system-ui, sans-serif;
-  letter-spacing: 1.4px; text-transform: uppercase; fill: var(--g-specular); opacity: .8;
-}
-.gfx-medal-eNum, .gfx-medal-eNumGlow {
-  font-family: var(--gfx-display, "Anybody", var(--font, system-ui), sans-serif);
-  font-weight: 200; font-stretch: 150%; font-size: 34px; letter-spacing: -1px;
-}
-.gfx-medal-eNum { fill: var(--g-night-ink); }
-.gfx-medal-eNumGlow { fill: none; stroke: var(--g-glacier); stroke-width: 3; opacity: .35; filter: blur(2px); }
-
-/* Trace faces */
-.gfx-medal-medal, .gfx-medal-emblem {
-  --g-trace: var(--gfx-trace-dark, #5CC8F5);
-  --g-trace-hot: var(--gfx-trace-hot-dark, #E6F8FF);
-  --g-trace-dim: var(--gfx-trace-dim-dark, rgba(120, 180, 220, .22));
-  --g-trace-glow: .45;
-}
-.gfx-medal-ridge { fill: var(--g-night-lo); }
-.gfx-medal-ridgeRim { fill: none; stroke: var(--gfx-ridge-rim, rgba(160, 210, 240, .3)); stroke-width: .7; }
-.gfx-medal-ringAhead { fill: none; stroke: var(--g-trace-dim); stroke-width: 1.6; stroke-dasharray: .1 5; stroke-linecap: round; }
-.gfx-medal-light path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.gfx-medal-light .gfx-day-glyph-base { stroke: var(--g-night-ink); opacity: .85; }
-.gfx-medal-light .gfx-day-glyph-lit { stroke: var(--g-trace); filter: drop-shadow(0 0 1px var(--g-trace)); }
-.gfx-medal-light .gfx-day-glyph-dot { fill: var(--g-trace-hot); filter: drop-shadow(0 0 1.2px var(--g-trace)); }
-.gfx-medal-locked .gfx-medal-light { opacity: .45; }
-.gfx-medal-locked .gfx-medal-light .gfx-day-glyph-lit, .gfx-medal-locked .gfx-medal-light .gfx-day-glyph-dot { stroke: var(--g-night-ink); fill: var(--g-night-ink); filter: none; }
+@keyframes gfx-medal-sweep { from { transform: translateX(0) rotate(20deg); } to { transform: translateX(170px) rotate(20deg); } }

@@ -18,52 +18,70 @@
 
   /* Materials. Re-skin any graphic by setting the public --gfx-* hooks on an
      ancestor; graphics only ever read the resolved --g-* values below.
-     Defaults follow the Trace identity: training drawn as glacier light with a
-     hot head and a fading tail; dark is a night exposure, light is snow with
-     glacier contour lines; shadows exist only as glow. */
-  --g-specular: var(--gfx-specular, #FFFFFF);
-  --g-shade: var(--gfx-shade, #000000);
-  --g-glacier: var(--gfx-glacier, #5CC8F5);
-  --g-glacier-hot: var(--gfx-glacier-hot, #E6F8FF);
-  --g-glacier-deep: var(--gfx-glacier-deep, #1478BC);
-  --g-glacier-ink: var(--gfx-glacier-ink, #0E7DC2);
-  /* The trace: its body, its hot head, and the dim dotted path still ahead. */
-  --g-trace: var(--gfx-trace, var(--trace, #1490D6));
-  --g-trace-hot: var(--gfx-trace-hot, var(--trace-hot, #0A5E99));
-  --g-trace-dim: var(--gfx-trace-dim, var(--trace-dim, rgba(20, 110, 170, .2)));
-  --g-trace-glow: var(--gfx-trace-glow-opacity, .22);
-  --g-lines: var(--gfx-lines, var(--lines, rgba(20, 110, 170, .45)));
-  --g-night: var(--gfx-night, #070C17);
-  --g-night-hi: var(--gfx-night-hi, #0E1A30);
-  --g-night-lo: var(--gfx-night-lo, #04070D);
-  --g-night-ink: var(--gfx-night-ink, #EEF4F8);
-  --g-star: var(--gfx-star, #C9D6E6);
-  --g-snow-ground: var(--gfx-snow-ground, var(--ground, #EEF3F6));
-  --g-film: var(--gfx-film, var(--film, #FBFDFE));
-  --g-ember: var(--gfx-ember, #F2A65A);
-  --g-figure: var(--gfx-figure, var(--ink, var(--g-fg)));
-  --g-figure-far: var(--gfx-figure-far-opacity, .3);
-  /* Rim light on the figure's leading edge: lit by the bell's own light. */
-  --g-figure-rim: var(--gfx-figure-rim, color-mix(in srgb, var(--g-trace) 60%, transparent));
-  --g-rim-dx: var(--gfx-rim-dx, -.75px);
-  --g-rim-dy: var(--gfx-rim-dy, .8px);
-  --g-sole: var(--gfx-sole, rgba(255, 255, 255, .34));
-  --g-bell-hi: var(--gfx-bell-hi, color-mix(in srgb, var(--g-trace) 45%, var(--g-glacier-hot)));
-  --g-bell: var(--gfx-bell, var(--g-trace));
-  --g-bell-lo: var(--gfx-bell-lo, var(--g-glacier-deep));
-  --g-bell-spec: var(--gfx-bell-spec-opacity, .5);
-  --g-glass: var(--gfx-glass, #FFFFFF);
-  --g-glass-opacity: var(--gfx-glass-opacity, .34);
-  --g-glass-sheen: var(--gfx-glass-sheen, .6);
-  --g-glass-edge: var(--gfx-glass-edge, var(--g-fg));
-  --g-glass-edge-opacity: var(--gfx-glass-edge-opacity, .1);
-  --g-snow: var(--gfx-snow, #FFFFFF);
-  --g-snow-opacity: var(--gfx-snow-opacity, .92);
-  --g-terrain: var(--gfx-terrain, var(--g-figure));
-  --g-enamel-hi: var(--gfx-enamel-hi, var(--g-night-hi));
-  --g-enamel: var(--gfx-enamel, var(--g-night));
-  --g-enamel-lo: var(--gfx-enamel-lo, var(--g-night-lo));
-  --g-relief-shadow: var(--gfx-relief-shadow, #000000);
+     Defaults follow the Summit identity: warm chalk and white, warm ink,
+     glacier blue for "do this", ember for progress, streaks and achievement. */
+  --g-ink: var(--gfx-ink, #14202F);
+  --g-ink-2: var(--gfx-ink-2, #2E3D51);
+  --g-chalk: var(--gfx-chalk, #F5F1EA);
+  --g-chalk-2: var(--gfx-chalk-2, #E7DFD2);
+  --g-ember: var(--gfx-ember, #F2632A);
+  --g-ember-hi: var(--gfx-ember-hi, #FF9A5C);
+  --g-ember-lo: var(--gfx-ember-lo, #C4461A);
+  --g-gold: var(--gfx-gold, #E8B43C);
+  --g-glacier: var(--gfx-glacier, #1A85D6);
+  --g-glacier-hi: var(--gfx-glacier-hi, #7DBDEE);
+  --g-glacier-lo: var(--gfx-glacier-lo, #135690);
+  --g-wood: var(--gfx-wood, #9A6440);
+  --g-wood-lo: var(--gfx-wood-lo, #6E432A);
+  --g-canvas: var(--gfx-canvas, #F2E6D2);
+  --g-canvas-lo: var(--gfx-canvas-lo, #D9C6A6);
+  --g-specular: #FFFFFF;
+  --g-shade: #0E1B2C;
+  --g-glacier-hot: #DAECFB;
+  --g-glacier-deep: var(--g-glacier-lo);
+  --g-glacier-ink: #146CB4;
+  /* Progress lines (arcs, rings, routes): ember with a deeper head and a dotted way ahead. */
+  --g-trace: var(--gfx-trace, #F2632A);
+  --g-trace-hot: var(--gfx-trace-hot, #C4461A);
+  --g-trace-dim: var(--gfx-trace-dim, rgba(242, 99, 42, .28));
+  --g-trace-glow: var(--gfx-trace-glow-opacity, 0);
+  --g-lines: var(--gfx-lines, rgba(20, 32, 47, .16));
+  --g-night: #121A2E;
+  --g-night-hi: #2A2F4E;
+  --g-night-lo: #0B1020;
+  --g-night-ink: #F3EDE4;
+  --g-star: #FFF6E8;
+  --g-snow-ground: var(--g-chalk);
+  --g-film: #FFFFFF;
+  /* The athlete: warm ink with form shading, chalk soles, a soft contact shadow. */
+  --g-figure: var(--gfx-figure-ink, #14202F);
+  --g-figure-lit: var(--gfx-figure-lit, #2F4158);
+  --g-figure-core: var(--gfx-figure-core, #0A121D);
+  --g-figure-far: var(--gfx-figure-far-tone, .42);
+  --g-figure-far-ink: var(--gfx-figure-far-ink, #5E6E83);
+  --g-figure-rim: var(--gfx-figure-rim-light, rgba(255, 196, 150, .9));
+  --g-rim-dx: -1.1px;
+  --g-rim-dy: .9px;
+  --g-shoe: var(--gfx-shoe, #3A4A5E);
+  --g-sole: var(--gfx-sole, #F5F1EA);
+  --g-floor: var(--gfx-floor, rgba(20, 32, 47, .16));
+  --g-bell-hi: var(--gfx-bell-hi, #8FC8F2);
+  --g-bell: var(--gfx-bell, #1A85D6);
+  --g-bell-lo: var(--gfx-bell-lo, #0F4E86);
+  --g-bell-spec: .7;
+  --g-path: var(--gfx-motion-path, #F2632A);
+  --g-glass: #FFFFFF;
+  --g-glass-opacity: .34;
+  --g-glass-sheen: .6;
+  --g-glass-edge: var(--g-fg);
+  --g-glass-edge-opacity: .1;
+  --g-snow: #FFFFFF;
+  --g-snow-opacity: .92;
+  --g-terrain: var(--g-figure);
+  --g-enamel-hi: #2A4D78;
+  --g-enamel: #17304F;
+  --g-enamel-lo: #0D1E33;
+  --g-relief-shadow: #000000;
   display: inline-block;
   flex: none;
   vertical-align: middle;
@@ -85,37 +103,49 @@
 
 /* Night exposure: glacier light at full strength, figures in snow-white ink. */
 :where([data-theme="dark"]) .gfx-root {
-  --g-trace: var(--gfx-trace-dark, var(--trace, #5CC8F5));
-  --g-trace-hot: var(--gfx-trace-hot-dark, var(--trace-hot, #E6F8FF));
-  --g-trace-dim: var(--gfx-trace-dim-dark, var(--trace-dim, rgba(120, 180, 220, .22)));
-  --g-trace-glow: var(--gfx-trace-glow-opacity-dark, .4);
-  --g-lines: var(--gfx-lines-dark, var(--lines, rgba(170, 210, 240, .5)));
-  --g-film: var(--gfx-film-dark, var(--film, #0C1322));
-  --g-figure-far: var(--gfx-figure-far-opacity-dark, .34);
-  --g-rim-dx: var(--gfx-rim-dx-dark, -.75px);
-  --g-rim-dy: var(--gfx-rim-dy-dark, .8px);
-  --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
-  --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
-  --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
-  --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
-  --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+  --g-figure: var(--gfx-figure-ink-dark, #EDE6DA);
+  --g-figure-lit: var(--gfx-figure-lit-dark, #FFFFFF);
+  --g-figure-core: var(--gfx-figure-core-dark, #B9B0A2);
+  --g-figure-far-ink: var(--gfx-figure-far-ink-dark, #8E8AA0);
+  --g-figure-rim: var(--gfx-figure-rim-light-dark, rgba(255, 150, 90, .95));
+  --g-shoe: var(--gfx-shoe-dark, #F2632A);
+  --g-sole: var(--gfx-sole-dark, #FFFFFF);
+  --g-floor: var(--gfx-floor-dark, rgba(0, 0, 0, .4));
+  --g-trace: var(--gfx-trace-dark, #FF7A38);
+  --g-trace-hot: var(--gfx-trace-hot-dark, #FFC3A1);
+  --g-trace-dim: var(--gfx-trace-dim-dark, rgba(255, 122, 56, .3));
+  --g-lines: var(--gfx-lines-dark, rgba(243, 237, 228, .16));
+  --g-film: #1A1F2B;
+  --g-ink: var(--gfx-ink-dark, #F3EDE4);
+  --g-ink-2: var(--gfx-ink-2-dark, #C9C1B5);
+  --g-path: var(--gfx-motion-path-dark, #FF7A38);
+  --g-glass-opacity: .1;
+  --g-glass-sheen: .16;
+  --g-glass-edge: #FFFFFF;
+  --g-snow-opacity: .7;
 }
 @media (prefers-color-scheme: dark) {
   :where([data-theme="system"]) .gfx-root {
-    --g-trace: var(--gfx-trace-dark, var(--trace, #5CC8F5));
-    --g-trace-hot: var(--gfx-trace-hot-dark, var(--trace-hot, #E6F8FF));
-    --g-trace-dim: var(--gfx-trace-dim-dark, var(--trace-dim, rgba(120, 180, 220, .22)));
-    --g-trace-glow: var(--gfx-trace-glow-opacity-dark, .4);
-    --g-lines: var(--gfx-lines-dark, var(--lines, rgba(170, 210, 240, .5)));
-    --g-film: var(--gfx-film-dark, var(--film, #0C1322));
-    --g-figure-far: var(--gfx-figure-far-opacity-dark, .34);
-    --g-rim-dx: var(--gfx-rim-dx-dark, -.75px);
-    --g-rim-dy: var(--gfx-rim-dy-dark, .8px);
-    --g-sole: var(--gfx-sole-dark, rgba(0, 0, 0, .3));
-    --g-glass-opacity: var(--gfx-glass-opacity-dark, .1);
-    --g-glass-sheen: var(--gfx-glass-sheen-dark, .16);
-    --g-glass-edge: var(--gfx-glass-edge-dark, #FFFFFF);
-    --g-snow-opacity: var(--gfx-snow-opacity-dark, .7);
+    --g-figure: var(--gfx-figure-ink-dark, #EDE6DA);
+    --g-figure-lit: var(--gfx-figure-lit-dark, #FFFFFF);
+    --g-figure-core: var(--gfx-figure-core-dark, #B9B0A2);
+    --g-figure-far-ink: var(--gfx-figure-far-ink-dark, #8E8AA0);
+    --g-figure-rim: var(--gfx-figure-rim-light-dark, rgba(255, 150, 90, .95));
+    --g-shoe: var(--gfx-shoe-dark, #F2632A);
+    --g-sole: var(--gfx-sole-dark, #FFFFFF);
+    --g-floor: var(--gfx-floor-dark, rgba(0, 0, 0, .4));
+    --g-trace: var(--gfx-trace-dark, #FF7A38);
+    --g-trace-hot: var(--gfx-trace-hot-dark, #FFC3A1);
+    --g-trace-dim: var(--gfx-trace-dim-dark, rgba(255, 122, 56, .3));
+    --g-lines: var(--gfx-lines-dark, rgba(243, 237, 228, .16));
+    --g-film: #1A1F2B;
+    --g-ink: var(--gfx-ink-dark, #F3EDE4);
+    --g-ink-2: var(--gfx-ink-2-dark, #C9C1B5);
+    --g-path: var(--gfx-motion-path-dark, #FF7A38);
+    --g-glass-opacity: .1;
+    --g-glass-sheen: .16;
+    --g-glass-edge: #FFFFFF;
+    --g-snow-opacity: .7;
   }
 }
 

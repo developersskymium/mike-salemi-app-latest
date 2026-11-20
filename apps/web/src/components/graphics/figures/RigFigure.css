@@ -1,12 +1,19 @@
-/* Movement figures on the rig: ink silhouette with a rim light, far limbs a step
-   back, shoe soles, a soft contact shadow, the kettlebell the one accent. */
+/* Movement figures on the rig, Summit style: a warm ink athlete with form
+   shading (lit from the upper right, a core shadow on the turned edge, a warm
+   rim of sunlight), far limbs a solid step back, shoes with chalk soles, a
+   soft contact shadow, the kettlebell in glacier blue with a clear handle. */
 .gfx-rig-fig { color: var(--g-figure); }
-.gfx-rig-ink { fill: currentColor; }
-.gfx-rig-far { fill: currentColor; opacity: var(--g-figure-far); }
-.gfx-rig-farSole { opacity: .5; }
+.gfx-rig-ink { --rig-shoe: var(--g-shoe); }
+.gfx-rig-inkLit { stop-color: var(--g-figure-lit); }
+.gfx-rig-inkMid { stop-color: var(--g-figure); }
+.gfx-rig-inkCore { stop-color: var(--g-figure-core); }
+.gfx-rig-shoe { fill: var(--rig-shoe); }
+.gfx-rig-far { fill: var(--g-figure-far-ink); --rig-shoe: color-mix(in srgb, var(--g-figure-far-ink) 80%, var(--g-shoe)); }
+.gfx-rig-farSole { fill: color-mix(in srgb, var(--g-sole) 60%, var(--g-figure-far-ink)); }
 .gfx-rig-sole { fill: var(--g-sole); }
-.gfx-rig-rim { fill: var(--g-figure-rim); }
+.gfx-rig-rim { fill: var(--g-figure-rim); --rig-shoe: var(--g-figure-rim); }
 .gfx-rig-rimShift { transform: translate(var(--g-rim-dx), var(--g-rim-dy)); }
+.gfx-rig-core { fill: var(--g-figure-core); --rig-shoe: #000; opacity: .5; }
 
 .gfx-rig-bellHi { stop-color: var(--g-bell-hi); }
 .gfx-rig-bellMid { stop-color: var(--g-bell); }
@@ -15,26 +22,25 @@
   fill: none;
   stroke: var(--g-specular);
   stroke-opacity: var(--g-bell-spec);
-  stroke-width: 1.5;
+  stroke-width: 1.6;
   stroke-linecap: round;
 }
 .gfx-rig-bellSheen {
   fill: none;
   stroke: var(--g-specular);
-  stroke-opacity: .35;
-  stroke-width: .9;
+  stroke-opacity: .5;
+  stroke-width: 1;
   stroke-linecap: round;
 }
 
-/* No grey shadows: the floor only catches a little of the bell's light. */
-.gfx-rig-floorA { stop-color: var(--g-trace); stop-opacity: .12; }
-.gfx-rig-floorB { stop-color: var(--g-trace); stop-opacity: 0; }
-.gfx-rig-contact { fill: var(--g-figure); fill-opacity: .14; }
-.gfx-rig-contactFar { fill: var(--g-figure); fill-opacity: .07; }
-.gfx-rig-traceTail { fill: none; stroke: var(--g-trace); }
-.gfx-rig-traceGlow { fill: none; stroke: var(--g-trace); stroke-linecap: round; opacity: var(--g-trace-glow); }
-.gfx-rig-traceHalo { fill: var(--g-trace); opacity: .45; }
-.gfx-rig-breathOuter { fill: none; stroke: var(--g-trace); stroke-width: 1.2; opacity: .35; }
-.gfx-rig-breathInner { fill: none; stroke: var(--g-trace); stroke-width: 1.6; stroke-opacity: .8; }
+/* A soft, warm-ink contact shadow; each planted foot presses a little darker. */
+.gfx-rig-floorA { stop-color: var(--g-floor); }
+.gfx-rig-floorB { stop-color: var(--g-floor); stop-opacity: 0; }
+.gfx-rig-contact { fill: var(--g-shade); fill-opacity: .2; }
+.gfx-rig-contactFar { fill: var(--g-shade); fill-opacity: .1; }
+:where([data-theme="dark"]) .gfx-rig-contact, :where([data-theme="dark"]) .gfx-rig-contactFar { fill: #000; }
+.gfx-rig-motion { fill: none; stroke: var(--g-path); stroke-linecap: round; opacity: .8; }
+.gfx-rig-breathOuter { fill: none; stroke: var(--g-ember); stroke-width: 1.2; opacity: .35; }
+.gfx-rig-breathInner { fill: none; stroke: var(--g-ember); stroke-width: 1.6; stroke-opacity: .8; }
 .gfx-rig-debug circle { fill: #e33; }
 .gfx-rig-debug path { stroke: #e33; stroke-width: .5; fill: none; }
