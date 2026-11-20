@@ -1,30 +1,45 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useTransition } from "react";
+import { useTransition } from "react";
 import { useToast } from "@/components/ui";
 import { enrollAction } from "@/lib/actions/training";
 
 /**
- * Opening Self-Guided while the level is enrolled in Immersion: switch the enrollment to Self-Guided.
- * Without this the database keeps Immersion's day lock, so days ahead could be opened but not completed
- * ("This day is still locked"). Progress is kept; Immersion is one tap back ("Switch to Immersion").
+ * Self-Guided is a separate way to train: opening the Self-Guided pages never changes the member's mode.
+ * When this level is enrolled in Immersion (days open in order), say so and offer an explicit switch.
+ * Until they switch, Immersion's day order still applies (days ahead can be viewed, not completed).
  */
 export function SelfGuidedSync({ programId, pathId, slug, levelName }: { programId: string; pathId: string | null; slug: string; levelName: string }) {
   const router = useRouter();
   const toast = useToast();
-  const once = useRef(false);
-  useEffect(() => {
-    if (once.current) return;
-    once.current = true;
-    void enrollAction(programId, pathId, "self_guided", slug).then((r) => {
-      if (r.ok) {
-        toast(`You're on Self-Guided now. Every day of ${levelName} is open.`, { tone: "success", icon: "check" });
-        router.refresh();
-      } else if (r.code !== "offline") toast(r.message, { icon: "close" });
-    });
-  }, [programId, pathId, slug, levelName, router, toast]);
-  return null;
+  const [pending, start] = useTransition();
+  return (
+    <div className="sgp-modebox" role="note">
+      <p className="lq-t14">
+        <b>{levelName} is set to Immersion</b> (day by day, in order). Self-Guided is a separate way to train: every day open, any order.
+      </p>
+      <button
+        type="button"
+        className="lq-btn" data-size="sm" data-variant="filled"
+        aria-busy={pending || undefined}
+        disabled={pending}
+        onClick={() =>
+          start(async () => {
+            const r = await enrollAction(programId, pathId, "self_guided", slug);
+            if (!r.ok) {
+              if (r.code !== "offline") toast(r.message, { icon: "close" });
+              return;
+            }
+            toast(`${levelName} is on Self-Guided now. Every day is open.`, { tone: "success", icon: "check" });
+            router.refresh();
+          })
+        }
+      >
+        Train {levelName} Self-Guided
+      </button>
+    </div>
+  );
 }
 
 /** "Switch to Immersion": actually switches the enrollment back (day by day, in order), then opens the Immersion page. */

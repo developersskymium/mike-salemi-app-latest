@@ -54,7 +54,7 @@ export default async function SelfGuidedHomePage({ params }: Props) {
         graduation={steadyWeeks(board.stats) >= 8 ? { a4l: !!owned.get("athleticism-4-life"), mtk: !!owned.get("mastering-the-kettlebell") } : null}
       />
     ) : null;
-  // Self-Guided on a level enrolled in Immersion: switch it, or the day lock stays on (days ahead can't be completed).
+  // Self-Guided on a level enrolled in Immersion: offer an explicit switch (never automatic; Self-Guided is a separate way to train).
   const sync = page?.enrollment?.mode === "immersion" ? <SelfGuidedSync programId={page.program.id} pathId={page.path?.id ?? null} slug={slug} levelName={page.path?.shortName ?? page.program.name} /> : null;
   return <SelfGuidedHome data={data} hub={sync ? <>{sync}{hub}</> : hub} offer={<OfferSlot placement="program_page" />} />;
 }
