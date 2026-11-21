@@ -59,3 +59,8 @@
 .bd-pb-item { width: 78px; text-align: center; }
 .bd-pb-item > span { line-height: 1.2; }
 .bd-pb-p { color: var(--text-3); }
+.bd-pb { min-width: 0; }
+.bd-pb-item { flex: none; }
+.bd-pb-row::-webkit-scrollbar { display: none; }
+/* Phone: the strip runs to the card's edges so a half-shown badge reads as "scroll for more". */
+@media (max-width: 760px) { .bd-pb-row { margin: 0 -18px; padding: 0 18px; scroll-padding-inline: 18px; scroll-snap-type: x proximity; } .bd-pb-item { scroll-snap-align: start; } }

@@ -22,9 +22,12 @@ button.sgp-switch { background: none; border: 0; padding: 0; cursor: pointer; }
 .sgp-row b { flex: 1; min-width: 0; font: 600 14px/19px var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sgp-row small { font: 500 12.5px/16px var(--font); color: var(--text-3); white-space: nowrap; }
 @media (max-width: 720px) {
-  .sgp { padding: 18px 16px 48px; gap: 16px; }
+  .sgp { padding: 8px 0 48px; gap: 16px; min-width: 0; }
   .sgp-next { grid-template-columns: 1fr; }
   .sgp-extras { grid-template-columns: 1fr; }
+  .sgp-chip { height: 40px; padding: 0 14px; }
+  .sgp-chip-quick { padding-right: 5px; gap: 5px; }
+  .sgp-min { height: 30px; min-width: 38px; }
 }
 
 /* Day browser: type/status filters folded into one "Filter" dropdown */

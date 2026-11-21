@@ -1,5 +1,6 @@
 /* Self-Guided hub — calm (spec 11 #3, spec 12 Self-Guided). Hairlines, no resting shadows, fixed media boxes. */
-.sgh { display: grid; gap: 16px; }
+.sgh { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
+.sgh > * { min-width: 0; }
 .sgh-next { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; overflow: hidden; padding: 0; box-shadow: none; border: 1px solid var(--line); }
 .sgh-next-photo { position: relative; aspect-ratio: 4 / 3; background: var(--surface-sunk); }
 .sgh-intent { position: absolute; left: 12px; top: 12px; padding: 4px 10px; border-radius: 999px; background: var(--surface); font: 650 12px/16px var(--font); color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
@@ -25,13 +26,15 @@
 .sgh-min { appearance: none; border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 7px 0; font: 700 16px/18px var(--font-display); color: var(--text); cursor: pointer; }
 .sgh-min small { font: 500 11px/1 var(--font); color: var(--text-3); margin-left: 2px; }
 .sgh-min:hover { border-color: var(--accent); }
-@media (max-width: 720px) { .sgh-ways { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .sgh-ways { grid-template-columns: minmax(0, 1fr); } }
 
 .sgh-line { margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font: 500 14px/20px var(--font); color: var(--text-2); }
 .sgh-line a { color: var(--accent); font-weight: 600; text-decoration: none; }
 
-.sgh-track { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; align-items: start; }
-@media (max-width: 860px) { .sgh-track { grid-template-columns: 1fr; } }
+.sgh-track { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 860px) { .sgh-track { grid-template-columns: minmax(0, 1fr); } }
+.sgh-map { max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px; margin-left: -2px; }
+.sgh-map::-webkit-scrollbar { display: none; }
 .sgh-card { padding: 16px 18px; box-shadow: none; border: 1px solid var(--line); }
 .sgh-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .sgh-stats b { display: block; font: 800 22px/26px var(--font-display); color: var(--text); }

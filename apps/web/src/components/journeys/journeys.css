@@ -37,6 +37,11 @@
   .jc-promise { color: var(--text-2); font-size: 15px; }
   .jc-act > * { width: 100%; }
   .jc-act .jh-ellipsis { max-width: 100%; }
+  /* Long labels ("Continue · Week 4 · Day 24") wrap onto two calm lines instead of being cut off. */
+  .jc-act .lq-btn { white-space: normal; height: auto; min-height: 52px; padding: 10px 20px; line-height: 1.25; text-align: left; justify-content: flex-start; min-width: 0; }
+  .jc-act .lq-btn > span { min-width: 0; text-wrap: balance; }
+  .jc-act .jh-ellipsis { white-space: normal; display: inline; }
+  .jc-title { font-size: clamp(28px, 8.4vw, 34px); }
   .jc-prog { color: var(--text-2); }
   .jc-prog-track { flex: 1; background: var(--surface-sunk); }
 }
@@ -181,7 +186,13 @@
 .jm-intro-scrim { position: absolute; inset: 0; background: rgba(10, 12, 15, .6); border: 0; cursor: pointer; }
 .jm-intro-box { position: relative; width: min(920px, 100%); background: var(--surface); border-radius: 22px; padding: 12px; display: grid; gap: 10px; box-shadow: var(--sh-3); }
 .jm-intro-top { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 0 8px; }
-@media (max-width: 760px) { .jm-btn { border-color: var(--line); background: var(--surface); color: var(--text); backdrop-filter: none; } .jc-acts > :first-child { flex: 1; } .jc-act .jc-acts > :first-child > * { width: 100%; } .jm-pop { left: auto; right: 0; } }
+/* Phone: Mike's intro opens as a bottom sheet that respects the home indicator. */
+@media (max-width: 640px) {
+  .jm-intro { place-items: end stretch; padding: 0; }
+  .jm-intro-box { width: 100%; max-height: 90dvh; overflow-y: auto; border-radius: 22px 22px 0 0; padding: 12px 12px calc(16px + env(safe-area-inset-bottom)); }
+  .jm-intro-top { gap: 10px; }
+}
+@media (max-width: 760px) { .jm-btn { border-color: var(--line); background: var(--surface); color: var(--text); backdrop-filter: none; } .jc-acts > :first-child { flex: 1; } .jc-act .jc-acts > :first-child > * { width: 100%; } .jc-act .jc-acts .lq-btn > * { width: auto; } .jc-act .jc-acts .lq-btn > span { flex: 1 1 auto; } .jm-pop { left: auto; right: 0; } }
 
 .jg { display: grid; gap: 10px; }
 .jg ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
