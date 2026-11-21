@@ -23,6 +23,7 @@ import { CompletionMoment } from "./CompletionMoment";
 import { hasNotes, NotesBody } from "./NotesBody";
 import { SessionAutoStart } from "@/components/selfguided/SessionAutoStart";
 import { photo } from "@/lib/photos";
+import { OfferPreviewCard } from "./OfferPreview";
 import "./training.css";
 import "./day-styles";
 import "./day-kbl.css";
@@ -451,18 +452,11 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
   const hardRow = table?.rows.find((r) => /row|press|swing|clean|snatch|get.?up|deadlift|squat/i.test(String(r.exercise ?? "")));
   const helpCard =
     hardRow && step.special === "workout" ? (
-      <Link href="/explore/mastering-the-kettlebell" className="kd-help lq-press">
-        <span className="kd-help-ph">
-          <Image src="/media/summit/mike-deadlift.jpg" alt="" fill sizes="64px" style={{ objectPosition: "50% 30%" }} />
-        </span>
-        <span className="kd-help-t">
-          <b>Struggling with the {String(hardRow.exercise).replace(/\(.*?\)/g, "").trim().split(" ").slice(-2).join(" ").toLowerCase()}?</b>
-          <span>Mike breaks it down frame by frame in Mastering the Kettlebell.</span>
-          <span className="kd-help-cta">
-            Watch a preview <Icon name="arrowRight" size="xs" />
-          </span>
-        </span>
-      </Link>
+      <OfferPreviewCard
+        exercise={String(hardRow.exercise)}
+        move={String(hardRow.exercise).replace(/\(.*?\)/g, "").trim().split(" ").slice(-2).join(" ").toLowerCase()}
+        onOpen={() => pauseStage.current?.()}
+      />
     ) : null;
 
   const endCtx = useMemo(() => {
