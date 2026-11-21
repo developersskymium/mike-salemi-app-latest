@@ -11,7 +11,7 @@
 .mtk-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 26px; }
 .mtk-eyebrow { margin: 0; font: 650 11px/14px var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--label-2); }
 .mtk-eyebrow[data-tone="accent"] { color: var(--accent-ink); }
-.mtk-h1 { margin: 10px 0 0; font: 600 34px/40px var(--font); letter-spacing: -.028em; text-wrap: balance; }
+.mtk-h1 { margin: 10px 0 0; font: 600 clamp(28px, 8vw, 34px)/1.18 var(--font); letter-spacing: -.028em; text-wrap: balance; }
 @media (min-width: 640px) { .mtk-h1 { font-size: 44px; line-height: 50px; } }
 .mtk-h1 b { color: var(--accent-ink); font-weight: 600; }
 .mtk-lede { margin: 14px 0 0; font: 450 17px/26px var(--font); color: var(--label-2); text-wrap: pretty; }

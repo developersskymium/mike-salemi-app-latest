@@ -551,6 +551,15 @@
 .pub-compare td[data-discount] { color: var(--warm-ink); font-weight: 650; }
 .pub-compare td[data-none] { color: var(--text-3); }
 .pub-compare tfoot td, .pub-compare tfoot th { font-weight: 650; background: var(--surface-2); }
+/* Phone: the program column stays put while the plan columns scroll beside it. */
+@media (max-width: 640px) {
+  .pub-compare { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .pub-compare::-webkit-scrollbar { display: none; }
+  .pub-compare table { min-width: 520px; }
+  .pub-compare th, .pub-compare td { padding: 12px 12px; font-size: 13.5px; }
+  .pub-compare th[scope="row"], .pub-compare thead th:first-child { position: sticky; left: 0; z-index: 1; width: 132px; min-width: 132px; background: var(--surface); box-shadow: inset -1px 0 0 var(--line); }
+  .pub-compare thead th:first-child, .pub-compare tfoot th { background: var(--surface-2); }
+}
 
 /* ---------------------------------------------------------------- auth (L31) */
 .pub-auth { min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); background: var(--bg); }

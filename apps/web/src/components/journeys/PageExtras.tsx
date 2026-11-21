@@ -8,6 +8,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import type { VideoRef } from "@ms/core";
 import { Medal } from "@/components/graphics";
 import { Icon, type IconName } from "@/components/ui";
@@ -63,7 +64,7 @@ export function MoreMenu({ items, introVideo, introPoster, introTitle, introKey 
           </div>
         )}
       </div>
-      {intro && introVideo && (
+      {intro && introVideo && typeof document !== "undefined" && createPortal(
         <div className="jm-intro" role="dialog" aria-modal="true" aria-label="Mike's intro">
           <button type="button" className="jm-intro-scrim" aria-label="Close" onClick={() => setIntro(false)} />
           <div className="jm-intro-box">
@@ -73,7 +74,8 @@ export function MoreMenu({ items, introVideo, introPoster, introTitle, introKey 
             </div>
             <VideoStage video={introVideo} poster={introPoster ?? null} title={introTitle ?? "Intro"} autoStart />
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
