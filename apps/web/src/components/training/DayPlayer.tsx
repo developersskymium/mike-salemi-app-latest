@@ -180,9 +180,11 @@ export function DayPlayer({ data, endOffer, levelOffer }: { data: LessonPageData
   );
   // Latest `go` and active step for timers (the readiness auto-advance).
   const goRef = useRef(go);
-  goRef.current = go;
   const activeRef = useRef(active);
-  activeRef.current = active;
+  useEffect(() => {
+    goRef.current = go;
+    activeRef.current = active;
+  }, [go, active]);
 
   /* ---------------------------------------------------------------- additional videos (playlist) */
   // Only while an additional video plays: the current step's additional videos, nothing else.
