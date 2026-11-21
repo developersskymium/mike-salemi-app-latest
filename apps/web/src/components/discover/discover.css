@@ -125,9 +125,9 @@
 .dsc-also-img { position: relative; width: 48px; height: 48px; border-radius: var(--r-thumb); overflow: hidden; background: var(--fill); display: grid; place-items: center; flex: none; }
 .dsc-also-img img { object-fit: cover; }
 .dsc-more { margin-top: 12px; }
-.dsc-rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 2px 16px 8px; scrollbar-width: none; }
+.dsc-rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 2px 16px 8px; scroll-padding-inline: 16px; scrollbar-width: none; }
 .dsc-rail::-webkit-scrollbar { display: none; }
-@media (min-width: 1024px) { .dsc-rail { margin: 0; padding: 2px 0 8px; } }
+@media (min-width: 1024px) { .dsc-rail { margin: 0; padding: 2px 0 8px; scroll-padding-inline: 0; } }
 .dsc-link { color: var(--accent-ink); text-decoration: none; }
 .dsc-link:hover { text-decoration: underline; }
 .dsc-colpick { display: grid; gap: 8px; }

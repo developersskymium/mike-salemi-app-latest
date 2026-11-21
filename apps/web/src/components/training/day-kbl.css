@@ -285,3 +285,13 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
 .kcm-feel button { all: unset; cursor: pointer; padding: 8px 13px; border-radius: 99px; font: 600 13px/1 var(--font); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .kcm-feel button[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: none; }
 .kcm-feel button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- phone pass: "In this lesson" header never squeezes */
+.kd-day .kd-clips-h { flex-wrap: wrap; row-gap: 6px; }
+.kd-day .kd-clips-h h3 { white-space: nowrap; }
+.kd-day .kd-count-chip { white-space: nowrap; }
+.kd-day .kd-auto-note { white-space: nowrap; }
+/* readiness: no empty footer gap on the first question (nothing to show yet) */
+.krq-foot:not(:has(button)) { display: none; }
+/* the "See my workout" button fills the row on phones */
+@media (max-width: 639px) { .krq-foot { flex-wrap: wrap; } .krq-foot > .lq-btn { flex: 1 1 auto; } }

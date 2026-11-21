@@ -333,3 +333,12 @@
 .jh-nudge-x { appearance: none; border: 0; background: none; padding: 0; font: inherit; font-size: 14px; color: var(--text-2); cursor: pointer; }
 .jh-nudge-x:hover { color: var(--text); }
 .jh-nudge-x:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+/* phone pass: the lesson bar never clips or wraps its labels on small phones */
+.jsb-ctl-main > span, .jsb-ctl-next > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 380px) {
+  .jsb-dock { gap: 6px; padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  .jsb-ctl { gap: 6px; }
+  .jsb-ctl-main { padding: 0 10px; font-size: 13.5px; }
+  .jsb-ctl-next { padding: 0 12px; }
+}

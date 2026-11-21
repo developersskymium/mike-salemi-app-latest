@@ -209,10 +209,10 @@ html:has(.kd-day) .lq-tabbar, html:has(.kd-day) .lq-sidebar, html:has(.kd-day) .
 .kd-clips-h { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 32px; }
 .kd-clips {
   list-style: none; margin: 8px -16px 0; padding: 2px 16px 6px; display: flex; gap: 10px;
-  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-padding-inline: 16px;
 }
 .kd-clips::-webkit-scrollbar { display: none; }
-@media (min-width: 640px) { .kd-clips { margin: 8px -20px 0; padding: 2px 20px 6px; } }
+@media (min-width: 640px) { .kd-clips { margin: 8px -20px 0; padding: 2px 20px 6px; scroll-padding-inline: 20px; } }
 .kd-clip { all: unset; box-sizing: border-box; width: 160px; flex: none; display: grid; gap: 7px; cursor: pointer; scroll-snap-align: start; }
 @media (min-width: 640px) { .kd-clip { width: 176px; } }
 .kd-clip:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 12px; }
