@@ -271,8 +271,21 @@ html:has(.sw-focus) :is(.lq-tabbar, .lq-tabedge, .lq-sidebar) { display: none !i
 .sw-step-link { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--accent-ink); box-shadow: inset 0 0 0 1px var(--line); text-decoration: none; }
 .sw-step-link:hover { background: var(--accent-soft); }
 @media (max-width: 560px) {
-  .sw-step { grid-template-columns: 32px minmax(0, 1fr) auto; }
-  .sw-step-link { display: none; }
+  .sw-step { grid-template-columns: 32px minmax(0, 1fr) auto; row-gap: 8px; gap: 8px 12px; padding: 14px 16px; }
+  /* Phone: the "watch this step" link stays, tucked under the status pill. */
+  .sw-step-n { grid-column: 1; grid-row: 1; }
+  .sw-step-body { grid-column: 2; grid-row: 1 / span 2; }
+  .sw-step > .sw-pill { grid-column: 3; grid-row: 1; }
+  .sw-step-link { grid-column: 3; grid-row: 2; justify-self: end; width: 40px; height: 40px; }
+}
+/* Phone: calmer title sizes and the last-check card stacks so its button never touches the edge. */
+@media (max-width: 560px) {
+  .sw-display { font-size: clamp(30px, 9vw, 36px); line-height: 1.06; }
+  .sw-h1 { font-size: clamp(26px, 7.6vw, 30px); line-height: 1.1; }
+  .sw-hero-text { padding: 22px 18px 22px; }
+  .sw-last { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .sw-last-body { padding: 4px 4px 4px 0; }
+  .sw-last-body > .lq-btn, .sw-last-body > a, .sw-last-body > button { max-width: 100%; }
 }
 .sw-score-actions { padding-top: 4px; }
 

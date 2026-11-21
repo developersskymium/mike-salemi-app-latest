@@ -265,11 +265,11 @@
 .shp-wallet { display: grid; place-items: center; min-height: 48px; border-radius: 12px; background: var(--ink-900, #0e1b2c); color: #fff; font-weight: 650; opacity: .35; }
 .shp-co-or { display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: .06em; }
 .shp-co-or::before, .shp-co-or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.shp-fields { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.shp-field { display: grid; gap: 6px; grid-column: 1 / -1; }
+.shp-fields { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
+.shp-field { display: grid; gap: 6px; grid-column: 1 / -1; min-width: 0; }
 .shp-field[data-half] { grid-column: span 1; }
 .shp-field > .lq-t13 { font-weight: 600; }
-.shp-input { min-height: 48px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--surface); color: var(--text); font: 400 16px/1.2 var(--font); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.shp-input { width: 100%; min-width: 0; box-sizing: border-box; min-height: 48px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--surface); color: var(--text); font: 400 16px/1.2 var(--font); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .shp-input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
 .shp-input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--warm); }
 .shp-field-err { color: var(--warm-ink); }
@@ -368,6 +368,8 @@
 .shp-trust-item { display: flex; gap: 12px; align-items: center; padding: 16px 18px; background: var(--surface); }
 .shp-trust-item > span:last-child { display: grid; gap: 2px; min-width: 0; }
 .shp-trust-ic { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-ink); }
+/* Phone: icon above the words, so two narrow columns read as two clean lines, not four cramped ones. */
+@media (max-width: 480px) { .shp-trust-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 16px; } }
 
 .shp-chiprow { display: flex; flex-wrap: wrap; gap: 8px; }
 .shp-opt { appearance: none; border: 0; font: inherit; color: inherit; cursor: pointer; display: grid; justify-items: center; gap: 1px; min-width: 64px; padding: 10px 14px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow 140ms ease, background 140ms ease; }

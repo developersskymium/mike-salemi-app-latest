@@ -131,7 +131,7 @@ export default async function RetreatsPage() {
           <p className="rt-ihero-lede">Mount Shasta with nineteen other men. Movement in the morning, ceremony at night, and the kind of conversation most men never get to have.</p>
           <div className="rt-ihero-acts">
             {next && <Button href={`/experiences/${next.id}`} variant="white" size="lg" iconAfter="arrowRight">{next.mine === "booked" ? "Open your retreat" : `See ${next.name}`}</Button>}
-            <span className="rt-ihero-facts"><Icon name="people" size="xs" /> 20 men max <Icon name="mountain" size="xs" /> Mount Shasta, CA <Icon name="check" size="xs" /> By application</span>
+            <span className="rt-ihero-facts"><span><Icon name="people" size="xs" /> 20 men max</span><span><Icon name="mountain" size="xs" /> Mount Shasta, CA</span><span><Icon name="check" size="xs" /> By application</span></span>
           </div>
         </div>
       </section>
