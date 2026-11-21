@@ -291,3 +291,7 @@ li[data-demo] .kd-pl-n { font-weight: 500; }
 .kd-day .kd-clips-h h3 { white-space: nowrap; }
 .kd-day .kd-count-chip { white-space: nowrap; }
 .kd-day .kd-auto-note { white-space: nowrap; }
+/* readiness: no empty footer gap on the first question (nothing to show yet) */
+.krq-foot:not(:has(button)) { display: none; }
+/* the "See my workout" button fills the row on phones */
+@media (max-width: 639px) { .krq-foot { flex-wrap: wrap; } .krq-foot > .lq-btn { flex: 1 1 auto; } }

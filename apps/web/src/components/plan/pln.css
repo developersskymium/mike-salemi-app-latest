@@ -297,7 +297,7 @@ textarea.pln-input { min-height: 76px; resize: vertical; line-height: 1.45; }
 /* phone pass: the "More" menu becomes a bottom sheet so it never runs off the screen */
 .pln-more > summary { width: 44px; height: 44px; }
 @media (max-width: 639px) {
-  .pln-more[open]::before { content: ""; position: fixed; inset: 0; z-index: 60; background: rgba(14, 27, 44, .32); }
-  .pln-more-menu { position: fixed; left: 12px; right: 12px; top: auto; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 61; min-width: 0; max-height: 80dvh; overflow-y: auto; padding: 8px; border-radius: 20px; }
+  .pln-more[open]::before { content: ""; position: fixed; inset: 0; z-index: calc(var(--z-sheet, 70) + 1); background: rgba(14, 27, 44, .32); }
+  .pln-more-menu { position: fixed; left: 12px; right: 12px; top: auto; bottom: calc(var(--tabbar-h, 68px) + 22px + env(safe-area-inset-bottom)); z-index: calc(var(--z-sheet, 70) + 2); max-height: 60dvh; min-width: 0; overflow-y: auto; padding: 8px; border-radius: 20px; }
   .pln-more-menu a, .pln-more-menu button { min-height: 48px; font-size: 15.5px; }
 }
