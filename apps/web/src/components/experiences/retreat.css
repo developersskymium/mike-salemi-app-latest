@@ -323,7 +323,9 @@
 .rt-ihero-lede { margin: 0; font: 400 17px/1.55 var(--font); color: rgba(255, 255, 255, .9); max-width: 54ch; }
 .rt-ihero-acts { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 8px; }
 .rt-ihero-facts { display: inline-flex; align-items: center; gap: 6px 8px; flex-wrap: wrap; font: 600 13.5px/1 var(--font); color: rgba(255, 255, 255, .88); }
-.rt-ihero-facts .lq-icon:not(:first-child) { margin-left: 8px; }
+.rt-ihero-facts > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.rt-ihero-facts > span + span { margin-left: 8px; }
+@media (max-width: 480px) { .rt-ihero-facts { gap: 10px 14px; line-height: 18px; } .rt-ihero-facts > span + span { margin-left: 0; } }
 
 .rt-index .rt-sec { margin-top: var(--rt-gap); }
 .rt-listings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
@@ -412,6 +414,8 @@
 }
 @media (max-width: 640px) {
   .rt-page { --rt-gap: 36px; padding-bottom: 96px; }
+  /* The fixed price bar sits above the tab bar: leave room so the last section is never under it. */
+  .rt-page:has(.rt-bar) { padding-bottom: calc(190px + env(safe-area-inset-bottom)); }
   .rt-mosaic { display: none; }
   .rt-strip-wrap { display: block; margin-bottom: 4px; }
   .rt-strip-cell { aspect-ratio: 1 / 1; }
@@ -443,6 +447,7 @@
   .rt-next-card { grid-template-columns: 96px minmax(0, 1fr); }
   .rt-ihero { min-height: 560px; border-radius: var(--r-xl); }
   .rt-ihero-body { padding: 22px; }
+  .rt-ihero-body h1 { font-size: clamp(32px, 9.4vw, 38px); line-height: 1.05; }
   .rt-pillstrip { grid-template-columns: repeat(5, 42%); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-right: calc(var(--s-4) * -1); }
   .rt-how { grid-template-columns: 1fr; }
   .rt-track { min-height: 260px; }
