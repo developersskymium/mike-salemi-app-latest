@@ -106,6 +106,8 @@
 .co-pod-head { display: flex; gap: 14px; align-items: center; }
 .co-pod-art { position: relative; width: 56px; height: 56px; border-radius: 12px; overflow: hidden; flex: none; background: var(--surface-sunk); }
 .co-pod-art img { object-fit: cover; }
+.co-head > a.co-ic { white-space: nowrap; flex: none; min-height: 44px; }
+@media (max-width: 480px) { .co-pod-head { gap: 12px; min-width: 0; } .co-pod-art { width: 48px; height: 48px; } }
 
 /* booking calendar (idea 2) */
 .co-book { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); gap: 16px; align-items: start; }
@@ -266,4 +268,11 @@
 .co-hwrow .co-week { gap: 2px; }
 .co-hwrow .co-day { min-width: 30px; flex: 1; }
 .co-hwrow .co-tick { width: 30px; height: 30px; }
+/* Phone: the week of ticks gets the full width of the box (flag sits beside the label) so "Today" never spills out. */
+@media (max-width: 480px) {
+  .co-hwrow { display: block; padding: 12px; }
+  .co-hwrow > .lq-icon { float: left; margin: 0 8px 0 0; }
+  .co-hwrow .co-day { min-width: 0; }
+  .co-hwrow .co-tick { width: 28px; height: 28px; }
+}
 .co-zen-hero::after { background: linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(0,0,0,.78) 100%), linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,0) 60%); }
