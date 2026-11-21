@@ -42,7 +42,7 @@ export function AccountGroup({ d, units, setUnits }: { d: SettingsHub; units: Un
         {dirty && <Button size="md" type="submit" disabled={pending}>Save name</Button>}
       </form>
       <Row label="Email" detail="Your sign-in email. Contact us from Help to change it.">
-        <span className="st-value">{d.account.email}</span>
+        <span className="st-value st-value-email">{d.account.email}</span>
       </Row>
       <Row label="Password" detail="Optional. Sign-in links and Google work without one.">
         <Button size="sm" variant="secondary" href="/auth/reset?mode=update">Set password</Button>
